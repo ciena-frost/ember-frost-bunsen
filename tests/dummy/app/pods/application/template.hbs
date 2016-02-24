@@ -1,0 +1,11 @@
+<div class="dummy-notification-container">
+  {{#each notifications as |notification|}}
+    {{notification-message notification=notification}}
+  {{/each}}
+</div>
+
+<div class="dummy-body">
+  <div class="dummy-content">
+    {{outlet}}
+  </div>
+</div>
