@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Create UI's from JSON configuraitons.",
   "directories": {
     "doc": "doc",
