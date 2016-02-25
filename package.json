@@ -1,7 +1,7 @@
 {
   "name": "ember-frost-bunsen",
   "version": "0.0.2",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Create UI's from JSON configuraitons.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -28,6 +28,7 @@
     "ember-cli-release": "0.2.8",
     "ember-cli-sri": "^2.0.0",
     "ember-cli-uglify": "^1.2.0",
+    "ember-computed-decorators": "^0.2.2",
     "ember-data": "~2.3.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
@@ -41,6 +42,7 @@
     "ember-frost-css-core": "^1.0.0",
     "ember-lodash": "~0.0.6",
     "ember-truth-helpers": "^1.2.0",
+    "ember-prism": "^0.0.7",
     "eslint": "^2.1.0",
     "eslint-config-frost-standard": "^1.0.0"
   },
@@ -53,6 +55,12 @@
     "ember-computed-decorators": "^0.2.2",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-sass": "^5.2.0",
+    "ember-frost-button": "^1.0.0",
+    "ember-frost-checkbox": "^1.0.0",
+    "ember-frost-css-core": "^1.0.0",
+    "ember-frost-icons": "^1.0.0",
+    "ember-frost-select": "^1.0.1",
+    "ember-frost-text": "^1.0.0",
     "ember-frost-theme": "^1.0.1",
     "liquid-fire": "^0.22.0"
   },

@@ -1,0 +1,13 @@
+{{#unless state.propValidationResult.valid}}
+  {{frost-bunsen-validation-result model=state.propValidationResult}}
+{{else}}
+  <form>
+    {{frost-bunsen-container
+      cellConfig=cellConfig
+      model=renderModel
+      onChange=(action "onChange")
+      readOnly=true
+      store=store
+    }}
+  </form>
+{{/unless}}

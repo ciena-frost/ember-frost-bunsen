@@ -1,0 +1,21 @@
+{{frost-select
+  data=modelOptions
+  on-change=onSelectModel
+}}
+{{frost-select
+  data=viewOptions
+  disabled=viewSelectionDisabled
+  on-change=onSelectView
+}}
+
+{{#if onSelectValue}}
+  {{frost-select
+    data=valueOptions
+    disabled=valueSelectionDisabled
+    on-change=onSelectValue
+  }}
+{{/if}}
+
+{{#if selectedModel}}
+  {{yield}}
+{{/if}}

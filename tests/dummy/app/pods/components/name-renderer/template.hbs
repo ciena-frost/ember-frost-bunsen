@@ -1,0 +1,11 @@
+<div>
+  <h3>{{renderLabel}}</h3>
+</div>
+<div>
+  {{input
+    change=(action "onChange")
+    placeholder="John Doe"
+    type="text"
+    value=renderValue
+  }}
+</div>

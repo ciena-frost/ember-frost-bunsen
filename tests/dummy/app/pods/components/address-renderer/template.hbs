@@ -1,0 +1,12 @@
+{{#if label}}
+  <div>
+    <h2>{{renderLabel}}</h2>
+  </div>
+{{/if}}
+<div>
+  {{textarea
+    change=(action "onChange")
+    placeholder=placeholder
+    value=renderValue
+  }}
+</div>

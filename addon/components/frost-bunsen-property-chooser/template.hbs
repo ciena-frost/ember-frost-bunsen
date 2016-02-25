@@ -1,0 +1,24 @@
+<div class='{{labelPlacement}}-label'>
+    <label for={{_inputId}} class="alias">{{renderLabel}}</label>
+    {{#if required}}
+        <div class='required'>Required</div>
+    {{/if}}
+</div>
+<div class='{{labelPlacement}}-input'>
+  <select onchange={{action "onChange"}}>
+    <option
+      disabled
+      selected={{not state.value}}
+    >
+      Please select an item…
+    </option>
+    {{#each cellConfig.properties.choices as |option index|}}
+      <option
+        selected={{eq state.value item.value}}
+        value={{option.value}}
+      >
+        {{option.label}}
+      </option>
+    {{/each}}
+  </select>
+</div>

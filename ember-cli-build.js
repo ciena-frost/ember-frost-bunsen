@@ -1,21 +1,36 @@
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-addon')
+var EmberAddon = require('ember-cli/lib/broccoli/ember-addon')
 
 module.exports = function (defaults) {
-  var app = new EmberApp(defaults, {
+  var app = new EmberAddon(defaults, {
     babel: {
       optional: ['es7.decorators']
     },
     'ember-cli-mocha': {
       useLintTree: false
     },
+    'ember-prism': {
+      components: ['json'],
+      plugins: ['line-highlight'],
+      theme: 'tomorrow'
+    },
     sassOptions: {
       includePaths: [
-        'node_modules/ember-frost-css-core/scss',
-        'node_modules/ember-frost-theme/scss'
+        'node_modules/ember-frost-theme/scss',
+        'node_modules/ember-frost-css-core/scss'
       ]
     }
   })
+
+  switch (app.env) {
+    case 'development':
+      app.import('bower_components/ember-renderspeed/ember-renderspeed.js')
+      break
+
+    case 'test':
+      app.import('bower_components/ember-template-compiler/index.js')
+      break
+  }
 
   app.import('bower_components/sinonjs/sinon.js')
 
