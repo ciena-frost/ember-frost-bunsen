@@ -3,7 +3,7 @@ import config from '../config/environment'
 
 export default function () {
   if (config && config.isDemo) {
-    this.namespace = 'https://bitbucket.ciena.com'
+    this.namespace = 'http://ciena-frost.github.io'
   }
 
   ;[
