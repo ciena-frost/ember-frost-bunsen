@@ -1,0 +1,24 @@
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </div>
+  <div class={{inputWrapperClassName}}>
+    {{#if renderValue}}
+      ✓
+    {{else}}
+      ✘
+    {{/if}}
+  </div>
+</div>
+{{#if errorMessage}}
+  <div>
+    <div class={{labelWrapperClassName}}>
+    </div>
+    <div class="error">
+      {{errorMessage}}
+    </div>
+  </div>
+{{/if}}

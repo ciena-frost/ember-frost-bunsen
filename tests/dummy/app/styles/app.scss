@@ -1,12 +1,20 @@
-@import 'frost-core';
-@import 'frost-theme';
+.demo-container {
+  margin: 0 30px;
+}
 
-.dummy-notification-container {
-  position: fixed;
-  top: 60px;
-  right: 10px;
-  z-index: 999;
-  width: 80%;
-  max-width: 400px;
-  margin: auto;
+.demo-header {
+  margin: 30px 0;
+}
+
+.demo-code-container {
+  display: flex;
+}
+
+.demo-code-block {
+  flex-grow: 1;
+  padding: 10px;
+
+  pre {
+    height: 300px;
+  }
 }

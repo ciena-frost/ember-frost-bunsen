@@ -1,11 +1,10 @@
-<div class="dummy-notification-container">
-  {{#each notifications as |notification|}}
-    {{notification-message notification=notification}}
-  {{/each}}
-</div>
+<h1 id="title">frost-bunsen</h1>
 
-<div class="dummy-body">
-  <div class="dummy-content">
-    {{outlet}}
-  </div>
+<ul>
+  <li>{{#link-to "form"}}Form{{/link-to}}</li>
+  <li>{{#link-to "detail"}}Detail{{/link-to}}</li>
+</ul>
+
+<div class="demo-container">
+  {{outlet}}
 </div>

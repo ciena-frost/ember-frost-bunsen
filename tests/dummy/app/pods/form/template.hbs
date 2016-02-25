@@ -1,0 +1,40 @@
+{{#model-view-selector
+  modelOptions=modelOptions
+  onSelectModel=(action "onSelectModel")
+  onSelectView=(action "onSelectView")
+  selectedModel=selectedModel
+  selectedView=selectedView
+  viewOptions=viewOptions
+  viewSelectionDisabled=viewSelectionDisabled
+}}
+  Inline: {{frost-checkbox on-input=(action "toggleInline")}}
+  <h2 class="demo-header">Rendered Demo</h2>
+  {{frost-bunsen-form
+    inline=inline
+    model=selectedModel.model
+    onChange=(action "onChange")
+    renderers=renderers
+    view=selectedView.view
+  }}
+{{/model-view-selector}}
+<div class="demo-code-container">
+  {{#if formValue}}
+    <div class="demo-code-block">
+      <h2>Value</h2>
+      {{!-- TODO: why is the below component not updating the formValue --}}
+      {{#code-block language='json'}}{{formValue}}{{/code-block}}
+    </div>
+  {{/if}}
+  {{#if selectedModel}}
+    <div class="demo-code-block">
+      <h2>Model</h2>
+      {{#code-block language='json'}}{{modelCode}}{{/code-block}}
+    </div>
+  {{/if}}
+  {{#if selectedView}}
+    <div class="demo-code-block">
+      <h2>View</h2>
+      {{#code-block language='json'}}{{viewCode}}{{/code-block}}
+    </div>
+  {{/if}}
+</div>

@@ -1,1 +1,271 @@
+@import 'node_modules/ember-frost-css-core/scss/frost-core';
 @import 'node_modules/ember-frost-theme/scss/frost-theme';
+
+$frost-row-field-padding: 40px;
+
+.frost-bunsen-detail, .frost-bunsen-form {
+  font-family: $frost-font-family;
+
+  .instructions {
+    color: $frost-color-grey-3;
+    font-size: $frost-font-s;
+    margin-bottom: 10px;
+  }
+}
+
+.frost-bunsen-section {
+  > .heading {
+    h3 {
+      color: $frost-color-grey-1;
+      font-size: $frost-font-l;
+      font-weight: normal;
+      margin: 0 0 0 28px;
+    }
+
+    .required {
+      color: $frost-color-grey-6;
+      font-size: $frost-font-s;
+      margin: 0 0 0 28px;
+    }
+  }
+
+  > .body {
+    display: inline-block;
+  }
+
+  &.collapsed .frost-icon {
+    transform: rotate(-90deg);
+  }
+}
+
+.frost-bunsen-detail, .frost-bunsen-form {
+  .image-wrapper {
+    padding: 15px;
+  }
+
+  .item-wrapper > div > div > .frost-bunsen-section {
+    border-top-width: 0;
+  }
+
+  .header + .item-wrapper {
+    margin-top: 20px;
+  }
+
+  .item-wrapper + .item-wrapper {
+    border-top-width: 0;
+  }
+
+  // Add some spacing to visualize object nesting
+  .container-model,
+  .container-array {
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .required {
+    border-radius: 4px;
+  }
+
+  .button-bar {
+    button {
+      margin-left: 5px;
+    }
+  }
+}
+
+.no-left-margin {
+  margin-left: 0;
+}
+
+.frost-bunsen-detail {
+  .frost-bunsen-section {
+    margin-left: 110px;
+  }
+
+  .frost-field .left-input {
+    color: $frost-color-grey-2;
+    font-size: $frost-font-m;
+  }
+
+  .item-wrapper {
+    > div > div > .frost-bunsen-section {
+      border: 0;
+    }
+  }
+
+  .remove-btn-container {
+    display: none;
+  }
+
+  .required {
+    display: none;
+  }
+
+  // Remove the add/remove buttons when in read-only (Detail) components
+  .frost-bunsen-section > .frost-button {
+    display: none;
+  }
+
+  .frost-field {
+    .left-input {
+      width: auto;
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.frost-bunsen-form {
+  .item-wrapper {
+    border: 1px solid $frost-color-lgrey-1;
+  }
+
+  .remove-btn-container {
+    float: right;
+  }
+}
+
+.frost-field {
+  position: relative;
+  padding-bottom: 10px;
+
+  > div {
+    align-items: center;
+    display: flex;
+    flex-basis: 100%;
+  }
+
+  .alias {
+    display: block;
+    font-size: $frost-font-s;
+    color: $frost-color-grey-3;
+  }
+
+  &.checkbox-array .alias {
+    margin-bottom: 10px;
+  }
+
+  .frost-checkbox-array {
+    color: $frost-color-grey-1;
+  }
+
+  div.error {
+    padding-top: 3px;
+    color: $frost-color-danger;
+    font-size: $frost-font-xs;
+  }
+
+  .break {
+    height: 10px;
+  }
+
+  .left-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 140px;
+    text-align: right;
+    padding-right: 15px;
+
+    .required {
+      color: $frost-color-grey-6;
+      font-size: $frost-font-xs;
+    }
+  }
+
+  .left-input {
+    width: 250px;
+  }
+}
+
+.frost-bunsen-section:not(.collapsed) > .heading {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.frost-bunsen-section > .frost-button {
+  margin-top: 20px;
+}
+
+.inline {
+  .frost-bunsen-section  > .heading {
+    button {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      float: left;
+      width: 16px;
+    }
+
+    .frost-icon {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  .instructions {
+    display: none;
+  }
+
+  .frost-bunsen-section {
+    border-top: 1px solid $frost-color-lgrey-1;
+    padding-top: 30px;
+  }
+
+  // First section in group of sections
+  .frost-bunsen-row:first-child > div > div > .frost-bunsen-section {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  // First section in form
+  form > div > .frost-bunsen-section {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  // Nested sections
+  .frost-bunsen-section .frost-bunsen-section {
+    border-top-width: 1px;
+  }
+}
+
+.not-inline {
+  .frost-bunsen-section > .heading {
+    display: inline-block;
+    padding-right: 20px;
+    vertical-align: top;
+    width: 130px;
+
+    button {
+      display: none;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+
+  .frost-bunsen-section {
+    border-top: 2px solid $frost-color-lgrey-1;
+    padding-top: 30px;
+  }
+
+  // First section in group of sections
+  .frost-bunsen-row:first-child > div > div > .frost-bunsen-section {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  // First setion in form
+  form > div > .frost-bunsen-section {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+    // Nested sections
+  .frost-bunsen-section .frost-bunsen-section {
+    border-top-width: 1px;
+  }
+}
