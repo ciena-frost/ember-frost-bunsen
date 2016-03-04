@@ -81,21 +81,21 @@ export default Ember.Component.extend(PropTypesMixin, {
     }
 
     if (_.isArray(result.errors) && result.errors.length) {
-      console.log('-BUNSEN ERRORS------------------------')
-      console.log('   `----.                ')
-      console.log('   :::::::.              ')
-      console.log(' `::O::::::-`            ')
-      console.log(' -:::::::::::.           ')
-      console.log(' `--:-. ::::::-`     ..  ')
-      console.log('       .::::::::-..`.::  ')
-      console.log('       .:::::::::::::-`  ')
-      console.log('       -:::::::::::-`    ')
-      console.log('        .:-``-::.        ')
-      console.log('       `..  `...         ')
+      Ember.Logger.log('-BUNSEN ERRORS------------------------')
+      Ember.Logger.log('   `----.                ')
+      Ember.Logger.log('   :::::::.              ')
+      Ember.Logger.log(' `::O::::::-`            ')
+      Ember.Logger.log(' -:::::::::::.           ')
+      Ember.Logger.log(' `--:-. ::::::-`     ..  ')
+      Ember.Logger.log('       .::::::::-..`.::  ')
+      Ember.Logger.log('       .:::::::::::::-`  ')
+      Ember.Logger.log('       -:::::::::::-`    ')
+      Ember.Logger.log('        .:-``-::.        ')
+      Ember.Logger.log('       `..  `...         ')
       for (let error of result.errors) {
-        console.warn(`${error.message} (${error.path})`)
+        Ember.Logger.warn(`${error.message} (${error.path})`)
       }
-      console.log('--------------------------------------')
+      Ember.Logger.log('--------------------------------------')
     }
   },
 
