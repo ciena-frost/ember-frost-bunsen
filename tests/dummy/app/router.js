@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function () {
   this.route('detail')
   this.route('form')
+  this.route('detail-update')
 })
 
 export default Router

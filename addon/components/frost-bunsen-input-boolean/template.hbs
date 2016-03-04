@@ -8,6 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-checkbox
       checked=state.value
+      disabled=cellConfig.disabled
       on-input=(action "onChange")
       value=state.value
     }}

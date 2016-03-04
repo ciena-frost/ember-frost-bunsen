@@ -1,15 +1,81 @@
 const expect = chai.expect
-import {it} from 'ember-mocha'
-import {setupComponentTest} from '../../../utils/template'
+import {describeComponent, it} from 'ember-mocha'
+import {beforeEach} from 'mocha'
+import {integrationTestContext} from '../../../utils/template'
+import hbs from 'htmlbars-inline-precompile'
 
-const props = {
-  model: {}
-}
+describeComponent(...integrationTestContext('frost-bunsen-detail'), function () {
+  let rootNode
 
-function tests (ctx) {
-  it('has correct classes', function () {
-    expect(ctx.rootNode).to.have.class('frost-bunsen-detail')
+  beforeEach(function () {
+    let props = {
+      model: {
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'string',
+            title: 'First Name'
+          },
+          lastName: {
+            type: 'string',
+            title: 'Last Name'
+          },
+          alias: {
+            type: 'string',
+            title: 'Alias'
+          }
+        }
+      },
+      value: {
+        firstName: 'John',
+        lastName: 'Doe',
+        alias: 'Johnny'
+      }
+    }
+
+    this.setProperties(props)
+
+    this.render(hbs`{{frost-bunsen-detail
+    model=model
+    value=value
+    }}`)
+
+    rootNode = this.$('> *')
   })
-}
 
-setupComponentTest('frost-bunsen-detail', props, tests)
+  it('has correct classes', function () {
+    expect(rootNode).to.have.class('frost-bunsen-detail')
+  })
+
+  it('displays initial value', function () {
+    const displayValue = {
+      firstName: this.$('.frost-bunsen-row:first-child').find('.left-input p').text(),
+      lastName: this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text(),
+      alias: this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+    }
+    expect(displayValue).to.eql({
+      firstName: 'John',
+      lastName: 'Doe',
+      alias: 'Johnny'
+    })
+  })
+
+  it('updates the displayed value when the value is changed', function (done) {
+    let newValue = {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      alias: 'Killer'
+    }
+
+    this.set('value', newValue)
+    Ember.run.later(() => {
+      const displayValue = {
+        firstName: this.$('.frost-bunsen-row:first-child').find('.left-input p').text(),
+        lastName: this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text(),
+        alias: this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+      }
+      expect(displayValue).to.eql(newValue)
+      done()
+    })
+  })
+})

@@ -80,7 +80,23 @@ export default Ember.Component.extend(PropTypesMixin, {
       result = validateValue(value, model, false)
     }
 
-    this.set('state.propValidationResult', result)
+    if (_.isArray(result.errors) && result.errors.length) {
+      console.log('-BUNSEN ERRORS------------------------')
+      console.log('   `----.                ')
+      console.log('   :::::::.              ')
+      console.log(' `::O::::::-`            ')
+      console.log(' -:::::::::::.           ')
+      console.log(' `--:-. ::::::-`     ..  ')
+      console.log('       .::::::::-..`.::  ')
+      console.log('       .:::::::::::::-`  ')
+      console.log('       -:::::::::::-`    ')
+      console.log('        .:-``-::.        ')
+      console.log('       `..  `...         ')
+      for (let error of result.errors) {
+        console.warn(`${error.message} (${error.path})`)
+      }
+      console.log('--------------------------------------')
+    }
   },
 
   /**
@@ -98,7 +114,14 @@ export default Ember.Component.extend(PropTypesMixin, {
       let object = this.get(key)
 
       if (!_.isEmpty(object) && !_.isPlainObject(object)) {
+        let id = object.get('id')
+
         object = deemberify(object)
+
+        // Without the below Ember Data model ID's will not work with inputs
+        if (id) {
+          object.id = id
+        }
       }
 
       if (!_.isEqual(object, previousObject)) {
@@ -127,9 +150,18 @@ export default Ember.Component.extend(PropTypesMixin, {
 
   /**
    * Validate model and view when we get updated ones
+   * @param {Object} attrs - A hash of the old attributes and the new attributes
    */
-  didUpdateAttrs: function () {
+  didUpdateAttrs: function (attrs) {
+    const {oldAttrs, newAttrs} = attrs
+
+    if (!_.isEqual(oldAttrs.value.value, newAttrs.value.value)) {
+      this.set('state.value', newAttrs.value)
+    }
+
     this.validateProps()
+
+    this._super(...arguments)
   },
 
   willUpdate: function () {

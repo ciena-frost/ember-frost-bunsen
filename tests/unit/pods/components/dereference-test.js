@@ -24,7 +24,7 @@ describe('dereference', () => {
 
     it('translates an array reference to a path', () => {
       path = getPath('#/definitions/foo/1/bar')
-      expect(path).to.be.equal('definitions.foo[1].bar')
+      expect(path).to.be.equal('definitions.foo.1.bar')
     })
   })
 

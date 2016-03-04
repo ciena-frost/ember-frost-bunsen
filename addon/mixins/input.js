@@ -84,14 +84,27 @@ export default Ember.Mixin.create(PropTypeMixin, {
     return getLabel(customLabel, model, bunsenId)
   },
 
+  updateValue () {
+    const bunsenId = this.get('bunsenId')
+    const valuePath = `store.formValue.${bunsenId}`
+    const oldValue = this.get('state.value')
+    const newValue = this.get(valuePath)
+
+    if (oldValue !== newValue) {
+      this.set('state.value', newValue)
+    }
+  },
+
   /**
    * Initialze state of input
    */
   init: function () {
     this._super()
 
+    const bunsenId = this.get('bunsenId')
+
     let initialValue = getInitialValue(
-      this.get('bunsenId'),
+      bunsenId,
       this.get('store.formValue'),
       this.get('initialValue'),
       this.get('model') || {}
@@ -107,10 +120,15 @@ export default Ember.Mixin.create(PropTypeMixin, {
 
     if (onChange && [undefined, null].indexOf(initialValue) === -1) {
       onChange({
-        id: this.get('bunsenId'),
+        id: bunsenId,
         value: initialValue
       })
     }
+
+    const valuePath = `store.formValue.${bunsenId}`
+
+    this.addObserver('store.formValue', this.updateValue)
+    this.addObserver(valuePath, this.updateValue)
   },
 
   @readOnly
