@@ -58,7 +58,7 @@ deploy:
   on:
     branch: master
     condition: "$EMBER_TRY_SCENARIO = 'default'"
-    node: '5.6'
+    node: 'stable'
     tags: false
 after_deploy:
 - .travis/publish-gh-pages.sh
