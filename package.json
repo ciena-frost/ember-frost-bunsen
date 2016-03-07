@@ -44,7 +44,7 @@
     "ember-lodash": "~0.0.6",
     "ember-truth-helpers": "^1.2.0",
     "ember-prism": "^0.0.7",
-    "eslint": "^2.1.0",
+    "eslint": "2.2.0",
     "eslint-config-frost-standard": "^1.0.0"
   },
   "keywords": [
