@@ -11,6 +11,11 @@
 
 # ember-frost-bunsen
 
+ * [Installation](#installation)
+ * [API](#api)
+ * [Examples](#examples)
+ * [Development](#development)
+
 ## Installation
 ```
 ember install ember-frost-bunsen
