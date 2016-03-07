@@ -222,28 +222,28 @@
 	<polygon points="27,3 27,10 25,10 25,6.5 17.3,14.2 15.9,12.8 23.7,5 20,5 20,3 "/>
   </g>
 </symbol>
-<symbol id="list-large" viewBox="0 0 15 15">
-	<g id="Layer_1_1_" class="view-size-svg">
-		<rect x="0" y="0" width="15" height="7"/>
-		<rect x="0" y="8" width="15" height="7"/>
+<symbol id="list-large" viewBox="0 0 10 10">
+	<g class="view-size-svg">
+		<rect x="0" y="0" width="10" height="4.5"/>
+		<rect x="0" y="5.5" width="10" height="4.5"/>
 	</g>
 </symbol>
-<symbol id="list-medium" viewBox="0 0 15 15">
-	<g id="Layer_1_1_" class="view-size-svg">
-		<rect x="0" y="4" width="15" height="3"/>
-		<rect x="0" y="8" width="15" height="3"/>
-		<rect x="0" y="12" width="15" height="3"/>
-		<rect x="0" y="0" width="15" height="3"/>
+<symbol id="list-medium" viewBox="0 0 10 10">
+	<g class="view-size-svg">
+		<rect x="0" y="0" width="10" height="1.75"/>
+		<rect x="0" y="2.75" width="10" height="1.75"/>
+		<rect x="0" y="5.5" width="10" height="1.75"/>
+		<rect x="0" y="8.25" width="10" height="1.75"/>
 	</g>
 </symbol>
-<symbol id="list-small" viewBox="0 0 15 15">
-	<g id="Layer_1_1_" class="view-size-svg">
-		<rect x="0" y="0" width="15" height="1"/>
-		<rect x="0" y="3.334" width="15" height="1.4"/>
-		<rect x="0" y="6.746" width="15" height="1.4"/>
-		<rect x="0" y="10.157" width="15" height="1.4"/>
-		<rect x="0" y="13.568" width="15" height="1.4"/>
-	</g>
+<symbol id="list-small" viewBox="0 0 10 10">
+  <g class="view-size-svg">
+    <rect x="0" y="0" width="10" height="1"/>
+    <rect x="0" y="2.25" width="10" height="1"/>
+    <rect x="0" y="4.5" width="10" height="1"/>
+    <rect x="0" y="6.75" width="10" height="1"/>
+    <rect x="0" y="9" width="10" height="1"/>
+  </g>
 </symbol>
 <symbol id="log" viewBox="0 0 30 30">
 	<polygon fill="#DBDBDB" points="23,27 4,27 4,3 15,3 15,10.1 23,10.1 "/>
