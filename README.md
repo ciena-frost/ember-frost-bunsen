@@ -9,6 +9,8 @@
 
 [![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
 
+[Demo](http://ciena-frost.github.io/ember-frost-bunsen/)
+
 # ember-frost-bunsen
 
  * [Installation](#installation)

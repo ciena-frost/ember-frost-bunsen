@@ -1,0 +1,46 @@
+{{#model-view-selector
+  modelOptions=modelOptions
+  onSelectModel=(action "onSelectModel")
+  onSelectValue=(action "onSelectValue")
+  onSelectView=(action "onSelectView")
+  selectedModel=selectedModel
+  selectedValue=selectedValue
+  selectedView=selectedView
+  valueOptions=valueOptions
+  valueSelectionDisabled=valueSelectionDisabled
+  viewOptions=viewOptions
+  viewSelectionDisabled=viewSelectionDisabled
+}}
+  <h2 class="demo-header">Rendered Demo</h2>
+  <div class='double-bunsen'>
+  {{frost-bunsen-form
+    model=selectedModel.model
+    renderers=renderers
+    value=selectedValue.value
+    view=selectedView.view
+    onChange=(action "onValueChange")
+  }}
+
+  {{frost-bunsen-detail
+    model=selectedModel.model
+    renderers=renderers
+    value=value
+    view=selectedView.view
+  }}
+  </div>
+  {{frost-button on-click=(action "updateValue") text="Update Detail"}}
+  <div class="demo-code-container">
+    {{#if selectedModel}}
+      <div class="demo-code-block">
+        <h2>Model</h2>
+        {{#code-block language='json'}}{{modelCode}}{{/code-block}}
+      </div>
+    {{/if}}
+    {{#if selectedView}}
+      <div class="demo-code-block">
+        <h2>View</h2>
+        {{#code-block language='json'}}{{viewCode}}{{/code-block}}
+      </div>
+    {{/if}}
+  </div>
+{{/model-view-selector}}

@@ -8,6 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-text
       class=inputClassName
+      disabled=cellConfig.disabled
       on-input=(action "onChange")
       placeholder=cellConfig.placeholder
       type=inputType

@@ -24,12 +24,7 @@ export function getPath (ref) {
     throw new Error(`Invalid reference "${ref}" must begin with "#/"`)
   }
 
-  const parts = ref.split('/').slice(1)
-  const newParts = parts.map((part) => {
-    return (isNaN(parseInt(part, 10))) ? part : `[${part}]`
-  })
-
-  return newParts.join('.').replace(/\.\[/g, '[')
+  return ref.split('/').slice(1).join('.')
 }
 
 /**

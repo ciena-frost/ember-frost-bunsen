@@ -280,7 +280,6 @@ export default Ember.Component.extend(PropTypesMixin, {
         }
 
         delete parentObject[removeKey]
-        delete this.get(parentKey)[removeKey]
         this.notifyPropertyChange(parentKey)
       } else {
         this.ensureParent(id)
