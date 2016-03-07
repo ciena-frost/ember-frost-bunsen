@@ -13,10 +13,10 @@
 
 # ember-frost-bunsen
 
- * [Installation](#Installation)
- * [API](#API)
- * [Examples](#Examples)
- * [Contributing](#Contributing)
+ * [Installation](#installation)
+ * [API](#api)
+ * [Examples](#examples)
+ * [Development](#development)
 
 ## Installation
 ```
