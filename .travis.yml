@@ -42,7 +42,7 @@ before_script:
 - sleep 3 # give xvfb some time to start
 script:
 - npm run lint
-- ember try $EMBER_TRY_SCENARIO test
+- ember try:one $EMBER_TRY_SCENARIO --- ember test
 after_success:
 - sed -i -- 's/SF:ember-frost-bunsen\/\(.*\)/SF:addon\/\1.js/' coverage/lcov.info rm -f coverage/lcov.info--
 - cat coverage/lcov.info | coveralls
