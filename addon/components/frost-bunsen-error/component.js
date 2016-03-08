@@ -1,9 +1,7 @@
-import Ember from 'ember'
-
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import FrostComponent, {PropTypes} from 'ember-frost-component'
 import layout from './template'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default FrostComponent.extend({
   classNameBindings: ['warning:alert-warning:alert-danger'],
   classNames: ['frost-bunsen-error'],
   layout,

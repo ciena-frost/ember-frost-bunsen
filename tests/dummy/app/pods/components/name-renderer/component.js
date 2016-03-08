@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import FrostComponent from 'ember-frost-component'
 import InputMixin from 'ember-frost-bunsen/mixins/input'
 
-export default Ember.Component.extend(InputMixin, {
+export default FrostComponent.extend(InputMixin, {
   classNames: [
     'container-fluid',
     'name-renderer'

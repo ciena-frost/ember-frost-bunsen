@@ -4,14 +4,14 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import FrostComponent, {PropTypes} from 'ember-frost-component'
 import layout from './template'
 import dereference from '../dereference'
 import {getDefaultView} from '../generator'
 import validateView, {validateModel, validateValue} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default FrostComponent.extend({
   classNames: ['frost-bunsen-detail', 'inline'],
 
   layout,

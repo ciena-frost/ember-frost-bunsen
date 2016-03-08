@@ -5,10 +5,10 @@ import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import layout from './template'
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import FrostComponent, {PropTypes} from 'ember-frost-component'
 import {getLabel} from '../utils'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default FrostComponent.extend({
   classNames: ['frost-bunsen-container-array', 'frost-bunsen-section'],
   layout,
 

@@ -4,17 +4,17 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import PropTypeMixin, {PropTypes} from './prop-types'
-import {getLabel, getInitialValue} from '../components/utils'
-import {getCellDefaults} from '../components/validator/defaults'
-import {getPath} from '../components/dereference'
+import {PropTypes} from 'ember-frost-component'
+import {getLabel, getInitialValue} from './utils'
+import {getCellDefaults} from './validator/defaults'
+import {getPath} from './dereference'
 
 export const defaultClassNames = {
   inputWrapper: 'left-input',
   labelWrapper: 'left-label'
 }
 
-export default Ember.Mixin.create(PropTypeMixin, {
+export default Ember.Mixin.create({
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,

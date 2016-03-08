@@ -1,7 +1,7 @@
 const expect = chai.expect
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
-import {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import {PropTypes} from 'ember-frost-component'
 import {validatePropTypes} from '../../../../utils/template'
 
 describeComponent(

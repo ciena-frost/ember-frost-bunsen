@@ -1,9 +1,8 @@
-import Ember from 'ember'
-
+import FrostComponent from 'ember-frost-component'
 import InputMixin from 'ember-frost-bunsen/mixins/input'
 import layout from './template'
 
-export default Ember.Component.extend(InputMixin, {
+export default FrostComponent.extend(InputMixin, {
   classNames: ['frost-bunsen-property-chooser'],
   layout,
 

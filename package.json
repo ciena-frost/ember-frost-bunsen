@@ -56,6 +56,7 @@
     "ember-cli-sass": "^5.2.0",
     "ember-frost-button": "^1.0.0",
     "ember-frost-checkbox": "^1.0.0",
+    "ember-frost-component": "^0.0.2",
     "ember-frost-css-core": "^1.0.0",
     "ember-frost-icons": "^1.0.0",
     "ember-frost-select": "^1.0.1",

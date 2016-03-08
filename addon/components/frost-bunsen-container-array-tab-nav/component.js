@@ -1,12 +1,11 @@
 import _ from 'lodash'
-import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import PropTypeMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import FrostComponent, {PropTypes} from 'ember-frost-component'
 import layout from './template'
 import {getLabel} from '../utils'
 
-export default Ember.Component.extend(PropTypeMixin, {
+export default FrostComponent.extend({
   layout,
   tagName: 'li',
 
