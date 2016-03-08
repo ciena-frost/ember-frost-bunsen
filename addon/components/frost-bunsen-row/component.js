@@ -10,7 +10,7 @@ export default FrostComponent.extend({
     cellConfigs: PropTypes.array.isRequired,
     defaultClassName: PropTypes.string,
     model: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    'on-change': PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
   },

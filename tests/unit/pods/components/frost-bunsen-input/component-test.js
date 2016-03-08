@@ -18,7 +18,7 @@ describeComponent(
         PropTypes.string
       ]),
       model: PropTypes.object.isRequired,
-      onChange: PropTypes.func,
+      'on-change': PropTypes.func,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired

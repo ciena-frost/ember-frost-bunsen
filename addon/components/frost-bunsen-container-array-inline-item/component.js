@@ -15,7 +15,7 @@ export default FrostComponent.extend({
     cellConfig: PropTypes.EmberObject.isRequired,
     index: PropTypes.number.isRequired,
     model: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    'on-change': PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     readOny: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired

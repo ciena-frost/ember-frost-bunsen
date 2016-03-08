@@ -55,10 +55,10 @@ export default FrostComponent.extend(InputMixin, {
   },
 
   actions: {
-    onChange: function (e) {
+    'on-change': function (e) {
       const id = this.get('bunsenId')
       const value = parseAddress(e.target.value)
-      const onChange = this.get('onChange')
+      const onChange = this.get('on-change')
 
       if (onChange) {
         onChange({id, value})

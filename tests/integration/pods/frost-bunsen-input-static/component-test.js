@@ -14,7 +14,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
       bunsenId: 'name',
       cellConfig: Ember.Object.create({}),
       model: {},
-      onChange: () => {},
+      'on-change': () => {},
       store: Ember.Object.create({}),
       initialValue: TEST_VALUE
     }

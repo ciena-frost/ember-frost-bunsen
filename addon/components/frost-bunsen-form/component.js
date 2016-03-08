@@ -34,10 +34,10 @@ export default FrostComponent.extend({
       PropTypes.EmberObject,
       PropTypes.object
     ]).isRequired,
-    onCancel: PropTypes.func,
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-    onValidation: PropTypes.func,
+    'on-cancel': PropTypes.func,
+    'on-change': PropTypes.func,
+    'on-submit': PropTypes.func,
+    'on-validation': PropTypes.func,
     renderers: PropTypes.oneOf([
       PropTypes.EmberObject,
       PropTypes.object
@@ -182,7 +182,7 @@ export default FrostComponent.extend({
 
         const aggregatedResult = aggregateResults(results)
         this.set('state.validationResult', aggregatedResult)
-        const onValidation = this.get('onValidation')
+        const onValidation = this.get('on-validation')
 
         if (onValidation) {
           onValidation(aggregatedResult)
@@ -208,7 +208,7 @@ export default FrostComponent.extend({
   },
 
   @readOnly
-  @computed('onCancel', 'onSumbit')
+  @computed('on-cancel', 'onSumbit')
   hasButtons: function (onCancel, onSubmit) {
     return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
   },
@@ -265,7 +265,7 @@ export default FrostComponent.extend({
      * Handle when user updates form value
      * @param {BunsneChangeEvent} e - change event
      */
-    onChange: function (e) {
+    'on-change': function (e) {
       const id = e.id
       const key = `state.value.${id}`
 
@@ -296,7 +296,7 @@ export default FrostComponent.extend({
       this.validate()
 
       const value = this.get('state.value')
-      const onChange = this.get('onChange')
+      const onChange = this.get('on-change')
 
       if (onChange) {
         onChange(value)
@@ -307,9 +307,9 @@ export default FrostComponent.extend({
      * Handle when user submits form
      * @param {Event} e - event
      */
-    onSubmit: function (e) {
+    'on-submit': function (e) {
       e.preventDefault()
-      const onSubmit = this.get('onSubmit')
+      const onSubmit = this.get('on-submit')
 
       if (onSubmit) {
         onSubmit(this.get('state.value'))

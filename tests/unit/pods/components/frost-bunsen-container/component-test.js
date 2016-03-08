@@ -11,7 +11,7 @@ describeComponent(
       bunsenId: PropTypes.string,
       cellConfig: PropTypes.EmberObject.isRequired,
       model: PropTypes.object.isRequired,
-      onChange: PropTypes.func.isRequired,
+      'on-change': PropTypes.func.isRequired,
       readOnly: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired
     })

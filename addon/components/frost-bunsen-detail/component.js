@@ -191,7 +191,7 @@ export default FrostComponent.extend({
   },
 
   actions: {
-    onChange: function () {
+    'on-change': function () {
       //
     }
   }

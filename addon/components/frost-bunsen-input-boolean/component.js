@@ -32,11 +32,11 @@ export default FrostComponent.extend(InputMixin, {
     /**
      * Handle user toggling state
      */
-    onChange: function () {
+    'on-change': function () {
       this.set('state.hasUserInteracted', true)
 
       const value = !this.get('state.value')
-      const onChange = this.get('onChange')
+      const onChange = this.get('on-change')
 
       if (onChange) {
         onChange({
