@@ -99,6 +99,6 @@ export default FrostComponent.extend({
       return 'frost-bunsen-input-static'
     }
 
-    return this.getRealInputComponent.extend(type, shouldRender)
+    return this.getRealInputComponent(type, shouldRender)
   }
 })

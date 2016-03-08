@@ -5,9 +5,9 @@ import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import {PropTypes} from 'ember-frost-component'
-import {getLabel, getInitialValue} from './utils'
-import {getCellDefaults} from './validator/defaults'
-import {getPath} from './dereference'
+import {getLabel, getInitialValue} from '../components/utils'
+import {getCellDefaults} from '../components/validator/defaults'
+import {getPath} from '../components/dereference'
 
 export const defaultClassNames = {
   inputWrapper: 'left-input',
