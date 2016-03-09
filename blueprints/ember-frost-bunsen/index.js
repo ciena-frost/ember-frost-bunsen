@@ -1,9 +1,8 @@
 module.exports = {
   afterInstall: function () {
-    var blueprint = this
-    return blueprint.addBowerPackageToProject('z-schema', '3.16.1')
-      .then(function () {
-        return blueprint.addAddonsToProject({
+    return this.addBowerPackageToProject('z-schema', '3.16.1')
+      .then(() => {
+        return this.addAddonsToProject({
           packages: [
             {name: 'ember-frost-theme', target: '^1.2.0'}
           ]
