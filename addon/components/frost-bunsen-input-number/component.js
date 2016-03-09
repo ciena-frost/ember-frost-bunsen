@@ -29,14 +29,14 @@ export default Ember.Component.extend(InputMixin, {
      * Handle user updating value
      * @param {Event} e - event
      */
-    onChange: function (e) {
+    'on-change': function (e) {
       if (!this.get('state.hasUserInteracted')) {
         this.set('state.hasUserInteracted', true)
       }
 
       const newValue = parseFloat(e.value || e.target.value)
       const oldValue = this.get('state.value')
-      const onChange = this.get('onChange')
+      const onChange = this.get('on-change')
 
       if (newValue === oldValue) {
         return

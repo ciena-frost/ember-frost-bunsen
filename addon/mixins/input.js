@@ -3,8 +3,8 @@ import 'ember-frost-bunsen/typedefs'
 import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-import PropTypeMixin, {PropTypes} from './prop-types'
 import {getLabel, getInitialValue} from '../components/utils'
 import {getCellDefaults} from '../components/validator/defaults'
 import {getPath} from '../components/dereference'
@@ -27,7 +27,7 @@ export default Ember.Mixin.create(PropTypeMixin, {
     ]),
     label: PropTypes.string,
     model: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    'on-change': PropTypes.func.isRequired,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
   },
@@ -116,7 +116,7 @@ export default Ember.Mixin.create(PropTypeMixin, {
       value: initialValue
     }).create())
 
-    const onChange = this.get('onChange')
+    const onChange = this.get('on-change')
 
     if (onChange && [undefined, null].indexOf(initialValue) === -1) {
       onChange({

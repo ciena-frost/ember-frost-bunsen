@@ -5,10 +5,10 @@ import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import layout from './template'
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from '../utils'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default Ember.Component.extend(PropTypeMixin, {
   classNames: ['frost-bunsen-container-array', 'frost-bunsen-section'],
   layout,
 
@@ -16,7 +16,7 @@ export default Ember.Component.extend(PropTypesMixin, {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     model: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    'on-change': PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
@@ -121,7 +121,7 @@ export default Ember.Component.extend(PropTypesMixin, {
    * @param {Number} index - the index of the item
    */
   notifyParentOfNewItem: function (item, index) {
-    const onChange = this.get('onChange')
+    const onChange = this.get('on-change')
 
     if (!onChange) {
       return
@@ -155,7 +155,7 @@ export default Ember.Component.extend(PropTypesMixin, {
       const itemToRemove = items.objectAt(index)
       items.removeObject(itemToRemove)
 
-      const onChange = this.get('onChange')
+      const onChange = this.get('on-change')
 
       if (!onChange) {
         return

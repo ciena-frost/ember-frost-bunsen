@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import PropTypeMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 import {getLabel} from '../utils'
 

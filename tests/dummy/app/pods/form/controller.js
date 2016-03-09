@@ -63,7 +63,7 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    onChange: function (formValue) {
+    'on-change': function (formValue) {
       formValue = JSON.stringify(formValue, null, 2)
       this.set('formValue', formValue)
     },

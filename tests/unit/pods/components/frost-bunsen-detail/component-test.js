@@ -1,5 +1,5 @@
 /* import {describeComponent} from 'ember-mocha'
-import {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../../../utils/template'
 
 describeComponent(

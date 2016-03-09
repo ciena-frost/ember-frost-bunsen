@@ -61,6 +61,7 @@
     "ember-frost-select": "^1.0.1",
     "ember-frost-text": "^1.0.0",
     "ember-frost-theme": "^1.0.1",
+    "ember-prop-types": "^1.0.0",
     "liquid-fire": "^0.23.0"
   },
   "ember-addon": {

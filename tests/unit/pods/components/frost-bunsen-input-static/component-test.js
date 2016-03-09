@@ -1,6 +1,6 @@
 import {describeComponent} from 'ember-mocha'
 import {beforeEach} from 'mocha'
-import {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../../../utils/template'
 
 describeComponent(
@@ -18,7 +18,7 @@ describeComponent(
           bunsenId: 'name',
           cellConfig: Ember.Object.create({}),
           model: {},
-          onChange: function () {},
+          'on-change': function () {},
           store: Ember.Object.create({}),
           state: Ember.Object.create({})
         })
@@ -37,7 +37,7 @@ describeComponent(
       ]),
       label: PropTypes.string,
       model: PropTypes.object.isRequired,
-      onChange: PropTypes.func.isRequired,
+      'on-change': PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired
     })

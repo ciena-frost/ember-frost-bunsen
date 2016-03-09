@@ -1,5 +1,5 @@
 import {describeComponent} from 'ember-mocha'
-import {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../../../utils/template'
 
 describeComponent(
@@ -18,10 +18,10 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
-      onCancel: PropTypes.func,
-      onChange: PropTypes.func,
-      onSubmit: PropTypes.func,
-      onValidation: PropTypes.func,
+      'on-cancel': PropTypes.func,
+      'on-change': PropTypes.func,
+      'on-submit': PropTypes.func,
+      'on-validation': PropTypes.func,
       renderers: PropTypes.oneOf([
         PropTypes.EmberObject,
         PropTypes.object

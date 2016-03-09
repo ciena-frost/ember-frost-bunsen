@@ -2,10 +2,10 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default Ember.Component.extend(PropTypeMixin, {
   classNames: ['frost-bunsen-input'],
   layout,
 
@@ -21,7 +21,7 @@ export default Ember.Component.extend(PropTypesMixin, {
       PropTypes.string
     ]),
     model: PropTypes.object.isRequired,
-    onChange: PropTypes.func,
+    'on-change': PropTypes.func,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired

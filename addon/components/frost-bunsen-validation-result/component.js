@@ -1,9 +1,8 @@
 import Ember from 'ember'
-
-import PropTypesMixin, {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 
-export default Ember.Component.extend(PropTypesMixin, {
+export default Ember.Component.extend(PropTypeMixin, {
   classNames: ['frost-bunsen-validation-result'],
   layout,
 

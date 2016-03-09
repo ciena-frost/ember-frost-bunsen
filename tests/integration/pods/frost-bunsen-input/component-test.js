@@ -8,7 +8,7 @@ function makeProps (props) {
     bunsenId: 'bunsen-test-id',
     cellConfig: Ember.Object.create({}),
     model: {type: 'string'},
-    onChange: function () {},
+    'on-change': function () {},
     readOnly: false,
     required: false,
     store: Ember.Object.create({})

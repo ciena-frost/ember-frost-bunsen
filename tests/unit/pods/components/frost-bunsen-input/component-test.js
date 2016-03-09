@@ -1,5 +1,5 @@
 import {describeComponent} from 'ember-mocha'
-import {PropTypes} from 'ember-frost-bunsen/mixins/prop-types'
+import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../../../utils/template'
 
 describeComponent(
@@ -18,7 +18,7 @@ describeComponent(
         PropTypes.string
       ]),
       model: PropTypes.object.isRequired,
-      onChange: PropTypes.func,
+      'on-change': PropTypes.func,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired

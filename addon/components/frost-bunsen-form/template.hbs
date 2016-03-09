@@ -1,11 +1,11 @@
 {{#unless state.propValidationResult.valid}}
   {{frost-bunsen-validation-result model=state.propValidationResult}}
 {{else}}
-  <form class="form" onsubmit={{action "onSubmit"}}>
+  <form class="form" onsubmit={{action "on-submit"}}>
     {{frost-bunsen-container
       cellConfig=cellConfig
       model=renderModel
-      onChange=(action "onChange")
+      on-change=(action "on-change")
       store=store
     }}
   </form>
@@ -13,20 +13,20 @@
     <div class="form-group button-bar">
         <div>
             <div class="pull-right">
-              {{#if onCancel}}
+              {{#if on-cancel}}
                 <button
                   class="btn btn-default pull-right"
-                  onClick={{action "onCancel"}}
+                  onClick={{action "on-cancel"}}
                   type="button"
                 >
                   {buttonLabels.cancel}
                 </button>
               {{/if}}
-              {{#if onSubmit}}
+              {{#if on-submit}}
                 <button
                   class="btn btn-default pull-right"
                   disabled={{isSubmitBtnDisabled}}
-                  onClick={{action "onSubmit"}}
+                  onClick={{action "on-submit"}}
                   type="submit"
                 >
                   {butonLabels.submit}
