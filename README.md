@@ -1,17 +1,11 @@
-[ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "CI Build Status"
+[ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "Travis CI Build Status"
 [ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
-
-[cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Code Coverage"
+[cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
 [cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
-
 [npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/ember-frost-bunsen
 
-[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
-
-[Demo](http://ciena-frost.github.io/ember-frost-bunsen/)
-
-# ember-frost-bunsen
+# ember-frost-bunsen <br /> [![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
 
  * [Installation](#installation)
  * [API](#api)
