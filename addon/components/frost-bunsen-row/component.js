@@ -1,7 +1,8 @@
-import FrostComponent, {PropTypes} from 'ember-frost-component'
+import Ember from 'ember'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 
-export default FrostComponent.extend({
+export default Ember.Component.extend(PropTypeMixin, {
   classNames: ['frost-bunsen-row'],
   layout,
 

@@ -1,5 +1,5 @@
+import Ember from 'ember'
 import computed from 'ember-computed-decorators'
-import FrostComponent from 'ember-frost-component'
 import InputMixin from 'ember-frost-bunsen/mixins/input'
 
 /**
@@ -20,7 +20,7 @@ function parseAddress (addressStr) {
   }
 }
 
-export default FrostComponent.extend(InputMixin, {
+export default Ember.Component.extend(InputMixin, {
   clasNames: [
     'address-renderer',
     'container-fluid'

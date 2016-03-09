@@ -3,8 +3,8 @@ import 'ember-frost-bunsen/typedefs'
 import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-import {PropTypes} from 'ember-frost-component'
 import {getLabel, getInitialValue} from '../components/utils'
 import {getCellDefaults} from '../components/validator/defaults'
 import {getPath} from '../components/dereference'
@@ -14,7 +14,7 @@ export const defaultClassNames = {
   labelWrapper: 'left-label'
 }
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,

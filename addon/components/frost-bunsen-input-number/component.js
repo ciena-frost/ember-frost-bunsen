@@ -1,11 +1,11 @@
 import _ from 'lodash'
+import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
-import FrostComponent from 'ember-frost-component'
 
 import InputMixin from 'ember-frost-bunsen/mixins/input'
 import layout from './template'
 
-export default FrostComponent.extend(InputMixin, {
+export default Ember.Component.extend(InputMixin, {
   classNames: [
     'frost-bunsen-input-number',
     'frost-field'

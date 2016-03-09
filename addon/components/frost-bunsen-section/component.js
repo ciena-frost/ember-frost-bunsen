@@ -1,10 +1,10 @@
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import FrostComponent, {PropTypes} from 'ember-frost-component'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 
-export default FrostComponent.extend({
+export default Ember.Component.extend(PropTypeMixin, {
   classNameBindings: ['state.expanded:expanded:collapsed'],
   classNames: ['frost-bunsen-section'],
 

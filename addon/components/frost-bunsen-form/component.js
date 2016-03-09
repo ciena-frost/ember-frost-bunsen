@@ -4,7 +4,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import FrostComponent, {PropTypes} from 'ember-frost-component'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
 import dereference from '../dereference'
 import {getDefaultView} from '../generator'
@@ -17,7 +17,7 @@ const builtinRenderers = {
   PropertyChooser: 'frost-bunsen-property-chooser'
 }
 
-export default FrostComponent.extend({
+export default Ember.Component.extend(PropTypeMixin, {
   classNameBindings: ['inline:inline:not-inline'],
   classNames: ['frost-bunsen-form'],
 
