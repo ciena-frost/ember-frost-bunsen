@@ -8,7 +8,8 @@ module.exports = {
             {name: 'ember-frost-text', target: '^1.2.0'},
             {name: 'ember-frost-button', target: '^1.4.0'},
             {name: 'ember-frost-checkbox', target: '^1.1.1'},
-            {name: 'ember-frost-icons', target: '^1.4.0'}
+            {name: 'ember-frost-icons', target: '^1.4.0'},
+            {name: 'ember-frost-select', target: '^1.3.1'}
           ]
         })
       })
