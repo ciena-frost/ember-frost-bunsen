@@ -18,6 +18,14 @@
     "node": ">= 5.0.0"
   },
   "author": "Matthew Dahl (https://github.com/sandersky)",
+  "contributors": [
+    "Andres Gonzalez (https://github.com/agonza40)",
+    "Gosia Hyndman (https://github.com/vesper2000)",
+    "Justin Lafleur (https://github.com/laflower)",
+    "Niko Skrypnik (https://github.com/nskrypnik)",
+    "Peter Banka (https://github.com/psbanka)",
+    "Roxanne Panthaky (https://github.com/rox163)"
+  ],
   "license": "MIT",
   "devDependencies": {
     "ember-cli": "^2.4.1",
