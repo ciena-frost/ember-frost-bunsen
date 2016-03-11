@@ -1,3 +1,5 @@
+var routingConfig = require('./routing')
+
 module.exports = function (environment) {
   var ENV = {
     modulePrefix: 'dummy',
@@ -15,6 +17,7 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      routingConfig: routingConfig
     }
   }
 

@@ -1,14 +1,16 @@
 import Ember from 'ember'
 import config from './config/environment'
+import addRoute from 'frost-guide-custom-routing/utils/addRoute'
 
-const Router = Ember.Router.extend({
+var Router = Ember.Router.extend({
   location: config.locationType
 })
 
 Router.map(function () {
-  this.route('detail')
-  this.route('form')
-  this.route('detail-update')
+  let routerConfig = config.APP.routingConfig
+  routerConfig.forEach((item) => {
+    addRoute.call(this, item)
+  })
 })
 
 export default Router
