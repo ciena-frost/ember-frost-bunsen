@@ -18,7 +18,7 @@ ember install ember-frost-bunsen
 ```
 
 ## API
-Coming soon
+Coming soon…
 
 ## Examples
 Coming soon
