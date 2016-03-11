@@ -16,12 +16,12 @@ module.exports = [
       id: 'form',
       alias: 'Form',
       type: 'route',
-      route: 'demo.form',
-    },{
+      route: 'demo.form'
+    }, {
       id: 'detail-update',
       alias: 'Detail Update',
       type: 'route',
-      route: 'demo.detail-update',
+      route: 'demo.detail-update'
     }]
   }
 ]
