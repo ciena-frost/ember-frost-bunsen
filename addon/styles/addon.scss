@@ -266,18 +266,3 @@ $frost-row-field-padding: 40px;
     border-top-width: 1px;
   }
 }
-
-// frost-text assumes inline-block alignment and will wrap so this override
-// uses flex to avoid the wrapping
-.frost-bunsen-input-text .frost-text {
-    display: flex;
-    align-items: center;
-
-    .close {
-      top: 0;
-      text-align: center;
-      line-height: 15px;
-      height: 15px;
-      width: 15px;
-    }
-}
