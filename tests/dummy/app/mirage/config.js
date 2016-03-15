@@ -20,7 +20,7 @@ export default function () {
         const modelId = request.queryParams.modelId
 
         items = items.filter((item) => {
-          return item.modelIds.indexOf(modelId) !== -1
+          return item.modelIds ? item.modelIds.indexOf(modelId) !== -1 : false
         })
       }
 

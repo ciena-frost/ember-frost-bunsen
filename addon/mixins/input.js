@@ -84,20 +84,6 @@ export default Ember.Mixin.create(PropTypeMixin, {
     return getLabel(customLabel, model, bunsenId)
   },
 
-  updateValue () {
-    const bunsenId = this.get('bunsenId')
-    const valuePath = `store.formValue.${bunsenId}`
-    const oldValue = this.get('state.value')
-    const newValue = this.get(valuePath)
-
-    if (oldValue !== newValue) {
-      this.set('state.value', newValue)
-    }
-  },
-
-  /**
-   * Initialze state of input
-   */
   init: function () {
     this._super()
 
@@ -124,24 +110,19 @@ export default Ember.Mixin.create(PropTypeMixin, {
         value: initialValue
       })
     }
-
-    const valuePath = `store.formValue.${bunsenId}`
-
-    this.addObserver('store.formValue', this.updateValue)
-    this.addObserver(valuePath, this.updateValue)
   },
 
   @readOnly
-  @computed('bunsenId', 'state.{hasUserInteracted,value}', 'store.validationResult.errors')
+  @computed('bunsenId', 'store.validationResult.errors')
   /**
    * Get current error message for input
    * @param {String} bunsenId - bunsen ID for input (represents path in model)
-   * @param {Boolean} hasUserInteracted - whether or not user has interacted with input
-   * @param {String} value - current value of input
    * @param {Array<BunsenValidationError|BunsenValidationWarning>} errors - current input validation errors
    * @returns {String} current error message
    */
-  errorMessage: function (bunsenId, hasUserInteracted, value, errors) {
+  errorMessage: function (bunsenId, errors) {
+    const hasUserInteracted = this.get('state.hasUserInteracted')
+
     if (!hasUserInteracted || !errors || errors.length === 0) {
       return null
     }
