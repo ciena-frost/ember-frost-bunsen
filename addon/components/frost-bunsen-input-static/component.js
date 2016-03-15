@@ -15,6 +15,26 @@ export default Ember.Component.extend(InputMixin, {
 
   layout,
 
+  init () {
+    this._super()
+    const bunsenId = this.get('bunsenId')
+    const valuePath = `store.formValue.${bunsenId}`
+
+    this.addObserver('store.formValue', this.updateValue)
+    this.addObserver(valuePath, this.updateValue)
+  },
+
+  updateValue () {
+    const bunsenId = this.get('bunsenId')
+    const valuePath = `store.formValue.${bunsenId}`
+    const oldValue = this.get('state.value')
+    const newValue = this.get(valuePath)
+
+    if (oldValue !== newValue) {
+      this.set('state.value', newValue)
+    }
+  },
+
   @readOnly
   @computed('cellConfig.placeholder', 'state.value')
   /**
