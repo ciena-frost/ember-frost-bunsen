@@ -148,6 +148,19 @@ export default Ember.Component.extend(PropTypeMixin, {
   },
 
   /**
+   * After render select first input
+   */
+  didRender () {
+    // If there is already an element in focus do nothing
+    if ($(':focus').length !== 0) {
+      return
+    }
+
+    // Focus on first input in busen form
+    this.$(':input:enabled:visible:first').focus()
+  },
+
+  /**
    * Validate model and view when we get updated ones
    */
   didUpdateAttrs: function () {
