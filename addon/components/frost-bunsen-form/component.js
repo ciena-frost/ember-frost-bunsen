@@ -1,3 +1,4 @@
+/* global $ */
 import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
