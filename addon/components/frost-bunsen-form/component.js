@@ -1,3 +1,4 @@
+/* global $ */
 import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
@@ -145,6 +146,19 @@ export default Ember.Component.extend(PropTypeMixin, {
     if (this.get('initialValue')) {
       this.validate()
     }
+  },
+
+  /**
+   * After render select first input
+   */
+  didRender () {
+    // If there is already an element in focus do nothing
+    if ($(':focus').length !== 0) {
+      return
+    }
+
+    // Focus on first input in busen form
+    this.$(':input:enabled:visible:first').focus()
   },
 
   /**
