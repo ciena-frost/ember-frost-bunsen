@@ -21,7 +21,199 @@ ember install ember-frost-bunsen
 Coming soon…
 
 ## Examples
-Coming soon
+
+### Form View
+
+```handlebars
+{{
+  frost-bunsen-form
+  model=model
+  view=view
+}}
+```
+
+### Detail View
+
+```handlebars
+{{
+  frost-bunsen-detail
+  model=model
+  value=value
+  view=view
+}}
+```
+
+> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-frost/ember-frost-bunsen/blob/master/addon/components/validator/view-schema.js). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
+
+### Minimal Example
+
+**Value**
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+
+**Model**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "firstName": {"type": "string"},
+    "lastName": {"type": "string"}
+  }
+}
+```
+
+**View**
+
+```json
+{
+  "version": "1.0",
+  "type": "form",
+  "rootContainers": {
+    "label": "Main",
+    "id": "main"
+  },
+  "containers": [
+    {
+      "id": "main",
+      "rows": [
+        [
+          {"model": "firstName"},
+          {"model": "lastName"},
+        ]
+      ]
+    }
+  ]
+}
+```
+
+### Nested Properties Example
+
+**Value**
+
+```json
+{
+  "name": {
+    "first": "John",
+    "last": "Doe"
+  }
+}
+```
+
+**Model**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "first": {"type": "string"},
+        "last": {"type": "string"}
+      }
+    }
+  }
+}
+```
+
+**View**
+
+```json
+{
+  "version": "1.0",
+  "type": "form",
+  "rootContainers": {
+    "label": "Main",
+    "id": "main"
+  },
+  "containers": [
+    {
+      "id": "main",
+      "rows": [
+        [
+          {"model": "name.first"},
+          {"model": "name.last"},
+        ]
+      ]
+    }
+  ]
+}
+```
+
+### Data Types Example
+
+**Value**
+
+```json
+{
+  "name": "John Doe",
+  "age": 35,
+  "married": true,
+  "spouse": {
+    "name": "Jane Doe",
+    "age": 32
+  }
+}
+```
+
+**Model**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "age": {"type": "number"},
+    "married": {"type": "boolean"},
+    "spouse": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "age": {"type": "number"}
+      }
+    }
+  }
+}
+```
+
+**View**
+
+```json
+{
+  "version": "1.0",
+  "type": "form",
+  "rootContainers": {
+    "label": "Main",
+    "id": "main"
+  },
+  "containers": [
+    {
+      "id": "main",
+      "rows": [
+        [
+          {"model": "name"},
+          {"model": "age"},
+          {"model": "married"},
+          {
+            "label": "Spouse's Name",
+            "model": "spouse.name"
+          },
+          {
+            "label": "Spouse's Age",
+            "model": "spouse.age"
+          }
+        ]
+      ]
+    }
+  ]
+}
+```
 
 ## Development
 ### Setup
