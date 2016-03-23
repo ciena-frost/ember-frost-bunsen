@@ -43,7 +43,7 @@
     "ember-data": "^2.4.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
-    "ember-frost-button": "^1.4.0",
+    "ember-frost-button": "^2.0.0",
     "ember-frost-checkbox": "^1.1.1",
     "ember-frost-css-core": "^1.1.2",
     "ember-frost-icons": "^1.4.0",
