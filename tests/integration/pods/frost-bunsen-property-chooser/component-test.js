@@ -12,7 +12,7 @@ describeComponent(...integrationTestContext('frost-bunsen-property-chooser'), fu
       bunsenId: 'paymentMethod',
       cellConfig: Ember.Object.create({}),
       model: {},
-      'on-change': () => {},
+      onChange: () => {},
       store: Ember.Object.create({})
     }
 

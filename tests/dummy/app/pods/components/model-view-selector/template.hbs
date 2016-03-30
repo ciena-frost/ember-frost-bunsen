@@ -1,18 +1,18 @@
 {{frost-select
   data=modelOptions
-  on-change=onSelectModel
+  onChange=onSelectModel
 }}
 {{frost-select
   data=viewOptions
   disabled=viewSelectionDisabled
-  on-change=onSelectView
+  onChange=onSelectView
 }}
 
 {{#if onSelectValue}}
   {{frost-select
     data=valueOptions
     disabled=valueSelectionDisabled
-    on-change=onSelectValue
+    onChange=onSelectValue
   }}
 {{/if}}
 

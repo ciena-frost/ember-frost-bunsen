@@ -16,7 +16,7 @@ export default Ember.Component.extend(PropTypeMixin, {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     model: PropTypes.object.isRequired,
-    'on-change': PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
@@ -121,7 +121,7 @@ export default Ember.Component.extend(PropTypeMixin, {
    * @param {Number} index - the index of the item
    */
   notifyParentOfNewItem: function (item, index) {
-    const onChange = this.get('on-change')
+    const onChange = this.get('onChange')
 
     if (!onChange) {
       return
@@ -155,7 +155,7 @@ export default Ember.Component.extend(PropTypeMixin, {
       const itemToRemove = items.objectAt(index)
       items.removeObject(itemToRemove)
 
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
 
       if (!onChange) {
         return

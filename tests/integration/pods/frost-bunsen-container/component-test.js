@@ -5,7 +5,7 @@ import {setupComponentTest} from '../../../utils/template'
 const props = {
   cellConfig: Ember.Object.create({}),
   model: {},
-  'on-change': () => {},
+  onChange: () => {},
   store: Ember.Object.create({})
 }
 

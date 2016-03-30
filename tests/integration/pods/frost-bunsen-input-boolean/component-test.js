@@ -12,7 +12,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
       bunsenId: 'enabled',
       cellConfig: Ember.Object.create({}),
       model: {},
-      'on-change': () => {},
+      onChange: () => {},
       store: Ember.Object.create({}),
       state: Ember.Object.create({value: true})
     }
@@ -30,8 +30,8 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
         this.set('state.value', initialValue)
       })
 
-      it('informs consumer of changes via on-change property', function (done) {
-        this.set('on-change', function (e) {
+      it('informs consumer of changes via onChange property', function (done) {
+        this.set('onChange', function (e) {
           expect(e).to.deep.equal({
             id: 'enabled',
             value: !initialValue

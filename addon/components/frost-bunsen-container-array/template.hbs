@@ -16,7 +16,7 @@
       cellConfig=cellConfig
       index=index
       model=model
-      on-change=on-change
+      onChange=onChange
       onRemove=(action "onRemoveItem")
       readOnly=readOnly
       store=store
@@ -41,7 +41,7 @@
     <li role="presentation">
       {{#frost-button
         class="medium tertiary"
-        on-click=(action "onAddItem")
+        onClick=(action "onAddItem")
       }}
       <div class="icon-text text">
         {{frost-icon icon='frost/round-add'}}
@@ -57,7 +57,7 @@
         cellConfig=cellConfig
         index=index
         model=model
-        on-change=on-change
+        onChange=onChange
         readOnly=readOnly
         store=store
       }}
@@ -67,7 +67,7 @@
 {{#if inline}}
   {{#frost-button
     class="medium tertiary"
-    on-click=(action "onAddItem")
+    onClick=(action "onAddItem")
   }}
   <div class="icon-text text">
     {{frost-icon icon='frost/round-add'}}

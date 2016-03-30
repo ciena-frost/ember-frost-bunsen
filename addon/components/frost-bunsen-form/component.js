@@ -35,10 +35,10 @@ export default Ember.Component.extend(PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]).isRequired,
-    'on-cancel': PropTypes.func,
-    'on-change': PropTypes.func,
-    'on-submit': PropTypes.func,
-    'on-validation': PropTypes.func,
+    onCancel: PropTypes.func,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onValidation: PropTypes.func,
     renderers: PropTypes.oneOf([
       PropTypes.EmberObject,
       PropTypes.object
@@ -196,7 +196,7 @@ export default Ember.Component.extend(PropTypeMixin, {
 
         const aggregatedResult = aggregateResults(results)
         this.set('state.validationResult', aggregatedResult)
-        const onValidation = this.get('on-validation')
+        const onValidation = this.get('onValidation')
 
         if (onValidation) {
           onValidation(aggregatedResult)
@@ -222,7 +222,7 @@ export default Ember.Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('on-cancel', 'onSumbit')
+  @computed('onCancel', 'onSumbit')
   hasButtons: function (onCancel, onSubmit) {
     return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
   },
@@ -279,7 +279,7 @@ export default Ember.Component.extend(PropTypeMixin, {
      * Handle when user updates form value
      * @param {BunsneChangeEvent} e - change event
      */
-    'on-change': function (e) {
+    onChange (e) {
       const id = e.id
       const key = `state.value.${id}`
 
@@ -310,7 +310,7 @@ export default Ember.Component.extend(PropTypeMixin, {
       this.validate()
 
       const value = this.get('state.value')
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
 
       if (onChange) {
         onChange(value)
@@ -321,9 +321,9 @@ export default Ember.Component.extend(PropTypeMixin, {
      * Handle when user submits form
      * @param {Event} e - event
      */
-    'on-submit': function (e) {
+    onSubmit (e) {
       e.preventDefault()
-      const onSubmit = this.get('on-submit')
+      const onSubmit = this.get('onSubmit')
 
       if (onSubmit) {
         onSubmit(this.get('state.value'))

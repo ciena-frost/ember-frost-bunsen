@@ -7,12 +7,12 @@
   viewOptions=viewOptions
   viewSelectionDisabled=viewSelectionDisabled
 }}
-  Inline: {{frost-checkbox on-input=(action "toggleInline")}}
+  Inline: {{frost-checkbox onInput=(action "toggleInline")}}
   <h2 class="demo-header">Rendered Demo</h2>
   {{frost-bunsen-form
     inline=inline
     model=selectedModel.model
-    on-change=(action "on-change")
+    onChange=(action "onChange")
     renderers=renderers
     view=selectedView.view
   }}

@@ -36,10 +36,10 @@ ember install ember-frost-bunsen
 | `initialValue` | `Ember.Object` or `object` | No | Value to initialize form with |
 | `inline` | `boolean` | No | Whether or not to render form inline |
 | `model` | `Ember.Object` or `object` | Yes | Value definition |
-| `on-cancel` | `Function` | No | Callback for when form is cancelled |
-| `on-change` | `Function` | No | Callback for when form values change |
-| `on-submit` | `Function` | No | Callback for when form is submitted |
-| `on-validation` | `Function` | No | Callback for when form is validated |
+| `onCancel` | `Function` | No | Callback for when form is cancelled |
+| `onChange` | `Function` | No | Callback for when form values change |
+| `onSubmit` | `Function` | No | Callback for when form is submitted |
+| `onValidation` | `Function` | No | Callback for when form is validated |
 | `renderers` | `Ember.Object` or `object` | No | Custom renderer template helper mappings |
 | `submitLabel` | `string` | No | Text for submit button |
 | `validators` | `Array<Function>` | No | List of custom validation functions |

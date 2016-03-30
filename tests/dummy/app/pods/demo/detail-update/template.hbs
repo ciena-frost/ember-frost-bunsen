@@ -18,7 +18,7 @@
     renderers=renderers
     value=selectedValue.value
     view=selectedView.view
-    on-change=(action "onValueChange")
+    onChange=(action "onValueChange")
   }}
 
   {{frost-bunsen-detail
@@ -28,7 +28,7 @@
     view=selectedView.view
   }}
   </div>
-  {{frost-button on-click=(action "updateValue") text="Update Detail"}}
+  {{frost-button onClick=(action "updateValue") text="Update Detail"}}
   <div class="demo-code-container">
     {{#if selectedModel}}
       <div class="demo-code-block">

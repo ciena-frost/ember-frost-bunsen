@@ -19,7 +19,7 @@ describeComponent(
       ]),
       label: PropTypes.string,
       model: PropTypes.object.isRequired,
-      'on-change': PropTypes.func.isRequired,
+      onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired
     })

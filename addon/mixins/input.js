@@ -27,7 +27,7 @@ export default Ember.Mixin.create(PropTypeMixin, {
     ]),
     label: PropTypes.string,
     model: PropTypes.object.isRequired,
-    'on-change': PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
   },
@@ -102,7 +102,7 @@ export default Ember.Mixin.create(PropTypeMixin, {
       value: initialValue
     }).create())
 
-    const onChange = this.get('on-change')
+    const onChange = this.get('onChange')
 
     if (onChange && [undefined, null].indexOf(initialValue) === -1) {
       onChange({
