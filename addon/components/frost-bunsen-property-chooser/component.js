@@ -11,7 +11,7 @@ export default Ember.Component.extend(InputMixin, {
      * Handle user updating selected item
      * @param {Event} e - event
      */
-    onVhange (e) {
+    onChange (e) {
       const bunsenId = this.get('bunsenId')
       const newValue = e.target.value
       const onChange = this.get('onChange')

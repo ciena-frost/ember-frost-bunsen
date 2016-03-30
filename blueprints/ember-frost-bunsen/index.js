@@ -4,8 +4,7 @@ module.exports = {
       .then(() => {
         return this.addAddonsToProject({
           packages: [
-            {name: 'ember-frost-core', target: '^0.0.13'},
-            {name: 'ember-frost-select', target: '^1.3.1'}
+            {name: 'ember-frost-core', target: '>=0.0.14 <2.0.0'}
           ]
         })
       })
