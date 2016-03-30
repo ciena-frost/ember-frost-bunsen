@@ -32,11 +32,11 @@ export default Ember.Component.extend(InputMixin, {
     /**
      * Handle user toggling state
      */
-    'on-change': function () {
+    onChange () {
       this.set('state.hasUserInteracted', true)
 
       const value = !this.get('state.value')
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
 
       if (onChange) {
         onChange({

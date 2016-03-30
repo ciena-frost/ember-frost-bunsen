@@ -12,7 +12,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-text'), function
       bunsenId: 'name',
       cellConfig: Ember.Object.create({}),
       model: {},
-      'on-change': () => {},
+      onChange: () => {},
       store: Ember.Object.create({})
     }
     rootNode = renderWithProps(this, 'frost-bunsen-input-text', props)
@@ -24,10 +24,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-text'), function
     expect(rootNode).to.have.class('frost-bunsen-input-text')
   })
 
-  it('calls on-change callback with id and value when the value is changed', function (done) {
+  it('calls onChange callback with id and value when the value is changed', function (done) {
     let setVal = 'Test string value'
 
-    this.set('on-change', function (e) {
+    this.set('onChange', function (e) {
       expect(e).to.deep.equal({
         id: 'name',
         value: setVal

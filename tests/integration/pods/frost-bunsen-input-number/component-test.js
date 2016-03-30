@@ -6,7 +6,7 @@ const props = {
   bunsenId: 'age',
   cellConfig: Ember.Object.create({}),
   model: {},
-  'on-change': () => {},
+  onChange: () => {},
   store: Ember.Object.create({})
 }
 
@@ -15,10 +15,10 @@ function tests (ctx) {
     expect(ctx.rootNode).to.have.class('frost-bunsen-input-number')
   })
 
-  it('calls on-change callback with id and value when the value is changed', function (done) {
+  it('calls onChange callback with id and value when the value is changed', function (done) {
     let setVal = 146623462
 
-    this.set('on-change', function (e) {
+    this.set('onChange', function (e) {
       expect(e).to.deep.equal({
         id: 'age',
         value: setVal

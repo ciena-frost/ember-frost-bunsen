@@ -10,7 +10,7 @@ import view from '../../../fixtures/valid-view'
 const props = {
   config: Ember.Object.create({}),
   model,
-  'on-change': () => {},
+  onChange: () => {},
   store: recursiveObjectCreate({
     formValue: {},
     renderers: {

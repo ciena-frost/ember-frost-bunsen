@@ -6,7 +6,7 @@ const props = {
   bunsenId: 'user',
   cellConfig: Ember.Object.create({}),
   model: {},
-  'on-change': () => {},
+  onChange: () => {},
   store: Ember.Object.create({})
 }
 

@@ -35,7 +35,7 @@ export default Ember.Component.extend(PropTypeMixin, {
     config: PropTypes.EmberObject.isRequired,
     defaultClassName: PropTypes.string,
     model: PropTypes.object.isRequired,
-    'on-change': PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
   },

@@ -43,14 +43,14 @@ export default Ember.Component.extend(InputMixin, {
      * Handle user updating value
      * @param {Event} e - event
      */
-    'on-change': function (e) {
+    onChange (e) {
       if (!this.get('state.hasUserInteracted')) {
         this.set('state.hasUserInteracted', true)
       }
 
       const newValue = e.value
       const oldValue = this.get('state.value')
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
 
       // If value has not change then there is nothing to do
       if (newValue === oldValue) {

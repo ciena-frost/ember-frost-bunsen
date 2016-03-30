@@ -18,10 +18,10 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
-      'on-cancel': PropTypes.func,
-      'on-change': PropTypes.func,
-      'on-submit': PropTypes.func,
-      'on-validation': PropTypes.func,
+      onCancel: PropTypes.func,
+      onChange: PropTypes.func,
+      onSubmit: PropTypes.func,
+      onValidation: PropTypes.func,
       renderers: PropTypes.oneOf([
         PropTypes.EmberObject,
         PropTypes.object

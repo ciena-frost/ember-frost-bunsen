@@ -19,7 +19,7 @@ describeComponent(
           bunsenId: 'enabled',
           cellConfig: Ember.Object.create({}),
           model: {},
-          'on-change': function () {},
+          onChange: function () {},
           store: Ember.Object.create({}),
           state: Ember.Object.create({value: true})
         })
@@ -38,21 +38,21 @@ describeComponent(
       ]),
       label: PropTypes.string,
       model: PropTypes.object.isRequired,
-      'on-change': PropTypes.func.isRequired,
+      onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired
     })
 
-    describe('when on-change property is omitted', function () {
+    describe('when onChange property is omitted', function () {
       beforeEach(function () {
         Ember.run(() => {
-          component.set('on-change', undefined)
+          component.set('onChange', undefined)
         })
       })
 
-      it('does not throw an error when on-change action is triggered', function () {
+      it('does not throw an error when onChange action is triggered', function () {
         expect(function () {
-          component.get('actions.on-change').call(component)
+          component.get('actions.onChange').call(component)
         }).not.to.throw(Error)
       })
     })

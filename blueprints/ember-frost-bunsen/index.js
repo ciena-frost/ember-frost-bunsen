@@ -4,12 +4,7 @@ module.exports = {
       .then(() => {
         return this.addAddonsToProject({
           packages: [
-            {name: 'ember-frost-theme', target: '^1.2.0'},
-            {name: 'ember-frost-text', target: '^1.2.0'},
-            {name: 'ember-frost-button', target: '^1.4.0'},
-            {name: 'ember-frost-checkbox', target: '^1.1.1'},
-            {name: 'ember-frost-icons', target: '^1.4.0'},
-            {name: 'ember-frost-select', target: '^1.3.1'}
+            {name: 'ember-frost-core', target: '>=0.0.14 <2.0.0'}
           ]
         })
       })

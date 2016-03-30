@@ -18,7 +18,7 @@ describeComponent(
           bunsenId: 'name',
           cellConfig: Ember.Object.create({}),
           model: {},
-          'on-change': function () {},
+          onChange: function () {},
           store: Ember.Object.create({}),
           state: Ember.Object.create({})
         })
@@ -37,7 +37,7 @@ describeComponent(
       ]),
       label: PropTypes.string,
       model: PropTypes.object.isRequired,
-      'on-change': PropTypes.func.isRequired,
+      onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired
     })

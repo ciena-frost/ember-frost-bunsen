@@ -11,7 +11,7 @@ describeComponent(...integrationTestContext('frost-bunsen-row'), function () {
     let props = {
       cellConfigs: [],
       model: {},
-      'on-change': () => {},
+      onChange: () => {},
       store: Ember.Object.create({})
     }
 

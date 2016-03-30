@@ -191,7 +191,7 @@ export default Ember.Component.extend(PropTypeMixin, {
   },
 
   actions: {
-    'on-change': function () {
+    onChange () {
       //
     }
   }

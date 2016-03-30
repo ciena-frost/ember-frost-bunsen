@@ -30,12 +30,12 @@ export default Ember.Component.extend(InputMixin, {
   },
 
   actions: {
-    'on-change': function (e) {
+    onChange (e) {
       const fullName = e.value || e.target.value
       const parts = fullName.split(' ')
       const first = parts[0]
       const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
       const value = {
         first,
         last
