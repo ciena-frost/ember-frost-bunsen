@@ -6,14 +6,25 @@
     {{/if}}
   </div>
   <div class={{inputWrapperClassName}}>
-    {{frost-text
-      class=inputClassName
-      disabled=cellConfig.disabled
-      onInput=(action "onChange")
-      placeholder=cellConfig.placeholder
-      type=inputType
-      value=renderValue
-    }}
+    {{#if (eq inputType 'password')}}
+      {{frost-password
+        class=inputClassName
+        disabled=cellConfig.disabled
+        onInput=(action "onChange")
+        placeholder=cellConfig.placeholder
+        revealable=true
+        value=renderValue
+      }}
+    {{else}}
+      {{frost-text
+        class=inputClassName
+        disabled=cellConfig.disabled
+        onInput=(action "onChange")
+        placeholder=cellConfig.placeholder
+        type=inputType
+        value=renderValue
+      }}
+    {{/if}}
   </div>
 </div>
 {{#if errorMessage}}
