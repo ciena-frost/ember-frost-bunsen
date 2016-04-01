@@ -44,6 +44,7 @@ module.exports = function (environment) {
   if (environment === 'production') {
     ENV.baseURL = '/ember-frost-bunsen'
     ENV.isDemo = true
+    ENV.mirageNamespace = 'https://ciena-frost.github.io'
     ENV['ember-cli-mirage'] = {
       enabled: true
     }
