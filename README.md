@@ -47,7 +47,14 @@ ember install ember-frost-bunsen
 
 ## Examples
 
-### Form View
+ * [Invocation](#invocation)
+ * [Minimal Example](#minimal-example)
+ * [Nested Properties Example](#nested-properties-example)
+ * [Data Types Example](#data-types-example)
+
+### Invocation
+
+#### Form View
 
 ```handlebars
 {{
@@ -57,7 +64,7 @@ ember install ember-frost-bunsen
 }}
 ```
 
-### Detail View
+#### Detail View
 
 ```handlebars
 {{
