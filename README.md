@@ -248,6 +248,9 @@ ember install ember-frost-bunsen
 }
 ```
 
+> Note: In the above view you will notice we specify *label* for the spouse properties
+> to customize the label text rendered in the UI.
+
 ### Custom Validation Example
 
 Bunsen will automatically validate types of most fields, and will flag
