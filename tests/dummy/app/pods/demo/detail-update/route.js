@@ -1,7 +1,8 @@
 import Ember from 'ember'
+const {Route} = Ember
 
-export default Ember.Route.extend({
-  model: function () {
+export default Route.extend({
+  model () {
     /* eslint-disable new-cap */
     return Promise.all([
       this.store.findAll('model')

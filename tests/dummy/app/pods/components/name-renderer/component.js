@@ -1,17 +1,16 @@
 import _ from 'lodash'
-import Ember from 'ember'
-import computed, {readOnly} from 'ember-computed-decorators'
-import InputMixin from 'ember-frost-bunsen/mixins/input'
+import computed from 'ember-computed-decorators'
+import {InputBase} from 'ember-frost-bunsen'
 
-export default Ember.Component.extend(InputMixin, {
+export default InputBase.extend({
   classNames: [
     'container-fluid',
     'name-renderer'
   ],
 
-  @readOnly
-  @computed('state.value')
-  renderValue: function (name) {
+  // FIXME: make readOnly
+  @computed('value')
+  renderValue (name) {
     let value = ''
 
     if (!_.isPlainObject(name)) {
@@ -42,10 +41,7 @@ export default Ember.Component.extend(InputMixin, {
       }
 
       if (onChange) {
-        onChange({
-          id: this.get('bunsenId'),
-          value
-        })
+        onChange(this.get('bunsenId'), value)
       }
 
       this.set('state.value', value)

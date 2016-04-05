@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/frost-bunsen-validation-result/component'
+export {default} from 'ember-frost-bunsen/components/validation-result'

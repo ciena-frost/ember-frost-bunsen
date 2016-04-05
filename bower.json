@@ -1,24 +1,25 @@
 {
   "name": "ember-frost-bunsen",
   "dependencies": {
-    "ember": "~2.3.1",
-    "ember-cli-shims": "0.1.0",
+    "ember": "2.4.4",
+    "ember-cli-shims": "0.1.1",
     "ember-cli-test-loader": "0.2.2",
-    "ember-mocha": "~0.8.11",
+    "ember-mocha": "0.8.11",
     "ember-inflector": "1.3.1",
     "ember-template-compiler": "http://builds.emberjs.com/tags/v2.3.1/ember-template-compiler.js",
-    "Faker": "3.0.1",
-    "lodash": "~4.5.0",
-    "pretender": "^0.12.0",
+    "Faker": "3.1.0",
+    "jquery": "2.2.3",
+    "lodash": "4.9.0",
+    "pretender": "1.0.0",
     "prism": "1.4.1",
     "sinonjs": "1.17.1",
     "z-schema": "3.16.1"
   },
   "resolutions": {
-    "ember": "~2.3.1"
+    "ember": "2.4.4",
+    "jquery": "2.2.3"
   },
   "devDependencies": {
-    "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26",
-    "ember-renderspeed": "^1.0.0-beta"
+    "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26"
   }
 }

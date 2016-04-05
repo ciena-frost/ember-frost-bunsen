@@ -1,0 +1,12 @@
+<a>
+  <span>
+    {{title}}
+    {{#frost-button
+      class="medium tertiary text"
+      id=(concat elementId '-remove')
+      onClick=(action "onRemove")
+    }}
+      Remove
+    {{/frost-button}}
+  </span>
+</a>

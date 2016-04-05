@@ -1,0 +1,50 @@
+<div class="remove-btn-container">
+  {{#frost-button
+    class="medium tertiary text"
+    id=(concat elementId '-remove')
+    onClick=(action "onRemove")
+  }}
+    Remove
+  {{/frost-button}}
+</div>
+<div>
+  {{#if cellConfig.item.renderer}}
+    {{component customRenderer
+      bunsenId=(concat bunsenId '.' index)
+      cellConfig=cellConfig
+      label=label
+      id=(concat elementId '-c')
+      model=model.items
+      onChange=onChange
+      readOnly=readOnly
+      store=store
+      value=value
+    }}
+  {{else if (eq model.items.type "object")}}
+    {{frost-bunsen-model-container
+      bunsenId=(concat bunsenId '.' index)
+      cellConfig=cellConfig.item
+      errors=errors
+      id=(concat elementId '-c')
+      label=label
+      model=model.items
+      onChange=onChange
+      readOnly=readOnly
+      store=store
+      value=value
+    }}
+  {{else}}
+    {{frost-bunsen-input
+      bunsenId=(concat bunsenId '.' index)
+      cellConfig=cellConfig.item
+      errorMessage=errorMessage
+      id=(concat elementId '-c')
+      label=label
+      model=model.items
+      onChange=onChange
+      readOnly=readOnly
+      store=store
+      value=renderValue
+    }}
+  {{/if}}
+</div>

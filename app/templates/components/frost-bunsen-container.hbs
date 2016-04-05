@@ -1,0 +1,45 @@
+{{#if config.label}}
+  {{#frost-bunsen-section
+    className="model-container"
+    collapsible=config.collapsible
+    data-id=bunsenId
+    id=(concat elementId '-s')
+    instructions=config.instructions
+    required=isRequired
+    title=config.label
+  }}
+    <div class={{config.className}}>
+      {{#each config.rows as |row index|}}
+        {{frost-bunsen-row
+          bunsenId=bunsenId
+          cellConfigs=row
+          defaultClassName=config.defaultClassName
+          errors=errors
+          id=(concat elementId '-' index)
+          model=model
+          onChange=onChange
+          readOnly=readOnly
+          store=store
+          value=value
+        }}
+      {{/each}}
+    </div>
+  {{/frost-bunsen-section}}
+{{else}}
+  <div class={{config.className}}>
+    {{#each config.rows as |row index|}}
+      {{frost-bunsen-row
+        bunsenId=bunsenId
+        cellConfigs=row
+        errors=errors
+        defaultClassName=config.defaultClassName
+        id=(concat elementId '-' index)
+        model=model
+        onChange=onChange
+        readOnly=readOnly
+        store=store
+        value=value
+      }}
+    {{/each}}
+  </div>
+{{/if}}

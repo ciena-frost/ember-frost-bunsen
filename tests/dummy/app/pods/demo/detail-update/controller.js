@@ -1,8 +1,9 @@
 import Ember from 'ember'
+const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   selectedModel: null,
   selectedValue: null,
   selectedView: null,
@@ -16,7 +17,7 @@ export default Ember.Controller.extend({
   valueSelectionDisabled: true,
   viewSelectionDisabled: true,
 
-  updateValues: function () {
+  updateValues () {
     const params = {
       modelId: this.get('selectedModel.id')
     }
@@ -30,7 +31,7 @@ export default Ember.Controller.extend({
       })
   },
 
-  updateViews: function () {
+  updateViews () {
     const params = {
       modelId: this.get('selectedModel.id')
     }
@@ -46,13 +47,13 @@ export default Ember.Controller.extend({
 
   @readOnly
   @computed('selectedModel.model')
-  modelCode: function (model) {
+  modelCode (model) {
     return JSON.stringify(model, null, 2)
   },
 
   @readOnly
   @computed('model.models')
-  modelOptions: function (models) {
+  modelOptions (models) {
     return models.map((model) => {
       return {
         label: model.get('label'),
@@ -63,7 +64,7 @@ export default Ember.Controller.extend({
 
   @readOnly
   @computed('model.values')
-  valueOptions: function (values) {
+  valueOptions (values) {
     return values.map((value) => {
       return {
         label: value.get('label'),
@@ -74,13 +75,13 @@ export default Ember.Controller.extend({
 
   @readOnly
   @computed('selectedView.view')
-  viewCode: function (view) {
+  viewCode (view) {
     return JSON.stringify(view, null, 2)
   },
 
   @readOnly
   @computed('model.views')
-  viewOptions: function (views) {
+  viewOptions (views) {
     return views.map((view) => {
       return {
         label: view.get('label'),
@@ -89,24 +90,34 @@ export default Ember.Controller.extend({
     })
   },
 
+  @readOnly
+  @computed('formValue')
+  renderValue (formValue) {
+    return JSON.stringify(formValue, null, 2)
+  },
+
   actions: {
-    onSelectModel: function (selected) {
+    onSelectModel (selected) {
       const selectedModel = this.get('model.models').findBy('id', selected[0])
-      this.set('selectedModel', selectedModel)
-      this.set('selectedValue', null)
-      this.set('selectedView', null)
+
+      this.setProperties({
+        formValue: null,
+        selectedModel: selectedModel,
+        selectedValue: null,
+        selectedView: null,
+        value: null
+      })
+
       this.updateViews()
       this.updateValues()
-      this.set('value', null)
-      this.set('formValue', null)
     },
 
-    onSelectValue: function (selected) {
+    onSelectValue (selected) {
       const selectedValue = this.get('model.values').findBy('id', selected[0])
       this.set('selectedValue', selectedValue)
     },
 
-    onSelectView: function (selected) {
+    onSelectView (selected) {
       const selectedView = this.get('model.views').findBy('id', selected[0])
       this.set('selectedView', selectedView)
     },
