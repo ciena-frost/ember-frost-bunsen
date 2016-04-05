@@ -110,15 +110,6 @@ export default Ember.Component.extend({
       hasUserInteracted: false,
       value: initialValue
     }).create())
-
-    const onChange = this.get('onChange')
-
-    if (onChange && [undefined, null].indexOf(initialValue) === -1) {
-      onChange({
-        id: bunsenId,
-        value: initialValue
-      })
-    }
   },
 
   errorMessage: Ember.computed(function () {
