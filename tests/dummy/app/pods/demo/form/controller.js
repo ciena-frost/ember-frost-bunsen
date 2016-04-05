@@ -46,6 +46,17 @@ export default Ember.Controller.extend({
   },
 
   @readOnly
+  @computed('model.values')
+  valueOptions: function (values) {
+    return values.map((value) => {
+      return {
+        label: value.get('label'),
+        value: value.get('id')
+      }
+    })
+  },
+
+  @readOnly
   @computed('selectedView.view')
   viewCode: function (view) {
     return JSON.stringify(view, null, 2)
@@ -78,6 +89,11 @@ export default Ember.Controller.extend({
     onSelectView: function (selected) {
       const selectedView = this.get('model.views').findBy('id', selected[0])
       this.set('selectedView', selectedView)
+    },
+
+    onSelectValue: function (selected) {
+      const selectedValue = this.get('model.values').findBy('id', selected[0])
+      this.set('selectedValue', selectedValue)
     },
 
     toggleInline: function () {

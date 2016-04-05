@@ -1,10 +1,12 @@
 {{#model-view-selector
   modelOptions=modelOptions
+  viewOptions=viewOptions
+  valueOptions=valueOptions
   onSelectModel=(action "onSelectModel")
   onSelectView=(action "onSelectView")
+  onSelectValue=(action "onSelectValue")
   selectedModel=selectedModel
   selectedView=selectedView
-  viewOptions=viewOptions
   viewSelectionDisabled=viewSelectionDisabled
 }}
   Inline: {{frost-checkbox onInput=(action "toggleInline")}}
