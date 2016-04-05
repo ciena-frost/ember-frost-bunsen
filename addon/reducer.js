@@ -1,29 +1,41 @@
 import _ from 'lodash'
+import {CHANGE_VALUE, VALIDATION_RESOLVED} from './actions'
 
 const INITIAL_VALUE = {
   validationResult: {valid: false, warnings: [], errors: []},
   value: {}
 }
 
+// TODO: Update lodash and get rid of this
+function unset (obj, path) {
+  _.set(obj, path, undefined)
+  const obStr = JSON.stringify(obj)
+  return JSON.parse(obStr)
+}
+
 export default function (state, action) {
   console.log('calling reducer for action: ', action.type)
   switch (action.type) {
-    case 'update':
+    case CHANGE_VALUE:
       const newState = _.cloneDeep(state)
+      const {value, bunsenId} = action
 
-      const newValue = action.value === '' ? undefined : action.value
-      _.set(newState, 'value.' + action.bunsenId, newValue)
-      console.log(JSON.stringify(newState, null, '  '))
+      if (value === '' || (_.isArray(value) && value.length === 0)) {
+        unset(newState.value, bunsenId)
+      } else {
+        _.set(newState, 'value.' + action.bunsenId, value)
+      }
       return newState
-    case 'validate':
+
+    case VALIDATION_RESOLVED:
       const validationState = {
         value: _.cloneDeep(state.value),
         validationResult: action.validationResult
       }
-      console.log(JSON.stringify(validationState, null, '  '))
       return validationState
     case '@@redux/INIT':
       return INITIAL_VALUE
+
     default:
       console.error(`Do not recognize action ${action.type}`)
   }

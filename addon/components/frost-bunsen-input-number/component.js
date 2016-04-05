@@ -132,7 +132,10 @@ export default Ember.Component.extend({
       }
       const reduxStore = this.get('reduxStore')
       const newValue = parseFloat(e.value || e.target.value)
-      reduxStore.dispatch({type: 'update', bunsenId: this.get('bunsenId'), value: newValue})
+      const onChange = this.get('onChange')
+      if (onChange) {
+        onChange(this.get('bunsenId'), newValue)
+      }
     }
   }
 })
