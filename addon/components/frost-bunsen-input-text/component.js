@@ -33,6 +33,7 @@ export default Ember.Component.extend({
     label: PropTypes.string,
     model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    reduxStore: PropTypes.object.isRequired,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired
   },
@@ -103,6 +104,12 @@ export default Ember.Component.extend({
       this.get('initialValue'),
       this.get('model') || {}
     )
+
+    // Note: State must be set in init method so input instances don't share same state
+    this.set('state', Ember.Object.extend({
+      hasUserInteracted: false,
+      value: initialValue
+    }).create())
 
     const onChange = this.get('onChange')
 
