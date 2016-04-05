@@ -1,9 +1,13 @@
 /* global $ */
 import 'ember-frost-bunsen/typedefs'
 
+import redux from 'npm:redux'
+const {createStore} = redux
+
 import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import reducer from '../../reducer'
 
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
@@ -125,6 +129,8 @@ export default Ember.Component.extend(PropTypeMixin, {
     const passedInRenderers = this.get('renderers') || {}
     const renderers = _.assign({}, builtinRenderers, passedInRenderers)
 
+    this.set('reduxStore', createStore(reducer))
+
     this.set('state', Ember.Object.create({
       propValidationResult: Ember.Object.create({
         valid: false,
@@ -195,7 +201,8 @@ export default Ember.Component.extend(PropTypeMixin, {
         results.push(result)
 
         const aggregatedResult = aggregateResults(results)
-        this.set('state.validationResult', aggregatedResult)
+        // TODO: Dispatch an err action
+        // this.set('state.validationResult', aggregatedResult)
         const onValidation = this.get('onValidation')
 
         if (onValidation) {
@@ -205,12 +212,10 @@ export default Ember.Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('model', 'state.{renderers,validationResult,value}', 'renderView')
-  store: function (model, renderers, validationResult, formValue, view) {
+  @computed('model', 'state.{renderers}', 'renderView')
+  store: function (model, renderers, view) {
     return Ember.Object.create({
-      formValue,
       renderers,
-      validationResult,
       view
     })
   },
@@ -227,11 +232,13 @@ export default Ember.Component.extend(PropTypeMixin, {
     return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
   },
 
+  /* TODO
   @readOnly
   @computed('state.validationResult.valid')
   isSubmitBtnDisabled: function (valid) {
     return !valid
   },
+ */
 
   @readOnly
   @computed('cancelLabel', 'renderView', 'submitLabel')
