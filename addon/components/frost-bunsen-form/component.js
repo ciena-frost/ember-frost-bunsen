@@ -129,7 +129,17 @@ export default Ember.Component.extend(PropTypeMixin, {
     const passedInRenderers = this.get('renderers') || {}
     const renderers = _.assign({}, builtinRenderers, passedInRenderers)
 
-    this.set('reduxStore', createStore(reducer))
+    const reduxStore = createStore(reducer)
+    this.set('reduxStore', reduxStore)
+    let validating = false
+    reduxStore.subscribe(() => {
+      if (!validating) {
+        this.validate()
+        validating = true
+      } else {
+        validating = false
+      }
+    })
 
     this.set('state', Ember.Object.create({
       propValidationResult: Ember.Object.create({
@@ -198,9 +208,9 @@ export default Ember.Component.extend(PropTypeMixin, {
 
         const aggregatedResult = aggregateResults(results)
         // TODO: Dispatch an err action
+        this.get('reduxStore').dispatch({type: 'validate', validationResult: aggregatedResult})
         // this.set('state.validationResult', aggregatedResult)
         const onValidation = this.get('onValidation')
-
         if (onValidation) {
           onValidation(aggregatedResult)
         }

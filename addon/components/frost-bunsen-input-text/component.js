@@ -105,6 +105,12 @@ export default Ember.Component.extend({
       this.get('model') || {}
     )
 
+    const reduxStore = this.get('reduxStore')
+
+    reduxStore.subscribe(() => {
+      this.notifyPropertyChange('errorMessage')
+    })
+
     // Note: State must be set in init method so input instances don't share same state
     this.set('state', Ember.Object.extend({
       hasUserInteracted: false,

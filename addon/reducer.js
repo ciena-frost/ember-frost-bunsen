@@ -10,8 +10,18 @@ export default function (state, action) {
   switch (action.type) {
     case 'update':
       const newState = _.cloneDeep(state)
-      _.set(newState, action.bunsenId, action.value)
+
+      const newValue = action.value === '' ? undefined : action.value
+      _.set(newState, 'value.' + action.bunsenId, newValue)
+      console.log(JSON.stringify(newState, null, '  '))
       return newState
+    case 'validate':
+      const validationState = {
+        value: _.cloneDeep(state.value),
+        validationResult: action.validationResult
+      }
+      console.log(JSON.stringify(validationState, null, '  '))
+      return validationState
     case '@@redux/INIT':
       return INITIAL_VALUE
     default:
