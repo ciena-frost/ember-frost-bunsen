@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 const INITIAL_VALUE = {
-  validationResult: {errors: []},
+  validationResult: {valid: false, warnings: [], errors: []},
   value: {}
 }
 

@@ -13,10 +13,11 @@
   <h2 class="demo-header">Rendered Demo</h2>
   {{frost-bunsen-form
     inline=inline
-    model=selectedModel.model
     onChange=(action "onChange")
     renderers=renderers
+    model=selectedModel.model
     view=selectedView.view
+    initialValue=selectedView.value
   }}
 {{/model-view-selector}}
 <div class="demo-code-container">

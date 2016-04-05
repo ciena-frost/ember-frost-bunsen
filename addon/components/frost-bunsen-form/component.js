@@ -137,11 +137,6 @@ export default Ember.Component.extend(PropTypeMixin, {
         errors: Ember.A([]),
         warnings: Ember.A([])
       }),
-      validationResult: Ember.Object.create({
-        valid: false,
-        errors: Ember.A([]),
-        warnings: Ember.A([])
-      }),
       renderers,
       value: this.get('initialValue')
     }))
@@ -188,11 +183,12 @@ export default Ember.Component.extend(PropTypeMixin, {
    * validate the current value of the form against the schema
    */
   validate: function () {
-    const result = validateValue(this.get('state.value'), this.get('renderModel'))
+    const formValue = this.get('reduxStore').getState()['value']
+    const result = validateValue(formValue, this.get('renderModel'))
 
     const promises = []
     this.get('validators').forEach((validator) => {
-      promises.push(validator(this.get('state.value')))
+      promises.push(validator(formValue))
     })
 
     Promise.all(promises)
@@ -267,9 +263,10 @@ export default Ember.Component.extend(PropTypeMixin, {
 
     const segments = id.split('.')
     const idLastSegment = segments.pop()
-    const relativePath = `state.value.${segments.join('.')}`
+    const formValue = this.get('reduxStore').getState()['value']
+    const relativePath = `${segments.join('.')}`
 
-    const relativeObject = this.get(relativePath)
+    const relativeObject = _.get(formValue, relativePath)
     const isArrayItem = /^\d+$/.test(idLastSegment)
 
     if (isArrayItem && !_.isArray(relativeObject)) {
