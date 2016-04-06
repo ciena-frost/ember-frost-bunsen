@@ -77,6 +77,7 @@ export default Ember.Controller.extend({
     onChange (formValue) {
       formValue = JSON.stringify(formValue, null, 2)
       this.set('formValue', formValue)
+      console.log(formValue)
     },
 
     onSelectModel: function (selected) {

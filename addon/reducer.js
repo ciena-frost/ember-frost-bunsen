@@ -17,14 +17,15 @@ export default function (state, action) {
   console.log('calling reducer for action: ', action.type)
   switch (action.type) {
     case CHANGE_VALUE:
-      const newState = _.cloneDeep(state)
+      let newState = _.cloneDeep(state)
       const {value, bunsenId} = action
 
       if (value === '' || (_.isArray(value) && value.length === 0)) {
-        unset(newState.value, bunsenId)
+        newState.value = unset(newState.value, bunsenId)
       } else {
-        _.set(newState, 'value.' + action.bunsenId, value)
+        _.set(newState.value, bunsenId, value)
       }
+      console.log(newState)
       return newState
 
     case VALIDATION_RESOLVED:
