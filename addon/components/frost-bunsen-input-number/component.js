@@ -131,8 +131,11 @@ export default Ember.Component.extend({
         this.set('state.hasUserInteracted', true)
       }
       const reduxStore = this.get('reduxStore')
-      const newValue = e.value
-      reduxStore.dispatch({type: 'update', bunsenId: this.get('bunsenId'), value: newValue})
+      const newValue = parseFloat(e.value || e.target.value)
+      const onChange = this.get('onChange')
+      if (onChange) {
+        onChange(this.get('bunsenId'), newValue)
+      }
     }
   }
 })

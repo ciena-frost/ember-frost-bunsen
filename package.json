@@ -63,11 +63,12 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
-    "ember-computed-decorators": "^0.2.2",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-sass": "^5.2.0",
+    "ember-computed-decorators": "^0.2.2",
     "ember-prop-types": "^1.0.0",
-    "liquid-fire": "^0.23.0"
+    "liquid-fire": "^0.23.0",
+    "redux-thunk": "^2.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

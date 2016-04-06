@@ -8,6 +8,7 @@ import {getLabel, getInitialValue} from '../utils'
 
 import layout from './template'
 
+
 export const defaultClassNames = {
   inputWrapper: 'left-input',
   labelWrapper: 'left-label'
@@ -105,6 +106,12 @@ export default Ember.Component.extend({
       this.get('model') || {}
     )
 
+    const reduxStore = this.get('reduxStore')
+
+    reduxStore.subscribe(() => {
+      this.notifyPropertyChange('errorMessage')
+    })
+
     // Note: State must be set in init method so input instances don't share same state
     this.set('state', Ember.Object.extend({
       hasUserInteracted: false,
@@ -146,9 +153,11 @@ export default Ember.Component.extend({
       if (!this.get('state.hasUserInteracted')) {
         this.set('state.hasUserInteracted', true)
       }
-      const reduxStore = this.get('reduxStore')
       const newValue = e.value
-      reduxStore.dispatch({type: 'update', bunsenId: this.get('bunsenId'), value: newValue})
+      const onChange = this.get('onChange')
+      if (onChange) {
+        onChange(this.get('bunsenId'), newValue)
+      }
     }
   }
 })
