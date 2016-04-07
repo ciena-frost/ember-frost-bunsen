@@ -47,7 +47,15 @@ ember install ember-frost-bunsen
 
 ## Examples
 
-### Form View
+ * [Invocation](#invocation)
+ * [Minimal Example](#minimal-example)
+ * [Nested Properties Example](#nested-properties-example)
+ * [Data Types Example](#data-types-example)
+ * [Custom Validation Example](#custom-validation-example)
+
+### Invocation
+
+#### Form View
 
 ```handlebars
 {{
@@ -57,7 +65,7 @@ ember install ember-frost-bunsen
 }}
 ```
 
-### Detail View
+#### Detail View
 
 ```handlebars
 {{
@@ -242,6 +250,148 @@ ember install ember-frost-bunsen
 
 > Note: In the above view you will notice we specify *label* for the spouse properties
 > to customize the label text rendered in the UI.
+
+### Custom Validation Example
+
+Bunsen will automatically validate types of most fields, and will flag
+missing fields.  We can also pass in a list of custom validation
+functions which let us add additional conditions.
+
+Validators are functions that return a Promise which resolves to a
+POJO which can have one or more error objects.  (This allows async
+actions like checking an API.)  These objects specify both the field
+path (based on the Bunsen View, in case of nested things) and an error
+message:
+
+```javascript
+{
+  value: {
+    errors: [  // can be empty, or contain multiple items
+      {
+        path: '#/vent',
+        message: 'Vent core must be odd-numbered'
+      },
+      {
+        path: '#/blasttype',
+        message: 'Blast type must be either "frogs" or "toads"'
+      }
+    ],
+    warnings: []
+  }
+}
+```
+
+
+#### Bunsen form specification:
+
+**Value (Data to Render)**
+
+```json
+{
+  "palindrome": "tacocat",
+}
+```
+
+**Model**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "palindrome": {"type": "string"}
+  }
+}
+```
+
+**View**
+
+```json
+{
+  "version": "1.0",
+  "type": "form",
+  "rootContainers": {
+    "label": "Main",
+    "id": "main"
+  },
+  "containers": [
+    {
+      "id": "main",
+      "rows": [
+        [
+          {"model": "palindrome"},
+        ]
+      ]
+    }
+  ]
+}
+```
+
+#### Provide custom validators:
+
+Custom validation functions can access all form values, and may
+return multiple error messages (for multiple fields).  Bunsen will
+invoke each validator in the `validators` list you give it with the form's current
+values (on each change), and collate all of the errors together before
+passing to the action you give it as `onValidation`.
+
+```javascript
+function palindromeValidator (values) {
+  // If missing, a value will be undefined in the values object.
+  // Bunsen already flags missing required fields.
+  if (values.palindrome !== undefined) {
+    const palindrome = (values.palindrome || '').replace(' ', '').toLowerCase()
+    const reversed = palindrome.split('').reverse().join('')
+    if (palindrome !== reversed) {
+      return Promise.resolve({
+        value: {
+          errors: [{
+            path: '#/palindrome',
+            message: 'Palindrome field does not read the same forwards as backwards'
+          }],
+          warnings: []
+        }
+      })
+    }
+  }
+  return Promise.resolve({
+    value: {
+      errors: [],
+      warnings: []
+    }
+  })
+}
+
+export default Ember.Component.extend({
+  layout: layout,
+  classNames: ['palindrome-form'],
+
+  model: bunsenModel,
+  view: bunsenView,
+  valid: false,
+  hasError: Ember.computed.notEmpty('error'),
+
+  validators: [
+    palindromeValidator
+  ],
+
+  actions: {
+    onValidation (e) {
+      this.set('valid', e.valid)
+    }
+  }
+})
+```
+
+When invoking Bunsen, specify the `onValidation` and `validators` options:
+```handlebars
+{{
+  frost-bunsen-form
+  model=model
+  onValidation=(action 'onValidation')
+  view=view
+  validators=validators
+}}
+```
 
 ## Development
 ### Setup
