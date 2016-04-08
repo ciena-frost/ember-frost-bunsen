@@ -1,4 +1,4 @@
-{{#unless state.propValidationResult.valid}}
+{{#unless state.propValidationResult.valid}} {{! FIXME }}
   {{frost-bunsen-validation-result model=state.propValidationResult}}
 {{else}}
   <form class="form" onsubmit={{action "onSubmit"}}>
@@ -6,6 +6,7 @@
       cellConfig=cellConfig
       model=renderModel
       onChange=(action "onChange")
+      reduxStore=reduxStore
       store=store
     }}
   </form>

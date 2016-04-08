@@ -7,10 +7,10 @@
   </div>
   <div class={{inputWrapperClassName}}>
     {{frost-checkbox
-      checked=state.value
+      checked=renderValue
       disabled=cellConfig.disabled
       onInput=(action "onChange")
-      value=state.value
+      value=renderValue
     }}
   </div>
 </div>

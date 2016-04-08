@@ -5,15 +5,15 @@
       <div class='required'>Required</div>
     {{/if}}
   </div>
+  {{! TODO: use one-way binding controls? }}
   <div class={{inputWrapperClassName}}>
-    {{!-- TODO: use frost-text? --}}
     {{input
       change=(action "onChange")
       class=(concat "frost-text " inputClassName)
       disabled=cellConfig.disabled
       placeholder=cellConfig.placeholder
       type="number"
-      value=state.value
+      value=renderValue
     }}
   </div>
 </div>

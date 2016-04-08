@@ -1,9 +1,16 @@
 /* global $ */
 import 'ember-frost-bunsen/typedefs'
 
+import redux from 'npm:redux'
+const {createStore, applyMiddleware} = redux
+import thunk from 'npm:redux-thunk'
+const thunkMiddleware = thunk.default
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
+
 import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import reducer from '../../reducer'
 
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from './template'
@@ -13,6 +20,7 @@ import {getButtonLabelDefaults} from '../validator/defaults'
 import validateView, {validateModel, validateValue} from '../validator/index'
 import {aggregateResults} from '../validator/utils'
 import {deemberify, recursiveObjectCreate} from '../utils'
+import {validate} from '../../actions'
 
 const builtinRenderers = {
   PropertyChooser: 'frost-bunsen-property-chooser'
@@ -125,13 +133,24 @@ export default Ember.Component.extend(PropTypeMixin, {
     const passedInRenderers = this.get('renderers') || {}
     const renderers = _.assign({}, builtinRenderers, passedInRenderers)
 
+    const reduxStore = createStoreWithMiddleware(reducer)
+    this.set('reduxStore', reduxStore)
+    reduxStore.subscribe(() => {
+      const state = reduxStore.getState()
+      const {value, validationResult} = state
+      const onChange = this.get('onChange')
+
+      if (onChange) {
+        onChange(value)
+      }
+      const onValidation = this.get('onValidation')
+      if (onValidation) {
+        onValidation(validationResult)
+      }
+    })
+
     this.set('state', Ember.Object.create({
       propValidationResult: Ember.Object.create({
-        valid: false,
-        errors: Ember.A([]),
-        warnings: Ember.A([])
-      }),
-      validationResult: Ember.Object.create({
         valid: false,
         errors: Ember.A([]),
         warnings: Ember.A([])
@@ -178,39 +197,13 @@ export default Ember.Component.extend(PropTypeMixin, {
     this.fixPropTypes()
   },
 
-  /**
-   * validate the current value of the form against the schema
-   */
-  validate: function () {
-    const result = validateValue(this.get('state.value'), this.get('renderModel'))
-
-    const promises = []
-    this.get('validators').forEach((validator) => {
-      promises.push(validator(this.get('state.value')))
-    })
-
-    Promise.all(promises)
-      .then((snapshots) => {
-        const results = _.pluck(snapshots, 'value')
-        results.push(result)
-
-        const aggregatedResult = aggregateResults(results)
-        this.set('state.validationResult', aggregatedResult)
-        const onValidation = this.get('onValidation')
-
-        if (onValidation) {
-          onValidation(aggregatedResult)
-        }
-      })
-  },
+  /**/
 
   @readOnly
-  @computed('model', 'state.{renderers,validationResult,value}', 'renderView')
-  store: function (model, renderers, validationResult, formValue, view) {
+  @computed('model', 'state.{renderers}', 'renderView')
+  store: function (model, renderers, view) {
     return Ember.Object.create({
-      formValue,
       renderers,
-      validationResult,
       view
     })
   },
@@ -227,11 +220,13 @@ export default Ember.Component.extend(PropTypeMixin, {
     return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
   },
 
+  /* TODO
   @readOnly
   @computed('state.validationResult.valid')
   isSubmitBtnDisabled: function (valid) {
     return !valid
   },
+ */
 
   @readOnly
   @computed('cancelLabel', 'renderView', 'submitLabel')
@@ -260,9 +255,10 @@ export default Ember.Component.extend(PropTypeMixin, {
 
     const segments = id.split('.')
     const idLastSegment = segments.pop()
-    const relativePath = `state.value.${segments.join('.')}`
+    const formValue = this.get('reduxStore').getState()['value']
+    const relativePath = `${segments.join('.')}`
 
-    const relativeObject = this.get(relativePath)
+    const relativeObject = _.get(formValue, relativePath)
     const isArrayItem = /^\d+$/.test(idLastSegment)
 
     if (isArrayItem && !_.isArray(relativeObject)) {
@@ -277,44 +273,13 @@ export default Ember.Component.extend(PropTypeMixin, {
   actions: {
     /**
      * Handle when user updates form value
-     * @param {BunsneChangeEvent} e - change event
+     * @param {BunsenChangeEvent} e - change event
      */
-    onChange (e) {
-      const id = e.id
-      const key = `state.value.${id}`
+    onChange (bunsenId, inputValue) {
 
-      if (e.value === '' || (_.isArray(e.value) && e.value.length === 0)) {
-        const segments = key.split('.')
-        const removeKey = segments.pop()
-        const parentKey = segments.join('.')
-        const parentObject = this.get(parentKey)
-
-        if (!parentObject) {
-          return
-        }
-
-        delete parentObject[removeKey]
-        this.notifyPropertyChange(parentKey)
-      } else {
-        this.ensureParent(id)
-        const newValue = e.value
-        const oldValue = this.get(key)
-
-        if (newValue === oldValue) {
-          return
-        }
-
-        this.set(key, newValue)
-      }
-
-      this.validate()
-
-      const value = this.get('state.value')
-      const onChange = this.get('onChange')
-
-      if (onChange) {
-        onChange(value)
-      }
+      const reduxStore = this.get('reduxStore')
+      reduxStore.dispatch(validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators')))
+      // dispatch(dispatcher:(dispatch, onChange)=>{} | {})
     },
 
     /**
