@@ -72,9 +72,11 @@ export default Ember.Component.extend(PropTypeMixin, {
         return 'frost-bunsen-input-number'
       case 'boolean':
         return 'frost-bunsen-input-boolean'
+      case 'select':
+        return 'frost-bunsen-input-select'
       default:
         if (shouldRender) {
-          throw new Error('Only "string", "number", or "boolean" fields are currently supported.')
+          throw new Error('Only "string", "number", "select", or "boolean" fields are currently supported.')
         }
     }
   },
