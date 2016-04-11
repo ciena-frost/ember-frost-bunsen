@@ -165,8 +165,7 @@ export function findValue (obj, valuePath, startPath = '') {
   const valueKey = valueLevels.pop()
   const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
   const absValueKey = [absValuePath, valueKey].join('.')
-  let result = _.get(obj, absValueKey)
-  return result
+  return _.get(obj, absValueKey)
 }
 
 /**
@@ -176,11 +175,9 @@ export function findValue (obj, valuePath, startPath = '') {
  * @returns {String} the populate queryValue
  */
 export function parseOrchFilters (valueObj, queryValue, startPath = '') {
-  const queryFilters = queryValue.split(',')
-  const newQueryFilters = []
-  _.each(queryFilters, (param) => {
+  const newQueryFilters = queryValue.split(',').map((param) => {
     const pieces = param.split(':')
-    newQueryFilters.push(`${pieces[0]}:${parseOrchFilterVariables(valueObj, pieces[1], startPath)}`)
+    return `${pieces[0]}:${parseOrchFilterVariables(valueObj, pieces[1], startPath)}`
   })
   return newQueryFilters.join(',')
 }

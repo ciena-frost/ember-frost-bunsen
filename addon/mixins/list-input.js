@@ -7,7 +7,7 @@ import * as utils from '../components/utils'
 export default Ember.Mixin.create({
   init () {
     this._super(...arguments)
-    this.set('options', [])
+    this.set('options', Ember.A([]))
   },
 
   didReceiveAttrs () {
