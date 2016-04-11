@@ -1,7 +1,6 @@
 <div class="remove-btn-container">
   {{#frost-button
     class="medium tertiary text"
-    id=(concat elementId '-remove')
     onClick=(action "onRemove")
   }}
     Remove
@@ -13,7 +12,6 @@
       bunsenId=(concat bunsenId '.' index)
       cellConfig=cellConfig
       label=label
-      id=(concat elementId '-c')
       model=model.items
       onChange=onChange
       readOnly=readOnly
@@ -25,7 +23,6 @@
       bunsenId=(concat bunsenId '.' index)
       cellConfig=cellConfig.item
       errors=errors
-      id=(concat elementId '-c')
       label=label
       model=model.items
       onChange=onChange
@@ -38,7 +35,6 @@
       bunsenId=(concat bunsenId '.' index)
       cellConfig=cellConfig.item
       errorMessage=errorMessage
-      id=(concat elementId '-c')
       label=label
       model=model.items
       onChange=onChange

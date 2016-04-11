@@ -2,8 +2,6 @@
   {{#frost-bunsen-section
     className="model-container"
     collapsible=config.collapsible
-    data-id=bunsenId
-    id=(concat elementId '-s')
     instructions=config.instructions
     required=isRequired
     title=config.label
@@ -15,7 +13,6 @@
           cellConfigs=row
           defaultClassName=config.defaultClassName
           errors=errors
-          id=(concat elementId '-' index)
           model=model
           onChange=onChange
           readOnly=readOnly
@@ -33,7 +30,6 @@
         cellConfigs=row
         errors=errors
         defaultClassName=config.defaultClassName
-        id=(concat elementId '-' index)
         model=model
         onChange=onChange
         readOnly=readOnly

@@ -15,7 +15,6 @@
       bunsenId=bunsenId
       cellConfig=cellConfig
       errors=errors
-      id=(concat elementId '-' index)
       index=index
       model=model
       onChange=onChange
@@ -35,7 +34,6 @@
     {{#each state.items as |item index|}}
       {{frost-bunsen-array-tab-nav
         cellConfig=cellConfig
-        id=(concat elementId '-t-' index)
         index=index
         model=model
         onRemove=(action "onRemoveItem")
@@ -60,7 +58,6 @@
         bunsenId=bunsenId
         cellConfig=cellConfig
         errors=errors
-        id=(concat elementId '-' index)
         index=index
         model=model
         onChange=onChange
