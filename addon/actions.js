@@ -15,17 +15,12 @@ export function changeValue (bunsenId, value) {
 }
 
 export function updateValidationResults (validationResult) {
-  // Group errors by input
-  let errors = _.groupBy(validationResult.errors, 'path')
-
-  // Filter errors to just be messages not complex objects
-  errors = _.mapValues(errors, (fieldErrors, bunsenId) => _.pluck(fieldErrors, 'message'))
-
-  // Use dot notation for keys instead of slash notation
-  errors = _.mapKeys(errors, (value, key) => getPath(key))
+  const errorsByInput = _.groupBy(validationResult.errors, 'path')
+  const errorsFilteredToMessagesOnly = _.mapValues(errors, (fieldErrors, bunsenId) => _.pluck(fieldErrors, 'message'))
+  const errorsMappedToDotNotation = _.mapKeys(errors, (value, key) => getPath(key))
 
   return {
-    errors,
+    errors: errorsMappedToDotNotation,
     type: VALIDATION_RESOLVED,
     validationResult // FIXME: I can probably go bye bye
   }

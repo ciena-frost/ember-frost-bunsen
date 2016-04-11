@@ -178,10 +178,6 @@ export default Component.extend(PropTypeMixin, {
       const stateItem = deemberify(item)
 
       if (!_.isEqual(stateItem, incomingItem)) {
-        // const incomingItemKeys = Object.keys(incomingItem)
-        // const stateItemKeys = Object.keys(stateItem)
-        // const keysToRemove = stateItemKeys.filter((key) => incomingItemKeys.indexOf(key) < 0)
-
         _.assign(item, incomingItem)
       }
     })
