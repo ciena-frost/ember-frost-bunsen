@@ -15,11 +15,11 @@ function makeProps (props) {
   }, props)
 }
 
-describeComponent(...integrationTestContext('frost-bunsen-input'), function () {
+describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), function () {
   it('renders', function () {
     const props = makeProps()
 
-    renderWithProps(this, 'frost-bunsen-input', props)
+    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
 
     expect(this.$()).to.have.length(1)
   })
@@ -27,7 +27,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input'), function () {
   it('supports string model type', function () {
     const props = makeProps()
 
-    renderWithProps(this, 'frost-bunsen-input', props)
+    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
 
     expect(this.$()).to.have.length(1)
   })
@@ -39,7 +39,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input'), function () {
       }
     })
 
-    renderWithProps(this, 'frost-bunsen-input', props)
+    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
 
     expect(this.$()).to.have.length(1)
   })
@@ -51,7 +51,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input'), function () {
       }
     })
 
-    renderWithProps(this, 'frost-bunsen-input', props)
+    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
 
     expect(this.$()).to.have.length(1)
   })

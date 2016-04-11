@@ -21,9 +21,9 @@
   to
 
   ```javascript
-  import {InputBase} from 'ember-frost-bunsen'
+  import {AbstractInput} from 'ember-frost-bunsen'
 
-  export default InputBase.extend({
+  export default AbstractInput.extend({
     // Custom renderer logic goes here…
   })
   ```

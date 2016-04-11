@@ -1,5 +1,5 @@
 import computed from 'ember-computed-decorators'
-import {InputBase} from 'ember-frost-bunsen'
+import {AbstractInput} from 'ember-frost-bunsen'
 
 /**
  * Parse a string address into it's parts
@@ -19,7 +19,7 @@ function parseAddress (addressStr) {
   }
 }
 
-export default InputBase.extend({
+export default AbstractInput.extend({
   clasNames: [
     'address-renderer',
     'container-fluid'

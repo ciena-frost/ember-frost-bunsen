@@ -16,8 +16,8 @@ export function changeValue (bunsenId, value) {
 
 export function updateValidationResults (validationResult) {
   const errorsByInput = _.groupBy(validationResult.errors, 'path')
-  const errorsFilteredToMessagesOnly = _.mapValues(errors, (fieldErrors, bunsenId) => _.pluck(fieldErrors, 'message'))
-  const errorsMappedToDotNotation = _.mapKeys(errors, (value, key) => getPath(key))
+  const errorsFilteredToMessagesOnly = _.mapValues(errorsByInput, (fieldErrors, bunsenId) => _.pluck(fieldErrors, 'message'))
+  const errorsMappedToDotNotation = _.mapKeys(errorsFilteredToMessagesOnly, (value, key) => getPath(key))
 
   return {
     errors: errorsMappedToDotNotation,

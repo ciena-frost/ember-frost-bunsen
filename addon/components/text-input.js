@@ -1,5 +1,5 @@
 import computed, {readOnly} from 'ember-computed-decorators'
-import Input from './input-base'
+import Input from './abstract-input'
 
 export const defaultClassNames = {
   inputWrapper: 'left-input',

@@ -1,5 +1,5 @@
-import {InputBase} from 'ember-frost-bunsen'
+import {AbstractInput} from 'ember-frost-bunsen'
 
-export default InputBase.extend({
+export default AbstractInput.extend({
   classNames: ['frost-field']
 })

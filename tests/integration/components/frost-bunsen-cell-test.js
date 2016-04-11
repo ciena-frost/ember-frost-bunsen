@@ -60,8 +60,8 @@ function tests (ctx) {
       })
     })
 
-    it('renders a frost-bunsen-input', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input')).to.have.length(1)
+    it('renders a frost-bunsen-input-wrapper', function () {
+      expect(ctx.rootNode.find('.frost-bunsen-input-wrapper')).to.have.length(1)
     })
   })
 

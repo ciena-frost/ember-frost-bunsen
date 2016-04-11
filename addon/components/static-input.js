@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Input from './input-base'
+import Input from './abstract-input'
 
 const PLACEHOLDER = '—'
 

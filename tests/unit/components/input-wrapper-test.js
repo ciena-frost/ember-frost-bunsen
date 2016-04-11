@@ -3,8 +3,8 @@ import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../utils/template'
 
 describeComponent(
-  'frost-bunsen-input',
-  'FrostBunsenInputComponent',
+  'frost-bunsen-input-wrapper',
+  'FrostBunsenInputWrapperComponent',
   {},
   function () {
     validatePropTypes({

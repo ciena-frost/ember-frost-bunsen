@@ -4,7 +4,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 export default Component.extend(PropTypeMixin, {
-  classNames: ['frost-bunsen-input'],
+  classNames: ['frost-bunsen-input-wrapper'],
 
   // Attributes
   propTypes: {

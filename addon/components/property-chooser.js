@@ -1,4 +1,4 @@
-import Input from './input-base'
+import Input from './abstract-input'
 
 export default Input.extend({
   classNames: ['frost-bunsen-property-chooser'],
