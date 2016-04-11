@@ -98,5 +98,35 @@ export default Component.extend(PropTypeMixin, {
     this.set('state', Ember.Object.extend({
       hasUserInteracted: false
     }).create())
+  },
+
+  /**
+   * This should be overriden by inherited inputs to convert the value to the appropriate format
+   * @param {Boolean|String} value - value to parse
+   * @returns {any} parsed value
+   */
+  parseValue (value) {
+    return value
+  },
+
+  actions: {
+    /**
+     * Handle user updating value
+     * @param {Event} e - event
+     */
+    onChange (e) {
+      if (!this.get('state.hasUserInteracted')) {
+        this.set('state.hasUserInteracted', true)
+      }
+
+      const bunsenId = this.get('bunsenId')
+      const newValue = this.parseValue(e.value || e.target.value)
+      const oldValue = this.get('value')
+      const onChange = this.get('onChange')
+
+      if (onChange && !_.isEqual(newValue, oldValue)) {
+        onChange(bunsenId, newValue)
+      }
+    }
   }
 })
