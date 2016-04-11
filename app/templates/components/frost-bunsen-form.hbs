@@ -1,0 +1,43 @@
+{{#if isInvalid}}
+  {{frost-bunsen-validation-result
+    model=state.propValidationResult
+  }}
+{{else}}
+  <form class="form" onsubmit={{action "onSubmit"}}>
+    {{frost-bunsen-container
+      cellConfig=cellConfig
+      errors=errors
+      model=renderModel
+      onChange=(action "onChange")
+      store=store
+      value=value
+    }}
+  </form>
+  {{#if hasButtons}}
+    <div class="form-group button-bar">
+        <div>
+            <div class="pull-right">
+              {{#if onCancel}}
+                <button
+                  class="btn btn-default pull-right"
+                  onClick={{action "onCancel"}}
+                  type="button"
+                >
+                  {buttonLabels.cancel}
+                </button>
+              {{/if}}
+              {{#if onSubmit}}
+                <button
+                  class="btn btn-default pull-right"
+                  disabled={{isSubmitBtnDisabled}}
+                  onClick={{action "onSubmit"}}
+                  type="submit"
+                >
+                  {butonLabels.submit}
+                </button>
+              {{/if}}
+            </div>
+        </div>
+    </div>
+  {{/if}}
+{{/if}}

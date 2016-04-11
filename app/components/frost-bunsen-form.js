@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/frost-bunsen-form/component'
+export {default} from 'ember-frost-bunsen/components/form'

@@ -1,4 +1,5 @@
 const expect = chai.expect
+const {HTMLBars} = Ember
 import _ from 'lodash'
 import Ember from 'ember'
 import {describeComponent} from 'ember-mocha'
@@ -20,7 +21,7 @@ export function renderWithProps (renderer, componentName, props, more) {
   }).join(' ')
 
   const template = `{{${componentName} ${templateOptions} ${more || ''}}}`
-  const compiledTemplate = Ember.HTMLBars.compile(template)
+  const compiledTemplate = HTMLBars.compile(template)
 
   renderer.render(compiledTemplate)
 

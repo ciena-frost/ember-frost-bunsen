@@ -1,0 +1,27 @@
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </div>
+  {{! TODO: use one-way binding controls? }}
+  <div class={{inputWrapperClassName}}>
+    {{input
+      change=(action "onChange")
+      class=(concat "frost-text " inputClassName)
+      disabled=cellConfig.disabled
+      placeholder=cellConfig.placeholder
+      type="number"
+      value=renderValue
+    }}
+  </div>
+</div>
+{{#if errorMessage}}
+  <div class={{labelWrapperClassName}}></div>
+  <div>
+    <div class="error">
+      {{errorMessage}}
+    </div>
+  </div>
+{{/if}}

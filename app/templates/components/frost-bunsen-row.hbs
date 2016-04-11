@@ -1,0 +1,14 @@
+{{#each cellConfigs as |config index|}}
+  {{frost-bunsen-cell
+    bunsenId=bunsenId
+    config=config
+    class=config.className
+    defaultClassName=defaultClassName
+    errors=errors
+    model=model
+    onChange=onChange
+    readOnly=readOnly
+    store=store
+    value=value
+  }}
+{{/each}}

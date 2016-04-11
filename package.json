@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -28,10 +28,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "blanket": "^1.2.3",
+    "ember-browserify": "1.1.8",
     "ember-cli": "^2.4.1",
     "ember-cli-app-version": "^1.0.0",
-    "ember-cli-blanket": "0.9.1",
+    "ember-cli-blanket": "0.9.2",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
@@ -46,9 +46,10 @@
     "ember-export-application-global": "^1.0.4",
     "ember-frost-core": ">=0.0.14 <2.0.0",
     "ember-load-initializers": "^0.5.0",
-    "ember-lodash": "~0.0.6",
-    "ember-mocha": "^0.8.11",
+    "ember-lodash": ">=0.0.6 <2.0.0",
     "ember-prism": "^0.0.7",
+    "ember-prop-types": "^1.1.0",
+    "ember-redux": "^1.0.0",
     "ember-resolver": "^2.0.3",
     "ember-truth-helpers": "^1.2.0",
     "ember-try": "^0.2.0",
@@ -63,11 +64,11 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
-    "ember-computed-decorators": "^0.2.2",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-sass": "^5.2.0",
-    "ember-prop-types": "^1.0.0",
-    "liquid-fire": "^0.23.0"
+    "ember-computed-decorators": "^0.2.2",
+    "liquid-fire": ">=0.23.0 <2.0.0",
+    "redux-thunk": "^2.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

@@ -82,7 +82,6 @@
 /**
  * @typedef BunsenValidationResult
  * @property {BunsenValidationError[]} errors - the errors (if any)
- * @property {Boolean} valid - true if schema was valid, false if not
  * @property {BunsenValidationWarning[]} warnings - the warnings (if any)
  */
 
