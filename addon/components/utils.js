@@ -157,7 +157,15 @@ export function recursiveObjectCreate (object) {
  * @returns {String} the value
  */
 export function findValue (obj, valuePath, startPath = '') {
-  let result = _.get(obj, startPath + valuePath)
+  const depths = startPath.split('.')
+  const valueLevels = valuePath.split('./')
+  const parentLevels = valueLevels.filter((element) => {
+    return element === '.'
+  })
+  const valueKey = valueLevels.pop()
+  const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
+  const absValueKey = [absValuePath, valueKey].join('.')
+  let result = _.get(obj, absValueKey)
   return result
 }
 
@@ -167,13 +175,12 @@ export function findValue (obj, valuePath, startPath = '') {
  * @param {String} queryValue the queryParam value to parse
  * @returns {String} the populate queryValue
  */
-export function parseOrchFilters (valueObj, queryValue) {
+export function parseOrchFilters (valueObj, queryValue, startPath = '') {
   const queryFilters = queryValue.split(',')
   const newQueryFilters = []
   _.each(queryFilters, (param) => {
     const pieces = param.split(':')
-    // look for variables in the value
-    newQueryFilters.push(`${pieces[0]}:${parseOrchFilterVariables(valueObj, pieces[1])}`)
+    newQueryFilters.push(`${pieces[0]}:${parseOrchFilterVariables(valueObj, pieces[1], startPath)}`)
   })
   return newQueryFilters.join(',')
 }
@@ -184,12 +191,11 @@ export function parseOrchFilters (valueObj, queryValue) {
  * @param {String} orchFilter the filter to parse
  * @returns {String} the populated filter
  */
-export function parseOrchFilterVariables (valueObj, orchFilter) {
+export function parseOrchFilterVariables (valueObj, orchFilter, startPath = '') {
   let result = orchFilter
   if (orchFilter.indexOf('${') !== -1) {
     const valueVariable = orchFilter.split('${')[1].split('}')[0]
-    // get the value, using JSONPath, or not
-    result = findValue(valueObj, valueVariable)
+    result = findValue(valueObj, valueVariable, startPath)
   }
   return result
 }
@@ -200,7 +206,7 @@ export function parseOrchFilterVariables (valueObj, orchFilter) {
  * @param {Object} query the definition from the model schema
  * @returns {Object} the populated query
  */
-export function createQuery (valueObj, query) {
+export function createQuery (valueObj, query, startPath = '') {
   const keys = _.keys(query)
   const populatedQuery = {}
   _.each(keys, (key) => {
@@ -208,7 +214,7 @@ export function createQuery (valueObj, query) {
     switch (key) {
       case 'q':
       case 'p':
-        populatedQuery[key] = parseOrchFilters(valueObj, query[key])
+        populatedQuery[key] = parseOrchFilters(valueObj, query[key], startPath)
         break
       default:
         populatedQuery[key] = query[key]

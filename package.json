@@ -28,6 +28,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "blanket": "^1.2.3",
     "ember-cli": "^2.4.1",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-blanket": "0.9.1",
@@ -46,6 +47,7 @@
     "ember-frost-core": ">=0.0.14 <2.0.0",
     "ember-load-initializers": "^0.5.0",
     "ember-lodash": "~0.0.6",
+    "ember-mocha": "^0.8.11",
     "ember-prism": "^0.0.7",
     "ember-resolver": "^2.0.3",
     "ember-truth-helpers": "^1.2.0",
