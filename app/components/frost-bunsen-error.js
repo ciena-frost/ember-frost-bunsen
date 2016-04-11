@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/frost-bunsen-error/component'
+export {default} from 'ember-frost-bunsen/components/error'

@@ -1,6 +1,5 @@
-import Ember from 'ember'
 import computed from 'ember-computed-decorators'
-import InputMixin from 'ember-frost-bunsen/mixins/input'
+import {AbstractInput} from 'ember-frost-bunsen'
 
 /**
  * Parse a string address into it's parts
@@ -20,7 +19,7 @@ function parseAddress (addressStr) {
   }
 }
 
-export default Ember.Component.extend(InputMixin, {
+export default AbstractInput.extend({
   clasNames: [
     'address-renderer',
     'container-fluid'
@@ -28,10 +27,10 @@ export default Ember.Component.extend(InputMixin, {
 
   placeholder: '1383 North McDowell Blvd., Suite 300\nPetaluma, CA 94954',
 
-  @computed('bunsenId', 'store.formValue')
-  renderValue: function (bunsenId) {
+  @computed('bunsenId', 'value')
+  renderValue (bunsenId) {
     let value = ''
-    const address = this.get(`store.formValue.${bunsenId}`)
+    const address = this.get(`value.${bunsenId}`)
 
     if (address.street) {
       value += address.street
@@ -55,13 +54,13 @@ export default Ember.Component.extend(InputMixin, {
   },
 
   actions: {
-    'on-change': function (e) {
+    onChange (e) {
       const id = this.get('bunsenId')
       const value = parseAddress(e.target.value)
-      const onChange = this.get('on-change')
+      const onChange = this.get('onChange')
 
       if (onChange) {
-        onChange({id, value})
+        onChange(id, value)
       }
 
       this.set('state.value', value)

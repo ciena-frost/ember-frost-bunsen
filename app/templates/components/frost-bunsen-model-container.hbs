@@ -1,0 +1,31 @@
+{{#if renderLabel}}
+  {{#frost-bunsen-section
+    className="model-container"
+    collapsible=collapsible
+    instructions=instructions
+    required=isRequired
+    title=renderLabel
+  }}
+    {{frost-bunsen-container
+      bunsenId=bunsenId
+      cellConfig=cellConfig
+      errors=errors
+      model=model
+      onChange=onChange
+      readOnly=readOnly
+      store=store
+      value=value
+    }}
+  {{/frost-bunsen-section}}
+{{else}}
+  {{frost-bunsen-container
+    bunsenId=bunsenId
+    cellConfig=cellConfig
+    errors=errors
+    model=model
+    onChange=onChange
+    readOnly=readOnly
+    store=store
+    value=value
+  }}
+{{/if}}

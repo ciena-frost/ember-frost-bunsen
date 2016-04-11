@@ -1,0 +1,50 @@
+{{#if config.model}}
+  {{#if isSubModelObject}}
+    {{frost-bunsen-model-container
+      bunsenId=renderId
+      cellConfig=config
+      errors=errors
+      model=subModel
+      onChange=onChange
+      readOnly=readOnly
+      required=required
+      store=store
+      value=value
+    }}
+  {{else if isSubModelArray}}
+    {{frost-bunsen-array-container
+      bunsenId=renderId
+      cellConfig=config
+      errors=errors
+      model=subModel
+      onChange=onChange
+      readOnly=readOnly
+      required=required
+      store=store
+      value=value
+    }}
+  {{else}}
+    {{frost-bunsen-input-wrapper
+      bunsenId=renderId
+      cellConfig=config
+      errorMessage=errorMessage
+      model=subModel
+      onChange=onChange
+      readOnly=readOnly
+      required=required
+      store=store
+      value=renderValue
+      isDependencyMet=isDependencyMet
+    }}
+  {{/if}}
+{{else if config.container}}
+  {{frost-bunsen-container
+    cellConfig=config
+    errors=errors
+    model=model
+    onChange=onChange
+    readOnly=readOnly
+    store=store
+    value=value
+  }}
+{{/if}}

@@ -1,0 +1,25 @@
+<div class="heading">
+  {{#if collapsible}}
+    <button onclick={{action "onToggle"}}>
+      {{frost-icon
+        icon="frost/expand-collapse"
+      }}
+    </button>
+  {{/if}}
+  <h3>
+    {{title}}
+  </h3>
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</div>
+<div class="body">
+  {{#if showContent}}
+    {{#if instructions}}
+      <div class="instructions">
+        {{instructions}}
+      </div>
+    {{/if}}
+    {{yield}}
+  {{/if}}
+</div>

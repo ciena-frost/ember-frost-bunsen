@@ -1,9 +1,11 @@
 import Ember from 'ember'
+const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   inline: false,
   selectedModel: null,
+  selectedValue: null,
   selectedView: null,
 
   renderers: {
@@ -12,9 +14,24 @@ export default Ember.Controller.extend({
     NameRenderer: 'name-renderer'
   },
 
+  valueSelectionDisabled: true,
   viewSelectionDisabled: true,
 
-  updateViews: function () {
+  updateValues () {
+    const params = {
+      modelId: this.get('selectedModel.id')
+    }
+
+    this.set('valueSelectionDisabled', true)
+
+    this.store.query('value', params)
+      .then((values) => {
+        this.set('model.values', values)
+        this.set('valueSelectionDisabled', false)
+      })
+  },
+
+  updateViews () {
     const params = {
       modelId: this.get('selectedModel.id')
     }
@@ -30,13 +47,13 @@ export default Ember.Controller.extend({
 
   @readOnly
   @computed('selectedModel.model')
-  modelCode: function (model) {
+  modelCode (model) {
     return JSON.stringify(model, null, 2)
   },
 
   @readOnly
   @computed('model.models')
-  modelOptions: function (models) {
+  modelOptions (models) {
     return models.map((model) => {
       return {
         label: model.get('label'),
@@ -46,14 +63,25 @@ export default Ember.Controller.extend({
   },
 
   @readOnly
+  @computed('model.values')
+  valueOptions (values) {
+    return values.map((value) => {
+      return {
+        label: value.get('label'),
+        value: value.get('id')
+      }
+    })
+  },
+
+  @readOnly
   @computed('selectedView.view')
-  viewCode: function (view) {
+  viewCode (view) {
     return JSON.stringify(view, null, 2)
   },
 
   @readOnly
   @computed('model.views')
-  viewOptions: function (views) {
+  viewOptions (views) {
     return views.map((view) => {
       return {
         label: view.get('label'),
@@ -68,19 +96,30 @@ export default Ember.Controller.extend({
       this.set('formValue', formValue)
     },
 
-    onSelectModel: function (selected) {
+    onSelectModel (selected) {
       const selectedModel = this.get('model.models').findBy('id', selected[0])
-      this.set('selectedModel', selectedModel)
-      this.set('selectedView', null)
+
+      this.setProperties({
+        selectedModel,
+        selectedValue: null,
+        selectedView: null
+      })
+
       this.updateViews()
+      this.updateValues()
     },
 
-    onSelectView: function (selected) {
+    onSelectView (selected) {
       const selectedView = this.get('model.views').findBy('id', selected[0])
       this.set('selectedView', selectedView)
     },
 
-    toggleInline: function () {
+    onSelectValue (selected) {
+      const selectedValue = this.get('model.values').findBy('id', selected[0])
+      this.set('selectedValue', selectedValue)
+    },
+
+    toggleInline () {
       const isInline = this.get('inline')
       this.set('inline', !isInline)
     }

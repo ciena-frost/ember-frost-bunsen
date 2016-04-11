@@ -1,0 +1,81 @@
+<div class="heading">
+  <h3>{{renderLabel}}</h3>
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</div>
+{{#if instructions}}
+  <div class="instructions">
+    {{instructions}}
+  </div>
+{{/if}}
+{{#if inline }}
+  {{#each state.items as |item index|}}
+    {{frost-bunsen-array-inline-item
+      bunsenId=bunsenId
+      cellConfig=cellConfig
+      errors=errors
+      index=index
+      model=model
+      onChange=onChange
+      onRemove=(action "onRemoveItem")
+      readOnly=readOnly
+      store=store
+      value=value
+    }}
+  {{/each}}
+{{else}}
+  {{#if instructions}}
+    <div class="instructions">
+      {{instructions}}
+    </div>
+  {{/if}}
+  <ul class="nav nav-tabs">
+    {{#each state.items as |item index|}}
+      {{frost-bunsen-array-tab-nav
+        cellConfig=cellConfig
+        index=index
+        model=model
+        onRemove=(action "onRemoveItem")
+        store=store
+      }}
+    {{/each}}
+    <li role="presentation">
+      {{#frost-button
+        class="medium tertiary"
+        onClick=(action "onAddItem")
+      }}
+      <div class="icon-text text">
+        {{frost-icon icon='frost/round-add'}}
+        <div class="text">{{addLabel}}</div>
+      </div>
+      {{/frost-button}}
+    </li>
+  </ul>
+  <div class="tab-content">
+    {{#each state.items as |item index|}}
+      {{frost-bunsen-array-tab-content
+        bunsenId=bunsenId
+        cellConfig=cellConfig
+        errors=errors
+        index=index
+        model=model
+        onChange=onChange
+        readOnly=readOnly
+        store=store
+        value=value
+      }}
+    {{/each}}
+  </div>
+{{/if}}
+{{#if inline}}
+  {{#frost-button
+    class="medium tertiary"
+    onClick=(action "onAddItem")
+  }}
+  <div class="icon-text text">
+    {{frost-icon icon='frost/round-add'}}
+    <div class="text">{{addLabel}}</div>
+  </div>
+  {{/frost-button}}
+{{/if}}

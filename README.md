@@ -33,7 +33,6 @@ ember install ember-frost-bunsen
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
 | `cancelLabel` | `string` | No | Text for cancel button |
-| `initialValue` | `Ember.Object` or `object` | No | Value to initialize form with |
 | `inline` | `boolean` | No | Whether or not to render form inline |
 | `model` | `Ember.Object` or `object` | Yes | Value definition |
 | `onCancel` | `Function` | No | Callback for when form is cancelled |
@@ -43,6 +42,7 @@ ember install ember-frost-bunsen
 | `renderers` | `Ember.Object` or `object` | No | Custom renderer template helper mappings |
 | `submitLabel` | `string` | No | Text for submit button |
 | `validators` | `Array<Function>` | No | List of custom validation functions |
+| `value` | `Ember.Object` or `object` | No | Value to initialize form with |
 | `view` | `Ember.Object` or `object` | No | View definition |
 
 ## Examples

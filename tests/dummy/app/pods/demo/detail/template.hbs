@@ -19,6 +19,13 @@
     view=selectedView.view
   }}
   <div class="demo-code-container">
+    {{#if formValue}}
+      <div class="demo-code-block">
+        <h2>Value</h2>
+        {{!-- TODO: why is the below component not updating the formValue --}}
+        <pre class="value-code-block">{{formValue}}</pre>
+      </div>
+    {{/if}}
     {{#if selectedModel}}
       <div class="demo-code-block">
         <h2>Model</h2>

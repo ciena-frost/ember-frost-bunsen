@@ -21,10 +21,6 @@ module.exports = function (defaults) {
   })
 
   switch (app.env) {
-    case 'development':
-      app.import('bower_components/ember-renderspeed/ember-renderspeed.js')
-      break
-
     case 'test':
       app.import('bower_components/ember-template-compiler/index.js')
       break
