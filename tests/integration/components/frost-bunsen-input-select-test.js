@@ -2,7 +2,7 @@ const expect = chai.expect
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach} from 'mocha'
-import {renderWithProps, integrationTestContext} from '../../../utils/template'
+import {renderWithProps, integrationTestContext} from '../../utils/template'
 import _ from 'lodash'
 import $ from 'jquery'
 
@@ -70,14 +70,14 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     stubDbService(this)
 
-    rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+    // rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
   })
 
   it('has correct classes', function () {
     expect(rootNode).to.have.class('frost-bunsen-input-select')
   })
 
-  it('has correct enum of values', function () {
+  it.only('has correct enum of values', function () {
     props.model.set('enum', [
       'foo',
       'bar',
@@ -90,30 +90,30 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       expect(isPresent).to.eql(true)
     })
   })
-  //
-  // it.only('gets async values', function (done) {
-  //   const expected = [
-  //     'Resource 1',
-  //     'Resource 2',
-  //     'Resource 3'
-  //   ]
-  //   props.model.setProperties({
-  //     'modelType': 'resource',
-  //     'labelAttribute': 'label',
-  //     'valueAttribute': 'id',
-  //     'query': {
-  //       resourceTypeId: 'foo.bat.bitz',
-  //       q: 'domainId:${../domainId}',
-  //       p: 'label:fo'
-  //     }
-  //   })
-  //   rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-  //   Ember.run.later(() => {
-  //     _.forEach(expected, (value) => {
-  //       const isPresent = $(rootNode).text().indexOf(Ember.String.capitalize(value)) !== -1
-  //       expect(isPresent).to.eql(true)
-  //       done()
-  //     })
-  //   })
-  // })
+
+  it('gets async values', function (done) {
+    const expected = [
+      'Resource 1',
+      'Resource 2',
+      'Resource 3'
+    ]
+    props.model.setProperties({
+      'modelType': 'resource',
+      'labelAttribute': 'label',
+      'valueAttribute': 'id',
+      'query': {
+        resourceTypeId: 'foo.bat.bitz',
+        q: 'domainId:${../domainId}',
+        p: 'label:fo'
+      }
+    })
+    rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+    Ember.run.later(() => {
+      _.forEach(expected, (value) => {
+        const isPresent = $(rootNode).text().indexOf(Ember.String.capitalize(value)) !== -1
+        expect(isPresent).to.eql(true)
+        done()
+      })
+    })
+  })
 })

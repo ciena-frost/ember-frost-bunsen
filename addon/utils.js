@@ -204,7 +204,7 @@ export function parseOrchFilterVariables (valueObj, orchFilter, startPath = '') 
  * @param {Object} query the definition from the model schema
  * @returns {Object} the populated query
  */
-export function createQuery (valueObj, query, startPath = '') {
+export function createOrchQuery (valueObj, query, startPath = '') {
   const keys = _.keys(query)
   const populatedQuery = {}
   _.each(keys, (key) => {

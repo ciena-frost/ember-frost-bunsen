@@ -1,15 +1,28 @@
-import _ from 'lodash'
+import Input from './abstract-input'
+import * as listUtils from '../list-utils'
 import Ember from 'ember'
-import InputMixin from 'ember-frost-bunsen/mixins/input'
-import ListInputMixin from 'ember-frost-bunsen/mixins/list-input'
-import layout from './template'
+import _ from 'lodash'
 
-export default Ember.Component.extend(InputMixin, ListInputMixin, {
+export default Input.extend({
   classNames: [
     'frost-bunsen-input-select',
     'frost-field'
   ],
-  layout,
+
+  init () {
+    this._super(...arguments)
+    this.set('options', Ember.A([]))
+  },
+
+  didReceiveAttrs () {
+    this._super(...arguments)
+    const modelDef = this.get('model')
+    if (modelDef) {
+      const dbStore = this.get('model.dbStore')
+      this.set('options', listUtils.getOptions(modelDef, dbStore))
+    }
+  },
+
   actions: {
     /**
      * Handle user updating value

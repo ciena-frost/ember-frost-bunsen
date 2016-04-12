@@ -1,6 +1,6 @@
 const expect = chai.expect
 import {describe, it} from 'mocha'
-import * as utils from 'ember-frost-bunsen/components/utils'
+import * as utils from 'ember-frost-bunsen/utils'
 
 describe('utils', () => {
   describe('getModelPath()', () => {
@@ -85,7 +85,7 @@ describe('utils', () => {
       expect(utils.parseOrchFilters(objToMine, queryParamFilter)).to.equal(expected)
     })
 
-    it('properly configures a query object', () => {
+    it('properly configures an Orchestrate query object', () => {
       let startPath = 'fizz.futz.[0].foo'
       let query = {
         resourceType: 'something.this.that',
@@ -97,7 +97,7 @@ describe('utils', () => {
         q: 'label:thing,someId:buzz',
         p: 'orchState:ac,someOtherId:bar'
       }
-      let actual = utils.createQuery(objToMine, query, startPath)
+      let actual = utils.createOrchQuery(objToMine, query, startPath)
       expect(JSON.stringify(actual)).to.equal(JSON.stringify(expected))
     })
   })
