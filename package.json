@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
