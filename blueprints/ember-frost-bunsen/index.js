@@ -2,6 +2,11 @@ module.exports = {
   afterInstall: function () {
     return this.addBowerPackageToProject('z-schema', '3.16.1')
       .then(() => {
+        return this.addPackagesToProject([
+          {name: 'redux', target: '^3.4.0'}
+        ])
+      })
+      .then(() => {
         return this.addAddonsToProject({
           packages: [
             {name: 'ember-browserify', target: '^1.1.8'},
