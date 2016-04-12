@@ -120,7 +120,7 @@ export default Component.extend(PropTypeMixin, {
       }
 
       const bunsenId = this.get('bunsenId')
-      const newValue = this.parseValue(e.value || e.target.value)
+      const newValue = this.parseValue(e.value || _.get(e, 'target.value'))
       const oldValue = this.get('value')
       const onChange = this.get('onChange')
 
