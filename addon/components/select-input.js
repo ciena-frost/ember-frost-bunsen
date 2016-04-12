@@ -19,7 +19,10 @@ export default Input.extend({
     const modelDef = this.get('model')
     if (modelDef) {
       const dbStore = this.get('model.dbStore')
-      this.set('options', listUtils.getOptions(modelDef, dbStore))
+      const promise = listUtils.getOptions(modelDef, dbStore)
+      promise.then((opts) => {
+        this.set('options', opts)
+      })
     }
   },
 
@@ -40,10 +43,10 @@ export default Input.extend({
         return
       }
       if (onChange && _.isFunction(onChange)) {
-        onChange({
-          id: this.get('bunsenId'),
-          value: newValue
-        })
+        onChange(
+          this.get('bunsenId'),
+          newValue
+        )
       }
       this.set('state.value', newValue)
     }

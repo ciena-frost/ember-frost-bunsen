@@ -1,6 +1,12 @@
 import * as utils from './utils'
 import Ember from 'ember'
 
+
+function promiseValue (value) {
+  return new Ember.RSVP.Promise(function (resolve) {
+    resolve(value)
+  })
+}
 /**
  * setOptions - set a list's available options
  * @param  {Object} modelDef the bunsen model definition
@@ -10,11 +16,13 @@ import Ember from 'ember'
 export function getOptions (modelDef, dbStore) {
   const enumDef = modelDef.get('enum')
   const queryDef = modelDef.get('query')
-  let result = []
+  let result
   if (enumDef) {
-    result = getEnumValues(enumDef)
+    result = promiseValue(getEnumValues(enumDef))
   } else if (queryDef) {
     result = getAsyncDataValues(modelDef, queryDef, dbStore)
+  } else {
+    result = promiseValue([])
   }
   return result
 }
