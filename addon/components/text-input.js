@@ -17,22 +17,5 @@ export default Input.extend({
   @computed('cellConfig.properties.type')
   inputType (type) {
     return type || 'text'
-  },
-
-  actions: {
-    /**
-     * Handle user updating value
-     * @param {Event} e - event
-     */
-    onChange (e) {
-      if (!this.get('state.hasUserInteracted')) {
-        this.set('state.hasUserInteracted', true)
-      }
-      const newValue = e.value
-      const onChange = this.get('onChange')
-      if (onChange) {
-        onChange(this.get('bunsenId'), newValue)
-      }
-    }
   }
 })

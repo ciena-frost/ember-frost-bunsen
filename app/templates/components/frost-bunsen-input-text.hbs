@@ -13,7 +13,7 @@
         onInput=(action "onChange")
         placeholder=cellConfig.placeholder
         revealable=true
-        value=value
+        value=(readonly value)
       }}
     {{else}}
       {{frost-text
@@ -22,7 +22,7 @@
         onInput=(action "onChange")
         placeholder=cellConfig.placeholder
         type=inputType
-        value=value
+        value=(readonly value)
       }}
     {{/if}}
   </div>

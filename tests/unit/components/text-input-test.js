@@ -58,7 +58,10 @@ describeComponent(
 
       it('does not throw an error when onChange action is triggered', function () {
         expect(function () {
-          component.get('actions.onChange').call(component, 'name', 'John Doe')
+          const e = {
+            target: 'John'
+          }
+          component.get('actions.onChange').call(component, e)
         }).not.to.throw(Error)
       })
     })

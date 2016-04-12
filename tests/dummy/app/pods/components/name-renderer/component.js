@@ -28,23 +28,14 @@ export default AbstractInput.extend({
     return value
   },
 
-  actions: {
-    onChange (e) {
-      const fullName = e.value || e.target.value
-      const parts = fullName.split(' ')
-      const first = parts[0]
-      const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
-      const onChange = this.get('onChange')
-      const value = {
-        first,
-        last
-      }
+  parseValue (value) {
+    const parts = value.split(' ')
+    const first = parts[0]
+    const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
 
-      if (onChange) {
-        onChange(this.get('bunsenId'), value)
-      }
-
-      this.set('state.value', value)
+    return {
+      first,
+      last
     }
   }
 })

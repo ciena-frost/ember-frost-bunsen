@@ -26,21 +26,5 @@ export default Input.extend({
     }
 
     return value
-  },
-
-  actions: {
-    /**
-     * Handle user toggling state
-     * @param {Event} e - event
-     */
-    onChange (e) {
-      this.set('state.hasUserInteracted', true)
-      const newValue = e.value // FIXME: is this sufficient?
-      const onChange = this.get('onChange')
-
-      if (onChange) {
-        onChange(this.get('bunsenId'), newValue)
-      }
-    }
   }
 })

@@ -1,3 +1,17 @@
+# 4.1
+
+* **Added** default `onChange` action to `AbstractInput` to reduce code required by consumers.
+  Instead of a custom renderer having to define its own `onChange` action it can now just implement
+  a function named `parseValue` that takes in the argument `value` as a `string` and returns this
+  value parsed in whatever format is desired by the custom component. For example the `NumberInput`
+  implements this function like so:
+
+  ```javascript
+  parseValue (value) {
+    return parseFloat(value)
+  }
+  ```
+
 # 4.0
 
 ## Breaking Changes
