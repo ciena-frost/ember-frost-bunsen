@@ -21,13 +21,14 @@ import validateView, {validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 const builtinRenderers = {
-  PropertyChooser: 'frost-bunsen-property-chooser'
+  'PropertyChooser': 'frost-bunsen-property-chooser',
+  'select': 'frost-bunsen-input-select',
+  'multi-select': 'frost-bunsen-input-multi-select'
 }
 
 export default Component.extend(PropTypeMixin, {
   classNameBindings: ['inline:inline:not-inline'],
   classNames: ['frost-bunsen-form'],
-
   propTypes: {
     cancelLabel: PropTypes.string,
     inline: PropTypes.bool,

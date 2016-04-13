@@ -1,12 +1,12 @@
 import * as utils from './utils'
 import Ember from 'ember'
 
-
 function promiseValue (value) {
   return new Ember.RSVP.Promise(function (resolve) {
     resolve(value)
   })
 }
+
 /**
  * setOptions - set a list's available options
  * @param  {Object} modelDef the bunsen model definition
@@ -14,8 +14,8 @@ function promiseValue (value) {
  * @returns {Promise} a promise that resolves to a list of items
  */
 export function getOptions (modelDef, dbStore) {
-  const enumDef = modelDef.get('enum')
-  const queryDef = modelDef.get('query')
+  const enumDef = modelDef.enum
+  const queryDef = modelDef.query
   let result
   if (enumDef) {
     result = promiseValue(getEnumValues(enumDef))
@@ -50,11 +50,11 @@ export function getEnumValues (values = []) {
  */
 export function getAsyncDataValues (modelDef, queryDef, dbStore) {
   const query = utils.createOrchQuery(queryDef)
-  const modelType = modelDef.get('modelType') || 'resources'
+  const modelType = modelDef.modelType || 'resources'
   return dbStore.query(modelType, query).then((resp) => {
     const items = resp.map((resource) => {
-      const labelAttr = modelDef.get('labelAttribute') || 'label'
-      const valueAttr = modelDef.get('valueAttribute') || 'id'
+      const labelAttr = modelDef.labelAttribute || 'label'
+      const valueAttr = modelDef.valueAttribute || 'id'
       const label = resource.get(labelAttr) || resource.get('title')
       const value = resource.get(valueAttr)
       return {

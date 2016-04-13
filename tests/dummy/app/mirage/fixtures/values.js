@@ -12,6 +12,15 @@ export default [
     }
   },
   {
+    id: 'SelectExample',
+    modelIds: ['select'],
+    label: 'Example',
+    value: {
+      enumExample: 'value 1',
+      queryExample: 1
+    }
+  },
+  {
     id: 'Dependencies',
     label: 'Dependencies',
     modelIds: ['dependencies'],

@@ -414,6 +414,40 @@ export default [
     }
   },
   {
+    id: 'select-inputs',
+    label: 'Selects',
+    modelIds: ['select'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample',
+                renderer: 'select'
+              }
+            ],
+            [
+              {
+                model: 'queryExample',
+                renderer: 'select'
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 'simple-grouping',
     label: 'Simple (Grouping)',
     modelIds: ['simple'],

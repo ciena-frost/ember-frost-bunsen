@@ -9,7 +9,8 @@ export default function () {
   ;[
     'models',
     'values',
-    'views'
+    'views',
+    'resources'
   ].forEach((key) => {
     const pluralizedKey = Ember.String.pluralize(key)
 
