@@ -106,7 +106,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {any} parsed value
    */
   parseValue (data) {
-    return data.value || _.get(data, 'target.value')
+    return data.value || _.get(data, 'target.value') || data
   },
 
   actions: {

@@ -37,12 +37,11 @@ export default Input.extend({
    * @returns {Number} parse value
    */
   parseValue (value) {
-<<<<<<< HEAD
-    let result = this._super(value)
-    return parseFloat(result)
-=======
-    const number = parseFloat(value)
-    return _.isFinite(number) ? number : null
->>>>>>> eb6862fd66237c3d5c08fbb6693391215121c0da
+    let result = null
+    if (value !== undefined && value !== null) {
+      const number = parseFloat(this._super(value))
+      result = _.isFinite(number) ? number : null
+    }
+    return result
   }
 })

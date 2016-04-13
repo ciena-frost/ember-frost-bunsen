@@ -30,5 +30,13 @@ export default Input.extend({
     }
 
     return value
+  },
+  /**
+   * Parse value into a number
+   * @param {String} data - value to parse
+   * @returns {Number} parse value
+   */
+  parseValue (data) {
+    return data.value
   }
 })
