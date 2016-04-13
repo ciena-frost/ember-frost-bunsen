@@ -37,6 +37,7 @@ export default Input.extend({
    * @returns {Number} parse value
    */
   parseValue (value) {
-    return parseFloat(value)
+    const number = parseFloat(value)
+    return _.isFinite(number) ? number : null
   }
 })
