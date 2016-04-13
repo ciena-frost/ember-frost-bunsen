@@ -16,10 +16,19 @@ export default Input.extend({
   @computed('value')
   /**
    * Text to render for value
+   * @param {Number} value - value
    * @returns {String} text to render
    */
-  renderValue () {
-    return _.toString(this.get('value'))
+  renderValue (value) {
+    if ([null, undefined].indexOf(value) !== -1) {
+      return ''
+    }
+
+    if (_.isNumber(value)) {
+      return value.toString()
+    }
+
+    return value
   },
 
   /**
@@ -28,7 +37,12 @@ export default Input.extend({
    * @returns {Number} parse value
    */
   parseValue (value) {
+<<<<<<< HEAD
     let result = this._super(value)
     return parseFloat(result)
+=======
+    const number = parseFloat(value)
+    return _.isFinite(number) ? number : null
+>>>>>>> eb6862fd66237c3d5c08fbb6693391215121c0da
   }
 })

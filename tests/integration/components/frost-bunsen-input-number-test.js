@@ -27,7 +27,7 @@ function tests (ctx) {
     const input = ctx.rootNode.find('input')
 
     input.val(setVal)
-    input.change()
+    input.trigger('input')
   })
 }
 

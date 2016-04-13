@@ -42,6 +42,8 @@
   })
   ```
 
+* **Changed** `onChange({id, value})` is now `onChange(id, value)` in custom renderers.
+
 ## Non-Breaking Changes
 
 * Convert internal state management to a Redux store for better maintainability.

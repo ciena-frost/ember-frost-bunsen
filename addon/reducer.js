@@ -46,7 +46,7 @@ export default function (state, action) {
 
       if (bunsenId === null) {
         newState.value = value
-      } else if (value === '' || (_.isArray(value) && value.length === 0)) {
+      } else if ([null, ''].indexOf(value) !== -1 || (_.isArray(value) && value.length === 0)) {
         newState.value = unset(newState.value, bunsenId)
       } else {
         ensureParent(newState, bunsenId)

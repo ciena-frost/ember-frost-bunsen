@@ -1,7 +1,7 @@
 const expect = chai.expect
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
-import {beforeEach} from 'mocha'
+import {beforeEach, describe} from 'mocha'
 import {renderWithProps, integrationTestContext} from '../../utils/template'
 
 describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), function () {
@@ -24,8 +24,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
     expect(rootNode).to.have.class('frost-bunsen-input-boolean')
   })
 
-  /*
-   * FIXME: get tests to pass
   ;[true, false].forEach((initialValue) => {
     describe(`when value is ${initialValue}`, function () {
       beforeEach(function () {
@@ -43,5 +41,4 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
       })
     })
   })
-  */
 })
