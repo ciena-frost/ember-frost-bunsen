@@ -120,7 +120,8 @@ export default Component.extend(PropTypeMixin, {
       }
 
       const bunsenId = this.get('bunsenId')
-      const newValue = this.parseValue(e.value || _.get(e, 'target.value'))
+      const value = e.value !== undefined ? e.value : _.get(e, 'target.value')
+      const newValue = this.parseValue(value)
       const oldValue = this.get('value')
       const onChange = this.get('onChange')
 

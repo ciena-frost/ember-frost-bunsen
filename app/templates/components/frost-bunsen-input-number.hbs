@@ -7,10 +7,10 @@
   </div>
   {{! TODO: use one-way binding controls? }}
   <div class={{inputWrapperClassName}}>
-    {{input
-      change=(action "onChange")
-      class=(concat "frost-text " inputClassName)
+    {{frost-text
+      class=inputClassName
       disabled=cellConfig.disabled
+      onInput=(action "onChange")
       placeholder=cellConfig.placeholder
       type="number"
       value=renderValue
