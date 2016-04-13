@@ -16,10 +16,19 @@ export default Input.extend({
   @computed('value')
   /**
    * Text to render for value
+   * @param {Number} value - value
    * @returns {String} text to render
    */
-  renderValue () {
-    return _.toString(this.get('value'))
+  renderValue (value) {
+    if ([null, undefined].indexOf(value) !== -1) {
+      return ''
+    }
+
+    if (_.isNumber(value)) {
+      return value.toString()
+    }
+
+    return value
   },
 
   /**

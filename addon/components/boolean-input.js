@@ -21,8 +21,12 @@ export default Input.extend({
    * @returns {Boolean} text to render
    */
   checked (value) {
+    if ([null, undefined].indexOf(value) !== -1) {
+      return false
+    }
+
     if (_.isString(value)) {
-      return value === 'true'
+      return value.toLowerCase() === 'true'
     }
 
     return value
