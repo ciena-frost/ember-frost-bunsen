@@ -97,13 +97,15 @@ export default Component.extend(PropTypeMixin, {
    */
   validateProps () {
     const model = this.get('model')
+    const modelPojo = deemberify(model)
     const renderers = this.get('state.renderers') || {}
     const view = this.get('renderView')
+    const viewPojo = deemberify(view)
 
-    let result = validateModel(this.get('model'))
+    let result = validateModel(modelPojo)
 
     if (result.errors.length === 0) {
-      result = validateView(view, model, _.keys(renderers))
+      result = validateView(viewPojo, model, _.keys(renderers))
     }
 
     this.set('state.propValidationResult', result)
