@@ -63,7 +63,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
   let rootNode
   let props
 
-  describe.only('the select input renderer', function () {
+  describe('the select input renderer', function () {
     beforeEach(function () {
       stubDbService(this)
       props = {
