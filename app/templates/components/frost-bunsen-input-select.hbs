@@ -8,9 +8,9 @@
   {{frost-select
     disabled=cellConfig.disabled
     onInput=(action "onChange")
-    change=(action "onChange")
+    onChange=(action "onChange")
     data=options
-    selected=selectedOptions
+    selectedValue=value
   }}
 </div>
 {{#if errorMessage}}

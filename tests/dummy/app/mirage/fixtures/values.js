@@ -17,7 +17,7 @@ export default [
     label: 'Example',
     value: {
       enumExample: 'value 1',
-      queryExample: 1
+      queryExample: '1'
     }
   },
   {

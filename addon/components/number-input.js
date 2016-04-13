@@ -28,6 +28,7 @@ export default Input.extend({
    * @returns {Number} parse value
    */
   parseValue (value) {
-    return parseFloat(value)
+    let result = this._super(value)
+    return parseFloat(result)
   }
 })

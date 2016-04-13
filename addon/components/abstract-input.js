@@ -102,25 +102,25 @@ export default Component.extend(PropTypeMixin, {
 
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
-   * @param {Boolean|String} value - value to parse
+   * @param {Boolean|String} data - value to parse
    * @returns {any} parsed value
    */
-  parseValue (value) {
-    return value
+  parseValue (data) {
+    return data.value || _.get(data, 'target.value')
   },
 
   actions: {
     /**
      * Handle user updating value
-     * @param {Event} e - event
+     * @param {Event} data - event
      */
-    onChange (e) {
+    onChange (data) {
       if (!this.get('state.hasUserInteracted')) {
         this.set('state.hasUserInteracted', true)
       }
 
       const bunsenId = this.get('bunsenId')
-      const newValue = this.parseValue(e.value || _.get(e, 'target.value'))
+      const newValue = this.parseValue(data)
       const oldValue = this.get('value')
       const onChange = this.get('onChange')
 

@@ -27,5 +27,14 @@ export default Input.extend({
         this.set('options', opts)
       })
     }
+  },
+
+  /**
+   * This should be overriden by inherited inputs to convert the value to the appropriate format
+   * @param {Boolean|String} data - value to parse
+   * @returns {any} parsed value
+   */
+  parseValue (data) {
+    return data[0]
   }
 })

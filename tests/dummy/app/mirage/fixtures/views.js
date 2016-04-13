@@ -414,8 +414,8 @@ export default [
     }
   },
   {
-    id: 'select-inputs',
-    label: 'Selects',
+    id: 'select-form',
+    label: 'Select Form',
     modelIds: ['select'],
     view: {
       version: '1.0',
@@ -440,6 +440,38 @@ export default [
               {
                 model: 'queryExample',
                 renderer: 'select'
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    id: 'select-detail',
+    label: 'Select Detail',
+    modelIds: ['select'],
+    view: {
+      version: '1.0',
+      type: 'detail',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample'
+              }
+            ],
+            [
+              {
+                model: 'queryExample'
               }
             ]
           ]
