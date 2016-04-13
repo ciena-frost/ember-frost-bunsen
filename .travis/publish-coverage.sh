@@ -6,4 +6,4 @@ then
   exit 0
 fi
 
-cat coverage/lcov.info | coveralls
+cat ../coverage/lcov.info | coveralls
