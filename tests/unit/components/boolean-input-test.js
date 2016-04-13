@@ -65,5 +65,28 @@ describeComponent(
         }).not.to.throw(Error)
       })
     })
+
+    describe('checked', function () {
+      [
+        {in: null, out: false},
+        {in: undefined, out: false},
+        {in: false, out: false},
+        {in: true, out: true},
+        {in: 'false', out: false},
+        {in: 'true', out: true},
+        {in: 'False', out: false},
+        {in: 'True', out: true},
+        {in: 'FALSE', out: false},
+        {in: 'TRUE', out: true}
+      ].forEach((test) => {
+        it(`returns ${test.out} when value is ${test.in} (${typeof test.in})`, function () {
+          run(() => {
+            component.set('value', test.in)
+          })
+
+          expect(component.get('checked')).to.equal(test.out)
+        })
+      })
+    })
   }
 )
