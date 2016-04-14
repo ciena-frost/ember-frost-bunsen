@@ -62,7 +62,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail'],
+      classNames: ['frost-bunsen-detail', 'inline'],
       renderers: {},
       validators: [],
       value: null
