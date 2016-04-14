@@ -193,11 +193,12 @@ export default Component.extend(PropTypeMixin, {
 
     const reduxStore = this.get('reduxStore')
     const value = this.get('value')
-    const hasValueChanged = !_.isEqual(value, reduxStore.getState().value)
+    const pojoValue = isEmberObject(value) ? deemberify(value) : value
+    const hasValueChanged = !_.isEqual(pojoValue, reduxStore.getState().value)
 
     if (hasValueChanged) {
       reduxStore.dispatch(
-        validate(null, value || {}, this.get('renderModel'), this.get('validators'))
+        validate(null, pojoValue || {}, this.get('renderModel'), this.get('validators'))
       )
     }
 
