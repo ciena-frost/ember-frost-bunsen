@@ -1,14 +1,29 @@
-import Ember from 'ember'
+import _ from 'lodash'
 import AbstractInput from './abstract-input'
 
 export default AbstractInput.extend({
   classNames: ['frost-bunsen-property-chooser'],
 
-  init () {
-    this._super(...arguments)
-    this.set('state', Ember.Object.create({
-      value: null
-    }))
+  getDefaultProps () {
+    return _.assign(this._super(), {
+      useKey: null
+    })
+  },
+
+  didReceiveAttrs () {
+    const dependencies = this.get('model.dependencies')
+    const useKey = this.get('useKey')
+    const value = this.get('value')
+
+    if (!value) {
+      return
+    }
+
+    Object.keys(dependencies).forEach((key) => {
+      if (key in value && useKey !== key) {
+        this.set('useKey', key)
+      }
+    })
   },
 
   actions: {
@@ -20,7 +35,7 @@ export default AbstractInput.extend({
       const bunsenId = this.get('bunsenId')
       const newValue = e.target.value
       const onChange = this.get('onChange')
-      const oldValue = this.get('state.value')
+      const oldValue = this.get('useKey')
 
       if (onChange) {
         if (oldValue) {
@@ -32,7 +47,7 @@ export default AbstractInput.extend({
         }
       }
 
-      this.set('state.value', newValue)
+      this.set('useKey', newValue)
     }
   }
 })

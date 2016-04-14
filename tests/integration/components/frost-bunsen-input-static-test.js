@@ -26,7 +26,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
     expect(rootNode).to.have.class('frost-bunsen-input-static')
   })
 
-  it('display the value contained in the component state', function () {
+  it('displays the value passed in', function () {
     let displayedValue = this.$('.left-input p').html()
 
     expect(displayedValue).to.equal(TEST_VALUE)
