@@ -142,27 +142,24 @@ export default Component.extend(PropTypeMixin, {
     return type === 'object' && !renderer
   },
 
-  didReceiveAttrs () {
-    const bunsenId = this.get('renderId')
-    const cellConfig = this.get('config')
-    const value = this.get('value')
-
-    if (cellConfig && cellConfig.dependsOn !== undefined) {
-      this.set('isDependencyMet', this.getIsDependencyMet(bunsenId, cellConfig, value))
-    }
-  },
-
+  @readOnly
+  @computed('config', 'renderId', 'value')
   /**
    * Whether or not input's dependency is met
+   * @param {BunsenCell} cellConfig - cell configuration for input
    * @param {String} bunsenId - bunsen ID for input
-   * @param {BunsenCell} cell - cell configuration for input
    * @param {Object} value - current value of form
    * @returns {Boolean} whether or not dependency is met
    */
-  getIsDependencyMet (bunsenId, cell, value) {
-    const dependencyId = bunsenId.replace(cell.model, cell.dependsOn)
+  isDependencyMet (cellConfig, bunsenId, value) {
+    if (!cellConfig || cellConfig.dependsOn === undefined) {
+      return null
+    }
+
+    const dependencyId = bunsenId.replace(cellConfig.model, cellConfig.dependsOn)
     const dependencyValue = _.get(value, dependencyId)
-    return (dependencyValue !== undefined)
+
+    return dependencyValue !== undefined
   },
 
   init () {

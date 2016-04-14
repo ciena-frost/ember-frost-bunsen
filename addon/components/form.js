@@ -34,6 +34,14 @@ const builtInRenderers = {
 }
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNameBindings: ['inline:inline:not-inline'],
   classNames: ['frost-bunsen-form'],
 
@@ -68,24 +76,14 @@ export default Component.extend(PropTypeMixin, {
   getDefaultProps () {
     return {
       renderers: {},
-      validators: []
+      validators: [],
+      value: null
     }
   },
 
-  /**
-   * Get the view (from props or from generator)
-   *
-   * @param {BunsenView} view - the view to use (if given)
-   * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
-   * @returns {BunsenView} the view
-   */
-  getView (view, model) {
-    if (!_.isEmpty(view)) {
-      return view
-    }
-
-    return getDefaultView(model)
-  },
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('renderers')
@@ -95,11 +93,9 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('model', 'view')
-  renderView (model, view) {
-    return recursiveObjectCreate(
-      this.getView(view, model)
-    )
+  @computed('onCancel', 'onSumbit')
+  hasButtons (onCancel, onSubmit) {
+    return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
   },
 
   @readOnly
@@ -108,8 +104,107 @@ export default Component.extend(PropTypeMixin, {
     return !_.isEmpty(propValidationResult.errors)
   },
 
+  @readOnly
+  @computed('errors')
+  renderErrors (errors) {
+    return errors || {}
+  },
+
+  @readOnly
+  @computed('model')
+  renderModel (model) {
+    return dereference(model || {}).schema
+  },
+
+  @readOnly
+  @computed('model', 'view')
   /**
-   * Validate the model given as attributes
+   * Get the view to render (generate one if consumer doesn't supply a view)
+   * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
+   * @param {BunsenView} view - the view to use (if given)
+   * @returns {BunsenView} the view to render
+   */
+  renderView (model, view) {
+    view = !_.isEmpty(view) ? view : getDefaultView(model)
+    return isEmberObject(view) ? view : recursiveObjectCreate(view)
+  },
+
+  @readOnly
+  @computed('cancelLabel', 'renderView', 'submitLabel')
+  buttonLabels (cancelLabel, view, submitLabel) {
+    return _.defaults(
+      {
+        cancel: cancelLabel,
+        submit: submitLabel
+      },
+      view.buttonLabels,
+      getButtonLabelDefaults()
+    )
+  },
+
+  @readOnly
+  @computed('renderView')
+  cellConfig () {
+    return this.get('renderView.rootContainers.0')
+  },
+
+  @readOnly
+  @computed('allRenderers', 'renderView')
+  /**
+   * Get store
+   * @param {Object} renderers - renderer to component mapping
+   * @param {BunsenView} view - view being rendered
+   * @returns {Object} store
+   */
+  store (renderers, view) {
+    return Ember.Object.create({
+      formValue: this.get('reduxStore').getState().value,
+      renderers,
+      view
+    })
+  },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  /**
+   * Keep UI in sync with updates to redux store
+   */
+  storeUpdated () {
+    const onChange = this.get('onChange')
+    const onValidation = this.get('onValidation')
+    const state = this.get('reduxStore').getState()
+    const {errors, validationResult, value} = state
+
+    this.setProperties({
+      errors,
+      renderValue: value || {}
+    })
+
+    if (onChange) {
+      onChange(value)
+    }
+
+    if (onValidation) {
+      onValidation(validationResult)
+    }
+  },
+
+  /**
+   * Setup redux store
+   */
+  init () {
+    this._super()
+
+    const reduxStore = createStoreWithMiddleware(reducer)
+
+    this.set('reduxStore', reduxStore)
+    reduxStore.subscribe(this.storeUpdated.bind(this))
+  },
+
+  /**
+   * Validate properties
    */
   validateProps () {
     const model = this.get('model')
@@ -127,49 +222,27 @@ export default Component.extend(PropTypeMixin, {
     this.set('propValidationResult', result)
   },
 
-  storeUpdated () {
-    const onChange = this.get('onChange')
-    const onValidation = this.get('onValidation')
-    const state = this.get('reduxStore').getState()
-    const {errors, validationResult, value} = state
-
-    this.setProperties({
-      errors,
-      renderValue: value
-    })
-
-    if (onChange) {
-      onChange(value)
-    }
-
-    if (onValidation) {
-      onValidation(validationResult)
-    }
-  },
-
   /**
-   * Validate model and view when we first get them
+   * Keep value in sync with store and validate properties
    */
-  init () {
-    this._super()
+  didReceiveAttrs () {
+    this._super(...arguments)
 
-    const reduxStore = createStoreWithMiddleware(reducer)
+    const reduxStore = this.get('reduxStore')
+    const value = this.get('value')
+    const hasValueChanged = !_.isEqual(value, reduxStore.getState().value)
 
-    this.set('reduxStore', reduxStore)
-
-    reduxStore.subscribe(this.storeUpdated.bind(this))
-
-    const value = this.get('value') || {}
-
-    reduxStore.dispatch(
-      validate(null, value, this.get('renderModel'), this.get('validators'))
-    )
+    if (hasValueChanged) {
+      reduxStore.dispatch(
+        validate(null, value || {}, this.get('renderModel'), this.get('validators'))
+      )
+    }
 
     this.validateProps()
   },
 
   /**
-   * After render select first input
+   * After render select first input unless something else already has focus on page
    */
   didRender () {
     // If there is already an element in focus do nothing
@@ -181,90 +254,13 @@ export default Component.extend(PropTypeMixin, {
     this.$(':input:enabled:visible:first').focus()
   },
 
-  /**
-   * Validate model and view when we get updated ones
-   */
-  didUpdateAttrs () {
-    this._super(...arguments)
+  // ==========================================================================
+  // Events
+  // ==========================================================================
 
-    this.validateProps()
-
-    const reduxStore = this.get('reduxStore')
-    const value = this.get('value')
-
-    // If consumer is not managing value or value matches internal value then there is nothing to do
-    if (value === undefined || _.isEqual(value, reduxStore.getState().value)) {
-      return
-    }
-
-    reduxStore.dispatch(
-      validate(null, value, this.get('renderModel'), this.get('validators'))
-    )
-  },
-
-  @readOnly
-  @computed('model', 'allRenderers', 'renderView')
-  store (model, renderers, view) {
-    return Ember.Object.create({
-      formValue: this.get('reduxStore').getState().value,
-      renderers,
-      view
-    })
-  },
-
-  @readOnly
-  @computed('renderView')
-  cellConfig () {
-    return this.get('renderView.rootContainers.0')
-  },
-
-  @readOnly
-  @computed('onCancel', 'onSumbit')
-  hasButtons (onCancel, onSubmit) {
-    return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
-  },
-
-  @readOnly
-  @computed('cancelLabel', 'renderView', 'submitLabel')
-  buttonLabels (cancelLabel, view, submitLabel) {
-    return _.defaults(
-      {
-        cancel: cancelLabel,
-        submit: submitLabel
-      },
-      view.buttonLabels,
-      getButtonLabelDefaults()
-    )
-  },
-
-  @readOnly
-  @computed('model')
-  renderModel (model) {
-    return dereference(model || {}).schema
-  },
-
-  ensureParent (id) {
-    // If id does not have a parent the nothing to do
-    if (_.isEmpty(id) || id.indexOf('.') === -1) {
-      return
-    }
-
-    const segments = id.split('.')
-    const idLastSegment = segments.pop()
-    const formValue = this.get('reduxStore').getState().value
-    const relativePath = `${segments.join('.')}`
-
-    const relativeObject = _.get(formValue, relativePath)
-    const isArrayItem = /^\d+$/.test(idLastSegment)
-
-    if (isArrayItem && !_.isArray(relativeObject)) {
-      this.ensureParent(segments.join('.'))
-      this.set(relativePath, [])
-    } else if (!isArrayItem && !_.isPlainObject(relativeObject)) {
-      this.ensureParent(segments.join('.'))
-      this.set(relativePath, {})
-    }
-  },
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 
   actions: {
     /**
@@ -274,6 +270,7 @@ export default Component.extend(PropTypeMixin, {
      */
     onChange (bunsenId, inputValue) {
       const reduxStore = this.get('reduxStore')
+
       reduxStore.dispatch(
         validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'))
       )
@@ -285,10 +282,12 @@ export default Component.extend(PropTypeMixin, {
      */
     onSubmit (e) {
       e.preventDefault()
+
       const onSubmit = this.get('onSubmit')
+      const renderValue = this.get('renderValue')
 
       if (onSubmit) {
-        onSubmit(this.get('renderValue'))
+        onSubmit(renderValue)
       }
     }
   }

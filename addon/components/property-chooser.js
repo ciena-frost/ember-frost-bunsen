@@ -1,29 +1,21 @@
-import _ from 'lodash'
+import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 
 export default AbstractInput.extend({
   classNames: ['frost-bunsen-property-chooser'],
 
-  getDefaultProps () {
-    return _.assign(this._super(), {
-      useKey: null
-    })
-  },
-
-  didReceiveAttrs () {
-    const dependencies = this.get('model.dependencies')
-    const useKey = this.get('useKey')
-    const value = this.get('value')
-
-    if (!value) {
-      return
+  @readOnly
+  @computed('model.dependencies', 'value')
+  useKey (dependencies, value) {
+    if (value) {
+      for (let key in dependencies) {
+        if (dependencies.hasOwnProperty(key) && key in value) {
+          return key
+        }
+      }
     }
 
-    Object.keys(dependencies).forEach((key) => {
-      if (key in value && useKey !== key) {
-        this.set('useKey', key)
-      }
-    })
+    return null
   },
 
   actions: {
@@ -46,8 +38,6 @@ export default AbstractInput.extend({
           onChange(`${bunsenId}.${newValue}`, 'selected')
         }
       }
-
-      this.set('useKey', newValue)
     }
   }
 })
