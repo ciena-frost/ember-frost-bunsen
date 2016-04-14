@@ -1,7 +1,15 @@
-import Input from './abstract-input'
+import Ember from 'ember'
+import AbstractInput from './abstract-input'
 
-export default Input.extend({
+export default AbstractInput.extend({
   classNames: ['frost-bunsen-property-chooser'],
+
+  init () {
+    this._super(...arguments)
+    this.set('state', Ember.Object.create({
+      value: null
+    }))
+  },
 
   actions: {
     /**
