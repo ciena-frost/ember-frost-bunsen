@@ -1,7 +1,7 @@
 {
   "name": "ember-frost-bunsen",
   "dependencies": {
-    "ember": "2.4.4",
+    "ember": "2.5.0",
     "ember-cli-shims": "0.1.1",
     "ember-cli-test-loader": "0.2.2",
     "ember-mocha": "0.8.11",
@@ -17,7 +17,7 @@
     "perfect-scrollbar": ">=0.6.7 <2.0.0"
   },
   "resolutions": {
-    "ember": "2.4.4",
+    "ember": "2.5.0",
     "jquery": "2.2.3"
   },
   "devDependencies": {
