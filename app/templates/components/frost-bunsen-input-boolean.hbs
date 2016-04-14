@@ -9,15 +9,17 @@
     {{frost-checkbox
       checked=checked
       disabled=cellConfig.disabled
+      onBlur=(action "onBlur")
+      onFocus=(action "onFocus")
       onInput=(action "onChange")
     }}
   </div>
 </div>
-{{#if errorMessage}}
+{{#if renderErrorMessage}}
   <div>
     <div class={{labelWrapperClassName}}></div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   </div>
 {{/if}}

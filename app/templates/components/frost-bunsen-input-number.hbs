@@ -10,6 +10,8 @@
     {{frost-text
       class=inputClassName
       disabled=cellConfig.disabled
+      onBlur=(action "onBlur")
+      onFocus=(action "onFocus")
       onInput=(action "onChange")
       placeholder=cellConfig.placeholder
       type="number"
@@ -17,11 +19,11 @@
     }}
   </div>
 </div>
-{{#if errorMessage}}
-  <div class={{labelWrapperClassName}}></div>
+{{#if renderErrorMessage}}
   <div>
+    <div class={{labelWrapperClassName}}></div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   </div>
 {{/if}}

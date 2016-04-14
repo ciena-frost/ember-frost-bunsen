@@ -49,6 +49,24 @@ describeComponent(
       ])
     })
 
+    it('onBlur action sets showErrorMessages to true', function () {
+      run(() => {
+        component.set('showErrorMessages', true)
+      })
+
+      component.get('actions.onBlur').call(component)
+      expect(component.get('showErrorMessages')).to.be.truthy
+    })
+
+    it('onFocus action sets showErrorMessages to false', function () {
+      run(() => {
+        component.set('showErrorMessages', false)
+      })
+
+      component.get('actions.onFocus').call(component)
+      expect(component.get('showErrorMessages')).to.be.truthy
+    })
+
     describe('when onChange property is omitted', function () {
       beforeEach(function () {
         run(() => {

@@ -10,6 +10,8 @@
       {{frost-password
         class=inputClassName
         disabled=cellConfig.disabled
+        onBlur=(action "onBlur")
+        onFocus=(action "onFocus")
         onInput=(action "onChange")
         placeholder=cellConfig.placeholder
         revealable=true
@@ -19,6 +21,8 @@
       {{frost-text
         class=inputClassName
         disabled=cellConfig.disabled
+        onBlur=(action "onBlur")
+        onFocus=(action "onFocus")
         onInput=(action "onChange")
         placeholder=cellConfig.placeholder
         type=inputType
@@ -27,11 +31,11 @@
     {{/if}}
   </div>
 </div>
-{{#if errorMessage}}
+{{#if renderErrorMessage}}
   <div>
     <div class={{labelWrapperClassName}}></div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   </div>
 {{/if}}
