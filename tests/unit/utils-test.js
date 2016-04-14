@@ -71,18 +71,10 @@ describe('utils', () => {
       expect(utils.findValue(objToMine, valuePath, startPath)).to.equal(expected)
     })
 
-    it('parses and gets a variable in an orch-style query param', () => {
-      let filterValue = '${fizz.futz[0].foo}'
-      const expected = 'bar'
-      expect(utils.parseOrchFilterVariables(objToMine, filterValue)).to.equal(expected)
-      filterValue = 'fizzBuzz'
-      expect(utils.parseOrchFilterVariables(objToMine, filterValue)).to.equal(filterValue)
-    })
-
     it('populates variables in orch-style query params ', () => {
-      let queryParamFilter = 'something:${fizz.futz[0].foo}'
-      const expected = 'something:bar'
-      expect(utils.parseOrchFilters(objToMine, queryParamFilter)).to.equal(expected)
+      let query = {something: '${fizz.futz[0].foo}'}
+      const expected = '{"something":"bar"}'
+      expect(utils.parseVariables(objToMine, JSON.stringify(query))).to.equal(expected)
     })
 
     it('properly configures an Orchestrate query object', () => {
@@ -97,7 +89,7 @@ describe('utils', () => {
         q: 'label:thing,someId:buzz',
         p: 'orchState:ac,someOtherId:bar'
       }
-      let actual = utils.createOrchQuery(objToMine, query, startPath)
+      let actual = utils.populateQuery(objToMine, query, startPath)
       expect(JSON.stringify(actual)).to.equal(JSON.stringify(expected))
     })
   })

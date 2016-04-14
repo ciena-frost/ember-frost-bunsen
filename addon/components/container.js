@@ -43,10 +43,6 @@ export default Component.extend(PropTypeMixin, {
     return result
   },
 
-  didReceiveAttrs () {
-    console.log(arguments)
-  },
-
   // TODO: figure out why we can't use @readOnly
   @computed('model')
   /**

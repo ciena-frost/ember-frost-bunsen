@@ -8,27 +8,24 @@ function promiseValue (value) {
 }
 
 /**
- * setOptions - set a list's available options
+ * set a list's available options
  * @param  {Object} modelDef the bunsen model definition
  * @param  {Object} dbStore the ember-data store
  * @returns {Promise} a promise that resolves to a list of items
  */
-export function getOptions (modelDef, dbStore) {
+export function getOptions (value, modelDef, bunsenId, dbStore) {
   const enumDef = modelDef.enum
   const queryDef = modelDef.query
-  let result
   if (enumDef) {
-    result = promiseValue(getEnumValues(enumDef))
+    return promiseValue(getEnumValues(enumDef))
   } else if (queryDef) {
-    result = getAsyncDataValues(modelDef, queryDef, dbStore)
-  } else {
-    result = promiseValue([])
+    return getAsyncDataValues(value, modelDef, bunsenId, dbStore)
   }
-  return result
+  return promiseValue([])
 }
 
 /**
- * getEnumValues - take enum values and make into a collection
+ * take enum values and make into a collection
  * @param  {String[]} values the values to make into a collection
  * @returns {Object[]} a list of item objects
  */
@@ -42,14 +39,15 @@ export function getEnumValues (values = []) {
 }
 
 /**
- * setAsyncDataValues - Fetch the list of network functions from the backend and set them
+ * Fetch the list of network functions from the backend and set them
+ * @param  {Object} value the bunsen value for this form
  * @param  {Object} modelDef the full bunsen model def for this property
- * @param  {Object} queryDef the query obj from the model def
+ * @param  {Object} bunsenId the bunsenId for this form
  * @param  {Object} dbStore the ember-data store
  * @returns {Promise} a promise that resolves to the list of items
  */
-export function getAsyncDataValues (modelDef, queryDef, dbStore) {
-  const query = utils.createOrchQuery(queryDef)
+export function getAsyncDataValues (value, modelDef, bunsenId, dbStore) {
+  const query = utils.populateQuery(value, modelDef.query, bunsenId)
   const modelType = modelDef.modelType || 'resources'
   return dbStore.query(modelType, query).then((resp) => {
     const items = resp.map((resource) => {

@@ -20,13 +20,15 @@ export default Input.extend({
   didReceiveAttrs () {
     this._super(...arguments)
     const modelDef = this.get('model')
-    if (modelDef) {
-      const dbStore = this.get('dbStore')
-      const promise = listUtils.getOptions(modelDef, dbStore)
-      promise.then((opts) => {
-        this.set('options', opts)
-      })
+    if (!modelDef) {
+      return
     }
+    const dbStore = this.get('dbStore')
+    const value = this.get('formValue.value')
+    const bunsenId = this.get('bunsenId')
+    listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
+      this.set('options', opts)
+    })
   },
 
   /**

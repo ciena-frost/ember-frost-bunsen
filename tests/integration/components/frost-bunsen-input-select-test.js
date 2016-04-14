@@ -103,10 +103,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         'Resource 3'
       ]
       _.extend(props.model, {
-        'modelType': 'resource',
-        'labelAttribute': 'label',
-        'valueAttribute': 'id',
-        'query': {
+        modelType: 'resource',
+        labelAttribute: 'label',
+        valueAttribute: 'id',
+        query: {
           resourceTypeId: 'foo.bat.bitz',
           q: 'domainId:${../domainId}',
           p: 'label:fo'

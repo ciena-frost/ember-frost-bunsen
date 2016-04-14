@@ -21,7 +21,7 @@ import validateView, {validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 const builtinRenderers = {
-  'PropertyChooser': 'frost-bunsen-property-chooser',
+  'property-chooser': 'frost-bunsen-property-chooser',
   'select': 'frost-bunsen-input-select',
   'multi-select': 'frost-bunsen-input-multi-select'
 }

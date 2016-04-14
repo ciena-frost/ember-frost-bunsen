@@ -9,7 +9,7 @@ import viewSchema from './view-schema'
 import {default as validateValue} from './value'
 
 const builtinRenderers = {
-  PropertyChooser: 'frost-bunsen-property-chooser'
+  'property-chooser': 'frost-bunsen-property-chooser'
 }
 
 /**

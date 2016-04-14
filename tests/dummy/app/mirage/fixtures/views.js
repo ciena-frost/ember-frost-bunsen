@@ -261,7 +261,7 @@ export default [
             [
               {
                 model: 'paymentInfo',
-                renderer: 'PropertyChooser',
+                renderer: 'property-chooser',
                 label: 'Payment Type',
                 properties: {
                   choices: [

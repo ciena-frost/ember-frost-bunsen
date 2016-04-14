@@ -160,9 +160,7 @@ export function recursiveObjectCreate (object) {
 export function findValue (obj, valuePath, startPath = '') {
   const depths = startPath.split('.')
   const valueLevels = valuePath.split('./')
-  const parentLevels = valueLevels.filter((element) => {
-    return element === '.'
-  })
+  const parentLevels = valueLevels.filter((element) => element === '.')
   const valueKey = valueLevels.pop()
   const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
   const absValueKey = [absValuePath, valueKey].join('.')
@@ -170,53 +168,27 @@ export function findValue (obj, valuePath, startPath = '') {
 }
 
 /**
- * populates values in an Orchestrate-style 'q' or 'p' queryParam valuePath
- * @param {Object} valueObj the value object to mine for query values
- * @param {String} queryValue the queryParam value to parse
- * @returns {String} the populate queryValue
- */
-export function parseOrchFilters (valueObj, queryValue, startPath = '') {
-  const newQueryFilters = queryValue.split(',').map((param) => {
-    const pieces = param.split(':')
-    return `${pieces[0]}:${parseOrchFilterVariables(valueObj, pieces[1], startPath)}`
-  })
-  return newQueryFilters.join(',')
-}
-
-/**
  * finds variables in orch-style queryParam values
  * @param {Object} valueObj the value object to mine for query values
- * @param {String} orchFilter the filter to parse
+ * @param {String} queryJSON the stringified filter object to parse
  * @returns {String} the populated filter
  */
-export function parseOrchFilterVariables (valueObj, orchFilter, startPath = '') {
-  let result = orchFilter
-  if (orchFilter.indexOf('${') !== -1) {
-    const valueVariable = orchFilter.split('${')[1].split('}')[0]
-    result = findValue(valueObj, valueVariable, startPath)
+export function parseVariables (valueObj, queryJSON, startPath = '') {
+  if (queryJSON.indexOf('${') !== -1) {
+    const valueVariable = queryJSON.split('${')[1].split('}')[0]
+    const result = findValue(valueObj, valueVariable, startPath)
+    const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
+    return parseVariables(valueObj, newQueryJson, startPath)
   }
-  return result
+  return queryJSON
 }
 
 /**
- * grooms the query for variables and stitches it back together
+ * grooms the query for variables using a ${variableName} syntax and populates the values
  * @param {Object} valueObj the value object to mine for values
  * @param {Object} query the definition from the model schema
  * @returns {Object} the populated query
  */
-export function createOrchQuery (valueObj, query, startPath = '') {
-  const keys = _.keys(query)
-  const populatedQuery = {}
-  _.each(keys, (key) => {
-    // get each key/value pair
-    switch (key) {
-      case 'q':
-      case 'p':
-        populatedQuery[key] = parseOrchFilters(valueObj, query[key], startPath)
-        break
-      default:
-        populatedQuery[key] = query[key]
-    }
-  })
-  return populatedQuery
+export function populateQuery (valueObj, query, startPath = '') {
+  return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
 }

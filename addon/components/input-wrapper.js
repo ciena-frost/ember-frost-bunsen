@@ -60,7 +60,7 @@ export default Component.extend(PropTypeMixin, {
         return 'frost-bunsen-input-boolean'
       default:
         if (shouldRender) {
-          throw new Error('Only "string", "number", "select", or "boolean" fields are currently supported.')
+          throw new Error('Only "string", "number", "select", "multi-select", or "boolean" fields are currently supported.')
         }
     }
   },
