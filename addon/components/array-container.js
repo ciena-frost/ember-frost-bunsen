@@ -33,10 +33,10 @@ export default Component.extend(PropTypeMixin, {
    */
   handleNewValues () {
     const newValue = this.get(`value.${this.get('bunsenId')}`) || []
-    const oldValue = this.get('state.items')
+    const oldValue = this.get('items')
 
     if (!_.isEqual(newValue, oldValue)) {
-      this.set('state.items', A(newValue))
+      this.set('items', A(newValue))
     }
   },
 
@@ -45,11 +45,6 @@ export default Component.extend(PropTypeMixin, {
    */
   init () {
     this._super()
-
-    this.set('state', Ember.Object.create({
-      items: A([])
-    }))
-
     this.handleNewValues()
   },
 
@@ -132,7 +127,7 @@ export default Component.extend(PropTypeMixin, {
      */
     onAddItem () {
       const newItem = this.get('model').items.type === 'object' ? {} : ''
-      const items = this.get('state.items')
+      const items = this.get('items')
       const index = items.length
 
       items.pushObject(newItem)
@@ -144,7 +139,7 @@ export default Component.extend(PropTypeMixin, {
      * @param {Number} index - index of item to remove
      */
     onRemoveItem (index) {
-      const items = this.get('state.items')
+      const items = this.get('items')
       const itemToRemove = items.objectAt(index)
       items.removeObject(itemToRemove)
 
@@ -163,7 +158,7 @@ export default Component.extend(PropTypeMixin, {
   didReceiveAttrs () {
     this._super(...arguments)
     const value = _.get(this.get('value'), this.get('bunsenId'))
-    const items = this.get('state.items')
+    const items = this.get('items')
 
     if (!value) {
       return

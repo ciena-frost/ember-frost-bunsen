@@ -8,13 +8,13 @@
   <select onchange={{action "onChange"}}>
     <option
       disabled
-      selected={{not state.value}}
+      selected={{not useKey}}
     >
       Please select an item…
     </option>
     {{#each cellConfig.properties.choices as |option index|}}
       <option
-        selected={{eq state.value item.value}}
+        selected={{eq useKey option.value}}
         value={{option.value}}
       >
         {{option.label}}

@@ -38,12 +38,23 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      required: false
+      required: false,
+      showErrorMessage: false
     }
   },
 
   @readOnly
-  @computed('errorMessage')
+  @computed('errorMessage', 'showErrorMessage')
+  renderErrorMessage (errorMessage, showErrorMessage) {
+    if (!showErrorMessage) {
+      return null
+    }
+
+    return errorMessage
+  },
+
+  @readOnly
+  @computed('renderErrorMessage')
   /**
    * Get class name for input element
    * @param {String} errorMessage - error message for input
@@ -91,15 +102,6 @@ export default Component.extend(PropTypeMixin, {
     return getLabel(customLabel, model, bunsenId)
   },
 
-  init () {
-    this._super()
-
-    // Note: State must be set in init method so input instances don't share same state
-    this.set('state', Ember.Object.extend({
-      hasUserInteracted: false
-    }).create())
-  },
-
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
    * @param {Boolean|String} data - value to parse
@@ -111,14 +113,28 @@ export default Component.extend(PropTypeMixin, {
 
   actions: {
     /**
+     * When input looses focus we want to start showing error messages
+     */
+    onBlur () {
+      if (!this.get('showErrorMessage')) {
+        this.set('showErrorMessage', true)
+      }
+    },
+
+    /**
+     * When input enters focus we want to stop showing error messages
+     */
+    onFocus () {
+      if (this.get('showErrorMessage')) {
+        this.set('showErrorMessage', false)
+      }
+    },
+
+    /**
      * Handle user updating value
      * @param {Event} data - event
      */
     onChange (data) {
-      if (!this.get('state.hasUserInteracted')) {
-        this.set('state.hasUserInteracted', true)
-      }
-
       const bunsenId = this.get('bunsenId')
       const newValue = this.parseValue(data)
       const oldValue = this.get('value')

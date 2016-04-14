@@ -10,7 +10,7 @@
   </div>
 {{/if}}
 {{#if inline }}
-  {{#each state.items as |item index|}}
+  {{#each items as |item index|}}
     {{frost-bunsen-array-inline-item
       bunsenId=bunsenId
       cellConfig=cellConfig
@@ -31,7 +31,7 @@
     </div>
   {{/if}}
   <ul class="nav nav-tabs">
-    {{#each state.items as |item index|}}
+    {{#each items as |item index|}}
       {{frost-bunsen-array-tab-nav
         cellConfig=cellConfig
         index=index
@@ -53,7 +53,7 @@
     </li>
   </ul>
   <div class="tab-content">
-    {{#each state.items as |item index|}}
+    {{#each items as |item index|}}
       {{frost-bunsen-array-tab-content
         bunsenId=bunsenId
         cellConfig=cellConfig

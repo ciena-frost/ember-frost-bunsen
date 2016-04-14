@@ -1,12 +1,7 @@
 import computed, {readOnly} from 'ember-computed-decorators'
-import Input from './abstract-input'
+import AbstractInput from './abstract-input'
 
-export const defaultClassNames = {
-  inputWrapper: 'left-input',
-  labelWrapper: 'left-label'
-}
-
-export default Input.extend({
+export default AbstractInput.extend({
   classNames: [
     'frost-bunsen-input-text',
     'frost-field'
