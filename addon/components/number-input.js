@@ -2,11 +2,6 @@ import _ from 'lodash'
 import computed from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 
-export const defaultClassNames = {
-  inputWrapper: 'left-input',
-  labelWrapper: 'left-label'
-}
-
 export default AbstractInput.extend({
   classNames: [
     'frost-bunsen-input-number',

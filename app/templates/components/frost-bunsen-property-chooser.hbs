@@ -14,7 +14,7 @@
     </option>
     {{#each cellConfig.properties.choices as |option index|}}
       <option
-        selected={{eq useKey item.value}}
+        selected={{eq useKey option.value}}
         value={{option.value}}
       >
         {{option.label}}
