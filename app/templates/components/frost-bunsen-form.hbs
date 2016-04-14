@@ -1,6 +1,6 @@
 {{#if isInvalid}}
   {{frost-bunsen-validation-result
-    model=state.propValidationResult
+    model=propValidationResult
   }}
 {{else}}
   <form class="form" onsubmit={{action "onSubmit"}}>
@@ -10,7 +10,7 @@
       model=renderModel
       onChange=(action "onChange")
       store=store
-      value=value
+      value=renderValue
     }}
   </form>
   {{#if hasButtons}}

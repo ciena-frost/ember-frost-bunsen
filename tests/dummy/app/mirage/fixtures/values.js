@@ -19,9 +19,9 @@ export default [
       name: 'Johnny Appleseed',
       email: 'ja@gmail.com',
       paymentInfo: {
-        useEf: 'No',
-        useCreditCard: '5555 5555 5555 5555',
-        usePayPal: 'No'
+        ccv: '123',
+        creditCardNumber: '5555 5555 5555 5555',
+        useCreditCard: 'selected'
       }
     }
   },

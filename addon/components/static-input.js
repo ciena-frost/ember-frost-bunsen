@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Input from './abstract-input'
+import AbstractInput from './abstract-input'
 
 const PLACEHOLDER = '—'
 
@@ -8,7 +8,7 @@ export const defaultClassNames = {
   labelWrapper: 'left-label'
 }
 
-export default Input.extend({
+export default AbstractInput.extend({
   classNames: [
     'frost-bunsen-input-static',
     'frost-field'

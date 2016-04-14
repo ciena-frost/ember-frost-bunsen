@@ -11,7 +11,7 @@ import {validate} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, Component} = Ember
+const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import dereference from '../dereference'
@@ -20,7 +20,16 @@ import {getButtonLabelDefaults} from '../validator/defaults'
 import validateView, {validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
-const builtinRenderers = {
+/**
+ * Determine if an object is an Ember.Object or not
+ * @param {Object|Ember.Object} object - object to check
+ * @returns {Boolean} whether or not object is an Ember.Object
+ */
+function isEmberObject (object) {
+  return !_.isEmpty(object) && !_.isPlainObject(object)
+}
+
+const builtInRenderers = {
   PropertyChooser: 'frost-bunsen-property-chooser'
 }
 
@@ -79,6 +88,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
+  @computed('renderers')
+  allRenderers (renderers) {
+    const passedInRenderers = renderers || {}
+    return _.assign({}, builtInRenderers, passedInRenderers)
+  },
+
+  @readOnly
   @computed('model', 'view')
   renderView (model, view) {
     return recursiveObjectCreate(
@@ -87,9 +103,9 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('state.propValidationResult.errors')
-  isInvalid (errors) {
-    return !_.isEmpty(errors)
+  @computed('propValidationResult')
+  isInvalid (propValidationResult) {
+    return !_.isEmpty(propValidationResult.errors)
   },
 
   /**
@@ -97,36 +113,18 @@ export default Component.extend(PropTypeMixin, {
    */
   validateProps () {
     const model = this.get('model')
-    const modelPojo = deemberify(model)
-    const renderers = this.get('state.renderers') || {}
+    const modelPojo = isEmberObject(model) ? deemberify(model) : model
+    const renderers = this.get('allRenderers')
     const view = this.get('renderView')
-    const viewPojo = deemberify(view)
 
     let result = validateModel(modelPojo)
 
     if (result.errors.length === 0) {
+      const viewPojo = isEmberObject(view) ? deemberify(view) : view
       result = validateView(viewPojo, model, _.keys(renderers))
     }
 
-    this.set('state.propValidationResult', result)
-  },
-
-  /**
-   * Ensure we are working with POJO's
-   */
-  fixPropTypes () {
-    ;[
-      'model',
-      'renderers',
-      'value',
-      'view'
-    ].forEach((key) => {
-      const object = this.get(key)
-
-      if (!_.isEmpty(object) && !_.isPlainObject(object)) {
-        this.set(key, deemberify(object))
-      }
-    })
+    this.set('propValidationResult', result)
   },
 
   storeUpdated () {
@@ -137,7 +135,7 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties({
       errors,
-      value
+      renderValue: value
     })
 
     if (onChange) {
@@ -155,16 +153,9 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    this.fixPropTypes()
-
-    const passedInRenderers = this.get('renderers') || {}
-    const renderers = _.assign({}, builtinRenderers, passedInRenderers)
     const reduxStore = createStoreWithMiddleware(reducer)
 
-    this.setProperties({
-      errors: {},
-      reduxStore
-    })
+    this.set('reduxStore', reduxStore)
 
     reduxStore.subscribe(this.storeUpdated.bind(this))
 
@@ -173,14 +164,6 @@ export default Component.extend(PropTypeMixin, {
     reduxStore.dispatch(
       validate(null, value, this.get('renderModel'), this.get('validators'))
     )
-
-    this.set('state', Ember.Object.create({
-      propValidationResult: Ember.Object.create({
-        errors: A([]),
-        warnings: A([])
-      }),
-      renderers
-    }))
 
     this.validateProps()
   },
@@ -204,24 +187,13 @@ export default Component.extend(PropTypeMixin, {
   didUpdateAttrs () {
     this._super(...arguments)
 
-    const passedInRenderers = this.get('renderers') || {}
-    const renderers = _.assign({}, builtinRenderers, passedInRenderers)
-
     this.validateProps()
-
-    if (!_.isEqual(this.get('state.renderers'), renderers)) {
-      this.set('state.renderers', renderers)
-    }
 
     const reduxStore = this.get('reduxStore')
     const value = this.get('value')
 
-    if (value === undefined) {
-      this.set('value', reduxStore.getState().value)
-      return
-    }
-
-    if (_.isEqual(value, reduxStore.getState().value)) {
+    // If consumer is not managing value or value matches internal value then there is nothing to do
+    if (value === undefined || _.isEqual(value, reduxStore.getState().value)) {
       return
     }
 
@@ -230,12 +202,8 @@ export default Component.extend(PropTypeMixin, {
     )
   },
 
-  willUpdate () {
-    this.fixPropTypes()
-  },
-
   @readOnly
-  @computed('model', 'state.renderers', 'renderView')
+  @computed('model', 'allRenderers', 'renderView')
   store (model, renderers, view) {
     return Ember.Object.create({
       formValue: this.get('reduxStore').getState().value,
@@ -283,7 +251,7 @@ export default Component.extend(PropTypeMixin, {
 
     const segments = id.split('.')
     const idLastSegment = segments.pop()
-    const formValue = this.get('reduxStore').getState()['value']
+    const formValue = this.get('reduxStore').getState().value
     const relativePath = `${segments.join('.')}`
 
     const relativeObject = _.get(formValue, relativePath)
@@ -320,7 +288,7 @@ export default Component.extend(PropTypeMixin, {
       const onSubmit = this.get('onSubmit')
 
       if (onSubmit) {
-        onSubmit(this.get('state.value'))
+        onSubmit(this.get('renderValue'))
       }
     }
   }

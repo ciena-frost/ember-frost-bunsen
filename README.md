@@ -376,7 +376,7 @@ export default Ember.Component.extend({
 
   actions: {
     onValidation (e) {
-      this.set('valid', e.valid)
+      this.set('valid', e.errors.length === 0)
     }
   }
 })

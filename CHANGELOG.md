@@ -43,6 +43,20 @@
   ```
 
 * **Changed** `onChange({id, value})` is now `onChange(id, value)` in custom renderers.
+* **Removed** `valid` from validation results object so it now contains just `errors` and `warnings`.
+  In order to check if it is valid you can simply check `errors.length`.
+* **Removed** `state` from input component. Previously custom renderers would often maintain
+  the value on `state.value` but in order to continue doing so they must initialize `state` in their
+  `init` function like so:
+
+  ```javascript
+  init () {
+    this._super(...arguments)
+    this.set('state', Ember.Object.create({
+      value: this.get('value')
+    }))
+  }
+  ```
 
 ## Non-Breaking Changes
 
@@ -62,13 +76,13 @@
   * [ember-frost-select](https://github.com/ciena-frost/ember-frost-select)
   * [ember-frost-text](https://github.com/ciena-frost/ember-frost-text)
   * [ember-frost-theme](https://github.com/ciena-frost/ember-frost-theme)
-* Change action properties from kebab-case (`on-change`) to camelCase (`onChange`)
+* **Changed** action properties from kebab-case (`on-change`) to camelCase (`onChange`)
 
 # 2.0
 
 ## Breaking Changes
 
-* Change action properties from camelCase (`onChange`) to kebab-case (`on-change`)
+* **Changed** action properties from camelCase (`onChange`) to kebab-case (`on-change`)
 
 ## Non-Breaking Changes
 

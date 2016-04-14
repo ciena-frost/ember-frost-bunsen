@@ -1,7 +1,30 @@
-import Input from './abstract-input'
+import _ from 'lodash'
+import AbstractInput from './abstract-input'
 
-export default Input.extend({
+export default AbstractInput.extend({
   classNames: ['frost-bunsen-property-chooser'],
+
+  getDefaultProps () {
+    return _.assign(this._super(), {
+      useKey: null
+    })
+  },
+
+  didReceiveAttrs () {
+    const dependencies = this.get('model.dependencies')
+    const useKey = this.get('useKey')
+    const value = this.get('value')
+
+    if (!value) {
+      return
+    }
+
+    Object.keys(dependencies).forEach((key) => {
+      if (key in value && useKey !== key) {
+        this.set('useKey', key)
+      }
+    })
+  },
 
   actions: {
     /**
@@ -12,7 +35,7 @@ export default Input.extend({
       const bunsenId = this.get('bunsenId')
       const newValue = e.target.value
       const onChange = this.get('onChange')
-      const oldValue = this.get('state.value')
+      const oldValue = this.get('useKey')
 
       if (onChange) {
         if (oldValue) {
@@ -24,7 +47,7 @@ export default Input.extend({
         }
       }
 
-      this.set('state.value', newValue)
+      this.set('useKey', newValue)
     }
   }
 })
