@@ -17,7 +17,7 @@ export default AbstractInput.extend({
       return value ? 'true' : 'false'
     }
 
-    if (value === '') {
+    if ([null, undefined, ''].indexOf(value) !== -1) {
       return placeholder || PLACEHOLDER
     }
 
