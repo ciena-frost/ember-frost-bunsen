@@ -112,16 +112,17 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('allRenderers', 'renderView')
+  @computed('allRenderers', 'renderValue', 'renderView')
   /**
    * Get store
    * @param {Object} renderers - renderer to component mapping
+   * @param {Object} formValue - current form value
    * @param {BunsenView} view - view being rendered
    * @returns {Object} store
    */
-  store (renderers, view) {
+  store (renderers, formValue, view) {
     return Ember.Object.create({
-      formValue: this.get('reduxStore').getState().value,
+      formValue,
       renderers,
       view
     })
