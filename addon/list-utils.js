@@ -9,12 +9,14 @@ function promiseValue (value) {
 
 /**
  * set a list's available options
+ * @param  {Object} value the current value object for the form instance
  * @param  {Object} modelDef the bunsen model definition
+ * @param  {String} bunsenId the bunsen id for this property
  * @param  {Object} dbStore the ember-data store
  * @returns {Promise} a promise that resolves to a list of items
  */
 export function getOptions (value, modelDef, bunsenId, dbStore) {
-  const enumDef = modelDef.enum
+  const enumDef = modelDef.items ? modelDef.items.enum : modelDef.enum
   const queryDef = modelDef.query
   if (enumDef) {
     return promiseValue(getEnumValues(enumDef))

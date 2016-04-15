@@ -209,6 +209,17 @@ export default [
           query: {
             q: 'domainId:12345'
           }
+        },
+        multiSelectExample: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: [
+              'value 1',
+              'value 2',
+              'value 3'
+            ]
+          }
         }
       },
       required: ['enumExample']

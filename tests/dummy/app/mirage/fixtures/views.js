@@ -441,6 +441,12 @@ export default [
                 model: 'queryExample',
                 renderer: 'select'
               }
+            ],
+            [
+              {
+                model: 'multiSelectExample',
+                renderer: 'multi-select'
+              }
             ]
           ]
         }

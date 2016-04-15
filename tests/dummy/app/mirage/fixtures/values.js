@@ -17,7 +17,8 @@ export default [
     label: 'Example',
     value: {
       enumExample: 'value 1',
-      queryExample: '1'
+      queryExample: '1',
+      multiSelectExample: ['value 1', 'value 2']
     }
   },
   {

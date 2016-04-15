@@ -6,6 +6,55 @@ import {renderWithProps, integrationTestContext} from '../../utils/template'
 import _ from 'lodash'
 import $ from 'jquery'
 
+const records = [
+  {
+    id: 1,
+    type: 'resource',
+    label: 'Resource 1',
+    get: function (attribute) {
+      return this[attribute]
+    }
+  },
+  {
+    id: 2,
+    type: 'resource',
+    label: 'Resource 2',
+    resourceTypeId: 'helloThere',
+    domainId: '12345',
+    get: function (attribute) {
+      return this[attribute]
+    }
+  },
+  {
+    id: 2,
+    type: 'resource',
+    label: 'Resource 3',
+    domainId: '12345',
+    get: function (attribute) {
+      return this[attribute]
+    }
+  },
+  {
+    id: 3,
+    type: 'resource',
+    label: 'Resource 4',
+    get: function (attribute) {
+      return this[attribute]
+    }
+  }
+]
+
+const formValue = {
+  value: {
+    domainId: 12345,
+    foo: {
+      bar: {
+        someOtherProp: 'helloThere'
+      }
+    }
+  }
+}
+
 /**
  * Stub out the DB service with the given product ID for the given resourceType
  * @param {Object} ctx - the testing context
@@ -13,46 +62,25 @@ import $ from 'jquery'
  * @param {String} productId - the productId to return in the stubbed lookup
  */
 function stubDbService (ctx) {
-  const promise = new Ember.RSVP.Promise(function (resolve) {
-    resolve(Ember.A([
-      {
-        id: 1,
-        type: 'resource',
-        label: 'Resource 1',
-        get: function (attribute) {
-          return this[attribute]
-        }
-      },
-      {
-        id: 2,
-        type: 'resource',
-        label: 'Resource 2',
-        get: function (attribute) {
-          return this[attribute]
-        }
-      },
-      {
-        id: 3,
-        type: 'resource',
-        label: 'Resource 3',
-        get: function (attribute) {
-          return this[attribute]
-        }
-      }
-    ]))
-  })
+  const promiseMe = (data) => (new Ember.RSVP.Promise(function (resolve) {
+    resolve(Ember.A(data))
+  }))
 
-  const findAllStub = sinon.stub()
+  const query = (type, query) => {
+    let [qProp, qValue] = query.q.split(':')
+    let rtValue = query.resourceTypeId
+    return promiseMe(_.filter(records, (record) => {
+      return record[qProp] === qValue && record.resourceTypeId === rtValue
+    }))
+  }
+
+  const findAll = sinon.stub()
     .withArgs('resource-provider')
-    .returns(promise)
-
-  const queryStub = sinon.stub()
-    .withArgs('resource')
-    .returns(promise)
+    .returns(promiseMe(records))
 
   const dbStub = Ember.Service.extend({
-    findAll: findAllStub,
-    query: queryStub
+    findAll,
+    query
   })
 
   ctx.register('service:store', dbStub)
@@ -72,7 +100,8 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         model: {},
         onChange: () => {},
         store: Ember.Object.create({}),
-        state: Ember.Object.create({value: true}),
+        state: Ember.Object.create(),
+        formValue,
         dbStore: this.get('dbStore')
       }
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
@@ -83,12 +112,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('has correct enum of values', function () {
-      props.model.enum = [
-        'foo',
-        'bar',
-        'fitz',
-        'batz'
-      ]
+      props.model.enum = ['foo', 'bar', 'fitz', 'batz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       _.forEach(props.model.enum, (value) => {
         const isPresent = $(rootNode).text().indexOf(Ember.String.capitalize(value)) !== -1
@@ -97,29 +121,21 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('gets async values', function (done) {
-      const expected = [
-        'Resource 1',
-        'Resource 2',
-        'Resource 3'
-      ]
-      _.extend(props.model, {
+      props.model = {
         modelType: 'resource',
         labelAttribute: 'label',
         valueAttribute: 'id',
         query: {
-          resourceTypeId: 'foo.bat.bitz',
-          q: 'domainId:${../domainId}',
+          resourceTypeId: '${foo.bar.someOtherProp}',
+          q: 'domainId:${domainId}',
           p: 'label:fo'
         }
-      })
+      }
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-      Ember.run.later(() => {
-        _.forEach(expected, (value) => {
-          const isPresent = $(rootNode).text().indexOf(value) !== -1
-          expect(isPresent).to.eql(true)
-        })
-        done()
-      })
+      const expected = ['Resource 2']
+      expect($(rootNode).text().indexOf(expected) !== -1).to.eql(true)
+      expect($(rootNode).find('li').length).to.equal(expected.length)
+      done()
     })
   })
 })
