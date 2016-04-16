@@ -26,10 +26,55 @@ export function updateValidationResults (validationResult) {
   }
 }
 
+function getSchema (pathStack, model) {
+  const current = pathStack.pop()
+  const currentSchema = model[current]
+  if (pathStack.length <= 0) {
+    return currentSchema
+  } else if (currentSchema.properties) {
+    return getSchema(pathStack, currentSchema.properties)
+  } else if (currentSchema.items) {
+    return getSchema(pathStack, currentSchema.items)
+  } else {
+    return {}
+  }
+}
+
+function fillDefaults (value, path, model) {
+  let schema
+  if (path === null) {
+    schema = model
+  } else {
+    const pathStack = path && path.split('.').reverse() || []
+    schema = getSchema(pathStack, model.properties)
+  }
+
+  const schemaDefault = _.clone(schema.default)
+  if (model.type === 'object') { // Recursing only makes sense for objects
+    let subSchemaDefaults = {}
+    _.each(schema.properties, function (subSchema, propName) {
+      const foundDefaults = fillDefaults(value && value[propName], null, subSchema)
+      if (foundDefaults !== undefined) {
+        subSchemaDefaults[propName] = foundDefaults
+      }
+    })
+    return _.defaults(schemaDefault || {}, subSchemaDefaults)
+  } else if (value !== undefined) {
+    return value
+  }
+  return schemaDefault
+}
+
 export function validate (bunsenId, inputValue, renderModel, validators) {
   return function (dispatch, getState) {
-    dispatch(changeValue(bunsenId, inputValue))
     const formValue = getState()['value']
+    const previousValue = _.get(formValue, bunsenId)
+
+    if (previousValue === undefined && _.isObject(inputValue)) {
+      inputValue = fillDefaults(inputValue, bunsenId, renderModel)
+    }
+
+    dispatch(changeValue(bunsenId, inputValue))
     const result = validateValue(formValue, renderModel)
 
     const promises = []
