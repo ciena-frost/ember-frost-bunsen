@@ -113,21 +113,24 @@ describe('validate action', function () {
         '$ref': '#/definitions/superhero'
       }
     },
-    required: ['lastName'],
+    required: ['hero'],
     definitions: {
       superhero: {
-        firstName: {
-          type: 'string',
-          default: 'Bruce'
-        },
-        lastName: {
-          type: 'string',
-          default: 'Wayne'
-        },
-        alias: {
-          type: 'string',
-          title: 'Nickname',
-          default: 'Batman'
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'string',
+            default: 'Bruce'
+          },
+          lastName: {
+            type: 'string',
+            default: 'Wayne'
+          },
+          alias: {
+            type: 'string',
+            title: 'Nickname',
+            default: 'Batman'
+          }
         }
       }
     }
@@ -186,10 +189,13 @@ describe('validate action', function () {
 
   it('handles defaults in refs', function () {
     const defaultValue = getDefaultValue(null, {}, SCHEMA_WITH_REFS)
+    console.log(defaultValue)
     expect(defaultValue).to.eql({
-      firstName: 'Bruce',
-      lastName: 'Wayne',
-      alias: 'Batman'
+      hero: {
+        firstName: 'Bruce',
+        lastName: 'Wayne',
+        alias: 'Batman'
+      }
     })
   })
 })
