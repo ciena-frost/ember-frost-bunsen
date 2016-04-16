@@ -26,34 +26,64 @@ export function updateValidationResults (validationResult) {
   }
 }
 
-function getSchema (pathStack, model) {
-  const current = pathStack.pop()
-  const currentSchema = model[current]
+function schemaFromRef (definitions) {
+  function invalidPath (refPath) {
+    console.warn(`${refPath} is not a valid path`)
+    return {}
+  }
+  if (_.isUndefined(definitions)) {
+    return function (refPath) {
+      const schema = invalidPath(refPath)
+      console.warn('"$ref" can not be used, "definitions" is not defined for this schema')
+      return schema
+    }
+  }
+
+  return function (refPath, resolveRef) {
+    const pathStack = refPath.split('/').reverse()
+    if (pathStack.pop() !== '#' || pathStack.pop() !== 'definitions') {
+      return invalidPath(refPath)
+    }
+    const startingSchema = definitions[pathStack.pop()]
+    if (pathStack.length <= 0) {
+      return startingSchema
+    }
+    return getSchema(pathStack, startingSchema, resolveRef)
+  }
+}
+
+function getSchema (pathStack, model, resolveRef) {
+  if (model.$ref !== undefined) {
+    return resolveRef(model.$ref, resolveRef)
+  }
   if (pathStack.length <= 0) {
-    return currentSchema
-  } else if (currentSchema.properties) {
-    return getSchema(pathStack, currentSchema.properties)
-  } else if (currentSchema.items) {
-    return getSchema(pathStack, currentSchema.items)
+    return model
+  } else if (model.properties) {
+    const current = pathStack.pop()
+    return getSchema(pathStack, model.properties[current], resolveRef)
+  } else if (model.items) {
+    return getSchema(pathStack, model.items, resolveRef)
   } else {
     return {}
   }
 }
 
-function fillDefaults (value, path, model) {
+function fillDefaults (value, path, model, resolveRef) {
   let schema
-  if (path === null) {
+
+  if (model.$ref !== undefined) {
+    schema = getSchema(null, model, resolveRef)
+  } else if (path === null) {
     schema = model
   } else {
     const pathStack = path && path.split('.').reverse() || []
-    schema = getSchema(pathStack, model.properties)
+    schema = getSchema(pathStack, model, resolveRef)
   }
-
   const schemaDefault = _.clone(schema.default)
-  if (model.type === 'object') { // Recursing only makes sense for objects
+  if (model.type === 'object' || model.properties) { // Recursing only makes sense for objects
     let subSchemaDefaults = {}
     _.each(schema.properties, function (subSchema, propName) {
-      const foundDefaults = fillDefaults(value && value[propName], null, subSchema)
+      const foundDefaults = fillDefaults(value && value[propName], null, subSchema, resolveRef)
       if (foundDefaults !== undefined) {
         subSchemaDefaults[propName] = foundDefaults
       }
@@ -71,7 +101,8 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
     const previousValue = _.get(formValue, bunsenId)
 
     if (previousValue === undefined && _.isObject(inputValue)) {
-      inputValue = fillDefaults(inputValue, bunsenId, renderModel)
+      const resolveRef = schemaFromRef(renderModel.definitions)
+      inputValue = fillDefaults(inputValue, bunsenId, renderModel, resolveRef)
     }
 
     dispatch(changeValue(bunsenId, inputValue))
