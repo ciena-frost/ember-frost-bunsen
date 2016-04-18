@@ -40,6 +40,7 @@
 
   Where options are a based on an API call, arguments to an `Ember.store.query` call
   (the ember-data model type and queryParam definition) can be specified like so:
+
   ***Model Schema***
   ```JSON
   ...
@@ -71,17 +72,18 @@
   As well, where the value to populate a query should come from the in-flight form value itself, variables can
   be inserted into the query specification, using either absolute or relative-style JSON paths:
 
+  ***Model Schema***
   ```JSON
   ...
   "resourceTypeId": {
-    "type": "string",
-    ...
+    "type": "string"
   }
   "parentProperty": {
     "type": "object",
     "properties": {
       "childProperty": {
-        ...
+        "type": "string",
+        "modelType": "resources",
         "query": {
           "resourceTypeId": "${resourceTypeId}",
           "q": "domainId:${../someSiblingPropertyOfParent}"
@@ -90,10 +92,8 @@
     }
   },
   "someSiblingPropertyOfParent": {
-    "type": "string",
-    ...
+    "type": "string"
   }
-
   ...
   ```
   The above example would get the value for ``${resourceTypeId}`` from the current form's `formValue.resourceTypeId`.
