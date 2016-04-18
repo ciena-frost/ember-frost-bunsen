@@ -224,5 +224,36 @@ export default [
       },
       required: ['enumExample']
     }
+  },
+  {
+    id: 'simple-with-defaults',
+    label: 'Simple with Defaults',
+    model: {
+      type: 'object',
+      properties: {
+        firstName: {
+          type: 'string',
+          default: 'Bruce'
+        },
+        lastName: {
+          type: 'string',
+          default: 'Wayne'
+        },
+        alias: {
+          type: 'string',
+          title: 'Nickname',
+          default: 'Batman'
+        },
+        onlyChild: {
+          type: 'boolean',
+          default: true
+        },
+        age: {
+          type: 'number',
+          title: 'Age'
+        }
+      },
+      required: ['lastName']
+    }
   }
 ]
