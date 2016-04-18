@@ -2,15 +2,14 @@
 ## Breaking Changes
 * **Removed** support for `PascalCaseCustomRenderers` in view schema definitions
 * **Added** support for `kebab-case-custom-renderers` in view schema definitions
-  this was done mainly to accommodate a terser DSL in view schemas for built-in
+  This was done mainly to accommodate a terser DSL in view schemas for built-in
   renderers such as `select` which was added in this version. The goal is to have
-  simple built-in renderers be targeted with easy names like `select`, `buckets`, etc
-  like they were in UI Schema. UI Schema 2 will follow suit as well.  True custom renderers
+  simple built-in renderers be targeted with easy names like `select`, etc. True custom renderers
   (created in consuming code) can still be addressed either way (based on how the
   consuming code constructs the custom renderers hash), but the kebab-case is encouraged.
 
 ## Non-Breaking Changes
-* **Added** support for built-in select drop-downs, using `ember-frost-select`.
+* **Added** support for built-in select drop-downs, using `frost-select` from `ember-frost-core`.
   Where options are a fixed list (enum), then the options are pulled from the enum definition
   in the Bunsen model JSON Schema for the rendered attribute, like so:
 
@@ -39,7 +38,7 @@
   ...
   ```
 
-  Where options are a based on an API call, arguments to an `Ember.store.query` call
+  Where options are based on an API call, arguments to an `Ember.store.query` call
   (the ember-data model type and queryParam definition) can be specified like so:
 
   ***Model Schema***
