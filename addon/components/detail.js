@@ -28,7 +28,9 @@ function isEmberObject (object) {
 }
 
 const builtInRenderers = {
-  PropertyChooser: 'frost-bunsen-property-chooser'
+  'property-chooser': 'frost-bunsen-property-chooser',
+  'select': 'frost-bunsen-input-select',
+  'multi-select': 'frost-bunsen-input-multi-select'
 }
 
 export default Component.extend(PropTypeMixin, {
