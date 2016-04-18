@@ -1,3 +1,105 @@
+# 5.0
+## Breaking Changes
+* **Removed** support for `PascalCaseCustomRenderers` in view schema definitions
+* **Added** support for `kebab-case-custom-renderers` in view schema definitions
+  This was done mainly to accommodate a terser DSL in view schemas for built-in
+  renderers such as `select` which was added in this version. The goal is to have
+  simple built-in renderers be targeted with easy names like `select`, etc. True custom renderers
+  (created in consuming code) can still be addressed either way (based on how the
+  consuming code constructs the custom renderers hash), but the kebab-case is encouraged.
+
+## Non-Breaking Changes
+* **Added** support for built-in select drop-downs, using `frost-select` from `ember-frost-core`.
+  Where options are a fixed list (enum), then the options are pulled from the enum definition
+  in the Bunsen model JSON Schema for the rendered attribute, like so:
+
+  ***Model Schema***
+  ```JSON
+  ...
+  "someProperty": {
+    "type": "string",
+    "enum": [
+      "foo",
+      "bar",
+      "fizz",
+      "buzz"
+    ]
+  }
+  ...
+  ```
+
+  ***View Schema***
+  ```JSON
+  ...
+  {
+    "model": "someProperty",
+    "renderer": "select"
+  }
+  ...
+  ```
+
+  Where options are based on an API call, arguments to an `Ember.store.query` call
+  (the ember-data model type and queryParam definition) can be specified like so:
+
+  ***Model Schema***
+  ```JSON
+  ...
+  "someProperty": {
+    "modelType": "resources",
+    "labelAttribute": "label",
+    "valueAttribute": "value",
+    "query": {
+      "resourceTypeId": "someResourceTypeId",
+      "q": "domainId:someDomainId"
+    }
+  }
+  ...
+  ```
+
+  ***View Schema***
+  ```JSON
+  ...
+  {
+    "model": "someProperty",
+    "renderer": "select"
+  }
+  ...
+  ```
+  In this example, to populate this dropdown, the schema instructs ember-data to query the store for
+  "resources", and to use the "query" object to generate it's query string for the call,
+  i.e., `?resourceTypeId=someResourceTypeId&q=domainId:someDomainId`
+
+  As well, where the value to populate a query should come from the in-flight form value itself, variables can
+  be inserted into the query specification, using either absolute or relative-style JSON paths:
+
+  ***Model Schema***
+  ```JSON
+  ...
+  "resourceTypeId": {
+    "type": "string"
+  }
+  "parentProperty": {
+    "type": "object",
+    "properties": {
+      "childProperty": {
+        "type": "string",
+        "modelType": "resources",
+        "query": {
+          "resourceTypeId": "${resourceTypeId}",
+          "q": "domainId:${../someSiblingPropertyOfParent}"
+        }
+      }
+    }
+  },
+  "someSiblingPropertyOfParent": {
+    "type": "string"
+  }
+  ...
+  ```
+  The above example would get the value for ``${resourceTypeId}`` from the current form's `formValue.resourceTypeId`.
+  The value for `${../someDomainId}` would come from `formValue.someSiblingPropertyOfParent`.  This is useful when you need
+  the asynchronous query for one value to be informed by another chosen value.
+
 # 4.1
 
 * **Added** default `onChange` action to `AbstractInput` to reduce code required by consumers.
