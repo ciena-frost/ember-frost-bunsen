@@ -32,7 +32,11 @@ export default AbstractInput.extend({
    * @returns {Number} parse value
    */
   parseValue (value) {
-    const number = parseFloat(value)
-    return _.isFinite(number) ? number : null
+    let result = null
+    if (value !== undefined && value !== null) {
+      const number = parseFloat(this._super(value))
+      result = _.isFinite(number) ? number : null
+    }
+    return result
   }
 })

@@ -9,7 +9,8 @@ export default function () {
   ;[
     'models',
     'values',
-    'views'
+    'views',
+    'resources'
   ].forEach((key) => {
     const pluralizedKey = Ember.String.pluralize(key)
 
@@ -24,6 +25,17 @@ export default function () {
         })
       }
 
+      if ('p' in request.queryParams) {
+        const pQueries = request.queryParams.p.split(',')
+        _.each(pQueries, (query) => {
+          let [attr, value] = query.split(':')
+          items = items.filter((item) => {
+            return item[attr] ? item[attr].toLowerCase().indexOf(value.toLowerCase()) !== -1 : false
+          })
+        })
+      }
+
+      console.log(items)
       return {
         [key]: items
       }

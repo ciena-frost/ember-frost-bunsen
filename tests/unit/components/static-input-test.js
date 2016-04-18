@@ -1,6 +1,7 @@
+const {expect} = chai
 const {run} = Ember
 import {describeComponent} from 'ember-mocha'
-import {beforeEach} from 'mocha'
+import {beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from '../../utils/template'
 
@@ -46,6 +47,23 @@ describeComponent(
         PropTypes.object,
         PropTypes.string
       ])
+    })
+
+    describe('renderValue', function () {
+      [
+        {in: null, out: '—'},
+        {in: undefined, out: '—'},
+        {in: '', out: '—'},
+        {in: 'test', out: 'test'}
+      ].forEach((test) => {
+        it(`returns "${test.out}" when value is ${test.in} (${typeof test.in})`, function () {
+          run(() => {
+            component.set('value', test.in)
+          })
+
+          expect(component.get('renderValue')).to.equal(test.out)
+        })
+      })
     })
   }
 )

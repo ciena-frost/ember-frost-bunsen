@@ -150,3 +150,45 @@ export function recursiveObjectCreate (object) {
 
   return object
 }
+
+/**
+ * mine an object for a value
+ * @param {Object} obj the object to mine
+ * @param {String} valuePath the path to the value in the object
+ * @returns {String} the value
+ */
+export function findValue (obj, valuePath, startPath = '') {
+  const depths = startPath.split('.')
+  const valueLevels = valuePath.split('./')
+  const parentLevels = valueLevels.filter((element) => element === '.')
+  const valueKey = valueLevels.pop()
+  const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
+  const absValueKey = [absValuePath, valueKey].join('.')
+  return _.get(obj, absValueKey)
+}
+
+/**
+ * finds variables in orch-style queryParam values
+ * @param {Object} valueObj the value object to mine for query values
+ * @param {String} queryJSON the stringified filter object to parse
+ * @returns {String} the populated filter
+ */
+export function parseVariables (valueObj, queryJSON, startPath = '') {
+  if (queryJSON.indexOf('${') !== -1) {
+    const valueVariable = queryJSON.split('${')[1].split('}')[0]
+    const result = findValue(valueObj, valueVariable, startPath)
+    const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
+    return parseVariables(valueObj, newQueryJson, startPath)
+  }
+  return queryJSON
+}
+
+/**
+ * grooms the query for variables using a ${variableName} syntax and populates the values
+ * @param {Object} valueObj the value object to mine for values
+ * @param {Object} query the definition from the model schema
+ * @returns {Object} the populated query
+ */
+export function populateQuery (valueObj, query, startPath = '') {
+  return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
+}

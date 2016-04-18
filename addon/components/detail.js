@@ -28,7 +28,9 @@ function isEmberObject (object) {
 }
 
 const builtInRenderers = {
-  PropertyChooser: 'frost-bunsen-property-chooser'
+  'property-chooser': 'frost-bunsen-property-chooser',
+  'select': 'frost-bunsen-input-select',
+  'multi-select': 'frost-bunsen-input-multi-select'
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -112,16 +114,17 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('allRenderers', 'renderView')
+  @computed('allRenderers', 'renderValue', 'renderView')
   /**
    * Get store
    * @param {Object} renderers - renderer to component mapping
+   * @param {Object} formValue - current form value
    * @param {BunsenView} view - view being rendered
    * @returns {Object} store
    */
-  store (renderers, view) {
+  store (renderers, formValue, view) {
     return Ember.Object.create({
-      formValue: this.get('reduxStore').getState().value,
+      formValue,
       renderers,
       view
     })
