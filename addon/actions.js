@@ -26,11 +26,12 @@ export function updateValidationResults (validationResult) {
   }
 }
 
+function invalidPath (refPath) {
+  console.warn(`${refPath} is not a valid path`)
+  return {}
+}
+
 function schemaFromRef (definitions) {
-  function invalidPath (refPath) {
-    console.warn(`${refPath} is not a valid path`)
-    return {}
-  }
   if (_.isUndefined(definitions)) {
     return function (refPath) {
       const schema = invalidPath(refPath)
@@ -56,16 +57,21 @@ function getSchema (pathStack, model, resolveRef) {
   if (model.$ref !== undefined) {
     return resolveRef(model.$ref, resolveRef)
   }
+
   if (pathStack.length <= 0) {
     return model
-  } else if (model.properties) {
+  }
+
+  if (model.properties) {
     const current = pathStack.pop()
     return getSchema(pathStack, model.properties[current], resolveRef)
-  } else if (model.items) {
-    return getSchema(pathStack, model.items, resolveRef)
-  } else {
-    return {}
   }
+
+  if (model.items) {
+    return getSchema(pathStack, model.items, resolveRef)
+  }
+
+  return {}
 }
 
 function findDefaults (value, path, model, resolveRef) {
