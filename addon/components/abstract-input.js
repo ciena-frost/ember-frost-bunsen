@@ -132,11 +132,11 @@ export default Component.extend(PropTypeMixin, {
 
     /**
      * Handle user updating value
-     * @param {Event} data - event
+     * @param {Event} e - event data
      */
-    onChange (data) {
+    onChange (e) {
       const bunsenId = this.get('bunsenId')
-      const newValue = this.parseValue(data)
+      const newValue = this.parseValue(e)
       const oldValue = this.get('value')
       const onChange = this.get('onChange')
 
