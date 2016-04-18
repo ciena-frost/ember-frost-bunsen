@@ -1,7 +1,7 @@
 const expect = chai.expect
 import {describe, it} from 'mocha'
-import {changeValue, updateValidationResults, validate, CHANGE_VALUE, VALIDATION_RESOLVED} from 'ember-frost-bunsen/actions'
-
+import {changeValue, validate, CHANGE_VALUE, VALIDATION_RESOLVED} from 'ember-frost-bunsen/actions'
+import _ from 'lodash'
 
 describe('changeValue action', function () {
   it(`returns a dispatcher action with type "${CHANGE_VALUE}"`, function () {
@@ -230,5 +230,22 @@ describe('validate action', function () {
     const defaultValue = getDefaultValue(null, {}, SCHEMA_WITH_NO_DEFAULTS)
     console.log(defaultValue)
     expect(defaultValue).to.eql({})
+  })
+
+  function getState () {
+    return {
+      get value () {
+        return {}
+      }
+    }
+  }
+
+  it('resolves if no validators are given', function () {
+    let thunk = validate(null, {}, SCHEMA_WITH_DEFAULTS, [])
+    thunk(function (action) {
+      if (action.type === VALIDATION_RESOLVED) {
+        expect(action.errors).to.eql([])
+      }
+    }, getState)
   })
 })
