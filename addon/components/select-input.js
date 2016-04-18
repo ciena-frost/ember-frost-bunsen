@@ -8,9 +8,10 @@ export default Input.extend({
     'frost-field'
   ],
 
-  init () {
-    this._super(...arguments)
-    this.set('options', Ember.A([]))
+  getDefaultProps () {
+    return {
+      options: Ember.A([])
+    }
   },
 
   dbStore: Ember.inject.service('store'),
