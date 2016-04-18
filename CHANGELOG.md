@@ -9,6 +9,7 @@
   (created in consuming code) can still be addressed either way (based on how the
   consuming code constructs the custom renderers hash), but the kebab-case is encouraged.
 
+## Non-Breaking Changes
 * **Added** support for built-in select drop-downs, using `ember-frost-select`.
   Where options are a fixed list (enum), then the options are pulled from the enum definition
   in the Bunsen model JSON Schema for the rendered attribute, like so:
