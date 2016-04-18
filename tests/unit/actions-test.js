@@ -135,6 +135,33 @@ describe('validate action', function () {
       }
     }
   }
+
+  const SCHEMA_WITH_NO_DEFAULTS = {
+    type: 'object',
+    properties: {
+      someotherProp: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'object',
+            properties: {
+              firstName: {
+                type: 'string'
+              },
+              lastName: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      },
+      alias: {
+        type: 'string',
+        title: 'Nickname'
+      }
+    }
+  }
+
   function getDefaultValue (path, initialValue, schema) {
     const thunk = validate(path, initialValue, schema, [])
     const defaultValue = {}
@@ -197,5 +224,11 @@ describe('validate action', function () {
         alias: 'Batman'
       }
     })
+  })
+
+  it('handles a schema with no defaults', function () {
+    const defaultValue = getDefaultValue(null, {}, SCHEMA_WITH_NO_DEFAULTS)
+    console.log(defaultValue)
+    expect(defaultValue).to.eql({})
   })
 })
