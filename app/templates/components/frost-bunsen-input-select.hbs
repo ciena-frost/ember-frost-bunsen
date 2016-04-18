@@ -7,15 +7,17 @@
 <div class={{inputWrapperClassName}}>
   {{frost-select
     disabled=cellConfig.disabled
-    onInput=onInput
+    onInput=(action "onInput")
     onChange=(action "onChange")
     data=options
     selectedValue=value
   }}
 </div>
 {{#if errorMessage}}
-  <div class={{labelWrapperClassName}}></div>
-  <div class="error">
-    {{errorMessage}}
+  <div>
+    <div class={{labelWrapperClassName}}></div>
+    <div class="error">
+      {{errorMessage}}
+    </div>
   </div>
 {{/if}}

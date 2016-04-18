@@ -26,7 +26,7 @@ const records = [
     }
   },
   {
-    id: 2,
+    id: 3,
     type: 'resource',
     label: 'Resource 3',
     domainId: '12345',
@@ -35,7 +35,7 @@ const records = [
     }
   },
   {
-    id: 3,
+    id: 4,
     type: 'resource',
     label: 'Resource 4',
     get: function (attribute) {
@@ -45,12 +45,10 @@ const records = [
 ]
 
 const formValue = {
-  value: {
-    domainId: 12345,
-    foo: {
-      bar: {
-        someOtherProp: 'helloThere'
-      }
+  domainId: 12345,
+  foo: {
+    bar: {
+      someOtherProp: 'helloThere'
     }
   }
 }
@@ -67,11 +65,20 @@ function stubDbService (ctx) {
   }))
 
   const query = (type, query) => {
-    let [qProp, qValue] = query.q.split(':')
-    let rtValue = query.resourceTypeId
-    return promiseMe(_.filter(records, (record) => {
-      return record[qProp] === qValue && record.resourceTypeId === rtValue
-    }))
+    if (query.q) {
+      let [qProp, qValue] = query.q.split(':')
+      let rtValue = query.resourceTypeId
+      return promiseMe(_.filter(records, (record) => {
+        return record[qProp] === qValue && record.resourceTypeId === rtValue
+      }))
+    }
+    if (query.p) {
+      let [pProp, pValue] = query.p.split(':')
+      return promiseMe(_.filter(records, (record) => {
+        return record[pProp].toLowerCase().indexOf(pValue.toLowerCase()) !== -1
+      }))
+    }
+    return promiseMe(records)
   }
 
   const findAll = sinon.stub()
@@ -99,9 +106,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         cellConfig: Ember.Object.create({}),
         model: {},
         onChange: () => {},
-        store: Ember.Object.create({}),
+        store: Ember.Object.create({
+          formValue
+        }),
         state: Ember.Object.create(),
-        formValue,
         dbStore: this.get('dbStore')
       }
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
@@ -120,22 +128,55 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    it('gets async values', function (done) {
+    it('gets async values per query instructions', function (done) {
       props.model = {
         modelType: 'resource',
         labelAttribute: 'label',
         valueAttribute: 'id',
         query: {
           resourceTypeId: '${foo.bar.someOtherProp}',
-          q: 'domainId:${domainId}',
-          p: 'label:fo'
+          q: 'domainId:${domainId}'
         }
       }
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-      const expected = ['Resource 2']
-      expect($(rootNode).text().indexOf(expected) !== -1).to.eql(true)
-      expect($(rootNode).find('li').length).to.equal(expected.length)
-      done()
+      Ember.run.later(() => {
+        const expected = ['Resource 2']
+        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
+        expect($(rootNode).find('li').length).to.equal(expected.length)
+        done()
+      })
+    })
+
+    it('filters locally for enum-based lists', function (done) {
+      props.model.enum = ['foo', 'bar', 'fitz', 'batz']
+      const expected = ['Foo', 'Fitz']
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      $(rootNode).find('input[type=text]').val('f').trigger('input')
+      Ember.run.later(() => {
+        console.log($(rootNode))
+        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
+        expect($(rootNode).find('li').length).to.equal(expected.length)
+        done()
+      })
+    })
+
+    it('filters asynchronously for query.p-based lists', function (done) {
+      props.model = {
+        modelType: 'resource',
+        labelAttribute: 'label',
+        valueAttribute: 'id',
+        query: {
+          p: ''
+        }
+      }
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      $(rootNode).find('input[type=text]').val('resource 1').trigger('input')
+      const expected = ['Resource 1']
+      Ember.run.later(() => {
+        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
+        expect($(rootNode).find('li').length).to.equal(expected.length)
+        done()
+      })
     })
   })
 })
