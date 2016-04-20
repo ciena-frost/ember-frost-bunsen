@@ -200,7 +200,6 @@ export default Component.extend(PropTypeMixin, {
     const value = this.get('value')
     const pojoValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStoreValue = reduxStore.getState().value
-    const hasValueChanged = !_.isEqual(pojoValue, reduxStoreValue)
 
     if (!_.isObject(pojoValue) && !_.isObject(reduxStoreValue)) {
       dispatchValue = {}
