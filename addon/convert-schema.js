@@ -19,7 +19,7 @@ function meetsCondition (value, condition) {
   return isConditionMet
 }
 
-export default function (model, value) {
+function convertConditionalProperties (model, value) {
   if (model.type !== 'object' && model.properties === undefined) {
     return model
   }
@@ -29,6 +29,9 @@ export default function (model, value) {
   let depsMet = {}
   let props = {}
 
+  _.each(retModel.properties, function (subSchema, propName) {
+    retModel.properties[propName] = convertConditionalProperties(subSchema, value[propName])
+  })
   let conditionalProperties = _.transform(model.properties, function (result, schema, key) {
     if (schema.conditions) {
       result[key] = schema
@@ -48,7 +51,6 @@ export default function (model, value) {
       return hasDependencyMet
     })
   })
-
   _.each(depsMet, function (dependencyMet, depName) {
     const baseSchema = retModel.properties[depName]
     if (dependencyMet && !baseSchema.set || !dependencyMet && baseSchema.set) {
@@ -60,3 +62,5 @@ export default function (model, value) {
 
   return retModel
 }
+
+export default convertConditionalProperties

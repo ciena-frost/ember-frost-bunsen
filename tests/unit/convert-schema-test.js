@@ -192,6 +192,18 @@ const START_WITH_SET_PROPERTY = {
   }
 }
 
+const MODEL_WITH_DEEP_CONDITIONALS = {
+  type: 'object',
+  properties: {
+    tags: SIMPLE_MODEL
+  }
+}
+
+
+const MODEL_WITH_RELATIVE_PATHS = {
+
+}
+
 describe('conditionalProperties conversion', function () {
   it('spits out the same model', function () {
     const data = {}
@@ -310,7 +322,7 @@ describe('conditionalProperties conversion', function () {
     })
   })
 
-  it('hides a conditional property when it is met', function () {
+  it('hides a conditional property when it is showing by default and one of its conditions is met', function () {
     const data = {
       tagType: 'single-tagged'
     }
@@ -322,6 +334,37 @@ describe('conditionalProperties conversion', function () {
         'tagType': {
           'type': 'string',
           'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
+        }
+      }
+    })
+  })
+
+  it('handles conditional properties for nested objects', function () {
+    const data = {
+      tags: {
+        tagType: 'single-tagged'
+      }
+    }
+
+    const newModel = convert(MODEL_WITH_DEEP_CONDITIONALS, data)
+    expect(newModel).to.eql({
+      'type': 'object',
+      'properties': {
+        'tags': {
+          'type': 'object',
+          'properties': {
+            'tagType': {
+              'type': 'string',
+              'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
+            },
+            'tag': {
+              'type': 'number',
+              'default': 20,
+              'multipleOf': 1.0,
+              'minimum': 0,
+              'maximum': 4094
+            }
+          }
         }
       }
     })
