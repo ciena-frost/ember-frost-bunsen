@@ -194,14 +194,23 @@ export default Component.extend(PropTypeMixin, {
   didReceiveAttrs () {
     this._super(...arguments)
 
+    let dispatchValue
+
     const reduxStore = this.get('reduxStore')
     const value = this.get('value')
     const pojoValue = isEmberObject(value) ? deemberify(value) : value
-    const hasValueChanged = !_.isEqual(pojoValue, reduxStore.getState().value)
+    const reduxStoreValue = reduxStore.getState().value
+    const hasValueChanged = !_.isEqual(pojoValue, reduxStoreValue)
 
-    if (hasValueChanged) {
+    if (!_.isObject(pojoValue) && !_.isObject(reduxStoreValue)) {
+      dispatchValue = {}
+    } else if (_.isObject(pojoValue) && !_.isEqual(pojoValue, reduxStoreValue)) {
+      dispatchValue = pojoValue
+    }
+
+    if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, pojoValue || {}, this.get('renderModel'), this.get('validators'))
+        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
       )
     }
 
