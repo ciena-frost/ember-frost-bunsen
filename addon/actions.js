@@ -110,7 +110,9 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
     let formValue = getState().value
     const previousValue = _.get(formValue, bunsenId)
 
-    if (inputValue === undefined && previousValue === undefined) {
+    // If an empty value has been provided and there is no previous value then
+    // make sure to apply defaults from the model
+    if (_.isEmpty(inputValue) && previousValue === undefined) {
       const resolveRef = schemaFromRef(renderModel.definitions)
       inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
 
@@ -120,7 +122,11 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
     }
 
     dispatch(changeValue(bunsenId, inputValue))
+
+    // We must lookup the formValue again in order for the validation results to
+    // be run on the post-change value rather than the pre-change value
     formValue = getState().value
+
     const result = validateValue(formValue, renderModel)
 
     const promises = []
