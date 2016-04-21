@@ -52,6 +52,7 @@ describeComponent(
           model: {
             properties: {
               bar: {type: 'string'},
+              baz: {type: 'number'},
               foo: {type: 'string'}
             },
             required: ['foo'],
@@ -92,6 +93,49 @@ describeComponent(
       it('onChange gets expected value', function () {
         expect(updatedValue).to.eql({
           bar: 'test'
+        })
+      })
+
+      it('onValidation gets expected validation errors', function () {
+        expect(validationResult.errors.length).to.eql(1)
+
+        const error = validationResult.errors[0]
+
+        expect(error.code).to.eql('OBJECT_MISSING_REQUIRED_PROPERTY')
+        expect(error.message).to.eql('Field is required.')
+        expect(error.path).to.eql('#/foo')
+      })
+
+      it('onValidation gets expected validation warnings', function () {
+        expect(validationResult.warnings).to.eql([])
+      })
+    })
+
+    describe('update baz', function () {
+      let updatedValue, validationResult
+
+      beforeEach(function (done) {
+        run(() => {
+          component.actions.onChange.call(component, 'baz', 42)
+        })
+
+        setTimeout(() => {
+          updatedValue = onChangeSpy.lastCall.args[0]
+          validationResult = onValidationSpy.lastCall.args[0]
+          done()
+        }, 500)
+      })
+
+      it('store gets expected formValue', function () {
+        const store = component.get('store')
+        expect(store.formValue).to.eql({
+          baz: 42
+        })
+      })
+
+      it('onChange gets expected value', function () {
+        expect(updatedValue).to.eql({
+          baz: 42
         })
       })
 
