@@ -1,5 +1,25 @@
 import _ from 'lodash'
 
+function pathFinder (valueObj, prevPath) {
+  return function (path) {
+    if (!(path instanceof 'Array')) {
+      path = path.split('.').reverse()
+    }
+    let nextInPath = path.pop()
+
+    if (nextInPath === '') {
+      if (_.last(path) === '') {
+        path.pop()
+        path.push(path.pop().replace('/', ''))
+        return prevPath(path)
+      } else {
+        path.push(path.pop().replace('/', ''))
+      }
+    }
+    return _.get(valueObj, path.reverse().join('.'))
+  }
+}
+
 // (value, condition)->boolean
 function meetsCondition (value, condition) {
   let isConditionMet = false
@@ -19,7 +39,7 @@ function meetsCondition (value, condition) {
   return isConditionMet
 }
 
-function convertConditionalProperties (model, value) {
+function convertConditionalProperties (model, value, getPreviousValue) {
   if (model.type !== 'object' && model.properties === undefined) {
     return model
   }
@@ -29,8 +49,10 @@ function convertConditionalProperties (model, value) {
   let depsMet = {}
   let props = {}
 
+  const getValue = pathFinder(value, getPreviousValue)
+
   _.each(retModel.properties, function (subSchema, propName) {
-    retModel.properties[propName] = convertConditionalProperties(subSchema, value[propName])
+    retModel.properties[propName] = convertConditionalProperties(subSchema, value[propName], pathFinder(value, getValue))
   })
   let conditionalProperties = _.transform(model.properties, function (result, schema, key) {
     if (schema.conditions) {
@@ -41,7 +63,7 @@ function convertConditionalProperties (model, value) {
     depsMet[key] = _.some(depSchema.conditions, function (enableConditions) {
       const hasDependencyMet = _.some(enableConditions.if, function (conditionList) {
         return _.every(conditionList, function (conditionValue, dependencyKey) {
-          const dependencyValue = _.get(value, dependencyKey)
+          const dependencyValue = getValue(dependencyKey)
           return meetsCondition(dependencyValue, conditionValue)
         })
       })

@@ -201,7 +201,127 @@ const MODEL_WITH_DEEP_CONDITIONALS = {
 
 
 const MODEL_WITH_RELATIVE_PATHS = {
+  'type': 'object',
+  'properties': {
+    'tagType': {
+      'type': 'string',
+      'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
+    },
+    'tags': {
+      type: 'object',
+      properties: {
+        'tag': {
+          'type': 'number',
+          'default': 20,
+          'multipleOf': 1.0,
+          'minimum': 0,
+          'maximum': 4094,
+          'conditions': [
+            {
+              'if': [
+                {
+                  '../tagType': {
+                    'equals': 'single-tagged'
+                  }
+                },
+                {
+                  '../tagType': {
+                    'equals': 'double-tagged'
+                  }
+                }
 
+              ]
+            },
+            {
+              'if': [{
+                '../tagType': {'equals': 'foo-tagged'}
+              }],
+              'then': {
+                'default': 120,
+                'minimum': 100,
+                'maximum': 200
+              }
+            }
+          ]
+        },
+        'tag2': {
+          'type': 'number',
+          'default': 3000,
+          'multipleOf': 1.0,
+          'minimum': 0,
+          'maximum': 4094,
+          'conditions': [
+            {
+              'if': [
+                {
+                  'tagType': {
+                    'equals': 'double-tagged'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+const MODEL_WITH_ARRAY = {
+  'type': 'object',
+  'properties': {
+    'tags': {
+      type: 'array',
+      items: {
+        'tagType': {
+          'type': 'string',
+          'enum': ['untagged', 'single-tagged', 'double-tagged']
+        },
+        'tag': {
+          'type': 'number',
+          'default': 20,
+          'multipleOf': 1.0,
+          'minimum': 0,
+          'maximum': 4094,
+          'conditions': [
+            {
+              'if': [
+                {
+                  './tagType': {
+                    'equals': 'single-tagged'
+                  }
+                },
+                {
+                  './tagType': {
+                    'equals': 'double-tagged'
+                  }
+                }
+
+              ]
+            }
+          ]
+        },
+        'tag2': {
+          'type': 'number',
+          'default': 3000,
+          'multipleOf': 1.0,
+          'minimum': 0,
+          'maximum': 4094,
+          'conditions': [
+            {
+              'if': [
+                {
+                  'tagType': {
+                    'equals': 'double-tagged'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
 }
 
 describe('conditionalProperties conversion', function () {
@@ -347,6 +467,37 @@ describe('conditionalProperties conversion', function () {
     }
 
     const newModel = convert(MODEL_WITH_DEEP_CONDITIONALS, data)
+    expect(newModel).to.eql({
+      'type': 'object',
+      'properties': {
+        'tags': {
+          'type': 'object',
+          'properties': {
+            'tagType': {
+              'type': 'string',
+              'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
+            },
+            'tag': {
+              'type': 'number',
+              'default': 20,
+              'multipleOf': 1.0,
+              'minimum': 0,
+              'maximum': 4094
+            }
+          }
+        }
+      }
+    })
+  })
+
+  it('checks relative paths', function () {
+    const data = {
+      tags: {
+        tagType: 'single-tagged'
+      }
+    }
+
+    const newModel = convert(MODEL_WITH_RELATIVE_PATHS, data)
     expect(newModel).to.eql({
       'type': 'object',
       'properties': {
