@@ -108,7 +108,9 @@ export default Component.extend(PropTypeMixin, {
    * @returns {any} parsed value
    */
   parseValue (data) {
-    return data.value || _.get(data, 'target.value') || data
+    return _.find([data.value, _.get(data, 'target.value'), data], function (value) {
+      return !_.isUndefined(value)
+    })
   },
 
   actions: {

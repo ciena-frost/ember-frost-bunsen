@@ -110,9 +110,13 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
     const formValue = getState()['value']
     const previousValue = _.get(formValue, bunsenId)
 
-    if (previousValue === undefined && _.isObject(inputValue)) {
+    if (previousValue === undefined) {
       const resolveRef = schemaFromRef(renderModel.definitions)
       inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
+
+      if (bunsenId === null && inputValue === undefined) {
+        inputValue = {}
+      }
     }
 
     dispatch(changeValue(bunsenId, inputValue))

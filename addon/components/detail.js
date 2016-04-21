@@ -191,23 +191,22 @@ export default Component.extend(PropTypeMixin, {
   /**
    * Keep value in sync with store and validate properties
    */
-  didReceiveAttrs () {
+  didReceiveAttrs ({newAttrs, oldAttrs}) {
     this._super(...arguments)
 
     let dispatchValue
 
     const reduxStore = this.get('reduxStore')
     const value = this.get('value')
-    const pojoValue = isEmberObject(value) ? deemberify(value) : value
+    const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStoreValue = reduxStore.getState().value
+    const hasNewValue = oldAttrs === undefined || _.isEqual(_.get(oldAttrs, 'value.value'), _.get(newAttrs, 'value.value'))
 
-    if (!_.isObject(pojoValue) && !_.isObject(reduxStoreValue)) {
-      dispatchValue = {}
-    } else if (_.isObject(pojoValue) && !_.isEqual(pojoValue, reduxStoreValue)) {
-      dispatchValue = pojoValue
+    if (!_.isEqual(plainObjectValue, reduxStoreValue)) {
+      dispatchValue = plainObjectValue
     }
 
-    if (dispatchValue) {
+    if (dispatchValue || hasNewValue) {
       reduxStore.dispatch(
         validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
       )
