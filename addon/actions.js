@@ -107,10 +107,10 @@ function findDefaults (value, path, model, resolveRef) {
 
 export function validate (bunsenId, inputValue, renderModel, validators) {
   return function (dispatch, getState) {
-    const formValue = getState()['value']
+    let formValue = getState().value
     const previousValue = _.get(formValue, bunsenId)
 
-    if (previousValue === undefined) {
+    if (inputValue === undefined && previousValue === undefined) {
       const resolveRef = schemaFromRef(renderModel.definitions)
       inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
 
@@ -120,6 +120,7 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
     }
 
     dispatch(changeValue(bunsenId, inputValue))
+    formValue = getState().value
     const result = validateValue(formValue, renderModel)
 
     const promises = []
