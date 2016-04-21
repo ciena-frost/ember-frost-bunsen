@@ -70,13 +70,16 @@ describeComponent(
     describe('update bar', function () {
       let updatedValue, validationResult
 
-      beforeEach(function () {
+      beforeEach(function (done) {
         run(() => {
           component.actions.onChange.call(component, 'bar', 'test')
         })
 
-        updatedValue = onChangeSpy.lastCall.args[0]
-        validationResult = onValidationSpy.lastCall.args[0]
+        setTimeout(() => {
+          updatedValue = onChangeSpy.lastCall.args[0]
+          validationResult = onValidationSpy.lastCall.args[0]
+          done()
+        }, 500)
       })
 
       it('store gets expected formValue', function () {
@@ -93,7 +96,13 @@ describeComponent(
       })
 
       it('onValidation gets expected validation errors', function () {
-        expect(validationResult.errors).to.eql([])
+        expect(validationResult.errors.length).to.eql(1)
+
+        const error = validationResult.errors[0]
+
+        expect(error.code).to.eql('OBJECT_MISSING_REQUIRED_PROPERTY')
+        expect(error.message).to.eql('Field is required.')
+        expect(error.path).to.eql('#/foo')
       })
 
       it('onValidation gets expected validation warnings', function () {
@@ -104,13 +113,16 @@ describeComponent(
     describe('update foo', function () {
       let updatedValue, validationResult
 
-      beforeEach(function () {
+      beforeEach(function (done) {
         run(() => {
           component.actions.onChange.call(component, 'foo', 'test')
         })
 
-        updatedValue = onChangeSpy.lastCall.args[0]
-        validationResult = onValidationSpy.lastCall.args[0]
+        setTimeout(() => {
+          updatedValue = onChangeSpy.lastCall.args[0]
+          validationResult = onValidationSpy.lastCall.args[0]
+          done()
+        }, 500)
       })
 
       it('store gets expected formValue', function () {
