@@ -45,6 +45,31 @@ export default [
     }
   },
   {
+    id: 'array-2',
+    label: 'Array 2',
+    model: {
+      properties: {
+        people: {
+          items: {
+            properties: {
+              age: {type: 'number'},
+              name: {
+                properties: {
+                  first: {type: 'string'},
+                  last: {type: 'string'}
+                },
+                type: 'object'
+              }
+            },
+            type: 'object'
+          },
+          type: 'array'
+        }
+      },
+      type: 'object'
+    }
+  },
+  {
     id: 'complex',
     label: 'Complex',
     model: {

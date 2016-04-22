@@ -105,7 +105,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         bunsenId: 'enabled',
         cellConfig: Ember.Object.create({}),
         model: {},
-        onChange: () => {},
+        onChange() {},
         store: Ember.Object.create({
           formValue
         }),

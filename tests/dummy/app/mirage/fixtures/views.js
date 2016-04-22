@@ -187,6 +187,46 @@ export default [
     }
   },
   {
+    id: 'array-auto-add',
+    label: 'Array (Auto Add)',
+    modelIds: ['array-2'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'people',
+                item: {
+                  autoAdd: true,
+                  container: 'person',
+                  label: 'Person'
+                }
+              }
+            ]
+          ]
+        },
+        {
+          id: 'person',
+          rows: [
+            [{model: 'name.first'}],
+            [{model: 'name.last'}],
+            [{model: 'age'}]
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 'complex',
     label: 'Complex',
     modelIds: ['complex'],

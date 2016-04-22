@@ -32,7 +32,7 @@ const INITIAL_VALUE = {
 }
 
 // TODO: Update lodash and get rid of this
-function unset (obj, path) {
+export function unset (obj, path) {
   _.set(obj, path, undefined)
   const obStr = JSON.stringify(obj)
   return JSON.parse(obStr)
