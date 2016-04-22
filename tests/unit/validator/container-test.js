@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {beforeEach, describe, it} from 'mocha'
 import validatorFactory from 'ember-frost-bunsen/validator/container'
 
