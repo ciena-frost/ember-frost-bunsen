@@ -6,7 +6,6 @@ const {A, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {deemberify, getLabel} from '../utils'
-import {unset} from '../reducer'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================

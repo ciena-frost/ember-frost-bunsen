@@ -1,5 +1,4 @@
 const {expect} = chai
-const {run} = Ember
 import {describeComponent} from 'ember-mocha'
 import {beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -13,17 +12,13 @@ describeComponent(
     let component
 
     beforeEach(function () {
-      component = this.subject()
-
-      run(() => {
-        component.setProperties({
-          bunsenId: 'name',
-          cellConfig: Ember.Object.create({}),
-          model: {},
-          onChange () {},
-          store: Ember.Object.create({}),
-          state: Ember.Object.create({})
-        })
+      component = this.subject({
+        bunsenId: 'name',
+        cellConfig: Ember.Object.create({}),
+        model: {},
+        onChange () {},
+        store: Ember.Object.create({}),
+        state: Ember.Object.create({})
       })
     })
 
@@ -57,10 +52,7 @@ describeComponent(
         {in: 'test', out: 'test'}
       ].forEach((test) => {
         it(`returns "${test.out}" when value is ${test.in} (${typeof test.in})`, function () {
-          run(() => {
-            component.set('value', test.in)
-          })
-
+          component.set('value', test.in)
           expect(component.get('renderValue')).to.equal(test.out)
         })
       })
