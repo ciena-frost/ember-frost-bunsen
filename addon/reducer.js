@@ -28,7 +28,7 @@ function ensureParent (state, id) {
 const INITIAL_VALUE = {
   errors: {},
   validationResult: {warnings: [], errors: []},
-  value: {}
+  value: null
 }
 
 // TODO: Update lodash and get rid of this

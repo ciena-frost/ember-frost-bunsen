@@ -107,11 +107,31 @@ function findDefaults (value, path, model, resolveRef) {
 
 export function validate (bunsenId, inputValue, renderModel, validators) {
   return function (dispatch, getState) {
-    const formValue = getState()['value']
+    let formValue = getState().value
+
+    const isInputValueEmpty = (
+      [undefined, null].indexOf(inputValue) !== -1 ||
+      (_.isObject(inputValue) && Object.keys(inputValue).length === 0) // Check if empty object
+    )
+
     const previousValue = _.get(formValue, bunsenId)
 
-    if (previousValue === undefined && _.isObject(inputValue)) {
+    // If an empty value has been provided and there is no previous value then
+    // make sure to apply defaults from the model
+    if (isInputValueEmpty && previousValue === undefined) {
       const resolveRef = schemaFromRef(renderModel.definitions)
+      inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
+
+      if (bunsenId === null && inputValue === undefined) {
+        inputValue = {}
+      }
+    }
+
+
+    // We must lookup the formValue again in order for the validation results to
+    // be run on the post-change value rather than the pre-change value
+    formValue = getState().value
+
       inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
     }
 

@@ -145,7 +145,7 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties({
       errors,
-      renderValue: value || {}
+      renderValue: value
     })
 
     if (onChange) {
@@ -191,17 +191,35 @@ export default Component.extend(PropTypeMixin, {
   /**
    * Keep value in sync with store and validate properties
    */
-  didReceiveAttrs () {
+  didReceiveAttrs ({newAttrs, oldAttrs}) {
     this._super(...arguments)
+
+    let dispatchValue
 
     const reduxStore = this.get('reduxStore')
     const value = this.get('value')
-    const pojoValue = isEmberObject(value) ? deemberify(value) : value
-    const hasValueChanged = !_.isEqual(pojoValue, reduxStore.getState().value)
+    const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
+    const reduxStoreValue = reduxStore.getState().value
+    const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
+    const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
+    const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
 
-    if (hasValueChanged) {
+    // If the store value is empty we need to make sure we we set it to an empty object so
+    // properties can be assigned to it via onChange events
+    if (isReduxStoreValueEmpty) {
+      dispatchValue = {}
+    }
+
+    // If the user/consumer has provided a value and it differs from the current store value
+    // then we need to update the store to be the user/consumer supplied value
+    if (hasUserProvidedValue && !doesUserValueMatchStoreValue) {
+      dispatchValue = plainObjectValue
+    }
+
+    // If we have a new value to assign the store then let's get to it
+    if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, pojoValue || {}, this.get('renderModel'), this.get('validators'))
+        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
       )
     }
 
