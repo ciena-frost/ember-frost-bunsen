@@ -127,15 +127,12 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
       }
     }
 
+    dispatch(changeValue(bunsenId, inputValue))
 
     // We must lookup the formValue again in order for the validation results to
     // be run on the post-change value rather than the pre-change value
     formValue = getState().value
 
-      inputValue = findDefaults(inputValue, bunsenId, renderModel, resolveRef)
-    }
-
-    dispatch(changeValue(bunsenId, inputValue))
     const result = validateValue(formValue, renderModel)
 
     const promises = []
