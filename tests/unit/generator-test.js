@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {beforeEach, describe, it} from 'mocha'
 import {getDefaultView} from 'ember-frost-bunsen/generator'
 

@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 const {HTMLBars} = Ember
 import _ from 'lodash'
 import Ember from 'ember'

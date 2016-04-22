@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import {changeValue, validate, CHANGE_VALUE, VALIDATION_RESOLVED} from 'ember-frost-bunsen/actions'
 import _ from 'lodash'
