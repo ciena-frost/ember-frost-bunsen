@@ -2,12 +2,13 @@ import _ from 'lodash'
 
 function pathFinder (valueObj, prevPath) {
   return function (path) {
-    if (!(path instanceof 'Array')) {
+    if (!_.isArray(path)) {
       path = path.split('.').reverse()
     }
-    let nextInPath = path.pop()
+    let nextInPath = _.last(path)
 
     if (nextInPath === '') {
+      path.pop()
       if (_.last(path) === '') {
         path.pop()
         path.push(path.pop().replace('/', ''))
@@ -40,11 +41,21 @@ function meetsCondition (value, condition) {
 }
 
 function convertConditionalProperties (model, value, getPreviousValue) {
-  if (model.type !== 'object' && model.properties === undefined) {
+  if (model.type !== 'object' && model.type !== 'array' && model.properties === undefined) {
     return model
   }
 
   let retModel = _.cloneDeep(model)
+  if (model.type === 'array' && _.isArray(value)) {
+    let itemSchemas = _.uniq(_.map(value, function (val) {
+      return convertConditionalProperties(model.items, val, getPreviousValue)
+    }))
+    if (itemSchemas.length > 1) {
+      retModel.items = {anyOf: itemSchemas}
+    } else {
+      retModel.items = itemSchemas[0]
+    }
+  }
 
   let depsMet = {}
   let props = {}
@@ -52,7 +63,7 @@ function convertConditionalProperties (model, value, getPreviousValue) {
   const getValue = pathFinder(value, getPreviousValue)
 
   _.each(retModel.properties, function (subSchema, propName) {
-    retModel.properties[propName] = convertConditionalProperties(subSchema, value[propName], pathFinder(value, getValue))
+    retModel.properties[propName] = convertConditionalProperties(subSchema, _.get(value, propName), pathFinder(value, getValue))
   })
   let conditionalProperties = _.transform(model.properties, function (result, schema, key) {
     if (schema.conditions) {

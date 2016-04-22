@@ -273,51 +273,54 @@ const MODEL_WITH_ARRAY = {
     'tags': {
       type: 'array',
       items: {
-        'tagType': {
-          'type': 'string',
-          'enum': ['untagged', 'single-tagged', 'double-tagged']
-        },
-        'tag': {
-          'type': 'number',
-          'default': 20,
-          'multipleOf': 1.0,
-          'minimum': 0,
-          'maximum': 4094,
-          'conditions': [
-            {
-              'if': [
-                {
-                  './tagType': {
-                    'equals': 'single-tagged'
+        type: 'object',
+        properties: {
+          'tagType': {
+            'type': 'string',
+            'enum': ['untagged', 'single-tagged', 'double-tagged']
+          },
+          'tag': {
+            'type': 'number',
+            'default': 20,
+            'multipleOf': 1.0,
+            'minimum': 0,
+            'maximum': 4094,
+            'conditions': [
+              {
+                'if': [
+                  {
+                    'tagType': {
+                      'equals': 'single-tagged'
+                    }
+                  },
+                  {
+                    'tagType': {
+                      'equals': 'double-tagged'
+                    }
                   }
-                },
-                {
-                  './tagType': {
-                    'equals': 'double-tagged'
-                  }
-                }
 
-              ]
-            }
-          ]
-        },
-        'tag2': {
-          'type': 'number',
-          'default': 3000,
-          'multipleOf': 1.0,
-          'minimum': 0,
-          'maximum': 4094,
-          'conditions': [
-            {
-              'if': [
-                {
-                  'tagType': {
-                    'equals': 'double-tagged'
+                ]
+              }
+            ]
+          },
+          'tag2': {
+            'type': 'number',
+            'default': 3000,
+            'multipleOf': 1.0,
+            'minimum': 0,
+            'maximum': 4094,
+            'conditions': [
+              {
+                'if': [
+                  {
+                    'tagType': {
+                      'equals': 'double-tagged'
+                    }
                   }
-                }
-              ]
-            }
-          ]
+                ]
+              }
+            ]
+          }
         }
       }
     }
@@ -492,22 +495,20 @@ describe('conditionalProperties conversion', function () {
 
   it('checks relative paths', function () {
     const data = {
-      tags: {
-        tagType: 'single-tagged'
-      }
+      tagType: 'single-tagged'
     }
 
     const newModel = convert(MODEL_WITH_RELATIVE_PATHS, data)
     expect(newModel).to.eql({
       'type': 'object',
       'properties': {
+        'tagType': {
+          'type': 'string',
+          'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
+        },
         'tags': {
           'type': 'object',
           'properties': {
-            'tagType': {
-              'type': 'string',
-              'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
-            },
             'tag': {
               'type': 'number',
               'default': 20,
@@ -515,6 +516,65 @@ describe('conditionalProperties conversion', function () {
               'minimum': 0,
               'maximum': 4094
             }
+          }
+        }
+      }
+    })
+  })
+  it('handles arrays', function () {
+    const data = {
+      tags: [
+        {
+          tagType: 'single-tagged'
+        }, {
+          tagType: 'double-tagged'
+        }]
+    }
+
+    const newModel = convert(MODEL_WITH_ARRAY, data)
+    expect(newModel).to.eql({
+      'type': 'object',
+      properties: {
+        'tags': {
+          type: 'array',
+          items: {
+            anyOf: [{
+              'type': 'object',
+              'properties': {
+                'tagType': {
+                  'type': 'string',
+                  'enum': ['untagged', 'single-tagged', 'double-tagged']
+                },
+                'tag': {
+                  'type': 'number',
+                  'default': 20,
+                  'multipleOf': 1.0,
+                  'minimum': 0,
+                  'maximum': 4094
+                }
+              }}, {
+                'type': 'object',
+                'properties': {
+                  'tagType': {
+                    'type': 'string',
+                    'enum': ['untagged', 'single-tagged', 'double-tagged']
+                  },
+                  'tag': {
+                    'type': 'number',
+                    'default': 20,
+                    'multipleOf': 1.0,
+                    'minimum': 0,
+                    'maximum': 4094
+                  },
+                  'tag2': {
+                    'type': 'number',
+                    'default': 3000,
+                    'multipleOf': 1.0,
+                    'minimum': 0,
+                    'maximum': 4094
+                  }
+                }
+              }]
           }
         }
       }
