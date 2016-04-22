@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import * as utils from 'ember-frost-bunsen/utils'
 

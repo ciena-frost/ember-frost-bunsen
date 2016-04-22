@@ -1,4 +1,4 @@
-const {expect} = chai
+import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'

@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import {changeValue, validate, CHANGE_VALUE, VALIDATION_RESOLVED} from 'ember-frost-bunsen/actions'
 import _ from 'lodash'
@@ -162,6 +162,33 @@ describe('validate action', function () {
     }
   }
 
+  const SCHEMA_WITH_ARRAY_DEFAULTS = {
+    type: 'object',
+    properties: {
+      superheroes: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+              default: 'Bruce'
+            },
+            lastName: {
+              type: 'string',
+              default: 'Wayne'
+            },
+            alias: {
+              type: 'string',
+              title: 'Nickname',
+              default: 'Batman'
+            }
+          }
+        }
+      }
+    }
+  }
+
   function getDefaultValue (path, initialValue, schema) {
     const thunk = validate(path, initialValue, schema, [])
     const defaultValue = {}
@@ -216,7 +243,6 @@ describe('validate action', function () {
 
   it('handles defaults in refs', function () {
     const defaultValue = getDefaultValue(null, {}, SCHEMA_WITH_REFS)
-    console.log(defaultValue)
     expect(defaultValue).to.eql({
       hero: {
         firstName: 'Bruce',
@@ -228,7 +254,6 @@ describe('validate action', function () {
 
   it('handles a schema with no defaults', function () {
     const defaultValue = getDefaultValue(null, {}, SCHEMA_WITH_NO_DEFAULTS)
-    console.log(defaultValue)
     expect(defaultValue).to.eql({})
   })
 
@@ -247,5 +272,15 @@ describe('validate action', function () {
         expect(action.errors).to.eql([])
       }
     }, getState)
+  })
+
+  it('handles defaults for new array elements', function () {
+    const defaultValue = getDefaultValue('superheroes.0', {}, SCHEMA_WITH_ARRAY_DEFAULTS)
+
+    expect(defaultValue).to.eql({
+      firstName: 'Bruce',
+      lastName: 'Wayne',
+      alias: 'Batman'
+    })
   })
 })

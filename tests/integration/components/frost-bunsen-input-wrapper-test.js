@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {integrationTestContext, renderWithProps} from '../../utils/template'
 import _ from 'lodash'
