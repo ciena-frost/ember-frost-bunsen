@@ -388,6 +388,40 @@ describeComponent(
                 })
               })
             })
+
+            describe(`when not only nested item property set and clearing nested value with ${value}`, function () {
+              let bunsenId
+
+              beforeEach(function (done) {
+                bunsenId = 'people.0.name.first'
+                const item = {
+                  name: {
+                    first: 'John',
+                    last: 'Doe'
+                  }
+                }
+
+                onChangeSpy = sandbox.spy(() => {
+                  done()
+                })
+
+                component.set('onChange', onChangeSpy)
+                component.get('items').pushObject(item)
+                component.set('store.formValue.people', [item])
+                component.actions.onChange.call(component, bunsenId, value)
+              })
+
+              it('does not remove item', function () {
+                expect(component.actions.onRemoveItem.callCount).to.eql(0)
+              })
+
+              it('propagates event to onChange() property', function () {
+                expect(onChangeSpy.lastCall.args[0]).to.eql('people.0.name')
+                expect(onChangeSpy.lastCall.args[1]).to.eql({
+                  last: 'Doe'
+                })
+              })
+            })
           })
         })
       })

@@ -254,7 +254,8 @@ export default Component.extend(PropTypeMixin, {
           return
         }
 
-        value = itemCopy
+        const relativePath = bunsenId.replace(itemPath, '')
+        value = _.get(itemCopy, relativePath, itemCopy)
       }
 
       if (onChange) {
