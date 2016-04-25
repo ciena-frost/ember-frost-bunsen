@@ -35,7 +35,6 @@ export default function () {
         })
       }
 
-      console.log(items)
       return {
         [key]: items
       }

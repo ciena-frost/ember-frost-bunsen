@@ -155,6 +155,7 @@ export function recursiveObjectCreate (object) {
  * mine an object for a value
  * @param {Object} obj the object to mine
  * @param {String} valuePath the path to the value in the object
+ * @param {String} startPath - start path
  * @returns {String} the value
  */
 export function findValue (obj, valuePath, startPath = '') {
@@ -169,8 +170,9 @@ export function findValue (obj, valuePath, startPath = '') {
 
 /**
  * finds variables in orch-style queryParam values
- * @param {Object} valueObj the value object to mine for query values
- * @param {String} queryJSON the stringified filter object to parse
+ * @param {Object} valueObj - the value object to mine for query values
+ * @param {String} queryJSON - the stringified filter object to parse
+ * @param {String} startPath - start path
  * @returns {String} the populated filter
  */
 export function parseVariables (valueObj, queryJSON, startPath = '') {
@@ -185,8 +187,9 @@ export function parseVariables (valueObj, queryJSON, startPath = '') {
 
 /**
  * grooms the query for variables using a ${variableName} syntax and populates the values
- * @param {Object} valueObj the value object to mine for values
- * @param {Object} query the definition from the model schema
+ * @param {Object} valueObj - the value object to mine for values
+ * @param {Object} query - the definition from the model schema
+ * @param {String} startPath - start path
  * @returns {Object} the populated query
  */
 export function populateQuery (valueObj, query, startPath = '') {

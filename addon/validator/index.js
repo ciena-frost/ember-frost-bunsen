@@ -139,4 +139,4 @@ export default function validate (view, model, renderers = Object.keys(builtinRe
 
 // convenience exports so everything can be consumed from this entry point
 export {default as validateModel} from './model'
-export {default as validateValue} from './value'
+export {validateValue as validateValue}

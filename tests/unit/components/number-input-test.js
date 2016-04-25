@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-const {run} = Ember
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -13,17 +12,13 @@ describeComponent(
     let component
 
     beforeEach(function () {
-      component = this.subject()
-
-      run(() => {
-        component.setProperties({
-          bunsenId: 'name',
-          cellConfig: Ember.Object.create({}),
-          model: {},
-          onChange () {},
-          store: Ember.Object.create({}),
-          state: Ember.Object.create({})
-        })
+      component = this.subject({
+        bunsenId: 'name',
+        cellConfig: Ember.Object.create({}),
+        model: {},
+        onChange () {},
+        store: Ember.Object.create({}),
+        state: Ember.Object.create({})
       })
     })
 
@@ -50,28 +45,20 @@ describeComponent(
     })
 
     it('onBlur action sets showErrorMessages to true', function () {
-      run(() => {
-        component.set('showErrorMessages', true)
-      })
-
+      component.set('showErrorMessages', true)
       component.get('actions.onBlur').call(component)
       expect(component.get('showErrorMessages')).to.be.truthy
     })
 
     it('onFocus action sets showErrorMessages to false', function () {
-      run(() => {
-        component.set('showErrorMessages', false)
-      })
-
+      component.set('showErrorMessages', false)
       component.get('actions.onFocus').call(component)
       expect(component.get('showErrorMessages')).to.be.truthy
     })
 
     describe('when onChange property is omitted', function () {
       beforeEach(function () {
-        run(() => {
-          component.set('onChange', undefined)
-        })
+        component.set('onChange', undefined)
       })
 
       it('does not throw an error when onChange action is triggered', function () {
@@ -112,10 +99,7 @@ describeComponent(
         {in: 'test', out: 'test'}
       ].forEach((test) => {
         it(`returns "${test.out}" when value is ${test.in} (${typeof test.in})`, function () {
-          run(() => {
-            component.set('value', test.in)
-          })
-
+          component.set('value', test.in)
           expect(component.get('renderValue')).to.equal(test.out)
         })
       })
