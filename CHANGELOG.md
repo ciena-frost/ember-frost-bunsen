@@ -1,7 +1,7 @@
 #5.1
 
 ## Non-Breaking Changes
-* **Added** support for arrays that automatically add an empty item to the end of the list instead of using `Add Item` button. You can utilize this feature by adding `autoAdd` in your view for the array item container.
+* **Added** support for arrays that automatically add an empty item to the end of the list instead of using the `Add Item` button. You can use this feature by adding `autoAdd` in your view for the array item container.
 
 ```json
 …
