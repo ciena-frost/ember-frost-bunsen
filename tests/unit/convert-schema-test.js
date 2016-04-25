@@ -2,67 +2,6 @@ const expect = chai.expect
 import {describe, it} from 'mocha'
 import convert from 'ember-frost-bunsen/convert-schema'
 
-const MODEL = {
-  'type': 'object',
-  'properties': {
-    'tagType': {
-      'type': 'string',
-      'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
-    },
-    'tagType2': {
-      'type': 'string',
-      'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
-    },
-    'tagType3': {
-      'type': 'string',
-      'enum': ['untagged', 'single-tagged', 'double-tagged', 'foo-tagged']
-    },
-    'tag': {
-      'type': 'number',
-      'default': 3000,
-      'multipleOf': 1.0,
-      'minimum': 0,
-      'maximum': 4094,
-      'set': false, // Defaults to false when 'conditions' exists, console warning/fail validation if empty
-      'conditions': [
-        {
-          'if': [
-            {
-              'tagType': {
-                'not-equals': 'double-tagged'
-              },
-              'tagType2': {
-                'equals': 'double-tagged'
-              }
-            },
-            {
-              'tagType3': {
-                'equals': 'double-tagged'
-              }
-            }
-          ]
-        }, {
-          'if': [
-            {
-              'tagType': {
-                'not-equals': 'double-tagged'
-              },
-              'tagType2': {
-                'equals': 'double-tagged'
-              }
-            }
-          ],
-          'then': { // Extends main schema declaration
-            'default': 20,
-            'minimum': 100,
-            'maximum': 200
-          }
-        }
-      ]
-    }
-  }
-}
-
 const SIMPLE_MODEL = {
   'type': 'object',
   'properties': {

@@ -5,8 +5,8 @@ const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer from '../reducer'
-import {validate} from '../actions'
+import reducer, {initialStore} from '../reducer'
+import {validate, changeModel} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
@@ -89,13 +89,14 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('model')
+  @computed('reduxModel')
   renderModel (model) {
+    console.log(model)
     return dereference(model || {}).schema
   },
 
   @readOnly
-  @computed('model', 'view')
+  @computed('renderModel', 'view')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
@@ -145,7 +146,8 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties({
       errors,
-      renderValue: value
+      renderValue: value,
+      reduxModel: state.model
     })
 
     if (onChange) {
@@ -163,9 +165,10 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    const reduxStore = createStoreWithMiddleware(reducer)
+    const reduxStore = createStoreWithMiddleware(reducer, initialStore({baseModel: this.get('model')}))
 
     this.set('reduxStore', reduxStore)
+    this.set('reduxModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
@@ -176,9 +179,10 @@ export default Component.extend(PropTypeMixin, {
     const model = this.get('model')
     const modelPojo = isEmberObject(model) ? deemberify(model) : model
     const renderers = this.get('allRenderers')
-    const view = this.get('renderView')
 
     let result = validateModel(modelPojo)
+    this.get('reduxStore').dispatch(changeModel(model))
+    const view = this.get('renderView')
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view

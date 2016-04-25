@@ -1,7 +1,8 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {Logger} = Ember
-import {CHANGE_VALUE, VALIDATION_RESOLVED} from './actions'
+import {CHANGE_VALUE, VALIDATION_RESOLVED, CHANGE_MODEL} from './actions'
+import convertSchema from './convert-schema'
 
 function ensureParent (state, id) {
   // If id does not have a parent the nothing to do
@@ -28,7 +29,12 @@ function ensureParent (state, id) {
 const INITIAL_VALUE = {
   errors: {},
   validationResult: {warnings: [], errors: []},
-  value: null
+  value: null,
+  model: {},
+  baseModel: {}
+}
+export function initialStore (store) {
+  return _.defaults(store, INITIAL_VALUE)
 }
 
 // TODO: Update lodash and get rid of this
@@ -52,17 +58,26 @@ export default function (state, action) {
         ensureParent(newState, bunsenId)
         _.set(newState.value, bunsenId, value)
       }
+      newState.model = convertSchema(state.baseModel, newState.value)
+
       return newState
 
     case VALIDATION_RESOLVED:
-      const validationState = {
-        errors: action.errors,
-        value: state.value,
-        validationResult: action.validationResult
-      }
-      return validationState
+      return _.defaults({
+        validationResult: action.validationResult,
+        errors: action.errors
+      }, state)
+    case CHANGE_MODEL:
+
+      return _.defaults({
+        baseModel: action.model,
+        model: convertSchema(action.model, state.value)
+      }, state)
     case '@@redux/INIT':
-      return INITIAL_VALUE
+      if (state.baseModel) {
+        state.model = convertSchema(state.baseModel, state.value || {})
+      }
+      return state || INITIAL_VALUE
 
     default:
       Logger.error(`Do not recognize action ${action.type}`)
