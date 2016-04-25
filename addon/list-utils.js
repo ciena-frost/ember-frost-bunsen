@@ -30,6 +30,7 @@ export function getOptions (value, modelDef, bunsenId, dbStore, filter = '') {
 /**
  * take enum values and make into a collection
  * @param  {String[]} values the values to make into a collection
+ * @param {String} filter - filter
  * @returns {Object[]} a list of item objects
  */
 export function getEnumValues (values = [], filter = '') {
