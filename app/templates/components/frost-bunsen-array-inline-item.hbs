@@ -6,6 +6,9 @@
     Remove
   {{/frost-button}}
 </div>
+{{#if sortable}}
+  {{frost-icon class="handle" icon="frost/menu"}}
+{{/if}}
 <div>
   {{#if cellConfig.item.renderer}}
     {{component customRenderer

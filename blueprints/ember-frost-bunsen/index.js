@@ -14,7 +14,8 @@ module.exports = {
             {name: 'ember-frost-core', target: '>=0.2.1 <2.0.0'},
             {name: 'ember-lodash', target: '>=0.0.6 <2.0.0'},
             {name: 'ember-prop-types', target: '^1.1.0'},
-            {name: 'ember-redux', target: '^1.0.0'}
+            {name: 'ember-redux', target: '^1.0.0'},
+            {name: 'ember-sortable', target: '^1.8.1'}
           ]
         })
       })

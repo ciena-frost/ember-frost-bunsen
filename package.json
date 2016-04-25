@@ -52,6 +52,7 @@
     "ember-prop-types": "^1.1.0",
     "ember-redux": "^1.0.0",
     "ember-resolver": "^2.0.3",
+    "ember-sortable": "1.8.1",
     "ember-truth-helpers": "^1.2.0",
     "ember-try": "^0.2.0",
     "eslint": "^2.8.0",

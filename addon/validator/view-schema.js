@@ -70,6 +70,11 @@ export default {
             'renderer': {
               'type': 'string',
               'description': 'Name of a custom renderer for the model'
+            },
+            'sortable': {
+              'type': 'boolean',
+              'description': 'When true, array items can be sorted',
+              'default': false
             }
           }
         },

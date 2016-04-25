@@ -10,20 +10,43 @@
   </div>
 {{/if}}
 {{#if inline }}
-  {{#each items as |item index|}}
-    {{frost-bunsen-array-inline-item
-      bunsenId=bunsenId
-      cellConfig=cellConfig
-      errors=errors
-      index=index
-      model=model
-      onChange=(action "onChange")
-      onRemove=(action "onRemoveItem")
-      readOnly=readOnly
-      store=store
-      value=value
-    }}
-  {{/each}}
+  {{#if sortable}}
+    {{#sortable-group onChange=(action "onReorderItems") as |group|}}
+      {{#each items as |item index|}}
+        {{#sortable-item group=group handle=".handle" model=item}}
+          {{frost-bunsen-array-inline-item
+            bunsenId=bunsenId
+            cellConfig=cellConfig
+            errors=errors
+            index=index
+            model=model
+            onChange=(action "onChange")
+            onRemove=(action "onRemoveItem")
+            readOnly=readOnly
+            sortable=true
+            store=store
+            value=value
+          }}
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
+  {{else}}
+    {{#each items as |item index|}}
+      {{frost-bunsen-array-inline-item
+        bunsenId=bunsenId
+        cellConfig=cellConfig
+        errors=errors
+        index=index
+        model=model
+        onChange=(action "onChange")
+        onRemove=(action "onRemoveItem")
+        readOnly=readOnly
+        sortable=false
+        store=store
+        value=value
+      }}
+    {{/each}}
+  {{/if}}
 {{else}}
   {{#if instructions}}
     <div class="instructions">
