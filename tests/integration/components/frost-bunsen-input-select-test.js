@@ -153,7 +153,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('f').trigger('input')
       Ember.run.later(() => {
-        console.log($(rootNode))
         expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
         expect($(rootNode).find('li').length).to.equal(expected.length)
         done()

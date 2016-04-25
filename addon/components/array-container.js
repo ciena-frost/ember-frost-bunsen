@@ -98,6 +98,12 @@ export default Component.extend(PropTypeMixin, {
     return getLabel(label, model, bunsenId)
   },
 
+  @readOnly
+  @computed('inline', 'cellConfig.item.autoAdd')
+  showAddButton (inline, autoAdd) {
+    return inline && !autoAdd
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
@@ -237,16 +243,18 @@ export default Component.extend(PropTypeMixin, {
             const parentObject = relativeObject[key]
 
             if (Object.keys(parentObject).length === 0) {
-              delete parentObject[key]
+              delete relativeObject[key]
               bunsenId = bunsenId.replace(`.${key}`, '')
             }
           }
         }
 
-        if (bunsenId === itemPath) {
+        if (Object.keys(itemCopy).length === 0) {
           this.actions.onRemoveItem.call(this, itemIndex)
           return
         }
+
+        value = itemCopy
       }
 
       if (onChange) {
