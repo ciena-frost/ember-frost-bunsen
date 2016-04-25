@@ -1,5 +1,4 @@
-const expect = chai.expect
-const {run} = Ember
+import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import validModel from '../../fixtures/valid-model'
@@ -16,10 +15,8 @@ function tests (ctx) {
 
   describe('when model is invalid', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('model', {
-          badKey: 'I break things'
-        })
+      this.set('model', {
+        badKey: 'I break things'
       })
     })
 
@@ -34,9 +31,7 @@ function tests (ctx) {
 
   describe('when model is valid', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('model', validModel)
-      })
+      this.set('model', validModel)
     })
 
     it('does not render frost-bunsen-validation-result', function () {

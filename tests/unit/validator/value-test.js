@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {

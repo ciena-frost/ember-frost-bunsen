@@ -1,5 +1,4 @@
-const expect = chai.expect
-const {run} = Ember
+import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {recursiveObjectCreate} from 'ember-frost-bunsen/utils'
@@ -30,9 +29,7 @@ function tests (ctx) {
 
   describe('when sub-model is an object', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('config', view.containers[0].rows[1][0]) // name model
-      })
+      this.set('config', view.containers[0].rows[1][0]) // name model
     })
 
     // TODO: get test working
@@ -43,9 +40,7 @@ function tests (ctx) {
 
   describe('when sub-model is an array', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('config', view.containers[0].rows[1][0]) // address
-      })
+      this.set('config', view.containers[0].rows[1][0]) // address
     })
 
     it('renders a frost-bunsen-array-container', function () {
@@ -55,9 +50,7 @@ function tests (ctx) {
 
   describe('when sub-model is an input', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('config', view.containers[1].rows[0][0]) // name.first
-      })
+      this.set('config', view.containers[1].rows[0][0]) // name.first
     })
 
     it('renders a frost-bunsen-input-wrapper', function () {
@@ -67,9 +60,7 @@ function tests (ctx) {
 
   describe('when config is a container', function () {
     beforeEach(function () {
-      run(() => {
-        this.set('config', view.containers[0].rows[0][0]) // name
-      })
+      this.set('config', view.containers[0].rows[0][0]) // name
     })
 
     it('renders a frost-bunsen-container', function () {

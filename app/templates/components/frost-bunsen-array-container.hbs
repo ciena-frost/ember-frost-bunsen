@@ -17,7 +17,7 @@
       errors=errors
       index=index
       model=model
-      onChange=onChange
+      onChange=(action "onChange")
       onRemove=(action "onRemoveItem")
       readOnly=readOnly
       store=store
@@ -60,7 +60,7 @@
         errors=errors
         index=index
         model=model
-        onChange=onChange
+        onChange=(action "onChange")
         readOnly=readOnly
         store=store
         value=value
@@ -68,7 +68,7 @@
     {{/each}}
   </div>
 {{/if}}
-{{#if inline}}
+{{#if showAddButton}}
   {{#frost-button
     class="medium tertiary"
     onClick=(action "onAddItem")

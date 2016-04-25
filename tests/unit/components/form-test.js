@@ -1,6 +1,4 @@
-const {expect} = chai
-import Ember from 'ember'
-const {run} = Ember
+import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -43,24 +41,20 @@ describeComponent(
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
-      component = this.subject()
       onChangeSpy = sandbox.spy()
       onValidationSpy = sandbox.spy()
-
-      run(() => {
-        component.setProperties({
-          model: {
-            properties: {
-              bar: {type: 'string'},
-              baz: {type: 'number'},
-              foo: {type: 'string'}
-            },
-            required: ['foo'],
-            type: 'object'
+      component = this.subject({
+        model: {
+          properties: {
+            bar: {type: 'string'},
+            baz: {type: 'number'},
+            foo: {type: 'string'}
           },
-          onChange: onChangeSpy,
-          onValidation: onValidationSpy
-        })
+          required: ['foo'],
+          type: 'object'
+        },
+        onChange: onChangeSpy,
+        onValidation: onValidationSpy
       })
     })
 
@@ -72,9 +66,7 @@ describeComponent(
       let updatedValue, validationResult
 
       beforeEach(function (done) {
-        run(() => {
-          component.actions.onChange.call(component, 'bar', 'test')
-        })
+        component.actions.onChange.call(component, 'bar', 'test')
 
         setTimeout(() => {
           updatedValue = onChangeSpy.lastCall.args[0]
@@ -115,9 +107,7 @@ describeComponent(
       let updatedValue, validationResult
 
       beforeEach(function (done) {
-        run(() => {
-          component.actions.onChange.call(component, 'baz', 42)
-        })
+        component.actions.onChange.call(component, 'baz', 42)
 
         setTimeout(() => {
           updatedValue = onChangeSpy.lastCall.args[0]
@@ -158,9 +148,7 @@ describeComponent(
       let updatedValue, validationResult
 
       beforeEach(function (done) {
-        run(() => {
-          component.actions.onChange.call(component, 'foo', 'test')
-        })
+        component.actions.onChange.call(component, 'foo', 'test')
 
         setTimeout(() => {
           updatedValue = onChangeSpy.lastCall.args[0]

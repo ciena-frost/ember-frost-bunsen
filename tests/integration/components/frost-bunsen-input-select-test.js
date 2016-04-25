@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
@@ -105,7 +105,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         bunsenId: 'enabled',
         cellConfig: Ember.Object.create({}),
         model: {},
-        onChange: () => {},
+        onChange () {},
         store: Ember.Object.create({
           formValue
         }),
@@ -153,7 +153,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('f').trigger('input')
       Ember.run.later(() => {
-        console.log($(rootNode))
         expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
         expect($(rootNode).find('li').length).to.equal(expected.length)
         done()

@@ -1,5 +1,4 @@
-const expect = chai.expect
-const {run} = Ember
+import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -13,17 +12,13 @@ describeComponent(
     let component
 
     beforeEach(function () {
-      component = this.subject()
-
-      run(() => {
-        component.setProperties({
-          bunsenId: 'name',
-          cellConfig: Ember.Object.create({}),
-          model: {},
-          onChange () {},
-          store: Ember.Object.create({}),
-          state: Ember.Object.create({})
-        })
+      component = this.subject({
+        bunsenId: 'name',
+        cellConfig: Ember.Object.create({}),
+        model: {},
+        onChange () {},
+        store: Ember.Object.create({}),
+        state: Ember.Object.create({})
       })
     })
 
@@ -50,28 +45,20 @@ describeComponent(
     })
 
     it('onBlur action sets showErrorMessages to true', function () {
-      run(() => {
-        component.set('showErrorMessages', true)
-      })
-
+      component.set('showErrorMessages', true)
       component.get('actions.onBlur').call(component)
       expect(component.get('showErrorMessages')).to.be.truthy
     })
 
     it('onFocus action sets showErrorMessages to false', function () {
-      run(() => {
-        component.set('showErrorMessages', false)
-      })
-
+      component.set('showErrorMessages', false)
       component.get('actions.onFocus').call(component)
       expect(component.get('showErrorMessages')).to.be.truthy
     })
 
     describe('when onChange property is omitted', function () {
       beforeEach(function () {
-        run(() => {
-          component.set('onChange', undefined)
-        })
+        component.set('onChange', undefined)
       })
 
       it('does not throw an error when onChange action is triggered', function () {

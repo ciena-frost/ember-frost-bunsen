@@ -45,6 +45,31 @@ export default [
     }
   },
   {
+    id: 'array-2',
+    label: 'Array 2',
+    model: {
+      properties: {
+        people: {
+          items: {
+            properties: {
+              age: {type: 'number'},
+              name: {
+                properties: {
+                  first: {type: 'string'},
+                  last: {type: 'string'}
+                },
+                type: 'object'
+              }
+            },
+            type: 'object'
+          },
+          type: 'array'
+        }
+      },
+      type: 'object'
+    }
+  },
+  {
     id: 'complex',
     label: 'Complex',
     model: {
@@ -254,6 +279,36 @@ export default [
         }
       },
       required: ['lastName']
+    }
+  },
+  {
+    id: 'array-with-defaults',
+    label: 'Array with Defaults',
+    model: {
+      type: 'object',
+      properties: {
+        superheroes: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              firstName: {
+                type: 'string',
+                default: 'Bruce'
+              },
+              lastName: {
+                type: 'string',
+                default: 'Wayne'
+              },
+              alias: {
+                type: 'string',
+                title: 'Nickname',
+                default: 'Batman'
+              }
+            }
+          }
+        }
+      }
     }
   },
   {

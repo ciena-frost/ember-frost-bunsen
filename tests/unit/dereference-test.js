@@ -1,4 +1,4 @@
-const expect = chai.expect
+import {expect} from 'chai'
 import _ from 'lodash'
 import {beforeEach, describe, it} from 'mocha'
 import {default as dereference, getPath} from 'ember-frost-bunsen/dereference'

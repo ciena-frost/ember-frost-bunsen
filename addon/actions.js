@@ -75,7 +75,8 @@ function getSchema (pathStack, model, resolveRef) {
     return getSchema(pathStack, model.properties[current], resolveRef)
   }
 
-  if (model.items) {
+  if (model.items) { // This model is an array
+    pathStack.pop() // Remove index since it doesn't provide any more useful information
     return getSchema(pathStack, model.items, resolveRef)
   }
 

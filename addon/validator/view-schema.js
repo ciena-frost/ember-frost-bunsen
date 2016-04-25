@@ -30,6 +30,11 @@ export default {
           'type': 'object',
           'description': 'The configuration for a particular item when the parent is an array',
           'properties': {
+            'autoAdd': {
+              'type': 'boolean',
+              'description': 'When true, an empty item will always be added to the end of the array',
+              'default': false
+            },
             'className': {
               'type': 'string',
               'description': 'CSS "className" for this cell'

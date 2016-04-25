@@ -1,5 +1,4 @@
-const expect = chai.expect
-const {run} = Ember
+import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -13,17 +12,13 @@ describeComponent(
     let component
 
     beforeEach(function () {
-      component = this.subject()
-
-      run(() => {
-        component.setProperties({
-          bunsenId: 'enabled',
-          cellConfig: Ember.Object.create({}),
-          model: {},
-          onChange () {},
-          store: Ember.Object.create({}),
-          state: Ember.Object.create({value: true})
-        })
+      component = this.subject({
+        bunsenId: 'enabled',
+        cellConfig: Ember.Object.create({}),
+        model: {},
+        onChange () {},
+        store: Ember.Object.create({}),
+        state: Ember.Object.create({value: true})
       })
     })
 
@@ -51,9 +46,7 @@ describeComponent(
 
     describe('when onChange property is omitted', function () {
       beforeEach(function () {
-        run(() => {
-          component.set('onChange', undefined)
-        })
+        component.set('onChange', undefined)
       })
 
       it('does not throw an error when onChange action is triggered', function () {
@@ -80,10 +73,7 @@ describeComponent(
         {in: 'TRUE', out: true}
       ].forEach((test) => {
         it(`returns ${test.out} when value is ${test.in} (${typeof test.in})`, function () {
-          run(() => {
-            component.set('value', test.in)
-          })
-
+          component.set('value', test.in)
           expect(component.get('checked')).to.equal(test.out)
         })
       })
