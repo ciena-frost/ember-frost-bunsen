@@ -1,4 +1,22 @@
+#5.1
+
+## Non-Breaking Changes
+* **Added** support for arrays that automatically add an empty item to the end of the list instead of using `Add Item` button. You can utilize this feature by adding `autoAdd` in your view for the array item container.
+
+```json
+…
+{
+  "model": "addresses",
+  "item": {
+    "autoAdd": true,
+    "container": "address"
+  }
+}
+…
+```
+
 # 5.0
+
 ## Breaking Changes
 * **Removed** support for `PascalCaseCustomRenderers` in view schema definitions
 * **Added** support for `kebab-case-custom-renderers` in view schema definitions
