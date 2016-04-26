@@ -318,7 +318,13 @@ export default [
       definitions: {
         parent: {
           properties: {
-            countryOfBirth: {type: 'string'},
+            countryOfBirth: {
+              labelAttribute: 'name',
+              modelType: 'country',
+              query: {},
+              type: 'string',
+              valueAttribute: 'id'
+            },
             firstName: {type: 'string'},
             lastName: {type: 'string'},
             middleName: {type: 'string'},
@@ -335,8 +341,20 @@ export default [
           properties: {
             address: {type: 'string'},
             city: {type: 'string'},
-            country: {type: 'string'},
-            countryOfBirth: {type: 'string'},
+            country: {
+              labelAttribute: 'name',
+              modelType: 'country',
+              query: {},
+              type: 'string',
+              valueAttribute: 'id'
+            },
+            countryOfBirth: {
+              labelAttribute: 'name',
+              modelType: 'country',
+              query: {},
+              type: 'string',
+              valueAttribute: 'id'
+            },
             dateOfBirth: {type: 'string'},
             father: {
               '$ref': '#/definitions/parent',

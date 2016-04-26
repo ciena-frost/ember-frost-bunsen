@@ -669,7 +669,10 @@ export default [
               model: 'lastNameAtBirth'
             }],
             [{model: 'dateOfBirth'}],
-            [{model: 'countryOfBirth'}],
+            [{
+              model: 'countryOfBirth',
+              renderer: 'select'
+            }],
             [{model: 'stateOfBirth'}]
           ]
         },
@@ -680,7 +683,10 @@ export default [
             [{model: 'address'}],
             [{model: 'city'}],
             [{model: 'state'}],
-            [{model: 'country'}],
+            [{
+              model: 'country',
+              renderer: 'select'
+            }],
             [{model: 'zipCode'}]
           ]
         },
@@ -706,7 +712,10 @@ export default [
             [{model: 'middleName'}],
             [{model: 'lastName'}],
             [{model: 'stateOfBirth'}],
-            [{model: 'countryOfBirth'}]
+            [{
+              model: 'countryOfBirth',
+              renderer: 'select'
+            }]
           ]
         },
         {
@@ -716,7 +725,10 @@ export default [
             [{model: 'middleName'}],
             [{model: 'lastName'}],
             [{model: 'stateOfBirth'}],
-            [{model: 'countryOfBirth'}]
+            [{
+              model: 'countryOfBirth',
+              renderer: 'select'
+            }]
           ]
         }
       ],
