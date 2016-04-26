@@ -612,5 +612,120 @@ export default [
         submit: 'Create'
       }
     }
+  },
+  {
+    id: 'wedding-application-2-column',
+    label: 'Two Column',
+    modelIds: ['wedding-application'],
+    view: {
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+              container: 'groom',
+              model: 'groom'
+              },
+              {
+                container: 'bride',
+                model: 'bride'
+              }
+            ]
+          ]
+        },
+        {
+          id: 'groom',
+          rows: [
+            [
+              {container: 'details'},
+              {container: 'address'}
+            ],
+            [{container: 'parents'}]
+          ]
+        },
+        {
+          id: 'bride',
+          rows: [
+            [
+              {container: 'details'},
+              {container: 'address'}
+            ],
+            [{container: 'parents'}]
+          ]
+        },
+        {
+          id: 'details',
+          label: 'Details',
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{
+              label: 'Current last name',
+              model: 'lastName'
+            }],
+            [{
+              label: 'Last name at birth (if different)',
+              model: 'lastNameAtBirth'
+            }],
+            [{model: 'dateOfBirth'}],
+            [{model: 'countryOfBirth'}],
+            [{model: 'stateOfBirth'}]
+          ]
+        },
+        {
+          id: 'address',
+          label: 'Address',
+          rows: [
+            [{model: 'address'}],
+            [{model: 'city'}],
+            [{model: 'state'}],
+            [{model: 'country'}],
+            [{model: 'zipCode'}]
+          ]
+        },
+        {
+          id: 'parents',
+          rows: [
+            [
+              {
+                container: 'father',
+                model: 'father'
+              },
+              {
+                container: 'mother',
+                model: 'mother'
+              }
+            ]
+          ]
+        },
+        {
+          id: 'father',
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{model: 'lastName'}],
+            [{model: 'stateOfBirth'}],
+            [{model: 'countryOfBirth'}]
+          ]
+        },
+        {
+          id: 'mother',
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{model: 'lastName'}],
+            [{model: 'stateOfBirth'}],
+            [{model: 'countryOfBirth'}]
+          ]
+        }
+      ],
+      rootContainers: [{
+        label: 'Main',
+        container: 'main'
+      }],
+      type: 'form',
+      version: '1.0'
+    }
   }
 ]
