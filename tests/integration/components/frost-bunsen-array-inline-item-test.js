@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {it} from 'ember-mocha'
+import {beforeEach, describe, it} from 'mocha'
 import {setupComponentTest} from '../../utils/template'
 
 const props = {
@@ -24,6 +24,7 @@ const props = {
   },
   onChange () {},
   onRemove () {},
+  sortable: false,
   store: Ember.Object.create({}),
   value: {
     addresses: [
@@ -40,6 +41,26 @@ const props = {
 function tests (ctx) {
   it('has correct classes', function () {
     expect(ctx.rootNode).to.have.class('item-wrapper')
+  })
+
+  describe('when sortable is false', function () {
+    beforeEach(function () {
+      this.set('sortable', false)
+    })
+
+    it('does not render sort handle', function () {
+      expect(ctx.rootNode.find('.handle').length).to.eql(0)
+    })
+  })
+
+  describe('when sortable is true', function () {
+    beforeEach(function () {
+      this.set('sortable', true)
+    })
+
+    it('renders sort handle', function () {
+      expect(ctx.rootNode.find('.handle').length).to.eql(1)
+    })
   })
 }
 

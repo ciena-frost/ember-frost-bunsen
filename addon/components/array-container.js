@@ -104,6 +104,17 @@ export default Component.extend(PropTypeMixin, {
     return inline && !autoAdd
   },
 
+  @readOnly
+  @computed('cellConfig.item.sortable')
+  /**
+   * Whether or not array items can be sorted by user
+   * @param {Boolean} enabled - whether or not sorting should be enabled
+   * @returns {Boolean} whether or not sorting is enabled
+   */
+  sortable (enabled) {
+    return enabled === true
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
@@ -281,6 +292,21 @@ export default Component.extend(PropTypeMixin, {
       // since the onChange mechanism doesn't allow for removing things
       // we basically need to re-set the whole array
       onChange(this.get('bunsenId'), items)
+    },
+
+    /**
+     * Reorder items in array
+     * @param {Array} reorderedItems - reordered items
+     */
+    onReorderItems (reorderedItems) {
+      const bunsenId = this.get('bunsenId')
+      const onChange = this.get('onChange')
+
+      this.set('items', reorderedItems)
+
+      if (onChange) {
+        onChange(bunsenId, reorderedItems)
+      }
     }
   }
 })

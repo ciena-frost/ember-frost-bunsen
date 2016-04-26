@@ -227,6 +227,46 @@ export default [
     }
   },
   {
+    id: 'array-sortable',
+    label: 'Array (Sortable)',
+    modelIds: ['array-2'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'people',
+                item: {
+                  container: 'person',
+                  label: 'Person',
+                  sortable: true
+                }
+              }
+            ]
+          ]
+        },
+        {
+          id: 'person',
+          rows: [
+            [{model: 'name.first'}],
+            [{model: 'name.last'}],
+            [{model: 'age'}]
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 'complex',
     label: 'Complex',
     modelIds: ['complex'],
