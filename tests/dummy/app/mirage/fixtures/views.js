@@ -635,6 +635,7 @@ export default [
           ]
         },
         {
+          collapsible: true,
           id: 'groom',
           rows: [
             [
@@ -645,6 +646,7 @@ export default [
           ]
         },
         {
+          collapsible: true,
           id: 'bride',
           rows: [
             [
