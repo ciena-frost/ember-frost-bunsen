@@ -52,21 +52,24 @@ export default function (state, action) {
 
       if (bunsenId === null) {
         newState.value = value
-      } else if ([null, ''].indexOf(value) !== -1 || (_.isArray(value) && value.length === 0)) {
+      } else if (_.contains([null, ''], value) || (_.isArray(value) && value.length === 0)) {
         newState.value = unset(newState.value, bunsenId)
       } else {
         ensureParent(newState, bunsenId)
         _.set(newState.value, bunsenId, value)
       }
-      newState.model = convertSchema(state.baseModel, newState.value)
+      const newModel = convertSchema(state.baseModel, newState.value)
+      if (!_.isEqual(state.model, newModel)) {
+        newState.model = newModel
+      }
 
       return newState
 
     case VALIDATION_RESOLVED:
-      return _.defaults({
+      return _.assign(state, {
         validationResult: action.validationResult,
         errors: action.errors
-      }, state)
+      })
     case CHANGE_MODEL:
 
       return _.defaults({

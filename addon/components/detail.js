@@ -27,6 +27,20 @@ function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
 }
 
+function getSchema (pathStack, model) {
+  if (pathStack.length <= 0 || model === undefined) {
+    return model
+  }
+
+  if (model.properties) {
+    const current = pathStack.pop()
+    return getSchema(pathStack, model.properties[current])
+  }
+
+  if (model.items) {
+    return getSchema(pathStack, model.items)
+  }
+}
 const builtInRenderers = {
   'property-chooser': 'frost-bunsen-property-chooser',
   'select': 'frost-bunsen-input-select',
@@ -91,7 +105,6 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('reduxModel')
   renderModel (model) {
-    console.log(model)
     return dereference(model || {}).schema
   },
 
@@ -104,7 +117,18 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? view : getDefaultView(model)
+    view = !_.isEmpty(view) ? _.cloneDeep(view) : getDefaultView(model)
+    view.containers = _.filter(view.containers, function (container) {
+      container.rows = _.filter(container.rows, function (row) {
+        row = _.filter(row, function (rowCell) {
+          return getSchema(rowCell.model.split('.'), model) !== undefined
+        })
+
+        return row.length > 0
+      })
+      return container.rows.length > 0
+    })
+
     return isEmberObject(view) ? view : recursiveObjectCreate(view)
   },
 
@@ -144,12 +168,16 @@ export default Component.extend(PropTypeMixin, {
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value} = state
 
-    this.setProperties({
+    const newProps = {
       errors,
-      renderValue: value,
-      reduxModel: state.model
-    })
+      renderValue: value
+    }
 
+    if (!_.isEqual(this.get('reduxModel'), state.model)) {
+      newProps.reduxModel = state.model
+    }
+    this.setProperties(newProps)
+    console.log(value)
     if (onChange) {
       onChange(value)
     }

@@ -572,5 +572,43 @@ export default [
         submit: 'Create'
       }
     }
+  },
+  {
+    id: 'conditional-prop-select-form',
+    label: 'Conditional With Select',
+    modelIds: ['conditional-properties'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tagType',
+                renderer: 'select'
+              }
+            ],
+            [
+              {
+                model: 'tag'
+              }
+            ],
+            [
+              {
+                model: 'tag2'
+              }
+            ]
+          ]
+        }
+      ]
+    }
   }
 ]
