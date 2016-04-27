@@ -2,6 +2,5 @@ import DS from 'ember-data'
 const {attr, Model} = DS
 
 export default Model.extend({
-  label: attr('string'),
-  type: attr('string')
+  name: attr('string')
 })

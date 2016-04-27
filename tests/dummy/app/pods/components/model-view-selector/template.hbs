@@ -1,7 +1,10 @@
+Model:
 {{frost-select
   data=modelOptions
   onChange=onSelectModel
 }}
+
+View:
 {{frost-select
   data=viewOptions
   disabled=viewSelectionDisabled
@@ -9,6 +12,7 @@
 }}
 
 {{#if onSelectValue}}
+  Value:
   {{frost-select
     data=valueOptions
     disabled=valueSelectionDisabled

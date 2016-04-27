@@ -6,6 +6,12 @@ export default function () {
     this.namespace = config.mirageNamespace
   }
 
+  this.get('/countries', function (db, requests) {
+    return {
+      countries: db.countries
+    }
+  })
+
   ;[
     'models',
     'values',

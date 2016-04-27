@@ -1,9 +1,10 @@
 import Ember from 'ember'
 const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 export default Controller.extend({
+  detail: false,
+  inline: false,
   selectedModel: null,
   selectedValue: null,
   selectedView: null,
@@ -90,26 +91,28 @@ export default Controller.extend({
     })
   },
 
-  @readOnly
-  @computed('formValue')
-  renderValue (formValue) {
-    return JSON.stringify(formValue, null, 2)
-  },
-
   actions: {
+    onChange (formValue) {
+      formValue = JSON.stringify(formValue, null, 2)
+      this.set('formValue', formValue)
+    },
+
     onSelectModel (selected) {
       const selectedModel = this.get('model.models').findBy('id', selected[0])
 
       this.setProperties({
-        formValue: null,
-        selectedModel: selectedModel,
+        selectedModel,
         selectedValue: null,
-        selectedView: null,
-        value: null
+        selectedView: null
       })
 
       this.updateViews()
       this.updateValues()
+    },
+
+    onSelectView (selected) {
+      const selectedView = this.get('model.views').findBy('id', selected[0])
+      this.set('selectedView', selectedView)
     },
 
     onSelectValue (selected) {
@@ -117,15 +120,14 @@ export default Controller.extend({
       this.set('selectedValue', selectedValue)
     },
 
-    onSelectView (selected) {
-      const selectedView = this.get('model.views').findBy('id', selected[0])
-      this.set('selectedView', selectedView)
+    toggleDetail () {
+      const isDetail = this.get('detail')
+      this.set('detail', !isDetail)
     },
-    onValueChange (value) {
-      this.set('formValue', value)
-    },
-    updateValue () {
-      this.set('value', _.clone(this.get('formValue')))
+
+    toggleInline () {
+      const isInline = this.get('inline')
+      this.set('inline', !isInline)
     }
   }
 })
