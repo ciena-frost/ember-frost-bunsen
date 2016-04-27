@@ -624,8 +624,8 @@ export default [
           rows: [
             [
               {
-              container: 'groom',
-              model: 'groom'
+                container: 'groom',
+                model: 'groom'
               },
               {
                 container: 'bride',
