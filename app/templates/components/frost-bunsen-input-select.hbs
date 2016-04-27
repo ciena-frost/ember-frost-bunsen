@@ -14,12 +14,12 @@
       selectedValue=value
     }}
   </div>
-  {{#if errorMessage}}
-    <div>
-      <div class={{labelWrapperClassName}}></div>
-      <div class="error">
-        {{errorMessage}}
-      </div>
-    </div>
-  {{/if}}
 </div>
+{{#if errorMessage}}
+  <div>
+    <div class={{labelWrapperClassName}}></div>
+    <div class="error">
+      {{errorMessage}}
+    </div>
+  </div>
+{{/if}}
