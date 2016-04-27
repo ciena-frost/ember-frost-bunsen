@@ -610,5 +610,57 @@ export default [
         }
       ]
     }
+  },
+  {
+    id: 'complex-conditional-prop-select-form',
+    label: 'Complex With Select',
+    modelIds: ['complex-conditional-properties'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'tags',
+          rows: [
+            [
+              {
+                model: 'tagType',
+                renderer: 'select'
+              }
+            ],
+            [
+              {
+                model: 'tag'
+              }
+            ],
+            [
+              {
+                model: 'tag2'
+              }
+            ]
+          ]
+        },
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tags',
+                item: {
+                  label: 'Tags',
+                  container: 'tags'
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    }
   }
 ]

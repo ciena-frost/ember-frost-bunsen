@@ -117,19 +117,71 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? _.cloneDeep(view) : getDefaultView(model)
-    view.containers = _.filter(view.containers, function (container) {
-      container.rows = _.filter(container.rows, function (row) {
-        row = _.filter(row, function (rowCell) {
-          return getSchema(rowCell.model.split('.'), model) !== undefined
-        })
+    view = !_.isEmpty(view) ? view : getDefaultView(model)
 
-        return row.length > 0
+    const parentContainers = {}
+    _.each(view.containers, function (container, index) {
+      _.each(container.rows, function (row, rowIndex) {
+        _.each(row, function (rowCell, rowCellIndex) {
+          const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
+          if (subContainer) {
+            parentContainers[subContainer] = {container: container.id, rowIndex, rowCellIndex}
+          }
+        })
       })
-      return container.rows.length > 0
     })
 
-    return isEmberObject(view) ? view : recursiveObjectCreate(view)
+    function getNextContainer (containerData) {
+      if (containerData) {
+        return _.find(view.containers, function (container) {
+          return container.id === containerData.container
+        })
+      }
+    }
+    function nextPathElement (containerData, nextContainer) {
+      if (containerData) {
+        return nextContainer.rows[containerData.rowIndex][containerData.rowCellIndex].model
+      }
+    }
+
+    function getFullPath (containerID) {
+      const path = []
+      let containerData = parentContainers[containerID]
+      let nextContainer = getNextContainer(containerData)
+      let pathElement = nextPathElement(containerData, nextContainer)
+      while (pathElement !== undefined) {
+        path.push(pathElement)
+        containerID = nextContainer.id
+        containerData = parentContainers[containerID]
+        nextContainer = getNextContainer(containerData)
+        pathElement = nextPathElement(containerData, nextContainer)
+      }
+      return path
+    }
+    let newView = _.cloneDeep(view)
+
+    newView.containers = _.filter(_.map(view.containers, function (container, containerIndex) {
+      const newContainer = _.clone(container)
+      newContainer.rows = _.filter(_.map(container.rows, function (row, rowIndex) {
+        row = _.filter(_.map(row, function (rowCell) {
+          const path = rowCell.model.split('.').reverse().concat(getFullPath(container.id))
+          const pathClone = _.cloneDeep(path)
+          const schema = getSchema(path, model)
+          console.log(pathClone, schema)
+          if (schema !== undefined) {
+            return rowCell
+          }
+        }))
+
+        if (row.length > 0) {
+          return row
+        }
+      }))
+      if (newContainer.rows.length > 0) {
+        return newContainer
+      }
+    }))
+    return recursiveObjectCreate(newView)
   },
 
   @readOnly
