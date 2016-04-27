@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller, Logger} = Ember
+const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default Controller.extend({

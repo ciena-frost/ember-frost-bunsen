@@ -1,7 +1,7 @@
 // app/components/foo-bar.js
 
 import Ember from 'Ember'
-const {Component, Logger} = Ember
+const {Component} = Ember
 
 export default Component.extend({
   formModel: {
