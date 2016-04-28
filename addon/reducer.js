@@ -38,6 +38,28 @@ function unset (obj, path) {
   return JSON.parse(obStr)
 }
 
+/**
+ * We want to go through a state.value object and pull out any references to null
+ * @param {Object} value - our current value POJO
+ * @returns {Object} a value cleaned of any `null`s
+ */
+function recursiveClean (value) {
+  let output = {}
+  if (_.isArray(value)) {
+    output = []
+  }
+  _.each(value, (subValue, key) => {
+    if (!_.isEmpty(subValue) || _.isNumber(subValue) || _.isBoolean(subValue)) {
+      if (_.isObject(subValue) || _.isArray(subValue)) {
+        output[key] = recursiveClean(subValue)
+      } else {
+        output[key] = subValue
+      }
+    }
+  })
+  return output
+}
+
 export default function (state, action) {
   switch (action.type) {
     case CHANGE_VALUE:
@@ -45,7 +67,7 @@ export default function (state, action) {
       const {value, bunsenId} = action
 
       if (bunsenId === null) {
-        newState.value = value
+        newState.value = recursiveClean(value)
       } else if ([null, ''].indexOf(value) !== -1 || (_.isArray(value) && value.length === 0)) {
         newState.value = unset(newState.value, bunsenId)
       } else {
