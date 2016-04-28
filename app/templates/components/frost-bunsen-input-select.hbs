@@ -8,6 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-select
       disabled=cellConfig.disabled
+      onBlur=(action "onBlur")
       onInput=(action "onInput")
       onChange=(action "onChange")
       data=options
