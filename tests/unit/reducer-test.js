@@ -60,7 +60,7 @@ describe('value manipulation', function () {
     expect(changedState.value).to.eql({baz: 22})
   })
 
-  it('will prune all the dead wood when setting root object', function () {
+  it.only('will prune all the dead wood when setting root object', function () {
     const initialState = {
       errors: {},
       validationResult: {warnings: [], errors: []},
@@ -72,12 +72,14 @@ describe('value manipulation', function () {
           baz: null,
           qux: 12
         },
-        waldo: null
+        waldo: null,
+        buzz: true,
+        fizz: false
       }
     }
 
     const changedState = reducer(initialState, {type: CHANGE_VALUE, value: newValue, bunsenId: null})
-    expect(changedState.value).to.eql({foo: {bar: {qux: 12}}})
+    expect(changedState.value).to.eql({foo: {bar: {qux: 12}, buzz: true, fizz: false}})
   })
 
   it('will prune all the dead wood out of a complex array', function () {

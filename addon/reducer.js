@@ -49,7 +49,7 @@ function recursiveClean (value) {
     output = []
   }
   _.each(value, (subValue, key) => {
-    if (!_.isEmpty(subValue) || _.isNumber(subValue)) {
+    if (!_.isEmpty(subValue) || _.isNumber(subValue) || _.isBoolean(subValue)) {
       if (_.isObject(subValue) || _.isArray(subValue)) {
         output[key] = recursiveClean(subValue)
       } else {
