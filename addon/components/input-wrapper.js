@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
@@ -94,7 +94,7 @@ export default Component.extend(PropTypeMixin, {
       return renderers[renderer]
     }
 
-    if (Ember.getOwner(this).lookup(`component:${renderer}`)) {
+    if (getOwner(this).lookup(`component:${renderer}`)) {
       return renderer
     }
 

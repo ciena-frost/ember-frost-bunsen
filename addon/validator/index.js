@@ -89,9 +89,10 @@ function _validateRootAttributes (view, model, containerValidator) {
  * @param {String|View} view - the view to validate (as an object or JSON string)
  * @param {BunsenModel} model - the JSON schema that the containers will reference
  * @param {String[]} renderers - the list of available custom renderers to validate renderer references against
+ * @param {Ember.ApplicationInstance} owner - application instance
  * @returns {BunsenValidationResult} the results of the view validation
  */
-export default function validate (view, model, renderers = Object.keys(builtInRenderers)) {
+export default function validate (view, model, renderers = Object.keys(builtInRenderers), owner) {
   let strResult = null
   const temp = ensureJsonObject(view)
   view = temp[0]
@@ -113,7 +114,7 @@ export default function validate (view, model, renderers = Object.keys(builtInRe
 
   const derefModel = dereference(model).schema
 
-  const containerValidator = containerValidatorFactory(view.containers, derefModel, renderers)
+  const containerValidator = containerValidatorFactory(view.containers, derefModel, renderers, owner)
 
   const schemaResult = validateValue(view, viewSchema, true)
   if (schemaResult.errors.length !== 0) {

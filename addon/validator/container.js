@@ -51,14 +51,17 @@ export default createFactory({
    * @param {BunsenContainer[]} containers - the Containers to validate container references against
    * @param {BunsenModel} model - the Model to validate model references against
    * @param {String[]} [renderers] - the list of available custom renderers to validate renderer references against
+   * @param {Ember.ApplicationInstance} owner - application instance
    * @returns {validator} the instance
    */
-  init (containers, model, renderers = []) {
-    this.containers = containers
-    this.model = model
-    this.renderers = renderers
-    this.containersValidated = []
-    return this
+  init (containers, model, renderers = [], owner) {
+    return _.assign(this, {
+      containers,
+      containersValidated: [],
+      model,
+      renderers,
+      owner
+    })
   },
 
   /**
@@ -78,6 +81,37 @@ export default createFactory({
       results.push(
         this.validate(`#/containers/${containerIndex}`, container, model)
       )
+    }
+
+    return aggregateResults(results)
+  },
+
+  /**
+   * Validate the given cell, with a custom renderer
+   * @param {String} path - the path the given row
+   * @param {BunsenCell} cell - the cell to validate
+   * @returns {BunsenValidationResult} the results of the cell validation
+   */
+  _validateCustomCell (path, cell) {
+    const results = [
+      {
+        errors: []
+      }
+    ]
+
+    let rendererName = cell.renderer
+    let rendererPathExt = 'renderer'
+    if (rendererName === undefined) {
+      rendererName = cell.itemRenderer
+      rendererPathExt = 'itemRenderer'
+    }
+    const rendererPath = `${path}/${rendererPathExt}`
+
+    if (
+      !_.includes(this.renderers, rendererName) &&
+      !this.owner.lookup(`component:${rendererName}`)
+    ) {
+      addErrorResult(results, rendererPath, `Invalid renderer reference "${rendererName}"`)
     }
 
     return aggregateResults(results)
@@ -116,7 +150,9 @@ export default createFactory({
     if (subModel === undefined) {
       addErrorResult(results, `${path}/model`, `Invalid model reference "${cell.model}"`)
     } else if (isCustomCell(cell)) {
-      return aggregateResults(results)
+      results.push(
+        this._validateCustomCell(path, cell)
+      )
     } else if (isObjectArray(subModel)) {
       results.push(
         this._validateArrayCell(path, cell, subModel)

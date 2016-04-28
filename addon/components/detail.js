@@ -10,7 +10,7 @@ import {validate} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import dereference from '../dereference'
@@ -176,7 +176,7 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
-      result = validateView(viewPojo, model, _.keys(renderers))
+      result = validateView(viewPojo, model, _.keys(renderers), getOwner(this))
     }
 
     this.set('propValidationResult', result)
