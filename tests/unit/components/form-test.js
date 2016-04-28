@@ -192,9 +192,12 @@ describeComponent(
 
       it('has expected renderers', function () {
         expect(store.renderers).to.eql({
+          boolean: 'frost-bunsen-input-boolean',
           'multi-select': 'frost-bunsen-input-multi-select',
+          number: 'frost-bunsen-input-number',
           'property-chooser': 'frost-bunsen-property-chooser',
-          select: 'frost-bunsen-input-select'
+          select: 'frost-bunsen-input-select',
+          string: 'frost-bunsen-input-text'
         })
       })
     })

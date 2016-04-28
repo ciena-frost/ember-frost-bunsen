@@ -8,8 +8,13 @@ import containerValidatorFactory from './container'
 import viewSchema from './view-schema'
 import {default as validateValue} from './value'
 
-const builtinRenderers = {
-  'property-chooser': 'frost-bunsen-property-chooser'
+export const builtInRenderers = {
+  boolean: 'frost-bunsen-input-boolean',
+  'multi-select': 'frost-bunsen-input-multi-select',
+  number: 'frost-bunsen-input-number',
+  'property-chooser': 'frost-bunsen-property-chooser',
+  select: 'frost-bunsen-input-select',
+  string: 'frost-bunsen-input-text'
 }
 
 /**
@@ -84,9 +89,10 @@ function _validateRootAttributes (view, model, containerValidator) {
  * @param {String|View} view - the view to validate (as an object or JSON string)
  * @param {BunsenModel} model - the JSON schema that the containers will reference
  * @param {String[]} renderers - the list of available custom renderers to validate renderer references against
+ * @param {Ember.ApplicationInstance} owner - application instance
  * @returns {BunsenValidationResult} the results of the view validation
  */
-export default function validate (view, model, renderers = Object.keys(builtinRenderers)) {
+export default function validate (view, model, renderers = Object.keys(builtInRenderers), owner) {
   let strResult = null
   const temp = ensureJsonObject(view)
   view = temp[0]
@@ -108,7 +114,7 @@ export default function validate (view, model, renderers = Object.keys(builtinRe
 
   const derefModel = dereference(model).schema
 
-  const containerValidator = containerValidatorFactory(view.containers, derefModel, renderers)
+  const containerValidator = containerValidatorFactory(view.containers, derefModel, renderers, owner)
 
   const schemaResult = validateValue(view, viewSchema, true)
   if (schemaResult.errors.length !== 0) {

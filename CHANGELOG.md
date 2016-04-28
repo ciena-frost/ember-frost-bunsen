@@ -1,3 +1,17 @@
+# 5.4
+
+## Non-Breaking Changes
+
+* **Added** ability to override built-in renderers by overriding the following renderer keys in the `renderers` property/mapping: `boolean`, `number`, `string`.
+* **Added** ability to specify the name of an Ember component as the value of the `renderer` property in your view without having to add it to the `renderers` property/mapping.
+* **Fixed** select inputs to only show error messages after blur.
+
+# 5.3
+
+## Non-Breaking Changes
+
+* **Fixed** Clean out null values from initial values when getting set for the first time.
+
 # 5.2
 
 ## Non-Breaking Changes

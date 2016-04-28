@@ -10,12 +10,12 @@ import {validate} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import dereference from '../dereference'
 import {getDefaultView} from '../generator'
-import validateView, {validateModel} from '../validator/index'
+import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 /**
@@ -25,12 +25,6 @@ import {deemberify, recursiveObjectCreate} from '../utils'
  */
 function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
-}
-
-const builtInRenderers = {
-  'property-chooser': 'frost-bunsen-property-chooser',
-  'select': 'frost-bunsen-input-select',
-  'multi-select': 'frost-bunsen-input-multi-select'
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -182,7 +176,7 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
-      result = validateView(viewPojo, model, _.keys(renderers))
+      result = validateView(viewPojo, model, _.keys(renderers), getOwner(this))
     }
 
     this.set('propValidationResult', result)

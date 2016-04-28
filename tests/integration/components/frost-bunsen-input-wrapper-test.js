@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {integrationTestContext, renderWithProps} from '../../utils/template'
 import _ from 'lodash'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 
 function makeProps (props) {
   return _.merge({
@@ -11,7 +12,9 @@ function makeProps (props) {
     onChange () {},
     readOnly: false,
     required: false,
-    store: Ember.Object.create({})
+    store: Ember.Object.create({
+      renderers: builtInRenderers
+    })
   }, props)
 }
 
