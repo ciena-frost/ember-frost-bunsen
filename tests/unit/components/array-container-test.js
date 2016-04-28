@@ -182,6 +182,26 @@ describeComponent(
       })
     })
 
+    describe('sortable', function () {
+      [
+        undefined,
+        null,
+        false,
+        'a',
+        1
+      ].forEach((enabled) => {
+        it(`returns false when enabled is ${enabled}`, function () {
+          component.set('cellConfig.item.sortable', enabled)
+          expect(component.get('sortable')).to.be.false
+        })
+      })
+
+      it('returns true when enabled is true', function () {
+        component.set('cellConfig.item.sortable', true)
+        expect(component.get('sortable')).to.be.true
+      })
+    })
+
     it('does not add an empty item to array', function () {
       expect(component.get('items').length).to.eq(0)
     })
@@ -487,6 +507,44 @@ describeComponent(
               component.get('items')
             ])
           })
+        })
+      })
+
+      describe('.onReorderItems()', function () {
+        let jane, john
+
+        beforeEach(function () {
+          jane = {
+            age: 26,
+            name: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }
+
+          john = {
+            age: 28,
+            name: {
+              first: 'John',
+              last: 'Smith'
+            }
+          }
+
+          const items = [jane, john]
+
+          component.set('store.formValue.people', items)
+          component.set('items', items)
+          component.actions.onReorderItems.call(component, [john, jane])
+        })
+
+        it('updates items state', function () {
+          expect(component.get('items')).to.eql([john, jane])
+        })
+
+        it('informs consumer of new array order', function () {
+          const args = onChangeSpy.lastCall.args
+          expect(args[0]).to.eql('people')
+          expect(args[1]).to.eql([john, jane])
         })
       })
     })

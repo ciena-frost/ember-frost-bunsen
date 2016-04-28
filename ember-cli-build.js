@@ -3,16 +3,20 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon')
 
 module.exports = function (defaults) {
   var app = new EmberAddon(defaults, {
+
     babel: {
       optional: ['es7.decorators']
+    },
+    codemirror: {
+      modes: ['javascript'],
+      themes: ['mdn-like']
     },
     'ember-cli-mocha': {
       useLintTree: false
     },
     'ember-prism': {
-      components: ['json'],
-      plugins: ['line-highlight'],
-      theme: 'tomorrow'
+      components: ['javascript'],
+      theme: 'coy'
     },
     sassOptions: {
       includePaths: [

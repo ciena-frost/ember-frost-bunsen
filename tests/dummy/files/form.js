@@ -1,7 +1,9 @@
-import Ember from 'ember'
-const {Controller, Logger} = Ember
+// app/components/foo-bar.js
 
-export default Controller.extend({
+import Ember from 'Ember'
+const {Component, Logger} = Ember
+
+export default Component.extend({
   formModel: {
     properties: {
       firstName: {type: 'string'},
@@ -22,3 +24,14 @@ export default Controller.extend({
     }
   }
 })
+
+// app/templates/components/foo-bar.hbs
+
+/*
+{{frost-bunsen-form
+  model=formModel
+  onChange=(action "onFormValueChange")
+  onValidation=(action "onFormValidation")
+  value=formValue
+}}
+*/

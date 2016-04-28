@@ -2,12 +2,21 @@
 
 $frost-row-field-padding: 40px;
 
+.frost-bunsen-cell {
+  flex: 1 1 auto;
+}
+
 .frost-bunsen-detail, .frost-bunsen-form {
   .instructions {
     color: $frost-color-grey-3;
     font-size: $frost-font-s;
     margin-bottom: 10px;
   }
+}
+
+.frost-bunsen-row {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .frost-bunsen-section {

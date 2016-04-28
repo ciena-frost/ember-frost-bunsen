@@ -17,6 +17,7 @@ export default Component.extend(PropTypeMixin, {
     onChange: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     readOny: PropTypes.bool,
+    sortable: PropTypes.bool.isRequired,
     store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },

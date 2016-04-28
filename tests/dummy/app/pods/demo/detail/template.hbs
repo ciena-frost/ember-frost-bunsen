@@ -1,42 +1,16 @@
-{{#model-view-selector
-  modelOptions=modelOptions
-  onSelectModel=(action "onSelectModel")
-  onSelectValue=(action "onSelectValue")
-  onSelectView=(action "onSelectView")
-  selectedModel=selectedModel
-  selectedValue=selectedValue
-  selectedView=selectedView
-  valueOptions=valueOptions
-  valueSelectionDisabled=valueSelectionDisabled
-  viewOptions=viewOptions
-  viewSelectionDisabled=viewSelectionDisabled
-}}
-  <h2 class="demo-header">Rendered Demo</h2>
-  {{frost-bunsen-detail
-    model=selectedModel.model
-    renderers=renderers
-    value=selectedValue.value
-    view=selectedView.view
-  }}
-  <div class="demo-code-container">
-    {{#if formValue}}
-      <div class="demo-code-block">
-        <h2>Value</h2>
-        {{!-- TODO: why is the below component not updating the formValue --}}
-        <pre class="value-code-block">{{formValue}}</pre>
-      </div>
-    {{/if}}
-    {{#if selectedModel}}
-      <div class="demo-code-block">
-        <h2>Model</h2>
-        {{#code-block language='json'}}{{modelCode}}{{/code-block}}
-      </div>
-    {{/if}}
-    {{#if selectedView}}
-      <div class="demo-code-block">
-        <h2>View</h2>
-        {{#code-block language='json'}}{{viewCode}}{{/code-block}}
-      </div>
-    {{/if}}
+<div class='demo-container fullscreen'>
+  <div class="demo-banner">
+    <h1>frost-bunsen-detail</h1>
+    <p>Component for rendering details</p>
   </div>
-{{/model-view-selector}}
+  <div class="demo-showcase">
+    {{frost-demo-editor path='detail'}}
+    <div class="demo-view">
+      <br/>
+      {{frost-bunsen-detail
+        model=formModel
+        value=formValue
+      }}
+    </div>
+  </div>
+</div>
