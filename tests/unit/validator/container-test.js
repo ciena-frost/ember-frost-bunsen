@@ -108,10 +108,6 @@ describe('containerValidator', () => {
         expect(result).deep.equal({
           errors: [
             {
-              path: '#/containers/0/rows/0/1/renderer',
-              message: 'Invalid renderer reference "BazComponent"'
-            },
-            {
               path: '#/containers/0/rows/1/0',
               message: 'Either "model" or "container" must be defined for each cell.'
             },

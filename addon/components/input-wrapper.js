@@ -4,9 +4,16 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNames: ['frost-bunsen-input-wrapper'],
 
-  // Attributes
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject,
@@ -31,6 +38,10 @@ export default Component.extend(PropTypeMixin, {
       required: false
     }
   },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('cellConfig.dependsOn', 'isDependencyMet')
@@ -58,20 +69,43 @@ export default Component.extend(PropTypeMixin, {
    */
   inputName (renderer, editable, type, readOnly, shouldRender, renderers) {
     if (renderer) {
-      return renderers[renderer]
+      return this.getComponentName(renderer, renderers)
     }
 
     if (readOnly || editable === false) {
       return 'frost-bunsen-input-static'
     }
 
-    if (renderers[type]) {
-      return renderers[type]
+    return this.getComponentName(type, renderers)
+  },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  /**
+   * Get component name for a provided renderer name
+   * @param {String} renderer - name of renderer
+   * @param {Object} renderers - mapping of renderer names to component names
+   * @returns {String} component name for renderer
+   */
+  getComponentName (renderer, renderers) {
+    if (renderer in renderers) {
+      return renderers[renderer]
     }
 
-    if (shouldRender) {
-      const rendererNamesInQuotes = Object.keys(renderers).map((key) => `"${key}"`)
-      throw new Error(`Only ${rendererNamesInQuotes.join(',')} fields are currently supported.`)
+    if (Ember.getOwner(this).lookup(`component:${renderer}`)) {
+      return renderer
     }
+
+    throw new Error(`"${renderer}" is not a registered component or in the renderers mapping`)
   }
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 })

@@ -84,34 +84,6 @@ export default createFactory({
   },
 
   /**
-   * Validate the given cell, with a custom renderer
-   * @param {String} path - the path the given row
-   * @param {BunsenCell} cell - the cell to validate
-   * @returns {BunsenValidationResult} the results of the cell validation
-   */
-  _validateCustomCell (path, cell) {
-    const results = [
-      {
-        errors: []
-      }
-    ]
-
-    let rendererName = cell.renderer
-    let rendererPathExt = 'renderer'
-    if (rendererName === undefined) {
-      rendererName = cell.itemRenderer
-      rendererPathExt = 'itemRenderer'
-    }
-    const rendererPath = `${path}/${rendererPathExt}`
-
-    if (!_.includes(this.renderers, rendererName)) {
-      addErrorResult(results, rendererPath, `Invalid renderer reference "${rendererName}"`)
-    }
-
-    return aggregateResults(results)
-  },
-
-  /**
    * Validate the given cell, with a sub-model
    * @param {String} path - the path the given row
    * @param {BunsenCell} cell - the cell to validate
@@ -144,9 +116,7 @@ export default createFactory({
     if (subModel === undefined) {
       addErrorResult(results, `${path}/model`, `Invalid model reference "${cell.model}"`)
     } else if (isCustomCell(cell)) {
-      results.push(
-        this._validateCustomCell(path, cell)
-      )
+      return aggregateResults(results)
     } else if (isObjectArray(subModel)) {
       results.push(
         this._validateArrayCell(path, cell, subModel)
