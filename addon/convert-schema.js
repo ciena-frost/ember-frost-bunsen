@@ -46,21 +46,25 @@ function convertConditionalProperties (model, value, getPreviousValue) {
   }
 
   let retModel = _.cloneDeep(model)
-  if (model.type === 'array' && _.isArray(value)) {
-    let itemSchemas = []
-    // Deep version of _.uniq
-    const potentialSchemas = _.map(value, function (val) {
-      return convertConditionalProperties(model.items, val, getPreviousValue)
-    })
-    _.each(potentialSchemas, function (schema) {
-      if (!_.some(itemSchemas, _.partial(_.isEqual, schema))) {
-        itemSchemas.push(schema)
+  if (model.type === 'array') {
+    if (_.isArray(value)) {
+      let itemSchemas = []
+      // Deep version of _.uniq
+      const potentialSchemas = _.map(value, function (val) {
+        return convertConditionalProperties(model.items, val, getPreviousValue)
+      })
+      _.each(potentialSchemas, function (schema) {
+        if (!_.some(itemSchemas, _.partial(_.isEqual, schema))) {
+          itemSchemas.push(schema)
+        }
+      })
+      if (itemSchemas.length > 1) {
+        retModel.items = {anyOf: itemSchemas}
+      } else {
+        retModel.items = itemSchemas[0]
       }
-    })
-    if (itemSchemas.length > 1) {
-      retModel.items = {anyOf: itemSchemas}
-    } else {
-      retModel.items = itemSchemas[0]
+    } else if (value === undefined) {
+      retModel.items = convertConditionalProperties(model.items, value, getPreviousValue)
     }
   }
 
