@@ -17,6 +17,7 @@ import dereference from '../dereference'
 import {getDefaultView} from '../generator'
 import validateView, {validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
+import {convertView} from '../convert-schema'
 
 /**
  * Determine if an object is an Ember.Object or not
@@ -27,20 +28,6 @@ function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
 }
 
-function getSchema (pathStack, model) {
-  if (pathStack.length <= 0 || model === undefined) {
-    return model
-  }
-
-  if (model.properties) {
-    const current = pathStack.pop()
-    return getSchema(pathStack, model.properties[current])
-  }
-
-  if (model.items) {
-    return getSchema(pathStack, model.items)
-  }
-}
 const builtInRenderers = {
   'property-chooser': 'frost-bunsen-property-chooser',
   'select': 'frost-bunsen-input-select',
@@ -117,71 +104,8 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? view : getDefaultView(model)
-
-    const parentContainers = {}
-    _.each(view.containers, function (container, index) {
-      _.each(container.rows, function (row, rowIndex) {
-        _.each(row, function (rowCell, rowCellIndex) {
-          const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
-          if (subContainer) {
-            parentContainers[subContainer] = {container: container.id, rowIndex, rowCellIndex}
-          }
-        })
-      })
-    })
-
-    function getNextContainer (containerData) {
-      if (containerData) {
-        return _.find(view.containers, function (container) {
-          return container.id === containerData.container
-        })
-      }
-    }
-    function nextPathElement (containerData, nextContainer) {
-      if (containerData) {
-        return nextContainer.rows[containerData.rowIndex][containerData.rowCellIndex].model
-      }
-    }
-
-    function getFullPath (containerID) {
-      const path = []
-      let containerData = parentContainers[containerID]
-      let nextContainer = getNextContainer(containerData)
-      let pathElement = nextPathElement(containerData, nextContainer)
-      while (pathElement !== undefined) {
-        path.push(pathElement)
-        containerID = nextContainer.id
-        containerData = parentContainers[containerID]
-        nextContainer = getNextContainer(containerData)
-        pathElement = nextPathElement(containerData, nextContainer)
-      }
-      return path
-    }
-    let newView = _.cloneDeep(view)
-
-    newView.containers = _.filter(_.map(view.containers, function (container, containerIndex) {
-      const newContainer = _.clone(container)
-      newContainer.rows = _.filter(_.map(container.rows, function (row, rowIndex) {
-        row = _.filter(_.map(row, function (rowCell) {
-          const path = rowCell.model.split('.').reverse().concat(getFullPath(container.id))
-          const pathClone = _.cloneDeep(path)
-          const schema = getSchema(path, model)
-          console.log(pathClone, schema)
-          if (schema !== undefined) {
-            return rowCell
-          }
-        }))
-
-        if (row.length > 0) {
-          return row
-        }
-      }))
-      if (newContainer.rows.length > 0) {
-        return newContainer
-      }
-    }))
-    return recursiveObjectCreate(newView)
+    view = !_.isEmpty(view) ? convertView(model, view) : getDefaultView(model)
+    return recursiveObjectCreate(view)
   },
 
   @readOnly

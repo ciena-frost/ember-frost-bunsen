@@ -66,6 +66,15 @@ function convertConditionalProperties (model, value, getPreviousValue) {
     } else if (value === undefined) {
       retModel.items = convertConditionalProperties(model.items, value, getPreviousValue)
     }
+  } else {
+    const aggregateType = _.find(['anyOf', 'oneOf'], _.partial(_.contains, _.keys(model)))
+    if (aggregateType !== undefined) {
+      retModel[aggregateType] = _.map(model[aggregateType], (subSchema) => {
+        return convertConditionalProperties(subSchema, value, getPreviousValue)
+      })
+    } else if (model.not) {
+      retModel.not = convertConditionalProperties(model.not, value, getPreviousValue)
+    }
   }
 
   let depsMet = {}
@@ -108,3 +117,84 @@ function convertConditionalProperties (model, value, getPreviousValue) {
 }
 
 export default convertConditionalProperties
+
+export function convertView (model, view) {
+  function getSchema (pathStack, model) {
+    if (pathStack.length <= 0 || model === undefined) {
+      return model
+    }
+
+    if (model.properties) {
+      const current = pathStack.pop()
+      return getSchema(pathStack, model.properties[current])
+    }
+
+    if (model.items) {
+      return getSchema(pathStack, model.items)
+    }
+  }
+
+  const parentContainers = {}
+  _.each(view.containers, function (container, index) {
+    _.each(container.rows, function (row, rowIndex) {
+      _.each(row, function (rowCell, rowCellIndex) {
+        const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
+        if (subContainer) {
+          parentContainers[subContainer] = {container: container.id, rowIndex, rowCellIndex}
+        }
+      })
+    })
+  })
+
+  function getNextContainer (containerData) {
+    if (containerData) {
+      return _.find(view.containers, function (container) {
+        return container.id === containerData.container
+      })
+    }
+  }
+  function nextPathElement (containerData, nextContainer) {
+    if (containerData) {
+      return nextContainer.rows[containerData.rowIndex][containerData.rowCellIndex].model
+    }
+  }
+
+  function getFullPath (containerID) {
+    const path = []
+    let containerData = parentContainers[containerID]
+    let nextContainer = getNextContainer(containerData)
+    let pathElement = nextPathElement(containerData, nextContainer)
+    while (pathElement !== undefined) {
+      path.push(pathElement)
+      containerID = nextContainer.id
+      containerData = parentContainers[containerID]
+      nextContainer = getNextContainer(containerData)
+      pathElement = nextPathElement(containerData, nextContainer)
+    }
+    return path
+  }
+  let newView = _.cloneDeep(view)
+
+  newView.containers = _.filter(_.map(view.containers, function (container, containerIndex) {
+    const newContainer = _.clone(container)
+    newContainer.rows = _.filter(_.map(container.rows, function (row, rowIndex) {
+      row = _.filter(_.map(row, function (rowCell) {
+        const path = rowCell.model.split('.').reverse().concat(getFullPath(container.id))
+        const pathClone = _.cloneDeep(path)
+        const schema = getSchema(path, model)
+        console.log(pathClone, schema)
+        if (schema !== undefined) {
+          return rowCell
+        }
+      }))
+
+      if (row.length > 0) {
+        return row
+      }
+    }))
+    if (newContainer.rows.length > 0) {
+      return newContainer
+    }
+  }))
+  return newView
+}
