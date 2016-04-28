@@ -4,7 +4,7 @@ const {Logger} = Ember
 import {CHANGE_VALUE, VALIDATION_RESOLVED, CHANGE_MODEL} from './actions'
 import convertSchema from './convert-schema'
 
-function ensureParent (state, id) {
+function ensureParent (stateValue, id) {
   // If id does not have a parent the nothing to do
   if (_.isEmpty(id) || id.indexOf('.') === -1) {
     return
@@ -12,17 +12,17 @@ function ensureParent (state, id) {
 
   const segments = id.split('.')
   const idLastSegment = segments.pop()
-  const relativePath = `value.${segments.join('.')}`
+  const relativePath = segments.join('.')
 
-  const relativeObject = _.get(state, relativePath)
+  const relativeObject = _.get(stateValue, relativePath)
   const isArrayItem = /^\d+$/.test(idLastSegment)
 
   if (isArrayItem && !_.isArray(relativeObject)) {
-    ensureParent(state, segments.join('.'))
-    _.set(state, relativePath, [])
+    ensureParent(stateValue, segments.join('.'))
+    _.set(stateValue, relativePath, [])
   } else if (!isArrayItem && !_.isPlainObject(relativeObject)) {
-    ensureParent(state, segments.join('.'))
-    _.set(state, relativePath, {})
+    ensureParent(stateValue, segments.join('.'))
+    _.set(stateValue, relativePath, {})
   }
 }
 
@@ -47,29 +47,38 @@ function unset (obj, path) {
 export default function (state, action) {
   switch (action.type) {
     case CHANGE_VALUE:
-      let newState = _.cloneDeep(state)
       const {value, bunsenId} = action
+      let newValue
 
       if (bunsenId === null) {
-        newState.value = value
-      } else if (_.contains([null, ''], value) || (_.isArray(value) && value.length === 0)) {
-        newState.value = unset(newState.value, bunsenId)
+        newValue = value
       } else {
-        ensureParent(newState, bunsenId)
-        _.set(newState.value, bunsenId, value)
+        newValue = _.cloneDeep(state.value)
+        if (_.contains([null, ''], value) || (_.isArray(value) && value.length === 0)) {
+          newValue = unset(newValue, bunsenId)
+        } else {
+          ensureParent(newValue, bunsenId)
+          _.set(newValue, bunsenId, value)
+        }
       }
-      const newModel = convertSchema(state.baseModel, newState.value)
+      const newModel = convertSchema(state.baseModel, newValue)
+      let model
       if (!_.isEqual(state.model, newModel)) {
-        newState.model = newModel
+        model = newModel
+      } else {
+        model = state.model
       }
 
-      return newState
+      return _.defaults({
+        value: newValue,
+        model
+      }, state)
 
     case VALIDATION_RESOLVED:
-      return _.assign(state, {
+      return _.defaults({
         validationResult: action.validationResult,
         errors: action.errors
-      })
+      }, state)
     case CHANGE_MODEL:
 
       return _.defaults({
