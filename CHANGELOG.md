@@ -1,3 +1,10 @@
+# 5.3
+
+## Non-Breaking Changes
+
+* You can now override built-in renderers by overriding the following renderer keys in the `renderers` property/mapping: `boolean`, `number`, `string`.
+* You can now specify the name of an Ember component as the value of the `renderer` property in your view without having to add it to the `renderers` property/mapping.
+
 # 5.2
 
 ## Non-Breaking Changes
