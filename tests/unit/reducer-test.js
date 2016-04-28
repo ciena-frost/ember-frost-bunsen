@@ -60,7 +60,7 @@ describe('value manipulation', function () {
     expect(changedState.value).to.eql({baz: 22})
   })
 
-  it.only('will prune all the dead wood when setting root object', function () {
+  it('will prune all the dead wood when setting root object', function () {
     const initialState = {
       errors: {},
       validationResult: {warnings: [], errors: []},
