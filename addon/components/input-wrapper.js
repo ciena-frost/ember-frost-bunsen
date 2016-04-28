@@ -90,10 +90,12 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} component name for renderer
    */
   getComponentName (renderer, renderers) {
+    // If renderer is in renderers mapping use mapped name
     if (renderer in renderers) {
       return renderers[renderer]
     }
 
+    // If renderer isn't in renderers mapping check if it is a registered component
     if (getOwner(this).lookup(`component:${renderer}`)) {
       return renderer
     }
