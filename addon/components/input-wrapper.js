@@ -44,29 +44,6 @@ export default Component.extend(PropTypeMixin, {
     return !dependsOn || isDependencyMet
   },
 
-  /**
-   * Get name of component helper
-   * @param {String} type - type of input to render
-   * @param {Boolean} shouldRender - whether or not input should render if it is a dependency
-   * @returns {String} name of component helper to use for input
-   */
-  getRealInputComponent (type, shouldRender) {
-    switch (type) {
-      case 'string':
-        return 'frost-bunsen-input-text'
-      case 'number':
-        return 'frost-bunsen-input-number'
-      case 'boolean':
-        return 'frost-bunsen-input-boolean'
-      default:
-        if (shouldRender) {
-          const renderers = this.get('store.renderers')
-          const rendererNamesInQuotes = Object.keys(renderers).map((key) => `"${key}"`)
-          throw new Error(`Only ${rendererNamesInQuotes.join(',')} fields are currently supported.`)
-        }
-    }
-  },
-
   @readOnly
   @computed('cellConfig.renderer', 'model.{editable,type}', 'readOnly', 'shouldRender', 'store.renderers')
   /**
@@ -88,6 +65,13 @@ export default Component.extend(PropTypeMixin, {
       return 'frost-bunsen-input-static'
     }
 
-    return this.getRealInputComponent(type, shouldRender)
+    if (renderers[type]) {
+      return renderers[type]
+    }
+
+    if (shouldRender) {
+      const rendererNamesInQuotes = Object.keys(renderers).map((key) => `"${key}"`)
+      throw new Error(`Only ${rendererNamesInQuotes.join(',')} fields are currently supported.`)
+    }
   }
 })

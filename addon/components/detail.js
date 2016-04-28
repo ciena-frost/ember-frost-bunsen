@@ -15,7 +15,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import dereference from '../dereference'
 import {getDefaultView} from '../generator'
-import validateView, {validateModel} from '../validator/index'
+import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 /**
@@ -25,12 +25,6 @@ import {deemberify, recursiveObjectCreate} from '../utils'
  */
 function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
-}
-
-const builtInRenderers = {
-  'property-chooser': 'frost-bunsen-property-chooser',
-  'select': 'frost-bunsen-input-select',
-  'multi-select': 'frost-bunsen-input-multi-select'
 }
 
 export default Component.extend(PropTypeMixin, {
