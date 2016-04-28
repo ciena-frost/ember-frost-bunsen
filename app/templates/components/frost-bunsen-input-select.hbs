@@ -8,6 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-select
       disabled=cellConfig.disabled
+      onBlur=(action "onBlur")
       onInput=(action "onInput")
       onChange=(action "onChange")
       data=options
@@ -15,11 +16,11 @@
     }}
   </div>
 </div>
-{{#if errorMessage}}
+{{#if renderErrorMessage}}
   <div>
     <div class={{labelWrapperClassName}}></div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   </div>
 {{/if}}

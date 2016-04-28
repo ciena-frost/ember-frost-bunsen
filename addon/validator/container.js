@@ -51,14 +51,17 @@ export default createFactory({
    * @param {BunsenContainer[]} containers - the Containers to validate container references against
    * @param {BunsenModel} model - the Model to validate model references against
    * @param {String[]} [renderers] - the list of available custom renderers to validate renderer references against
+   * @param {Ember.ApplicationInstance} owner - application instance
    * @returns {validator} the instance
    */
-  init (containers, model, renderers = []) {
-    this.containers = containers
-    this.model = model
-    this.renderers = renderers
-    this.containersValidated = []
-    return this
+  init (containers, model, renderers = [], owner) {
+    return _.assign(this, {
+      containers,
+      containersValidated: [],
+      model,
+      renderers,
+      owner
+    })
   },
 
   /**
@@ -104,7 +107,11 @@ export default createFactory({
     }
     const rendererPath = `${path}/${rendererPathExt}`
 
-    if (!_.includes(this.renderers, rendererName)) {
+    // If rendererName is not in renderers mapping and is not a registered component
+    if (
+      !_.includes(this.renderers, rendererName) &&
+      !this.owner.lookup(`component:${rendererName}`)
+    ) {
       addErrorResult(results, rendererPath, `Invalid renderer reference "${rendererName}"`)
     }
 

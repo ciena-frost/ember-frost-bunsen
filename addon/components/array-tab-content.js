@@ -41,7 +41,7 @@ export default Component.extend(PropTypeMixin, {
     }
 
     const errorMessages = errors[bunsenId]
-    return _.isEmpty(errorMessages) ? null : errorMessages.join('/n')
+    return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
   },
 
   // FIXME: this should be read only

@@ -39,7 +39,13 @@ describe('containerValidator', () => {
       'BarComponent'
     ]
 
-    validator = validatorFactory(containers, model, renderers)
+    const ownerMock = {
+      lookup (id) {
+        return id === 'component:foo-bar-renderer'
+      }
+    }
+
+    validator = validatorFactory(containers, model, renderers, ownerMock)
   })
 
   describe('.validate()', () => {
@@ -98,7 +104,8 @@ describe('containerValidator', () => {
             [{model: 'firstName'}, {model: 'lastName', renderer: 'BazComponent'}],
             [{className: 'col-sm-4'}, {model: 'bad-field-name'}],
             [{model: 'alias', renderer: 'FooComponent'}, {container: 'bad-container-name'}],
-            [{container: 'top'}, {container: 'bottom', bar: 'baz'}]
+            [{container: 'top'}, {container: 'bottom', bar: 'baz'}],
+            [{model: 'firstName'}, {model: 'lastName', renderer: 'foo-bar-renderer'}]
           ]
         }
         result = validator.validate('#/containers/0', container, model)

@@ -21,7 +21,7 @@ export default [
             [
               {
                 model: 'name',
-                renderer: 'NameRenderer',
+                renderer: 'name-renderer',
                 className: 'testCellClass'
               }
             ],

@@ -1,12 +1,19 @@
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNames: ['frost-bunsen-input-wrapper'],
 
-  // Attributes
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject,
@@ -32,6 +39,10 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
+
   @readOnly
   @computed('cellConfig.dependsOn', 'isDependencyMet')
   /**
@@ -42,29 +53,6 @@ export default Component.extend(PropTypeMixin, {
    */
   shouldRender (dependsOn, isDependencyMet) {
     return !dependsOn || isDependencyMet
-  },
-
-  /**
-   * Get name of component helper
-   * @param {String} type - type of input to render
-   * @param {Boolean} shouldRender - whether or not input should render if it is a dependency
-   * @returns {String} name of component helper to use for input
-   */
-  getRealInputComponent (type, shouldRender) {
-    switch (type) {
-      case 'string':
-        return 'frost-bunsen-input-text'
-      case 'number':
-        return 'frost-bunsen-input-number'
-      case 'boolean':
-        return 'frost-bunsen-input-boolean'
-      default:
-        if (shouldRender) {
-          const renderers = this.get('store.renderers')
-          const rendererNamesInQuotes = Object.keys(renderers).map((key) => `"${key}"`)
-          throw new Error(`Only ${rendererNamesInQuotes.join(',')} fields are currently supported.`)
-        }
-    }
   },
 
   @readOnly
@@ -81,13 +69,45 @@ export default Component.extend(PropTypeMixin, {
    */
   inputName (renderer, editable, type, readOnly, shouldRender, renderers) {
     if (renderer) {
-      return renderers[renderer]
+      return this.getComponentName(renderer, renderers)
     }
 
     if (readOnly || editable === false) {
       return 'frost-bunsen-input-static'
     }
 
-    return this.getRealInputComponent(type, shouldRender)
+    return this.getComponentName(type, renderers)
+  },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  /**
+   * Get component name for a provided renderer name
+   * @param {String} renderer - name of renderer
+   * @param {Object} renderers - mapping of renderer names to component names
+   * @returns {String} component name for renderer
+   */
+  getComponentName (renderer, renderers) {
+    // If renderer is in renderers mapping use mapped name
+    if (renderer in renderers) {
+      return renderers[renderer]
+    }
+
+    // If renderer isn't in renderers mapping check if it is a registered component
+    if (getOwner(this).lookup(`component:${renderer}`)) {
+      return renderer
+    }
+
+    throw new Error(`"${renderer}" is not a registered component or in the renderers mapping`)
   }
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 })

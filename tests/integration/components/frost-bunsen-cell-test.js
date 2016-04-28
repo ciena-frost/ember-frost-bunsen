@@ -2,20 +2,23 @@ import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {recursiveObjectCreate} from 'ember-frost-bunsen/utils'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 import {setupComponentTest} from '../../utils/template'
 
 import model from '../../fixtures/valid-model'
 import view from '../../fixtures/valid-view'
+
+const renderers = Ember.assign({
+  BooleanRender: 'boolean-renderer',
+  NameRenderer: 'name-renderer'
+}, builtInRenderers)
 
 const props = {
   config: Ember.Object.create({}),
   model,
   onChange () {},
   store: recursiveObjectCreate({
-    renderers: {
-      BooleanRender: 'boolean-renderer',
-      NameRenderer: 'name-renderer'
-    },
+    renderers,
     value: {},
     view
   }),
