@@ -27,6 +27,12 @@ module.exports = [
         route: 'demo.form'
       },
       {
+        id: 'renderers',
+        alias: 'Renderers',
+        type: 'route',
+        route: 'demo.renderers'
+      },
+      {
         id: 'examples',
         alias: 'Examples',
         type: 'route',

@@ -33,3 +33,11 @@ pre.value-code-block {
   color: white;
   background-color: black;
 }
+
+.flex-grid {
+  display: flex;
+}
+
+.one-third {
+  width: percentage(1 / 3);
+}
