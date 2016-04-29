@@ -1,0 +1,58 @@
+import Ember from 'ember'
+const {Controller} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
+import files from 'ember-frost-demo-components/files'
+import models from './models'
+import views from './views'
+
+const rendererOptions = Object.keys(models)
+  .map((renderer) => {
+    return {
+      label: renderer,
+      value: renderer
+    }
+  })
+
+export default Controller.extend({
+  @readOnly
+  @computed('selectedRendererValue')
+  bunsenModel (selectedRendererValue) {
+    return models[selectedRendererValue]
+  },
+
+  @readOnly
+  @computed('selectedRendererValue')
+  bunsenView (selectedRendererValue) {
+    return views[selectedRendererValue]
+  },
+
+  getDocumentation (rendererName) {
+    const key = `${rendererName}.md`
+    return files.renderers[key] || 'No content found'
+  },
+
+  init () {
+    this._super(...arguments)
+
+    const selectedRendererValue = rendererOptions[0].value
+    const documentation = this.getDocumentation(selectedRendererValue)
+
+    this.setProperties({
+      bunsenValue: {},
+      documentation,
+      rendererOptions,
+      selectedRendererValue
+    })
+  },
+
+  actions: {
+    onSelectedRendererChange (value) {
+      this.setProperties({
+        documentation: this.getDocumentation(value),
+        bunsenValue: {},
+        selectedRendererValue: value
+      })
+    }
+  }
+})
