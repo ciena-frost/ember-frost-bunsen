@@ -177,5 +177,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         done()
       })
     })
+
+    it('supports placeholder in cellConfig', function () {
+      const placeholderText = 'Select something already'
+      this.set('cellConfig.placeholder', placeholderText)
+      expect(rootNode.find('input').attr('placeholder')).to.eql(placeholderText)
+    })
   })
 })
