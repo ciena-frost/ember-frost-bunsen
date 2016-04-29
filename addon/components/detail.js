@@ -147,7 +147,6 @@ export default Component.extend(PropTypeMixin, {
       newProps.reduxModel = state.model
     }
     this.setProperties(newProps)
-    console.log(value)
     if (onChange) {
       onChange(value)
     }

@@ -20,24 +20,17 @@ function pathFinder (valueObj, prevPath) {
     return _.get(valueObj, path.reverse().join('.'))
   }
 }
-
+const possibleConditions = {
+  equals: _.isEqual,
+  greaterThan: function (value, expected) { value > expected },
+  lessThan: function (value, expected) { value < expected },
+  notEqual: _.negate(_.isEqual)
+}
 // (value, condition)->boolean
 function meetsCondition (value, condition) {
-  let isConditionMet = false
-
-  if (condition.equals) {
-    isConditionMet = isConditionMet || _.isEqual(condition.equals, value)
-  }
-
-  if (condition.greaterThan) {
-    isConditionMet = isConditionMet || value > condition.greaterThan
-  }
-
-  if (condition.lessThan) {
-    isConditionMet = isConditionMet || value < condition.lessThan
-  }
-
-  return isConditionMet
+  return _.reduce(condition, function (memo, expected, conditionName) {
+    return memo || possibleConditions[conditionName](value, expected)
+  }, false)
 }
 
 function convertConditionalProperties (model, value, getPreviousValue) {
@@ -118,6 +111,22 @@ function convertConditionalProperties (model, value, getPreviousValue) {
 
 export default convertConditionalProperties
 
+function rowCellParents (container, rowIndex, rowCell, rowCellIndex) {
+  const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
+
+  if (subContainer) {
+    this[subContainer](container, rowCellIndex, rowIndex)
+  }
+}
+
+function rowParents (container, row, index) {
+  _.each(row, rowCellParents.bind(this, container, index))
+}
+
+function findParentContainers (container, index) {
+  _.each(container.rows, rowParents.bind(this, container.id))
+}
+
 export function convertView (model, view) {
   function getSchema (pathStack, model) {
     if (pathStack.length <= 0 || model === undefined) {
@@ -135,16 +144,9 @@ export function convertView (model, view) {
   }
 
   const parentContainers = {}
-  _.each(view.containers, function (container, index) {
-    _.each(container.rows, function (row, rowIndex) {
-      _.each(row, function (rowCell, rowCellIndex) {
-        const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
-        if (subContainer) {
-          parentContainers[subContainer] = {container: container.id, rowIndex, rowCellIndex}
-        }
-      })
-    })
-  })
+
+  // Build list of each cells referencing
+  _.each(view.containers, findParentContainers.bind(parentContainers))
 
   function getNextContainer (containerData) {
     if (containerData) {
@@ -175,14 +177,13 @@ export function convertView (model, view) {
   }
   let newView = _.cloneDeep(view)
 
+  // Filter out containers with non-existent properties
   newView.containers = _.filter(_.map(view.containers, function (container, containerIndex) {
     const newContainer = _.clone(container)
     newContainer.rows = _.filter(_.map(container.rows, function (row, rowIndex) {
       row = _.filter(_.map(row, function (rowCell) {
         const path = rowCell.model.split('.').reverse().concat(getFullPath(container.id))
-        const pathClone = _.cloneDeep(path)
         const schema = getSchema(path, model)
-        console.log(pathClone, schema)
         if (schema !== undefined) {
           return rowCell
         }

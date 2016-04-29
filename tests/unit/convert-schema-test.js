@@ -138,7 +138,6 @@ const MODEL_WITH_DEEP_CONDITIONALS = {
   }
 }
 
-
 const MODEL_WITH_RELATIVE_PATHS = {
   'type': 'object',
   'properties': {

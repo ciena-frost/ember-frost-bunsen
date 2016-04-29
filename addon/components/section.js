@@ -32,7 +32,7 @@ export default Component.extend(PropTypeMixin, {
     this._super()
     this.set('state', Ember.Object.create())
     if (this.get('expanded') === undefined) {
-      this.set('expanded', this.get('expandedOnInitialRender'))
+      this.set('state.expanded', this.get('expandedOnInitialRender'))
     }
   },
 
