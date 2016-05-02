@@ -279,8 +279,15 @@ export default Component.extend(PropTypeMixin, {
      * @param {Number} index - index of item to remove
      */
     onRemoveItem (index) {
+      const autoAdd = this.get('cellConfig.item.autoAdd')
       const items = this.get('items')
       const itemToRemove = items.objectAt(index)
+      const lastItemIndex = Math.max(0, items.length - 1)
+
+      if (autoAdd && index === lastItemIndex) {
+        return
+      }
+
       items.removeObject(itemToRemove)
 
       const onChange = this.get('onChange')
