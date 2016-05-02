@@ -3,9 +3,11 @@ import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 
-export function validateValues (values, type) {
-  if (!_.isArray(values)) {
-    throw new Error(`In order to use a toggle input with type ${type} enum must be present`)
+export const helpers = {
+  validateValues (values, type) {
+    if (!_.isArray(values)) {
+      throw new Error(`In order to use a toggle input with type ${type} enum must be present`)
+    }
   }
 }
 
@@ -45,11 +47,11 @@ export default AbstractInput.extend({
         return ['On', 'Off']
 
       case 'number':
-        validateValues(values, type)
+        helpers.validateValues(values, type)
         return values
 
       case 'string':
-        validateValues(values, type)
+        helpers.validateValues(values, type)
         return values.map((value) => Ember.String.capitalize(value))
 
       default:
