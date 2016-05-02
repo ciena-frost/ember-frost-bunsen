@@ -6,6 +6,24 @@ $frost-row-field-padding: 40px;
   flex: 1 1 auto;
 }
 
+.frost-bunsen-input-button-group .frost-button {
+  border-radius: 0;
+
+  &:not(:first-child) {
+    border-left-width: 0;
+  }
+
+  &:first-child {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+}
+
 .frost-bunsen-detail, .frost-bunsen-form {
   .instructions {
     color: $frost-color-grey-3;

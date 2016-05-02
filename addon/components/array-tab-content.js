@@ -6,6 +6,14 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNames: ['frost-bunsen-array-tab-content'],
 
   propTypes: {
@@ -19,6 +27,10 @@ export default Component.extend(PropTypeMixin, {
     store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('cellConfig.item.renderer', 'store.renderers')
@@ -68,4 +80,16 @@ export default Component.extend(PropTypeMixin, {
     const itemLabel = getLabel(label, model, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : null
   }
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 })

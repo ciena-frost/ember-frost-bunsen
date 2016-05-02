@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import files from 'ember-frost-demo-components/files'
@@ -47,6 +47,10 @@ export default Controller.extend({
   },
 
   actions: {
+    onFormValueChange (value) {
+      Logger.info(value)
+    },
+
     onSelectedRendererChange (value) {
       this.setProperties({
         documentation: this.getDocumentation(value),

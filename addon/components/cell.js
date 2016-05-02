@@ -6,7 +6,37 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getSubModel, getModelPath} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNameBindings: ['computedClassName'],
+
+  propTypes: {
+    bunsenId: PropTypes.string,
+    config: PropTypes.EmberObject.isRequired,
+    defaultClassName: PropTypes.string,
+    errors: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    readOnly: PropTypes.bool,
+    store: PropTypes.EmberObject.isRequired,
+    value: PropTypes.object.isRequired
+  },
+
+  getDefaultProps () {
+    return {
+      readOnly: false
+    }
+  },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('classNames', 'defaultClassName')
@@ -28,24 +58,6 @@ export default Component.extend(PropTypeMixin, {
     return classes.join(' ')
   },
 
-  propTypes: {
-    bunsenId: PropTypes.string,
-    config: PropTypes.EmberObject.isRequired,
-    defaultClassName: PropTypes.string,
-    errors: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    readOnly: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
-    value: PropTypes.object.isRequired
-  },
-
-  getDefaultProps () {
-    return {
-      readOnly: false
-    }
-  },
-
   @readOnly
   @computed('errors')
   errorMessage (errors) {
@@ -64,19 +76,6 @@ export default Component.extend(PropTypeMixin, {
   renderValue (value) {
     const bunsenId = this.get('renderId')
     return _.get(value, bunsenId)
-  },
-
-  /**
-   * Get parent's model
-   * @param {BunsenModel} reference - bunsen model of cell
-   * @param {BunsenModel} dependencyReference - model cell depends on
-   * @returns {BunsenModel} model of parent
-   */
-  getParentModel (reference, dependencyReference) {
-    const model = this.get('model')
-    const path = getModelPath(reference, dependencyReference)
-    const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
-    return (parentPath) ? _.get(model, parentPath) : model
   },
 
   @readOnly
@@ -160,6 +159,31 @@ export default Component.extend(PropTypeMixin, {
     const dependencyValue = _.get(value, dependencyId)
 
     return dependencyValue !== undefined
+  },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
+
+  /**
+   * Get parent's model
+   * @param {BunsenModel} reference - bunsen model of cell
+   * @param {BunsenModel} dependencyReference - model cell depends on
+   * @returns {BunsenModel} model of parent
+   */
+  getParentModel (reference, dependencyReference) {
+    const model = this.get('model')
+    const path = getModelPath(reference, dependencyReference)
+    const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
+    return (parentPath) ? _.get(model, parentPath) : model
   },
 
   init () {
