@@ -33,7 +33,9 @@ describeComponent(
 
       component = this.subject({
         bunsenId: 'foo',
-        config: {},
+        cellConfig: Ember.Object.create({
+          item: {}
+        }),
         errors: {},
         index: 0,
         model: {
@@ -65,6 +67,20 @@ describeComponent(
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    it('compact returns false when view config property is missing', function () {
+      expect(component.get('compact')).to.be.false
+    })
+
+    it('compact returns false when view config property is set to false', function () {
+      component.set('cellConfig.item.compact', false)
+      expect(component.get('compact')).to.be.false
+    })
+
+    it('compact returns true when view config property set to true', function () {
+      component.set('cellConfig.item.compact', true)
+      expect(component.get('compact')).to.be.true
     })
 
     it('errorMessage returns null when no erorrs', function () {
