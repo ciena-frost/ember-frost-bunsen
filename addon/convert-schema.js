@@ -115,7 +115,11 @@ function rowCellParents (container, rowIndex, rowCell, rowCellIndex) {
   const subContainer = _.get(rowCell, 'container') || _.get(rowCell, 'item.container')
 
   if (subContainer) {
-    this[subContainer](container, rowCellIndex, rowIndex)
+    this[subContainer] = {
+      container,
+      rowCellIndex,
+      rowIndex
+    }
   }
 }
 

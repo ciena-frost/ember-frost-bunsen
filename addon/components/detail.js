@@ -5,7 +5,7 @@ const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer, {initialStore} from '../reducer'
+import reducer from '../reducer'
 import {validate, changeModel} from '../actions'
 
 import _ from 'lodash'
@@ -162,7 +162,7 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    const reduxStore = createStoreWithMiddleware(reducer, initialStore({baseModel: this.get('model')}))
+    const reduxStore = createStoreWithMiddleware(reducer, {baseModel: this.get('model')})
 
     this.set('reduxStore', reduxStore)
     this.set('reduxModel', reduxStore.getState().model)

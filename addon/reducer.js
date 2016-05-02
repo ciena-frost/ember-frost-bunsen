@@ -33,8 +33,8 @@ const INITIAL_VALUE = {
   model: {},
   baseModel: {}
 }
-export function initialStore (store) {
-  return _.defaults(store, INITIAL_VALUE)
+export function initialState (state) {
+  return _.defaults(state, INITIAL_VALUE)
 }
 
 // TODO: Update lodash and get rid of this
@@ -111,7 +111,7 @@ export default function (state, action) {
       if (state.baseModel) {
         state.model = convertSchema(state.baseModel, state.value || {})
       }
-      return state || INITIAL_VALUE
+      return initialState(state || {})
 
     default:
       Logger.error(`Do not recognize action ${action.type}`)
