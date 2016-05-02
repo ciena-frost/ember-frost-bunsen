@@ -28,6 +28,8 @@ function setPropsAndAttrs (component, props) {
     _.set(component, 'attrs', newAttrs)
   }
 
+  component.setProperties(props)
+
   component.trigger('didUpdateAttrs', {newAttrs, oldAttrs})
   component.trigger('didReceiveAttrs', {newAttrs, oldAttrs})
 }
@@ -222,6 +224,20 @@ describeComponent(
 
       it('adds an empty item to array', function () {
         expect(component.get('items').length).to.eq(1)
+      })
+
+      describe('actions.onRemoveItem()', function () {
+        beforeEach(function () {
+          component.actions.onRemoveItem.call(component, 0)
+        })
+
+        it('does not allow empty item to be removed', function () {
+          expect(component.get('items').length).to.eql(1)
+        })
+
+        it('does not trigger onChange event', function () {
+          expect(onChangeSpy.callCount).to.eql(0)
+        })
       })
 
       describe('then autoAdd is disabled', function () {
