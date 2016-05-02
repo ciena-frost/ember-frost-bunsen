@@ -4,6 +4,14 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   classNameBindings: ['state.expanded:expanded:collapsed'],
   classNames: ['frost-bunsen-section'],
 
@@ -24,6 +32,26 @@ export default Component.extend(PropTypeMixin, {
       renderContentWhenCollapsed: false
     }
   },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
+
+  @readOnly
+  @computed('state.expanded', 'renderContentWhenCollapsed')
+  /**
+   * Whether or not to show section content
+   * @param {Boolean} expanded - whether or not section is exapnded
+   * @param {Boolean} renderContentWhenCollapsed - whether or not to render content when section is collapsed
+   * @returns {Boolean} whether or not to show content
+   */
+  showContent (expanded, renderContentWhenCollapsed) {
+    return expanded || renderContentWhenCollapsed
+  },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
 
   /**
    * Initialize state
@@ -47,17 +75,13 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  @readOnly
-  @computed('state.expanded', 'renderContentWhenCollapsed')
-  /**
-   * Whether or not to show section content
-   * @param {Boolean} expanded - whether or not section is exapnded
-   * @param {Boolean} renderContentWhenCollapsed - whether or not to render content when section is collapsed
-   * @returns {Boolean} whether or not to show content
-   */
-  showContent (expanded, renderContentWhenCollapsed) {
-    return expanded || renderContentWhenCollapsed
-  },
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 
   actions: {
     /**

@@ -10,6 +10,7 @@ import {default as validateValue} from './value'
 
 export const builtInRenderers = {
   boolean: 'frost-bunsen-input-boolean',
+  'button-group': 'frost-bunsen-input-button-group',
   'multi-select': 'frost-bunsen-input-multi-select',
   number: 'frost-bunsen-input-number',
   'property-chooser': 'frost-bunsen-property-chooser',

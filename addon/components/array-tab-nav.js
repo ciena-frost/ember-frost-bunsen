@@ -6,6 +6,14 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   tagName: 'li',
 
   propTypes: {
@@ -15,6 +23,10 @@ export default Component.extend(PropTypeMixin, {
     onRemove: PropTypes.func.isRequired,
     store: PropTypes.EmberObject.isRequired
   },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('cellConfig.item.{container,label}', 'index', 'model', 'store.view.containers')
@@ -33,6 +45,18 @@ export default Component.extend(PropTypeMixin, {
     const itemLabel = getLabel(label, model, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : `${index + 1}`
   },
+
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 
   actions: {
     /**

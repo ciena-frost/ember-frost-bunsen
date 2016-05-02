@@ -14,6 +14,14 @@ export const defaultClassNames = {
 }
 
 export default Component.extend(PropTypeMixin, {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  // ==========================================================================
+  // Properties
+  // ==========================================================================
+
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
@@ -42,6 +50,10 @@ export default Component.extend(PropTypeMixin, {
       showErrorMessage: false
     }
   },
+
+  // ==========================================================================
+  // Computed Properties
+  // ==========================================================================
 
   @readOnly
   @computed('errorMessage', 'showErrorMessage')
@@ -102,6 +114,10 @@ export default Component.extend(PropTypeMixin, {
     return getLabel(customLabel, model, bunsenId)
   },
 
+  // ==========================================================================
+  // Functions
+  // ==========================================================================
+
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
    * @param {Boolean|String} data - value to parse
@@ -112,6 +128,14 @@ export default Component.extend(PropTypeMixin, {
       return !_.isUndefined(value)
     })
   },
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 
   actions: {
     /**
