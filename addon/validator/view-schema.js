@@ -39,6 +39,11 @@ export default {
               'type': 'string',
               'description': 'CSS "className" for this cell'
             },
+            'compact': {
+              'type': 'boolean',
+              'description': 'When true, render input(s) on same line as remove button',
+              'default': false
+            },
             'container': {
               'type': 'string',
               'description': 'The "id" of a container in the "containers" array'
@@ -70,6 +75,11 @@ export default {
             'renderer': {
               'type': 'string',
               'description': 'Name of a custom renderer for the model'
+            },
+            'showLabel': {
+              'type': 'boolean',
+              'description': 'When true, show label for each item',
+              'default': true
             },
             'sortable': {
               'type': 'boolean',

@@ -1,3 +1,41 @@
+# 5.6
+
+## Non-Breaking Changes
+
+* **Added** ability to hide labels for individual array items. You can hide these labels via the `showLabel` property in your view for the array container.
+
+```json
+…
+{
+  "model": "addresses",
+  "item": {
+    "container": "address",
+    "showLabel": false
+  }
+}
+…
+```
+
+* **Added ability to render array items in a compact mode where input(s) are rendered on same line as remove button (as well as sort icon when `sortable` is enabled). To enable the compact mode simply use the `compact` property in your view for the array container.
+
+```json
+…
+{
+  "model": "addresses",
+  "item": {
+    "compact": true,
+    "container": "address"
+  }
+}
+…
+```
+
+# 5.5
+
+## Non-Breaking Changes
+
+* **Added** new `button-group` renderer. To learn more about it go to the [demo](http://ciena-frost.github.io/ember-frost-bunsen/#/renderers) and select `button-group` from the select.
+
 # 5.4
 
 ## Non-Breaking Changes

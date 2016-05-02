@@ -1,15 +1,17 @@
-<div class="remove-btn-container">
-  {{#frost-button
-    class="medium tertiary text"
-    onClick=(action "onRemove")
-  }}
-    Remove
-  {{/frost-button}}
-</div>
+{{#if (not compact)}}
+  <div class="remove-btn-container">
+    {{#frost-button
+      class="medium tertiary text"
+      onClick=(action "onRemove")
+    }}
+      Remove
+    {{/frost-button}}
+  </div>
+{{/if}}
 {{#if sortable}}
   {{frost-icon class="handle" icon="frost/menu"}}
 {{/if}}
-<div>
+<div class="item-input">
   {{#if cellConfig.item.renderer}}
     {{component customRenderer
       bunsenId=(concat bunsenId '.' index)
@@ -47,3 +49,13 @@
     }}
   {{/if}}
 </div>
+{{#if compact}}
+  <div class="remove-btn-container">
+    {{#frost-button
+      class="medium tertiary text"
+      onClick=(action "onRemove")
+    }}
+      Remove
+    {{/frost-button}}
+  </div>
+{{/if}}
