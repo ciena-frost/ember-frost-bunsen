@@ -14,6 +14,7 @@ export default Component.extend(PropTypeMixin, {
   // Properties
   // ==========================================================================
 
+  classNameBindings: ['compact:compact'],
   classNames: ['item-wrapper'],
 
   propTypes: {
@@ -33,6 +34,12 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
   // Computed Properties
   // ==========================================================================
+
+  @readOnly
+  @computed('cellConfig.item.compact')
+  compact (compact) {
+    return compact === true
+  },
 
   @readOnly
   @computed('cellConfig.item.renderer', 'store.renderers')

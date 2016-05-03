@@ -82,16 +82,21 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.label', 'label', 'model')
+  @computed('bunsenId', 'cellConfig.{label,showLabel}', 'label', 'model')
   /**
    * Get label for container
    * @param {String} bunsenId - bunsen ID for container in model
    * @param {String} configLabel - label defined in view
+   * @param {Boolean} showLabel - whether or not to show label
    * @param {String} label - label
    * @param {BunsenModel} model - bunsen model
    * @returns {String} label
    */
-  renderLabel (bunsenId, configLabel, label, model) {
+  renderLabel (bunsenId, configLabel, showLabel, label, model) {
+    if (showLabel === false) {
+      return null
+    }
+
     label = label || configLabel
     return getLabel(label, model, bunsenId)
   },
