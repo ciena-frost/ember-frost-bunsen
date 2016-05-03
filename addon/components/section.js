@@ -30,10 +30,13 @@ export default Component.extend(PropTypeMixin, {
    */
   init () {
     this._super()
-    this.set('state', Ember.Object.create())
+    let initialState
     if (this.get('expanded') === undefined) {
-      this.set('state.expanded', this.get('expandedOnInitialRender'))
+      initialState = {
+        expanded: this.get('expandedOnInitialRender')
+      }
     }
+    this.set('state', Ember.Object.create(initialState))
   },
 
   /**

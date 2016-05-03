@@ -30,8 +30,8 @@ const INITIAL_VALUE = {
   errors: {},
   validationResult: {warnings: [], errors: []},
   value: null,
-  model: {},
-  baseModel: {}
+  model: {}, // Model calculated by the reducer
+  baseModel: {} // Original model recieved
 }
 export function initialState (state) {
   return _.defaults(state, INITIAL_VALUE)
@@ -108,7 +108,7 @@ export default function (state, action) {
         model: convertSchema(action.model, state.value)
       }, state)
     case '@@redux/INIT':
-      if (state.baseModel) {
+      if (state && state.baseModel) {
         state.model = convertSchema(state.baseModel, state.value || {})
       }
       return initialState(state || {})
