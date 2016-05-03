@@ -1,9 +1,10 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {Logger} = Ember
-import {CHANGE_VALUE, VALIDATION_RESOLVED} from './actions'
+import {CHANGE_VALUE, VALIDATION_RESOLVED, CHANGE_MODEL} from './actions'
+import convertSchema from './convert-schema'
 
-function ensureParent (state, id) {
+function ensureParent (stateValue, id) {
   // If id does not have a parent the nothing to do
   if (_.isEmpty(id) || id.indexOf('.') === -1) {
     return
@@ -11,24 +12,29 @@ function ensureParent (state, id) {
 
   const segments = id.split('.')
   const idLastSegment = segments.pop()
-  const relativePath = `value.${segments.join('.')}`
+  const relativePath = segments.join('.')
 
-  const relativeObject = _.get(state, relativePath)
+  const relativeObject = _.get(stateValue, relativePath)
   const isArrayItem = /^\d+$/.test(idLastSegment)
 
   if (isArrayItem && !_.isArray(relativeObject)) {
-    ensureParent(state, segments.join('.'))
-    _.set(state, relativePath, [])
+    ensureParent(stateValue, segments.join('.'))
+    _.set(stateValue, relativePath, [])
   } else if (!isArrayItem && !_.isPlainObject(relativeObject)) {
-    ensureParent(state, segments.join('.'))
-    _.set(state, relativePath, {})
+    ensureParent(stateValue, segments.join('.'))
+    _.set(stateValue, relativePath, {})
   }
 }
 
 const INITIAL_VALUE = {
   errors: {},
   validationResult: {warnings: [], errors: []},
-  value: null
+  value: null,
+  model: {}, // Model calculated by the reducer
+  baseModel: {} // Original model recieved
+}
+export function initialState (state) {
+  return _.defaults(state, INITIAL_VALUE)
 }
 
 // TODO: Update lodash and get rid of this
@@ -63,28 +69,49 @@ function recursiveClean (value) {
 export default function (state, action) {
   switch (action.type) {
     case CHANGE_VALUE:
-      let newState = _.cloneDeep(state)
       const {value, bunsenId} = action
+      let newValue
 
       if (bunsenId === null) {
-        newState.value = recursiveClean(value)
-      } else if ([null, ''].indexOf(value) !== -1 || (_.isArray(value) && value.length === 0)) {
-        newState.value = unset(newState.value, bunsenId)
+        newValue = recursiveClean(value)
       } else {
-        ensureParent(newState, bunsenId)
-        _.set(newState.value, bunsenId, value)
+        newValue = _.cloneDeep(state.value)
+        if (_.contains([null, ''], value) || (_.isArray(value) && value.length === 0)) {
+          newValue = unset(newValue, bunsenId)
+        } else {
+          ensureParent(newValue, bunsenId)
+          _.set(newValue, bunsenId, value)
+        }
       }
-      return newState
+      const newModel = convertSchema(state.baseModel, newValue)
+      let model
+      if (!_.isEqual(state.model, newModel)) {
+        model = newModel
+      } else {
+        model = state.model
+      }
+
+      return _.defaults({
+        value: newValue,
+        model
+      }, state)
 
     case VALIDATION_RESOLVED:
-      const validationState = {
-        errors: action.errors,
-        value: state.value,
-        validationResult: action.validationResult
-      }
-      return validationState
+      return _.defaults({
+        validationResult: action.validationResult,
+        errors: action.errors
+      }, state)
+    case CHANGE_MODEL:
+
+      return _.defaults({
+        baseModel: action.model,
+        model: convertSchema(action.model, state.value)
+      }, state)
     case '@@redux/INIT':
-      return INITIAL_VALUE
+      if (state && state.baseModel) {
+        state.model = convertSchema(state.baseModel, state.value || {})
+      }
+      return initialState(state || {})
 
     default:
       Logger.error(`Do not recognize action ${action.type}`)

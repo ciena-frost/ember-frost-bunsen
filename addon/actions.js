@@ -5,12 +5,20 @@ import {getPath} from './dereference'
 
 export const CHANGE_VALUE = 'CHANGE_VALUE'
 export const VALIDATION_RESOLVED = 'VALIDATION_RESOLVED'
+export const CHANGE_MODEL = 'SET_MODEL'
 
 export function changeValue (bunsenId, value) {
   return {
     type: CHANGE_VALUE,
     bunsenId,
     value
+  }
+}
+
+export function changeModel (model) {
+  return {
+    type: CHANGE_MODEL,
+    model
   }
 }
 

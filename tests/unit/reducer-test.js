@@ -23,7 +23,8 @@ describe('value manipulation', function () {
         bar: {
           qux: 'cheese'
         }
-      }
+      },
+      baseModel: {}
     }
     const changedState = reducer(initialState, {type: CHANGE_VALUE, value: 'wine', bunsenId: 'bar.qux'})
     expect(changedState.value.bar.qux).to.eql('wine')
@@ -39,7 +40,8 @@ describe('value manipulation', function () {
         bar: {
           qux: 'cheese'
         }
-      }
+      },
+      baseModel: {}
     }
     const changedState = reducer(initialState, {type: CHANGE_VALUE, value: '', bunsenId: 'bar.qux'})
     expect(changedState.value).to.eql({foo: 12, bar: {}})
@@ -54,7 +56,8 @@ describe('value manipulation', function () {
         bar: {
           qux: 'cheese'
         }
-      }
+      },
+      baseModel: {}
     }
     const changedState = reducer(initialState, {type: CHANGE_VALUE, value: {baz: 22}, bunsenId: null})
     expect(changedState.value).to.eql({baz: 22})
@@ -64,7 +67,8 @@ describe('value manipulation', function () {
     const initialState = {
       errors: {},
       validationResult: {warnings: [], errors: []},
-      value: null
+      value: null,
+      baseModel: {}
     }
     const newValue = {
       foo: {
@@ -86,7 +90,8 @@ describe('value manipulation', function () {
     const initialState = {
       errors: {},
       validationResult: {warnings: [], errors: []},
-      value: null
+      value: null,
+      baseModel: {}
     }
     const newValue = {
       a: {
@@ -111,14 +116,16 @@ describe('can set the validation', function () {
     const initialState = {
       errors: ['this is broken'],
       validationResult: ['this sucks'],
-      value: {}
+      value: {},
+      baseModel: {}
     }
     const changedState = reducer(initialState, {type: VALIDATION_RESOLVED, errors: [], validationResult: ['you look kinda fat']})
 
     expect(changedState).to.eql({
       errors: [],
       validationResult: ['you look kinda fat'],
-      value: {}
+      value: {},
+      baseModel: {}
     })
   })
 })

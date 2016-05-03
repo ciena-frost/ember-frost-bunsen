@@ -6,7 +6,7 @@ import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 import reducer from '../reducer'
-import {validate} from '../actions'
+import {validate, changeModel} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
@@ -17,6 +17,7 @@ import dereference from '../dereference'
 import {getDefaultView} from '../generator'
 import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
+import {convertView} from '../convert-schema'
 
 /**
  * Determine if an object is an Ember.Object or not
@@ -83,13 +84,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('model')
+  @computed('reduxModel')
   renderModel (model) {
     return dereference(model || {}).schema
   },
 
   @readOnly
-  @computed('model', 'view')
+  @computed('renderModel', 'view')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
@@ -97,8 +98,8 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? view : getDefaultView(model)
-    return isEmberObject(view) ? view : recursiveObjectCreate(view)
+    view = !_.isEmpty(view) ? convertView(model, view) : getDefaultView(model)
+    return recursiveObjectCreate(view)
   },
 
   @readOnly
@@ -137,11 +138,15 @@ export default Component.extend(PropTypeMixin, {
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value} = state
 
-    this.setProperties({
+    const newProps = {
       errors,
       renderValue: value
-    })
+    }
 
+    if (!_.isEqual(this.get('reduxModel'), state.model)) {
+      newProps.reduxModel = state.model
+    }
+    this.setProperties(newProps)
     if (onChange) {
       onChange(value)
     }
@@ -157,9 +162,10 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    const reduxStore = createStoreWithMiddleware(reducer)
+    const reduxStore = createStoreWithMiddleware(reducer, {baseModel: this.get('model')})
 
     this.set('reduxStore', reduxStore)
+    this.set('reduxModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
@@ -170,9 +176,10 @@ export default Component.extend(PropTypeMixin, {
     const model = this.get('model')
     const modelPojo = isEmberObject(model) ? deemberify(model) : model
     const renderers = this.get('allRenderers')
-    const view = this.get('renderView')
 
     let result = validateModel(modelPojo)
+    this.get('reduxStore').dispatch(changeModel(model))
+    const view = this.get('renderView')
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
