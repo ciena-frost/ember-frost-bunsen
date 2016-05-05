@@ -32,6 +32,10 @@ Callback for when form is validated
 
 Custom renderer template helper mappings
 
+##### `showAllErrors` : *boolean*
+
+Whether or not to show all errors even before the user interacts with the form. The default value is `false`.
+
 ##### `submitLabel` : *string*
 
 Text for submit button
