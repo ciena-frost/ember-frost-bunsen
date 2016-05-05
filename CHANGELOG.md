@@ -1,3 +1,11 @@
+# 5.8
+
+## Non-Breaking Changes
+
+* **Added** new property `showAllErrors` to `frost-bunsen-form` component that when true informs bunsen to show all error messages even before there is user interaction. This property defaults to `false` making it backwards compatible.
+
+# 5.7
+
 # 5.6
 
 ## Non-Breaking Changes
