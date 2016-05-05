@@ -8,6 +8,7 @@ export default Controller.extend({
   selectedModel: null,
   selectedValue: null,
   selectedView: null,
+  showAllErrors: false,
 
   renderers: {
     AddressRenderer: 'address-renderer',
@@ -128,6 +129,11 @@ export default Controller.extend({
     toggleInline () {
       const isInline = this.get('inline')
       this.set('inline', !isInline)
+    },
+
+    toggleShowAllErrors () {
+      const showAllErrors = this.get('showAllErrors')
+      this.set('showAllErrors', !showAllErrors)
     }
   }
 })

@@ -24,6 +24,7 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]),
+      showAllErrors: PropTypes.bool,
       submitLabel: PropTypes.string,
       validators: PropTypes.array,
       value: PropTypes.oneOf([

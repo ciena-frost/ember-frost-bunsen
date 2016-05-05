@@ -44,6 +44,30 @@ describeComponent(
       ])
     })
 
+    it('shows error messages when store.showErrorMessages and showErrorMessages are true', function () {
+      component.set('showErrorMessages', false)
+      component.set('store.showAllErrors', true)
+      expect(component.get('showErrorMessages')).to.be.truthy
+    })
+
+    it('shows error messages when store.showErrorMessages is true and showErrorMessages is false', function () {
+      component.set('showErrorMessages', true)
+      component.set('store.showAllErrors', false)
+      expect(component.get('showErrorMessages')).to.be.truthy
+    })
+
+    it('does not show error messages when store.showErrorMessages and showErrorMessages are false', function () {
+      component.set('showErrorMessages', false)
+      component.set('store.showAllErrors', false)
+      expect(component.get('showErrorMessages')).to.be.falsy
+    })
+
+    it('shows error messages when store.showErrorMessages is false and showErrorMessages is true', function () {
+      component.set('showErrorMessages', false)
+      component.set('store.showAllErrors', true)
+      expect(component.get('showErrorMessages')).to.be.truthy
+    })
+
     describe('when onChange property is omitted', function () {
       beforeEach(function () {
         component.set('onChange', undefined)

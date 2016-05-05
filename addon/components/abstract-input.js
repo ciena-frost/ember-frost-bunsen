@@ -56,9 +56,9 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('errorMessage', 'showErrorMessage')
-  renderErrorMessage (errorMessage, showErrorMessage) {
-    if (!showErrorMessage) {
+  @computed('errorMessage', 'showErrorMessage', 'store.showAllErrors')
+  renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
+    if (showAllErrors !== true && !showErrorMessage) {
       return null
     }
 

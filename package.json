@@ -28,10 +28,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "ember-browserify": "1.1.8",
+    "ember-browserify": "1.1.9",
     "ember-cli": "^2.4.1",
     "ember-cli-app-version": "^1.0.0",
-    "ember-cli-blanket": "0.9.2",
+    "ember-cli-blanket": "0.9.4",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
@@ -46,7 +46,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-frost-core": ">=0.2.1 <2.0.0",
-    "ember-frost-demo-components": "0.0.3",
+    "ember-frost-demo-components": "0.0.4",
     "ember-frost-popover": "0.0.1",
     "ember-load-initializers": "^0.5.0",
     "ember-lodash": ">=0.0.6 <2.0.0",
@@ -63,7 +63,7 @@
     "eslint-config-frost-standard": "^2.0.0",
     "frost-guide-custom-routing": "0.0.4",
     "ivy-codemirror": "1.4.0",
-    "loader.js": "^4.0.0",
+    "loader.js": "^4.0.4",
     "redux-thunk": "^2.0.1"
   },
   "keywords": [

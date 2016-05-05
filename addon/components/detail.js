@@ -60,6 +60,7 @@ export default Component.extend(PropTypeMixin, {
   getDefaultProps () {
     return {
       classNames: ['frost-bunsen-detail', 'inline'],
+      showAllErrors: false,
       renderers: {},
       validators: [],
       value: null
@@ -109,18 +110,20 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('allRenderers', 'renderValue', 'renderView')
+  @computed('allRenderers', 'renderValue', 'renderView', 'showAllErrors')
   /**
    * Get store
    * @param {Object} renderers - renderer to component mapping
    * @param {Object} formValue - current form value
    * @param {BunsenView} view - view being rendered
+   * @param {Boolean} showAllErrors - whether or not to show all errors immediately
    * @returns {Object} store
    */
-  store (renderers, formValue, view) {
+  store (renderers, formValue, view, showAllErrors) {
     return Ember.Object.create({
       formValue,
       renderers,
+      showAllErrors,
       view
     })
   },
