@@ -2,13 +2,15 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
+import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-number',
   'FrostBunsenInputNumberComponent',
   {},
   function () {
+    const ctx = {}
     let component
 
     beforeEach(function () {
@@ -20,6 +22,7 @@ describeComponent(
         store: Ember.Object.create({}),
         state: Ember.Object.create({})
       })
+      ctx.component = component
     })
 
     validatePropTypes({
@@ -44,46 +47,7 @@ describeComponent(
       ])
     })
 
-    describe('renderErrorMessage when error message present', function () {
-      let errorMessage
-
-      beforeEach(function () {
-        errorMessage = 'Things are borked'
-        component.set('errorMessage', errorMessage)
-      })
-
-      describe('when store.showAllErrors is true', function () {
-        beforeEach(function () {
-          component.set('store.showAllErrors', true)
-        })
-
-        it('returns error messages when showErrorMessage is true', function () {
-          component.set('showErrorMessage', true)
-          expect(component.get('renderErrorMessage')).to.eql(errorMessage)
-        })
-
-        it('returns error messages when showErrorMessage is false', function () {
-          component.set('showErrorMessage', false)
-          expect(component.get('renderErrorMessage')).to.eql(errorMessage)
-        })
-      })
-
-      describe('when store.showAllErrors is false', function () {
-        beforeEach(function () {
-          component.set('store.showAllErrors', false)
-        })
-
-        it('returns error messages when showErrorMessage is true', function () {
-          component.set('showErrorMessage', true)
-          expect(component.get('renderErrorMessage')).to.eql(errorMessage)
-        })
-
-        it('returns null when showErrorMessage is false', function () {
-          component.set('showErrorMessage', false)
-          expect(component.get('renderErrorMessage')).to.be.null
-        })
-      })
-    })
+    renderErrorMessageTests(ctx)
 
     it('onBlur action sets showErrorMessage to true', function () {
       component.set('showErrorMessage', true)

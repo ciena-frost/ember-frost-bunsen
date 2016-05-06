@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {describe} from 'mocha'
-import {setupComponentTest} from '../../../utils/template'
+import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
   model: {

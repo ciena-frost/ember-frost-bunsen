@@ -2,7 +2,7 @@ import {expect} from 'chai'
 const {run} = Ember
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach} from 'mocha'
-import {integrationTestContext} from '../../utils/template'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 import hbs from 'htmlbars-inline-precompile'
 
 describeComponent(...integrationTestContext('frost-bunsen-detail'), function () {

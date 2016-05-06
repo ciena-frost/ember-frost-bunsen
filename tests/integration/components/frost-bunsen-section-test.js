@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
-import {renderWithProps, integrationTestContext} from '../../utils/template'
+import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
 
 const COMPONENT_NAME = 'frost-bunsen-section'
 

@@ -5,7 +5,7 @@ import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 /**
  * This is used instead of setProperties() so life cycle hooks get correct attrs

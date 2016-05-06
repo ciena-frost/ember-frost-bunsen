@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach} from 'mocha'
-import {renderWithProps, integrationTestContext} from '../../utils/template'
+import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
 
 describeComponent(...integrationTestContext('frost-bunsen-input-text'), function () {
   let rootNode
