@@ -44,22 +44,12 @@ describeComponent(
       ])
     })
 
-    describe('renderErrorMessage when error messages', function () {
-      let errorMessages
+    describe('renderErrorMessage when error message present', function () {
+      let errorMessage
 
       beforeEach(function () {
-        errorMessages = [
-          {
-            message: 'Foo',
-            path: '#/foo'
-          },
-          {
-            message: 'Bar',
-            path: '#/bar'
-          }
-        ]
-
-        component.set('errorMessages', errorMessages)
+        errorMessage = 'Things are borked'
+        component.set('errorMessage', errorMessage)
       })
 
       describe('when store.showAllErrors is true', function () {
@@ -68,11 +58,13 @@ describeComponent(
         })
 
         it('returns error messages when showErrorMessage is true', function () {
-          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+          component.set('showErrorMessage', true)
+          expect(component.get('renderErrorMessage')).to.equal(errorMessage)
         })
 
         it('returns error messages when showErrorMessage is false', function () {
-          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+          component.set('showErrorMessage', false)
+          expect(component.get('renderErrorMessage')).to.equal(errorMessage)
         })
       })
 
@@ -82,10 +74,12 @@ describeComponent(
         })
 
         it('returns error messages when showErrorMessage is true', function () {
-          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+          component.set('showErrorMessage', true)
+          expect(component.get('renderErrorMessage')).to.equal(errorMessage)
         })
 
         it('returns null when showErrorMessage is false', function () {
+          component.set('showErrorMessage', false)
           expect(component.get('renderErrorMessage')).to.be.null
         })
       })

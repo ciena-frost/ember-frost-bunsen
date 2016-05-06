@@ -5,29 +5,29 @@ import * as utils from 'ember-frost-bunsen/utils'
 describe('utils', () => {
   describe('getModelPath()', () => {
     it('handles top-level properties', () => {
-      expect(utils.getModelPath('fooBar')).to.be.equal('properties.fooBar')
+      expect(utils.getModelPath('fooBar')).to.equal('properties.fooBar')
     })
 
     it('handles nested properties', () => {
-      expect(utils.getModelPath('foo.bar.baz')).to.be.equal('properties.foo.properties.bar.properties.baz')
+      expect(utils.getModelPath('foo.bar.baz')).to.equal('properties.foo.properties.bar.properties.baz')
     })
 
     it('handles invalid trailing dot reference', () => {
-      expect(utils.getModelPath('foo.bar.')).to.be.equal(undefined)
+      expect(utils.getModelPath('foo.bar.')).to.equal(undefined)
     })
 
     it('handles invalid leading dot reference', () => {
-      expect(utils.getModelPath('.foo.bar')).to.be.equal(undefined)
+      expect(utils.getModelPath('.foo.bar')).to.equal(undefined)
     })
 
     it('handles model with dependency', () => {
       const expected = 'dependencies.useEft.properties.routingNumber'
-      expect(utils.getModelPath('routingNumber', 'useEft')).to.be.equal(expected)
+      expect(utils.getModelPath('routingNumber', 'useEft')).to.equal(expected)
     })
 
     it('handles model with dependency', () => {
       const expected = 'properties.paymentInfo.dependencies.useEft.properties.routingNumber'
-      expect(utils.getModelPath('paymentInfo.routingNumber', 'paymentInfo.useEft')).to.be.equal(expected)
+      expect(utils.getModelPath('paymentInfo.routingNumber', 'paymentInfo.useEft')).to.equal(expected)
     })
   })
 
