@@ -44,40 +44,63 @@ describeComponent(
       ])
     })
 
-    it('shows error messages when store.showErrorMessages and showErrorMessages are true', function () {
-      component.set('showErrorMessages', false)
-      component.set('store.showAllErrors', true)
-      expect(component.get('showErrorMessages')).to.be.truthy
+    describe('renderErrorMessage when error messages', function () {
+      let errorMessages
+
+      beforeEach(function () {
+        errorMessages = [
+          {
+            message: 'Foo',
+            path: '#/foo'
+          },
+          {
+            message: 'Bar',
+            path: '#/bar'
+          }
+        ]
+
+        component.set('errorMessages', errorMessages)
+      })
+
+      describe('when store.showAllErrors is true', function () {
+        beforeEach(function () {
+          component.set('store.showAllErrors', true)
+        })
+
+        it('returns error messages when showErrorMessage is true', function () {
+          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+        })
+
+        it('returns error messages when showErrorMessage is false', function () {
+          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+        })
+      })
+
+      describe('when store.showAllErrors is false', function () {
+        beforeEach(function () {
+          component.set('store.showAllErrors', false)
+        })
+
+        it('returns error messages when showErrorMessage is true', function () {
+          expect(component.get('renderErrorMessage')).to.not.eq(errorMessages)
+        })
+
+        it('returns null when showErrorMessage is false', function () {
+          expect(component.get('renderErrorMessage')).to.be.null
+        })
+      })
     })
 
-    it('shows error messages when store.showErrorMessages is true and showErrorMessages is false', function () {
-      component.set('showErrorMessages', true)
-      component.set('store.showAllErrors', false)
-      expect(component.get('showErrorMessages')).to.be.truthy
-    })
-
-    it('does not show error messages when store.showErrorMessages and showErrorMessages are false', function () {
-      component.set('showErrorMessages', false)
-      component.set('store.showAllErrors', false)
-      expect(component.get('showErrorMessages')).to.be.falsy
-    })
-
-    it('shows error messages when store.showErrorMessages is false and showErrorMessages is true', function () {
-      component.set('showErrorMessages', false)
-      component.set('store.showAllErrors', true)
-      expect(component.get('showErrorMessages')).to.be.truthy
-    })
-
-    it('onBlur action sets showErrorMessages to true', function () {
-      component.set('showErrorMessages', true)
+    it('onBlur action sets showErrorMessage to true', function () {
+      component.set('showErrorMessage', true)
       component.get('actions.onBlur').call(component)
-      expect(component.get('showErrorMessages')).to.be.truthy
+      expect(component.get('renderErrorMessage')).to.not.be.null
     })
 
-    it('onFocus action sets showErrorMessages to false', function () {
-      component.set('showErrorMessages', false)
+    it('onFocus action sets showErrorMessage to false', function () {
+      component.set('showErrorMessage', true)
       component.get('actions.onFocus').call(component)
-      expect(component.get('showErrorMessages')).to.be.truthy
+      expect(component.get('showErrorMessage')).to.be.false
     })
 
     describe('when onChange property is omitted', function () {
