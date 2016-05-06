@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-form',
@@ -24,6 +24,7 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]),
+      showAllErrors: PropTypes.bool,
       submitLabel: PropTypes.string,
       validators: PropTypes.array,
       value: PropTypes.oneOf([

@@ -19,12 +19,12 @@ describe('dereference', () => {
 
     it('translates a reference to a path', () => {
       path = getPath('#/definitions/foo')
-      expect(path).to.be.equal('definitions.foo')
+      expect(path).to.equal('definitions.foo')
     })
 
     it('translates an array reference to a path', () => {
       path = getPath('#/definitions/foo/1/bar')
-      expect(path).to.be.equal('definitions.foo.1.bar')
+      expect(path).to.equal('definitions.foo.1.bar')
     })
   })
 
@@ -43,7 +43,7 @@ describe('dereference', () => {
       })
 
       it('does not error', () => {
-        expect(resp.errors.length).to.be.equal(0)
+        expect(resp.errors.length).to.equal(0)
       })
 
       it('dereferences host', () => {

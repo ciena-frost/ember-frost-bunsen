@@ -75,8 +75,9 @@
 
 /**
  * @typedef {Object} BunsenValidationError
- * @property {String} path - the dotted path to the attribute where the error occurred
+ * @property {Boolean} isRequiredError - whether or not error is a required field error
  * @property {String} message - the error message
+ * @property {String} path - the dotted path to the attribute where the error occurred
  */
 
 /**

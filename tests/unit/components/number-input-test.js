@@ -2,13 +2,15 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
+import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-number',
   'FrostBunsenInputNumberComponent',
   {},
   function () {
+    const ctx = {}
     let component
 
     beforeEach(function () {
@@ -20,6 +22,7 @@ describeComponent(
         store: Ember.Object.create({}),
         state: Ember.Object.create({})
       })
+      ctx.component = component
     })
 
     validatePropTypes({
@@ -44,16 +47,18 @@ describeComponent(
       ])
     })
 
-    it('onBlur action sets showErrorMessages to true', function () {
-      component.set('showErrorMessages', true)
+    renderErrorMessageTests(ctx)
+
+    it('onBlur action sets showErrorMessage to true', function () {
+      component.set('showErrorMessage', true)
       component.get('actions.onBlur').call(component)
-      expect(component.get('showErrorMessages')).to.be.truthy
+      expect(component.get('renderErrorMessage')).to.not.be.null
     })
 
-    it('onFocus action sets showErrorMessages to false', function () {
-      component.set('showErrorMessages', false)
+    it('onFocus action sets showErrorMessage to false', function () {
+      component.set('showErrorMessage', true)
       component.get('actions.onFocus').call(component)
-      expect(component.get('showErrorMessages')).to.be.truthy
+      expect(component.get('showErrorMessage')).to.be.false
     })
 
     describe('when onChange property is omitted', function () {

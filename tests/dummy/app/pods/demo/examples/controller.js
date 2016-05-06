@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default Controller.extend({
@@ -8,6 +8,7 @@ export default Controller.extend({
   selectedModel: null,
   selectedValue: null,
   selectedView: null,
+  showAllErrors: false,
 
   renderers: {
     AddressRenderer: 'address-renderer',
@@ -120,6 +121,10 @@ export default Controller.extend({
       this.set('selectedValue', selectedValue)
     },
 
+    onValidation (errors) {
+      Logger.log(errors)
+    },
+
     toggleDetail () {
       const isDetail = this.get('detail')
       this.set('detail', !isDetail)
@@ -128,6 +133,11 @@ export default Controller.extend({
     toggleInline () {
       const isInline = this.get('inline')
       this.set('inline', !isInline)
+    },
+
+    toggleShowAllErrors () {
+      const showAllErrors = this.get('showAllErrors')
+      this.set('showAllErrors', !showAllErrors)
     }
   }
 })

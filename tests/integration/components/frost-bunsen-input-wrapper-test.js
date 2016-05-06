@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
-import {integrationTestContext, renderWithProps} from '../../utils/template'
+import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
 import _ from 'lodash'
 import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 

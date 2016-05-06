@@ -3,7 +3,8 @@ import {describeComponent, it} from 'ember-mocha'
 import {afterEach, beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {helpers} from 'ember-frost-bunsen/components/button-group-input'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
+import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-button-group',
@@ -32,6 +33,7 @@ describeComponent(
       ])
     })
 
+    const ctx = {}
     let component, sandbox
 
     beforeEach(function () {
@@ -51,11 +53,14 @@ describeComponent(
         store: Ember.Object.create({}),
         state: Ember.Object.create({})
       })
+      ctx.component = component
     })
 
     afterEach(function () {
       sandbox.restore()
     })
+
+    renderErrorMessageTests(ctx)
 
     describe('options', function () {
       let validateValuesSpy

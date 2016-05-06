@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import validModel from '../../fixtures/valid-model'
-import {setupComponentTest} from '../../utils/template'
+import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
   model: {}

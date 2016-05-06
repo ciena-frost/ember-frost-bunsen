@@ -5,7 +5,7 @@ import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
-import {validatePropTypes} from '../../utils/template'
+import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 /**
  * This is used instead of setProperties() so life cycle hooks get correct attrs
@@ -205,7 +205,7 @@ describeComponent(
     })
 
     it('does not add an empty item to array', function () {
-      expect(component.get('items').length).to.eq(0)
+      expect(component.get('items').length).to.equal(0)
     })
 
     describe('when autoAdd is enabled', function () {
@@ -223,7 +223,7 @@ describeComponent(
       })
 
       it('adds an empty item to array', function () {
-        expect(component.get('items').length).to.eq(1)
+        expect(component.get('items').length).to.equal(1)
       })
 
       describe('actions.onRemoveItem()', function () {
@@ -255,7 +255,7 @@ describeComponent(
         })
 
         it('removes empty item from array', function () {
-          expect(component.get('items').length).to.eq(0)
+          expect(component.get('items').length).to.equal(0)
         })
       })
     })
