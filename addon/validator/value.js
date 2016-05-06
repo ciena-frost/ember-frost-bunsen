@@ -41,10 +41,14 @@ export function translateMissingRequiredPropertyErrors (errors) {
 
     if (message.indexOf('Missing required property:') === 0) {
       const property = message.split(':').pop().trim()
-      error.message = 'Field is required.'
       const parent = path
       const trailingSlash = (parent.split('').pop() === '/') ? '' : '/'
-      error.path = `${parent}${trailingSlash}${property}`
+
+      _.assign(error, {
+        isRequiredError: true,
+        message: 'Field is required.',
+        path: `${parent}${trailingSlash}${property}`
+      })
     }
   })
 }
@@ -62,8 +66,9 @@ export default function validate (value, model, required) {
       return {
         errors: [
           {
-            path: '',
-            message: 'Field is required.'
+            isRequiredError: true,
+            message: 'Field is required.',
+            path: ''
           }
         ]
       }

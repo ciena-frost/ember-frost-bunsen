@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default Controller.extend({
@@ -119,6 +119,10 @@ export default Controller.extend({
     onSelectValue (selected) {
       const selectedValue = this.get('model.values').findBy('id', selected[0])
       this.set('selectedValue', selectedValue)
+    },
+
+    onValidation (errors) {
+      Logger.log(errors)
     },
 
     toggleDetail () {
