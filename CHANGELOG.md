@@ -3,6 +3,7 @@
 ## Non-Breaking Changes
 
 * **Added** new property `showAllErrors` to `frost-bunsen-form` component that when true informs bunsen to show all error messages even before there is user interaction. This property defaults to `false` making it backwards compatible.
+* **Added** new property `isRequiredError` to required errors returned by the `onValidation` action/property with the value `true` to distinguish which error messages are required error messages versus which ones are not.
 
 # 5.7
 
