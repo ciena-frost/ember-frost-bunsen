@@ -14,9 +14,19 @@ export function buildRenderfunction (template) {
 }
 
 export function renderWithProps (renderer, componentName, props, more) {
+  // Make sure not to set property "view" as it causes following error:
+  // Using `{{view}}` or any path based on it (L1:C32) has been removed in Ember 2.0
+  if ('view' in props) {
+    props._view = props.view
+    delete props.view
+  }
+
   renderer.setProperties(props)
 
   const templateOptions = Object.keys(props).map((key) => {
+    if (key === '_view') {
+      return 'view=_view'
+    }
     return `${key}=${key}`
   }).join(' ')
 
