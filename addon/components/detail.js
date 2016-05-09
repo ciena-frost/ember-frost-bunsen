@@ -104,9 +104,25 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('renderView')
-  cellConfig () {
-    return this.get('renderView.rootContainers.0')
+  @computed('renderView.rootContainers')
+  containerTabs (rootContainers) {
+    // If there is only one root container then we don't need to render tabs
+    if (rootContainers.length === 1) {
+      return []
+    }
+
+    return rootContainers.map((container, index) => {
+      return {
+        alias: container.label,
+        id: index
+      }
+    })
+  },
+
+  @readOnly
+  @computed('selectedTabIndex', 'renderView')
+  cellConfig (selectedTabIndex) {
+    return this.get(`renderView.rootContainers.${selectedTabIndex || 0}`)
   },
 
   @readOnly
@@ -239,6 +255,14 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   actions: {
-    onChange () {}
+    onChange () {},
+
+    /**
+     * Change selected tab/root container
+     * @param {Number} tabIndex - index of root container corresponding to tab
+     */
+    onTabChange (tabIndex) {
+      this.set('selectedTabIndex', tabIndex)
+    }
   }
 })

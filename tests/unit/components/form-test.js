@@ -63,6 +63,87 @@ describeComponent(
       sandbox.restore()
     })
 
+    describe('containerTabs', function () {
+      describe('when one root container', function () {
+        beforeEach(function () {
+          component.set('view', {
+            containers: [{
+              id: 'main',
+              rows: [
+                [{model: 'foo'}],
+                [{model: 'bar'}],
+                [{model: 'baz'}]
+              ]
+            }],
+            rootContainers: [{
+              container: 'main',
+              label: 'Main'
+            }],
+            type: 'form',
+            version: '1.0'
+          })
+        })
+
+        it('returns empty array', function () {
+          expect(component.get('containerTabs')).to.eql([])
+        })
+      })
+
+      describe('when multiple root containers', function () {
+        beforeEach(function () {
+          component.set('view', {
+            containers: [
+              {
+                id: 'one',
+                rows: [
+                  [{model: 'foo'}],
+                  [{model: 'bar'}]
+                ]
+              },
+              {
+                id: 'two',
+                rows: [
+                  [{model: 'baz'}]
+                ]
+              }
+            ],
+            rootContainers: [
+              {
+                container: 'one',
+                label: 'One'
+              },
+              {
+                container: 'two',
+                label: 'Two'
+              }
+            ],
+            type: 'form',
+            version: '1.0'
+          })
+        })
+
+        it('returns expected array of tabs', function () {
+          expect(component.get('containerTabs')).to.eql([
+            {
+              alias: 'One',
+              id: 0
+            },
+            {
+              alias: 'Two',
+              id: 1
+            }
+          ])
+        })
+      })
+    })
+
+    it('actions.onTabChange() updates selectedTabIndex', function () {
+      [0, 1, 2].forEach((index) => {
+        component.actions.onTabChange.call(component, index)
+        expect(component.get('selectedTabIndex')).to.eql(index)
+      })
+    })
+
     describe('update bar', function () {
       let updatedValue, validationResult
 

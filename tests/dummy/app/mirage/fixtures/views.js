@@ -187,6 +187,61 @@ export default [
     }
   },
   {
+    id: 'array-tabs',
+    label: 'Array (Tabs)',
+    modelIds: ['array'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Name',
+          container: 'name'
+        },
+        {
+          label: 'Addresses',
+          container: 'addresses'
+        }
+      ],
+      containers: [
+        {
+          id: 'name',
+          rows: [
+            [
+              {model: 'name.first'},
+              {model: 'name.last'}
+            ]
+          ]
+        },
+        {
+          id: 'addresses',
+          rows: [
+            [
+              {
+                model: 'addresses',
+                item: {
+                  container: 'addr',
+                  label: 'Address'
+                }
+              }
+            ]
+          ]
+        },
+        {
+          id: 'addr',
+          rows: [
+            [{model: 'street'}],
+            [
+              {model: 'city'},
+              {model: 'state'},
+              {model: 'zip'}
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 'array-auto-add',
     label: 'Array (Auto Add)',
     modelIds: ['array-2'],
