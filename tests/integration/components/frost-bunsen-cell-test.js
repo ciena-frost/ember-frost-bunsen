@@ -8,7 +8,7 @@ import {setupComponentTest} from 'dummy/tests/helpers/template'
 import model from '../../fixtures/valid-model'
 import view from '../../fixtures/valid-view'
 
-const renderers = Ember.merge({
+const renderers = Ember.assign({
   BooleanRender: 'boolean-renderer',
   NameRenderer: 'name-renderer'
 }, builtInRenderers)

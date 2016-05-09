@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {merge} = Ember
+const {assign} = Ember
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -22,8 +22,8 @@ function setPropsAndAttrs (component, props) {
   })
 
   if (component.attrs) {
-    oldAttrs = merge({}, component.attrs)
-    merge(component.attrs, newAttrs)
+    oldAttrs = assign({}, component.attrs)
+    assign(component.attrs, newAttrs)
   } else {
     _.set(component, 'attrs', newAttrs)
   }
