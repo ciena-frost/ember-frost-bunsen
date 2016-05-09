@@ -27,6 +27,29 @@ describeComponent(
         PropTypes.object
       ])
     })
+
+    let component
+
+    beforeEach(function () {
+      component = this.subject({
+        model: {
+          properties: {
+            bar: {type: 'string'},
+            baz: {type: 'number'},
+            foo: {type: 'string'}
+          },
+          required: ['foo'],
+          type: 'object'
+        }
+      })
+    })
+
+    it('actions.onTabChange() updates selectedTabIndex', function () {
+      [0, 1, 2].forEach((index) => {
+        component.actions.onTabChange.call(component, index)
+        expect(component.get('selectedTabIndex')).to.eql(index)
+      })
+    })
   }
 )
 */

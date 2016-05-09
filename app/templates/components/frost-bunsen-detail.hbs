@@ -1,4 +1,18 @@
 <form>
+  {{#if containerTabs.length}}
+    {{#frost-tabs
+      onChange=(action "onTabChange")
+      selection=(or selectedTabIndex 0)
+      tabs=containerTabs
+    }}
+      {{#each containerTabs as |tab|}}
+        {{frost-tab
+          alias=tab.alias
+          id=tab.id
+        }}
+      {{/each}}
+    {{/frost-tabs}}
+  {{/if}}
   {{frost-bunsen-container
     cellConfig=cellConfig
     errors=errors
