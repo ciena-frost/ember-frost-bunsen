@@ -38,10 +38,7 @@ export function getEnumValues (values = [], filter = '') {
     return !filter || value.toLowerCase().indexOf(filter.toLowerCase()) !== -1
   })
   return filteredVals.map((value) => {
-    const label = Ember.String.capitalize(
-      value.split('-').join(' ').toLowerCase()
-    )
-    return {label, value}
+    return {label: value, value}
   })
 }
 
