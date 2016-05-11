@@ -190,8 +190,7 @@ export default {
           'label'
         ]
       },
-      'minItems': 1,
-      'maxItems': 1
+      'minItems': 1
     },
     'type': {
       'type': 'string',

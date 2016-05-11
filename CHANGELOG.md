@@ -1,3 +1,9 @@
+# 5.9
+
+## Non-Breaking Changes
+
+* **Added** support for multiple `rootContainer`'s in views. If you specify more than one `rootContainer` then the UI will render tabs for the root containers and show the first tab on load.
+
 # 5.8
 
 ## Non-Breaking Changes

@@ -123,7 +123,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       props.model.enum = ['foo', 'bar', 'fitz', 'batz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       _.forEach(props.model.enum, (value) => {
-        const isPresent = $(rootNode).text().indexOf(Ember.String.capitalize(value)) !== -1
+        const isPresent = $(rootNode).text().indexOf(value) !== -1
         expect(isPresent).to.eql(true)
       })
     })
@@ -189,7 +189,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     it('filters locally for enum-based lists', function (done) {
       props.model.enum = ['foo', 'bar', 'fitz', 'batz']
-      const expected = ['Foo', 'Fitz']
+      const expected = ['foo', 'fitz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('f').trigger('input')
       Ember.run.later(() => {

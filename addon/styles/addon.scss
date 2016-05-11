@@ -6,6 +6,28 @@ $frost-row-field-padding: 40px;
   flex: 1 1 auto;
 }
 
+// FIXME: Should below CSS belong in ember-frost-tabs?
+.frost-bunsen-detail,
+.frost-bunsen-form {
+  .frost-tabs {
+    margin-bottom: 15px;
+  }
+
+  .frost-tabs .tab-nav .tab {
+    cursor: pointer;
+    height: 40px;
+    padding: 0 25px;
+
+    &.active {
+      border-bottom: 3px solid $frost-color-grey-4;
+    }
+
+    &:hover .text {
+      color: $frost-color-grey-3;
+    }
+  }
+}
+
 .frost-bunsen-input-button-group .frost-button {
   border-radius: 0;
 

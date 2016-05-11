@@ -11,6 +11,7 @@ import simpleFormConfig from './fixtures/simple-form'
 import simpleFormModel from './fixtures/simple-form-model'
 import badContainers from './fixtures/invalid/bad-containers'
 import badRootContainers from './fixtures/invalid/bad-root-containers'
+import multipleRootContainers from './fixtures/multiple-root-containers'
 
 describe('validator', function () {
   let result
@@ -103,18 +104,16 @@ describe('validator', function () {
       })
     })
 
+    it('does not complain when multiple root containers', function () {
+      const def = _.cloneDeep(multipleRootContainers)
+      result = validate(def, simpleFormModel)
+      expect(result.errors.length).to.eql(0)
+    })
+
     describe('when rootContainers are bad', function () {
       let def
       beforeEach(function () {
         def = _.cloneDeep(badRootContainers)
-      })
-
-      it('when too many root containers', function () {
-        result = validate(def, simpleFormModel)
-        expect(result.errors).to.containSubset([{
-          path: '#/rootContainers',
-          message: 'Array is too long (3), maximum 1'
-        }])
       })
 
       it('when missing "label"', function () {
