@@ -17,7 +17,6 @@ import dereference from '../dereference'
 import {getDefaultView} from '../generator'
 import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
-import {convertView} from '../convert-schema'
 
 /**
  * Determine if an object is an Ember.Object or not
