@@ -44,15 +44,15 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.dependsOn', 'isDependencyMet')
+  @computed('cellConfig.dependsOn', 'isDependencyMet', 'model')
   /**
    * Whether or not component should render if it is a dependency
    * @param {String} dependsOn - what input depends
    * @param {Boolean} isDependencyMet - whether or not dependency is met
    * @returns {Boolean} whether or not component should render if it is a dependency
    */
-  shouldRender (dependsOn, isDependencyMet) {
-    return !dependsOn || isDependencyMet
+  shouldRender (dependsOn, isDependencyMet, model) {
+    return (!dependsOn || isDependencyMet) && (model !== undefined)
   },
 
   @readOnly

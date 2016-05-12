@@ -99,7 +99,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? convertView(model, view) : getDefaultView(model)
+    view = !_.isEmpty(view) ? view : getDefaultView(model)
     return recursiveObjectCreate(view)
   },
 
