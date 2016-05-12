@@ -549,6 +549,65 @@ export default [
     }
   },
   {
+    id: 'simple-transforms',
+    label: 'Simple (Transforms)',
+    modelIds: ['simple'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'alias'
+              }
+            ],
+            [
+              {
+                model: 'firstName',
+                label: 'First',
+                readTransforms: [
+                  {from: '^Alexander$', regex: true, to: 'Alex'},
+                  {from: '^Christopher$', regex: true, to: 'Chris'},
+                  {from: '^Matthew$', regex: true, to: 'Matt'},
+                  {from: '^Johnathan$', regex: true, to: 'John'},
+                  {from: '^Samantha$', regex: true, to: 'Sam'}
+                ],
+                writeTransforms: [
+                  {from: '^Alex$', regex: true, to: 'Alexander'},
+                  {from: '^Chris$', regex: true, to: 'Christopher'},
+                  {from: '^Matt$', regex: true, to: 'Matthew'},
+                  {from: '^John$', regex: true, to: 'Johnathan'},
+                  {from: '^Sam$', regex: true, to: 'Samantha'}
+                ]
+              },
+              {
+                model: 'lastName'
+              }
+            ],
+            [
+              {
+                model: 'onlyChild'
+              }
+            ]
+          ]
+        }
+      ],
+      buttonLabels: {
+        cancel: 'Cancel',
+        submit: 'Create'
+      }
+    }
+  },
+  {
     id: 'select-form',
     label: 'Select Form',
     modelIds: ['select'],
