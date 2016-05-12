@@ -59,6 +59,12 @@ describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), funct
     expect(this.$()).to.have.length(1)
   })
 
+  it('does not render if the model is not defined', function () {
+    const props = makeProps()
+    delete props.model
+    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
+    expect(this.$('.frost-bunsen-input-wrapper').children()).to.have.length(0)
+  })
   it('throws an error if the model does not have an expected type (string, number, or boolean)', function () {
     const props = makeProps({
       model: {
