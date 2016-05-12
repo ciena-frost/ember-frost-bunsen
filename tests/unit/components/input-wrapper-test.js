@@ -10,7 +10,7 @@ describeComponent(
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       cellConfig: PropTypes.EmberObject,
-      model: PropTypes.object.isRequired,
+      model: PropTypes.object,
       onChange: PropTypes.func,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,

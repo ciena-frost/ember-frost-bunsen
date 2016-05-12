@@ -17,7 +17,6 @@ import dereference from '../dereference'
 import {getDefaultView} from '../generator'
 import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
-import {convertView} from '../convert-schema'
 
 /**
  * Determine if an object is an Ember.Object or not
@@ -99,7 +98,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, view) {
-    view = !_.isEmpty(view) ? convertView(model, view) : getDefaultView(model)
+    view = !_.isEmpty(view) ? view : getDefaultView(model)
     return recursiveObjectCreate(view)
   },
 
