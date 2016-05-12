@@ -17,7 +17,7 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject,
-    model: PropTypes.object.isRequired,
+    model: PropTypes.object,
     onChange: PropTypes.func,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
@@ -44,15 +44,16 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.dependsOn', 'isDependencyMet')
+  @computed('cellConfig.dependsOn', 'isDependencyMet', 'model')
   /**
    * Whether or not component should render if it is a dependency
    * @param {String} dependsOn - what input depends
    * @param {Boolean} isDependencyMet - whether or not dependency is met
+   * @param {Object} model - model schema for the property this input refers to
    * @returns {Boolean} whether or not component should render if it is a dependency
    */
-  shouldRender (dependsOn, isDependencyMet) {
-    return !dependsOn || isDependencyMet
+  shouldRender (dependsOn, isDependencyMet, model) {
+    return (!dependsOn || isDependencyMet) && (model !== undefined)
   },
 
   @readOnly
