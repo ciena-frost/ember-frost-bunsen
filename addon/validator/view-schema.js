@@ -123,7 +123,8 @@ export default {
       },
       type: 'object'
     },
-    transform: {
+    stringTrasnform: {
+      additionalProperties: false,
       properties: {
         from: {type: 'string'},
         global: {type: 'boolean'},
@@ -135,8 +136,12 @@ export default {
     },
     transforms: {
       items: {
-        '$ref': '#/definitions/transform',
-        type: 'object'
+        oneOf: [
+          {
+            '$ref': '#/definitions/stringTransform',
+            type: 'object'
+          }
+        ]
       },
       type: 'array'
     }
