@@ -114,7 +114,6 @@ describe('validator', function () {
     it('does not complain when transforms are present', function () {
       const def = _.cloneDeep(transforms)
       result = validate(def, simpleFormModel)
-      console.info(result.errors)
       expect(result.errors.length).to.eql(0)
     })
 

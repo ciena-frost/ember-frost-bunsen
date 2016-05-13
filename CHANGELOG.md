@@ -1,3 +1,64 @@
+# 5.11
+
+## Non-Breaking Changes
+
+* **Added** support for object transforms in view JSON. This is to be used by the select component which allows the following variables in it's template string:
+
+  * `id` – the ID of the form field
+  * `index` – the index of the selected item
+  * `label` – the label for the selected item
+  * `value` – the value of the selected item
+
+  Below is an example:
+
+  ```json
+  {
+    "model": "languages",
+    "renderer": "select",
+    "writeTransforms": [
+      {
+        "object": {
+          "bar": "this is a string literal",
+          "foo": "this includes template variables: ${id} ${value}"
+        }
+      }
+    ]
+  }
+  ```
+
+# 5.10
+
+## Non-Breaking Changes
+
+* **Added** support for string transforms in view JSON (both literal and regular expression based). You can add `readTransforms` to mutate the value before it reaches the UI as well as `writeTransforms` to mutate the value going back up to the forms `onChange` event. Below is an example that keeps wordy programming languages in the store while presenting abbreviations in the UI:
+
+  ```json
+  {
+    "model": "language",
+    "readTransforms": [
+      {
+        "from": "javascript",
+        "to": "js"
+      },
+      {
+        "from": "syntactically awesome style sheets",
+        "to": "sass"
+      }
+    ],
+    "writeTransforms": [
+      {
+        "from": "js",
+        "to": "javascript"
+      },
+      {
+        "from": "s(a|c)ss",
+        "regex": true,
+        "to": "syntactically awesome style sheets"
+      }
+    ]
+  }
+  ```
+
 # 5.9
 
 ## Non-Breaking Changes
@@ -19,31 +80,31 @@
 
 * **Added** ability to hide labels for individual array items. You can hide these labels via the `showLabel` property in your view for the array container.
 
-```json
-…
-{
-  "model": "addresses",
-  "item": {
-    "container": "address",
-    "showLabel": false
+  ```json
+  …
+  {
+    "model": "addresses",
+    "item": {
+      "container": "address",
+      "showLabel": false
+    }
   }
-}
-…
-```
+  …
+  ```
 
 * **Added** ability to render array items in a compact mode where input(s) are rendered on same line as remove button (as well as sort icon when `sortable` is enabled). To enable the compact mode simply use the `compact` property in your view for the array container.
 
-```json
-…
-{
-  "model": "addresses",
-  "item": {
-    "compact": true,
-    "container": "address"
+  ```json
+  …
+  {
+    "model": "addresses",
+    "item": {
+      "compact": true,
+      "container": "address"
+    }
   }
-}
-…
-```
+  …
+  ```
 
 # 5.5
 
@@ -70,34 +131,34 @@
 ## Non-Breaking Changes
 * **Added** support for sortable arrays. You can use this feature by adding `sortable` in your view for the array item container.
 
-```json
-…
-{
-  "model": "addresses",
-  "item": {
-    "container": "address",
-    "sortable": true
+  ```json
+  …
+  {
+    "model": "addresses",
+    "item": {
+      "container": "address",
+      "sortable": true
+    }
   }
-}
-…
-```
+  …
+  ```
 
 # 5.1
 
 ## Non-Breaking Changes
 * **Added** support for arrays that automatically add an empty item to the end of the list instead of using the `Add Item` button. You can use this feature by adding `autoAdd` in your view for the array item container.
 
-```json
-…
-{
-  "model": "addresses",
-  "item": {
-    "autoAdd": true,
-    "container": "address"
+  ```json
+  …
+  {
+    "model": "addresses",
+    "item": {
+      "autoAdd": true,
+      "container": "address"
+    }
   }
-}
-…
-```
+  …
+  ```
 
 # 5.0
 
@@ -116,7 +177,7 @@
   in the Bunsen model JSON Schema for the rendered attribute, like so:
 
   ***Model Schema***
-  ```JSON
+  ```json
   ...
   "someProperty": {
     "type": "string",
@@ -131,7 +192,7 @@
   ```
 
   ***View Schema***
-  ```JSON
+  ```json
   ...
   {
     "model": "someProperty",
@@ -144,7 +205,7 @@
   (the ember-data model type and queryParam definition) can be specified like so:
 
   ***Model Schema***
-  ```JSON
+  ```json
   ...
   "someProperty": {
     "modelType": "resources",
@@ -159,7 +220,7 @@
   ```
 
   ***View Schema***
-  ```JSON
+  ```json
   ...
   {
     "model": "someProperty",
@@ -175,7 +236,7 @@
   be inserted into the query specification, using either absolute or relative-style JSON paths:
 
   ***Model Schema***
-  ```JSON
+  ```json
   ...
   "resourceTypeId": {
     "type": "string"
