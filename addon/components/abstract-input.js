@@ -2,10 +2,10 @@ import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from '../utils'
+import {getLabel, parseVariables} from '../utils'
 import {getCellDefaults} from '../validator/defaults'
 
 export const defaultClassNames = {
@@ -129,12 +129,30 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   /**
-   * Apply transform to value
+   * Apply object transform to value
+   * @param {Object} value - value to transform
+   * @param {Transform} transform - transform to apply
+   * @returns {Object} transformed value
+   */
+  applyObjectTransform (value, transform) {
+    const newObject = {}
+    const variables = this.getTemplateVariables(value)
+
+    Object.keys(transform.object)
+      .forEach((key) => {
+        newObject[key] = parseVariables(variables, transform.object[key])
+      })
+
+    return newObject
+  },
+
+  /**
+   * Apply string transform to value
    * @param {String} value - value to transform
    * @param {Transform} transform - transform to apply
    * @returns {String} transformed value
    */
-  applyTransform (value, transform) {
+  applyStringTransform (value, transform) {
     const flags = (transform.global === false ? '' : 'g')
 
     if (transform.regex) {
@@ -146,10 +164,33 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
+   * Apply transform to value
+   * @param {Object|String} value - value to transform
+   * @param {Transform} transform - transform to apply
+   * @returns {Object|String} transformed value
+   */
+  applyTransform (value, transform) {
+    const isObjectTransform = 'object' in transform
+    const isStringTransform = 'from' in transform && 'to' in transform
+
+    if (isObjectTransform) {
+      return this.applyObjectTransform(value, transform)
+    }
+
+    if (isStringTransform) {
+      return this.applyStringTransform(value, transform)
+    }
+
+    Logger.warn('Unknown transform:', transform)
+
+    return value
+  },
+
+  /**
    * Transform a value based on a set of transforms
-   * @param {String} value - value to apply transforms to
+   * @param {Object|String} value - value to apply transforms to
    * @param {Array<Transform>} transforms - transforms to apply to value
-   * @returns {String} transformed value
+   * @returns {Object|String} transformed value
    */
   applyTransforms (value, transforms) {
     if (!transforms || transforms.length === 0) {
@@ -157,6 +198,16 @@ export default Component.extend(PropTypeMixin, {
     }
 
     return transforms.reduce(this.applyTransform.bind(this), value)
+  },
+
+  /**
+   * Get variables for parsing template strings
+   * @param {Object} value - value to transform
+   * @returns {Object} variables
+   */
+  getTemplateVariables (value) {
+    const id = this.get('bunsenId')
+    return {id, value}
   },
 
   /**
@@ -204,6 +255,7 @@ export default Component.extend(PropTypeMixin, {
     onChange (e) {
       const bunsenId = this.get('bunsenId')
       const newValue = this.parseValue(e)
+      this.getTemplateVariables(newValue)
       const transforms = this.get('cellConfig.writeTransforms')
       const transformedNewValue = this.applyTransforms(newValue, transforms)
       const oldValue = this.get('value')

@@ -1,8 +1,8 @@
-import Input from './abstract-input'
+import AbstractInput from './abstract-input'
 import * as listUtils from '../list-utils'
 import Ember from 'ember'
 
-export default Input.extend({
+export default AbstractInput.extend({
   // ==========================================================================
   // Dependencies
   // ==========================================================================
@@ -46,6 +46,27 @@ export default Input.extend({
     listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
       this.set('options', opts)
     })
+  },
+
+  /**
+   * Get variables for parsing template strings
+   * @param {String} value - value of selected item
+   * @returns {Object} variables
+   */
+  getTemplateVariables (value) {
+    let index, label
+
+    const id = this.get('bunsenId')
+    const options = this.get('options')
+
+    options.forEach((option, optionIndex) => {
+      if (option.value === value) {
+        index = optionIndex
+        label = option.label
+      }
+    })
+
+    return {id, index, label, value}
   },
 
   /**

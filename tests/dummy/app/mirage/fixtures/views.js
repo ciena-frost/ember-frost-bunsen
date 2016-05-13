@@ -648,6 +648,54 @@ export default [
     }
   },
   {
+    id: 'select-form-transforms',
+    label: 'Select Form (Tranforms)',
+    modelIds: ['select'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample',
+                renderer: 'select'
+              }
+            ],
+            [
+              {
+                model: 'queryExample',
+                renderer: 'select',
+                writeTransforms: [
+                  {
+                    object: {
+                      id: '${value}',
+                      name: '${label}'
+                    }
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                model: 'multiSelectExample',
+                renderer: 'multi-select'
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 'select-detail',
     label: 'Select Detail',
     modelIds: ['select'],
