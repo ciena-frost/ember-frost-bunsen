@@ -123,6 +123,16 @@ export default {
       },
       type: 'object'
     },
+    objectTransform: {
+      additionalProperties: false,
+      properties: {
+        object: {
+          additionalProperties: {type: 'string'},
+          type: 'object'
+        }
+      },
+      type: 'object'
+    },
     stringTransform: {
       additionalProperties: false,
       properties: {
@@ -137,6 +147,10 @@ export default {
     transforms: {
       items: {
         oneOf: [
+          {
+            '$ref': '#/definitions/objectTransform',
+            type: 'object'
+          },
           {
             '$ref': '#/definitions/stringTransform',
             type: 'object'
