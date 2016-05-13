@@ -147,6 +147,46 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
+    it('gets disabled when value in query is not provided', function (done) {
+      props.model = {
+        modelType: 'resource',
+        labelAttribute: 'label',
+        valueAttribute: 'id',
+        query: {
+          absentValue: 'absentId:${foo.bar.absentValue}',
+          test: '${foo.bar.test}',
+          q: 'domainId:${domainId}',
+          resourceTypeId: '${foo.bar.someOtherProp}'
+        }
+      }
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      Ember.run.later(() => {
+        expect($(rootNode).find('input').attr('disabled')).to.equal('disabled')
+        expect($(rootNode).find('input').val()).to.equal('')
+        done()
+      })
+    })
+
+    it('gets enabled when query is complete', function (done) {
+      props.model = {
+        modelType: 'resource',
+        labelAttribute: 'label',
+        valueAttribute: 'id',
+        query: {
+          absentValue: 'absentId:${foo.bar.absentValue}',
+          q: 'domainId:${domainId}',
+          resourceTypeId: '${foo.bar.someOtherProp}'
+        }
+      }
+      props.store.set('formValue.foo.bar.absentValue', 'nowPresented')
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      Ember.run.later(() => {
+        expect($(rootNode).find('input').attr('disabled')).to.not.be.ok
+        expect($(rootNode).find('input').val()).to.equal('')
+        done()
+      })
+    })
+
     it('filters locally for enum-based lists', function (done) {
       props.model.enum = ['foo', 'bar', 'fitz', 'batz']
       const expected = ['foo', 'fitz']

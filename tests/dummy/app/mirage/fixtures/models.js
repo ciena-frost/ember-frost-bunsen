@@ -232,7 +232,8 @@ export default [
           valueAttribute: 'id',
           labelAttribute: 'label',
           query: {
-            q: 'domainId:12345'
+            q: 'domainId:12345',
+            enum: '${enumExample}'
           }
         },
         multiSelectExample: {

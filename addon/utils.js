@@ -178,7 +178,7 @@ export function findValue (obj, valuePath, startPath = '') {
 export function parseVariables (valueObj, queryJSON, startPath = '') {
   if (queryJSON.indexOf('${') !== -1) {
     const valueVariable = queryJSON.split('${')[1].split('}')[0]
-    const result = findValue(valueObj, valueVariable, startPath)
+    const result = findValue(valueObj, valueVariable, startPath) || ''
     const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
     return parseVariables(valueObj, newQueryJson, startPath)
   }
@@ -194,4 +194,38 @@ export function parseVariables (valueObj, queryJSON, startPath = '') {
  */
 export function populateQuery (valueObj, query, startPath = '') {
   return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
+}
+
+/**
+ * Checks the query for all values are existed in form value
+ * @param {Object} query - the query object containing data obtained from form value
+ * @param {Object} modelQuery - the definition of query
+ * @returns {Boolean} whether query valid or not
+ */
+export function validateQuery (query, modelQuery) {
+  let isValid = true
+  Object.keys(query).forEach(function (key) {
+    const value = query[key]
+    if (modelQuery[key] && (value === '' || value.split(':')[1] === '')) {
+      isValid = false
+    }
+  })
+  return isValid
+}
+
+/**
+ * Checks wheher two queries are equal or not
+ * @param {Object} newQuery the new query object
+ * @param {Object} oldQuery the old query object
+ * @param {Object} modelQuery the model query definition
+ * @returns {Boolean} whether queries are identical or not
+ */
+export function queryHasBeenChanged (newQuery, oldQuery, modelQuery) {
+  let changed = false
+  Object.keys(modelQuery).forEach(function (key) {
+    if (newQuery[key] !== oldQuery[key]) {
+      changed = true
+    }
+  })
+  return changed
 }

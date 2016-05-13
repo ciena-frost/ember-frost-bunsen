@@ -1,5 +1,6 @@
+import _ from 'lodash'
 import {expect} from 'chai'
-import {describe, it} from 'mocha'
+import {describe, it, beforeEach} from 'mocha'
 import * as utils from 'ember-frost-bunsen/utils'
 
 describe('utils', () => {
@@ -91,6 +92,75 @@ describe('utils', () => {
       }
       let actual = utils.populateQuery(objToMine, query, startPath)
       expect(JSON.stringify(actual)).to.equal(JSON.stringify(expected))
+    })
+  })
+
+  describe('validateQuery()', () => {
+    let modelQuery
+
+    beforeEach(() => {
+      modelQuery = {
+        hello: '${world}',
+        test: 'test:${someProperty}',
+        static: 'key:value'
+      }
+    })
+
+    it('returns true when query is valid/complete', () => {
+      const query = {
+        p: 'whatever',
+        hello: 'world',
+        test: 'test:isDone',
+        static: 'key:value'
+      }
+      expect(utils.validateQuery(query, modelQuery)).to.be.true
+    })
+
+    it('returns false when query misses value for test parameter', () => {
+      const query = {
+        p: 'whatever',
+        hello: 'world',
+        test: 'test:',
+        static: 'key:value'
+      }
+      expect(utils.validateQuery(query, modelQuery)).to.be.false
+    })
+
+    it('returns false when query misses value for hello paramter', () => {
+      const query = {
+        p: 'whatever',
+        hello: '',
+        test: 'test:isDone',
+        static: 'key:value'
+      }
+      expect(utils.validateQuery(query, modelQuery)).to.be.false
+    })
+  })
+
+  describe('queryHasBeenChanged()', () => {
+    let modelQuery, query, oldQuery
+
+    beforeEach(() => {
+      modelQuery = {
+        hello: '${world}',
+        test: 'test:${someProperty}',
+        static: 'key:value'
+      }
+      query = {
+        hello: 'world',
+        test: 'test:isDone',
+        static: 'key:value'
+      }
+      oldQuery = _.clone(query)
+    })
+
+    it('returns false when queries are equal', () => {
+      expect(utils.queryHasBeenChanged(query, oldQuery, modelQuery)).to.be.false
+    })
+
+    it('returns true when queries mismatch', () => {
+      oldQuery.test = 'test:isOK'
+      expect(utils.queryHasBeenChanged(query, oldQuery, modelQuery)).to.be.true
     })
   })
 })
