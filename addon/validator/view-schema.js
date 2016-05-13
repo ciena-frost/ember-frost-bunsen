@@ -123,7 +123,7 @@ export default {
       },
       type: 'object'
     },
-    stringTrasnform: {
+    stringTransform: {
       additionalProperties: false,
       properties: {
         from: {type: 'string'},

@@ -1,7 +1,9 @@
 {
   "globals": {
-    "chai": true,
-    "Ember": true,
-    "sinon": true
+    "chai": false,
+    "Ember": false,
+    "find": false,
+    "pauseTest": false,
+    "sinon": false
   }
 }

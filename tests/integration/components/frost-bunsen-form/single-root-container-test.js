@@ -32,7 +32,7 @@ const props = {
 function tests (ctx) {
   describe('one root container', function () {
     it('does not render frost-tabs', function () {
-      expect(ctx.rootNode.find('.frost-tabs').length).to.eq(0)
+      expect(ctx.rootNode.find('.frost-tabs').length).to.equal(0)
     })
   })
 }
