@@ -12,6 +12,7 @@ import simpleFormModel from './fixtures/simple-form-model'
 import badContainers from './fixtures/invalid/bad-containers'
 import badRootContainers from './fixtures/invalid/bad-root-containers'
 import multipleRootContainers from './fixtures/multiple-root-containers'
+import transforms from './fixtures/transforms'
 
 describe('validator', function () {
   let result
@@ -106,6 +107,12 @@ describe('validator', function () {
 
     it('does not complain when multiple root containers', function () {
       const def = _.cloneDeep(multipleRootContainers)
+      result = validate(def, simpleFormModel)
+      expect(result.errors.length).to.eql(0)
+    })
+
+    it('does not complain when transforms are present', function () {
+      const def = _.cloneDeep(transforms)
       result = validate(def, simpleFormModel)
       expect(result.errors.length).to.eql(0)
     })

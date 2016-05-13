@@ -114,9 +114,50 @@ export default Component.extend(PropTypeMixin, {
     return getLabel(customLabel, model, bunsenId)
   },
 
+  @readOnly
+  @computed('value', 'cellConfig.readTransforms')
+  transformedValue (value, transforms) {
+    if (!_.isString(value)) {
+      return value
+    }
+
+    return this.applyTransforms(value, transforms)
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
+
+  /**
+   * Apply transform to value
+   * @param {String} value - value to transform
+   * @param {Transform} transform - transform to apply
+   * @returns {String} transformed value
+   */
+  applyTransform (value, transform) {
+    const flags = (transform.global === false ? '' : 'g')
+
+    if (transform.regex) {
+      const pattern = new RegExp(transform.from, flags)
+      return value.replace(pattern, transform.to)
+    }
+
+    return value.split(transform.from).join(transform.to)
+  },
+
+  /**
+   * Transform a value based on a set of transforms
+   * @param {String} value - value to apply transforms to
+   * @param {Array<Transform>} transforms - transforms to apply to value
+   * @returns {String} transformed value
+   */
+  applyTransforms (value, transforms) {
+    if (!transforms || transforms.length === 0) {
+      return value
+    }
+
+    return transforms.reduce(this.applyTransform.bind(this), value)
+  },
 
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
@@ -163,11 +204,13 @@ export default Component.extend(PropTypeMixin, {
     onChange (e) {
       const bunsenId = this.get('bunsenId')
       const newValue = this.parseValue(e)
+      const transforms = this.get('cellConfig.writeTransforms')
+      const transformedNewValue = this.applyTransforms(newValue, transforms)
       const oldValue = this.get('value')
       const onChange = this.get('onChange')
 
-      if (onChange && !_.isEqual(newValue, oldValue)) {
-        onChange(bunsenId, newValue)
+      if (onChange && !_.isEqual(transformedNewValue, oldValue)) {
+        onChange(bunsenId, transformedNewValue)
       }
     }
   }

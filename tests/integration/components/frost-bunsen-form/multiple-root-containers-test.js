@@ -40,11 +40,11 @@ const props = {
 function tests (ctx) {
   describe('multiple root containers', function () {
     it('renders frost-tabs', function () {
-      expect(ctx.rootNode.find('.frost-tabs').length).to.eq(1)
+      expect(ctx.rootNode.find('.frost-tabs').length).to.equal(1)
     })
 
     it('renders tab for each root container', function () {
-      expect(ctx.rootNode.find('.frost-tabs .frost-button').length).to.eq(2)
+      expect(ctx.rootNode.find('.frost-tabs .frost-button').length).to.equal(2)
     })
 
     it('renders correct text for tab titles', function () {
