@@ -37,12 +37,13 @@ export default AbstractInput.extend({
   disabled (value) {
     const modelDef = this.get('model')
     const cellConfig = this.get('cellConfig')
+    const bunsenId = this.get('bunsenId')
 
     if (cellConfig.disabled || !modelDef) {
       return true
     }
 
-    return !utils.hasValidQueryValues(value, modelDef.query)
+    return !utils.hasValidQueryValues(value, modelDef.query, bunsenId)
   },
 
   // ==========================================================================
@@ -59,7 +60,7 @@ export default AbstractInput.extend({
     const value = this.get('store.formValue')
     const bunsenId = this.get('bunsenId')
 
-    if (utils.hasValidQueryValues(value, modelDef.query)) {
+    if (utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
       listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
         this.set('options', opts)
       })

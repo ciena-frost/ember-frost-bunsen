@@ -200,19 +200,20 @@ export function populateQuery (valueObj, query, startPath = '') {
  * Checks if the query object has valid values
  * @param {Object} value - form value
  * @param {Object} queryDef - query definition
+ * @param {String} startPath - starting path
  * @returns {Boolean} true if valid
  */
-export function hasValidQueryValues (value, queryDef) {
+export function hasValidQueryValues (value, queryDef, startPath) {
   if (!queryDef) {
     return true
   }
 
-  const query = populateQuery(value, queryDef)
+  const query = populateQuery(value, queryDef, startPath)
   return Object.keys(query).every((key) => {
     const prop = query[key]
 
     // query contains multiple key-value comma-delimited pairs
-    if (prop && prop.indexOf(':') >= 0) {
+    if (prop && (prop.indexOf(':') >= 0 || prop.indexOf(',') >= 0)) {
       return prop.split(',').every((q) => {
         return !_.isEmpty(q.split(':')[1])
       })
