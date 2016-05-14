@@ -2,7 +2,7 @@ import Ember from 'ember'
 const {Controller, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
-import files from 'ember-frost-demo-components/files'
+import rawFiles from 'ember-frost-demo-components/raw'
 import models from './models'
 import views from './views'
 
@@ -29,7 +29,7 @@ export default Controller.extend({
 
   getDocumentation (rendererName) {
     const key = `${rendererName}.md`
-    return files.renderers[key] || 'No content found'
+    return rawFiles.demo.renderers.documentation[key] || 'No content found'
   },
 
   init () {
