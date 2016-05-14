@@ -195,3 +195,29 @@ export function parseVariables (valueObj, queryJSON, startPath = '') {
 export function populateQuery (valueObj, query, startPath = '') {
   return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
 }
+
+/**
+ * Checks if the query object has valid values
+ * @param {Object} value - form value
+ * @param {Object} queryDef - query definition
+ * @returns {Boolean} true if valid
+ */
+export function hasValidQueryValues (value, queryDef) {
+  if (!queryDef) {
+    return true
+  }
+
+  const query = populateQuery(value, queryDef)
+  return Object.keys(query).every((key) => {
+    const prop = query[key]
+
+    // query contains multiple key-value comma-delimited pairs
+    if (prop && prop.indexOf(':') >= 0) {
+      return prop.split(',').every((q) => {
+        return !_.isEmpty(q.split(':')[1])
+      })
+    }
+
+    return !_.isEmpty(prop)
+  })
+}

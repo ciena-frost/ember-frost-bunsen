@@ -53,15 +53,6 @@ const formValue = {
   }
 }
 
-const emptyFormValue = {
-  domainId: '',
-  foo: {
-    bar: {
-      someOtherProp: ''
-    }
-  }
-}
-
 /**
  * Stub out the DB service with the given product ID for the given resourceType
  * @param {Object} ctx - the testing context
@@ -166,7 +157,14 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           }
         }
         props.store = Ember.Object.create({
-          formValue: emptyFormValue
+          formValue: {
+            domainId: '',
+            foo: {
+              bar: {
+                someOtherProp: 'helloThere'
+              }
+            }
+          }
         })
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       })
