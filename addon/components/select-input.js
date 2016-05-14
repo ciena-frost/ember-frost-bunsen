@@ -1,6 +1,9 @@
 import AbstractInput from './abstract-input'
 import * as listUtils from '../list-utils'
+import utils from '../utils'
 import Ember from 'ember'
+import _ from 'lodash'
+import computed, {readOnly} from 'ember-computed-decorators'
 
 export default AbstractInput.extend({
   // ==========================================================================
@@ -30,6 +33,19 @@ export default AbstractInput.extend({
   // Computed Properties
   // ==========================================================================
 
+  @readOnly
+  @computed('store.formValue')
+  disabled (value) {
+    const modelDef = this.get('model')
+    const cellConfig = this.get('cellConfig')
+
+    if (cellConfig.disabled) {
+      return false
+    }
+
+    return !this.hasValidQueryValues(value, modelDef)
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
@@ -43,9 +59,27 @@ export default AbstractInput.extend({
     const dbStore = this.get('dbStore')
     const value = this.get('store.formValue')
     const bunsenId = this.get('bunsenId')
-    listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
-      this.set('options', opts)
-    })
+
+    if (this.hasValidQueryValues(value, modelDef)) {
+      listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
+        this.set('options', opts)
+      })
+    }
+  },
+
+  /**
+   * Checks if the query object has valid values
+   * @param {Object} value - form value
+   * @param {Object} modelDef - model definition
+   * @returns {Boolean} true if valid
+   */
+  hasValidQueryValues (value, modelDef) {
+    if (!modelDef.query) {
+      return true
+    }
+
+    const query = utils.populateQuery(value, modelDef.query)
+    return Object.keys(query).every((key) => !_.isEmpty(query[key]))
   },
 
   /**

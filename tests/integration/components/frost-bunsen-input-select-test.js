@@ -53,6 +53,15 @@ const formValue = {
   }
 }
 
+const emptyFormValue = {
+  domainId: '',
+  foo: {
+    bar: {
+      someOtherProp: ''
+    }
+  }
+}
+
 /**
  * Stub out the DB service with the given product ID for the given resourceType
  * @param {Object} ctx - the testing context
@@ -60,11 +69,9 @@ const formValue = {
  * @param {String} productId - the productId to return in the stubbed lookup
  */
 function stubDbService (ctx) {
-  const promiseMe = (data) => (new Ember.RSVP.Promise(function (resolve) {
-    resolve(Ember.A(data))
-  }))
+  const promiseMe = (data) => Ember.RSVP.resolve(Ember.A(data))
 
-  const query = (type, query) => {
+  const query = sinon.spy((type, query) => {
     if (query.q) {
       let [qProp, qValue] = query.q.split(':')
       let rtValue = query.resourceTypeId
@@ -79,7 +86,7 @@ function stubDbService (ctx) {
       }))
     }
     return promiseMe(records)
-  }
+  })
 
   const findAll = sinon.stub()
     .withArgs('resource-provider')
@@ -112,10 +119,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         state: Ember.Object.create(),
         dbStore: this.get('dbStore')
       }
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
     })
 
     it('has correct classes', function () {
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       expect(rootNode).to.have.class('frost-bunsen-input-select')
     })
 
@@ -144,6 +151,32 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
         expect($(rootNode).find('li').length).to.equal(expected.length)
         done()
+      })
+    })
+
+    describe('when query dependency is not met', function () {
+      beforeEach(function () {
+        props.model = {
+          modelType: 'resource',
+          labelAttribute: 'label',
+          valueAttribute: 'id',
+          query: {
+            resourceTypeId: '${foo.bar.someOtherProp}',
+            q: 'domainId:${domainId}'
+          }
+        }
+        props.store = Ember.Object.create({
+          formValue: emptyFormValue
+        })
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      })
+
+      it('disables the input', function () {
+        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
+      })
+
+      it('does not fetch data', function () {
+        expect(props.dbStore.query.called).to.not.be.ok
       })
     })
 
@@ -179,6 +212,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('supports placeholder in cellConfig', function () {
+      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       const placeholderText = 'Select something already'
       this.set('cellConfig.placeholder', placeholderText)
       expect(rootNode.find('input').attr('placeholder')).to.eql(placeholderText)
