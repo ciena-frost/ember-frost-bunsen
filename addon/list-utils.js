@@ -52,7 +52,14 @@ export function getEnumValues (values = [], filter = '') {
  * @returns {Promise} a promise that resolves to the list of items
  */
 export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) {
-  const query = utils.populateQuery(value, modelDef.query, bunsenId)
+  let query
+
+  try {
+    query = utils.populateQuery(value, modelDef.query, bunsenId)
+  } catch (e) {
+    return Promise.reject(e)
+  }
+
   const labelAttr = modelDef.labelAttribute || 'label'
   const valueAttr = modelDef.valueAttribute || 'id'
   if (filter) {

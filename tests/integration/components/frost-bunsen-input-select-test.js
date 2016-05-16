@@ -154,7 +154,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    describe('when query dependency is not met', function () {
+    describe('when query dependency for value is not met', function () {
       beforeEach(function () {
         props.model = {
           modelType: 'resource',
@@ -173,6 +173,33 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
                 someOtherProp: 'helloThere'
               }
             }
+          }
+        })
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      })
+
+      it('disables the input', function () {
+        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
+      })
+
+      it('does not fetch data', function () {
+        expect(props.dbStore.query.called).to.not.be.ok
+      })
+    })
+
+    describe('when query dependency for key is not met', function () {
+      beforeEach(function () {
+        props.model = {
+          modelType: 'resource',
+          labelAttribute: 'label',
+          valueAttribute: 'id',
+          query: {
+            q: '${domainType}:${domainId}'
+          }
+        }
+        props.store = Ember.Object.create({
+          formValue: {
+            domainId: 12345
           }
         })
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
