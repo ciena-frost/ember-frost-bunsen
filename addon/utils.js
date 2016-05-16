@@ -174,11 +174,17 @@ export function findValue (obj, valuePath, startPath = '') {
  * @param {String} queryJSON - the stringified filter object to parse
  * @param {String} startPath - start path
  * @returns {String} the populated filter
+ * @throws Will throw when any value at the resolved path is empty
  */
 export function parseVariables (valueObj, queryJSON, startPath = '') {
   if (queryJSON.indexOf('${') !== -1) {
     const valueVariable = queryJSON.split('${')[1].split('}')[0]
     const result = findValue(valueObj, valueVariable, startPath)
+
+    if (result === undefined || String(result) === '') {
+      throw new Error(`value at ${valueVariable} is empty`)
+    }
+
     const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
     return parseVariables(valueObj, newQueryJson, startPath)
   }
@@ -194,4 +200,24 @@ export function parseVariables (valueObj, queryJSON, startPath = '') {
  */
 export function populateQuery (valueObj, query, startPath = '') {
   return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
+}
+
+/**
+ * Checks if the query object has valid values
+ * @param {Object} value - form value
+ * @param {Object} queryDef - query definition
+ * @param {String} startPath - starting path
+ * @returns {Boolean} true if valid
+ */
+export function hasValidQueryValues (value, queryDef, startPath) {
+  if (!queryDef) {
+    return true
+  }
+
+  try {
+    const query = populateQuery(value, queryDef, startPath)
+    return Object.keys(query).every((key) => String(query[key]) !== '')
+  } catch (e) {
+    return false
+  }
 }

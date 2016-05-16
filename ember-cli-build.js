@@ -8,7 +8,7 @@ module.exports = function (defaults) {
       optional: ['es7.decorators']
     },
     codemirror: {
-      modes: ['javascript'],
+      modes: ['javascript', 'handlebars', 'markdown'],
       themes: ['mdn-like']
     },
     'ember-cli-mocha': {

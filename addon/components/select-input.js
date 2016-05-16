@@ -1,6 +1,8 @@
 import AbstractInput from './abstract-input'
 import * as listUtils from '../list-utils'
+import utils from '../utils'
 import Ember from 'ember'
+import computed, {readOnly} from 'ember-computed-decorators'
 
 export default AbstractInput.extend({
   // ==========================================================================
@@ -30,6 +32,20 @@ export default AbstractInput.extend({
   // Computed Properties
   // ==========================================================================
 
+  @readOnly
+  @computed('store.formValue')
+  disabled (value) {
+    const modelDef = this.get('model')
+    const cellConfig = this.get('cellConfig')
+    const bunsenId = this.get('bunsenId')
+
+    if (cellConfig.disabled || !modelDef) {
+      return true
+    }
+
+    return !utils.hasValidQueryValues(value, modelDef.query, bunsenId)
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
@@ -43,9 +59,12 @@ export default AbstractInput.extend({
     const dbStore = this.get('dbStore')
     const value = this.get('store.formValue')
     const bunsenId = this.get('bunsenId')
-    listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
-      this.set('options', opts)
-    })
+
+    if (utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
+      listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
+        this.set('options', opts)
+      })
+    }
   },
 
   /**
