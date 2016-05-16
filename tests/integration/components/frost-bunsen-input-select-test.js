@@ -126,22 +126,31 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    it('gets async values per query instructions', function (done) {
-      props.model = {
-        modelType: 'resource',
-        labelAttribute: 'label',
-        valueAttribute: 'id',
-        query: {
-          resourceTypeId: '${foo.bar.someOtherProp}',
-          q: 'domainId:${domainId}'
+    describe('when query dependency is met', function () {
+      beforeEach(function (done) {
+        props.model = {
+          modelType: 'resource',
+          labelAttribute: 'label',
+          valueAttribute: 'id',
+          query: {
+            resourceTypeId: '${foo.bar.someOtherProp}',
+            q: 'domainId:${domainId}'
+          }
         }
-      }
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-      Ember.run.later(() => {
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        Ember.run.later(function () {
+          done()
+        })
+      })
+
+      it('enables the input', function () {
+        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(false)
+      })
+
+      it('gets async values per query instructions', function () {
         const expected = ['Resource 2']
         expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
         expect($(rootNode).find('li').length).to.equal(expected.length)
-        done()
       })
     })
 
