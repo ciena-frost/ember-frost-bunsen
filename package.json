@@ -57,7 +57,7 @@
     "ember-redux": "^1.0.0",
     "ember-resolver": "^2.0.3",
     "ember-sortable": "1.8.1",
-    "ember-tooltips": "0.5.9",
+    "ember-tooltips": "0.6.0",
     "ember-truth-helpers": "^1.2.0",
     "ember-try": "^0.2.0",
     "eslint": "^2.8.0",
