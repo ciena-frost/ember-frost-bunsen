@@ -33,17 +33,13 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('store.formValue')
-  disabled (value) {
-    const modelDef = this.get('model')
-    const cellConfig = this.get('cellConfig')
-    const bunsenId = this.get('bunsenId')
-
-    if (cellConfig.disabled || !modelDef) {
+  @computed('bunsenId', 'cellConfig', 'model', 'store.formValue')
+  disabled (bunsenId, cellConfig, model, value) {
+    if (cellConfig.disabled || !model) {
       return true
     }
 
-    return !utils.hasValidQueryValues(value, modelDef.query, bunsenId)
+    return !utils.hasValidQueryValues(value, model.query, bunsenId)
   },
 
   // ==========================================================================
