@@ -1,3 +1,9 @@
+# 5.12.1
+
+## Non-Breaking Changes
+
+* **Fixed** issue with error state of select inputs as `error` class wasn't being passed to the underlying select component.
+
 # 5.12.0
 No CHANGELOG section found in Pull Request description.
 Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
