@@ -1,20 +1,16 @@
-# 5.12.2
-No CHANGELOG section found in Pull Request description.
-Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+# 5.12.2 (May 17, 2016)
 
-# 5.12.1
+* **Fixed** `disabled` computed property for select input so that it recomputes whenever any dependent properties change.
 
-## Non-Breaking Changes
+# 5.12.1 (May 17, 2016)
 
 * **Fixed** issue with error state of select inputs as `error` class wasn't being passed to the underlying select component.
 
-# 5.12.0
-No CHANGELOG section found in Pull Request description.
-Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+# 5.12.0 (May 16, 2016)
 
-# 5.11
+* **Fixed** select inputs to be disabled when their query depends on values of other form fields that have yet to be filled out.
 
-## Non-Breaking Changes
+# 5.11 (May 13, 2016)
 
 * **Added** support for object transforms in view JSON. This is to be used by the select component which allows the following variables in it's template string:
 
@@ -40,9 +36,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ```
 
-# 5.10
-
-## Non-Breaking Changes
+# 5.10 (May 13, 2016)
 
 * **Added** support for string transforms in view JSON (both literal and regular expression based). You can add `readTransforms` to mutate the value before it reaches the UI as well as `writeTransforms` to mutate the value going back up to the forms `onChange` event. Below is an example that keeps wordy programming languages in the store while presenting abbreviations in the UI:
 
@@ -73,24 +67,18 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ```
 
-# 5.9
-
-## Non-Breaking Changes
+# 5.9 (May 09, 2016)
 
 * **Added** support for multiple `rootContainer`'s in views. If you specify more than one `rootContainer` then the UI will render tabs for the root containers and show the first tab on load.
 
-# 5.8
-
-## Non-Breaking Changes
+# 5.8 (May 06, 2016)
 
 * **Added** new property `showAllErrors` to `frost-bunsen-form` component that when true informs bunsen to show all error messages even before there is user interaction. This property defaults to `false` making it backwards compatible.
 * **Added** new property `isRequiredError` to required errors returned by the `onValidation` action/property with the value `true` to distinguish which error messages are for missing required fields and which ones are for other errors (i.e. does not meet a length requirement).
 
-# 5.7
+# 5.7 (May 03, 2016)
 
-# 5.6
-
-## Non-Breaking Changes
+# 5.6 (May 02, 2016)
 
 * **Added** ability to hide labels for individual array items. You can hide these labels via the `showLabel` property in your view for the array container.
 
@@ -120,29 +108,22 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   …
   ```
 
-# 5.5
-
-## Non-Breaking Changes
+# 5.5 (May 02, 2016)
 
 * **Added** new `button-group` renderer. To learn more about it go to the [demo](http://ciena-frost.github.io/ember-frost-bunsen/#/renderers) and select `button-group` from the select.
 
-# 5.4
-
-## Non-Breaking Changes
+# 5.4 (April 28, 2016)
 
 * **Added** ability to override built-in renderers by overriding the following renderer keys in the `renderers` property/mapping: `boolean`, `number`, `string`.
 * **Added** ability to specify the name of an Ember component as the value of the `renderer` property in your view without having to add it to the `renderers` property/mapping.
 * **Fixed** select inputs to only show error messages after blur.
 
-# 5.3
-
-## Non-Breaking Changes
+# 5.3 (April 27, 2016)
 
 * **Fixed** Clean out null values from initial values when getting set for the first time.
 
-# 5.2
+# 5.2 (April 26, 2016)
 
-## Non-Breaking Changes
 * **Added** support for sortable arrays. You can use this feature by adding `sortable` in your view for the array item container.
 
   ```json
@@ -157,9 +138,8 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   …
   ```
 
-# 5.1
+# 5.1 (April 25, 2016)
 
-## Non-Breaking Changes
 * **Added** support for arrays that automatically add an empty item to the end of the list instead of using the `Add Item` button. You can use this feature by adding `autoAdd` in your view for the array item container.
 
   ```json
@@ -174,9 +154,10 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   …
   ```
 
-# 5.0
+# 5.0 (April 18, 2016)
 
-## Breaking Changes
+## Breaking
+
 * **Removed** support for `PascalCaseCustomRenderers` in view schema definitions
 * **Added** support for `kebab-case-custom-renderers` in view schema definitions
   This was done mainly to accommodate a terser DSL in view schemas for built-in
@@ -185,7 +166,8 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   (created in consuming code) can still be addressed either way (based on how the
   consuming code constructs the custom renderers hash), but the kebab-case is encouraged.
 
-## Non-Breaking Changes
+## Non-Breaking
+
 * **Added** support for built-in select drop-downs, using `frost-select` from `ember-frost-core`.
   Where options are a fixed list (enum), then the options are pulled from the enum definition
   in the Bunsen model JSON Schema for the rendered attribute, like so:
@@ -277,7 +259,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   The value for `${../someDomainId}` would come from `formValue.someSiblingPropertyOfParent`.  This is useful when you need
   the asynchronous query for one value to be informed by another chosen value.
 
-# 4.1
+# 4.1 (April 11, 2016)
 
 * **Added** default `onChange` action to `AbstractInput` to reduce code required by consumers.
   Instead of a custom renderer having to define its own `onChange` action it can now just implement
@@ -291,9 +273,9 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ```
 
-# 4.0
+# 4.0 (April 11, 2016)
 
-## Breaking Changes
+## Breaking
 
 * **Removed** `initialValue` from `ember-frost-form` component.
 * **Added** `value` to `ember-frost-form` component. Now you can provide an initial value to the form
@@ -337,15 +319,15 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ```
 
-## Non-Breaking Changes
+## Non-Breaking
 
 * Convert internal state management to a Redux store for better maintainability.
 * Reorganized code base to be leaner and allow consumers to override the templates.
 * Added a few more tests.
 
-# 3.0
+# 3.0 (March 30, 2016)
 
-## Breaking Changes
+## Breaking
 
 * Start consuming [ember-frost-core](https://github.com/ciena-frost/ember-frost-core) instead of:
   * [ember-frost-button](https://github.com/ciena-frost/ember-frost-button)
@@ -357,12 +339,12 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   * [ember-frost-theme](https://github.com/ciena-frost/ember-frost-theme)
 * **Changed** action properties from kebab-case (`on-change`) to camelCase (`onChange`)
 
-# 2.0
+# 2.0 (March 09, 2016)
 
-## Breaking Changes
+## Breaking
 
 * **Changed** action properties from camelCase (`onChange`) to kebab-case (`on-change`)
 
-## Non-Breaking Changes
+## Non-Breaking
 
 * Consume [ember-prop-types](https://github.com/ciena-blueplanet/ember-prop-types) for property validation instead of having own implementation.
