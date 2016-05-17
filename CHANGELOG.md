@@ -1,3 +1,8 @@
+# 5.12.3
+
+* **Fixed** formatting of *CHANGELOG*
+* **Added** `showAllErrors` to *README* documentation of `frost-bunsen-form` component API.
+
 # 5.12.2 (May 17, 2016)
 
 * **Fixed** `disabled` computed property for select input so that it recomputes whenever any dependent properties change.
