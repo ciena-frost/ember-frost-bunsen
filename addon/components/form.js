@@ -22,6 +22,7 @@ export default DetailComponent.extend({
 
   propTypes: {
     cancelLabel: PropTypes.string,
+    disabled: PropTypes.bool,
     inline: PropTypes.bool,
     model: PropTypes.oneOf([
       PropTypes.EmberObject,
@@ -52,7 +53,9 @@ export default DetailComponent.extend({
   getDefaultProps () {
     return {
       classNames: ['frost-bunsen-form'],
+      disabled: false,
       renderers: {},
+      showAllErrors: false,
       validators: [],
       value: null
     }

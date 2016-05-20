@@ -11,6 +11,7 @@ describeComponent(
   function () {
     validatePropTypes({
       cancelLabel: PropTypes.string,
+      disabled: PropTypes.bool,
       inline: PropTypes.bool,
       model: PropTypes.oneOf([
         PropTypes.EmberObject,
