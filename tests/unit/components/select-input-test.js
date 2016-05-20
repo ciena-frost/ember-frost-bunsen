@@ -5,8 +5,8 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
-  'frost-bunsen-property-chooser',
-  'FrostBunsenPropertyChooserComponent',
+  'frost-bunsen-input-select',
+  'FrostBunsenInputSelectComponent',
   {},
   function () {
     const ctx = {}

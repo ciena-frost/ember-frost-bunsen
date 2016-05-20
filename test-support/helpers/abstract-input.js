@@ -1,3 +1,57 @@
+export function disabledTests (ctx) {
+  describe('when store.disabled is true', function () {
+    beforeEach(function () {
+      ctx.component.set('store.disabled', true)
+    })
+
+    describe('when cellConfig.disabled is true', function () {
+      beforeEach(function () {
+        ctx.component.set('cellConfig.disabled', true)
+      })
+
+      it('disables input', function () {
+        expect(ctx.component.get('disabled')).to.be.true
+      })
+    })
+
+    describe('when cellConfig.disabled is false', function () {
+      beforeEach(function () {
+        ctx.component.set('cellConfig.disabled', false)
+      })
+
+      it('disables input', function () {
+        expect(ctx.component.get('disabled')).to.be.true
+      })
+    })
+  })
+
+  describe('when store.disabled is false', function () {
+    beforeEach(function () {
+      ctx.component.set('store.disabled', false)
+    })
+
+    describe('when cellConfig.disabled is true', function () {
+      beforeEach(function () {
+        ctx.component.set('cellConfig.disabled', true)
+      })
+
+      it('disables input', function () {
+        expect(ctx.component.get('disabled')).to.be.true
+      })
+    })
+
+    describe('when cellConfig.disabled is false', function () {
+      beforeEach(function () {
+        ctx.component.set('cellConfig.disabled', false)
+      })
+
+      it('does not disable input', function () {
+        expect(ctx.component.get('disabled')).to.be.false
+      })
+    })
+  })
+}
+
 export function renderErrorMessageTests (ctx) {
   describe('renderErrorMessage when error message present', function () {
     let errorMessage

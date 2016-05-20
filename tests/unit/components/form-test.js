@@ -262,6 +262,58 @@ describeComponent(
       })
     })
 
+    describe('when disabled is true', function () {
+      let store
+
+      beforeEach(function () {
+        component.set('disabled', true)
+        store = component.get('store')
+      })
+
+      it('store has disabled value', function () {
+        expect(store.disabled).to.be.true
+      })
+    })
+
+    describe('when disabled is false', function () {
+      let store
+
+      beforeEach(function () {
+        component.set('disabled', false)
+        store = component.get('store')
+      })
+
+      it('store has disabled value', function () {
+        expect(store.disabled).to.be.false
+      })
+    })
+
+    describe('when showAllErrors is true', function () {
+      let store
+
+      beforeEach(function () {
+        component.set('showAllErrors', true)
+        store = component.get('store')
+      })
+
+      it('store has showAllErrors value', function () {
+        expect(store.showAllErrors).to.be.true
+      })
+    })
+
+    describe('when showAllErrors is false', function () {
+      let store
+
+      beforeEach(function () {
+        component.set('showAllErrors', false)
+        store = component.get('store')
+      })
+
+      it('store has showAllErrors value', function () {
+        expect(store.showAllErrors).to.be.false
+      })
+    })
+
     describe('store', function () {
       let store
 

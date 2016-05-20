@@ -3,7 +3,7 @@ import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
+import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-number',
@@ -47,6 +47,7 @@ describeComponent(
       ])
     })
 
+    disabledTests(ctx)
     renderErrorMessageTests(ctx)
 
     it('onBlur action sets showErrorMessage to true', function () {
