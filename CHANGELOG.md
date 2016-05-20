@@ -1,3 +1,7 @@
+# 5.13.0
+
+* **Added** new property `disabled` for disabling entire form when set to `true`.
+
 # 5.12.3 (May 17, 2016)
 
 * **Fixed** formatting of *CHANGELOG*
