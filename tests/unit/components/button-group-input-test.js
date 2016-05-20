@@ -4,7 +4,7 @@ import {afterEach, beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {helpers} from 'ember-frost-bunsen/components/button-group-input'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
+import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-button-group',
@@ -60,6 +60,7 @@ describeComponent(
       sandbox.restore()
     })
 
+    disabledTests(ctx)
     renderErrorMessageTests(ctx)
 
     describe('options', function () {

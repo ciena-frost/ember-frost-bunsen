@@ -112,6 +112,34 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       }
     })
 
+    describe('when store.disabled is true', function () {
+      let rootNode
+
+      beforeEach(function () {
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.set('store.disabled', true)
+      })
+
+      it('disables input', function () {
+        const $input = rootNode.find('.frost-select input')
+        expect($input.is(':disabled')).to.be.true
+      })
+    })
+
+    describe('when store.disabled is false', function () {
+      let rootNode
+
+      beforeEach(function () {
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.set('store.disabled', false)
+      })
+
+      it('disables input', function () {
+        const $input = rootNode.find('.frost-select input')
+        expect($input.is(':disabled')).to.be.false
+      })
+    })
+
     it('has correct classes', function () {
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       expect(rootNode).to.have.class('frost-bunsen-input-select')

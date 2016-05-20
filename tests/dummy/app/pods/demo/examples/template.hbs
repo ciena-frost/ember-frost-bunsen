@@ -19,6 +19,7 @@
     Detail: {{frost-checkbox onInput=(action "toggleDetail")}}
     Inline: {{frost-checkbox onInput=(action "toggleInline")}}
     Show All Errors: {{frost-checkbox onInput=(action "toggleShowAllErrors")}}
+    Disable: {{frost-checkbox onInput=(action "toggleDisabled")}}
     <h2 class="demo-header">Rendered Demo</h2>
     {{#if detail}}
       {{frost-bunsen-detail
@@ -29,6 +30,7 @@
       }}
     {{else}}
       {{frost-bunsen-form
+        disabled=disabled
         inline=inline
         onChange=(action "onChange")
         onValidation=(action "onValidation")

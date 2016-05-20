@@ -9,7 +9,7 @@
     {{#if (eq inputType 'password')}}
       {{frost-password
         class=inputClassName
-        disabled=cellConfig.disabled
+        disabled=disabled
         onBlur=(action "onBlur")
         onFocus=(action "onFocus")
         onInput=(action "onChange")
@@ -20,7 +20,7 @@
     {{else}}
       {{frost-text
         class=inputClassName
-        disabled=cellConfig.disabled
+        disabled=disabled
         onBlur=(action "onBlur")
         onFocus=(action "onFocus")
         onInput=(action "onChange")

@@ -56,6 +56,12 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
+  @computed('store.disabled', 'cellConfig.disabled')
+  disabled (formDisabled, disabledInView) {
+    return formDisabled || disabledInView
+  },
+
+  @readOnly
   @computed('errorMessage', 'showErrorMessage', 'store.showAllErrors')
   renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
     if (!showAllErrors && !showErrorMessage) {

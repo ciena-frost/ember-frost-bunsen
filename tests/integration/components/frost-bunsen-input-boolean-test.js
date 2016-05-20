@@ -24,6 +24,28 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
     expect(rootNode).to.have.class('frost-bunsen-input-boolean')
   })
 
+  describe('when store.disabled is true', function () {
+    beforeEach(function () {
+      this.set('store.disabled', true)
+    })
+
+    it('disables input', function () {
+      const $input = rootNode.find('.frost-checkbox input')
+      expect($input.is(':disabled')).to.be.true
+    })
+  })
+
+  describe('when store.disabled is false', function () {
+    beforeEach(function () {
+      this.set('store.disabled', false)
+    })
+
+    it('disables input', function () {
+      const $input = rootNode.find('.frost-checkbox input')
+      expect($input.is(':disabled')).to.be.false
+    })
+  })
+
   ;[true, false].forEach((initialValue) => {
     describe(`when value is ${initialValue}`, function () {
       beforeEach(function () {

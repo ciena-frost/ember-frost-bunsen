@@ -5,7 +5,10 @@
     {{/if}}
 </div>
 <div class='{{labelPlacement}}-input'>
-  <select onchange={{action "onChange"}}>
+  <select
+    disabled={{disabled}}
+    onchange={{action "onChange"}}
+  >
     <option
       disabled
       selected={{not useKey}}

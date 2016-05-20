@@ -33,9 +33,9 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('bunsenId', 'cellConfig', 'model', 'store.formValue')
-  disabled (bunsenId, cellConfig, model, value) {
-    if (cellConfig.disabled || !model) {
+  @computed('bunsenId', 'cellConfig', 'model', 'store.{disabled,formValue}')
+  disabled (bunsenId, cellConfig, model, formDisabled, value) {
+    if (formDisabled || cellConfig.disabled || !model) {
       return true
     }
 

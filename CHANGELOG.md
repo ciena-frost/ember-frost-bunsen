@@ -1,4 +1,4 @@
-# 5.12.3
+# 5.12.3 (May 17, 2016)
 
 * **Fixed** formatting of *CHANGELOG*
 * **Added** `showAllErrors` to *README* documentation of `frost-bunsen-form` component API.
