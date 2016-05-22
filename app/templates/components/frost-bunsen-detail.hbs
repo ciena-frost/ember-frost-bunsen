@@ -1,3 +1,8 @@
+{{#if isInvalid}}
+  {{frost-bunsen-validation-result
+    model=propValidationResult
+  }}
+{{else}}
 <form>
   {{#if containerTabs.length}}
     {{#frost-tabs
@@ -23,3 +28,4 @@
     value=renderValue
   }}
 </form>
+{{/if}}

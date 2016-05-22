@@ -39,6 +39,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     this.render(hbs`{{frost-bunsen-detail
     model=model
     value=value
+    view=bunsenView
     }}`)
 
     rootNode = this.$('> *')
@@ -78,6 +79,42 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
       expect(lastName).to.equal(newValue.lastName)
       expect(alias).to.equal(newValue.alias)
 
+      done()
+    })
+  })
+
+  it('displays an error message if the model is not valid', function (done) {
+    this.set('model', {type: 'invalid'})
+    run.later(() => {
+      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
+      expect(errorMessage).to.equal('There seems to be something wrong with your schema')
+      done()
+    })
+  })
+
+  it('displays an error message if the model is not valid', function (done) {
+    const invalidView = {
+      version: '1.0',
+      type: 'form',
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [{model: 'some.non-existing.property'}]
+          ]
+        }
+      ],
+      buttonLabels: {
+        submit: 'Create',
+        reset: 'Clear'
+      },
+      rootContainers: [{label: 'Main', container: 'main'}]
+    }
+    this.set('bunsenView', invalidView)
+
+    run.later(() => {
+      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
+      expect(errorMessage).to.equal('There seems to be something wrong with your schema')
       done()
     })
   })

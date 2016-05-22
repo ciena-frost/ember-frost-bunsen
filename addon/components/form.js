@@ -72,12 +72,6 @@ export default DetailComponent.extend({
   },
 
   @readOnly
-  @computed('propValidationResult')
-  isInvalid (propValidationResult) {
-    return !_.isEmpty(propValidationResult.errors)
-  },
-
-  @readOnly
   @computed('cancelLabel', 'renderView', 'submitLabel')
   buttonLabels (cancelLabel, view, submitLabel) {
     return _.defaults(

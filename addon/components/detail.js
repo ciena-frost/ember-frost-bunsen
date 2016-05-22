@@ -210,6 +210,12 @@ export default Component.extend(PropTypeMixin, {
     this.set('propValidationResult', result)
   },
 
+  @readOnly
+  @computed('propValidationResult')
+  isInvalid (propValidationResult) {
+    return !_.isEmpty(propValidationResult.errors)
+  },
+
   /**
    * Keep value in sync with store and validate properties
    */
