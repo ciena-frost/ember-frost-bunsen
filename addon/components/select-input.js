@@ -3,6 +3,7 @@ import * as listUtils from '../list-utils'
 import utils from '../utils'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import _ from 'lodash'
 
 export default AbstractInput.extend({
   // ==========================================================================
@@ -22,7 +23,8 @@ export default AbstractInput.extend({
 
   getDefaultProps () {
     return {
-      options: Ember.A([])
+      options: Ember.A([]),
+      initialized: false
     }
   },
 
@@ -46,7 +48,7 @@ export default AbstractInput.extend({
   // Functions
   // ==========================================================================
 
-  didReceiveAttrs () {
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
     const modelDef = this.get('model')
     if (!modelDef) {
@@ -56,11 +58,53 @@ export default AbstractInput.extend({
     const value = this.get('store.formValue')
     const bunsenId = this.get('bunsenId')
 
-    if (utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
+    if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query) &&
+      utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
       listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
         this.set('options', opts)
       })
     }
+    this.set('initialized', true)
+  },
+
+  /**
+   * Checks if query has been changed
+   * @param {Object} oldAttrs - old attributes
+   * @param {Object} newAttrs - new attributes
+   * @param {Object} modelQuery - query model
+   * @returns {Boolean} true if query has been changed
+   */
+  hasQueryChanged (oldAttrs, newAttrs, modelQuery) {
+    // allow models that don't have query defined to pass as well as
+    // allow the options to get initially populated
+    if (!modelQuery || !this.get('initialized')) {
+      return true
+    }
+
+    const bunsenId = this.get('bunsenId')
+    const value = _.get(newAttrs, 'store.value.formValue')
+    const oldValue = _.get(oldAttrs, 'store.value.formValue')
+
+    let oldQuery
+    let query
+
+    // parse old and new query before look for differences
+    try {
+      oldQuery = utils.populateQuery(oldValue, modelQuery, bunsenId)
+    } catch (e) {
+      oldQuery = {}
+    }
+
+    try {
+      query = utils.populateQuery(value, modelQuery, bunsenId)
+    } catch (e) {
+      query = {}
+    }
+
+    // returns false when every top level key/value pair are equal
+    return !Object.keys(modelQuery).every((key) => {
+      return query[key] === oldQuery[key]
+    })
   },
 
   /**
