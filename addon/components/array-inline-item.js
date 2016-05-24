@@ -24,11 +24,18 @@ export default Component.extend(PropTypeMixin, {
     index: PropTypes.number.isRequired,
     model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
+    onRemove: PropTypes.func,
     readOny: PropTypes.bool,
+    showRemoveButton: PropTypes.bool,
     sortable: PropTypes.bool.isRequired,
     store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
+  },
+
+  getDefaultProps () {
+    return {
+      showRemoveButton: true
+    }
   },
 
   // ==========================================================================
