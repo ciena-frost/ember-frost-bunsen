@@ -14,7 +14,7 @@ import {getSubModel, getModelPath} from '../utils'
 export function removeIndex (path) {
   const parts = path.split('.')
   const last = parts.pop()
-  return /\d+/.test(last) ? parts.join('.') : path
+  return /^\d+$/.test(last) ? parts.join('.') : path
 }
 
 export default Component.extend(PropTypeMixin, {
