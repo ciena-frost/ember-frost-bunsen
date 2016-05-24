@@ -106,16 +106,18 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'model')
+  @computed('config.{dependsOn,model}', 'model', 'isArrayItem', 'arrayId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
    * @param {String} configModel - path to current cell in model
    * @param {BunsenModel} model - bunsen model of form
+   * @param {Boolean} isArrayItem - whether or not cell for is an array item
+   * @param {String} arrayId - ID for array item is within (if array item)
    * @returns {BunsenModel} sub model
    */
-  subModel (dependsOn, configModel, model) {
-    configModel = removeIndex(configModel)
+  subModel (dependsOn, configModel, model, isArrayItem, arrayId) {
+    configModel = isArrayItem ? arrayId : removeIndex(configModel)
     return getSubModel(model, configModel, dependsOn)
   },
 
