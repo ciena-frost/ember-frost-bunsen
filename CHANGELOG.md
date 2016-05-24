@@ -1,3 +1,11 @@
+# 5.14.1
+
+* **Added** a bunch of unit tests around the cell container component.
+* **Added** linting of Markdown and SASS to improve quality of styles and documentation.
+* **Added** missing `@readOnly` decorators to properties with TODO comments.
+* **Fixed** a bug when referencing an array item in a view from a container that is relative to a parent containers model.
+* **Fixed** a bug when with regex pattern treating model properties with numbers in them as array items.
+
 # 5.14.0 (May 24, 2016)
 
 * **Added** ability to have view containers for specific items in an array. Below is an example:
