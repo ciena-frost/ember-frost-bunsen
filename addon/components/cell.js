@@ -147,24 +147,23 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('renderId')
   /**
-   * Detemrine if we are rendering a single array item
-   * @param {[type]} renderId - render identifier
-   * @returns {Boolean} whether or not we are rendering a single array item
-   */
-  isArrayItem (renderId) {
-    const last = renderId.split('.').pop()
-    return /\d+/.test(last)
-  },
-
-  @readOnly
-  @computed('renderId')
-  /**
    * Get index for single array item
    * @param {String} renderId - render identifier
    * @returns {Number} index
    */
   index (renderId) {
     return parseInt(renderId.split('.').pop(), 10)
+  },
+
+  @readOnly
+  @computed('index')
+  /**
+   * Detemrine if we are rendering a single array item
+   * @param {Number|NaN} index - index of array item or NaN
+   * @returns {Boolean} whether or not we are rendering a single array item
+   */
+  isArrayItem (index) {
+    return !isNaN(index)
   },
 
   @readOnly
