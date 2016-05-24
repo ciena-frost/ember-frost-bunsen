@@ -53,10 +53,6 @@ describeComponent(
       sandbox.restore()
     })
 
-    it('arrayId returns expected value', function () {
-      expect(component.get('arrayId')).to.equal('foo.bar')
-    })
-
     it('index returns expected value', function () {
       expect(component.get('index')).to.equal(0)
     })
@@ -73,7 +69,11 @@ describeComponent(
       expect(component.get('isSubModelObject')).to.be.false
     })
 
-    it('defaults readOnly to false', function () {
+    it('nonIndexId returns expected value', function () {
+      expect(component.get('nonIndexId')).to.equal('foo.bar')
+    })
+
+    it('readOnly defaults to false', function () {
       expect(component.get('readOnly')).to.be.false
     })
 

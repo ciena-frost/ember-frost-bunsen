@@ -75,7 +75,11 @@ describeComponent(
       expect(component.get('isSubModelObject')).to.be.false
     })
 
-    it('defaults readOnly to false', function () {
+    it('nonIndexId returns expected value', function () {
+      expect(component.get('nonIndexId')).to.equal('foo.bar')
+    })
+
+    it('readOnly defaults to false', function () {
       expect(component.get('readOnly')).to.be.false
     })
 
