@@ -56,7 +56,7 @@ export default Component.extend(PropTypeMixin, {
     return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
   },
 
-  // FIXME: this should be read only
+  @readOnly
   @computed('value')
   renderValue (value) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
