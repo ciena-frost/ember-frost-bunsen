@@ -110,7 +110,7 @@ export default Component.extend(PropTypeMixin, {
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
-   * @param {BunsenModel} configModel - model of current cell
+   * @param {String} configModel - path to current cell in model
    * @param {BunsenModel} model - bunsen model of form
    * @returns {BunsenModel} sub model
    */
@@ -223,16 +223,6 @@ export default Component.extend(PropTypeMixin, {
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
-  },
-
-  init () {
-    this._super()
-
-    const bunsenId = this.get('bunsenId')
-
-    if (!bunsenId) {
-      return
-    }
   }
 
   // ==========================================================================
