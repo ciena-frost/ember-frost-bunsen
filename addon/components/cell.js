@@ -5,6 +5,18 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getSubModel, getModelPath} from '../utils'
 
+/**
+ * Return path without an index at the end
+ * i.e. "foo.bar.0" would become "foo.bar"
+ * @param {String} path - path to remove index from
+ * @returns {String} path without index
+ */
+export function removeIndex (path) {
+  const parts = path.split('.')
+  const last = parts.pop()
+  return /\d+/.test(last) ? parts.join('.') : path
+}
+
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
   // Dependencies
@@ -87,13 +99,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Boolean} whether or not cell is required
    */
   required (dependsOn, model) {
-    const parts = model.split('.')
-    const last = parts.pop()
-
-    if (/\d+/.test(last)) {
-      model = parts.join('.')
-    }
-
+    model = removeIndex(model)
     const parentModel = this.getParentModel(model, dependsOn)
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
@@ -109,13 +115,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, model) {
-    const parts = configModel.split('.')
-    const last = parts.pop()
-
-    if (/\d+/.test(last)) {
-      configModel = parts.join('.')
-    }
-
+    configModel = removeIndex(configModel)
     return getSubModel(model, configModel, dependsOn)
   },
 
@@ -139,9 +139,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Number} bunsen ID for array
    */
   arrayId (renderId) {
-    const parts = renderId.split('.')
-    parts.pop()
-    return parts.join('.')
+    return removeIndex(renderId)
   },
 
   @readOnly
