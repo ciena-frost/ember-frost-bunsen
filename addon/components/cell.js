@@ -5,6 +5,18 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getSubModel, getModelPath} from '../utils'
 
+/**
+ * Return path without an index at the end
+ * i.e. "foo.bar.0" would become "foo.bar"
+ * @param {String} path - path to remove index from
+ * @returns {String} path without index
+ */
+export function removeIndex (path) {
+  const parts = path.split('.')
+  const last = parts.pop()
+  return /\d+/.test(last) ? parts.join('.') : path
+}
+
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
   // Dependencies
@@ -87,6 +99,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Boolean} whether or not cell is required
    */
   required (dependsOn, model) {
+    model = removeIndex(model)
     const parentModel = this.getParentModel(model, dependsOn)
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
@@ -102,6 +115,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, model) {
+    configModel = removeIndex(configModel)
     return getSubModel(model, configModel, dependsOn)
   },
 
@@ -115,6 +129,39 @@ export default Component.extend(PropTypeMixin, {
    */
   renderId (bunsenId, model) {
     return bunsenId ? `${bunsenId}.${model}` : model
+  },
+
+  @readOnly
+  @computed('renderId')
+  /**
+   * Get bunsen ID for array
+   * @param {String} renderId - render identifier
+   * @returns {Number} bunsen ID for array
+   */
+  arrayId (renderId) {
+    return removeIndex(renderId)
+  },
+
+  @readOnly
+  @computed('renderId')
+  /**
+   * Get index for single array item
+   * @param {String} renderId - render identifier
+   * @returns {Number} index
+   */
+  index (renderId) {
+    return parseInt(renderId.split('.').pop(), 10)
+  },
+
+  @readOnly
+  @computed('index')
+  /**
+   * Detemrine if we are rendering a single array item
+   * @param {Number|NaN} index - index of array item or NaN
+   * @returns {Boolean} whether or not we are rendering a single array item
+   */
+  isArrayItem (index) {
+    return !isNaN(index)
   },
 
   @readOnly
@@ -165,14 +212,6 @@ export default Component.extend(PropTypeMixin, {
   // Functions
   // ==========================================================================
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
-
   /**
    * Get parent's model
    * @param {BunsenModel} reference - bunsen model of cell
@@ -195,4 +234,12 @@ export default Component.extend(PropTypeMixin, {
       return
     }
   }
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
 })
