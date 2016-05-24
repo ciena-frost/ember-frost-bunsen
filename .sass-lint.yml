@@ -236,8 +236,7 @@ rules:
 
   # enforce how deeply a selector can be nested (defaults to 2)
   # https://github.com/sasstools/sass-lint/blob/master/docs/rules/nesting-depth.md
-  # TODO: enable this again when we have time to refactor our deeply-nested selectors
-  nesting-depth: 0
+  nesting-depth: 3
 
   # enforce the order in which declarations are written (default alphabetical)
   # https://github.com/sasstools/sass-lint/blob/master/docs/rules/property-sort-order.md
