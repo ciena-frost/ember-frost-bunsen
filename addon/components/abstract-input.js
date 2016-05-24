@@ -25,7 +25,7 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
-    errorMessage: PropTypes.oneOf([
+    errorMessage: PropTypes.oneOfType([
       PropTypes.null,
       PropTypes.string
     ]),
@@ -34,7 +34,7 @@ export default Component.extend(PropTypeMixin, {
     onChange: PropTypes.func.isRequired,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired,
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
       PropTypes.null,

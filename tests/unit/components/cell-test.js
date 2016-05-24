@@ -18,7 +18,9 @@ describe('removeIndex()', function () {
 describeComponent(
   'frost-bunsen-cell',
   'FrostBunsenCellComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string,

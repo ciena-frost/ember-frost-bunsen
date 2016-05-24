@@ -99,7 +99,9 @@ const model = {
 describeComponent(
   'frost-bunsen-array-container',
   'FrostBunsenArrayContainerComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,

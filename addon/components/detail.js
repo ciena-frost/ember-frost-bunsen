@@ -37,20 +37,20 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   propTypes: {
-    model: PropTypes.oneOf([
+    model: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]).isRequired,
-    renderers: PropTypes.oneOf([
+    renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
       PropTypes.object
     ]),
-    view: PropTypes.oneOf([
+    view: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ])

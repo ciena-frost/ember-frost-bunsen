@@ -7,7 +7,9 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-input-static',
   'FrostBunsenInputStaticComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     let component
 
@@ -25,7 +27,7 @@ describeComponent(
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOf([
+      errorMessage: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
@@ -34,7 +36,7 @@ describeComponent(
       onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,
         PropTypes.null,

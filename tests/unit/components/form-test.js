@@ -7,13 +7,15 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-form',
   'FrostBunsenFormComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       cancelLabel: PropTypes.string,
       disabled: PropTypes.bool,
       inline: PropTypes.bool,
-      model: PropTypes.oneOf([
+      model: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
@@ -21,19 +23,19 @@ describeComponent(
       onChange: PropTypes.func,
       onSubmit: PropTypes.func,
       onValidation: PropTypes.func,
-      renderers: PropTypes.oneOf([
+      renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]),
       showAllErrors: PropTypes.bool,
       submitLabel: PropTypes.string,
       validators: PropTypes.array,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.null,
         PropTypes.object
       ]),
-      view: PropTypes.oneOf([
+      view: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ])

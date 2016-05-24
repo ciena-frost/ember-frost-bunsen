@@ -8,7 +8,9 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 describeComponent(
   'frost-bunsen-input-number',
   'FrostBunsenInputNumberComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     const ctx = {}
     let component
@@ -28,7 +30,7 @@ describeComponent(
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOf([
+      errorMessage: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
@@ -37,7 +39,7 @@ describeComponent(
       onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
       store: PropTypes.EmberObject.isRequired,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,
         PropTypes.null,

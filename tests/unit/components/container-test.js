@@ -5,7 +5,9 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-container',
   'FrostBunsenContainerComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string,

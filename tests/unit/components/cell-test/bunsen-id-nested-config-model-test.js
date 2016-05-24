@@ -6,7 +6,9 @@ import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 describeComponent(
   'frost-bunsen-cell',
   'FrostBunsenCellComponent with bunsenId and nested config model',
-  {},
+  {
+    unit: true
+  },
   function () {
     let component, onChangeSpy, sandbox
 

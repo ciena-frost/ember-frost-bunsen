@@ -5,7 +5,9 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-row',
   'FrostBunsenRowComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string,

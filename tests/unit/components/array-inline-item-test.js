@@ -8,7 +8,9 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-array-inline-item',
   'FrostBunsenArrayInlineItemComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,

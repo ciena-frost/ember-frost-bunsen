@@ -5,7 +5,9 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-section',
   'FrostBunsenSectionComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       collapsible: PropTypes.bool,

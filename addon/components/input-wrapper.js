@@ -22,7 +22,7 @@ export default Component.extend(PropTypeMixin, {
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
     store: PropTypes.EmberObject.isRequired,
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
       PropTypes.null,
