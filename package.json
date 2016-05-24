@@ -9,9 +9,12 @@
   },
   "scripts": {
     "build": "ember build",
+    "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
+    "lint-js": "eslint *.js addon app blueprints config tests",
+    "lint-md": "remark *.md",
+    "lint-sass": "sass-lint -v -q",
     "start": "ember server",
-    "test": "npm run lint && ember test",
-    "lint": "eslint *.js addon app blueprints config tests"
+    "test": "npm run lint && ember test"
   },
   "repository": "git@github.com:ciena-frost/ember-frost-bunsen.git",
   "engines": {
@@ -65,7 +68,10 @@
     "frost-guide-custom-routing": "0.0.4",
     "ivy-codemirror": "1.4.0",
     "loader.js": "^4.0.4",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "remark": "^4.2.2",
+    "remark-lint": "^3.2.1",
+    "sass-lint": "^1.7.0"
   },
   "keywords": [
     "ember-addon",

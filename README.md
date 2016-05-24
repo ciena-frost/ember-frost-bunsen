@@ -1,19 +1,15 @@
-[ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "Travis CI Build Status"
-[ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
-[cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
-[cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
-[npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
-[npm-url]: https://www.npmjs.com/package/ember-frost-bunsen
+# ember-frost-bunsen
 
-# ember-frost-bunsen <br /> [![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
+[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
 
- * [Installation](#installation)
- * [API](#api)
- * [Examples](#examples)
- * [Development](#development)
+* [Installation](#installation)
+* [API](#api)
+* [Examples](#examples)
+* [Development](#development)
 
 ## Installation
-```
+
+```bash
 ember install ember-frost-bunsen
 ```
 
@@ -21,38 +17,42 @@ ember install ember-frost-bunsen
 
 ### frost-bunsen-detail
 
-| Attribute | Type  | Required | Description |
-| --------- | ----  | -------- | ----------- |
-| `model` | `Ember.Object` or `object` | Yes | Value definition |
-| `renderers` | `Ember.Object` or `object` | No | Custom renderer template helper mappings |
-| `value` | `Ember.Object` or `object` | No | Data to render |
-| `view` | `Ember.Object` or `object` | No | View definition |
+| Attribute   | Type                       | Required | Description                              |
+| ----------- | -------------------------- | -------- | ---------------------------------------- |
+| `model`     | `Ember.Object` or `object` | Yes      | Value definition                         |
+| `renderers` | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
+| `value`     | `Ember.Object` or `object` | No       | Data to render                           |
+| `view`      | `Ember.Object` or `object` | No       | View definition                          |
 
 ### frost-bunsen-form
 
-| Attribute | Type | Required | Description |
-| --------- | ---- | -------- | ----------- |
-| `cancelLabel` | `string` | No | Text for cancel button |
-| `inline` | `boolean` | No | Whether or not to render form inline |
-| `model` | `Ember.Object` or `object` | Yes | Value definition |
-| `onCancel` | `Function` | No | Callback for when form is cancelled |
-| `onChange` | `Function` | No | Callback for when form values change |
-| `onSubmit` | `Function` | No | Callback for when form is submitted |
-| `onValidation` | `Function` | No | Callback for when form is validated |
-| `renderers` | `Ember.Object` or `object` | No | Custom renderer template helper mappings |
-| `showAllErrors` | `boolean` | No | Whether or not to show error messages before user interaction occurs |
-| `submitLabel` | `string` | No | Text for submit button |
-| `validators` | `Array<Function>` | No | List of custom validation functions |
-| `value` | `Ember.Object` or `object` | No | Value to initialize form with |
-| `view` | `Ember.Object` or `object` | No | View definition |
+<!--lint disable table-pipe-alignment-->
+
+| Attribute       | Type                       | Required | Description                              |
+| --------------- | -------------------------- | -------- | ---------------------------------------- |
+| `cancelLabel`   | `string`                   | No       | Text for cancel button                   |
+| `inline`        | `boolean`                  | No       | Whether or not to render form inline     |
+| `model`         | `Ember.Object` or `object` | Yes      | Value definition                         |
+| `onCancel`      | `Function`                 | No       | Callback for when form is cancelled      |
+| `onChange`      | `Function`                 | No       | Callback for when form values change     |
+| `onSubmit`      | `Function`                 | No       | Callback for when form is submitted      |
+| `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
+| `renderers`     | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
+| `showAllErrors` | `boolean`                  | No       | Whether or not to show error messages before user interaction occurs |
+| `submitLabel`   | `string`                   | No       | Text for submit button                   |
+| `validators`    | `Array<Function>`          | No       | List of custom validation functions      |
+| `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
+| `view`          | `Ember.Object` or `object` | No       | View definition                          |
+
+<!--lint enable table-pipe-alignment-->
 
 ## Examples
 
- * [Invocation](#invocation)
- * [Minimal Example](#minimal-example)
- * [Nested Properties Example](#nested-properties-example)
- * [Data Types Example](#data-types-example)
- * [Custom Validation Example](#custom-validation-example)
+* [Invocation](#invocation)
+* [Minimal Example](#minimal-example)
+* [Nested Properties Example](#nested-properties-example)
+* [Data Types Example](#data-types-example)
+* [Custom Validation Example](#custom-validation-example)
 
 ### Invocation
 
@@ -282,8 +282,7 @@ message:
 }
 ```
 
-
-#### Bunsen form specification:
+#### Bunsen form specification
 
 **Value (Data to Render)**
 
@@ -327,7 +326,7 @@ message:
 }
 ```
 
-#### Provide custom validators:
+#### Provide custom validators
 
 Custom validation functions can access all form values, and may
 return multiple error messages (for multiple fields).  Bunsen will
@@ -384,6 +383,7 @@ export default Ember.Component.extend({
 ```
 
 When invoking Bunsen, specify the `onValidation` and `validators` options:
+
 ```handlebars
 {{
   frost-bunsen-form
@@ -395,18 +395,29 @@ When invoking Bunsen, specify the `onValidation` and `validators` options:
 ```
 
 ## Development
+
 ### Setup
-```
+
+```bash
 git clone git@github.com:ciena-frost/ember-frost-bunsen.git
 cd ember-frost-bunsen
 npm install && bower install
 ```
 
 ### Development Server
+
 A dummy application for development is available under `ember-frost-bunsen/tests/dummy`.
 To run the server run `ember server` (or `npm start`) from the root of the repository and
-visit the app at http://localhost:4200.
+visit the app at [http://localhost:4200](http://localhost:4200).
 
 ### Testing
+
 Run `npm test` from the root of the project to run linting checks as well as execute the test suite
 and output code coverage.
+
+[ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "Travis CI Build Status"
+[ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
+[cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
+[cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
+[npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
+[npm-url]: https://www.npmjs.com/package/ember-frost-bunsen

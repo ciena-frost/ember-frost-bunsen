@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import computed from 'ember-computed-decorators'
+import computed, {readOnly} from 'ember-computed-decorators'
 import {AbstractInput} from 'ember-frost-bunsen'
 
 export default AbstractInput.extend({
@@ -8,7 +8,7 @@ export default AbstractInput.extend({
     'name-renderer'
   ],
 
-  // FIXME: make readOnly
+  @readOnly
   @computed('value')
   renderValue (name) {
     let value = ''

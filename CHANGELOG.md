@@ -1,8 +1,9 @@
-# 5.14.0
+# 5.14.0 (May 24, 2016)
 
 * **Added** ability to have view containers for specific items in an array. Below is an example:
 
   *Model*
+
   ```json
   {
     "properties": {
@@ -28,6 +29,7 @@
   ```
 
   *View*
+
   ```json
   {
     "version": "1.0",
@@ -72,14 +74,15 @@
   }
    ```
 
-# 5.13.2
+# 5.13.2 (May 22, 2016)
+
 * **Fixed** select inputs from fetching when query hasn't changed.
 
-# 5.13.1
-No CHANGELOG section found in Pull Request description.
-Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+# 5.13.1 (May 21, 2016)
 
-# 5.13.0
+* **Fixed** issue where detail view was causing errors by attempting to render invalid schemas.
+
+# 5.13.0 (May 20, 2016)
 
 * **Added** new property `disabled` for disabling entire form when set to `true`.
 
@@ -249,6 +252,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
 ## Breaking
 
 * **Removed** support for `PascalCaseCustomRenderers` in view schema definitions
+
 * **Added** support for `kebab-case-custom-renderers` in view schema definitions
   This was done mainly to accommodate a terser DSL in view schemas for built-in
   renderers such as `select` which was added in this version. The goal is to have
@@ -263,6 +267,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   in the Bunsen model JSON Schema for the rendered attribute, like so:
 
   ***Model Schema***
+
   ```json
   ...
   "someProperty": {
@@ -278,6 +283,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   ```
 
   ***View Schema***
+
   ```json
   ...
   {
@@ -291,6 +297,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   (the ember-data model type and queryParam definition) can be specified like so:
 
   ***Model Schema***
+
   ```json
   ...
   "someProperty": {
@@ -306,6 +313,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   ```
 
   ***View Schema***
+
   ```json
   ...
   {
@@ -314,6 +322,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ...
   ```
+
   In this example, to populate this dropdown, the schema instructs ember-data to query the store for
   "resources", and to use the "query" object to generate it's query string for the call,
   i.e., `?resourceTypeId=someResourceTypeId&q=domainId:someDomainId`
@@ -322,6 +331,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   be inserted into the query specification, using either absolute or relative-style JSON paths:
 
   ***Model Schema***
+
   ```json
   ...
   "resourceTypeId": {
@@ -345,6 +355,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   }
   ...
   ```
+
   The above example would get the value for ``${resourceTypeId}`` from the current form's `formValue.resourceTypeId`.
   The value for `${../someDomainId}` would come from `formValue.someSiblingPropertyOfParent`.  This is useful when you need
   the asynchronous query for one value to be informed by another chosen value.
@@ -368,11 +379,13 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
 ## Breaking
 
 * **Removed** `initialValue` from `ember-frost-form` component.
+
 * **Added** `value` to `ember-frost-form` component. Now you can provide an initial value to the form
   by setting `value` instead of `initialValue`. This property is different in the fact that it aims
   to allow the consumer to maintain the value state instead of `ember-frost-bunsen` maintaining it
   for you. If this property is omitted `ember-frost-bunsen` will continue to manage the state as it
   had done previously.
+
 * **Changed** input mixin into a component which changes custom renderers from:
 
   ```javascript
@@ -394,8 +407,10 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   ```
 
 * **Changed** `onChange({id, value})` is now `onChange(id, value)` in custom renderers.
+
 * **Removed** `valid` from validation results object so it now contains just `errors` and `warnings`.
   In order to check if it is valid you can simply check `errors.length`.
+
 * **Removed** `state` from input component. Previously custom renderers would often maintain
   the value on `state.value` but in order to continue doing so they must initialize `state` in their
   `init` function like so:
@@ -420,6 +435,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
 ## Breaking
 
 * Start consuming [ember-frost-core](https://github.com/ciena-frost/ember-frost-core) instead of:
+
   * [ember-frost-button](https://github.com/ciena-frost/ember-frost-button)
   * [ember-frost-checkbox](https://github.com/ciena-frost/ember-frost-checkbox)
   * [ember-frost-css-core](https://github.com/ciena-frost/ember-frost-css-core)
@@ -427,6 +443,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
   * [ember-frost-select](https://github.com/ciena-frost/ember-frost-select)
   * [ember-frost-text](https://github.com/ciena-frost/ember-frost-text)
   * [ember-frost-theme](https://github.com/ciena-frost/ember-frost-theme)
+
 * **Changed** action properties from kebab-case (`on-change`) to camelCase (`onChange`)
 
 # 2.0 (March 09, 2016)

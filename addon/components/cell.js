@@ -14,7 +14,7 @@ import {getSubModel, getModelPath} from '../utils'
 export function removeIndex (path) {
   const parts = path.split('.')
   const last = parts.pop()
-  return /\d+/.test(last) ? parts.join('.') : path
+  return /^\d+$/.test(last) ? parts.join('.') : path
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -83,7 +83,7 @@ export default Component.extend(PropTypeMixin, {
     return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
   },
 
-  // FIXME: this should be read only
+  @readOnly
   @computed('value')
   renderValue (value) {
     const bunsenId = this.get('renderId')
@@ -106,17 +106,19 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'model')
+  @computed('config.{dependsOn,model}', 'isArrayItem', 'model', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
-   * @param {BunsenModel} configModel - model of current cell
+   * @param {String} configModel - relative model for cell config
+   * @param {Boolean} isArrayItem - whether or not cell is for array item
    * @param {BunsenModel} model - bunsen model of form
+   * @param {String} nonIndexId - ID for array that item is within (if array item)
    * @returns {BunsenModel} sub model
    */
-  subModel (dependsOn, configModel, model) {
-    configModel = removeIndex(configModel)
-    return getSubModel(model, configModel, dependsOn)
+  subModel (dependsOn, configModel, isArrayItem, model, nonIndexId) {
+    const reference = isArrayItem ? nonIndexId : removeIndex(configModel)
+    return getSubModel(model, reference, dependsOn)
   },
 
   @readOnly
@@ -138,7 +140,7 @@ export default Component.extend(PropTypeMixin, {
    * @param {String} renderId - render identifier
    * @returns {Number} bunsen ID for array
    */
-  arrayId (renderId) {
+  nonIndexId (renderId) {
     return removeIndex(renderId)
   },
 
@@ -223,16 +225,6 @@ export default Component.extend(PropTypeMixin, {
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
-  },
-
-  init () {
-    this._super()
-
-    const bunsenId = this.get('bunsenId')
-
-    if (!bunsenId) {
-      return
-    }
   }
 
   // ==========================================================================

@@ -6,85 +6,14 @@ $frost-row-field-padding: 40px;
   flex: 1 1 auto;
 }
 
-// FIXME: Should below CSS belong in ember-frost-tabs?
 .frost-bunsen-detail,
 .frost-bunsen-form {
-  .frost-tabs {
-    margin-bottom: 15px;
-  }
-
-  .frost-tabs .tab-nav .tab {
-    cursor: pointer;
-    height: 40px;
-    padding: 0 25px;
-
-    &.active {
-      border-bottom: 3px solid $frost-color-grey-4;
-    }
-
-    &:hover .text {
-      color: $frost-color-grey-3;
-    }
-  }
-}
-
-.frost-bunsen-input-button-group .frost-button {
-  border-radius: 0;
-
-  &:not(:first-child) {
-    border-left-width: 0;
-  }
-
-  &:first-child {
-    border-bottom-left-radius: 2px;
-    border-top-left-radius: 2px;
-  }
-
-  &:last-child {
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px;
-  }
-}
-
-.frost-bunsen-detail, .frost-bunsen-form {
   .instructions {
+    margin-bottom: 10px;
     color: $frost-color-grey-3;
     font-size: $frost-font-s;
-    margin-bottom: 10px;
-  }
-}
-
-.frost-bunsen-row {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.frost-bunsen-section {
-  > .heading {
-    h3 {
-      color: $frost-color-grey-1;
-      font-size: $frost-font-l;
-      font-weight: normal;
-      margin: 0 0 0 28px;
-    }
-
-    .required {
-      color: $frost-color-grey-6;
-      font-size: $frost-font-s;
-      margin: 0 0 0 28px;
-    }
   }
 
-  > .body {
-    display: inline-block;
-  }
-
-  &.collapsed .frost-icon {
-    transform: rotate(-90deg);
-  }
-}
-
-.frost-bunsen-detail, .frost-bunsen-form {
   .image-wrapper {
     padding: 15px;
   }
@@ -104,8 +33,8 @@ $frost-row-field-padding: 40px;
   // Add some spacing to visualize object nesting
   .model-container,
   .array-container {
-    padding: 5px;
     margin: 5px;
+    padding: 5px;
   }
 
   .required {
@@ -117,10 +46,28 @@ $frost-row-field-padding: 40px;
       margin-left: 5px;
     }
   }
-}
 
-.no-left-margin {
-  margin-left: 0;
+  .frost-tabs {
+    margin-bottom: 15px;
+
+    .tab-nav {
+      .tab {
+        height: 40px;
+        padding: 0 25px;
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 3px solid $frost-color-grey-4;
+        }
+
+        &:hover {
+          .text {
+            color: $frost-color-grey-3;
+          }
+        }
+      }
+    }
+  }
 }
 
 .frost-bunsen-detail {
@@ -128,9 +75,21 @@ $frost-row-field-padding: 40px;
     margin-left: 110px;
   }
 
-  .frost-field .left-input {
-    color: $frost-color-grey-2;
-    font-size: $frost-font-m;
+  // Remove the add/remove buttons when in read-only (Detail) components
+  .frost-bunsen-section > .frost-button {
+    display: none;
+  }
+
+  .frost-field {
+    .left-input {
+      width: auto;
+      color: $frost-color-grey-2;
+      font-size: $frost-font-m;
+
+      p {
+        margin: 0;
+      }
+    }
   }
 
   .item-wrapper {
@@ -146,20 +105,6 @@ $frost-row-field-padding: 40px;
   .required {
     display: none;
   }
-
-  // Remove the add/remove buttons when in read-only (Detail) components
-  .frost-bunsen-section > .frost-button {
-    display: none;
-  }
-
-  .frost-field {
-    .left-input {
-      width: auto;
-      p {
-        margin: 0;
-      }
-    }
-  }
 }
 
 .frost-bunsen-form {
@@ -167,8 +112,8 @@ $frost-row-field-padding: 40px;
     border: 1px solid $frost-color-lgrey-1;
 
     &.compact {
-      align-items: center;
       display: flex;
+      align-items: center;
 
       .frost-field {
         margin-bottom: 0;
@@ -185,31 +130,90 @@ $frost-row-field-padding: 40px;
   }
 }
 
+.frost-bunsen-input-button-group {
+  .frost-button {
+    border-radius: 0;
+
+    &:not(:first-child) {
+      border-left-width: 0;
+    }
+
+    &:first-child {
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+    }
+  }
+}
+
+.frost-bunsen-row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.frost-bunsen-section {
+  &.collapsed {
+    .frost-icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &:not(.collapsed) > .heading {
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+
+  > .body {
+    display: inline-block;
+  }
+
+  > .heading {
+    h3 {
+      margin: 0 0 0 28px;
+      color: $frost-color-grey-1;
+      font-size: $frost-font-l;
+      font-weight: normal;
+    }
+
+    .required {
+      margin: 0 0 0 28px;
+      color: $frost-color-grey-6;
+      font-size: $frost-font-s;
+    }
+  }
+}
+
 .frost-field {
   position: relative;
   padding-bottom: 10px;
 
   > div {
-    align-items: center;
     display: flex;
     flex-basis: 100%;
+    align-items: center;
   }
 
   .alias {
     display: block;
-    font-size: $frost-font-s;
     color: $frost-color-grey-3;
+    font-size: $frost-font-s;
   }
 
-  &.checkbox-array .alias {
-    margin-bottom: 10px;
+  &.checkbox-array {
+    .alias {
+      margin-bottom: 10px;
+    }
   }
 
   .frost-checkbox-array {
     color: $frost-color-grey-1;
   }
 
-  div.error {
+  .error {
     padding-top: 3px;
     color: $frost-color-danger;
     font-size: $frost-font-xs;
@@ -224,8 +228,8 @@ $frost-row-field-padding: 40px;
     flex-direction: column;
     justify-content: center;
     width: 140px;
-    text-align: right;
     padding-right: 15px;
+    text-align: right;
 
     .required {
       color: $frost-color-grey-6;
@@ -238,9 +242,8 @@ $frost-row-field-padding: 40px;
   }
 }
 
-.frost-bunsen-section:not(.collapsed) > .heading {
-  font-weight: normal;
-  margin-bottom: 0;
+.no-left-margin {
+  margin-left: 0;
 }
 
 .frost-bunsen-section > .frost-button {
@@ -250,16 +253,16 @@ $frost-row-field-padding: 40px;
 .inline {
   .frost-bunsen-section  > .heading {
     button {
-      background: transparent;
-      border: 0;
+      width: 16px;
       padding: 0;
       float: left;
-      width: 16px;
+      border: 0;
+      background: transparent;
     }
 
     .frost-icon {
-      height: 16px;
       width: 16px;
+      height: 16px;
     }
   }
 
@@ -268,34 +271,35 @@ $frost-row-field-padding: 40px;
   }
 
   .frost-bunsen-section {
-    border-top: 1px solid $frost-color-lgrey-1;
     padding-top: 30px;
+    border-top: 1px solid $frost-color-lgrey-1;
+
+    .frost-bunsen-section {
+      border-top-width: 1px;
+    }
   }
 
   // First section in group of sections
-  .frost-bunsen-row:first-child > div > div > .frost-bunsen-section {
-    border-top: 0;
-    padding-top: 0;
+  .frost-bunsen-row {
+    &:first-child > div > div > .frost-bunsen-section {
+      padding-top: 0;
+      border-top: 0;
+    }
   }
 
   // First section in form
   form > div > .frost-bunsen-section {
-    border-top: 0;
     padding-top: 0;
-  }
-
-  // Nested sections
-  .frost-bunsen-section .frost-bunsen-section {
-    border-top-width: 1px;
+    border-top: 0;
   }
 }
 
 .not-inline {
   .frost-bunsen-section > .heading {
     display: inline-block;
+    width: 130px;
     padding-right: 20px;
     vertical-align: top;
-    width: 130px;
 
     button {
       display: none;
@@ -307,24 +311,25 @@ $frost-row-field-padding: 40px;
   }
 
   .frost-bunsen-section {
-    border-top: 2px solid $frost-color-lgrey-1;
     padding-top: 30px;
+    border-top: 2px solid $frost-color-lgrey-1;
+
+    .frost-bunsen-section {
+      border-top-width: 1px;
+    }
   }
 
   // First section in group of sections
-  .frost-bunsen-row:first-child > div > div > .frost-bunsen-section {
-    border-top: 0;
-    padding-top: 0;
+  .frost-bunsen-row {
+    &:first-child > div > div > .frost-bunsen-section {
+      padding-top: 0;
+      border-top: 0;
+    }
   }
 
   // First setion in form
   form > div > .frost-bunsen-section {
-    border-top: 0;
     padding-top: 0;
-  }
-
-    // Nested sections
-  .frost-bunsen-section .frost-bunsen-section {
-    border-top-width: 1px;
+    border-top: 0;
   }
 }

@@ -55,7 +55,7 @@ export default Component.extend(PropTypeMixin, {
     return result
   },
 
-  // TODO: figure out why we can't use @readOnly
+  @readOnly
   @computed('model')
   /**
    * Determine whether or not container contains required inputs
