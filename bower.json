@@ -22,7 +22,6 @@
     "jquery": "2.2.3"
   },
   "devDependencies": {
-    "ember-mocha": "0.8.11",
-    "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26"
+    "ember-mocha": "0.8.11"
   }
 }

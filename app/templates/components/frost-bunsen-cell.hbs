@@ -12,17 +12,33 @@
       value=value
     }}
   {{else if isSubModelArray}}
-    {{frost-bunsen-array-container
-      bunsenId=renderId
-      cellConfig=config
-      errors=errors
-      model=subModel
-      onChange=onChange
-      readOnly=readOnly
-      required=required
-      store=store
-      value=value
-    }}
+    {{#if isArrayItem}}
+      {{frost-bunsen-array-inline-item
+        bunsenId=arrayId
+        cellConfig=config
+        errors=errors
+        index=index
+        model=subModel
+        onChange=onChange
+        onRemove=(action "onRemove")
+        readOnly=readOnly
+        sortable=false
+        store=store
+        value=value
+      }}
+    {{else}}
+      {{frost-bunsen-array-container
+        bunsenId=renderId
+        cellConfig=config
+        errors=errors
+        model=subModel
+        onChange=onChange
+        readOnly=readOnly
+        required=required
+        store=store
+        value=value
+      }}
+    {{/if}}
   {{else}}
     {{frost-bunsen-input-wrapper
       bunsenId=renderId

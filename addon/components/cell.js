@@ -87,6 +87,13 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Boolean} whether or not cell is required
    */
   required (dependsOn, model) {
+    const parts = model.split('.')
+    const last = parts.pop()
+
+    if (/\d+/.test(last)) {
+      model = parts.join('.')
+    }
+
     const parentModel = this.getParentModel(model, dependsOn)
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
@@ -102,6 +109,13 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, model) {
+    const parts = configModel.split('.')
+    const last = parts.pop()
+
+    if (/\d+/.test(last)) {
+      configModel = parts.join('.')
+    }
+
     return getSubModel(model, configModel, dependsOn)
   },
 
@@ -115,6 +129,42 @@ export default Component.extend(PropTypeMixin, {
    */
   renderId (bunsenId, model) {
     return bunsenId ? `${bunsenId}.${model}` : model
+  },
+
+  @readOnly
+  @computed('renderId')
+  /**
+   * Get bunsen ID for array
+   * @param {String} renderId - render identifier
+   * @returns {Number} bunsen ID for array
+   */
+  arrayId (renderId) {
+    const parts = renderId.split('.')
+    parts.pop()
+    return parts.join('.')
+  },
+
+  @readOnly
+  @computed('renderId')
+  /**
+   * Detemrine if we are rendering a single array item
+   * @param {[type]} renderId - render identifier
+   * @returns {Boolean} whether or not we are rendering a single array item
+   */
+  isArrayItem (renderId) {
+    const last = renderId.split('.').pop()
+    return /\d+/.test(last)
+  },
+
+  @readOnly
+  @computed('renderId')
+  /**
+   * Get index for single array item
+   * @param {String} renderId - render identifier
+   * @returns {Number} index
+   */
+  index (renderId) {
+    return parseInt(renderId.split('.').pop(), 10)
   },
 
   @readOnly
@@ -165,14 +215,6 @@ export default Component.extend(PropTypeMixin, {
   // Functions
   // ==========================================================================
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
-
   /**
    * Get parent's model
    * @param {BunsenModel} reference - bunsen model of cell
@@ -194,5 +236,17 @@ export default Component.extend(PropTypeMixin, {
     if (!bunsenId) {
       return
     }
+  },
+
+  // ==========================================================================
+  // Events
+  // ==========================================================================
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
+
+  actions: {
+    onRemove () {}
   }
 })
