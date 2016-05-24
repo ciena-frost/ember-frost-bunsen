@@ -1,3 +1,77 @@
+# 5.14.0
+
+* **Added** ability to have view containers for specific items in an array. Below is an example:
+
+  *Model*
+  ```json
+  {
+    "properties": {
+      "people": {
+        "items": {
+          "properties": {
+            "age": {"type": "number"},
+            "name": {
+              "properties": {
+                "first": {"type": "string"},
+                "last": {"type": "string"}
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      }
+    },
+    "type": "object"
+  }
+  ```
+
+  *View*
+  ```json
+  {
+    "version": "1.0",
+    "type": "form",
+    "rootContainers": [
+      {
+        "label": "Main",
+        "container": "main"
+      }
+    ],
+    "containers": [
+      {
+        "id": "main",
+        "rows": [
+          [
+            {
+              "item": {
+                "label": "Plaintiff",
+                "container": "person"
+              },
+              "model": "people.0"
+            },
+            {
+              "item": {
+                "label": "Defendant",
+                "container": "person"
+              },
+              "model": "people.1"
+            }
+          ]
+        ]
+      },
+      {
+        "id": "person",
+        "rows": [
+          [{"model": "name.first"}],
+          [{"model": "name.last"}],
+          [{"model": "age"}]
+        ]
+      }
+    ]
+  }
+   ```
+
 # 5.13.2
 * **Fixed** select inputs from fetching when query hasn't changed.
 
