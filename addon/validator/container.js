@@ -210,9 +210,6 @@ export default createFactory({
       const last = parts.pop()
       const modelArg = (/\d+/.test(last)) ? parts.join('.') : cell.model
       const subModel = getSubModel(model, modelArg)
-      if (subModel === undefined) {
-        debugger
-      }
       results.push(
         this._validateModelCell(path, cell, subModel)
       )
