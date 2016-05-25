@@ -260,7 +260,7 @@ export default [
           rows: [
             [
               {
-                model: 'people',
+                model: 'info.people',
                 item: {
                   autoAdd: true,
                   container: 'person',
@@ -304,14 +304,14 @@ export default [
                   label: 'Plaintiff',
                   container: 'person'
                 },
-                model: 'people.0'
+                model: 'info.people.0'
               },
               {
                 item: {
                   label: 'Defendant',
                   container: 'person'
                 },
-                model: 'people.1'
+                model: 'info.people.1'
               }
             ]
           ]
@@ -322,6 +322,38 @@ export default [
             [{model: 'name.first'}],
             [{model: 'name.last'}],
             [{model: 'age'}]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    id: 'array-indexed-2',
+    label: 'Array (Indexed 2)',
+    modelIds: ['array-2'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                label: "Plaintiff's Last Name",
+                model: 'info.people.0.name.last'
+              },
+              {
+                label: "Defendant's Last Name",
+                model: 'info.people.1.name.last'
+              }
+            ]
           ]
         }
       ]
@@ -346,7 +378,7 @@ export default [
           rows: [
             [
               {
-                model: 'people',
+                model: 'info.people',
                 item: {
                   container: 'person',
                   label: 'Person',

@@ -49,21 +49,26 @@ export default [
     label: 'Array 2',
     model: {
       properties: {
-        people: {
-          items: {
-            properties: {
-              age: {type: 'number'},
-              name: {
+        info: {
+          properties: {
+            people: {
+              items: {
                 properties: {
-                  first: {type: 'string'},
-                  last: {type: 'string'}
+                  age: {type: 'number'},
+                  name: {
+                    properties: {
+                      first: {type: 'string'},
+                      last: {type: 'string'}
+                    },
+                    type: 'object'
+                  }
                 },
                 type: 'object'
-              }
-            },
-            type: 'object'
+              },
+              type: 'array'
+            }
           },
-          type: 'array'
+          type: 'object'
         }
       },
       type: 'object'

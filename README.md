@@ -17,12 +17,12 @@ ember install ember-frost-bunsen
 
 ### frost-bunsen-detail
 
-| Attribute   | Type                       | Required | Description                              |
-| ----------- | -------------------------- | -------- | ---------------------------------------- |
-| `model`     | `Ember.Object` or `object` | Yes      | Value definition                         |
-| `renderers` | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
-| `value`     | `Ember.Object` or `object` | No       | Data to render                           |
-| `view`      | `Ember.Object` or `object` | No       | View definition                          |
+| Attribute     | Type                       | Required | Description                              |
+| ------------- | -------------------------- | -------- | ---------------------------------------- |
+| `bunsenModel` | `Ember.Object` or `object` | Yes      | Value definition                         |
+| `bunsenView`  | `Ember.Object` or `object` | No       | View definition                          |
+| `renderers`   | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
+| `value`       | `Ember.Object` or `object` | No       | Data to render                           |
 
 ### frost-bunsen-form
 
@@ -30,9 +30,11 @@ ember install ember-frost-bunsen
 
 | Attribute       | Type                       | Required | Description                              |
 | --------------- | -------------------------- | -------- | ---------------------------------------- |
+| `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
+| `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
 | `cancelLabel`   | `string`                   | No       | Text for cancel button                   |
+| `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
 | `inline`        | `boolean`                  | No       | Whether or not to render form inline     |
-| `model`         | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `onCancel`      | `Function`                 | No       | Callback for when form is cancelled      |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
 | `onSubmit`      | `Function`                 | No       | Callback for when form is submitted      |
@@ -42,7 +44,6 @@ ember install ember-frost-bunsen
 | `submitLabel`   | `string`                   | No       | Text for submit button                   |
 | `validators`    | `Array<Function>`          | No       | List of custom validation functions      |
 | `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
-| `view`          | `Ember.Object` or `object` | No       | View definition                          |
 
 <!--lint enable table-pipe-alignment-->
 

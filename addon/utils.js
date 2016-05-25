@@ -89,6 +89,10 @@ export function getModelPath (reference, dependencyReference) {
   const pattern = /^[^\.](.*[^\.])?$/
   let path = pattern.test(reference) ? `properties.${reference.split('.').join('.properties.')}` : undefined
 
+  if (_.isString(path)) {
+    path = path.replace(/\.properties\.(\d+)\./g, '.items.') // Replace array index with "items"
+  }
+
   if (dependencyReference) {
     const dependencyName = dependencyReference.split('.').pop()
     const pathArr = path.split('.')

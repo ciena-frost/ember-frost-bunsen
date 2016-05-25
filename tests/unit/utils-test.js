@@ -29,6 +29,10 @@ describe('utils', () => {
       const expected = 'properties.paymentInfo.dependencies.useEft.properties.routingNumber'
       expect(utils.getModelPath('paymentInfo.routingNumber', 'paymentInfo.useEft')).to.equal(expected)
     })
+
+    it('handles properties on array items', () => {
+      expect(utils.getModelPath('foo.bar.0.baz')).to.equal('properties.foo.properties.bar.items.properties.baz')
+    })
   })
 
   describe('orch filter processing', () => {

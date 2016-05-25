@@ -1,4 +1,4 @@
-# 6.0.0
+# 6.0.0 (May 24, 2016)
 
 ## Breaking
 
@@ -8,7 +8,7 @@
 
 * **Renamed** `view` property to `bunsenView`.
 
-* **Upgraded** `ember-prop-types` to version `2.0.0`. 
+* **Upgraded** `ember-prop-types` to version `2.0.0`.
 
   > `oneOf` changed to `oneOfType` to better align with the React `propTypes` API.
 
