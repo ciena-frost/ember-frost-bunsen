@@ -1,3 +1,14 @@
+# 6.0.1
+
+* **Fixed** API reference in `README`.
+* **Fixed** bug when trying to create view cells for properties off of array items such as:
+
+   ```json
+  {
+    "model": "foo.bar.0.baz"
+  }
+   ```
+
 # 6.0.0 (May 24, 2016)
 
 ## Breaking
