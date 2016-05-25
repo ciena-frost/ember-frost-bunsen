@@ -16,15 +16,15 @@
         {{#sortable-item group=group handle=".handle" model=item}}
           {{frost-bunsen-array-inline-item
             bunsenId=bunsenId
+            bunsenModel=bunsenModel
+            bunsenStore=bunsenStore
             cellConfig=cellConfig
             errors=errors
             index=index
-            model=model
             onChange=(action "onChange")
             onRemove=(action "onRemoveItem")
             readOnly=readOnly
             sortable=true
-            store=store
             value=value
           }}
         {{/sortable-item}}
@@ -34,15 +34,15 @@
     {{#each items as |item index|}}
       {{frost-bunsen-array-inline-item
         bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
         cellConfig=cellConfig
         errors=errors
         index=index
-        model=model
         onChange=(action "onChange")
         onRemove=(action "onRemoveItem")
         readOnly=readOnly
         sortable=false
-        store=store
         value=value
       }}
     {{/each}}
@@ -56,11 +56,11 @@
   <ul class="nav nav-tabs">
     {{#each items as |item index|}}
       {{frost-bunsen-array-tab-nav
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
         cellConfig=cellConfig
         index=index
-        model=model
         onRemove=(action "onRemoveItem")
-        store=store
       }}
     {{/each}}
     <li role="presentation">
@@ -79,13 +79,13 @@
     {{#each items as |item index|}}
       {{frost-bunsen-array-tab-content
         bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
         cellConfig=cellConfig
         errors=errors
         index=index
-        model=model
         onChange=(action "onChange")
         readOnly=readOnly
-        store=store
         value=value
       }}
     {{/each}}

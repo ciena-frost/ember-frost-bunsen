@@ -83,7 +83,7 @@ function generateView (cellConfig) {
   }
 }
 
-const model = {
+const bunsenModel = {
   items: {
     properties: {
       age: {type: 'number'},
@@ -105,13 +105,13 @@ describeComponent(
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
       errors: PropTypes.object.isRequired,
-      model: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
       value: PropTypes.object.isRequired
     })
 
@@ -125,15 +125,15 @@ describeComponent(
 
       component = this.subject({
         bunsenId: 'people',
-        cellConfig: Ember.Object.create(cellConfig),
-        errors: {},
-        model,
-        onChange: onChangeSpy,
-        store: Ember.Object.create({
+        bunsenModel,
+        bunsenStore: Ember.Object.create({
           formValue: {},
           renderers: {},
           view: generateView(cellConfig)
         }),
+        cellConfig: Ember.Object.create(cellConfig),
+        errors: {},
+        onChange: onChangeSpy,
         value: null
       })
     })
@@ -215,12 +215,12 @@ describeComponent(
         const cellConfig = generateCellConfig(true)
 
         setPropsAndAttrs(component, {
-          cellConfig: Ember.Object.create(cellConfig),
-          store: Ember.Object.create({
+          bunsenStore: Ember.Object.create({
             formValue: {},
             renderers: {},
             view: generateView(cellConfig)
-          })
+          }),
+          cellConfig: Ember.Object.create(cellConfig)
         })
       })
 
@@ -247,12 +247,12 @@ describeComponent(
           const cellConfig = generateCellConfig(false)
 
           setPropsAndAttrs(component, {
-            cellConfig: Ember.Object.create(cellConfig),
-            store: Ember.Object.create({
+            bunsenStore: Ember.Object.create({
               formValue: {},
               renderers: {},
               view: generateView(cellConfig)
-            })
+            }),
+            cellConfig: Ember.Object.create(cellConfig)
           })
         })
 
@@ -328,7 +328,7 @@ describeComponent(
                 bunsenId = 'people.0.age'
                 const item = {age: 42}
                 component.get('items').pushObject(item)
-                component.set('store.formValue.people', [item])
+                component.set('bunsenStore.formValue.people', [item])
                 component.actions.onChange.call(component, bunsenId, value)
               })
 
@@ -350,7 +350,7 @@ describeComponent(
                   name: {first: 'John'}
                 }
                 component.get('items').pushObject(item)
-                component.set('store.formValue.people', [item])
+                component.set('bunsenStore.formValue.people', [item])
                 component.actions.onChange.call(component, bunsenId, value)
               })
 
@@ -379,7 +379,7 @@ describeComponent(
 
                 component.set('onChange', onChangeSpy)
                 component.get('items').pushObject(item)
-                component.set('store.formValue.people', [item])
+                component.set('bunsenStore.formValue.people', [item])
                 component.actions.onChange.call(component, bunsenId, value)
               })
 
@@ -413,7 +413,7 @@ describeComponent(
 
                 component.set('onChange', onChangeSpy)
                 component.get('items').pushObject(item)
-                component.set('store.formValue.people', [item])
+                component.set('bunsenStore.formValue.people', [item])
                 component.actions.onChange.call(component, bunsenId, value)
               })
 
@@ -447,7 +447,7 @@ describeComponent(
 
                 component.set('onChange', onChangeSpy)
                 component.get('items').pushObject(item)
-                component.set('store.formValue.people', [item])
+                component.set('bunsenStore.formValue.people', [item])
                 component.actions.onChange.call(component, bunsenId, value)
               })
 
@@ -550,7 +550,7 @@ describeComponent(
 
           const items = [jane, john]
 
-          component.set('store.formValue.people', items)
+          component.set('bunsenStore.formValue.people', items)
           component.set('items', items)
           component.actions.onReorderItems.call(component, [john, jane])
         })

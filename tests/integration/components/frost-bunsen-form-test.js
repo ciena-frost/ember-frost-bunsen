@@ -5,7 +5,7 @@ import validModel from '../../fixtures/valid-model'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
-  model: {}
+  bunsenModel: {}
 }
 
 function tests (ctx) {
@@ -13,9 +13,9 @@ function tests (ctx) {
     expect(ctx.rootNode).to.have.class('frost-bunsen-form')
   })
 
-  describe('when model is invalid', function () {
+  describe('when bunsenModel is invalid', function () {
     beforeEach(function () {
-      this.set('model', {
+      this.set('bunsenModel', {
         badKey: 'I break things'
       })
     })
@@ -29,9 +29,9 @@ function tests (ctx) {
     })
   })
 
-  describe('when model is valid', function () {
+  describe('when bunsenModel is valid', function () {
     beforeEach(function () {
-      this.set('model', validModel)
+      this.set('bunsenModel', validModel)
     })
 
     it('does not render frost-bunsen-validation-result', function () {

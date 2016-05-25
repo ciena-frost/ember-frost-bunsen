@@ -1,7 +1,7 @@
 export function disabledTests (ctx) {
-  describe('when store.disabled is true', function () {
+  describe('when bunsenStore.disabled is true', function () {
     beforeEach(function () {
-      ctx.component.set('store.disabled', true)
+      ctx.component.set('bunsenStore.disabled', true)
     })
 
     describe('when cellConfig.disabled is true', function () {
@@ -25,9 +25,9 @@ export function disabledTests (ctx) {
     })
   })
 
-  describe('when store.disabled is false', function () {
+  describe('when bunsenStore.disabled is false', function () {
     beforeEach(function () {
-      ctx.component.set('store.disabled', false)
+      ctx.component.set('bunsenStore.disabled', false)
     })
 
     describe('when cellConfig.disabled is true', function () {
@@ -61,9 +61,9 @@ export function renderErrorMessageTests (ctx) {
       ctx.component.set('errorMessage', errorMessage)
     })
 
-    describe('when store.showAllErrors is true', function () {
+    describe('when bunsenStore.showAllErrors is true', function () {
       beforeEach(function () {
-        ctx.component.set('store.showAllErrors', true)
+        ctx.component.set('bunsenStore.showAllErrors', true)
       })
 
       it('returns error messages when showErrorMessage is true', function () {
@@ -77,9 +77,9 @@ export function renderErrorMessageTests (ctx) {
       })
     })
 
-    describe('when store.showAllErrors is false', function () {
+    describe('when bunsenStore.showAllErrors is false', function () {
       beforeEach(function () {
-        ctx.component.set('store.showAllErrors', false)
+        ctx.component.set('bunsenStore.showAllErrors', false)
       })
 
       it('returns error messages when showErrorMessage is true', function () {

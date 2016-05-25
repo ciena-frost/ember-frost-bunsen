@@ -101,23 +101,23 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       stubDbService(this)
       props = {
         bunsenId: 'enabled',
-        cellConfig: Ember.Object.create({}),
-        model: {},
-        onChange () {},
-        store: Ember.Object.create({
+        bunsenModel: {},
+        bunsenStore: Ember.Object.create({
           formValue
         }),
+        cellConfig: Ember.Object.create({}),
+        onChange () {},
         state: Ember.Object.create(),
         dbStore: this.get('dbStore')
       }
     })
 
-    describe('when store.disabled is true', function () {
+    describe('when bunsenStore.disabled is true', function () {
       let rootNode
 
       beforeEach(function () {
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-        this.set('store.disabled', true)
+        this.set('bunsenStore.disabled', true)
       })
 
       it('disables input', function () {
@@ -126,12 +126,12 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    describe('when store.disabled is false', function () {
+    describe('when bunsenStore.disabled is false', function () {
       let rootNode
 
       beforeEach(function () {
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-        this.set('store.disabled', false)
+        this.set('bunsenStore.disabled', false)
       })
 
       it('disables input', function () {
@@ -146,9 +146,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('has correct enum of values', function () {
-      props.model.enum = ['foo', 'bar', 'fitz', 'batz']
+      props.bunsenModel.enum = ['foo', 'bar', 'fitz', 'batz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-      _.forEach(props.model.enum, (value) => {
+      _.forEach(props.bunsenModel.enum, (value) => {
         const isPresent = $(rootNode).text().indexOf(value) !== -1
         expect(isPresent).to.eql(true)
       })
@@ -156,7 +156,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     describe('when query dependency is met', function () {
       beforeEach(function () {
-        props.model = {
+        props.bunsenModel = {
           modelType: 'resource',
           labelAttribute: 'label',
           valueAttribute: 'id',
@@ -181,7 +181,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     describe('when query dependency for value is not met', function () {
       beforeEach(function () {
-        props.model = {
+        props.bunsenModel = {
           modelType: 'resource',
           labelAttribute: 'label',
           valueAttribute: 'id',
@@ -190,7 +190,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             q: 'domainId:${domainId}'
           }
         }
-        props.store = Ember.Object.create({
+        props.bunsenStore = Ember.Object.create({
           formValue: {
             domainId: '',
             foo: {
@@ -214,7 +214,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     describe('when query dependency for key is not met', function () {
       beforeEach(function () {
-        props.model = {
+        props.bunsenModel = {
           modelType: 'resource',
           labelAttribute: 'label',
           valueAttribute: 'id',
@@ -222,7 +222,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             q: '${domainType}:${domainId}'
           }
         }
-        props.store = Ember.Object.create({
+        props.bunsenStore = Ember.Object.create({
           formValue: {
             domainId: 12345
           }
@@ -240,7 +240,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('filters locally for enum-based lists', function () {
-      props.model.enum = ['foo', 'bar', 'fitz', 'batz']
+      props.bunsenModel.enum = ['foo', 'bar', 'fitz', 'batz']
       const expected = ['foo', 'fitz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('f').trigger('input')
@@ -249,7 +249,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('filters asynchronously for query.p-based lists', function () {
-      props.model = {
+      props.bunsenModel = {
         modelType: 'resource',
         labelAttribute: 'label',
         valueAttribute: 'id',

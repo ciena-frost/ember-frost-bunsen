@@ -10,10 +10,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
   beforeEach(function () {
     const props = {
       bunsenId: 'enabled',
+      bunsenModel: {},
+      bunsenStore: Ember.Object.create({}),
       cellConfig: Ember.Object.create({}),
-      model: {},
       onChange () {},
-      store: Ember.Object.create({}),
       value: true
     }
 
@@ -24,9 +24,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
     expect(rootNode).to.have.class('frost-bunsen-input-boolean')
   })
 
-  describe('when store.disabled is true', function () {
+  describe('when bunsenStore.disabled is true', function () {
     beforeEach(function () {
-      this.set('store.disabled', true)
+      this.set('bunsenStore.disabled', true)
     })
 
     it('disables input', function () {
@@ -35,9 +35,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-boolean'), funct
     })
   })
 
-  describe('when store.disabled is false', function () {
+  describe('when bunsenStore.disabled is false', function () {
     beforeEach(function () {
-      this.set('store.disabled', false)
+      this.set('bunsenStore.disabled', false)
     })
 
     it('disables input', function () {

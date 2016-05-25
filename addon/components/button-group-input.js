@@ -30,7 +30,7 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('model.{enum,type}', 'value')
+  @computed('bunsenModel.{enum,type}', 'value')
   activeIndex (values, type, activeValue) {
     if (type === 'boolean') {
       return [true, false].indexOf(activeValue)
@@ -40,7 +40,7 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('model.{enum,type}')
+  @computed('bunsenModel.{enum,type}')
   options (values, type) {
     switch (type) {
       case 'boolean':
@@ -75,8 +75,8 @@ export default AbstractInput.extend({
    * @returns {Boolean|Number|String} selected value
    */
   parseValue (selectedIndex) {
-    const type = this.get('model.type')
-    const values = this.get('model.enum')
+    const type = this.get('bunsenModel.type')
+    const values = this.get('bunsenModel.enum')
 
     if (type === 'boolean') {
       return selectedIndex === 0

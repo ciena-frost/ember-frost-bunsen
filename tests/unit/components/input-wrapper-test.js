@@ -11,12 +11,12 @@ describeComponent(
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject,
-      model: PropTypes.object,
       onChange: PropTypes.func,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
       value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,

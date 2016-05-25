@@ -2,65 +2,65 @@
   {{#if isSubModelObject}}
     {{frost-bunsen-model-container
       bunsenId=renderId
+      bunsenModel=subModel
+      bunsenStore=bunsenStore
       cellConfig=config
       errors=errors
-      model=subModel
       onChange=onChange
       readOnly=readOnly
       required=required
-      store=store
       value=value
     }}
   {{else if isSubModelArray}}
     {{#if isArrayItem}}
       {{frost-bunsen-array-inline-item
         bunsenId=nonIndexId
+        bunsenModel=subModel
+        bunsenStore=bunsenStore
         cellConfig=config
         errors=errors
         index=index
-        model=subModel
         onChange=onChange
         readOnly=readOnly
         showRemoveButton=false
         sortable=false
-        store=store
         value=value
       }}
     {{else}}
       {{frost-bunsen-array-container
         bunsenId=renderId
+        bunsenModel=subModel
+        bunsenStore=bunsenStore
         cellConfig=config
         errors=errors
-        model=subModel
         onChange=onChange
         readOnly=readOnly
         required=required
-        store=store
         value=value
       }}
     {{/if}}
   {{else}}
     {{frost-bunsen-input-wrapper
       bunsenId=renderId
+      bunsenModel=subModel
+      bunsenStore=bunsenStore
       cellConfig=config
       errorMessage=errorMessage
-      model=subModel
       onChange=onChange
       readOnly=readOnly
       required=required
-      store=store
-      value=renderValue
       isDependencyMet=isDependencyMet
+      value=renderValue
     }}
   {{/if}}
 {{else if config.container}}
   {{frost-bunsen-container
+    bunsenModel=bunsenModel
+    bunsenStore=bunsenStore
     cellConfig=config
     errors=errors
-    model=model
     onChange=onChange
     readOnly=readOnly
-    store=store
     value=value
   }}
 {{/if}}

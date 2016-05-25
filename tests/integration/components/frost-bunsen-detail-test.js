@@ -9,7 +9,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   beforeEach(function () {
     let props = {
-      model: {
+      bunsenModel: {
         type: 'object',
         properties: {
           firstName: {
@@ -36,9 +36,9 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     this.setProperties(props)
 
     this.render(hbs`{{frost-bunsen-detail
-    model=model
-    value=value
-    view=bunsenView
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      value=value
     }}`)
 
     rootNode = this.$('> *')
@@ -79,8 +79,8 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     expect(alias).to.equal(newValue.alias)
   })
 
-  it('displays an error message if the model is not valid', function () {
-    this.set('model', {type: 'invalid'})
+  it('displays an error message if the bunsenModel is not valid', function () {
+    this.set('bunsenModel', {type: 'invalid'})
     const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
     expect(errorMessage).to.equal('There seems to be something wrong with your schema')
   })

@@ -18,11 +18,7 @@ describeComponent(
 
       component = this.subject({
         bunsenId: 'foo',
-        config: {
-          model: 'bar.baz'
-        },
-        errors: {},
-        model: {
+        bunsenModel: {
           properties: {
             foo: {
               properties: {
@@ -38,12 +34,16 @@ describeComponent(
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {},
           renderers: builtInRenderers,
           view: {}
         }),
+        config: {
+          model: 'bar.baz'
+        },
+        errors: {},
+        onChange: onChangeSpy,
         value: {}
       })
     })

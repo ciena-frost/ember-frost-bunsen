@@ -52,14 +52,14 @@ describeComponent(...integrationTestContext('frost-bunsen-input-text'), function
   beforeEach(function () {
     const props = {
       bunsenId: 'name',
-      cellConfig: Ember.Object.create(cellConfig),
-      model: {
+      bunsenModel: {
         type: 'string'
       },
-      onChange () {},
-      store: Ember.Object.create({
+      bunsenStore: Ember.Object.create({
         view
       }),
+      cellConfig: Ember.Object.create(cellConfig),
+      onChange () {},
       state: Ember.Object.create({}),
       value: undefined // Must be present so we can set it via this.set('value', value)
     }
@@ -67,9 +67,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-text'), function
     rootNode = renderWithProps(this, 'frost-bunsen-input-text', props)
   })
 
-  describe('when store.disabled is true', function () {
+  describe('when bunsenStore.disabled is true', function () {
     beforeEach(function () {
-      this.set('store.disabled', true)
+      this.set('bunsenStore.disabled', true)
     })
 
     it('disables input', function () {
@@ -78,9 +78,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-text'), function
     })
   })
 
-  describe('when store.disabled is false', function () {
+  describe('when bunsenStore.disabled is false', function () {
     beforeEach(function () {
-      this.set('store.disabled', false)
+      this.set('bunsenStore.disabled', false)
     })
 
     it('disables input', function () {

@@ -46,15 +46,15 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
   beforeEach(function () {
     const props = {
       bunsenId: 'name',
-      cellConfig: Ember.Object.create(cellConfig),
-      model: {
+      bunsenModel: {
         enum: ['Adam', 'Chris', 'Matt', 'Niko', 'Sophy'],
         type: 'string'
       },
-      onChange () {},
-      store: Ember.Object.create({
+      bunsenStore: Ember.Object.create({
         view
       }),
+      cellConfig: Ember.Object.create(cellConfig),
+      onChange () {},
       state: Ember.Object.create({}),
       value: undefined // Must be present so we can set it via this.set('value', value)
     }

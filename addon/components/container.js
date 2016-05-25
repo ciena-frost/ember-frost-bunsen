@@ -18,12 +18,12 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string,
+    bunsenModel: PropTypes.object.isRequired,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },
 
@@ -38,7 +38,7 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.container', 'store.view.containers')
+  @computed('cellConfig.container', 'bunsenStore.view.containers')
   /**
    * Get definition for current container
    * @param {String} containerId - ID of current container
@@ -56,14 +56,14 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('model')
+  @computed('bunsenModel')
   /**
    * Determine whether or not container contains required inputs
-   * @param {BunsenModel} model - bunsen model for form
+   * @param {BunsenModel} bunsenModel - bunsen model for form
    * @returns {Boolean} whether or not container contains required inputs
    */
-  isRequired (model) {
-    return doesModelContainRequiredField(model)
+  isRequired (bunsenModel) {
+    return doesModelContainRequiredField(bunsenModel)
   }
 
   // ==========================================================================

@@ -20,13 +20,13 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
+    bunsenModel: PropTypes.object.isRequired,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },
 
@@ -47,7 +47,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.container', 'store.view.containers')
+  @computed('cellConfig.item.container', 'bunsenStore.view.containers')
   /**
    * Get definition for current container
    * @param {String} containerId - ID of current container
@@ -86,16 +86,16 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.label', 'model')
+  @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
   /**
    * Get label for container
-   * @param {String} bunsenId - bunsen ID for array (represents path in model)
+   * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
    * @param {String} label - label
-   * @param {BunsenModel} model - bunsen model
+   * @param {BunsenModel} bunsenModel - bunsen model
    * @returns {String} label
    */
-  renderLabel (bunsenId, label, model) {
-    return getLabel(label, model, bunsenId)
+  renderLabel (bunsenId, label, bunsenModel) {
+    return getLabel(label, bunsenModel, bunsenId)
   },
 
   @readOnly
@@ -214,7 +214,7 @@ export default Component.extend(PropTypeMixin, {
      * Add an empty item then focus on it after it's been rendererd
      */
     onAddItem () {
-      const newItem = this.get('model').items.type === 'object' ? {} : ''
+      const newItem = this.get('bunsenModel').items.type === 'object' ? {} : ''
       const items = this.get('items')
       const index = items.length
 
@@ -232,7 +232,7 @@ export default Component.extend(PropTypeMixin, {
         const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
         const itemIndex = parseInt(itemPathBits.splice(0, 1)[0])
         const itemPath = `${arrayPath}.${itemIndex}`
-        const item = this.get(`store.formValue.${itemPath}`)
+        const item = this.get(`bunsenStore.formValue.${itemPath}`)
         const itemCopy = _.cloneDeep(item)
 
         let key = itemPathBits.pop()

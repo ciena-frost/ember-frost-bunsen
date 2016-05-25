@@ -5,16 +5,16 @@ import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenId: 'age',
+  bunsenModel: {},
+  bunsenStore: Ember.Object.create({}),
   cellConfig: Ember.Object.create({}),
-  model: {},
-  onChange () {},
-  store: Ember.Object.create({})
+  onChange () {}
 }
 
 function tests (ctx) {
-  describe('when store.disabled is true', function () {
+  describe('when bunsenStore.disabled is true', function () {
     beforeEach(function () {
-      this.set('store.disabled', true)
+      this.set('bunsenStore.disabled', true)
     })
 
     it('disables input', function () {
@@ -23,9 +23,9 @@ function tests (ctx) {
     })
   })
 
-  describe('when store.disabled is false', function () {
+  describe('when bunsenStore.disabled is false', function () {
     beforeEach(function () {
-      this.set('store.disabled', false)
+      this.set('bunsenStore.disabled', false)
     })
 
     it('disables input', function () {

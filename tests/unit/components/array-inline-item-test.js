@@ -14,16 +14,16 @@ describeComponent(
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
       errors: PropTypes.object.isRequired,
       index: PropTypes.number.isRequired,
-      model: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       onRemove: PropTypes.func,
       readOny: PropTypes.bool,
       showRemoveButton: PropTypes.bool,
       sortable: PropTypes.bool.isRequired,
-      store: PropTypes.EmberObject.isRequired,
       value: PropTypes.object.isRequired
     })
 
@@ -36,12 +36,7 @@ describeComponent(
 
       component = this.subject({
         bunsenId: 'foo',
-        cellConfig: Ember.Object.create({
-          item: {}
-        }),
-        errors: {},
-        index: 0,
-        model: {
+        bunsenModel: {
           properties: {
             foo: {
               item: {
@@ -55,15 +50,20 @@ describeComponent(
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        onRemove: onRemoveSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {
             foo: [{}]
           },
           renderers: builtInRenderers,
           view: {}
         }),
+        cellConfig: Ember.Object.create({
+          item: {}
+        }),
+        errors: {},
+        index: 0,
+        onChange: onChangeSpy,
+        onRemove: onRemoveSpy,
         value: {foo: []}
       })
     })

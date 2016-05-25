@@ -10,11 +10,11 @@ describeComponent(
   },
   function () {
     validatePropTypes({
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
       index: PropTypes.number.isRequired,
-      model: PropTypes.object.isRequired,
-      onRemove: PropTypes.func.isRequired,
-      store: PropTypes.EmberObject.isRequired
+      onRemove: PropTypes.func.isRequired
     })
   }
 )

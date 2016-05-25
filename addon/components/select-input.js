@@ -35,13 +35,13 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('bunsenId', 'cellConfig', 'model', 'store.{disabled,formValue}')
-  disabled (bunsenId, cellConfig, model, formDisabled, value) {
-    if (formDisabled || cellConfig.disabled || !model) {
+  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'bunsenStore.{disabled,formValue}')
+  disabled (bunsenId, cellConfig, bunsenModel, formDisabled, value) {
+    if (formDisabled || cellConfig.disabled || !bunsenModel) {
       return true
     }
 
-    return !utils.hasValidQueryValues(value, model.query, bunsenId)
+    return !utils.hasValidQueryValues(value, bunsenModel.query, bunsenId)
   },
 
   // ==========================================================================
@@ -50,12 +50,12 @@ export default AbstractInput.extend({
 
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
-    const modelDef = this.get('model')
+    const modelDef = this.get('bunsenModel')
     if (!modelDef) {
       return
     }
     const dbStore = this.get('dbStore')
-    const value = this.get('store.formValue')
+    const value = this.get('bunsenStore.formValue')
     const bunsenId = this.get('bunsenId')
 
     if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query) &&
@@ -82,8 +82,8 @@ export default AbstractInput.extend({
     }
 
     const bunsenId = this.get('bunsenId')
-    const value = _.get(newAttrs, 'store.value.formValue')
-    const oldValue = _.get(oldAttrs, 'store.value.formValue')
+    const value = _.get(newAttrs, 'bunsenStore.value.formValue')
+    const oldValue = _.get(oldAttrs, 'bunsenStore.value.formValue')
 
     let oldQuery
     let query
@@ -151,10 +151,10 @@ export default AbstractInput.extend({
      * @param  {String} filter the filter text
      */
     onInput (filter) {
-      const modelDef = this.get('model')
+      const modelDef = this.get('bunsenModel')
       const bunsenId = this.get('bunsenId')
       const dbStore = this.get('dbStore')
-      const value = this.get('store.formValue')
+      const value = this.get('bunsenStore.formValue')
       listUtils.getOptions(value, modelDef, bunsenId, dbStore, filter).then((opts) => {
         this.set('options', opts)
       })

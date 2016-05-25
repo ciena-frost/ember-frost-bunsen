@@ -4,10 +4,10 @@ import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenId: 'user',
+  bunsenModel: {},
+  bunsenStore: Ember.Object.create({}),
   cellConfig: Ember.Object.create({}),
-  model: {},
-  onChange () {},
-  store: Ember.Object.create({})
+  onChange () {}
 }
 
 function tests (ctx) {

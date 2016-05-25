@@ -13,13 +13,17 @@ describeComponent(
   },
   function () {
     validatePropTypes({
-      cancelLabel: PropTypes.string,
-      disabled: PropTypes.bool,
-      inline: PropTypes.bool,
-      model: PropTypes.oneOfType([
+      bunsenModel: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
+      bunsenView: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
+      cancelLabel: PropTypes.string,
+      disabled: PropTypes.bool,
+      inline: PropTypes.bool,
       onCancel: PropTypes.func,
       onChange: PropTypes.func,
       onSubmit: PropTypes.func,
@@ -35,10 +39,6 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.null,
         PropTypes.object
-      ]),
-      view: PropTypes.oneOfType([
-        PropTypes.EmberObject,
-        PropTypes.object
       ])
     })
 
@@ -49,7 +49,7 @@ describeComponent(
       onChangeSpy = sandbox.spy()
       onValidationSpy = sandbox.spy()
       component = this.subject({
-        model: {
+        bunsenModel: {
           properties: {
             bar: {type: 'string'},
             baz: {type: 'number'},
@@ -70,7 +70,7 @@ describeComponent(
     describe('containerTabs', function () {
       describe('when one root container', function () {
         beforeEach(function () {
-          component.set('view', {
+          component.set('bunsenView', {
             containers: [{
               id: 'main',
               rows: [
@@ -95,7 +95,7 @@ describeComponent(
 
       describe('when multiple root containers', function () {
         beforeEach(function () {
-          component.set('view', {
+          component.set('bunsenView', {
             containers: [
               {
                 id: 'one',
@@ -174,9 +174,9 @@ describeComponent(
         ])
       })
 
-      it('store gets expected formValue', function () {
-        const store = component.get('store')
-        expect(store.formValue).to.eql({
+      it('bunsenStore gets expected formValue', function () {
+        const bunsenStore = component.get('bunsenStore')
+        expect(bunsenStore.formValue).to.eql({
           bar: 'test'
         })
       })
@@ -228,9 +228,9 @@ describeComponent(
         ])
       })
 
-      it('store gets expected formValue', function () {
-        const store = component.get('store')
-        expect(store.formValue).to.eql({
+      it('bunsenStore gets expected formValue', function () {
+        const bunsenStore = component.get('bunsenStore')
+        expect(bunsenStore.formValue).to.eql({
           baz: 42
         })
       })
@@ -282,9 +282,9 @@ describeComponent(
         ])
       })
 
-      it('store gets expected formValue', function () {
-        const store = component.get('store')
-        expect(store.formValue).to.eql({
+      it('bunsenStore gets expected formValue', function () {
+        const bunsenStore = component.get('bunsenStore')
+        expect(bunsenStore.formValue).to.eql({
           foo: 'test'
         })
       })
@@ -305,70 +305,70 @@ describeComponent(
     })
 
     describe('when disabled is true', function () {
-      let store
+      let bunsenStore
 
       beforeEach(function () {
         component.set('disabled', true)
-        store = component.get('store')
+        bunsenStore = component.get('bunsenStore')
       })
 
-      it('store has disabled value', function () {
-        expect(store.disabled).to.be.true
+      it('bunsenStore has disabled value', function () {
+        expect(bunsenStore.disabled).to.be.true
       })
     })
 
     describe('when disabled is false', function () {
-      let store
+      let bunsenStore
 
       beforeEach(function () {
         component.set('disabled', false)
-        store = component.get('store')
+        bunsenStore = component.get('bunsenStore')
       })
 
-      it('store has disabled value', function () {
-        expect(store.disabled).to.be.false
+      it('bunsenStore has disabled value', function () {
+        expect(bunsenStore.disabled).to.be.false
       })
     })
 
     describe('when showAllErrors is true', function () {
-      let store
+      let bunsenStore
 
       beforeEach(function () {
         component.set('showAllErrors', true)
-        store = component.get('store')
+        bunsenStore = component.get('bunsenStore')
       })
 
-      it('store has showAllErrors value', function () {
-        expect(store.showAllErrors).to.be.true
+      it('bunsenStore has showAllErrors value', function () {
+        expect(bunsenStore.showAllErrors).to.be.true
       })
     })
 
     describe('when showAllErrors is false', function () {
-      let store
+      let bunsenStore
 
       beforeEach(function () {
         component.set('showAllErrors', false)
-        store = component.get('store')
+        bunsenStore = component.get('bunsenStore')
       })
 
-      it('store has showAllErrors value', function () {
-        expect(store.showAllErrors).to.be.false
+      it('bunsenStore has showAllErrors value', function () {
+        expect(bunsenStore.showAllErrors).to.be.false
       })
     })
 
-    describe('store', function () {
-      let store
+    describe('bunsenStore', function () {
+      let bunsenStore
 
       beforeEach(function () {
-        store = component.get('store')
+        bunsenStore = component.get('bunsenStore')
       })
 
       it('has expected formValue', function () {
-        expect(store.formValue).to.eql({})
+        expect(bunsenStore.formValue).to.eql({})
       })
 
       it('has expected renderers', function () {
-        expect(store.renderers).to.eql({
+        expect(bunsenStore.renderers).to.eql({
           boolean: 'frost-bunsen-input-boolean',
           'button-group': 'frost-bunsen-input-button-group',
           'multi-select': 'frost-bunsen-input-multi-select',

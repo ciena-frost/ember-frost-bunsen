@@ -4,7 +4,7 @@ import {describe} from 'mocha'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
-  model: {
+  bunsenModel: {
     properties: {
       bar: {type: 'number'},
       baz: {type: 'boolean'},
@@ -12,7 +12,7 @@ const props = {
     },
     type: 'object'
   },
-  view: {
+  bunsenView: {
     containers: [
       {
         id: 'main',

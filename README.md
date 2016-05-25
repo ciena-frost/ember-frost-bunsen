@@ -61,8 +61,8 @@ ember install ember-frost-bunsen
 ```handlebars
 {{
   frost-bunsen-form
-  model=model
-  view=view
+  bunsenModel=model
+  bunsenView=view
 }}
 ```
 
@@ -71,9 +71,9 @@ ember install ember-frost-bunsen
 ```handlebars
 {{
   frost-bunsen-detail
-  model=model
+  bunsenModel=model
+  bunsenView=view
   value=value
-  view=view
 }}
 ```
 
@@ -387,9 +387,9 @@ When invoking Bunsen, specify the `onValidation` and `validators` options:
 ```handlebars
 {{
   frost-bunsen-form
-  model=model
+  bunsenModel=model
+  bunsenView=view
   onValidation=(action 'onValidation')
-  view=view
   validators=validators
 }}
 ```

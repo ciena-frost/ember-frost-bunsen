@@ -11,10 +11,14 @@ describeComponent(
   },
   function () {
     validatePropTypes({
-      model: PropTypes.oneOfType([
+      bunsenModel: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
+      bunsenView: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
@@ -23,10 +27,6 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.null,
         PropTypes.object
-      ]),
-      view: PropTypes.oneOfType([
-        PropTypes.EmberObject,
-        PropTypes.object
       ])
     })
 
@@ -34,7 +34,7 @@ describeComponent(
 
     beforeEach(function () {
       component = this.subject({
-        model: {
+        bunsenModel: {
           properties: {
             bar: {type: 'string'},
             baz: {type: 'number'},

@@ -14,14 +14,14 @@ const renderers = Ember.assign({
 }, builtInRenderers)
 
 const props = {
-  config: Ember.Object.create({}),
-  model,
-  onChange () {},
-  store: recursiveObjectCreate({
+  bunsenModel: model,
+  bunsenStore: recursiveObjectCreate({
     renderers,
     value: {},
     view
   }),
+  config: Ember.Object.create({}),
+  onChange () {},
   value: {}
 }
 

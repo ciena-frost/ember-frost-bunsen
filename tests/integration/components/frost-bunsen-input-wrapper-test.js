@@ -7,14 +7,14 @@ import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 function makeProps (props) {
   return _.merge({
     bunsenId: 'bunsen-test-id',
+    bunsenModel: {type: 'string'},
+    bunsenStore: Ember.Object.create({
+      renderers: builtInRenderers
+    }),
     cellConfig: Ember.Object.create({}),
-    model: {type: 'string'},
     onChange () {},
     readOnly: false,
-    required: false,
-    store: Ember.Object.create({
-      renderers: builtInRenderers
-    })
+    required: false
   }, props)
 }
 
@@ -27,7 +27,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), funct
     expect(this.$()).to.have.length(1)
   })
 
-  it('supports string model type', function () {
+  it('supports string bunsenModel type', function () {
     const props = makeProps()
 
     renderWithProps(this, 'frost-bunsen-input-wrapper', props)
@@ -35,9 +35,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), funct
     expect(this.$()).to.have.length(1)
   })
 
-  it('supports number model type', function () {
+  it('supports number bunsenModel type', function () {
     const props = makeProps({
-      model: {
+      bunsenModel: {
         type: 'number'
       }
     })
@@ -47,9 +47,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), funct
     expect(this.$()).to.have.length(1)
   })
 
-  it('supports boolean model type', function () {
+  it('supports boolean bunsenModel type', function () {
     const props = makeProps({
-      model: {
+      bunsenModel: {
         type: 'boolean'
       }
     })
@@ -59,15 +59,15 @@ describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), funct
     expect(this.$()).to.have.length(1)
   })
 
-  it('does not render if the model is not defined', function () {
+  it('does not render if the bunsenModel is not defined', function () {
     const props = makeProps()
-    delete props.model
+    delete props.bunsenModel
     renderWithProps(this, 'frost-bunsen-input-wrapper', props)
     expect(this.$('.frost-bunsen-input-wrapper').children()).to.have.length(0)
   })
-  it('throws an error if the model does not have an expected type (string, number, or boolean)', function () {
+  it('throws an error if the bunsenModel does not have an expected type (string, number, or boolean)', function () {
     const props = makeProps({
-      model: {
+      bunsenModel: {
         type: 'unsupported'
       }
     })

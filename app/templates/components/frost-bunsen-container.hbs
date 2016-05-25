@@ -10,13 +10,13 @@
       {{#each config.rows as |row index|}}
         {{frost-bunsen-row
           bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
           cellConfigs=row
           defaultClassName=config.defaultClassName
           errors=errors
-          model=model
           onChange=onChange
           readOnly=readOnly
-          store=store
           value=value
         }}
       {{/each}}
@@ -27,13 +27,13 @@
     {{#each config.rows as |row index|}}
       {{frost-bunsen-row
         bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
         cellConfigs=row
         errors=errors
         defaultClassName=config.defaultClassName
-        model=model
         onChange=onChange
         readOnly=readOnly
-        store=store
         value=value
       }}
     {{/each}}

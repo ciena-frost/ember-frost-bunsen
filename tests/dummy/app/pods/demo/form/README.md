@@ -1,5 +1,13 @@
 #### Properties
 
+##### **[required]** `bunsenModel` : *Ember.Object or object*
+
+Model definition
+
+##### `bunsenView` : *Ember.Object or Object*
+
+View definition
+
 ##### `cancelLabel` : *string*
 
 Text for cancel button
@@ -7,10 +15,6 @@ Text for cancel button
 ##### `inline` : *boolean*
 
 Whether or not to render form inline
-
-##### **[required]** `model` : *Ember.Object or object*
-
-Value definition
 
 ##### `onCancel(event)` : *Function*
 
@@ -47,7 +51,3 @@ List of custom validation functions
 ##### `value` : *Ember.Object or object*
 
 Value to initialize form with
-
-##### `view` : *Ember.Object or Object*
-
-View definition

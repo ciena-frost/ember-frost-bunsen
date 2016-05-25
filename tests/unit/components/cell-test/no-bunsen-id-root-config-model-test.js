@@ -18,22 +18,22 @@ describeComponent(
 
       component = this.subject({
         bunsenId: '',
-        config: {
-          model: 'foo'
-        },
-        errors: {},
-        model: {
+        bunsenModel: {
           properties: {
             foo: {type: 'string'}
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {},
           renderers: builtInRenderers,
           view: {}
         }),
+        config: {
+          model: 'foo'
+        },
+        errors: {},
+        onChange: onChangeSpy,
         value: {}
       })
     })

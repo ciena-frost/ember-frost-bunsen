@@ -17,13 +17,13 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
+    bunsenModel: PropTypes.object.isRequired,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
     label: PropTypes.string,
-    model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },
 
@@ -38,7 +38,7 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.container', 'store.view.containers')
+  @computed('cellConfig.container', 'bunsenStore.view.containers')
   /**
    * Get definition for current container
    * @param {String} containerId - ID of current container
@@ -82,34 +82,34 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.{label,showLabel}', 'label', 'model')
+  @computed('bunsenId', 'cellConfig.{label,showLabel}', 'label', 'bunsenModel')
   /**
    * Get label for container
    * @param {String} bunsenId - bunsen ID for container in model
    * @param {String} configLabel - label defined in view
    * @param {Boolean} showLabel - whether or not to show label
    * @param {String} label - label
-   * @param {BunsenModel} model - bunsen model
+   * @param {BunsenModel} bunsenModel - bunsen model
    * @returns {String} label
    */
-  renderLabel (bunsenId, configLabel, showLabel, label, model) {
+  renderLabel (bunsenId, configLabel, showLabel, label, bunsenModel) {
     if (showLabel === false) {
       return null
     }
 
     label = label || configLabel
-    return getLabel(label, model, bunsenId)
+    return getLabel(label, bunsenModel, bunsenId)
   },
 
   @readOnly
-  @computed('model')
+  @computed('bunsenModel')
   /**
    * Determine whether or not container contains required inputs
-   * @param {BunsenModel} model - bunsen model for form
+   * @param {BunsenModel} bunsenModel - bunsen model for form
    * @returns {Boolean} whether or not container contains required inputs
    */
-  isRequired (model) {
-    return doesModelContainRequiredField(model)
+  isRequired (bunsenModel) {
+    return doesModelContainRequiredField(bunsenModel)
   }
 
   // ==========================================================================
