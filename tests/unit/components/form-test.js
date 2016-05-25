@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+const {RSVP} = Ember
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
@@ -150,14 +151,27 @@ describeComponent(
     describe('update bar', function () {
       let updatedValue, validationResult
 
-      beforeEach(function (done) {
+      beforeEach(function () {
+        const onChangeDeferred = RSVP.defer()
+        const onValidationDeferred = RSVP.defer()
+
+        component.setProperties({
+          onChange (value) {
+            updatedValue = value
+            onChangeDeferred.resolve()
+          },
+          onValidation (result) {
+            validationResult = result
+            onValidationDeferred.resolve()
+          }
+        })
+
         component.actions.onChange.call(component, 'bar', 'test')
 
-        setTimeout(() => {
-          updatedValue = onChangeSpy.lastCall.args[0]
-          validationResult = onValidationSpy.lastCall.args[0]
-          done()
-        }, 500)
+        return RSVP.all([
+          onChangeDeferred.promise,
+          onValidationDeferred.promise
+        ])
       })
 
       it('store gets expected formValue', function () {
@@ -191,14 +205,27 @@ describeComponent(
     describe('update baz', function () {
       let updatedValue, validationResult
 
-      beforeEach(function (done) {
+      beforeEach(function () {
+        const onChangeDeferred = RSVP.defer()
+        const onValidationDeferred = RSVP.defer()
+
+        component.setProperties({
+          onChange (value) {
+            updatedValue = value
+            onChangeDeferred.resolve()
+          },
+          onValidation (result) {
+            validationResult = result
+            onValidationDeferred.resolve()
+          }
+        })
+
         component.actions.onChange.call(component, 'baz', 42)
 
-        setTimeout(() => {
-          updatedValue = onChangeSpy.lastCall.args[0]
-          validationResult = onValidationSpy.lastCall.args[0]
-          done()
-        }, 500)
+        return RSVP.all([
+          onChangeDeferred.promise,
+          onValidationDeferred.promise
+        ])
       })
 
       it('store gets expected formValue', function () {
@@ -232,14 +259,27 @@ describeComponent(
     describe('update foo', function () {
       let updatedValue, validationResult
 
-      beforeEach(function (done) {
+      beforeEach(function () {
+        const onChangeDeferred = RSVP.defer()
+        const onValidationDeferred = RSVP.defer()
+
+        component.setProperties({
+          onChange (value) {
+            updatedValue = value
+            onChangeDeferred.resolve()
+          },
+          onValidation (result) {
+            validationResult = result
+            onValidationDeferred.resolve()
+          }
+        })
+
         component.actions.onChange.call(component, 'foo', 'test')
 
-        setTimeout(() => {
-          updatedValue = onChangeSpy.lastCall.args[0]
-          validationResult = onValidationSpy.lastCall.args[0]
-          done()
-        }, 500)
+        return RSVP.all([
+          onChangeDeferred.promise,
+          onValidationDeferred.promise
+        ])
       })
 
       it('store gets expected formValue', function () {
