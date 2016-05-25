@@ -117,8 +117,14 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, isArrayItem, model, nonIndexId) {
-    const reference = isArrayItem ? nonIndexId : removeIndex(configModel)
-    return getSubModel(model, reference, dependsOn)
+    let reference = isArrayItem ? nonIndexId : removeIndex(configModel)
+    const subModel = getSubModel(model, reference, dependsOn)
+
+    if (!subModel) {
+      return getSubModel(model, nonIndexId, dependsOn)
+    }
+
+    return subModel
   },
 
   @readOnly
