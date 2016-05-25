@@ -84,12 +84,9 @@ describeComponent(
       expect(component.get('renderId')).to.equal('foo')
     })
 
-    // FIXME: get test passing (possible bug?)
-    /*
     it('subModel returns expected value', function () {
       expect(component.get('subModel')).to.eql({type: 'string'})
     })
-    */
 
     describe('when value is present', function () {
       beforeEach(function () {
