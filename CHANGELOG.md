@@ -1,3 +1,24 @@
+# 6.0.0
+
+## Breaking
+
+* **Renamed** `model` property to `bunsenModel`.
+
+* **Renamed** `store` property to `bunsenStore`.
+
+* **Renamed** `view` property to `bunsenView`.
+
+* **Upgraded** `ember-prop-types` to version `2.0.0`. 
+
+  > `oneOf` changed to `oneOfType` to better align with the React `propTypes` API.
+
+## Non-Breaking
+
+* **Added** `unit: true` to all unit tests to remove warnings from the test console.
+* **Fixed** bug with `subModel` in cell component and uncommented four previously failing tests related to this bug.
+* **Removed** all uses of `setTimeout` and `Ember.run` in the tests to make them run more efficiently.
+* **Removed** old `TODO` comments that were no longer relevant.
+
 # 5.14.1 (May 24, 2016)
 
 * **Added** a bunch of unit tests around the cell container component.
