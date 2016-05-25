@@ -155,7 +155,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     describe('when query dependency is met', function () {
-      beforeEach(function (done) {
+      beforeEach(function () {
         props.model = {
           modelType: 'resource',
           labelAttribute: 'label',
@@ -166,9 +166,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           }
         }
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-        Ember.run.later(function () {
-          done()
-        })
       })
 
       it('enables the input', function () {
@@ -242,19 +239,16 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    it('filters locally for enum-based lists', function (done) {
+    it('filters locally for enum-based lists', function () {
       props.model.enum = ['foo', 'bar', 'fitz', 'batz']
       const expected = ['foo', 'fitz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('f').trigger('input')
-      Ember.run.later(() => {
-        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
-        expect($(rootNode).find('li').length).to.equal(expected.length)
-        done()
-      })
+      expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
+      expect($(rootNode).find('li').length).to.equal(expected.length)
     })
 
-    it('filters asynchronously for query.p-based lists', function (done) {
+    it('filters asynchronously for query.p-based lists', function () {
       props.model = {
         modelType: 'resource',
         labelAttribute: 'label',
@@ -266,11 +260,8 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
       $(rootNode).find('input[type=text]').val('resource 1').trigger('input')
       const expected = ['Resource 1']
-      Ember.run.later(() => {
-        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
-        expect($(rootNode).find('li').length).to.equal(expected.length)
-        done()
-      })
+      expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
+      expect($(rootNode).find('li').length).to.equal(expected.length)
     })
 
     it('supports placeholder in cellConfig', function () {
