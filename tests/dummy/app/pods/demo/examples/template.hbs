@@ -23,22 +23,22 @@
     <h2 class="demo-header">Rendered Demo</h2>
     {{#if detail}}
       {{frost-bunsen-detail
+        bunsenModel=selectedModel.model
+        bunsenView=selectedView.view
         renderers=renderers
-        model=selectedModel.model
         value=selectedValue.value
-        view=selectedView.view
       }}
     {{else}}
       {{frost-bunsen-form
+        bunsenModel=selectedModel.model
+        bunsenView=selectedView.view
         disabled=disabled
         inline=inline
         onChange=(action "onChange")
         onValidation=(action "onValidation")
         renderers=renderers
-        model=selectedModel.model
         showAllErrors=showAllErrors
         value=selectedValue.value
-        view=selectedView.view
       }}
     {{/if}}
   {{/model-view-selector}}

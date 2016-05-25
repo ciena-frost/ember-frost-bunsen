@@ -30,7 +30,7 @@ export function updateValidationResults (validationResult) {
   return {
     errors: errorsMappedToDotNotation,
     type: VALIDATION_RESOLVED,
-    validationResult // FIXME: I can probably go bye bye
+    validationResult
   }
 }
 

@@ -4,12 +4,7 @@ import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenId: 'addresses',
-  cellConfig: Ember.Object.create({
-    item: Ember.Object.create({})
-  }),
-  errors: null,
-  index: 0,
-  model: {
+  bunsenModel: {
     items: {
       properties: {
         city: {type: 'string'},
@@ -22,10 +17,15 @@ const props = {
     },
     minItems: 1
   },
+  bunsenStore: Ember.Object.create({}),
+  cellConfig: Ember.Object.create({
+    item: Ember.Object.create({})
+  }),
+  errors: null,
+  index: 0,
   onChange () {},
   onRemove () {},
   sortable: false,
-  store: Ember.Object.create({}),
   value: {
     addresses: [
       {

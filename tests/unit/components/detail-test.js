@@ -6,24 +6,26 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-detail',
   'FrostBunsenDetailComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
-      model: PropTypes.oneOf([
+      bunsenModel: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]).isRequired,
-      renderers: PropTypes.oneOf([
+      bunsenView: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]),
-      value: PropTypes.oneOf([
+      renderers: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
+      value: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.null,
-        PropTypes.object
-      ]),
-      view: PropTypes.oneOf([
-        PropTypes.EmberObject,
         PropTypes.object
       ])
     })
@@ -32,7 +34,7 @@ describeComponent(
 
     beforeEach(function () {
       component = this.subject({
-        model: {
+        bunsenModel: {
           properties: {
             bar: {type: 'string'},
             baz: {type: 'number'},

@@ -12,10 +12,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
   beforeEach(function () {
     let props = {
       bunsenId: 'name',
+      bunsenModel: {},
+      bunsenStore: Ember.Object.create({}),
       cellConfig: Ember.Object.create({}),
-      model: {},
       onChange () {},
-      store: Ember.Object.create({}),
       value: TEST_VALUE
     }
 

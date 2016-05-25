@@ -24,9 +24,6 @@ export function renderWithProps (renderer, componentName, props, more) {
   renderer.setProperties(props)
 
   const templateOptions = Object.keys(props).map((key) => {
-    if (key === '_view') {
-      return 'view=_view'
-    }
     return `${key}=${key}`
   }).join(' ')
 

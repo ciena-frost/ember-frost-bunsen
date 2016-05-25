@@ -17,7 +17,7 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('model.dependencies', 'value')
+  @computed('bunsenModel.dependencies', 'value')
   useKey (dependencies, value) {
     if (value) {
       for (let key in dependencies) {

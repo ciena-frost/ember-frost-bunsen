@@ -6,7 +6,9 @@ import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 describeComponent(
   'frost-bunsen-cell',
   'FrostBunsenCellComponent when array item without bunsenId',
-  {},
+  {
+    unit: true
+  },
   function () {
     let component, onChangeSpy, sandbox
 
@@ -16,11 +18,7 @@ describeComponent(
 
       component = this.subject({
         bunsenId: '',
-        config: {
-          model: 'foo.bar.0'
-        },
-        errors: {},
-        model: {
+        bunsenModel: {
           properties: {
             foo: {
               properties: {
@@ -39,12 +37,16 @@ describeComponent(
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {},
           renderers: builtInRenderers,
           view: {}
         }),
+        config: {
+          model: 'foo.bar.0'
+        },
+        errors: {},
+        onChange: onChangeSpy,
         value: {}
       })
     })

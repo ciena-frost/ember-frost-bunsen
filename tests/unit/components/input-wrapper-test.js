@@ -5,17 +5,19 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-input-wrapper',
   'FrostBunsenInputWrapperComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject,
-      model: PropTypes.object,
       onChange: PropTypes.func,
       readOnly: PropTypes.bool,
       required: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,
         PropTypes.null,

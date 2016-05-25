@@ -4,7 +4,7 @@ import {describe} from 'mocha'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
-  model: {
+  bunsenModel: {
     properties: {
       bar: {
         default: 100,

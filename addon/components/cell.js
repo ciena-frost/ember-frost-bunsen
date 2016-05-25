@@ -30,13 +30,13 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string,
+    bunsenModel: PropTypes.object.isRequired,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     config: PropTypes.EmberObject.isRequired,
     defaultClassName: PropTypes.string,
     errors: PropTypes.object.isRequired,
-    model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
     value: PropTypes.object.isRequired
   },
 
@@ -106,19 +106,25 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'isArrayItem', 'model', 'nonIndexId')
+  @computed('config.{dependsOn,model}', 'isArrayItem', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
    * @param {String} configModel - relative model for cell config
    * @param {Boolean} isArrayItem - whether or not cell is for array item
-   * @param {BunsenModel} model - bunsen model of form
+   * @param {BunsenModel} bunsenModel - bunsen model of form
    * @param {String} nonIndexId - ID for array that item is within (if array item)
    * @returns {BunsenModel} sub model
    */
-  subModel (dependsOn, configModel, isArrayItem, model, nonIndexId) {
-    const reference = isArrayItem ? nonIndexId : removeIndex(configModel)
-    return getSubModel(model, reference, dependsOn)
+  subModel (dependsOn, configModel, isArrayItem, bunsenModel, nonIndexId) {
+    let reference = isArrayItem ? nonIndexId : removeIndex(configModel)
+    const subModel = getSubModel(bunsenModel, reference, dependsOn)
+
+    if (!subModel) {
+      return getSubModel(bunsenModel, nonIndexId, dependsOn)
+    }
+
+    return subModel
   },
 
   @readOnly
@@ -221,7 +227,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} model of parent
    */
   getParentModel (reference, dependencyReference) {
-    const model = this.get('model')
+    const model = this.get('bunsenModel')
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model

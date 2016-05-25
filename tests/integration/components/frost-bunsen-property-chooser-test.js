@@ -10,10 +10,10 @@ describeComponent(...integrationTestContext('frost-bunsen-property-chooser'), fu
   beforeEach(function () {
     let props = {
       bunsenId: 'paymentMethod',
+      bunsenModel: {},
+      bunsenStore: Ember.Object.create({}),
       cellConfig: Ember.Object.create({}),
-      model: {},
-      onChange () {},
-      store: Ember.Object.create({})
+      onChange () {}
     }
 
     renderWithProps(this, 'frost-bunsen-property-chooser', props)

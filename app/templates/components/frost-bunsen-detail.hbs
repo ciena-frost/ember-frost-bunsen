@@ -19,12 +19,12 @@
     {{/frost-tabs}}
   {{/if}}
   {{frost-bunsen-container
+    bunsenModel=renderModel
+    bunsenStore=bunsenStore
     cellConfig=cellConfig
     errors=errors
-    model=renderModel
     onChange=(action "onChange")
     readOnly=true
-    store=store
     value=renderValue
   }}
 </form>

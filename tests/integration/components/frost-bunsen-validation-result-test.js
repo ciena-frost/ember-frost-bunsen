@@ -3,7 +3,7 @@ import {it} from 'ember-mocha'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 const props = {
-  model: {}
+  bunsenModel: {}
 }
 
 function tests (ctx) {

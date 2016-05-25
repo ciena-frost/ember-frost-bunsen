@@ -8,17 +8,19 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 describeComponent(
   'frost-bunsen-array-tab-content',
   'FrostBunsenArrayTabContentComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
       errors: PropTypes.object.isRequired,
       index: PropTypes.number.isRequired,
-      model: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       readOny: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
       value: PropTypes.object.isRequired
     })
 
@@ -31,10 +33,7 @@ describeComponent(
 
       component = this.subject({
         bunsenId: 'foo',
-        config: {},
-        errors: {},
-        index: 0,
-        model: {
+        bunsenModel: {
           properties: {
             foo: {
               item: {
@@ -48,15 +47,18 @@ describeComponent(
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        onRemove: onRemoveSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {
             foo: [{}]
           },
           renderers: builtInRenderers,
           view: {}
         }),
+        config: {},
+        errors: {},
+        index: 0,
+        onChange: onChangeSpy,
+        onRemove: onRemoveSpy,
         value: {foo: []}
       })
     })

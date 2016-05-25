@@ -9,21 +9,23 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 describeComponent(
   'frost-bunsen-input-button-group',
   'FrostBunsenInputButtonGroupComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOf([
+      errorMessage: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
       label: PropTypes.string,
-      model: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,
         PropTypes.null,
@@ -40,17 +42,17 @@ describeComponent(
       sandbox = sinon.sandbox.create()
       component = this.subject({
         bunsenId: 'foo',
+        bunsenModel: {
+          type: 'boolean'
+        },
+        bunsenStore: Ember.Object.create({}),
         cellConfig: Ember.Object.create({
           properties: {
             model: 'foo',
             type: 'button-group'
           }
         }),
-        model: {
-          type: 'boolean'
-        },
         onChange () {},
-        store: Ember.Object.create({}),
         state: Ember.Object.create({})
       })
       ctx.component = component
@@ -72,7 +74,7 @@ describeComponent(
 
       describe('when type is boolean', function () {
         beforeEach(function () {
-          component.set('model.type', 'boolean')
+          component.set('bunsenModel.type', 'boolean')
         })
 
         it('returns expected options', function () {
@@ -85,8 +87,8 @@ describeComponent(
 
         beforeEach(function () {
           values = [0, 0.5, 1]
-          component.set('model.enum', values)
-          component.set('model.type', 'number')
+          component.set('bunsenModel.enum', values)
+          component.set('bunsenModel.type', 'number')
           options = component.get('options')
         })
 
@@ -104,8 +106,8 @@ describeComponent(
 
         beforeEach(function () {
           values = ['one', 'two', 'three']
-          component.set('model.enum', values)
-          component.set('model.type', 'string')
+          component.set('bunsenModel.enum', values)
+          component.set('bunsenModel.type', 'string')
           options = component.get('options')
         })
 
@@ -131,7 +133,7 @@ describeComponent(
     describe('.parseValue()', function () {
       describe('when type is boolean', function () {
         beforeEach(function () {
-          component.set('model.type', 'boolean')
+          component.set('bunsenModel.type', 'boolean')
         })
 
         it('returns true when selected index is 0', function () {
@@ -148,8 +150,8 @@ describeComponent(
 
         beforeEach(function () {
           values = [0, 0.5, 1]
-          component.set('model.enum', values)
-          component.set('model.type', 'number')
+          component.set('bunsenModel.enum', values)
+          component.set('bunsenModel.type', 'number')
         })
 
         it('returns expected value for selected index', function () {
@@ -164,8 +166,8 @@ describeComponent(
 
         beforeEach(function () {
           values = ['one', 'two', 'three']
-          component.set('model.enum', values)
-          component.set('model.type', 'string')
+          component.set('bunsenModel.enum', values)
+          component.set('bunsenModel.type', 'string')
         })
 
         it('returns expected value for selected index', function () {

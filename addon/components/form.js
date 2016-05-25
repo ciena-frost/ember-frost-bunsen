@@ -21,31 +21,31 @@ export default DetailComponent.extend({
   classNameBindings: ['inline:inline:not-inline'],
 
   propTypes: {
-    cancelLabel: PropTypes.string,
-    disabled: PropTypes.bool,
-    inline: PropTypes.bool,
-    model: PropTypes.oneOf([
+    bunsenModel: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]).isRequired,
+    bunsenView: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    cancelLabel: PropTypes.string,
+    disabled: PropTypes.bool,
+    inline: PropTypes.bool,
     onCancel: PropTypes.func,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onValidation: PropTypes.func,
-    renderers: PropTypes.oneOf([
+    renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
     submitLabel: PropTypes.string,
     validators: PropTypes.array,
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
-      PropTypes.object
-    ]),
-    view: PropTypes.oneOf([
-      PropTypes.EmberObject,
       PropTypes.object
     ])
   },

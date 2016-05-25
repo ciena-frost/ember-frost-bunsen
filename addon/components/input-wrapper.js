@@ -16,13 +16,13 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
+    bunsenModel: PropTypes.object,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject,
-    model: PropTypes.object,
     onChange: PropTypes.func,
     readOnly: PropTypes.bool,
     required: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
       PropTypes.null,
@@ -44,20 +44,20 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.dependsOn', 'isDependencyMet', 'model')
+  @computed('cellConfig.dependsOn', 'isDependencyMet', 'bunsenModel')
   /**
    * Whether or not component should render if it is a dependency
    * @param {String} dependsOn - what input depends
    * @param {Boolean} isDependencyMet - whether or not dependency is met
-   * @param {Object} model - model schema for the property this input refers to
+   * @param {Object} bunsenModel - model schema for the property this input refers to
    * @returns {Boolean} whether or not component should render if it is a dependency
    */
-  shouldRender (dependsOn, isDependencyMet, model) {
-    return (!dependsOn || isDependencyMet) && (model !== undefined)
+  shouldRender (dependsOn, isDependencyMet, bunsenModel) {
+    return (!dependsOn || isDependencyMet) && (bunsenModel !== undefined)
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'model.{editable,type}', 'readOnly', 'shouldRender', 'store.renderers')
+  @computed('cellConfig.renderer', 'bunsenModel.{editable,type}', 'readOnly', 'shouldRender', 'bunsenStore.renderers')
   /**
    * Get name of component helper
    * @param {String} renderer - custom renderer to use

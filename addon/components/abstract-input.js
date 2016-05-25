@@ -24,17 +24,17 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
+    bunsenModel: PropTypes.object.isRequired,
+    bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
-    errorMessage: PropTypes.oneOf([
+    errorMessage: PropTypes.oneOfType([
       PropTypes.null,
       PropTypes.string
     ]),
     label: PropTypes.string,
-    model: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     required: PropTypes.bool,
-    store: PropTypes.EmberObject.isRequired,
-    value: PropTypes.oneOf([
+    value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
       PropTypes.null,
@@ -56,13 +56,13 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('store.disabled', 'cellConfig.disabled')
+  @computed('bunsenStore.disabled', 'cellConfig.disabled')
   disabled (formDisabled, disabledInView) {
     return formDisabled || disabledInView
   },
 
   @readOnly
-  @computed('errorMessage', 'showErrorMessage', 'store.showAllErrors')
+  @computed('errorMessage', 'showErrorMessage', 'bunsenStore.showAllErrors')
   renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
     if (!showAllErrors && !showErrorMessage) {
       return null
@@ -105,19 +105,19 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig', 'label', 'model')
+  @computed('bunsenId', 'cellConfig', 'label', 'bunsenModel')
   /**
    * Get current label text for input
-   * @param {String} bunsenId - bunsen ID for input (represents path in model)
+   * @param {String} bunsenId - bunsen ID for input (represents path in bunsenModel)
    * @param {BunsenCell} cellConfig - view definition for input
    * @param {String} label - label
-   * @param {BunsenModel} model - bunsen model
+   * @param {BunsenModel} bunsenModel - bunsen model
    * @returns {String} label text
    */
-  renderLabel (bunsenId, cellConfig, label, model) {
+  renderLabel (bunsenId, cellConfig, label, bunsenModel) {
     const config = _.defaults({}, cellConfig, getCellDefaults())
     const customLabel = label || config.label
-    return getLabel(customLabel, model, bunsenId)
+    return getLabel(customLabel, bunsenModel, bunsenId)
   },
 
   @readOnly

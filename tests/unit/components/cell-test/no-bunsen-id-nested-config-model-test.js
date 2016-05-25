@@ -6,7 +6,9 @@ import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 describeComponent(
   'frost-bunsen-cell',
   'FrostBunsenCellComponent with no bunsenId and nested config model',
-  {},
+  {
+    unit: true
+  },
   function () {
     let component, onChangeSpy, sandbox
 
@@ -16,11 +18,7 @@ describeComponent(
 
       component = this.subject({
         bunsenId: '',
-        config: {
-          model: 'foo.bar'
-        },
-        errors: {},
-        model: {
+        bunsenModel: {
           properties: {
             foo: {
               properties: {
@@ -31,12 +29,16 @@ describeComponent(
           },
           type: 'object'
         },
-        onChange: onChangeSpy,
-        store: Ember.Object.create({
+        bunsenStore: Ember.Object.create({
           formValue: {},
           renderers: builtInRenderers,
           view: {}
         }),
+        config: {
+          model: 'foo.bar'
+        },
+        errors: {},
+        onChange: onChangeSpy,
         value: {}
       })
     })
@@ -87,12 +89,9 @@ describeComponent(
       expect(component.get('renderId')).to.equal('foo.bar')
     })
 
-    // FIXME: get test passing (possible bug?)
-    /*
     it('subModel returns expected value', function () {
       expect(component.get('subModel')).to.eql({type: 'string'})
     })
-    */
 
     describe('when value is present', function () {
       beforeEach(function () {

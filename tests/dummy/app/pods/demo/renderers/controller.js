@@ -39,7 +39,7 @@ export default Controller.extend({
     const documentation = this.getDocumentation(selectedRendererValue)
 
     this.setProperties({
-      bunsenValue: {},
+      value: {},
       documentation,
       rendererOptions,
       selectedRendererValue
@@ -54,7 +54,7 @@ export default Controller.extend({
     onSelectedRendererChange (value) {
       this.setProperties({
         documentation: this.getDocumentation(value),
-        bunsenValue: {},
+        value: {},
         selectedRendererValue: value
       })
     }

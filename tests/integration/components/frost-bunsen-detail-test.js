@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-const {run} = Ember
 import {describeComponent, it} from 'ember-mocha'
 import {beforeEach} from 'mocha'
 import {integrationTestContext} from 'dummy/tests/helpers/template'
@@ -10,7 +9,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   beforeEach(function () {
     let props = {
-      model: {
+      bunsenModel: {
         type: 'object',
         properties: {
           firstName: {
@@ -37,9 +36,9 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     this.setProperties(props)
 
     this.render(hbs`{{frost-bunsen-detail
-    model=model
-    value=value
-    view=bunsenView
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      value=value
     }}`)
 
     rootNode = this.$('> *')
@@ -62,7 +61,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     })
   })
 
-  it('updates the displayed value when the value is changed', function (done) {
+  it('updates the displayed value when the value is changed', function () {
     let newValue = {
       firstName: 'Jane',
       lastName: 'Doe',
@@ -70,29 +69,23 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     }
 
     this.set('value', newValue)
-    run.later(() => {
-      const firstName = this.$('.frost-bunsen-row:first-child').find('.left-input p').text()
-      const lastName = this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text()
-      const alias = this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
 
-      expect(firstName).to.equal(newValue.firstName)
-      expect(lastName).to.equal(newValue.lastName)
-      expect(alias).to.equal(newValue.alias)
+    const firstName = this.$('.frost-bunsen-row:first-child').find('.left-input p').text()
+    const lastName = this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text()
+    const alias = this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
 
-      done()
-    })
+    expect(firstName).to.equal(newValue.firstName)
+    expect(lastName).to.equal(newValue.lastName)
+    expect(alias).to.equal(newValue.alias)
   })
 
-  it('displays an error message if the model is not valid', function (done) {
-    this.set('model', {type: 'invalid'})
-    run.later(() => {
-      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
-      expect(errorMessage).to.equal('There seems to be something wrong with your schema')
-      done()
-    })
+  it('displays an error message if the bunsenModel is not valid', function () {
+    this.set('bunsenModel', {type: 'invalid'})
+    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
+    expect(errorMessage).to.equal('There seems to be something wrong with your schema')
   })
 
-  it('displays an error message if the model is not valid', function (done) {
+  it('displays an error message if the model is not valid', function () {
     const invalidView = {
       version: '1.0',
       type: 'form',
@@ -112,10 +105,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     }
     this.set('bunsenView', invalidView)
 
-    run.later(() => {
-      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
-      expect(errorMessage).to.equal('There seems to be something wrong with your schema')
-      done()
-    })
+    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
+    expect(errorMessage).to.equal('There seems to be something wrong with your schema')
   })
 })

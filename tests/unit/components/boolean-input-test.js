@@ -8,7 +8,9 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 describeComponent(
   'frost-bunsen-input-boolean',
   'FrostBunsenInputBooleanComponent',
-  {},
+  {
+    unit: true
+  },
   function () {
     const ctx = {}
     let component
@@ -16,10 +18,10 @@ describeComponent(
     beforeEach(function () {
       component = this.subject({
         bunsenId: 'enabled',
+        bunsenModel: {},
+        bunsenStore: Ember.Object.create({}),
         cellConfig: Ember.Object.create({}),
-        model: {},
         onChange () {},
-        store: Ember.Object.create({}),
         state: Ember.Object.create({value: true})
       })
       ctx.component = component
@@ -27,17 +29,17 @@ describeComponent(
 
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
       cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOf([
+      errorMessage: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
       label: PropTypes.string,
-      model: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
-      store: PropTypes.EmberObject.isRequired,
-      value: PropTypes.oneOf([
+      value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,
         PropTypes.null,

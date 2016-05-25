@@ -37,21 +37,21 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   propTypes: {
-    model: PropTypes.oneOf([
+    bunsenModel: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]).isRequired,
-    renderers: PropTypes.oneOf([
+    bunsenView: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
-    value: PropTypes.oneOf([
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
-      PropTypes.object
-    ]),
-    view: PropTypes.oneOf([
-      PropTypes.EmberObject,
       PropTypes.object
     ])
   },
@@ -91,16 +91,16 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('renderModel', 'view')
+  @computed('renderModel', 'bunsenView')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
-   * @param {BunsenView} view - the view to use (if given)
+   * @param {BunsenView} bunsenView - the view to use (if given)
    * @returns {BunsenView} the view to render
    */
-  renderView (model, view) {
-    view = !_.isEmpty(view) ? view : getDefaultView(model)
-    return recursiveObjectCreate(view)
+  renderView (model, bunsenView) {
+    bunsenView = !_.isEmpty(bunsenView) ? bunsenView : getDefaultView(model)
+    return recursiveObjectCreate(bunsenView)
   },
 
   @readOnly
@@ -136,7 +136,7 @@ export default Component.extend(PropTypeMixin, {
    * @param {Boolean} showAllErrors - whether or not to show all errors immediately
    * @returns {Object} store
    */
-  store (renderers, disabled, formValue, view, showAllErrors) {
+  bunsenStore (renderers, disabled, formValue, view, showAllErrors) {
     return Ember.Object.create({
       disabled,
       formValue,
@@ -183,7 +183,7 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    const reduxStore = createStoreWithMiddleware(reducer, {baseModel: this.get('model')})
+    const reduxStore = createStoreWithMiddleware(reducer, {baseModel: this.get('bunsenModel')})
 
     this.set('reduxStore', reduxStore)
     this.set('reduxModel', reduxStore.getState().model)
@@ -194,17 +194,17 @@ export default Component.extend(PropTypeMixin, {
    * Validate properties
    */
   validateProps () {
-    const model = this.get('model')
-    const modelPojo = isEmberObject(model) ? deemberify(model) : model
+    const bunsenModel = this.get('bunsenModel')
+    const bunsenModelPojo = isEmberObject(bunsenModel) ? deemberify(bunsenModel) : bunsenModel
     const renderers = this.get('allRenderers')
 
-    let result = validateModel(modelPojo)
-    this.get('reduxStore').dispatch(changeModel(model))
+    let result = validateModel(bunsenModelPojo)
+    this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
-      result = validateView(viewPojo, model, _.keys(renderers), getOwner(this))
+      result = validateView(viewPojo, bunsenModel, _.keys(renderers), getOwner(this))
     }
 
     this.set('propValidationResult', result)

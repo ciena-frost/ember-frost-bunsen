@@ -37,7 +37,7 @@ export function initialState (state) {
   return _.defaults(state, INITIAL_VALUE)
 }
 
-// TODO: Update lodash and get rid of this
+// TODO: replace with _.unset() once we are on lodash 4.x (currently ember-lodash is pinning lodash to 3.x)
 function unset (obj, path) {
   _.set(obj, path, undefined)
   const obStr = JSON.stringify(obj)
