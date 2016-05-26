@@ -1,3 +1,9 @@
+# 6.0.3
+
+* **Fixed** issue where `onChange()` was being called even when the form value wasn't changing.
+* **Fixed** issue where `onValidation()` was being called when the form error state wasn't changing.
+* **Fixed** issue where form was getting in a never ending update loop causing UI to come to a crawl.
+
 # 6.0.2 (May 26, 2016)
 
 * **Added** support for nested arrays.
