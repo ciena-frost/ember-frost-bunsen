@@ -1,9 +1,9 @@
-# 6.0.2
+# 6.0.2 (May 26, 2016)
 
 * **Added** support for nested arrays.
 * **Fixed** issue with cells not always getting sub model correctly, causing nested content to not render as expected.
 
-# 6.0.1
+# 6.0.1 (May 25, 2016)
 
 * **Fixed** API reference in `README`.
 * **Fixed** bug when trying to create view cells for properties off of array items such as:
