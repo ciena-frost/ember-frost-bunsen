@@ -1,3 +1,8 @@
+# 6.0.2
+
+* **Added** support for nested arrays.
+* **Fixed** issue with cells not always getting sub model correctly, causing nested content to not render as expected.
+
 # 6.0.1
 
 * **Fixed** API reference in `README`.
