@@ -106,19 +106,17 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'isArrayItem', 'bunsenModel', 'nonIndexId')
+  @computed('config.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
    * @param {String} configModel - relative model for cell config
-   * @param {Boolean} isArrayItem - whether or not cell is for array item
    * @param {BunsenModel} bunsenModel - bunsen model of form
    * @param {String} nonIndexId - ID for array that item is within (if array item)
    * @returns {BunsenModel} sub model
    */
-  subModel (dependsOn, configModel, isArrayItem, bunsenModel, nonIndexId) {
-    let reference = isArrayItem ? nonIndexId : removeIndex(configModel)
-    const subModel = getSubModel(bunsenModel, reference, dependsOn)
+  subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
+    const subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
 
     if (!subModel) {
       return getSubModel(bunsenModel, nonIndexId, dependsOn)
