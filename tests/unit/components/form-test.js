@@ -149,29 +149,21 @@ describeComponent(
     })
 
     describe('update bar', function () {
-      let updatedValue, validationResult
+      let updatedValue
 
       beforeEach(function () {
         const onChangeDeferred = RSVP.defer()
-        const onValidationDeferred = RSVP.defer()
 
         component.setProperties({
           onChange (value) {
             updatedValue = value
             onChangeDeferred.resolve()
-          },
-          onValidation (result) {
-            validationResult = result
-            onValidationDeferred.resolve()
           }
         })
 
         component.actions.onChange.call(component, 'bar', 'test')
 
-        return RSVP.all([
-          onChangeDeferred.promise,
-          onValidationDeferred.promise
-        ])
+        return onChangeDeferred.promise
       })
 
       it('bunsenStore gets expected formValue', function () {
@@ -186,46 +178,24 @@ describeComponent(
           bar: 'test'
         })
       })
-
-      it('onValidation gets expected validation errors', function () {
-        expect(validationResult.errors.length).to.eql(1)
-
-        const error = validationResult.errors[0]
-
-        expect(error.code).to.eql('OBJECT_MISSING_REQUIRED_PROPERTY')
-        expect(error.message).to.eql('Field is required.')
-        expect(error.path).to.eql('#/foo')
-      })
-
-      it('onValidation gets expected validation warnings', function () {
-        expect(validationResult.warnings).to.eql([])
-      })
     })
 
     describe('update baz', function () {
-      let updatedValue, validationResult
+      let updatedValue
 
       beforeEach(function () {
         const onChangeDeferred = RSVP.defer()
-        const onValidationDeferred = RSVP.defer()
 
         component.setProperties({
           onChange (value) {
             updatedValue = value
             onChangeDeferred.resolve()
-          },
-          onValidation (result) {
-            validationResult = result
-            onValidationDeferred.resolve()
           }
         })
 
         component.actions.onChange.call(component, 'baz', 42)
 
-        return RSVP.all([
-          onChangeDeferred.promise,
-          onValidationDeferred.promise
-        ])
+        return onChangeDeferred.promise
       })
 
       it('bunsenStore gets expected formValue', function () {
@@ -239,20 +209,6 @@ describeComponent(
         expect(updatedValue).to.eql({
           baz: 42
         })
-      })
-
-      it('onValidation gets expected validation errors', function () {
-        expect(validationResult.errors.length).to.eql(1)
-
-        const error = validationResult.errors[0]
-
-        expect(error.code).to.eql('OBJECT_MISSING_REQUIRED_PROPERTY')
-        expect(error.message).to.eql('Field is required.')
-        expect(error.path).to.eql('#/foo')
-      })
-
-      it('onValidation gets expected validation warnings', function () {
-        expect(validationResult.warnings).to.eql([])
       })
     })
 

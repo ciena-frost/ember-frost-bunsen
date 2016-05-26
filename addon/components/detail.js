@@ -159,20 +159,31 @@ export default Component.extend(PropTypeMixin, {
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value} = state
 
-    const newProps = {
-      errors,
-      renderValue: value
+    const newProps = {}
+
+    if (!_.isEqual(this.get('errors'), errors)) {
+      newProps.errors = errors
     }
 
     if (!_.isEqual(this.get('reduxModel'), state.model)) {
       newProps.reduxModel = state.model
     }
+
+    if (!_.isEqual(this.get('renderValue'), value)) {
+      newProps.renderValue = value
+    }
+
+    if (Object.keys(newProps).length === 0) {
+      return
+    }
+
     this.setProperties(newProps)
-    if (onChange) {
+
+    if ('renderValue' in newProps && onChange) {
       onChange(value)
     }
 
-    if (onValidation) {
+    if ('errors' in newProps && onValidation) {
       onValidation(validationResult)
     }
   },
