@@ -6,17 +6,35 @@ export default function () {
     this.namespace = config.mirageNamespace
   }
 
-  this.get('/countries', function (db, requests) {
+  this.get('/countries', function (db) {
     return {
       countries: db.countries
+    }
+  })
+
+  this.get('/resources', function (db, request) {
+    let search = request.queryParams.p
+    search = search ? search.replace('label:', '') : null
+
+    const resources = db.resources
+      .filter((resource) => {
+        if (search && resource.label.indexOf(search) === -1) {
+          return false
+        }
+
+        return true
+      })
+      .slice(0, 5)
+
+    return {
+      resources
     }
   })
 
   ;[
     'models',
     'values',
-    'views',
-    'resources'
+    'views'
   ].forEach((key) => {
     const pluralizedKey = Ember.String.pluralize(key)
 
