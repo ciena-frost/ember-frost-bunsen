@@ -13,6 +13,7 @@ describeComponent(
   },
   function () {
     validatePropTypes({
+      autofocus: PropTypes.bool,
       bunsenModel: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object

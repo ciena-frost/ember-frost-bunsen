@@ -1,5 +1,9 @@
 #### Properties
 
+##### `autofocus` : *boolean*
+
+Whether or not to focus on first input in form
+
 ##### **[required]** `bunsenModel` : *Ember.Object or object*
 
 Model definition
@@ -11,6 +15,10 @@ View definition
 ##### `cancelLabel` : *string*
 
 Text for cancel button
+
+##### `disabled` : *boolean*
+
+Whether or not to disable entire form
 
 ##### `inline` : *boolean*
 

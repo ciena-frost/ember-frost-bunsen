@@ -1,17 +1,11 @@
-export default [
-  {
-    id: 1,
-    type: 'resource',
-    label: 'Resource 1'
-  },
-  {
-    id: 2,
-    type: 'resource',
-    label: 'Resource 2'
-  },
-  {
-    id: 3,
-    type: 'resource',
-    label: 'Resource 3'
-  }
-]
+const resources = Array(100)
+  .fill()
+  .map((_, index) => {
+    return {
+      id: index,
+      label: `Resource ${index}`,
+      type: 'resource'
+    }
+  })
+
+export default resources
