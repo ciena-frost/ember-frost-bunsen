@@ -16,6 +16,10 @@ View definition
 
 Text for cancel button
 
+##### `disabled` : *boolean*
+
+Whether or not to disable entire form
+
 ##### `inline` : *boolean*
 
 Whether or not to render form inline
