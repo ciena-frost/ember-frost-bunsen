@@ -2,10 +2,15 @@
 
 [![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
 
+* [Tutorial](#Tutorial)
 * [Installation](#installation)
 * [API](#api)
 * [Examples](#examples)
 * [Development](#development)
+
+## Tutorial
+
+Start with a step-by-step tutorial on bunsen [here](https://github.com/ciena-frost/bunsen-tutorial)
 
 ## Installation
 
