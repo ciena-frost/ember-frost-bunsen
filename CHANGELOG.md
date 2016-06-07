@@ -1,3 +1,9 @@
+# 6.1.0
+
+* **Added** `autofocus` property to `frost-bunsen-form` to give consumer ability to determine whether or not first input should get focus on form load.
+* **Fixed** `frost-bunsen-form` documentation to include `disabled` property.
+* **Updated** wedding application example in demo to make countries select searchable/filterable.
+
 # 6.0.3
 
 * **Fixed** issue where `onChange()` was being called even when the form value wasn't changing.
