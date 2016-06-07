@@ -35,6 +35,7 @@ ember install ember-frost-bunsen
 
 | Attribute       | Type                       | Required | Description                              |
 | --------------- | -------------------------- | -------- | ---------------------------------------- |
+| `autofocus`     | `boolean`                  | No       | Whether or not to focus on first input   |
 | `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
 | `cancelLabel`   | `string`                   | No       | Text for cancel button                   |

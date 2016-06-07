@@ -21,6 +21,7 @@ export default DetailComponent.extend({
   classNameBindings: ['inline:inline:not-inline'],
 
   propTypes: {
+    autofocus: PropTypes.bool,
     bunsenModel: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
@@ -52,6 +53,7 @@ export default DetailComponent.extend({
 
   getDefaultProps () {
     return {
+      autofocus: true,
       classNames: ['frost-bunsen-form'],
       disabled: false,
       renderers: {},
@@ -92,6 +94,10 @@ export default DetailComponent.extend({
    * After render select first input unless something else already has focus on page
    */
   didRender () {
+    if (!this.get('autofocus')) {
+      return
+    }
+
     // If there is already an element in focus do nothing
     if ($(':focus').length !== 0) {
       return

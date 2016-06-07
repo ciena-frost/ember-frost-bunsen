@@ -1,5 +1,9 @@
 #### Properties
 
+##### `autofocus` : *boolean*
+
+Whether or not to focus on first input in form
+
 ##### **[required]** `bunsenModel` : *Ember.Object or object*
 
 Model definition
