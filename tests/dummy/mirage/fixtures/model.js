@@ -317,8 +317,8 @@ export default [
     }
   },
   {
-    id: 'wedding-application',
-    label: 'Wedding Application',
+    id: 'conditions',
+    label: 'Conditions',
     model: {
       'type': 'object',
       'properties': {

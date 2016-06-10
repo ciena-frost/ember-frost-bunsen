@@ -205,3 +205,6 @@ export default [
   {name: 'Zambia'},
   {name: 'Zimbabwe'}
 ]
+  .forEach((record, index) => {
+    record.id = index
+  })
