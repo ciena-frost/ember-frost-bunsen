@@ -6,13 +6,13 @@ export default function () {
     this.namespace = config.mirageNamespace
   }
 
-  this.get('/countries', function (db) {
+  this.get('/countries', function ({db}) {
     return {
       countries: db.countries
     }
   })
 
-  this.get('/resources', function (db, request) {
+  this.get('/resources', function ({db}, request) {
     let search = request.queryParams.p
     search = search ? search.replace('label:', '') : null
 
@@ -38,7 +38,7 @@ export default function () {
   ].forEach((key) => {
     const pluralizedKey = Ember.String.pluralize(key)
 
-    this.get(`/${key}`, function (db, request) {
+    this.get(`/${key}`, function ({db}, request) {
       let items = db[pluralizedKey]
 
       if ('modelId' in request.queryParams) {
@@ -64,7 +64,7 @@ export default function () {
       }
     })
 
-    this.get(`/${key}/:id`, function (db, request) {
+    this.get(`/${key}/:id`, function ({db}, request) {
       return {
         [key]: _.find(db[pluralizedKey], {
           id: request.params.id

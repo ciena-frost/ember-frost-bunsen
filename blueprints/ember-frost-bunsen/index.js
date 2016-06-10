@@ -13,7 +13,7 @@ module.exports = {
         return this.addAddonsToProject({
           packages: [
             {name: 'ember-browserify', target: '^1.1.8'},
-            {name: 'ember-frost-core', target: '>=0.2.1 <2.0.0'},
+            {name: 'ember-frost-core', target: '>=0.11.10 <2.0.0'},
             {name: 'ember-frost-tabs', target: '^2.0.0'},
             {name: 'ember-lodash', target: '>=0.0.6 <2.0.0'},
             {name: 'ember-prop-types', target: '^2.0.0'},

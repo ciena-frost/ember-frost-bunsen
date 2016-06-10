@@ -8,6 +8,11 @@ $frost-row-field-padding: 40px;
 
 .frost-bunsen-detail,
 .frost-bunsen-form {
+  .handle {
+    width: 32px;
+    height: 32px;
+  }
+
   .instructions {
     margin-bottom: 10px;
     color: $frost-color-grey-3;
