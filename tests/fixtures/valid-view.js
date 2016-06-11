@@ -39,9 +39,5 @@ export default {
       ]
     }
   ],
-  buttonLabels: {
-    submit: 'Create',
-    reset: 'Clear'
-  },
   rootContainers: [{label: 'Main', container: 'main'}]
 }

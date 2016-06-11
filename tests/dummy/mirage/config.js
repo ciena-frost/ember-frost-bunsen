@@ -6,9 +6,22 @@ export default function () {
     this.namespace = config.mirageNamespace
   }
 
-  this.get('/countries', function ({db}) {
+  this.get('/countries', function ({db}, request) {
+    let search = request.queryParams.p
+    search = search ? search.replace('name:', '') : null
+
+    const countries = db.countries
+      .filter((country) => {
+        if (search && country.name.indexOf(search) === -1) {
+          return false
+        }
+
+        return true
+      })
+      .slice(0, 5)
+
     return {
-      countries: db.countries
+      countries
     }
   })
 

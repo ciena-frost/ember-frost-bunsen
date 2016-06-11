@@ -38,16 +38,11 @@ ember install ember-frost-bunsen
 | `autofocus`     | `boolean`                  | No       | Whether or not to focus on first input   |
 | `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
-| `cancelLabel`   | `string`                   | No       | Text for cancel button                   |
 | `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
-| `inline`        | `boolean`                  | No       | Whether or not to render form inline     |
-| `onCancel`      | `Function`                 | No       | Callback for when form is cancelled      |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
-| `onSubmit`      | `Function`                 | No       | Callback for when form is submitted      |
 | `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
 | `renderers`     | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `showAllErrors` | `boolean`                  | No       | Whether or not to show error messages before user interaction occurs |
-| `submitLabel`   | `string`                   | No       | Text for submit button                   |
 | `validators`    | `Array<Function>`          | No       | List of custom validation functions      |
 | `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
 

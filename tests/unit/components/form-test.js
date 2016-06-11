@@ -22,19 +22,14 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]),
-      cancelLabel: PropTypes.string,
       disabled: PropTypes.bool,
-      inline: PropTypes.bool,
-      onCancel: PropTypes.func,
       onChange: PropTypes.func,
-      onSubmit: PropTypes.func,
       onValidation: PropTypes.func,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]),
       showAllErrors: PropTypes.bool,
-      submitLabel: PropTypes.string,
       validators: PropTypes.array,
       value: PropTypes.oneOfType([
         PropTypes.EmberObject,

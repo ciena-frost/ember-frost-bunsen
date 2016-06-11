@@ -58,7 +58,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail', 'inline'],
+      classNames: ['frost-bunsen-detail'],
       disabled: false,
       renderers: {},
       showAllErrors: false,

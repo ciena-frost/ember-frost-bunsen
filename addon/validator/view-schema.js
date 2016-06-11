@@ -163,21 +163,6 @@ export default {
   type: 'object',
   description: 'The JSON Schema for a view definition',
   properties: {
-    buttonLabels: {
-      type: 'object',
-      properties: {
-        cancel: {
-          type: 'string',
-          description: 'The user-visible label for the cancel button',
-          default: 'Cancel'
-        },
-        submit: {
-          type: 'string',
-          description: 'The user-visible label for the submit button',
-          default: 'Submit'
-        }
-      }
-    },
     containers: {
       type: 'array',
       items: {

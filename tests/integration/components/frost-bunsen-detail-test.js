@@ -97,10 +97,6 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
           ]
         }
       ],
-      buttonLabels: {
-        submit: 'Create',
-        reset: 'Clear'
-      },
       rootContainers: [{label: 'Main', container: 'main'}]
     }
     this.set('bunsenView', invalidView)

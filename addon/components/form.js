@@ -3,11 +3,8 @@ import 'ember-frost-bunsen/typedefs'
 
 import {validate} from '../actions'
 
-import _ from 'lodash'
-import computed, {readOnly} from 'ember-computed-decorators'
 import {PropTypes} from 'ember-prop-types'
 import DetailComponent from './detail'
-import {getButtonLabelDefaults} from '../validator/defaults'
 
 export default DetailComponent.extend({
   // ==========================================================================
@@ -17,8 +14,6 @@ export default DetailComponent.extend({
   // ==========================================================================
   // Properties
   // ==========================================================================
-
-  classNameBindings: ['inline:inline:not-inline'],
 
   propTypes: {
     autofocus: PropTypes.bool,
@@ -30,19 +25,14 @@ export default DetailComponent.extend({
       PropTypes.EmberObject,
       PropTypes.object
     ]),
-    cancelLabel: PropTypes.string,
     disabled: PropTypes.bool,
-    inline: PropTypes.bool,
-    onCancel: PropTypes.func,
     onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
     onValidation: PropTypes.func,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
-    submitLabel: PropTypes.string,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -66,25 +56,6 @@ export default DetailComponent.extend({
   // ==========================================================================
   // Computed Properties
   // ==========================================================================
-
-  @readOnly
-  @computed('onCancel', 'onSumbit')
-  hasButtons (onCancel, onSubmit) {
-    return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
-  },
-
-  @readOnly
-  @computed('cancelLabel', 'renderView', 'submitLabel')
-  buttonLabels (cancelLabel, view, submitLabel) {
-    return _.defaults(
-      {
-        cancel: cancelLabel,
-        submit: submitLabel
-      },
-      view.buttonLabels,
-      getButtonLabelDefaults()
-    )
-  },
 
   // ==========================================================================
   // Functions
@@ -127,21 +98,6 @@ export default DetailComponent.extend({
       reduxStore.dispatch(
         validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'))
       )
-    },
-
-    /**
-     * Handle when user submits form
-     * @param {Event} e - event
-     */
-    onSubmit (e) {
-      e.preventDefault()
-
-      const onSubmit = this.get('onSubmit')
-      const renderValue = this.get('renderValue')
-
-      if (onSubmit) {
-        onSubmit(renderValue)
-      }
     }
   }
 })

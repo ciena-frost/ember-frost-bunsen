@@ -29,7 +29,6 @@ export default [
               {
                 model: 'addresses',
                 item: {
-                  // TODO: add back inline: false, once tab UX is addressed
                   label: 'Address',
                   renderer: 'AddressRenderer'
                 }
@@ -68,7 +67,6 @@ export default [
                 model: 'addresses',
                 item: {
                   container: 'addr',
-                  inline: true,
                   label: 'Address'
                 }
               }
@@ -576,11 +574,7 @@ export default [
             ]
           ]
         }
-      ],
-      buttonLabels: {
-        cancel: 'Cancel',
-        submit: 'Create'
-      }
+      ]
     }
   },
   {
@@ -678,11 +672,7 @@ export default [
             ]
           ]
         }
-      ],
-      buttonLabels: {
-        cancel: 'Cancel',
-        submit: 'Create'
-      }
+      ]
     }
   },
   {
@@ -846,11 +836,7 @@ export default [
             ]
           ]
         }
-      ],
-      buttonLabels: {
-        cancel: 'Cancel',
-        submit: 'Create'
-      }
+      ]
     }
   },
   {
