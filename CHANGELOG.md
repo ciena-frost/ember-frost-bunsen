@@ -1,3 +1,7 @@
+# 6.1.1
+
+* Downgraded `ember-cli` version back to `2.5.1` as `2.6.0` appears to be breaking the build.
+
 # 6.1.0
 
 * **Added** `autofocus` property to `frost-bunsen-form` to give consumer ability to determine whether or not first input should get focus on form load.
