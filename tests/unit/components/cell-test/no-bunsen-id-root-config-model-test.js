@@ -29,9 +29,9 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        config: {
+        config: Ember.Object.create({
           model: 'foo'
-        },
+        }),
         errors: {},
         onChange: onChangeSpy,
         value: {}

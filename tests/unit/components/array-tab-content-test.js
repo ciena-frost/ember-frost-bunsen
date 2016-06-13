@@ -12,18 +12,6 @@ describeComponent(
     unit: true
   },
   function () {
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
-      errors: PropTypes.object.isRequired,
-      index: PropTypes.number.isRequired,
-      onChange: PropTypes.func.isRequired,
-      readOny: PropTypes.bool,
-      value: PropTypes.object.isRequired
-    })
-
     let component, onChangeSpy, onRemoveSpy, sandbox
 
     beforeEach(function () {
@@ -54,7 +42,7 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        config: {},
+        cellConfig: Ember.Object.create({}),
         errors: {},
         index: 0,
         onChange: onChangeSpy,
@@ -65,6 +53,18 @@ describeComponent(
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    validatePropTypes({
+      bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
+      cellConfig: PropTypes.EmberObject.isRequired,
+      errors: PropTypes.object.isRequired,
+      index: PropTypes.number.isRequired,
+      onChange: PropTypes.func.isRequired,
+      readOny: PropTypes.bool,
+      value: PropTypes.object.isRequired
     })
 
     it('errorMessage returns null when no erorrs', function () {

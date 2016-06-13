@@ -309,7 +309,7 @@ export default Component.extend(PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const onChange = this.get('onChange')
 
-      this.set('items', reorderedItems)
+      this.set('items', Ember.A(reorderedItems))
 
       if (onChange) {
         onChange(bunsenId, reorderedItems)

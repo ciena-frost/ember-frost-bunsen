@@ -19,7 +19,10 @@ export default Component.extend(PropTypeMixin, {
     collapsible: PropTypes.bool,
     expanded: PropTypes.bool,
     expandedOnInitialRender: PropTypes.bool,
-    instructions: PropTypes.string,
+    instructions: PropTypes.oneOfType([
+      PropTypes.null,
+      PropTypes.string
+    ]),
     onToggle: PropTypes.func,
     renderContentWhenCollapsed: PropTypes.bool,
     required: PropTypes.bool.isRequired,

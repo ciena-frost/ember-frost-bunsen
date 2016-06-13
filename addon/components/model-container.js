@@ -21,7 +21,10 @@ export default Component.extend(PropTypeMixin, {
     bunsenStore: PropTypes.EmberObject.isRequired,
     cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.null,
+      PropTypes.string
+    ]),
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     value: PropTypes.object.isRequired
@@ -67,7 +70,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Boolean} whether or not container is collapsible
    */
   collapsible (container) {
-    return container && container.collapsible
+    return Boolean(container && container.collapsible)
   },
 
   @readOnly

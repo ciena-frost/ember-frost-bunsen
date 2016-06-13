@@ -12,21 +12,6 @@ describeComponent(
     unit: true
   },
   function () {
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
-      errors: PropTypes.object.isRequired,
-      index: PropTypes.number.isRequired,
-      onChange: PropTypes.func.isRequired,
-      onRemove: PropTypes.func,
-      readOny: PropTypes.bool,
-      showRemoveButton: PropTypes.bool,
-      sortable: PropTypes.bool.isRequired,
-      value: PropTypes.object.isRequired
-    })
-
     let component, onChangeSpy, onRemoveSpy, sandbox
 
     beforeEach(function () {
@@ -64,12 +49,28 @@ describeComponent(
         index: 0,
         onChange: onChangeSpy,
         onRemove: onRemoveSpy,
+        sortable: false,
         value: {foo: []}
       })
     })
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    validatePropTypes({
+      bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
+      cellConfig: PropTypes.EmberObject.isRequired,
+      errors: PropTypes.object.isRequired,
+      index: PropTypes.number.isRequired,
+      onChange: PropTypes.func.isRequired,
+      onRemove: PropTypes.func,
+      readOny: PropTypes.bool,
+      showRemoveButton: PropTypes.bool,
+      sortable: PropTypes.bool.isRequired,
+      value: PropTypes.object.isRequired
     })
 
     it('compact returns false when view config property is missing', function () {
