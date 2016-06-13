@@ -103,18 +103,6 @@ describeComponent(
     unit: true
   },
   function () {
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
-      errors: PropTypes.object.isRequired,
-      onChange: PropTypes.func.isRequired,
-      readOnly: PropTypes.bool,
-      required: PropTypes.bool,
-      value: PropTypes.object.isRequired
-    })
-
     let component, onChangeSpy, sandbox
 
     beforeEach(function () {
@@ -134,12 +122,24 @@ describeComponent(
         cellConfig: Ember.Object.create(cellConfig),
         errors: {},
         onChange: onChangeSpy,
-        value: null
+        value: {}
       })
     })
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    validatePropTypes({
+      bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
+      cellConfig: PropTypes.EmberObject.isRequired,
+      errors: PropTypes.object.isRequired,
+      onChange: PropTypes.func.isRequired,
+      readOnly: PropTypes.bool,
+      required: PropTypes.bool,
+      value: PropTypes.object.isRequired
     })
 
     it('has correct classes', function () {
@@ -556,13 +556,21 @@ describeComponent(
         })
 
         it('updates items state', function () {
-          expect(component.get('items')).to.eql([john, jane])
+          const items = component.get('items')
+
+          expect(items.length).to.equal(2)
+          expect(items[0]).to.eql(john)
+          expect(items[1]).to.eql(jane)
         })
 
         it('informs consumer of new array order', function () {
           const args = onChangeSpy.lastCall.args
+          const items = args[1]
+
           expect(args[0]).to.eql('people')
-          expect(args[1]).to.eql([john, jane])
+          expect(items.length).to.equal(2)
+          expect(items[0]).to.eql(john)
+          expect(items[1]).to.eql(jane)
         })
       })
     })

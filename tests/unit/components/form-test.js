@@ -12,6 +12,31 @@ describeComponent(
     unit: true
   },
   function () {
+    let component, onChangeSpy, onValidationSpy, sandbox
+
+    beforeEach(function () {
+      sandbox = sinon.sandbox.create()
+      onChangeSpy = sandbox.spy()
+      onValidationSpy = sandbox.spy()
+      component = this.subject({
+        bunsenModel: {
+          properties: {
+            bar: {type: 'string'},
+            baz: {type: 'number'},
+            foo: {type: 'string'}
+          },
+          required: ['foo'],
+          type: 'object'
+        },
+        onChange: onChangeSpy,
+        onValidation: onValidationSpy
+      })
+    })
+
+    afterEach(function () {
+      sandbox.restore()
+    })
+
     validatePropTypes({
       autofocus: PropTypes.bool,
       bunsenModel: PropTypes.oneOfType([
@@ -41,31 +66,6 @@ describeComponent(
         PropTypes.null,
         PropTypes.object
       ])
-    })
-
-    let component, onChangeSpy, onValidationSpy, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-      onChangeSpy = sandbox.spy()
-      onValidationSpy = sandbox.spy()
-      component = this.subject({
-        bunsenModel: {
-          properties: {
-            bar: {type: 'string'},
-            baz: {type: 'number'},
-            foo: {type: 'string'}
-          },
-          required: ['foo'],
-          type: 'object'
-        },
-        onChange: onChangeSpy,
-        onValidation: onValidationSpy
-      })
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     describe('containerTabs', function () {

@@ -12,7 +12,9 @@ describeComponent(...integrationTestContext('frost-bunsen-row'), function () {
       bunsenModel: {},
       bunsenStore: Ember.Object.create({}),
       cellConfigs: [],
-      onChange () {}
+      errors: {},
+      onChange () {},
+      value: {}
     }
 
     renderWithProps(this, 'frost-bunsen-row', props)

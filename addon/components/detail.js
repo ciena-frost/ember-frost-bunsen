@@ -146,6 +146,12 @@ export default Component.extend(PropTypeMixin, {
     })
   },
 
+  @readOnly
+  @computed('propValidationResult')
+  isInvalid (propValidationResult) {
+    return !_.isEmpty(propValidationResult.errors)
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
@@ -219,12 +225,6 @@ export default Component.extend(PropTypeMixin, {
     }
 
     this.set('propValidationResult', result)
-  },
-
-  @readOnly
-  @computed('propValidationResult')
-  isInvalid (propValidationResult) {
-    return !_.isEmpty(propValidationResult.errors)
   },
 
   /**

@@ -21,6 +21,7 @@ const props = {
     view
   }),
   config: Ember.Object.create({}),
+  errors: {},
   onChange () {},
   value: {}
 }
@@ -32,7 +33,8 @@ function tests (ctx) {
 
   describe('when sub-model is an object', function () {
     beforeEach(function () {
-      this.set('config', view.containers[0].rows[1][0]) // name model
+      const config = Ember.Object.create(view.containers[0].rows[1][0])
+      this.set('config', config) // name model
     })
 
     // TODO: get test working
@@ -43,7 +45,8 @@ function tests (ctx) {
 
   describe('when sub-model is an array', function () {
     beforeEach(function () {
-      this.set('config', view.containers[0].rows[1][0]) // address
+      const config = Ember.Object.create(view.containers[0].rows[1][0])
+      this.set('config', config) // address
     })
 
     it('renders a frost-bunsen-array-container', function () {
@@ -53,7 +56,8 @@ function tests (ctx) {
 
   describe('when sub-model is an input', function () {
     beforeEach(function () {
-      this.set('config', view.containers[1].rows[0][0]) // name.first
+      const config = Ember.Object.create(view.containers[1].rows[0][0])
+      this.set('config', config) // name.first
     })
 
     it('renders a frost-bunsen-input-wrapper', function () {
@@ -63,7 +67,8 @@ function tests (ctx) {
 
   describe('when config is a container', function () {
     beforeEach(function () {
-      this.set('config', view.containers[0].rows[0][0]) // name
+      const config = Ember.Object.create(view.containers[0].rows[0][0])
+      this.set('config', config) // name
     })
 
     it('renders a frost-bunsen-container', function () {

@@ -21,7 +21,7 @@ const props = {
   cellConfig: Ember.Object.create({
     item: Ember.Object.create({})
   }),
-  errors: null,
+  errors: {},
   index: 0,
   onChange () {},
   value: {

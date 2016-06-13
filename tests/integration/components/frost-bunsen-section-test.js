@@ -12,6 +12,7 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
     beforeEach(function () {
       let props = {
         expandedOnInitialRender: true,
+        required: false,
         title: 'Lorem Ipsum'
       }
 
@@ -30,6 +31,7 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
     beforeEach(function () {
       let props = {
         expandedOnInitialRender: true,
+        required: false,
         title: 'Lorem Ipsum'
       }
 
@@ -63,6 +65,7 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
       beforeEach(function () {
         let props = {
           expandedOnInitialRender: true,
+          required: false,
           title: 'Lorem Ipsum'
         }
 
@@ -81,6 +84,7 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
       beforeEach(function () {
         let props = {
           expandedOnInitialRender: false,
+          required: false,
           title: 'Lorem Ipsum'
         }
 
