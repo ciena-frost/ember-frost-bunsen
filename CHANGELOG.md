@@ -1,3 +1,7 @@
+# 6.2.0
+
+* **Added** new `password` renderer and deprecated using the `string` renderer for passwords.
+
 # 6.1.1
 
 * Downgraded `ember-cli` version back to `2.5.1` as `2.6.0` appears to be breaking the build.
