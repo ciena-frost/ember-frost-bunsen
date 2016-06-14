@@ -13,6 +13,7 @@ export const builtInRenderers = {
   'button-group': 'frost-bunsen-input-button-group',
   'multi-select': 'frost-bunsen-input-multi-select',
   number: 'frost-bunsen-input-number',
+  password: 'frost-bunsen-input-password',
   'property-chooser': 'frost-bunsen-property-chooser',
   select: 'frost-bunsen-input-select',
   string: 'frost-bunsen-input-text'
