@@ -18,5 +18,6 @@ module.exports = {
     if (this.options.babel.optional.indexOf('es7.decorators') === -1) {
       this.options.babel.optional.push('es7.decorators')
     }
+    this._super.init && this._super.init.apply(this, arguments)
   }
 }
