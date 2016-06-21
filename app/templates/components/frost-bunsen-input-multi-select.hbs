@@ -1,0 +1,23 @@
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </div>
+  <div class={{inputWrapperClassName}}>
+    {{frost-multi-select
+      disabled=disabled
+      onInput=onInput
+      onChange=(action "onChange")
+      data=options
+      selectedValue=value
+    }}
+  </div>
+  {{#if errorMessage}}
+    <div class={{labelWrapperClassName}}></div>
+    <div class="error">
+      {{errorMessage}}
+    </div>
+  {{/if}}
+</div>

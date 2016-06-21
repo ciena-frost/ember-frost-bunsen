@@ -6,19 +6,19 @@
     {{/if}}
   </div>
   <div class={{inputWrapperClassName}}>
-    {{#if renderValue}}
+    {{#if value}}
       ✓
     {{else}}
       ✘
     {{/if}}
   </div>
 </div>
-{{#if errorMessage}}
+{{#if renderErrorMessage}}
   <div>
     <div class={{labelWrapperClassName}}>
     </div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   </div>
 {{/if}}

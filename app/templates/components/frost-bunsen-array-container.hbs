@@ -1,0 +1,104 @@
+<div class="heading">
+  <h3>{{renderLabel}}</h3>
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</div>
+{{#if instructions}}
+  <div class="instructions">
+    {{instructions}}
+  </div>
+{{/if}}
+{{#if inline }}
+  {{#if sortable}}
+    {{#sortable-group onChange=(action "onReorderItems") as |group|}}
+      {{#each items as |item index|}}
+        {{#sortable-item group=group handle=".handle" model=item}}
+          {{frost-bunsen-array-inline-item
+            bunsenId=bunsenId
+            bunsenModel=bunsenModel
+            bunsenStore=bunsenStore
+            cellConfig=cellConfig
+            errors=errors
+            index=index
+            onChange=(action "onChange")
+            onRemove=(action "onRemoveItem")
+            readOnly=readOnly
+            sortable=true
+            value=value
+          }}
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
+  {{else}}
+    {{#each items as |item index|}}
+      {{frost-bunsen-array-inline-item
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        errors=errors
+        index=index
+        onChange=(action "onChange")
+        onRemove=(action "onRemoveItem")
+        readOnly=readOnly
+        sortable=false
+        value=value
+      }}
+    {{/each}}
+  {{/if}}
+{{else}}
+  {{#if instructions}}
+    <div class="instructions">
+      {{instructions}}
+    </div>
+  {{/if}}
+  <ul class="nav nav-tabs">
+    {{#each items as |item index|}}
+      {{frost-bunsen-array-tab-nav
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        index=index
+        onRemove=(action "onRemoveItem")
+      }}
+    {{/each}}
+    <li role="presentation">
+      {{#frost-button
+        class="medium tertiary"
+        onClick=(action "onAddItem")
+      }}
+      <div class="icon-text text">
+        {{frost-icon icon='round-add'}}
+        <div class="text">{{addLabel}}</div>
+      </div>
+      {{/frost-button}}
+    </li>
+  </ul>
+  <div class="tab-content">
+    {{#each items as |item index|}}
+      {{frost-bunsen-array-tab-content
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        errors=errors
+        index=index
+        onChange=(action "onChange")
+        readOnly=readOnly
+        value=value
+      }}
+    {{/each}}
+  </div>
+{{/if}}
+{{#if showAddButton}}
+  {{#frost-button
+    class="medium tertiary"
+    onClick=(action "onAddItem")
+  }}
+  <div class="icon-text text">
+    {{frost-icon icon='round-add'}}
+    <div class="text">{{addLabel}}</div>
+  </div>
+  {{/frost-button}}
+{{/if}}

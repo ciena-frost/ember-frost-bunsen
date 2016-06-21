@@ -1,17 +1,16 @@
 import _ from 'lodash'
-import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
-import InputMixin from 'ember-frost-bunsen/mixins/input'
+import {AbstractInput} from 'ember-frost-bunsen'
 
-export default Ember.Component.extend(InputMixin, {
+export default AbstractInput.extend({
   classNames: [
     'container-fluid',
     'name-renderer'
   ],
 
   @readOnly
-  @computed('state.value')
-  renderValue: function (name) {
+  @computed('value')
+  renderValue (name) {
     let value = ''
 
     if (!_.isPlainObject(name)) {
@@ -29,26 +28,14 @@ export default Ember.Component.extend(InputMixin, {
     return value
   },
 
-  actions: {
-    'on-change': function (e) {
-      const fullName = e.value || e.target.value
-      const parts = fullName.split(' ')
-      const first = parts[0]
-      const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
-      const onChange = this.get('on-change')
-      const value = {
-        first,
-        last
-      }
+  parseValue (value) {
+    const parts = value.split(' ')
+    const first = parts[0]
+    const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
 
-      if (onChange) {
-        onChange({
-          id: this.get('bunsenId'),
-          value
-        })
-      }
-
-      this.set('state.value', value)
+    return {
+      first,
+      last
     }
   }
 })

@@ -1,26 +1,7 @@
-import Ember from 'ember'
 import computed from 'ember-computed-decorators'
-import InputMixin from 'ember-frost-bunsen/mixins/input'
+import {AbstractInput} from 'ember-frost-bunsen'
 
-/**
- * Parse a string address into it's parts
- * @param {String} addressStr - the string address
- * @returns {Object} an address object
- */
-function parseAddress (addressStr) {
-  const [street, bottom] = addressStr.split('\n')
-  const [city, rest] = (bottom !== undefined) ? bottom.split(',') : [undefined, undefined]
-  const [state, zip] = (rest !== undefined) ? rest.trim().split(' ') : [undefined, undefined]
-
-  return {
-    street,
-    city,
-    state,
-    zip
-  }
-}
-
-export default Ember.Component.extend(InputMixin, {
+export default AbstractInput.extend({
   clasNames: [
     'address-renderer',
     'container-fluid'
@@ -28,10 +9,10 @@ export default Ember.Component.extend(InputMixin, {
 
   placeholder: '1383 North McDowell Blvd., Suite 300\nPetaluma, CA 94954',
 
-  @computed('bunsenId', 'store.formValue')
-  renderValue: function (bunsenId) {
+  @computed('bunsenId', 'value')
+  renderValue (bunsenId) {
     let value = ''
-    const address = this.get(`store.formValue.${bunsenId}`)
+    const address = this.get(`value.${bunsenId}`)
 
     if (address.street) {
       value += address.street
@@ -54,17 +35,21 @@ export default Ember.Component.extend(InputMixin, {
     return value.trim()
   },
 
-  actions: {
-    'on-change': function (e) {
-      const id = this.get('bunsenId')
-      const value = parseAddress(e.target.value)
-      const onChange = this.get('on-change')
+  /**
+   * Parse a string address into it's parts
+   * @param {String} value - the string address
+   * @returns {Object} an address object
+   */
+  parseValue (value) {
+    const [street, bottom] = value.split('\n')
+    const [city, rest] = (bottom !== undefined) ? bottom.split(',') : [undefined, undefined]
+    const [state, zip] = (rest !== undefined) ? rest.trim().split(' ') : [undefined, undefined]
 
-      if (onChange) {
-        onChange({id, value})
-      }
-
-      this.set('state.value', value)
+    return {
+      street,
+      city,
+      state,
+      zip
     }
   }
 })

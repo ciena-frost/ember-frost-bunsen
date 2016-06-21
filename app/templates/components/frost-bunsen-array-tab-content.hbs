@@ -1,0 +1,47 @@
+{{#if cellConfig.item.renderer}}
+  {{component customRenderer
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenStore=bunsenStore
+    cellConfig=cellConfig
+    label=label
+    onChange=onChange
+    readOnly=readOnly
+  }}
+{{else if (eq bunsenModel.items.type "array")}}
+  {{frost-bunsen-array-container
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenStore=bunsenStore
+    cellConfig=cellConfig.item
+    errors=errors
+    label=label
+    onChange=onChange
+    readOnly=readOnly
+    value=value
+  }}
+{{else if (eq bunsenModel.items.type "object")}}
+  {{frost-bunsen-model-container
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenStore=bunsenStore
+    cellConfig=cellConfig.item
+    errors=errors
+    label=label
+    onChange=onChange
+    readOnly=readOnly
+    value=value
+  }}
+{{else}}
+  {{frost-bunsen-input-wrapper
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenStore=bunsenStore
+    cellConfig=cellConfig.item
+    errorMessage=errorMessage
+    label=label
+    onChange=onChange
+    readOnly=readOnly
+    value=value
+  }}
+{{/if}}

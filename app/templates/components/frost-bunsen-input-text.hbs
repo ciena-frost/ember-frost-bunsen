@@ -1,0 +1,41 @@
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </div>
+  <div class={{inputWrapperClassName}}>
+    {{#if (eq inputType 'password')}}
+      {{frost-password
+        class=inputClassName
+        disabled=disabled
+        onBlur=(action "onBlur")
+        onFocus=(action "onFocus")
+        onInput=(action "onChange")
+        placeholder=cellConfig.placeholder
+        revealable=true
+        value=(readonly transformedValue)
+      }}
+    {{else}}
+      {{frost-text
+        class=inputClassName
+        disabled=disabled
+        onBlur=(action "onBlur")
+        onFocus=(action "onFocus")
+        onInput=(action "onChange")
+        placeholder=cellConfig.placeholder
+        type=inputType
+        value=(readonly transformedValue)
+      }}
+    {{/if}}
+  </div>
+</div>
+{{#if renderErrorMessage}}
+  <div>
+    <div class={{labelWrapperClassName}}></div>
+    <div class="error">
+      {{renderErrorMessage}}
+    </div>
+  </div>
+{{/if}}

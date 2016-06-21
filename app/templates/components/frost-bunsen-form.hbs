@@ -1,0 +1,57 @@
+{{#if isInvalid}}
+  {{frost-bunsen-validation-result
+    model=propValidationResult
+  }}
+{{else}}
+  <form class="form" onsubmit={{action "onSubmit"}}>
+    {{#if containerTabs.length}}
+      {{#frost-tabs
+        onChange=(action "onTabChange")
+        selection=(or selectedTabIndex 0)
+        tabs=containerTabs
+      }}
+        {{#each containerTabs as |tab|}}
+          {{frost-tab
+            alias=tab.alias
+            id=tab.id
+          }}
+        {{/each}}
+      {{/frost-tabs}}
+    {{/if}}
+    {{frost-bunsen-container
+      bunsenModel=renderModel
+      bunsenStore=bunsenStore
+      cellConfig=cellConfig
+      errors=renderErrors
+      onChange=(action "onChange")
+      value=renderValue
+    }}
+  </form>
+  {{#if hasButtons}}
+    <div class="form-group button-bar">
+        <div>
+            <div class="pull-right">
+              {{#if onCancel}}
+                <button
+                  class="btn btn-default pull-right"
+                  onClick={{action "onCancel"}}
+                  type="button"
+                >
+                  {buttonLabels.cancel}
+                </button>
+              {{/if}}
+              {{#if onSubmit}}
+                <button
+                  class="btn btn-default pull-right"
+                  disabled={{isSubmitBtnDisabled}}
+                  onClick={{action "onSubmit"}}
+                  type="submit"
+                >
+                  {butonLabels.submit}
+                </button>
+              {{/if}}
+            </div>
+        </div>
+    </div>
+  {{/if}}
+{{/if}}

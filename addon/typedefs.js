@@ -75,14 +75,14 @@
 
 /**
  * @typedef {Object} BunsenValidationError
- * @property {String} path - the dotted path to the attribute where the error occurred
+ * @property {Boolean} isRequiredError - whether or not error is a required field error
  * @property {String} message - the error message
+ * @property {String} path - the dotted path to the attribute where the error occurred
  */
 
 /**
  * @typedef BunsenValidationResult
  * @property {BunsenValidationError[]} errors - the errors (if any)
- * @property {Boolean} valid - true if schema was valid, false if not
  * @property {BunsenValidationWarning[]} warnings - the warnings (if any)
  */
 

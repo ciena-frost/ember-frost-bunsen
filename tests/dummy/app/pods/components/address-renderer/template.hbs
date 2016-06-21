@@ -5,7 +5,8 @@
 {{/if}}
 <div>
   {{textarea
-    change=(action "on-change")
+    change=(action "onChange")
+    disabled=disabled
     placeholder=placeholder
     value=renderValue
   }}

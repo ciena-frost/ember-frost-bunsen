@@ -1,0 +1,31 @@
+{{#if isInvalid}}
+  {{frost-bunsen-validation-result
+    model=propValidationResult
+  }}
+{{else}}
+<form>
+  {{#if containerTabs.length}}
+    {{#frost-tabs
+      onChange=(action "onTabChange")
+      selection=(or selectedTabIndex 0)
+      tabs=containerTabs
+    }}
+      {{#each containerTabs as |tab|}}
+        {{frost-tab
+          alias=tab.alias
+          id=tab.id
+        }}
+      {{/each}}
+    {{/frost-tabs}}
+  {{/if}}
+  {{frost-bunsen-container
+    bunsenModel=renderModel
+    bunsenStore=bunsenStore
+    cellConfig=cellConfig
+    errors=errors
+    onChange=(action "onChange")
+    readOnly=true
+    value=renderValue
+  }}
+</form>
+{{/if}}

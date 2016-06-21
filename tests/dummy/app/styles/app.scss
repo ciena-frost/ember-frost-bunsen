@@ -16,10 +16,6 @@
 .demo-code-block {
   flex-grow: 1;
   padding: 10px;
-
-  pre {
-    height: 300px;
-  }
 }
 
 .double-bunsen {
@@ -29,4 +25,19 @@
   .frost-bunsen-detail {
     display: inline-block;
   }
+}
+
+pre.value-code-block {
+  width: 300px;
+  height: 300px;
+  color: white;
+  background-color: black;
+}
+
+.flex-grid {
+  display: flex;
+}
+
+.one-third {
+  width: percentage(1 / 3);
 }
