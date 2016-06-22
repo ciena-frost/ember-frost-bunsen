@@ -113,7 +113,9 @@ export default AbstractInput.extend({
    * @returns {Object} variables
    */
   getTemplateVariables (value) {
-    let index, label
+    let index = -1
+    let label = ''
+    value = value || ''
 
     const id = this.get('bunsenId')
     const options = this.get('options')

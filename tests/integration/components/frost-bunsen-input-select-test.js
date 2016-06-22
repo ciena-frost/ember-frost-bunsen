@@ -112,9 +112,84 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       }
     })
 
-    describe('when bunsenStore.disabled is true', function () {
-      let rootNode
+    describe('when write transform is specified', function () {
+      beforeEach(function () {
+        const cellConfig = {
+          model: 'name',
+          renderer: 'select',
+          writeTransforms: [
+            {
+              object: {
+                id: '${id}',
+                index: '${index}',
+                label: '${label}',
+                literal: 'foo',
+                value: '${value}'
+              }
+            }
+          ]
+        }
 
+        const view = {
+          containers: [
+            {
+              id: 'main',
+              rows: [
+                [cellConfig]
+              ]
+            }
+          ],
+          rootContainers: [{
+            container: 'main',
+            label: 'Main'
+          }],
+          type: 'form',
+          version: '1.0'
+        }
+
+        props = {
+          bunsenId: 'name',
+          bunsenModel: {
+            enum: ['Adam', 'Chris', 'Matt', 'Niko', 'Sophy'],
+            type: 'string'
+          },
+          bunsenStore: Ember.Object.create({
+            view
+          }),
+          cellConfig: Ember.Object.create(cellConfig),
+          onChange () {},
+          state: Ember.Object.create({}),
+          value: undefined // Must be present so we can set it via this.set('value', value)
+        }
+
+        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      })
+
+      it('applies the object transform', function (done) {
+        Ember.run.next(() => {
+          this.set('onChange', (id, value) => {
+            // sadly, we get two onChange calls here, one when the value is empty and another once the value is
+            // actually set, so instead of doing an expect() on the value, we won't call don() unless it matches
+            // what we expect it to be
+            const expected = {
+              id: 'name',
+              index: '1',
+              label: 'Chris',
+              literal: 'foo',
+              value: 'Chris'
+            }
+            if (_.isEqual(value, expected) && (id === 'name')) {
+              done()
+            }
+          })
+
+          rootNode.find('.down-arrow').click()
+          rootNode.find('li[data-value="Chris"]').click()
+        })
+      })
+    })
+
+    describe('when bunsenStore.disabled is true', function () {
       beforeEach(function () {
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
         this.set('bunsenStore.disabled', true)
@@ -127,8 +202,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     describe('when bunsenStore.disabled is false', function () {
-      let rootNode
-
       beforeEach(function () {
         rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
         this.set('bunsenStore.disabled', false)
