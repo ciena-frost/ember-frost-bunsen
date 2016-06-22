@@ -1,3 +1,7 @@
+# 6.3.0
+* **Added** ability to define `conditions` within a `definitions` block of a bunsen model
+* **Fixed** integration tests for `addon/components/select-input.js`
+
 # 6.2.0
 
 * **Added** new `password` renderer and deprecated using the `string` renderer for passwords.
