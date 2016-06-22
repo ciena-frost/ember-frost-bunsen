@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {Logger} = Ember
 import {CHANGE_VALUE, VALIDATION_RESOLVED, CHANGE_MODEL} from './actions'
-import convertSchema from './convert-schema'
+import evaluateConditions from './evaluate-conditions'
 
 function ensureParent (stateValue, id) {
   // If id does not have a parent the nothing to do
@@ -83,7 +83,7 @@ export default function (state, action) {
           _.set(newValue, bunsenId, value)
         }
       }
-      const newModel = convertSchema(state.baseModel, newValue)
+      const newModel = evaluateConditions(state.baseModel, newValue)
       let model
       if (!_.isEqual(state.model, newModel)) {
         model = newModel
@@ -105,11 +105,11 @@ export default function (state, action) {
 
       return _.defaults({
         baseModel: action.model,
-        model: convertSchema(action.model, state.value)
+        model: evaluateConditions(action.model, state.value)
       }, state)
     case '@@redux/INIT':
       if (state && state.baseModel) {
-        state.model = convertSchema(state.baseModel, state.value || {})
+        state.model = evaluateConditions(state.baseModel, state.value || {})
       }
       return initialState(state || {})
 
