@@ -1,5 +1,12 @@
 import _ from 'lodash'
 
+/**
+ * Determine if value is within a numeric range
+ * @param {String|Number} value - value to check
+ * @param {Number} min - start of range (inclusive)
+ * @param {Number} max - end of range (inclusive)
+ * @returns {Boolean} whether or not value is within range
+ */
 export function inRange (value, min, max) {
   const int = parseInt(value, 10)
 
@@ -10,6 +17,11 @@ export function inRange (value, min, max) {
   )
 }
 
+/**
+ * Validate value as time
+ * @param {Any} value - value to validate
+ * @returns {Boolean} whether or not value is valid
+ */
 export default function (value) {
   let period
 
