@@ -22,9 +22,12 @@ export default function (value) {
     return false
   }
 
+  const int = parseInt(value)
+
   return (
-    value >= min &&
-    value <= max &&
-    (reserved).indexOf(value) === -1
+    `${int}` === `${value}` &&
+    int >= min &&
+    int <= max &&
+    (reserved).indexOf(int) === -1
   )
 }

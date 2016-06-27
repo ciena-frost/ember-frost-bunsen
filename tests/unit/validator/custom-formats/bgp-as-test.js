@@ -38,35 +38,40 @@ describe('bgp-as format', () => {
 
   it('returns false when value < 0', () => {
     expect(bgpAs(-1)).to.be.false
+    expect(bgpAs('-1')).to.be.false
   })
 
   it('returns false when value = 0', () => {
     expect(bgpAs(0)).to.be.false
+    expect(bgpAs('0')).to.be.false
   })
 
   it('returns true when 1 <= value <= 65534', () => {
     _.range(1, 65534).forEach((value) => {
       expect(bgpAs(value)).to.be.true
+      expect(bgpAs(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value = 65535', () => {
     expect(bgpAs(65535)).to.be.false
+    expect(bgpAs('65535')).to.be.false
   })
 
-  /* Test disabled as it causes browser to crash
   it('returns true when 65536 <= value <= 4294967294', () => {
-    _.range(65536, 4294967294).forEach((value) => {
-      expect(bgpAs(value)).to.be.true
-    })
+    expect(bgpAs(65536)).to.be.true
+    expect(bgpAs('65536')).to.be.true
+    expect(bgpAs(4294967294)).to.be.true
+    expect(bgpAs('4294967294')).to.be.true
   })
-  */
 
   it('returns false when value = 4294967295', () => {
     expect(bgpAs(4294967295)).to.be.false
+    expect(bgpAs('4294967295')).to.be.false
   })
 
   it('returns false when value > 4294967295', () => {
     expect(bgpAs(4294967296)).to.be.false
+    expect(bgpAs('4294967296')).to.be.false
   })
 })
