@@ -11,7 +11,7 @@ describe('int64 format', () => {
     expect(int64(null)).to.be.false
   })
 
-  it('returns false when value is a string', () => {
+  it('returns false when value is a non-numeric string', () => {
     expect(int64('test')).to.be.false
   })
 

@@ -38,15 +38,18 @@ describe('uint16 format', () => {
 
   it('returns false when value = -1', () => {
     expect(uint16(-1)).to.be.false
+    expect(uint16('-1')).to.be.false
   })
 
   it('returns true when 0 <= value <= 65535', () => {
     _.range(0, 65535).forEach((value) => {
       expect(uint16(value)).to.be.true
+      expect(uint16(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value = 65536', () => {
     expect(uint16(65536)).to.be.false
+    expect(uint16('65536')).to.be.false
   })
 })

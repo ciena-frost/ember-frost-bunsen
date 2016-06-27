@@ -38,19 +38,23 @@ describe('vlan-id format', () => {
 
   it('returns false when value < 0', () => {
     expect(vlanId(-1)).to.be.false
+    expect(vlanId('-1')).to.be.false
   })
 
   it('returns false when value = 0', () => {
     expect(vlanId(0)).to.be.false
+    expect(vlanId('0')).to.be.false
   })
 
   it('returns true when 1 <= value <= 4094', () => {
     _.range(1, 4094).forEach((value) => {
       expect(vlanId(value)).to.be.true
+      expect(vlanId(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value > 4094', () => {
     expect(vlanId(4095)).to.be.false
+    expect(vlanId('4095')).to.be.false
   })
 })

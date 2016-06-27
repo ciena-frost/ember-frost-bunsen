@@ -11,9 +11,11 @@ export default function (value) {
     return false
   }
 
+  const int = parseInt(value)
+
   return (
-    parseInt(value) === value &&
-    value >= min &&
-    value <= max
+    `${int}` === `${value}` &&
+    int >= min &&
+    int <= max
   )
 }

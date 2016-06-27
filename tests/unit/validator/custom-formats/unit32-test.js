@@ -41,14 +41,18 @@ describe('unit32 format', () => {
 
   it('returns false when value < 0', () => {
     expect(uint32(-1)).to.be.false
+    expect(uint32('-1')).to.be.false
   })
 
   it('returns true when 0 <= value <= 4294967295', () => {
     expect(uint32(0)).to.be.true
+    expect(uint32('0')).to.be.true
     expect(uint32(4294967295)).to.be.true
+    expect(uint32('4294967295')).to.be.true
   })
 
   it('returns false when value > 4294967295', () => {
     expect(uint32(4294967296)).to.be.false
+    expect(uint32('4294967296')).to.be.false
   })
 })

@@ -38,15 +38,18 @@ describe('uint8 format', () => {
 
   it('returns false when value = -1', () => {
     expect(uint8(-1)).to.be.false
+    expect(uint8('-1')).to.be.false
   })
 
   it('returns true when 0 <= value <= 255', () => {
     _.range(0, 255).forEach((value) => {
       expect(uint8(value)).to.be.true
+      expect(uint8(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value > 255', () => {
     expect(uint8(256)).to.be.false
+    expect(uint8('256')).to.be.false
   })
 })

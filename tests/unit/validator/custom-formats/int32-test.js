@@ -11,7 +11,7 @@ describe('int format', () => {
     expect(int32(null)).to.be.false
   })
 
-  it('returns false when value is a string', () => {
+  it('returns false when value is a non-numeric string', () => {
     expect(int32('test')).to.be.false
   })
 
@@ -41,14 +41,18 @@ describe('int format', () => {
 
   it('returns false when value < -2147483648', () => {
     expect(int32(-2147483649)).to.be.false
+    expect(int32('-2147483649')).to.be.false
   })
 
   it('returns true when -2147483648 <= value <= 2147483647', () => {
     expect(int32(-2147483648)).to.be.true
+    expect(int32('-2147483648')).to.be.true
     expect(int32(2147483647)).to.be.true
+    expect(int32('2147483647')).to.be.true
   })
 
   it('returns false when value > 2147483647', () => {
     expect(int32(2147483648)).to.be.false
+    expect(int32('2147483648')).to.be.false
   })
 })

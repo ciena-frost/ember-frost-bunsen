@@ -8,7 +8,7 @@ export default function (value) {
     return false
   }
 
-  return (
-    parseInt(value) === value
-  )
+  const int = parseInt(value)
+
+  return `${int}` === `${value}`
 }

@@ -12,7 +12,7 @@ describe('int8 format', () => {
     expect(int8(null)).to.be.false
   })
 
-  it('returns false when value is a string', () => {
+  it('returns false when value is a non-numeric string', () => {
     expect(int8('test')).to.be.false
   })
 
@@ -38,15 +38,18 @@ describe('int8 format', () => {
 
   it('returns false when value < -128', () => {
     expect(int8(-129)).to.be.false
+    expect(int8('-129')).to.be.false
   })
 
   it('returns true when -128 <= value <= 127', () => {
     _.range(-128, 127).forEach((value) => {
       expect(int8(value)).to.be.true
+      expect(int8(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value > 127', () => {
     expect(int8(128)).to.be.false
+    expect(int8('128')).to.be.false
   })
 })

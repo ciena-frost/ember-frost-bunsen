@@ -12,7 +12,7 @@ describe('int16 format', () => {
     expect(int16(null)).to.be.false
   })
 
-  it('returns false when value is a string', () => {
+  it('returns false when value is a non-numeric string', () => {
     expect(int16('test')).to.be.false
   })
 
@@ -38,15 +38,18 @@ describe('int16 format', () => {
 
   it('returns false when value < -32768', () => {
     expect(int16(-32769)).to.be.false
+    expect(int16('-32769')).to.be.false
   })
 
   it('returns true when -32768 <= value <= 32767', () => {
     _.range(-32768, 32767).forEach((value) => {
       expect(int16(value)).to.be.true
+      expect(int16(`${value}`)).to.be.true
     })
   })
 
   it('returns false when value > 32767', () => {
     expect(int16(32768)).to.be.false
+    expect(int16('32768')).to.be.false
   })
 })
