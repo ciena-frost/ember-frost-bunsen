@@ -21,7 +21,7 @@ export default function (value) {
     return false
   }
 
-  const int = parseInt(value)
+  const int = parseInt(value, 10)
 
   return (
     `${int}` === `${value}` &&

@@ -10,7 +10,7 @@ export default function (value) {
   if (
     _.isArray(value) ||
     _.isPlainObject(value) ||
-    (_.isNumber(value) && parseInt(value) !== value) ||
+    (_.isNumber(value) && parseInt(value, 10) !== value) ||
     [undefined, null].indexOf(value) !== -1
   ) {
     return false

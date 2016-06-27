@@ -230,7 +230,7 @@ export default Component.extend(PropTypeMixin, {
       if (autoAdd && clearingValue) {
         const arrayPath = this.get('bunsenId')
         const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
-        const itemIndex = parseInt(itemPathBits.splice(0, 1)[0])
+        const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
         const itemPath = `${arrayPath}.${itemIndex}`
         const item = this.get(`bunsenStore.formValue.${itemPath}`)
         const itemCopy = _.cloneDeep(item)
