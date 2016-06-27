@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import portNumber from 'ember-frost-bunsen/validator/custom-formats/port-number'
