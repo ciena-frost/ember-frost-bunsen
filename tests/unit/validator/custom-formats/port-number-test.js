@@ -47,10 +47,10 @@ describe('port-number format', () => {
   })
 
   it('returns true when 1 <= value <= 65535', () => {
-    _.range(1, 65535).forEach((value) => {
-      expect(portNumber(value)).to.be.true
-      expect(portNumber(`${value}`)).to.be.true
-    })
+    expect(portNumber(1)).to.be.true
+    expect(portNumber('1')).to.be.true
+    expect(portNumber(65535)).to.be.true
+    expect(portNumber('65535')).to.be.true
   })
 
   it('returns false when value > 65535', () => {
