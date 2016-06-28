@@ -60,6 +60,13 @@ describe('ipv4-address format', () => {
     expect(ipv4Address('100.101.102.256')).to.be.false
   })
 
+  it('returns false when octet has leading zeros', () => {
+    expect(ipv4Address('01.1.1.1')).to.be.false
+    expect(ipv4Address('1.01.1.1')).to.be.false
+    expect(ipv4Address('1.1.01.1')).to.be.false
+    expect(ipv4Address('1.1.1.01')).to.be.false
+  })
+
   it('returns true when valid IPv4 address', () => {
     expect(ipv4Address('0.0.0.0')).to.be.true
     expect(ipv4Address('127.0.0.1')).to.be.true

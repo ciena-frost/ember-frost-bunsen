@@ -4,9 +4,12 @@
 
 import _ from 'lodash'
 import ipv4Address from './ipv4-address'
+import {ipAddressBits, networkMaskValid} from './utils'
+
+export const firstOctetMax = 253
 
 /**
- * Validate value as an IPv4 Prefix
+ * Validate value as an IPv4 prefix
  * @param {Any} value - value to validate
  * @returns {Boolean} whether or not value is valid
  */
@@ -17,7 +20,7 @@ export default function (value) {
 
   const [ipAddress, networkMask] = value.split('/')
 
-  if (networkMask === undefined) {
+  if (!networkMaskValid(networkMask)) {
     return false
   }
 
@@ -25,7 +28,14 @@ export default function (value) {
     return false
   }
 
-  // TODO: validate network mask
+  const octets = ipAddress.split('.')
 
-  return true
+  if (parseInt(octets[0], 10) > firstOctetMax) {
+    return false
+  }
+
+  const bits = ipAddressBits(ipAddress)
+  const zeroBits = bits.slice(parseInt(networkMask, 10))
+
+  return /^0+$/.test(zeroBits)
 }

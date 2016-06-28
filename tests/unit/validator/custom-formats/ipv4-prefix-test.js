@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import ipv4Prefix from 'ember-frost-bunsen/validator/custom-formats/ipv4-prefix'
 
-describe('ipv4-address format', () => {
+describe('ipv4-prefix format', () => {
   it('returns false when value is undefined', () => {
     expect(ipv4Prefix(undefined)).to.be.false
   })
@@ -64,9 +64,16 @@ describe('ipv4-address format', () => {
     expect(ipv4Prefix('100.101.102.256/0')).to.be.false
   })
 
+  it('returns false when first octet contains numbers > 253', () => {
+    expect(ipv4Prefix('254.0.0.0/0')).to.be.false
+    expect(ipv4Prefix('255.0.0.0/0')).to.be.false
+  })
+
+  it('returns false when invalid IPv4 prefix', () => {
+    expect(ipv4Prefix('192.168.128.0/16')).to.be.false
+  })
+
   it('returns true when valid IPv4 prefix', () => {
-    expect(ipv4Prefix('0.0.0.0/0')).to.be.true
-    expect(ipv4Prefix('127.0.0.1/0')).to.be.true
-    expect(ipv4Prefix('255.255.255.255/0')).to.be.true
+    expect(ipv4Prefix('192.168.0.0/16')).to.be.true
   })
 })

@@ -3,15 +3,7 @@
  */
 
 import ipv4Address from './ipv4-address'
-
-/**
- * Convert decimal value to binary representation
- * @param {Number} decimal - decimal value to convert to binary
- * @returns {String} string containing binary representation
- */
-export function decimalToBinary (decimal) {
-  return (decimal >>> 0).toString(2)
-}
+import {ipAddressBits} from './utils'
 
 /**
  * Validate value as a netmask
@@ -23,9 +15,7 @@ export default function (value) {
     return false
   }
 
-  const binary = value.split('.')
-    .map(decimalToBinary)
-    .join('')
+  const bits = ipAddressBits(value)
 
-  return /^1*0*$/.test(binary)
+  return /^1*0*$/.test(bits)
 }
