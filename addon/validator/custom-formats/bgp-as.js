@@ -2,7 +2,7 @@
  * @reference https://en.wikipedia.org/wiki/Autonomous_system_(Internet)
  */
 
-import int64 from './int64'
+import rangeFnFactory from './range-fn-factory'
 
 export const max = 4294967295
 export const min = 0
@@ -17,17 +17,4 @@ export const reserved = [
  * @param {Any} value - value to validate
  * @returns {Boolean} whether or not value is a valid
  */
-export default function (value) {
-  if (!int64(value)) {
-    return false
-  }
-
-  const int = parseInt(value, 10)
-
-  return (
-    `${int}` === `${value}` &&
-    int >= min &&
-    int <= max &&
-    (reserved).indexOf(int) === -1
-  )
-}
+export default rangeFnFactory(min, max, reserved)
