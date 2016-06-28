@@ -54,7 +54,7 @@ export default [
             people: {
               items: {
                 properties: {
-                  age: {type: 'number'},
+                  age: {type: 'integer'},
                   name: {
                     properties: {
                       first: {type: 'string'},
