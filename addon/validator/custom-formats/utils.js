@@ -7,7 +7,10 @@ export const networkMaskMin = 0
  * @returns {String} string containing binary representation
  */
 export function decimalToBinary (decimal) {
-  return (decimal >>> 0).toString(2)
+  // NOTE: we are applying two's complement so we can properly represent negative
+  // numbers in binary. See: https://en.wikipedia.org/wiki/Two%27s_complement
+  const twosComplement = decimal >>> 0
+  return twosComplement.toString(2)
 }
 
 /**
