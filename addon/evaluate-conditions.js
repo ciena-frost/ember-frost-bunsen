@@ -41,6 +41,12 @@ function meetsCondition (value, condition) {
 }
 
 export default function evaluate (model, value, getPreviousValue) {
+  // In some error conditions, model might be empty, and not crashing helps in debugging
+  // because the validation error can actually be seen then -- ARM
+  if (!model) {
+    return model
+  }
+
   model = dereference(model).schema
   delete model.definitions
 

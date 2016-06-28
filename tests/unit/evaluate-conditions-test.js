@@ -39,6 +39,16 @@ describe('evaluate-schema', () => {
     })
   })
 
+  describe('when nothing passed in', () => {
+    beforeEach(() => {
+      newModel = evaluate(undefined, {})
+    })
+
+    it('returns what was given', () => {
+      expect(newModel).to.be.equal(undefined)
+    })
+  })
+
   describe('simple model', () => {
     beforeEach(() => {
       model = _.cloneDeep(simpleModel)
