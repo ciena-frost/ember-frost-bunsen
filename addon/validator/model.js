@@ -5,6 +5,12 @@ import _ from 'lodash'
 
 import {addErrorResult, aggregateResults, ensureJsonObject, validateRequiredAttribute} from './utils'
 import dereference from '../dereference'
+import customFormats from './custom-formats'
+
+// Register custom formats with z-schema
+_.forIn(customFormats, (validator, name) => {
+  ZSchema.registerFormat(name, validator)
+})
 
 const validator = new ZSchema({
   noTypeless: true,
@@ -12,7 +18,7 @@ const validator = new ZSchema({
 })
 
 /** currently supported model types */
-const supportedTypes = ['string', 'object', 'array', 'number', 'boolean']
+const supportedTypes = ['string', 'object', 'array', 'integer', 'number', 'boolean']
 
 /**
  * Validate the children of the model object (if any exist)

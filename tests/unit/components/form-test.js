@@ -328,6 +328,7 @@ describeComponent(
         expect(bunsenStore.renderers).to.eql({
           boolean: 'frost-bunsen-input-boolean',
           'button-group': 'frost-bunsen-input-button-group',
+          integer: 'frost-bunsen-input-number',
           'multi-select': 'frost-bunsen-input-multi-select',
           number: 'frost-bunsen-input-number',
           password: 'frost-bunsen-input-password',

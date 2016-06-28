@@ -1,3 +1,6 @@
 {
-  "extends": ["frost-standard"]
+  "extends": ["frost-standard"],
+  "globals": {
+    "URL": false
+  }
 }

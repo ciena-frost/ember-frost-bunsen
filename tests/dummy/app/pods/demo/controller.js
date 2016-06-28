@@ -18,6 +18,10 @@ export default Controller.extend({
       ]
     },
     {
+      route: 'demo.formats',
+      title: 'Formats'
+    },
+    {
       route: 'demo.renderers',
       title: 'Renderers'
     },
