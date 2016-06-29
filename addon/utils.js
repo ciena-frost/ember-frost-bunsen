@@ -177,20 +177,25 @@ export function findValue (obj, valuePath, startPath = '') {
  * @param {Object} valueObj - the value object to mine for query values
  * @param {String} queryJSON - the stringified filter object to parse
  * @param {String} startPath - start path
+ * @param {Boolean} allowEmpty - allow empty values to be represented by ''
  * @returns {String} the populated filter
  * @throws Will throw when any value at the resolved path is empty
  */
-export function parseVariables (valueObj, queryJSON, startPath = '') {
+export function parseVariables (valueObj, queryJSON, startPath = '', allowEmpty = false) {
   if (queryJSON.indexOf('${') !== -1) {
     const valueVariable = queryJSON.split('${')[1].split('}')[0]
-    const result = findValue(valueObj, valueVariable, startPath)
+    let result = findValue(valueObj, valueVariable, startPath)
 
     if (result === undefined || String(result) === '') {
-      throw new Error(`value at ${valueVariable} is empty`)
+      if (allowEmpty) {
+        result = ''
+      } else {
+        throw new Error(`value at ${valueVariable} is empty`)
+      }
     }
 
     const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
-    return parseVariables(valueObj, newQueryJson, startPath)
+    return parseVariables(valueObj, newQueryJson, startPath, allowEmpty)
   }
   return queryJSON
 }

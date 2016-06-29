@@ -1,3 +1,43 @@
+# 6.4.0
+
+* **Added** support for `integer` JSON Schema type.
+
+* **Added** the following custom formats:
+
+  * `bgp-as` - Border gateway protocol (BGP) autonomous system (AS)
+  * `date` - date
+  * `hex-string` - hexadecimal strings (ie. *2a:3b*)
+  * `int8` - signed 8-bit integers
+  * `int16` - signed 16-bit integers
+  * `int32` - signed 32-bit integers
+  * `int64` - signed 64-bit integers
+  * `ipv4-address` - IPv4 address (ie. *127.0.0.1*)
+  * `ipv4-interface` - IPv4 interface
+  * `ipv4-prefix` - IPv4 Prefix (ie. *192.168.0.0/16*)
+  * `netmask` - netmask
+  * `port-number` - port
+  * `time` - time
+  * `uint8` - unsigned 8-bit integers
+  * `uint16` - unsigned 16-bit integers
+  * `uint32` - unsigned 32-bit integers
+  * `url` - Uniform resource locator (URL)
+  * `vlan-id` - VLAN identification number
+
+# 6.3.2
+ * **Fixed** `evaluate()` to no longer choke when called with `undefined` or `null`, it just returns them as-is now. 
+
+# 6.3.1
+No CHANGELOG section found in Pull Request description.
+Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+
+# 6.3.0
+* **Added** ability to define `conditions` within a `definitions` block of a bunsen model
+* **Fixed** integration tests for `addon/components/select-input.js`
+
+# 6.2.0
+
+* **Added** new `password` renderer and deprecated using the `string` renderer for passwords.
+
 # 6.1.1
 
 * Downgraded `ember-cli` version back to `2.5.1` as `2.6.0` appears to be breaking the build.

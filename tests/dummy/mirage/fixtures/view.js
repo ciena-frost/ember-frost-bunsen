@@ -970,7 +970,7 @@ export default [
   },
   {
     id: 'conditional-prop-select-form',
-    label: 'Conditional With Select',
+    label: 'Conditional Props',
     modelIds: ['conditional-properties'],
     view: {
       version: '1.0',
@@ -999,6 +999,44 @@ export default [
             [
               {
                 model: 'tag2'
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    id: 'nested-conditionals-form',
+    label: 'Nested Conditions',
+    modelIds: ['conditions-in-definitions', 'conditions'],
+    view: {
+      version: '1.0',
+      type: 'form',
+      rootContainers: [
+        {
+          label: 'Main',
+          container: 'main'
+        }
+      ],
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tagType',
+                renderer: 'select'
+              }
+            ],
+            [
+              {
+                model: 'myTags.tag'
+              }
+            ],
+            [
+              {
+                model: 'myTags.tag2'
               }
             ]
           ]

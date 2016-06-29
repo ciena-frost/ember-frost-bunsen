@@ -143,10 +143,9 @@ export default Component.extend(PropTypeMixin, {
   applyObjectTransform (value, transform) {
     const newObject = {}
     const variables = this.getTemplateVariables(value)
-
     Object.keys(transform.object)
       .forEach((key) => {
-        newObject[key] = parseVariables(variables, transform.object[key])
+        newObject[key] = parseVariables(variables, transform.object[key], '', true)
       })
 
     return newObject

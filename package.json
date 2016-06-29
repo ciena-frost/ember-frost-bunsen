@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "6.1.1",
+  "version": "6.4.0",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -41,6 +41,7 @@
     "ember-cli-inject-live-reload": "^1.4.0",
     "ember-cli-mirage": "0.2.0",
     "ember-cli-mocha": "0.10.2",
+    "ember-cli-moment-shim": "2.0.0",
     "ember-cli-notifications": "^3.2.0",
     "ember-cli-showdown": "^2.5.0",
     "ember-cli-sri": "^2.1.0",
@@ -56,6 +57,7 @@
     "ember-frost-tabs": "^2.0.0",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": ">=0.0.6 <2.0.0",
+    "ember-moment": "7.0.0-beta.3",
     "ember-one-way-controls": "0.8.2",
     "ember-prism": "0.0.7",
     "ember-prop-types": "^2.0.0",

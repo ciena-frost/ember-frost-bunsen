@@ -1,4 +1,11 @@
+/**
+ * @module evaluate-conditions
+ * Export a single function to accept a model schema which includes conditions and return one where the conditions are
+ * evaluated/removed.
+ */
+
 import _ from 'lodash'
+import dereference from './dereference'
 
 function pathFinder (valueObj, prevPath) {
   return function (path) {
@@ -33,7 +40,16 @@ function meetsCondition (value, condition) {
   }, false)
 }
 
-function convertConditionalProperties (model, value, getPreviousValue) {
+export default function evaluate (model, value, getPreviousValue) {
+  // In some error conditions, model might be empty, and not crashing helps in debugging
+  // because the validation error can actually be seen then -- ARM
+  if (!model) {
+    return model
+  }
+
+  model = dereference(model).schema
+  delete model.definitions
+
   if (model.type !== 'object' && model.type !== 'array' && model.properties === undefined) {
     return model
   }
@@ -44,7 +60,7 @@ function convertConditionalProperties (model, value, getPreviousValue) {
       let itemSchemas = []
       // Deep version of _.uniq
       const potentialSchemas = _.map(value, function (val) {
-        return convertConditionalProperties(model.items, val, getPreviousValue)
+        return evaluate(model.items, val, getPreviousValue)
       })
       _.each(potentialSchemas, function (schema) {
         if (!_.some(itemSchemas, _.partial(_.isEqual, schema))) {
@@ -57,16 +73,16 @@ function convertConditionalProperties (model, value, getPreviousValue) {
         retModel.items = itemSchemas[0]
       }
     } else if (value === undefined) {
-      retModel.items = convertConditionalProperties(model.items, value, getPreviousValue)
+      retModel.items = evaluate(model.items, value, getPreviousValue)
     }
   } else {
     const aggregateType = _.find(['anyOf', 'oneOf'], _.partial(_.contains, _.keys(model)))
     if (aggregateType !== undefined) {
       retModel[aggregateType] = _.map(model[aggregateType], (subSchema) => {
-        return convertConditionalProperties(subSchema, value, getPreviousValue)
+        return evaluate(subSchema, value, getPreviousValue)
       })
     } else if (model.not) {
-      retModel.not = convertConditionalProperties(model.not, value, getPreviousValue)
+      retModel.not = evaluate(model.not, value, getPreviousValue)
     }
   }
 
@@ -76,7 +92,7 @@ function convertConditionalProperties (model, value, getPreviousValue) {
   const getValue = pathFinder(value, getPreviousValue)
 
   _.each(retModel.properties, function (subSchema, propName) {
-    retModel.properties[propName] = convertConditionalProperties(subSchema, _.get(value, propName), pathFinder(value, getValue))
+    retModel.properties[propName] = evaluate(subSchema, _.get(value, propName), pathFinder(value, getValue))
   })
   let conditionalProperties = _.transform(model.properties, function (result, schema, key) {
     if (schema.conditions) {
@@ -108,5 +124,3 @@ function convertConditionalProperties (model, value, getPreviousValue) {
 
   return retModel
 }
-
-export default convertConditionalProperties

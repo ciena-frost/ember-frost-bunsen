@@ -46,6 +46,7 @@ export default AbstractInput.extend({
       case 'boolean':
         return ['On', 'Off']
 
+      case 'integer':
       case 'number':
         helpers.validateValues(values, type)
         return values

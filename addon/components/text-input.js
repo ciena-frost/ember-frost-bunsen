@@ -1,6 +1,3 @@
-import _ from 'lodash'
-import Ember from 'ember'
-const {deprecate} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 
