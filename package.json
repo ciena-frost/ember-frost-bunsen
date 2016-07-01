@@ -33,7 +33,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
     "ember-browserify": "^1.1.9",
-    "ember-cli": "^2.6.1",
+    "ember-cli": "2.5.1",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-blanket": "0.9.4",
     "ember-cli-dependency-checker": "^1.2.0",
@@ -54,7 +54,7 @@
     "ember-frost-core": ">=0.2.1 <2.0.0",
     "ember-frost-demo-components": "0.1.1",
     "ember-frost-popover": "0.0.2",
-    "ember-frost-tabs": "^2.0.0",
+    "ember-frost-tabs": "^2.0.2",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": ">=0.0.6 <2.0.0",
     "ember-moment": "7.0.0-beta.3",

@@ -90,7 +90,8 @@ describeComponent(
         })
 
         it('returns empty array', function () {
-          expect(component.get('containerTabs')).to.eql([])
+          const tabs = component.get('containerTabs')
+          expect(tabs.length).to.equal(0)
         })
       })
 
@@ -128,16 +129,16 @@ describeComponent(
         })
 
         it('returns expected array of tabs', function () {
-          expect(component.get('containerTabs')).to.eql([
-            {
-              alias: 'One',
-              id: 0
-            },
-            {
-              alias: 'Two',
-              id: 1
-            }
-          ])
+          const tabs = component.get('containerTabs')
+          expect(tabs.length).to.equal(2)
+          expect(tabs[0]).to.eql({
+            alias: 'One',
+            id: 0
+          })
+          expect(tabs[1]).to.eql({
+            alias: 'Two',
+            id: 1
+          })
         })
       })
     })
