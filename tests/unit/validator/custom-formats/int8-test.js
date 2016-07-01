@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import int8 from 'ember-frost-bunsen/validator/custom-formats/int8'
@@ -42,10 +41,10 @@ describe('int8 format', () => {
   })
 
   it('returns true when -128 <= value <= 127', () => {
-    _.range(-128, 127).forEach((value) => {
-      expect(int8(value)).to.be.true
-      expect(int8(`${value}`)).to.be.true
-    })
+    expect(int8(-128)).to.be.true
+    expect(int8('-128')).to.be.true
+    expect(int8(127)).to.be.true
+    expect(int8('127')).to.be.true
   })
 
   it('returns false when value > 127', () => {
