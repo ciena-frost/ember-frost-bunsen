@@ -1,4 +1,5 @@
 import {describeComponent} from 'ember-mocha'
+import {beforeEach} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
@@ -9,6 +10,13 @@ describeComponent(
     unit: true
   },
   function () {
+    beforeEach(function () {
+      this.subject({
+        bunsenId: 'foo',
+        bunsenStore: Ember.Object.create({})
+      })
+    })
+
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       bunsenModel: PropTypes.object,

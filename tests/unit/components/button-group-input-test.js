@@ -13,28 +13,6 @@ describeComponent(
     unit: true
   },
   function () {
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOfType([
-        PropTypes.null,
-        PropTypes.string
-      ]),
-      label: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-      required: PropTypes.bool,
-      value: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.bool,
-        PropTypes.null,
-        PropTypes.number,
-        PropTypes.object,
-        PropTypes.string
-      ])
-    })
-
     const ctx = {}
     let component, sandbox
 
@@ -60,6 +38,28 @@ describeComponent(
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    validatePropTypes({
+      bunsenId: PropTypes.string.isRequired,
+      bunsenModel: PropTypes.object.isRequired,
+      bunsenStore: PropTypes.EmberObject.isRequired,
+      cellConfig: PropTypes.EmberObject.isRequired,
+      errorMessage: PropTypes.oneOfType([
+        PropTypes.null,
+        PropTypes.string
+      ]),
+      label: PropTypes.string,
+      onChange: PropTypes.func.isRequired,
+      required: PropTypes.bool,
+      value: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.bool,
+        PropTypes.null,
+        PropTypes.number,
+        PropTypes.object,
+        PropTypes.string
+      ])
     })
 
     disabledTests(ctx)

@@ -14,7 +14,10 @@ export default Component.extend(PropTypeMixin, {
   classNames: ['frost-bunsen-validation-result'],
 
   propTypes: {
-    model: PropTypes.object.isRequired
+    model: PropTypes.shape({
+      errors: PropTypes.array,
+      warnings: PropTypes.array
+    }).isRequired
   }
 
   // ==========================================================================

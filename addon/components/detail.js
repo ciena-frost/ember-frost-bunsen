@@ -108,15 +108,17 @@ export default Component.extend(PropTypeMixin, {
   containerTabs (rootContainers) {
     // If there is only one root container then we don't need to render tabs
     if (rootContainers.length === 1) {
-      return []
+      return Ember.A([])
     }
 
-    return rootContainers.map((container, index) => {
+    const tabs = rootContainers.map((container, index) => {
       return {
         alias: container.label,
         id: index
       }
     })
+
+    return Ember.A(tabs)
   },
 
   @readOnly
@@ -144,6 +146,12 @@ export default Component.extend(PropTypeMixin, {
       showAllErrors,
       view
     })
+  },
+
+  @readOnly
+  @computed('propValidationResult')
+  isInvalid (propValidationResult) {
+    return !_.isEmpty(propValidationResult.errors)
   },
 
   // ==========================================================================
@@ -219,12 +227,6 @@ export default Component.extend(PropTypeMixin, {
     }
 
     this.set('propValidationResult', result)
-  },
-
-  @readOnly
-  @computed('propValidationResult')
-  isInvalid (propValidationResult) {
-    return !_.isEmpty(propValidationResult.errors)
   },
 
   /**

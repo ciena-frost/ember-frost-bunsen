@@ -34,9 +34,9 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        config: {
+        config: Ember.Object.create({
           model: 'foo.bar'
-        },
+        }),
         errors: {},
         onChange: onChangeSpy,
         value: {}

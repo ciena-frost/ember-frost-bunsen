@@ -6,7 +6,9 @@ const props = {
   bunsenModel: {},
   bunsenStore: Ember.Object.create({}),
   cellConfig: Ember.Object.create({}),
-  onChange () {}
+  errors: {},
+  onChange () {},
+  value: {}
 }
 
 function tests (ctx) {
