@@ -11,7 +11,7 @@ var options = {
     autostart: true,
     lcovOptions: {
       outputFile: 'coverage/lcov.info',
-      renamer (fileName) {
+      renamer: function (fileName) {
         return fileName.replace('ember-frost-bunsen', 'addon') + '.js'
       }
     }
