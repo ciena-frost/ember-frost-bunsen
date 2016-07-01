@@ -47,10 +47,10 @@ describe('bgp-as format', () => {
   })
 
   it('returns true when 1 <= value <= 65534', () => {
-    _.range(1, 65534).forEach((value) => {
-      expect(bgpAs(value)).to.be.true
-      expect(bgpAs(`${value}`)).to.be.true
-    })
+    expect(bgpAs(1)).to.be.true
+    expect(bgpAs('1')).to.be.true
+    expect(bgpAs(65534)).to.be.true
+    expect(bgpAs('65534')).to.be.true
   })
 
   it('returns false when value = 65535', () => {
