@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import vlanId from 'ember-frost-bunsen/validator/custom-formats/vlan-id'
@@ -47,10 +46,10 @@ describe('vlan-id format', () => {
   })
 
   it('returns true when 1 <= value <= 4094', () => {
-    _.range(1, 4094).forEach((value) => {
-      expect(vlanId(value)).to.be.true
-      expect(vlanId(`${value}`)).to.be.true
-    })
+    expect(vlanId(1)).to.be.true
+    expect(vlanId('1')).to.be.true
+    expect(vlanId(4094)).to.be.true
+    expect(vlanId('4094')).to.be.true
   })
 
   it('returns false when value > 4094', () => {

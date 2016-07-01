@@ -1,3 +1,8 @@
+# 6.4.1
+
+* **Added** `ember-disable-prototype-extensions` to ensure code works with prototype extensions disabled.
+* **Fixed** some of the annoying propType warnings.
+
 # 6.4.0
 
 * **Added** support for `integer` JSON Schema type.

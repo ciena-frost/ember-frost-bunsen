@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import uint16 from 'ember-frost-bunsen/validator/custom-formats/uint16'
@@ -42,10 +41,10 @@ describe('uint16 format', () => {
   })
 
   it('returns true when 0 <= value <= 65535', () => {
-    _.range(0, 65535).forEach((value) => {
-      expect(uint16(value)).to.be.true
-      expect(uint16(`${value}`)).to.be.true
-    })
+    expect(uint16(0)).to.be.true
+    expect(uint16('0')).to.be.true
+    expect(uint16(65535)).to.be.true
+    expect(uint16('65535')).to.be.true
   })
 
   it('returns false when value = 65536', () => {
