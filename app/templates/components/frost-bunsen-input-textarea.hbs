@@ -1,0 +1,27 @@
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </div>
+  <div class={{inputWrapperClassName}}>
+    {{frost-textarea
+      class=inputClassName
+      disabled=disabled
+      onBlur=(action "onBlur")
+      onFocus=(action "onFocus")
+      onInput=(action "onChange")
+      placeholder=cellConfig.placeholder
+      value=(readonly transformedValue)
+    }}
+  </div>
+</div>
+{{#if renderErrorMessage}}
+  <div>
+    <div class={{labelWrapperClassName}}></div>
+    <div class="error">
+      {{renderErrorMessage}}
+    </div>
+  </div>
+{{/if}}

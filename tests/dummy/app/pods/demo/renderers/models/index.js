@@ -6,6 +6,7 @@ import password from './password'
 import propertyChooser from './property-chooser'
 import select from './select'
 import string from './string'
+import textarea from './textarea'
 
 export default {
   boolean,
@@ -15,5 +16,6 @@ export default {
   password,
   'property-chooser': propertyChooser,
   select,
-  string
+  string,
+  textarea
 }
