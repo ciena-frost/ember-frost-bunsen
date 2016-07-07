@@ -1,3 +1,7 @@
+# 6.6.0
+
+* Made it so the `select` renderer is automatically used when you specify the `enum` or `modelType` property for a model attribute.
+
 # 6.5.0
 
 * **Added** new `textarea` renderer than wraps the `frost-textarea` component from `ember-frost-core`.
