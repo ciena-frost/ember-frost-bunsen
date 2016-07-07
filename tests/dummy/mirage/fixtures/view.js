@@ -704,14 +704,12 @@ export default [
           rows: [
             [
               {
-                model: 'enumExample',
-                renderer: 'select'
+                model: 'enumExample'
               }
             ],
             [
               {
-                model: 'queryExample',
-                renderer: 'select'
+                model: 'queryExample'
               }
             ],
             [
@@ -744,14 +742,12 @@ export default [
           rows: [
             [
               {
-                model: 'enumExample',
-                renderer: 'select'
+                model: 'enumExample'
               }
             ],
             [
               {
                 model: 'queryExample',
-                renderer: 'select',
                 writeTransforms: [
                   {
                     object: {
@@ -911,10 +907,7 @@ export default [
               model: 'lastNameAtBirth'
             }],
             [{model: 'dateOfBirth'}],
-            [{
-              model: 'countryOfBirth',
-              renderer: 'select'
-            }],
+            [{model: 'countryOfBirth'}],
             [{model: 'stateOfBirth'}]
           ]
         },
@@ -925,10 +918,7 @@ export default [
             [{model: 'address'}],
             [{model: 'city'}],
             [{model: 'state'}],
-            [{
-              model: 'country',
-              renderer: 'select'
-            }],
+            [{model: 'country'}],
             [{model: 'zipCode'}]
           ]
         },
@@ -954,10 +944,7 @@ export default [
             [{model: 'middleName'}],
             [{model: 'lastName'}],
             [{model: 'stateOfBirth'}],
-            [{
-              model: 'countryOfBirth',
-              renderer: 'select'
-            }]
+            [{model: 'countryOfBirth'}]
           ]
         },
         {
@@ -967,10 +954,7 @@ export default [
             [{model: 'middleName'}],
             [{model: 'lastName'}],
             [{model: 'stateOfBirth'}],
-            [{
-              model: 'countryOfBirth',
-              renderer: 'select'
-            }]
+            [{model: 'countryOfBirth'}]
           ]
         }
       ],
@@ -1001,8 +985,7 @@ export default [
           rows: [
             [
               {
-                model: 'tagType',
-                renderer: 'select'
+                model: 'tagType'
               }
             ],
             [
@@ -1039,8 +1022,7 @@ export default [
           rows: [
             [
               {
-                model: 'tagType',
-                renderer: 'select'
+                model: 'tagType'
               }
             ],
             [
@@ -1077,8 +1059,7 @@ export default [
           rows: [
             [
               {
-                model: 'tagType',
-                renderer: 'select'
+                model: 'tagType'
               }
             ],
             [

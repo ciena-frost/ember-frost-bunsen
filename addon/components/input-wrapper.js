@@ -57,24 +57,30 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'bunsenModel.{editable,type}', 'readOnly', 'shouldRender', 'bunsenStore.renderers')
+  @computed('cellConfig.renderer', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender', 'bunsenStore.renderers')
   /**
    * Get name of component helper
    * @param {String} renderer - custom renderer to use
    * @param {Boolean} editable - whether or not input should be editable (defined in model)
+   * @param {Array<String>} enumList - list of possible values
+   * @param {String} modelType - name of Ember Data model for lookup
    * @param {String} type - type of input to render
    * @param {Boolean} readOnly - whether or not input should be rendered as read only
    * @param {Boolean} shouldRender - whether or not input should render if it is a dependency
    * @param {Object} renderers - key value pairs mapping custom renderers to component helper names
    * @returns {String} name of component helper to use for input
    */
-  inputName (renderer, editable, type, readOnly, shouldRender, renderers) {
+  inputName (renderer, editable, enumList, modelType, type, readOnly, shouldRender, renderers) {
     if (renderer) {
       return this.getComponentName(renderer, renderers)
     }
 
     if (readOnly || editable === false) {
       return 'frost-bunsen-input-static'
+    }
+
+    if (enumList || modelType) {
+      return 'frost-bunsen-input-select'
     }
 
     return this.getComponentName(type, renderers)
