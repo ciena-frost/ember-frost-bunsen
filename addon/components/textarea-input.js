@@ -1,4 +1,3 @@
-import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 
 export default AbstractInput.extend({
