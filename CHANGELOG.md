@@ -1,3 +1,7 @@
+# 6.5.0
+
+* **Added** new `textarea` renderer than wraps the `frost-textarea` component from `ember-frost-core`.
+
 # 6.4.1
 
 * **Added** `ember-disable-prototype-extensions` to ensure code works with prototype extensions disabled.
