@@ -335,7 +335,8 @@ describeComponent(
           password: 'frost-bunsen-input-password',
           'property-chooser': 'frost-bunsen-property-chooser',
           select: 'frost-bunsen-input-select',
-          string: 'frost-bunsen-input-text'
+          string: 'frost-bunsen-input-text',
+          textarea: 'frost-bunsen-input-textarea'
         })
       })
     })
