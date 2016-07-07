@@ -5,6 +5,10 @@ export default {
       [
         {
           model: 'foo',
+          properties: {
+            cols: 2,
+            rows: 4
+          },
           renderer: 'textarea'
         }
       ]

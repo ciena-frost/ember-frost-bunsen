@@ -19,3 +19,25 @@ This renderer provides a textarea input.
   "placeholder": "Bar"
 }
 ```
+
+#### properties.cols
+
+```json
+{
+  "model": "foo",
+  "properties": {
+    "cols": 4
+  }
+}
+```
+
+#### properties.rows
+
+```json
+{
+  "model": "foo",
+  "properties": {
+    "rows": 4
+  }
+}
+```
