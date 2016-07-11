@@ -1,5 +1,6 @@
 import * as utils from './utils'
 import Ember from 'ember'
+const {RSVP} = Ember
 
 function promiseValue (value) {
   return new Ember.RSVP.Promise(function (resolve) {
@@ -14,7 +15,7 @@ function promiseValue (value) {
  * @param  {String} bunsenId the bunsen id for this property
  * @param  {Object} dbStore the ember-data store
  * @param  {String} filter the optional string to filter on
- * @returns {Promise} a promise that resolves to a list of items
+ * @returns {Ember.RSVP.Promise} a promise that resolves to a list of items
  */
 export function getOptions (value, modelDef, bunsenId, dbStore, filter = '') {
   const enumDef = modelDef.items ? modelDef.items.enum : modelDef.enum
@@ -49,7 +50,7 @@ export function getEnumValues (values = [], filter = '') {
  * @param  {Object} bunsenId the bunsenId for this form
  * @param  {Object} dbStore the ember-data store
  * @param  {String} filter the partial match query filter to populate
- * @returns {Promise} a promise that resolves to the list of items
+ * @returns {Ember.RSVP.Promise} a promise that resolves to the list of items
  */
 export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) {
   let query
@@ -57,7 +58,7 @@ export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) 
   try {
     query = utils.populateQuery(value, modelDef.query, bunsenId)
   } catch (e) {
-    return Promise.reject(e)
+    return RSVP.reject(e)
   }
 
   const labelAttr = modelDef.labelAttribute || 'label'

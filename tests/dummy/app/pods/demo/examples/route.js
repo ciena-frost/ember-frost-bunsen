@@ -1,10 +1,10 @@
 import Ember from 'ember'
-const {Route} = Ember
+const {Route, RSVP} = Ember
 
 export default Route.extend({
   model () {
     /* eslint-disable new-cap */
-    return Promise.all([
+    return RSVP.all([
       this.store.findAll('model'),
       this.store.findAll('value'),
       this.store.findAll('view')
