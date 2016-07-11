@@ -266,10 +266,12 @@ describe('validate action', function () {
   }
 
   it('resolves if no validators are given', function () {
-    let thunk = validate(null, {}, SCHEMA_WITH_DEFAULTS, [])
+    const schema = _.cloneDeep(SCHEMA_WITH_DEFAULTS)
+    delete schema.required
+    let thunk = validate(null, {}, schema, [])
     thunk(function (action) {
       if (action.type === VALIDATION_RESOLVED) {
-        expect(action.errors).to.eql([])
+        expect(action.errors).to.eql({})
       }
     }, getState)
   })

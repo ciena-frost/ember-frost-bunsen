@@ -57,7 +57,10 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender', 'bunsenStore.renderers')
+  @computed(
+    'cellConfig.renderer', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
+    'bunsenStore.renderers'
+  )
   /**
    * Get name of component helper
    * @param {String} renderer - custom renderer to use

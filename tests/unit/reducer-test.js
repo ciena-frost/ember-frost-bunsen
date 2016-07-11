@@ -119,7 +119,9 @@ describe('can set the validation', function () {
       value: {},
       baseModel: {}
     }
-    const changedState = reducer(initialState, {type: VALIDATION_RESOLVED, errors: [], validationResult: ['you look kinda fat']})
+    const changedState = reducer(initialState, {
+      type: VALIDATION_RESOLVED, errors: [], validationResult: ['you look kinda fat']
+    })
 
     expect(changedState).to.eql({
       errors: [],
