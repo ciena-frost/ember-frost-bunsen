@@ -1,3 +1,7 @@
+# 6.6.1
+
+* **Fixed** code to use `Ember.RSVP` instead of native `Promise`'s to make the Ember run loop aware. This fixes failing acceptance tests in a consuming application.
+
 # 6.6.0
 
 * Made it so the `select` renderer is automatically used when you specify the `enum` or `modelType` property for a model attribute.
