@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "6.4.1",
+  "version": "6.6.1",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -51,7 +51,7 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.5",
-    "ember-frost-core": ">=0.2.1 <2.0.0",
+    "ember-frost-core": "0.16.0",
     "ember-frost-demo-components": "0.1.1",
     "ember-frost-popover": "0.0.2",
     "ember-frost-tabs": "^2.0.2",

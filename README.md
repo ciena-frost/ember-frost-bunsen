@@ -260,7 +260,7 @@ Bunsen will automatically validate types of most fields, and will flag
 missing fields.  We can also pass in a list of custom validation
 functions which let us add additional conditions.
 
-Validators are functions that return a Promise which resolves to a
+Validators are functions that return an Ember.RSVP.Promise which resolves to a
 POJO which can have one or more error objects.  (This allows async
 actions like checking an API.)  These objects specify both the field
 path (based on the Bunsen View, in case of nested things) and an error
@@ -344,7 +344,7 @@ function palindromeValidator (values) {
     const palindrome = (values.palindrome || '').replace(' ', '').toLowerCase()
     const reversed = palindrome.split('').reverse().join('')
     if (palindrome !== reversed) {
-      return Promise.resolve({
+      return Ember.RSVP.resolve({
         value: {
           errors: [{
             path: '#/palindrome',
@@ -355,7 +355,7 @@ function palindromeValidator (values) {
       })
     }
   }
-  return Promise.resolve({
+  return Ember.RSVP.resolve({
     value: {
       errors: [],
       warnings: []

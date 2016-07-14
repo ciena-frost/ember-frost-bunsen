@@ -206,6 +206,8 @@ export default [
   {name: 'Zimbabwe'}
 ]
   .map((record, index) => {
-    record.id = index
-    return record
+    return {
+      id: index,
+      name: record.name
+    }
   })
