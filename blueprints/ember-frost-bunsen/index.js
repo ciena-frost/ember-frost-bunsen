@@ -1,14 +1,9 @@
 module.exports = {
   afterInstall: function () {
-    return this.addBowerPackagesToProject([
-      {name: 'z-schema', target: '3.16.1'}
+    return this.addPackagesToProject([
+      {name: 'redux', target: '^3.4.0'},
+      {name: 'redux-thunk', target: '^2.0.1'}
     ])
-      .then(() => {
-        return this.addPackagesToProject([
-          {name: 'redux', target: '^3.4.0'},
-          {name: 'redux-thunk', target: '^2.0.1'}
-        ])
-      })
       .then(() => {
         return this.addAddonsToProject({
           packages: [
@@ -20,7 +15,8 @@ module.exports = {
             {name: 'ember-moment', target: '7.0.0-beta.3'},
             {name: 'ember-prop-types', target: '^2.0.0'},
             {name: 'ember-redux', target: '^1.0.0'},
-            {name: 'ember-sortable', target: '^1.8.1'}
+            {name: 'ember-sortable', target: '^1.8.1'},
+            {name: 'ember-z-schema', target: '>=0.1.2 <=2.0.0'}
           ]
         })
       })

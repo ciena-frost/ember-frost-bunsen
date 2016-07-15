@@ -1,7 +1,7 @@
-/* global ZSchema */
 import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
+import ZSchema from 'z-schema'
 
 import {addErrorResult, aggregateResults, ensureJsonObject, validateRequiredAttribute} from './utils'
 import dereference from '../dereference'
