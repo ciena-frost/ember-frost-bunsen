@@ -202,7 +202,12 @@ export default Component.extend(PropTypeMixin, {
   init () {
     this._super()
 
-    const reduxStore = createStoreWithMiddleware(reducer, {baseModel: this.get('bunsenModel')})
+    const value = this.get('value')
+    const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
+    const reduxStore = createStoreWithMiddleware(reducer, {
+      baseModel: this.get('bunsenModel'),
+      value: plainObjectValue
+    })
 
     this.set('reduxStore', reduxStore)
     this.set('reduxModel', reduxStore.getState().model)
