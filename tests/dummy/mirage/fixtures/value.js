@@ -79,5 +79,13 @@ export default [
         last: 'Blues'
       }
     }
+  },
+  {
+    id: 'conditions',
+    label: 'conditions',
+    modelIds: ['conditions'],
+    value: {
+      tagType: 'double-tagged'
+    }
   }
 ]
