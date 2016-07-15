@@ -1,21 +1,25 @@
-# 6.6.1
+# 6.6.2
+
+* **Updated** countries select input in wedding application demo to be filterable.
+
+# 6.6.1 (July 11, 2016)
 
 * **Fixed** code to use `Ember.RSVP` instead of native `Promise`'s to make the Ember run loop aware. This fixes failing acceptance tests in a consuming application.
 
-# 6.6.0
+# 6.6.0 (July 7, 2016)
 
 * Made it so the `select` renderer is automatically used when you specify the `enum` or `modelType` property for a model attribute.
 
-# 6.5.0
+# 6.5.0 (July 7, 2016)
 
 * **Added** new `textarea` renderer than wraps the `frost-textarea` component from `ember-frost-core`.
 
-# 6.4.1
+# 6.4.1 (July 1, 2016)
 
 * **Added** `ember-disable-prototype-extensions` to ensure code works with prototype extensions disabled.
 * **Fixed** some of the annoying propType warnings.
 
-# 6.4.0
+# 6.4.0 (June 28, 2016)
 
 * **Added** support for `integer` JSON Schema type.
 
@@ -40,32 +44,35 @@
   * `url` - Uniform resource locator (URL)
   * `vlan-id` - VLAN identification number
 
-# 6.3.2
- * **Fixed** `evaluate()` to no longer choke when called with `undefined` or `null`, it just returns them as-is now. 
+# 6.3.2 (June 28, 2016)
 
-# 6.3.1
+* **Fixed** `evaluate()` to no longer choke when called with `undefined` or `null`, it just returns them as-is now.
+
+# 6.3.1 (June 27, 2016)
+
 No CHANGELOG section found in Pull Request description.
 Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
 
-# 6.3.0
+# 6.3.0 (June 22, 2016)
+
 * **Added** ability to define `conditions` within a `definitions` block of a bunsen model
 * **Fixed** integration tests for `addon/components/select-input.js`
 
-# 6.2.0
+# 6.2.0 (June 14, 2016)
 
 * **Added** new `password` renderer and deprecated using the `string` renderer for passwords.
 
-# 6.1.1
+# 6.1.1 (June 10, 2016)
 
 * Downgraded `ember-cli` version back to `2.5.1` as `2.6.0` appears to be breaking the build.
 
-# 6.1.0
+# 6.1.0 (June 7, 2016)
 
 * **Added** `autofocus` property to `frost-bunsen-form` to give consumer ability to determine whether or not first input should get focus on form load.
 * **Fixed** `frost-bunsen-form` documentation to include `disabled` property.
 * **Updated** wedding application example in demo to make countries select searchable/filterable.
 
-# 6.0.3
+# 6.0.3 (May 26, 2016)
 
 * **Fixed** issue where `onChange()` was being called even when the form value wasn't changing.
 * **Fixed** issue where `onValidation()` was being called when the form error state wasn't changing.
@@ -79,6 +86,7 @@ Use a `# CHANGELOG` section in your Pull Request description to auto-populate th
 # 6.0.1 (May 25, 2016)
 
 * **Fixed** API reference in `README`.
+
 * **Fixed** bug when trying to create view cells for properties off of array items such as:
 
    ```json
