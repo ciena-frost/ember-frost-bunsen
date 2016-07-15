@@ -1,3 +1,7 @@
+# 6.6.2
+
+* **Updated** countries select input in wedding application demo to be filterable.
+
 # 6.6.1 (July 11, 2016)
 
 * **Fixed** code to use `Ember.RSVP` instead of native `Promise`'s to make the Ember run loop aware. This fixes failing acceptance tests in a consuming application.
