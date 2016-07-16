@@ -45,7 +45,8 @@ describeComponent(
       }
 
       value = {
-        bar: 'bar'
+        bar: 'bar',
+        baz: null
       }
 
       component = this.subject({
@@ -62,10 +63,12 @@ describeComponent(
     })
 
     it('initializes the store with an initial value on init', function () {
-      component.init()
+      const expectedValue = {
+        bar: 'bar'
+      }
       const state = component.get('reduxStore').getState()
 
-      expect(state.value).to.eql(value)
+      expect(state.value).to.eql(expectedValue)
     })
   }
 )
