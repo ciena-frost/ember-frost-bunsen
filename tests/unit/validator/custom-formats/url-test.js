@@ -41,7 +41,6 @@ describe('hex-string format', () => {
       '1'
     ]
       .forEach((value) => {
-        console.info(value)
         expect(url(value)).to.be.false
       })
   })
@@ -54,7 +53,6 @@ describe('hex-string format', () => {
       'https://www.subdomain.domain.com'
     ]
       .forEach((value) => {
-        console.info(value)
         expect(url(value)).to.be.true
       })
   })
