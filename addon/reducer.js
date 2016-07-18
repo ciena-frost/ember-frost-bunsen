@@ -109,7 +109,11 @@ export default function (state, action) {
       }, state)
     case '@@redux/INIT':
       if (state && state.baseModel) {
-        state.model = evaluateConditions(state.baseModel, state.value || {})
+        let initialValue = state.value || {}
+        state.model = evaluateConditions(state.baseModel, recursiveClean(initialValue))
+        // leave this undefined to force consumers to go through the proper CHANGE_VALUE channel
+        // for value changes
+        state.value = undefined
       }
       return initialState(state || {})
 

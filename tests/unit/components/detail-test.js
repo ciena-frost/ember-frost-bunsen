@@ -1,11 +1,12 @@
-/* Test fails on continuous integration with 'Symbol is not defined'
+import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
+import {beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-detail',
-  'FrostBunsenDetailComponent',
+  'Unit : FrostBunsenDetailComponent',
   {
     unit: true
   },
@@ -30,19 +31,27 @@ describeComponent(
       ])
     })
 
-    let component
+    let component, bunsenModel, value
 
     beforeEach(function () {
+      bunsenModel = {
+        properties: {
+          bar: {type: 'string'},
+          baz: {type: 'number'},
+          foo: {type: 'string'}
+        },
+        required: ['foo'],
+        type: 'object'
+      }
+
+      value = {
+        bar: 'bar',
+        baz: null
+      }
+
       component = this.subject({
-        bunsenModel: {
-          properties: {
-            bar: {type: 'string'},
-            baz: {type: 'number'},
-            foo: {type: 'string'}
-          },
-          required: ['foo'],
-          type: 'object'
-        }
+        bunsenModel,
+        value
       })
     })
 
@@ -52,6 +61,14 @@ describeComponent(
         expect(component.get('selectedTabIndex')).to.eql(index)
       })
     })
+
+    it('initializes the store with an initial value on init', function () {
+      const expectedValue = {
+        bar: 'bar'
+      }
+      const state = component.get('reduxStore').getState()
+
+      expect(state.value).to.eql(expectedValue)
+    })
   }
 )
-*/
