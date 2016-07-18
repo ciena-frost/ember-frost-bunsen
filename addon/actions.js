@@ -1,7 +1,7 @@
 import Ember from 'ember'
 const {RSVP} = Ember
 import _ from 'lodash'
-import {validateValue} from 'bunsen-core/validator/index'
+import {validateValue} from 'bunsen-core/validator'
 import {aggregateResults} from 'bunsen-core/validator/utils'
 import {getPath} from 'bunsen-core/dereference'
 

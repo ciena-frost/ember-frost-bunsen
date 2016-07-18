@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {Logger} = Ember
 import {CHANGE_VALUE, VALIDATION_RESOLVED, CHANGE_MODEL} from './actions'
-import evaluateConditions from './evaluate-conditions'
+import evaluateConditions from 'bunsen-core/evaluate-conditions'
 
 function ensureParent (stateValue, id) {
   // If id does not have a parent the nothing to do
