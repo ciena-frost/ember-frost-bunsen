@@ -23,9 +23,9 @@ const props = {
         ]
       }
     ],
-    rootContainers: [{label: 'Main', container: 'main'}],
+    cells: [{label: 'Main', container: 'main'}],
     type: 'form',
-    version: '1.0'
+    version: '2.0'
   }
 }
 

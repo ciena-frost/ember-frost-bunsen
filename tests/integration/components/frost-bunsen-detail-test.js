@@ -97,7 +97,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
           ]
         }
       ],
-      rootContainers: [{label: 'Main', container: 'main'}]
+      cells: [{label: 'Main', container: 'main'}]
     }
     this.set('bunsenView', invalidView)
 

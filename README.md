@@ -108,9 +108,9 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
@@ -162,9 +162,9 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
@@ -222,9 +222,9 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
@@ -309,9 +309,9 @@ message:
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },

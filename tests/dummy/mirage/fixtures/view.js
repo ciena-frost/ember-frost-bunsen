@@ -4,9 +4,9 @@ export default [
     label: 'Array (Custom)',
     modelIds: ['array'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -44,9 +44,9 @@ export default [
     label: 'Array (Inline)',
     modelIds: ['array'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -118,9 +118,9 @@ export default [
     label: 'Array (Standard)',
     modelIds: ['array'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -189,9 +189,9 @@ export default [
     label: 'Array (Tabs)',
     modelIds: ['array'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Name',
           container: 'name'
@@ -244,9 +244,9 @@ export default [
     label: 'Array (Auto Add)',
     modelIds: ['array-2'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -284,9 +284,9 @@ export default [
     label: 'Array (Indexed)',
     modelIds: ['array-2'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -330,9 +330,9 @@ export default [
     label: 'Array (Indexed 2)',
     modelIds: ['array-2'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -362,9 +362,9 @@ export default [
     label: 'Array (Sortable)',
     modelIds: ['array-2'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -402,9 +402,9 @@ export default [
     label: 'Complex',
     modelIds: ['complex'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [{label: 'Flat', container: 'flat'}],
+      cells: [{label: 'Flat', container: 'flat'}],
       containers: [
         {
           id: 'networkElement',
@@ -447,9 +447,9 @@ export default [
     label: 'Dependencies',
     modelIds: ['dependencies'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -541,9 +541,9 @@ export default [
     label: 'Simple (Standard)',
     modelIds: ['simple'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -582,9 +582,9 @@ export default [
     label: 'Simple (Custom)',
     modelIds: ['simple'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -625,9 +625,9 @@ export default [
     label: 'Simple (Transforms)',
     modelIds: ['simple'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -680,9 +680,9 @@ export default [
     label: 'Select Form',
     modelIds: ['select'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -718,9 +718,9 @@ export default [
     label: 'Select Form (Tranforms)',
     modelIds: ['select'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -764,9 +764,9 @@ export default [
     label: 'Select Detail',
     modelIds: ['select'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'detail',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -796,9 +796,9 @@ export default [
     label: 'Simple (Grouping)',
     modelIds: ['simple'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -944,12 +944,12 @@ export default [
           ]
         }
       ],
-      rootContainers: [{
+      cells: [{
         label: 'Main',
         container: 'main'
       }],
       type: 'form',
-      version: '1.0'
+      version: '2.0'
     }
   },
   {
@@ -957,9 +957,9 @@ export default [
     label: 'Conditional Props',
     modelIds: ['conditional-properties'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -994,9 +994,9 @@ export default [
     label: 'Nested Conditions',
     modelIds: ['conditions-in-definitions', 'conditions'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'
@@ -1031,9 +1031,9 @@ export default [
     label: 'Complex With Select',
     modelIds: ['complex-conditional-properties'],
     view: {
-      version: '1.0',
+      version: '2.0',
       type: 'form',
-      rootContainers: [
+      cells: [
         {
           label: 'Main',
           container: 'main'

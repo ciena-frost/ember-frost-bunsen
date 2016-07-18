@@ -99,21 +99,24 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, bunsenView) {
-    bunsenView = !_.isEmpty(bunsenView) ? bunsenView : getDefaultView(model)
+    if (_.isEmpty(bunsenView)) {
+      bunsenView = getDefaultView(model)
+    }
+
     return recursiveObjectCreate(bunsenView)
   },
 
   @readOnly
-  @computed('renderView.rootContainers')
-  containerTabs (rootContainers) {
-    // If there is only one root container then we don't need to render tabs
-    if (rootContainers.length === 1) {
+  @computed('renderView.cells')
+  containerTabs (cells) {
+    // If there is only one cell then we don't need to render tabs
+    if (cells.length === 1) {
       return Ember.A([])
     }
 
-    const tabs = rootContainers.map((container, index) => {
+    const tabs = cells.map((cell, index) => {
       return {
-        alias: container.label,
+        alias: cell.label,
         id: index
       }
     })
@@ -124,7 +127,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('selectedTabIndex', 'renderView')
   cellConfig (selectedTabIndex) {
-    return this.get(`renderView.rootContainers.${selectedTabIndex || 0}`)
+    return this.get(`renderView.cells.${selectedTabIndex || 0}`)
   },
 
   @readOnly

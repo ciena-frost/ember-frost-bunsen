@@ -1,5 +1,5 @@
 export default {
-  version: '1.0',
+  version: '2.0',
   type: 'form',
   containers: [
     {
@@ -39,5 +39,5 @@ export default {
       ]
     }
   ],
-  rootContainers: [{label: 'Main', container: 'main'}]
+  cells: [{label: 'Main', container: 'main'}]
 }

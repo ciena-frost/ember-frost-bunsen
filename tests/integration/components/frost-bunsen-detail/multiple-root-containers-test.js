@@ -28,12 +28,12 @@ const props = {
         ]
       }
     ],
-    rootContainers: [
+    cells: [
       {label: 'One', container: 'one'},
       {label: 'Two', container: 'two'}
     ],
     type: 'form',
-    version: '1.0'
+    version: '2.0'
   }
 }
 

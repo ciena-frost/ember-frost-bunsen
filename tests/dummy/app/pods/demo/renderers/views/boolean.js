@@ -9,12 +9,12 @@ export default {
       ]
     ]
   }],
-  rootContainers: [
+  cells: [
     {
       container: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '1.0'
+  version: '2.0'
 }

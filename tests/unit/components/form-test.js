@@ -75,12 +75,12 @@ describeComponent(
                 [{model: 'baz'}]
               ]
             }],
-            rootContainers: [{
+            cells: [{
               container: 'main',
               label: 'Main'
             }],
             type: 'form',
-            version: '1.0'
+            version: '2.0'
           })
         })
 
@@ -108,7 +108,7 @@ describeComponent(
                 ]
               }
             ],
-            rootContainers: [
+            cells: [
               {
                 container: 'one',
                 label: 'One'
@@ -119,7 +119,7 @@ describeComponent(
               }
             ],
             type: 'form',
-            version: '1.0'
+            version: '2.0'
           })
         })
 
