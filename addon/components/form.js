@@ -1,5 +1,7 @@
 /* global $ */
-import {validate} from '../actions'
+import Ember from 'ember'
+const {RSVP} = Ember
+import {validate} from 'bunsen-core/actions'
 
 import {PropTypes} from 'ember-prop-types'
 import DetailComponent from './detail'
@@ -94,7 +96,7 @@ export default DetailComponent.extend({
       const reduxStore = this.get('reduxStore')
 
       reduxStore.dispatch(
-        validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'))
+        validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
     }
   }

@@ -5,12 +5,12 @@ const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer from '../reducer'
-import {validate, changeModel} from '../actions'
+import reducer from 'bunsen-core/reducer'
+import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, getOwner} = Ember
+const {Component, getOwner, RSVP} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {dereference} from 'bunsen-core/dereference'
@@ -265,7 +265,7 @@ export default Component.extend(PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
+        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
     }
 
