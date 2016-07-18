@@ -1,6 +1,4 @@
 /* global $ */
-import 'ember-frost-bunsen/typedefs'
-
 import {validate} from '../actions'
 
 import {PropTypes} from 'ember-prop-types'

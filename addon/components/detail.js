@@ -1,4 +1,4 @@
-import 'ember-frost-bunsen/typedefs'
+import 'bunsen-core/typedefs'
 
 import redux from 'npm:redux'
 const {createStore, applyMiddleware} = redux

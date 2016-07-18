@@ -3,7 +3,7 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {doesModelContainRequiredField} from '../utils'
+import {doesModelContainRequiredField} from 'bunsen-core/utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================

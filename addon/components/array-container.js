@@ -1,11 +1,12 @@
-import 'ember-frost-bunsen/typedefs'
+import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
 const {A, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {deemberify, getLabel} from '../utils'
+import {getLabel} from 'bunsen-core/utils'
+import {deemberify} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================

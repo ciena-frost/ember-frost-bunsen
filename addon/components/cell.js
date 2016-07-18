@@ -3,7 +3,7 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getSubModel, getModelPath} from '../utils'
+import {getSubModel, getModelPath} from 'bunsen-core/utils'
 
 /**
  * Return path without an index at the end

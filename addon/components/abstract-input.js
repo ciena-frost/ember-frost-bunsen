@@ -1,11 +1,11 @@
-import 'ember-frost-bunsen/typedefs'
+import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
 const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel, parseVariables} from '../utils'
+import {getLabel, parseVariables} from 'bunsen-core/utils'
 import {getCellDefaults} from 'bunsen-core/validator/defaults'
 
 export const defaultClassNames = {
