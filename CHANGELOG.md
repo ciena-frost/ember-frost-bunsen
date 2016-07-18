@@ -1,3 +1,7 @@
+# 6.6.4
+
+**fixes** Fixes false validation warnings on the model due to dirty `value`
+
 # 6.6.3
 
 * **Fixed** Ensures an initial value is set in `reduxStore` and resolves an issue where conditions weren't being properly evaluated in the `INIT` state.
