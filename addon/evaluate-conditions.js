@@ -5,7 +5,7 @@
  */
 
 import _ from 'lodash'
-import dereference from './dereference'
+import {dereference} from 'bunsen-core/dereference'
 
 function pathFinder (valueObj, prevPath) {
   return function (path) {

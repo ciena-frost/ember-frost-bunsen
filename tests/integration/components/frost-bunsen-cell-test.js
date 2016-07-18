@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {recursiveObjectCreate} from 'ember-frost-bunsen/utils'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import {builtInRenderers} from 'bunsen-core/validator'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 import model from '../../fixtures/valid-model'

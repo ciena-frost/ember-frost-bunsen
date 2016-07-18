@@ -13,9 +13,9 @@ import Ember from 'ember'
 const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import dereference from '../dereference'
+import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from '../generator'
-import validateView, {builtInRenderers, validateModel} from '../validator/index'
+import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 /**

@@ -2,7 +2,7 @@ import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
 
-import dereference from './dereference'
+import {dereference} from 'bunsen-core/dereference'
 
 /**
  * Get a unique container name starting with name

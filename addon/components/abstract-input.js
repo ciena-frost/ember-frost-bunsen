@@ -6,7 +6,7 @@ const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel, parseVariables} from '../utils'
-import {getCellDefaults} from '../validator/defaults'
+import {getCellDefaults} from 'bunsen-core/validator/defaults'
 
 export const defaultClassNames = {
   inputWrapper: 'left-input',

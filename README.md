@@ -79,7 +79,7 @@ ember install ember-frost-bunsen
 }}
 ```
 
-> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-frost/ember-frost-bunsen/blob/master/addon/components/validator/view-schema.js). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
+> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-blueplanet/bunsen-core/tree/master/src/validator/view-schemas). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
 
 ### Minimal Example
 
