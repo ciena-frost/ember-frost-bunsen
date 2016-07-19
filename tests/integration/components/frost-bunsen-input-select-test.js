@@ -119,17 +119,19 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           renderer: {
             name: 'select'
           },
-          writeTransforms: [
-            {
-              object: {
-                id: '${id}',
-                index: '${index}',
-                label: '${label}',
-                literal: 'foo',
-                value: '${value}'
+          transforms: {
+            write: [
+              {
+                object: {
+                  id: '${id}',
+                  index: '${index}',
+                  label: '${label}',
+                  literal: 'foo',
+                  value: '${value}'
+                }
               }
-            }
-          ]
+            ]
+          }
         }
 
         const view = {

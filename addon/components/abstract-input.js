@@ -121,7 +121,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('value', 'cellConfig.readTransforms')
+  @computed('value', 'cellConfig.transforms.read')
   transformedValue (value, transforms) {
     if (!_.isString(value)) {
       return value
@@ -261,7 +261,7 @@ export default Component.extend(PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const newValue = this.parseValue(e)
       this.getTemplateVariables(newValue)
-      const transforms = this.get('cellConfig.writeTransforms')
+      const transforms = this.get('cellConfig.transforms.write')
       const transformedNewValue = this.applyTransforms(newValue, transforms)
       const oldValue = this.get('value')
       const onChange = this.get('onChange')

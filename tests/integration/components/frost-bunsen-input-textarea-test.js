@@ -5,31 +5,33 @@ import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/templ
 
 const cellConfig = {
   model: 'name',
-  readTransforms: [
-    {
-      from: '^Chris$',
-      regex: true,
-      to: 'Christopher'
-    },
-    {
-      from: 'Matt',
-      to: 'Matthew'
-    }
-  ],
   renderer: {
     name: 'textarea'
   },
-  writeTransforms: [
-    {
-      from: '^Alexander$',
-      regex: true,
-      to: 'Alex'
-    },
-    {
-      from: 'Johnathan',
-      to: 'John'
-    }
-  ]
+  transforms: {
+    read: [
+      {
+        from: '^Chris$',
+        regex: true,
+        to: 'Christopher'
+      },
+      {
+        from: 'Matt',
+        to: 'Matthew'
+      }
+    ],
+    write: [
+      {
+        from: '^Alexander$',
+        regex: true,
+        to: 'Alex'
+      },
+      {
+        from: 'Johnathan',
+        to: 'John'
+      }
+    ]
+  }
 }
 
 const view = {

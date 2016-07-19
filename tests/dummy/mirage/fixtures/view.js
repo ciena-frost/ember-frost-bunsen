@@ -658,20 +658,22 @@ export default [
               {
                 model: 'firstName',
                 label: 'First',
-                readTransforms: [
-                  {from: '^Alexander$', regex: true, to: 'Alex'},
-                  {from: '^Christopher$', regex: true, to: 'Chris'},
-                  {from: '^Matthew$', regex: true, to: 'Matt'},
-                  {from: '^Johnathan$', regex: true, to: 'John'},
-                  {from: '^Samantha$', regex: true, to: 'Sam'}
-                ],
-                writeTransforms: [
-                  {from: '^Alex$', regex: true, to: 'Alexander'},
-                  {from: '^Chris$', regex: true, to: 'Christopher'},
-                  {from: '^Matt$', regex: true, to: 'Matthew'},
-                  {from: '^John$', regex: true, to: 'Johnathan'},
-                  {from: '^Sam$', regex: true, to: 'Samantha'}
-                ]
+                transforms: {
+                  read: [
+                    {from: '^Alexander$', regex: true, to: 'Alex'},
+                    {from: '^Christopher$', regex: true, to: 'Chris'},
+                    {from: '^Matthew$', regex: true, to: 'Matt'},
+                    {from: '^Johnathan$', regex: true, to: 'John'},
+                    {from: '^Samantha$', regex: true, to: 'Sam'}
+                  ],
+                  write: [
+                    {from: '^Alex$', regex: true, to: 'Alexander'},
+                    {from: '^Chris$', regex: true, to: 'Christopher'},
+                    {from: '^Matt$', regex: true, to: 'Matthew'},
+                    {from: '^John$', regex: true, to: 'Johnathan'},
+                    {from: '^Sam$', regex: true, to: 'Samantha'}
+                  ]
+                }
               },
               {
                 model: 'lastName'
@@ -752,14 +754,16 @@ export default [
             [
               {
                 model: 'queryExample',
-                writeTransforms: [
-                  {
-                    object: {
-                      id: '${value}',
-                      name: '${label}'
+                transforms: {
+                  write: [
+                    {
+                      object: {
+                        id: '${value}',
+                        name: '${label}'
+                      }
                     }
-                  }
-                ]
+                  ]
+                }
               }
             ],
             [
