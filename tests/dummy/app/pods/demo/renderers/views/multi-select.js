@@ -5,7 +5,9 @@ export default {
       [
         {
           model: 'foo',
-          renderer: 'multi-select'
+          renderer: {
+            name: 'multi-select'
+          }
         }
       ]
     ]

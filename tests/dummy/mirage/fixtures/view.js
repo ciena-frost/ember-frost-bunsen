@@ -23,7 +23,9 @@ export default [
             [
               {
                 model: 'name',
-                renderer: 'name-renderer',
+                renderer: {
+                  name: 'name-renderer'
+                },
                 classNames: {
                   cell: 'testCellClass'
                 }
@@ -34,7 +36,9 @@ export default [
                 model: 'addresses',
                 item: {
                   label: 'Address',
-                  renderer: 'AddressRenderer'
+                  renderer: {
+                    name: 'AddressRenderer'
+                  }
                 }
               }
             ]
@@ -476,7 +480,9 @@ export default [
             [
               {
                 model: 'paymentInfo',
-                renderer: 'property-chooser',
+                renderer: {
+                  name: 'property-chooser'
+                },
                 label: 'Payment Type',
                 properties: {
                   choices: [
@@ -616,7 +622,9 @@ export default [
             [
               {
                 model: 'onlyChild',
-                renderer: 'BooleanRenderer'
+                renderer: {
+                  name: 'BooleanRenderer'
+                }
               }
             ]
           ]
@@ -709,7 +717,9 @@ export default [
             [
               {
                 model: 'multiSelectExample',
-                renderer: 'multi-select'
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ]
           ]
@@ -755,7 +765,9 @@ export default [
             [
               {
                 model: 'multiSelectExample',
-                renderer: 'multi-select'
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ]
           ]
@@ -831,7 +843,9 @@ export default [
             [
               {
                 model: 'onlyChild',
-                renderer: 'BooleanRenderer'
+                renderer: {
+                  name: 'BooleanRenderer'
+                }
               }
             ]
           ]

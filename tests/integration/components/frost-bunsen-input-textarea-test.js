@@ -16,7 +16,9 @@ const cellConfig = {
       to: 'Matthew'
     }
   ],
-  renderer: 'textarea',
+  renderer: {
+    name: 'textarea'
+  },
   writeTransforms: [
     {
       from: '^Alexander$',

@@ -14,7 +14,13 @@ export default {
           }
         }],
         [{container: 'nameModel', model: 'name'}],
-        [{model: 'name', renderer: 'NameRenderer', label: 'Custom Name'}]
+        [{
+          label: 'Custom Name',
+          model: 'name',
+          renderer: {
+            name: 'NameRenderer'
+          }
+        }]
       ]
     },
     {

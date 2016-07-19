@@ -9,7 +9,9 @@ export default {
             cols: 2,
             rows: 4
           },
-          renderer: 'textarea'
+          renderer: {
+            name: 'textarea'
+          }
         }
       ]
     ]

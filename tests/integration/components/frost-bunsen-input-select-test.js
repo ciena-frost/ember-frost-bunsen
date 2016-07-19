@@ -116,7 +116,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       beforeEach(function () {
         const cellConfig = {
           model: 'name',
-          renderer: 'select',
+          renderer: {
+            name: 'select'
+          },
           writeTransforms: [
             {
               object: {

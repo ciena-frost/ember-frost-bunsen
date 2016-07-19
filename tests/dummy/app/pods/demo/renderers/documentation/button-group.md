@@ -9,7 +9,9 @@ If the property type is *boolean* this input will render with the buttons `On` a
 {
   "label": "Bar",
   "model": "foo",
-  "renderer": "button-group"
+  "renderer": {
+    "name": "button-group"
+  }
 }
 ```
 
@@ -23,6 +25,8 @@ Change what size buttons are used. See [ember-frost-core](http://ciena-frost.git
   "properties": {
     "size": "small"
   },
-  "renderer": "button-group"
+  "renderer": {
+    "name": "button-group"
+  }
 }
 ```

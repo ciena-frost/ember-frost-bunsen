@@ -49,7 +49,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.renderer', 'bunsenStore.renderers')
+  @computed('cellConfig.item.renderer.name', 'bunsenStore.renderers')
   /**
    * Get name of component for custom renderer
    * @param {String} renderer - custom renderer to use

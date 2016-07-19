@@ -5,7 +5,9 @@ import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/templ
 
 const cellConfig = {
   model: 'password',
-  renderer: 'password'
+  renderer: {
+    name: 'password'
+  }
 }
 
 const view = {

@@ -17,7 +17,9 @@ export default {
               }
             ]
           },
-          renderer: 'property-chooser'
+          renderer: {
+            name: 'property-chooser'
+          }
         }
       ],
       [

@@ -5,19 +5,25 @@ export default {
       [
         {
           model: 'foo',
-          renderer: 'button-group'
+          renderer: {
+            name: 'button-group'
+          }
         }
       ],
       [
         {
           model: 'bar',
-          renderer: 'button-group'
+          renderer: {
+            name: 'button-group'
+          }
         }
       ],
       [
         {
           model: 'baz',
-          renderer: 'button-group'
+          renderer: {
+            name: 'button-group'
+          }
         }
       ]
     ]

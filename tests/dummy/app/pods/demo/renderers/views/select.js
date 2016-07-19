@@ -5,7 +5,9 @@ export default {
       [
         {
           model: 'foo',
-          renderer: 'select'
+          renderer: {
+            name: 'select'
+          }
         }
       ]
     ]
