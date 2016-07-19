@@ -1,8 +1,7 @@
 export default {
-  cellDefinitions: [{
-    id: 'main',
-    children: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
           properties: {
@@ -20,22 +19,18 @@ export default {
           renderer: {
             name: 'property-chooser'
           }
-        }
-      ],
-      [
+        },
         {
           dependsOn: 'foo.useBar',
           model: 'foo.name'
-        }
-      ],
-      [
+        },
         {
           dependsOn: 'foo.useBaz',
           model: 'foo.title'
         }
       ]
-    ]
-  }],
+    }
+  },
   cells: [
     {
       extends: 'main',

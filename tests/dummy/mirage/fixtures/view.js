@@ -12,39 +12,34 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           classNames: {
             cell: 'test1 test2'
           },
           defaultClassName: 'cellDef1 cellDef2',
           children: [
-            [
-              {
-                model: 'name',
+            {
+              model: 'name',
+              renderer: {
+                name: 'name-renderer'
+              },
+              classNames: {
+                cell: 'testCellClass'
+              }
+            },
+            {
+              model: 'addresses',
+              item: {
+                label: 'Address',
                 renderer: {
-                  name: 'name-renderer'
-                },
-                classNames: {
-                  cell: 'testCellClass'
+                  name: 'AddressRenderer'
                 }
               }
-            ],
-            [
-              {
-                model: 'addresses',
-                item: {
-                  label: 'Address',
-                  renderer: {
-                    name: 'AddressRenderer'
-                  }
-                }
-              }
-            ]
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -60,65 +55,52 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
-          children: [
-            [
-              {
-                model: 'name',
-                extends: 'name'
-              }
-            ],
-            [
-              {
-                model: 'addresses',
-                item: {
-                  extends: 'addr',
-                  label: 'Address'
-                }
-              }
-            ]
-          ]
-        },
-        {
-          collapsible: true,
-          id: 'name',
-          instructions: 'Who are you?',
-          children: [
-            [
-              {
-                model: 'first'
-              },
-              {
-                model: 'last'
-              }
-            ]
-          ]
-        },
-        {
-          id: 'addr',
+      cellDefinitions: {
+        addr: {
           instructions: 'Where have you lived?',
           children: [
-            [
-              {
-                model: 'street'
+            {
+              model: 'street'
+            },
+            {
+              model: 'city'
+            },
+            {
+              model: 'state'
+            },
+            {
+              model: 'zip'
+            }
+          ]
+        },
+        main: {
+          children: [
+            {
+              model: 'name',
+              extends: 'name'
+            },
+            {
+              model: 'addresses',
+              item: {
+                extends: 'addr',
+                label: 'Address'
               }
-            ],
-            [
-              {
-                model: 'city'
-              },
-              {
-                model: 'state'
-              },
-              {
-                model: 'zip'
-              }
-            ]
+            }
+          ]
+        },
+        name: {
+          collapsible: true,
+          instructions: 'Who are you?',
+          children: [
+            {
+              model: 'first'
+            },
+            {
+              model: 'last'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -134,62 +116,49 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        addr: {
           children: [
-            [
-              {
-                model: 'name',
-                extends: 'name'
-              }
-            ],
-            [
-              {
-                model: 'addresses',
-                item: {
-                  extends: 'addr',
-                  label: 'Address'
-                }
-              }
-            ]
+            {
+              model: 'street'
+            },
+            {
+              model: 'city'
+            },
+            {
+              model: 'state'
+            },
+            {
+              model: 'zip'
+            }
           ]
         },
-        {
-          id: 'name',
+        main: {
           children: [
-            [
-              {
-                model: 'first'
-              },
-              {
-                model: 'last'
+            {
+              model: 'name',
+              extends: 'name'
+            },
+            {
+              model: 'addresses',
+              item: {
+                extends: 'addr',
+                label: 'Address'
               }
-            ]
+            }
           ]
         },
-        {
-          id: 'addr',
+        name: {
           children: [
-            [
-              {
-                model: 'street'
-              }
-            ],
-            [
-              {
-                model: 'city'
-              },
-              {
-                model: 'state'
-              },
-              {
-                model: 'zip'
-              }
-            ]
+            {
+              model: 'first'
+            },
+            {
+              model: 'last'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -209,42 +178,33 @@ export default [
           extends: 'addresses'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'name',
+      cellDefinitions: {
+        addr: {
           children: [
-            [
-              {model: 'name.first'},
-              {model: 'name.last'}
-            ]
+            {model: 'street'},
+            {model: 'city'},
+            {model: 'state'},
+            {model: 'zip'}
           ]
         },
-        {
-          id: 'addresses',
+        addresses: {
           children: [
-            [
-              {
-                model: 'addresses',
-                item: {
-                  extends: 'addr',
-                  label: 'Address'
-                }
+            {
+              model: 'addresses',
+              item: {
+                extends: 'addr',
+                label: 'Address'
               }
-            ]
+            }
           ]
         },
-        {
-          id: 'addr',
+        name: {
           children: [
-            [{model: 'street'}],
-            [
-              {model: 'city'},
-              {model: 'state'},
-              {model: 'zip'}
-            ]
+            {model: 'name.first'},
+            {model: 'name.last'}
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -260,31 +220,27 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'info.people',
-                item: {
-                  autoAdd: true,
-                  extends: 'person',
-                  label: 'Person'
-                }
+            {
+              model: 'info.people',
+              item: {
+                autoAdd: true,
+                extends: 'person',
+                label: 'Person'
               }
-            ]
+            }
           ]
         },
-        {
-          id: 'person',
+        person: {
           children: [
-            [{model: 'name.first'}],
-            [{model: 'name.last'}],
-            [{model: 'age'}]
+            {model: 'name.first'},
+            {model: 'name.last'},
+            {model: 'age'}
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -300,37 +256,33 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                item: {
-                  label: 'Plaintiff',
-                  extends: 'person'
-                },
-                model: 'info.people.0'
+            {
+              item: {
+                label: 'Plaintiff',
+                extends: 'person'
               },
-              {
-                item: {
-                  label: 'Defendant',
-                  extends: 'person'
-                },
-                model: 'info.people.1'
-              }
-            ]
+              model: 'info.people.0'
+            },
+            {
+              item: {
+                label: 'Defendant',
+                extends: 'person'
+              },
+              model: 'info.people.1'
+            }
           ]
         },
-        {
-          id: 'person',
+        person: {
           children: [
-            [{model: 'name.first'}],
-            [{model: 'name.last'}],
-            [{model: 'age'}]
+            {model: 'name.first'},
+            {model: 'name.last'},
+            {model: 'age'}
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -346,23 +298,20 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                label: "Plaintiff's Last Name",
-                model: 'info.people.0.name.last'
-              },
-              {
-                label: "Defendant's Last Name",
-                model: 'info.people.1.name.last'
-              }
-            ]
+            {
+              label: "Plaintiff's Last Name",
+              model: 'info.people.0.name.last'
+            },
+            {
+              label: "Defendant's Last Name",
+              model: 'info.people.1.name.last'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -378,31 +327,27 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'info.people',
-                item: {
-                  extends: 'person',
-                  label: 'Person',
-                  sortable: true
-                }
+            {
+              model: 'info.people',
+              item: {
+                extends: 'person',
+                label: 'Person',
+                sortable: true
               }
-            ]
+            }
           ]
         },
-        {
-          id: 'person',
+        person: {
           children: [
-            [{model: 'name.first'}],
-            [{model: 'name.last'}],
-            [{model: 'age'}]
+            {model: 'name.first'},
+            {model: 'name.last'},
+            {model: 'age'}
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -413,41 +358,34 @@ export default [
       version: '2.0',
       type: 'form',
       cells: [{label: 'Flat', extends: 'flat'}],
-      cellDefinitions: [
-        {
-          id: 'networkElement',
+      cellDefinitions: {
+        flat: {
           children: [
-            [{model: 'name'}],
-            [{model: 'interfaces', extends: 'interface'}]
-          ]
-        },
-
-        {
-          id: 'interface',
-          children: [
-            [
-              {model: 'name'},
-              {model: 'adminState'}
-            ]
-          ]
-        },
-
-        {
-          id: 'flat',
-          children: [
-            [{model: 'network.host.name', label: 'Host name'}],
-            [{model: 'network.host.interfaces', label: 'Host interfaces', item: {extends: 'interface'}}],
-            [{model: 'network.firewall.name', label: 'Firewall name'}],
-            [{
+            {model: 'network.host.name', label: 'Host name'},
+            {model: 'network.host.interfaces', label: 'Host interfaces', item: {extends: 'interface'}},
+            {model: 'network.firewall.name', label: 'Firewall name'},
+            {
               model: 'network.firewall.interfaces',
               label: 'Firewall Interfaces',
               item: {
                 extends: 'interface'
               }
-            }]
+            }
+          ]
+        },
+        interface: {
+          children: [
+            {model: 'name'},
+            {model: 'adminState'}
+          ]
+        },
+        networkElement: {
+          children: [
+            {model: 'name'},
+            {model: 'interfaces', extends: 'interface'}
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -463,87 +401,68 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'name'
+            {
+              model: 'name'
+            },
+            {
+              model: 'email'
+            },
+            {
+              model: 'paymentInfo',
+              renderer: {
+                name: 'property-chooser'
+              },
+              label: 'Payment Type',
+              properties: {
+                choices: [
+                  {
+                    label: 'Electronic funds transfer',
+                    value: 'useEft'
+                  },
+                  {
+                    label: 'Credit card',
+                    value: 'useCreditCard'
+                  },
+                  {
+                    label: 'PayPal',
+                    value: 'usePayPal'
+                  }
+                ]
               }
-            ],
-            [
-              {
-                model: 'email'
-              }
-            ],
-            [
-              {
-                model: 'paymentInfo',
-                renderer: {
-                  name: 'property-chooser'
-                },
-                label: 'Payment Type',
-                properties: {
-                  choices: [
-                    {
-                      label: 'Electronic funds transfer',
-                      value: 'useEft'
-                    },
-                    {
-                      label: 'Credit card',
-                      value: 'useCreditCard'
-                    },
-                    {
-                      label: 'PayPal',
-                      value: 'usePayPal'
-                    }
-                  ]
-                }
-              }
-            ],
-            [
-              {
-                model: 'paymentInfo.routingNumber',
-                dependsOn: 'paymentInfo.useEft'
-              }
-            ],
-            [
-              {
-                model: 'paymentInfo.accountNumber',
-                dependsOn: 'paymentInfo.useEft'
-              }
-            ],
-            [
-              {
-                model: 'paymentInfo.creditCardNumber',
-                dependsOn: 'paymentInfo.useCreditCard'
-              }
-            ],
-            [
-              {
-                label: 'CCV',
-                model: 'paymentInfo.ccv',
-                dependsOn: 'paymentInfo.useCreditCard'
-              }
-            ],
-            [
-              {
-                label: 'PayPal username',
-                model: 'paymentInfo.payPalUsername',
-                dependsOn: 'paymentInfo.usePayPal'
-              }
-            ],
-            [
-              {
-                label: 'PayPal password',
-                model: 'paymentInfo.payPalPassword',
-                dependsOn: 'paymentInfo.usePayPal'
-              }
-            ]
+            },
+            {
+              model: 'paymentInfo.routingNumber',
+              dependsOn: 'paymentInfo.useEft'
+            },
+            {
+              model: 'paymentInfo.accountNumber',
+              dependsOn: 'paymentInfo.useEft'
+            },
+            {
+              model: 'paymentInfo.creditCardNumber',
+              dependsOn: 'paymentInfo.useCreditCard'
+            },
+            {
+              label: 'CCV',
+              model: 'paymentInfo.ccv',
+              dependsOn: 'paymentInfo.useCreditCard'
+            },
+            {
+              label: 'PayPal username',
+              model: 'paymentInfo.payPalUsername',
+              dependsOn: 'paymentInfo.usePayPal'
+            },
+            {
+              label: 'PayPal password',
+              model: 'paymentInfo.payPalPassword',
+              dependsOn: 'paymentInfo.usePayPal'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -559,32 +478,25 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'alias'
-              }
-            ],
-            [
-              {
-                model: 'firstName',
-                label: 'First'
-              },
-              {
-                model: 'lastName'
-              }
-            ],
-            [
-              {
-                model: 'onlyChild'
-              }
-            ]
+            {
+              model: 'alias'
+            },
+            {
+              model: 'firstName',
+              label: 'First'
+            },
+            {
+              model: 'lastName'
+            },
+            {
+              model: 'onlyChild'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -600,36 +512,27 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'firstName'
+            {
+              model: 'firstName'
+            },
+            {
+              model: 'lastName'
+            },
+            {
+              model: 'alias'
+            },
+            {
+              model: 'onlyChild',
+              renderer: {
+                name: 'BooleanRenderer'
               }
-            ],
-            [
-              {
-                model: 'lastName'
-              }
-            ],
-            [
-              {
-                model: 'alias'
-              }
-            ],
-            [
-              {
-                model: 'onlyChild',
-                renderer: {
-                  name: 'BooleanRenderer'
-                }
-              }
-            ]
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -645,48 +548,41 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'alias'
+            {
+              model: 'alias'
+            },
+            {
+              model: 'firstName',
+              label: 'First',
+              transforms: {
+                read: [
+                  {from: '^Alexander$', regex: true, to: 'Alex'},
+                  {from: '^Christopher$', regex: true, to: 'Chris'},
+                  {from: '^Matthew$', regex: true, to: 'Matt'},
+                  {from: '^Johnathan$', regex: true, to: 'John'},
+                  {from: '^Samantha$', regex: true, to: 'Sam'}
+                ],
+                write: [
+                  {from: '^Alex$', regex: true, to: 'Alexander'},
+                  {from: '^Chris$', regex: true, to: 'Christopher'},
+                  {from: '^Matt$', regex: true, to: 'Matthew'},
+                  {from: '^John$', regex: true, to: 'Johnathan'},
+                  {from: '^Sam$', regex: true, to: 'Samantha'}
+                ]
               }
-            ],
-            [
-              {
-                model: 'firstName',
-                label: 'First',
-                transforms: {
-                  read: [
-                    {from: '^Alexander$', regex: true, to: 'Alex'},
-                    {from: '^Christopher$', regex: true, to: 'Chris'},
-                    {from: '^Matthew$', regex: true, to: 'Matt'},
-                    {from: '^Johnathan$', regex: true, to: 'John'},
-                    {from: '^Samantha$', regex: true, to: 'Sam'}
-                  ],
-                  write: [
-                    {from: '^Alex$', regex: true, to: 'Alexander'},
-                    {from: '^Chris$', regex: true, to: 'Christopher'},
-                    {from: '^Matt$', regex: true, to: 'Matthew'},
-                    {from: '^John$', regex: true, to: 'Johnathan'},
-                    {from: '^Sam$', regex: true, to: 'Samantha'}
-                  ]
-                }
-              },
-              {
-                model: 'lastName'
-              }
-            ],
-            [
-              {
-                model: 'onlyChild'
-              }
-            ]
+            },
+            {
+              model: 'lastName'
+            },
+            {
+              model: 'onlyChild'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -702,31 +598,24 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'enumExample'
+            {
+              model: 'enumExample'
+            },
+            {
+              model: 'queryExample'
+            },
+            {
+              model: 'multiSelectExample',
+              renderer: {
+                name: 'multi-select'
               }
-            ],
-            [
-              {
-                model: 'queryExample'
-              }
-            ],
-            [
-              {
-                model: 'multiSelectExample',
-                renderer: {
-                  name: 'multi-select'
-                }
-              }
-            ]
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -742,41 +631,34 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'enumExample'
-              }
-            ],
-            [
-              {
-                model: 'queryExample',
-                transforms: {
-                  write: [
-                    {
-                      object: {
-                        id: '${value}',
-                        name: '${label}'
-                      }
+            {
+              model: 'enumExample'
+            },
+            {
+              model: 'queryExample',
+              transforms: {
+                write: [
+                  {
+                    object: {
+                      id: '${value}',
+                      name: '${label}'
                     }
-                  ]
-                }
+                  }
+                ]
               }
-            ],
-            [
-              {
-                model: 'multiSelectExample',
-                renderer: {
-                  name: 'multi-select'
-                }
+            },
+            {
+              model: 'multiSelectExample',
+              renderer: {
+                name: 'multi-select'
               }
-            ]
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -792,23 +674,18 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'enumExample'
-              }
-            ],
-            [
-              {
-                model: 'queryExample'
-              }
-            ]
+            {
+              model: 'enumExample'
+            },
+            {
+              model: 'queryExample'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -824,37 +701,28 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           label: 'User Information',
           children: [
-            [
-              {
-                model: 'firstName'
+            {
+              model: 'firstName'
+            },
+            {
+              model: 'lastName'
+            },
+            {
+              model: 'alias'
+            },
+            {
+              model: 'onlyChild',
+              renderer: {
+                name: 'BooleanRenderer'
               }
-            ],
-            [
-              {
-                model: 'lastName'
-              }
-            ],
-            [
-              {
-                model: 'alias'
-              }
-            ],
-            [
-              {
-                model: 'onlyChild',
-                renderer: {
-                  name: 'BooleanRenderer'
-                }
-              }
-            ]
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -862,110 +730,94 @@ export default [
     label: 'Two Column',
     modelIds: ['wedding-application'],
     view: {
-      cellDefinitions: [
-        {
-          id: 'main',
-          children: [
-            [
-              {
-                extends: 'groom',
-                model: 'groom'
-              },
-              {
-                extends: 'bride',
-                model: 'bride'
-              }
-            ]
-          ]
-        },
-        {
-          collapsible: true,
-          id: 'groom',
-          children: [
-            [
-              {extends: 'details'},
-              {extends: 'address'}
-            ],
-            [{extends: 'parents'}]
-          ]
-        },
-        {
-          collapsible: true,
-          id: 'bride',
-          children: [
-            [
-              {extends: 'details'},
-              {extends: 'address'}
-            ],
-            [{extends: 'parents'}]
-          ]
-        },
-        {
-          id: 'details',
-          label: 'Details',
-          children: [
-            [{model: 'firstName'}],
-            [{model: 'middleName'}],
-            [{
-              label: 'Current last name',
-              model: 'lastName'
-            }],
-            [{
-              label: 'Last name at birth (if different)',
-              model: 'lastNameAtBirth'
-            }],
-            [{model: 'dateOfBirth'}],
-            [{model: 'countryOfBirth'}],
-            [{model: 'stateOfBirth'}]
-          ]
-        },
-        {
-          id: 'address',
+      cellDefinitions: {
+        address: {
           label: 'Address',
           children: [
-            [{model: 'address'}],
-            [{model: 'city'}],
-            [{model: 'state'}],
-            [{model: 'country'}],
-            [{model: 'zipCode'}]
+            {model: 'address'},
+            {model: 'city'},
+            {model: 'state'},
+            {model: 'country'},
+            {model: 'zipCode'}
           ]
         },
-        {
-          id: 'parents',
+        bride: {
+          collapsible: true,
           children: [
-            [
-              {
-                extends: 'father',
-                model: 'father'
-              },
-              {
-                extends: 'mother',
-                model: 'mother'
-              }
-            ]
+            {extends: 'details'},
+            {extends: 'address'},
+            {extends: 'parents'}
           ]
         },
-        {
-          id: 'father',
+        details: {
+          label: 'Details',
           children: [
-            [{model: 'firstName'}],
-            [{model: 'middleName'}],
-            [{model: 'lastName'}],
-            [{model: 'stateOfBirth'}],
-            [{model: 'countryOfBirth'}]
+            {model: 'firstName'},
+            {model: 'middleName'},
+            {
+              label: 'Current last name',
+              model: 'lastName'
+            },
+            {
+              label: 'Last name at birth (if different)',
+              model: 'lastNameAtBirth'
+            },
+            {model: 'dateOfBirth'},
+            {model: 'countryOfBirth'},
+            {model: 'stateOfBirth'}
           ]
         },
-        {
-          id: 'mother',
+        father: {
           children: [
-            [{model: 'firstName'}],
-            [{model: 'middleName'}],
-            [{model: 'lastName'}],
-            [{model: 'stateOfBirth'}],
-            [{model: 'countryOfBirth'}]
+            {model: 'firstName'},
+            {model: 'middleName'},
+            {model: 'lastName'},
+            {model: 'stateOfBirth'},
+            {model: 'countryOfBirth'}
+          ]
+        },
+        groom: {
+          collapsible: true,
+          children: [
+            {extends: 'details'},
+            {extends: 'address'},
+            {extends: 'parents'}
+          ]
+        },
+        main: {
+          children: [
+            {
+              extends: 'groom',
+              model: 'groom'
+            },
+            {
+              extends: 'bride',
+              model: 'bride'
+            }
+          ]
+        },
+        mother: {
+          children: [
+            {model: 'firstName'},
+            {model: 'middleName'},
+            {model: 'lastName'},
+            {model: 'stateOfBirth'},
+            {model: 'countryOfBirth'}
+          ]
+        },
+        parents: {
+          children: [
+            {
+              extends: 'father',
+              model: 'father'
+            },
+            {
+              extends: 'mother',
+              model: 'mother'
+            }
           ]
         }
-      ],
+      },
       cells: [{
         label: 'Main',
         extends: 'main'
@@ -987,28 +839,21 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'tagType'
-              }
-            ],
-            [
-              {
-                model: 'tag'
-              }
-            ],
-            [
-              {
-                model: 'tag2'
-              }
-            ]
+            {
+              model: 'tagType'
+            },
+            {
+              model: 'tag'
+            },
+            {
+              model: 'tag2'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -1024,28 +869,21 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'tagType'
-              }
-            ],
-            [
-              {
-                model: 'myTags.tag'
-              }
-            ],
-            [
-              {
-                model: 'myTags.tag2'
-              }
-            ]
+            {
+              model: 'tagType'
+            },
+            {
+              model: 'myTags.tag'
+            },
+            {
+              model: 'myTags.tag2'
+            }
           ]
         }
-      ]
+      }
     }
   },
   {
@@ -1061,42 +899,32 @@ export default [
           extends: 'main'
         }
       ],
-      cellDefinitions: [
-        {
-          id: 'tags',
+      cellDefinitions: {
+        main: {
           children: [
-            [
-              {
-                model: 'tagType'
+            {
+              model: 'tags',
+              item: {
+                label: 'Tags',
+                extends: 'tags'
               }
-            ],
-            [
-              {
-                model: 'tag'
-              }
-            ],
-            [
-              {
-                model: 'tag2'
-              }
-            ]
+            }
           ]
         },
-        {
-          id: 'main',
+        tags: {
           children: [
-            [
-              {
-                model: 'tags',
-                item: {
-                  label: 'Tags',
-                  extends: 'tags'
-                }
-              }
-            ]
+            {
+              model: 'tagType'
+            },
+            {
+              model: 'tag'
+            },
+            {
+              model: 'tag2'
+            }
           ]
         }
-      ]
+      }
     }
   }
 ]

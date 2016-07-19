@@ -20,7 +20,6 @@ import {
   NumberInput as _NumberInput,
   PasswordInput as _PasswordInput,
   PropertyChooser as _PropertyChooser,
-  Row as _Row,
   Section as _Section,
   SelectInput as _SelectInput,
   StaticInput as _StaticInput,
@@ -47,7 +46,6 @@ import {default as MultiSelectInput} from 'ember-frost-bunsen/components/multi-s
 import {default as NumberInput} from 'ember-frost-bunsen/components/number-input'
 import {default as PasswordInput} from 'ember-frost-bunsen/components/password-input'
 import {default as PropertyChooser} from 'ember-frost-bunsen/components/property-chooser'
-import {default as Row} from 'ember-frost-bunsen/components/row'
 import {default as Section} from 'ember-frost-bunsen/components/section'
 import {default as SelectInput} from 'ember-frost-bunsen/components/select-input'
 import {default as StaticInput} from 'ember-frost-bunsen/components/static-input'
@@ -126,10 +124,6 @@ describe('ember-frost-bunsen', function () {
 
   it('exports PropertyChooser', function () {
     expect(PropertyChooser).to.equal(_PropertyChooser)
-  })
-
-  it('exports Row', function () {
-    expect(Row).to.equal(_Row)
   })
 
   it('exports Section', function () {

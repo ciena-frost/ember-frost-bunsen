@@ -135,14 +135,13 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         }
 
         const view = {
-          cellDefinitions: [
-            {
-              id: 'main',
+          cellDefinitions: {
+            main: {
               children: [
-                [cellConfig]
+                cellConfig
               ]
             }
-          ],
+          },
           cells: [{
             extends: 'main',
             label: 'Main'

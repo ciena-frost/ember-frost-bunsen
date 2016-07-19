@@ -114,17 +114,14 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "cellDefinitions": [
-    {
-      "id": "main",
+  "cellDefinitions": {
+    "main": {
       "children": [
-        [
-          {"model": "firstName"},
-          {"model": "lastName"},
-        ]
+        {"model": "firstName"},
+        {"model": "lastName"}
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -168,17 +165,14 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "cellDefinitions": [
-    {
-      "id": "main",
+  "cellDefinitions": {
+    "main": {
       "children": [
-        [
-          {"model": "name.first"},
-          {"model": "name.last"},
-        ]
+        {"model": "name.first"},
+        {"model": "name.last"}
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -228,26 +222,23 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "cellDefinitions": [
-    {
-      "id": "main",
+  "cellDefinitions": {
+    "main": {
       "children": [
-        [
-          {"model": "name"},
-          {"model": "age"},
-          {"model": "married"},
-          {
-            "label": "Spouse's Name",
-            "model": "spouse.name"
-          },
-          {
-            "label": "Spouse's Age",
-            "model": "spouse.age"
-          }
-        ]
+        {"model": "name"},
+        {"model": "age"},
+        {"model": "married"},
+        {
+          "label": "Spouse's Name",
+          "model": "spouse.name"
+        },
+        {
+          "label": "Spouse's Age",
+          "model": "spouse.age"
+        }
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -315,16 +306,13 @@ message:
     "label": "Main",
     "id": "main"
   },
-  "cellDefinitions": [
-    {
-      "id": "main",
+  "cellDefinitions": {
+    "main": {
       "children": [
-        [
-          {"model": "palindrome"},
-        ]
+        {"model": "palindrome"}
       ]
     }
-  ]
+  }
 }
 ```
 

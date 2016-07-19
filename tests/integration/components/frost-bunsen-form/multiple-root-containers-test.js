@@ -13,21 +13,19 @@ const props = {
     type: 'object'
   },
   bunsenView: {
-    cellDefinitions: [
-      {
-        id: 'one',
+    cellDefinitions: {
+      one: {
         children: [
-          [{model: 'foo'}],
-          [{model: 'bar'}]
+          {model: 'foo'},
+          {model: 'bar'}
         ]
       },
-      {
-        id: 'two',
+      two: {
         children: [
-          [{model: 'baz'}]
+          {model: 'baz'}
         ]
       }
-    ],
+    },
     cells: [
       {label: 'One', extends: 'one'},
       {label: 'Two', extends: 'two'}

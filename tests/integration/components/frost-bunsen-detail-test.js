@@ -50,9 +50,9 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   it('displays initial value', function () {
     const displayValue = {
-      firstName: this.$('.frost-bunsen-row:first-child').find('.left-input p').text(),
-      lastName: this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text(),
-      alias: this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+      firstName: this.$('.frost-bunsen-cell:nth-child(1)').find('.left-input p').text(),
+      lastName: this.$('.frost-bunsen-cell:nth-child(2)').find('.left-input p').text(),
+      alias: this.$('.frost-bunsen-cell:nth-child(3)').find('.left-input p').text()
     }
     expect(displayValue).to.eql({
       firstName: 'John',
@@ -70,9 +70,9 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
     this.set('value', newValue)
 
-    const firstName = this.$('.frost-bunsen-row:first-child').find('.left-input p').text()
-    const lastName = this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text()
-    const alias = this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+    const firstName = this.$('.frost-bunsen-cell:nth-child(1)').find('.left-input p').text()
+    const lastName = this.$('.frost-bunsen-cell:nth-child(2)').find('.left-input p').text()
+    const alias = this.$('.frost-bunsen-cell:nth-child(3)').find('.left-input p').text()
 
     expect(firstName).to.equal(newValue.firstName)
     expect(lastName).to.equal(newValue.lastName)
@@ -89,14 +89,13 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     const invalidView = {
       version: '1.0',
       type: 'form',
-      cellDefinitions: [
-        {
-          id: 'main',
+      cellDefinitions: {
+        main: {
           children: [
-            [{model: 'some.non-existing.property'}]
+            {model: 'some.non-existing.property'}
           ]
         }
-      ],
+      },
       cells: [{label: 'Main', extends: 'main'}]
     }
     this.set('bunsenView', invalidView)

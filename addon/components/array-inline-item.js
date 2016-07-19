@@ -91,8 +91,8 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} label
    */
   label (cellId, label, index, bunsenModel, cellDefinitions) {
-    const itemCellConfig = cellId ? _.find(cellDefinitions, {id: cellId}) : null
-    const itemId = itemCellConfig ? itemCellConfig.get('id') : ''
+    const itemCellConfig = cellId ? cellDefinitions[cellId] : null
+    const itemId = itemCellConfig ? cellId : ''
     const itemLabel = Ember.String.singularize(getLabel(label, bunsenModel, itemId))
     return itemLabel ? `${itemLabel} ${index + 1}` : null
   },

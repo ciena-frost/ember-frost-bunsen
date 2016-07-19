@@ -53,13 +53,7 @@ export default Component.extend(PropTypeMixin, {
       return null
     }
 
-    cellDefinitions = cellDefinitions.filterBy('id', cellId)
-
-    if (cellDefinitions.length === 0) {
-      return null
-    }
-
-    return cellDefinitions[0]
+    return cellDefinitions[cellId] || null
   },
 
   @readOnly

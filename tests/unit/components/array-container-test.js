@@ -57,23 +57,20 @@ function generateCellConfig (autoAdd) {
  */
 function generateView (cellConfig) {
   return {
-    cellDefinitions: [
-      {
-
-        id: 'main',
+    cellDefinitions: {
+      main: {
         children: [
-          [cellConfig]
+          cellConfig
         ]
       },
-      {
-        id: 'people',
+      people: {
         children: [
-          [{model: 'name.first'}],
-          [{model: 'name.last'}],
-          [{model: 'age'}]
+          {model: 'name.first'},
+          {model: 'name.last'},
+          {model: 'age'}
         ]
       }
-    ],
+    },
     cells: [{
       extends: 'main',
       label: 'Main'

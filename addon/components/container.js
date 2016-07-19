@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -46,7 +45,11 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenCell} current cell definition
    */
   config (cellId, cellDefinitions) {
-    const result = _.findWhere(cellDefinitions, {id: cellId})
+    if (!cellId) {
+      return this.get('cellConfig')
+    }
+
+    const result = cellDefinitions[cellId]
 
     if (!result || !result.children) {
       return result

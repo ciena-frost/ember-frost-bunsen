@@ -8,11 +8,11 @@
   }}
     <div class={{config.classNames.cell}}>
       {{#each config.children as |child index|}}
-        {{frost-bunsen-row
+        {{frost-bunsen-cell
           bunsenId=bunsenId
           bunsenModel=bunsenModel
           bunsenStore=bunsenStore
-          cellConfigs=child
+          config=child
           defaultClassName=config.defaultClassName
           errors=errors
           onChange=onChange
@@ -25,11 +25,11 @@
 {{else}}
   <div class={{config.classNames.cell}}>
     {{#each config.children as |child index|}}
-      {{frost-bunsen-row
+      {{frost-bunsen-cell
         bunsenId=bunsenId
         bunsenModel=bunsenModel
         bunsenStore=bunsenStore
-        cellConfigs=child
+        config=child
         errors=errors
         defaultClassName=config.defaultClassName
         onChange=onChange

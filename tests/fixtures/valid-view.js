@@ -1,49 +1,45 @@
 export default {
   version: '2.0',
   type: 'form',
-  cellDefinitions: [
-    {
-      id: 'main',
+  cellDefinitions: {
+    address: {
       children: [
-        [{extends: 'name'}],
-        [{
+        {model: 'street'},
+        {model: 'city'}, {model: 'state'}, {model: 'zip'}
+      ]
+    },
+    main: {
+      children: [
+        {extends: 'name'},
+        {
           model: 'addresses',
           extends: 'address',
           item: {
             label: 'Addr'
           }
-        }],
-        [{extends: 'nameModel', model: 'name'}],
-        [{
+        },
+        {extends: 'nameModel', model: 'name'},
+        {
           label: 'Custom Name',
           model: 'name',
           renderer: {
             name: 'NameRenderer'
           }
-        }]
+        }
       ]
     },
-    {
-      id: 'name',
+    name: {
       children: [
-        [{model: 'name.first'}],
-        [{model: 'name.last'}]
+        {model: 'name.first'},
+        {model: 'name.last'}
       ]
     },
-    {
-      id: 'address',
+    nameModel: {
       children: [
-        [{model: 'street'}],
-        [{model: 'city'}, {model: 'state'}, {model: 'zip'}]
-      ]
-    },
-    {
-      id: 'nameModel',
-      children: [
-        [{model: 'first'}],
-        [{model: 'last'}]
+        {model: 'first'},
+        {model: 'last'}
       ]
     }
-  ],
+  },
   cells: [{label: 'Main', extends: 'main'}]
 }

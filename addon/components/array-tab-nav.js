@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -40,8 +39,8 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} tab title
    */
   title (cellId, label, index, bunsenModel, cellDefinitions) {
-    const itemCellConfig = cellId ? _.find(cellDefinitions, {id: cellId}) : null
-    const itemId = itemCellConfig ? itemCellConfig.get('id') : ''
+    const itemCellConfig = cellId ? cellDefinitions[cellId] : null
+    const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : `${index + 1}`
   },

@@ -11,14 +11,13 @@ const cellConfig = {
 }
 
 const view = {
-  cellDefinitions: [
-    {
-      id: 'main',
+  cellDefinitions: {
+    main: {
       children: [
-        [cellConfig]
+        cellConfig
       ]
     }
-  ],
+  },
   cells: [{
     extends: 'main',
     label: 'Main'

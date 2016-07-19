@@ -155,16 +155,6 @@ $frost-row-field-padding: 40px;
   }
 }
 
-.frost-bunsen-row {
-  display: flex;
-  flex-flow: row wrap;
-
-  &:first-child > div > div > .frost-bunsen-section {
-    padding-top: 0;
-    border-top: 0;
-  }
-}
-
 .frost-bunsen-section {
   padding-top: 30px;
   border-top: 1px solid $frost-color-lgrey-1;

@@ -1,8 +1,7 @@
 export default {
-  cellDefinitions: [{
-    id: 'main',
-    children: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
           renderer: {
@@ -10,8 +9,8 @@ export default {
           }
         }
       ]
-    ]
-  }],
+    }
+  },
   cells: [
     {
       extends: 'main',

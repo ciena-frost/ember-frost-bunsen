@@ -1,24 +1,19 @@
 export default {
-  cellDefinitions: [{
-    id: 'main',
-    children: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
           renderer: {
             name: 'button-group'
           }
-        }
-      ],
-      [
+        },
         {
           model: 'bar',
           renderer: {
             name: 'button-group'
           }
-        }
-      ],
-      [
+        },
         {
           model: 'baz',
           renderer: {
@@ -26,8 +21,8 @@ export default {
           }
         }
       ]
-    ]
-  }],
+    }
+  },
   cells: [
     {
       extends: 'main',

@@ -67,14 +67,15 @@ describeComponent(
       describe('when one root cell', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            cellDefinitions: [{
-              id: 'main',
-              children: [
-                [{model: 'foo'}],
-                [{model: 'bar'}],
-                [{model: 'baz'}]
-              ]
-            }],
+            cellDefinitions: {
+              main: {
+                children: [
+                  {model: 'foo'},
+                  {model: 'bar'},
+                  {model: 'baz'}
+                ]
+              }
+            },
             cells: [{
               extends: 'main',
               label: 'Main'
@@ -93,21 +94,19 @@ describeComponent(
       describe('when multiple root cells', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            cellDefinitions: [
-              {
-                id: 'one',
+            cellDefinitions: {
+              one: {
                 children: [
-                  [{model: 'foo'}],
-                  [{model: 'bar'}]
+                  {model: 'foo'},
+                  {model: 'bar'}
                 ]
               },
-              {
-                id: 'two',
+              two: {
                 children: [
-                  [{model: 'baz'}]
+                  {model: 'baz'}
                 ]
               }
-            ],
+            },
             cells: [
               {
                 extends: 'one',

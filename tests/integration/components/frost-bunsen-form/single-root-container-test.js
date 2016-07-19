@@ -13,16 +13,15 @@ const props = {
     type: 'object'
   },
   bunsenView: {
-    cellDefinitions: [
-      {
-        id: 'main',
+    cellDefinitions: {
+      main: {
         children: [
-          [{model: 'foo'}],
-          [{model: 'bar'}],
-          [{model: 'baz'}]
+          {model: 'foo'},
+          {model: 'bar'},
+          {model: 'baz'}
         ]
       }
-    ],
+    },
     cells: [{label: 'Main', extends: 'main'}],
     type: 'form',
     version: '2.0'
