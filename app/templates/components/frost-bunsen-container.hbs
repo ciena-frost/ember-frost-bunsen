@@ -6,7 +6,7 @@
     required=isRequired
     title=config.label
   }}
-    <div class={{config.className}}>
+    <div class={{config.classNames.cell}}>
       {{#each config.children as |child index|}}
         {{frost-bunsen-row
           bunsenId=bunsenId
@@ -23,7 +23,7 @@
     </div>
   {{/frost-bunsen-section}}
 {{else}}
-  <div class={{config.className}}>
+  <div class={{config.classNames.cell}}>
     {{#each config.children as |child index|}}
       {{frost-bunsen-row
         bunsenId=bunsenId

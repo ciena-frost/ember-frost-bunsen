@@ -15,14 +15,18 @@ export default [
       containers: [
         {
           id: 'main',
-          className: 'test1 test2',
+          classNames: {
+            cell: 'test1 test2'
+          },
           defaultClassName: 'cellDef1 cellDef2',
           children: [
             [
               {
                 model: 'name',
                 renderer: 'name-renderer',
-                className: 'testCellClass'
+                classNames: {
+                  cell: 'testCellClass'
+                }
               }
             ],
             [
