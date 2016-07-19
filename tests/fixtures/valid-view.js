@@ -14,8 +14,10 @@ export default {
         {
           model: 'addresses',
           extends: 'address',
-          item: {
-            label: 'Addr'
+          arrayOptions: {
+            itemCell: {
+              label: 'Addr'
+            }
           }
         },
         {extends: 'nameModel', model: 'name'},

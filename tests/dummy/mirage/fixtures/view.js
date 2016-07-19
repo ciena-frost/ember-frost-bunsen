@@ -30,10 +30,12 @@ export default [
             },
             {
               model: 'addresses',
-              item: {
-                label: 'Address',
-                renderer: {
-                  name: 'AddressRenderer'
+              arrayOptions: {
+                itemCell: {
+                  label: 'Address',
+                  renderer: {
+                    name: 'AddressRenderer'
+                  }
                 }
               }
             }
@@ -57,7 +59,7 @@ export default [
       ],
       cellDefinitions: {
         addr: {
-          instructions: 'Where have you lived?',
+          description: 'Where have you lived?',
           children: [
             {
               model: 'street'
@@ -81,16 +83,18 @@ export default [
             },
             {
               model: 'addresses',
-              item: {
-                extends: 'addr',
-                label: 'Address'
+              arrayOptions: {
+                itemCell: {
+                  extends: 'addr',
+                  label: 'Address'
+                }
               }
             }
           ]
         },
         name: {
           collapsible: true,
-          instructions: 'Who are you?',
+          description: 'Who are you?',
           children: [
             {
               model: 'first'
@@ -141,9 +145,11 @@ export default [
             },
             {
               model: 'addresses',
-              item: {
-                extends: 'addr',
-                label: 'Address'
+              arrayOptions: {
+                itemCell: {
+                  extends: 'addr',
+                  label: 'Address'
+                }
               }
             }
           ]
@@ -191,9 +197,11 @@ export default [
           children: [
             {
               model: 'addresses',
-              item: {
-                extends: 'addr',
-                label: 'Address'
+              arrayOptions: {
+                itemCell: {
+                  extends: 'addr',
+                  label: 'Address'
+                }
               }
             }
           ]
@@ -225,10 +233,12 @@ export default [
           children: [
             {
               model: 'info.people',
-              item: {
+              arrayOptions: {
                 autoAdd: true,
-                extends: 'person',
-                label: 'Person'
+                itemCell: {
+                  extends: 'person',
+                  label: 'Person'
+                }
               }
             }
           ]
@@ -260,16 +270,20 @@ export default [
         main: {
           children: [
             {
-              item: {
-                label: 'Plaintiff',
-                extends: 'person'
+              arrayOptions: {
+                itemCell: {
+                  label: 'Plaintiff',
+                  extends: 'person'
+                }
               },
               model: 'info.people.0'
             },
             {
-              item: {
-                label: 'Defendant',
-                extends: 'person'
+              arrayOptions: {
+                itemCell: {
+                  label: 'Defendant',
+                  extends: 'person'
+                }
               },
               model: 'info.people.1'
             }
@@ -332,9 +346,11 @@ export default [
           children: [
             {
               model: 'info.people',
-              item: {
-                extends: 'person',
-                label: 'Person',
+              arrayOptions: {
+                itemCell: {
+                  extends: 'person',
+                  label: 'Person'
+                },
                 sortable: true
               }
             }
@@ -362,13 +378,23 @@ export default [
         flat: {
           children: [
             {model: 'network.host.name', label: 'Host name'},
-            {model: 'network.host.interfaces', label: 'Host interfaces', item: {extends: 'interface'}},
+            {
+              model: 'network.host.interfaces',
+              label: 'Host interfaces',
+              arrayOptions: {
+                itemCell: {
+                  extends: 'interface'
+                }
+              }
+            },
             {model: 'network.firewall.name', label: 'Firewall name'},
             {
               model: 'network.firewall.interfaces',
               label: 'Firewall Interfaces',
-              item: {
-                extends: 'interface'
+              arrayOptions: {
+                itemCell: {
+                  extends: 'interface'
+                }
               }
             }
           ]
@@ -904,9 +930,11 @@ export default [
           children: [
             {
               model: 'tags',
-              item: {
-                label: 'Tags',
-                extends: 'tags'
+              arrayOptions: {
+                itemCell: {
+                  label: 'Tags',
+                  extends: 'tags'
+                }
               }
             }
           ]

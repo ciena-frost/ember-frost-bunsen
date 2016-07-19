@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              item: {
+              items: {
                 properties: {
                   bar: {type: 'string'}
                 },

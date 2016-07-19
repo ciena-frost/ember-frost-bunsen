@@ -48,7 +48,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.extends', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig.arrayOptions.itemCell.extends', 'bunsenStore.view.cellDefinitions')
   /**
    * Get definition for current cell
    * @param {String} cellId - ID of current cell
@@ -64,7 +64,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.inline')
+  @computed('cellConfig.arrayOptions.inline')
   inline (inline) {
     return inline === undefined || inline === true
   },
@@ -72,12 +72,12 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('currentCell')
   /**
-   * Get instructions text for current cell
+   * Get description text for current cell
    * @param {BunsenCell} cell - current cell
-   * @returns {String} instructions text
+   * @returns {String} description text
    */
-  instructions (cell) {
-    return cell ? cell.instructions : null
+  description (cell) {
+    return cell ? cell.description : null
   },
 
   @readOnly
@@ -94,13 +94,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('inline', 'cellConfig.item.autoAdd')
+  @computed('inline', 'cellConfig.arrayOptions.autoAdd')
   showAddButton (inline, autoAdd) {
     return inline && !autoAdd
   },
 
   @readOnly
-  @computed('cellConfig.item.sortable')
+  @computed('cellConfig.arrayOptions.sortable')
   /**
    * Whether or not array items can be sorted by user
    * @param {Boolean} enabled - whether or not sorting should be enabled
@@ -138,8 +138,8 @@ export default Component.extend(PropTypeMixin, {
     this._super(...arguments)
     const value = _.get(this.get('value'), this.get('bunsenId'))
     const items = this.get('items')
-    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.item.autoAdd')
-    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.item.autoAdd')
+    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.arrayOptions.autoAdd')
+    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.arrayOptions.autoAdd')
 
     // If autoAdd is being enabled add empty item to end of array
     if (newAutoAddValue === true && oldAutoAddValue !== true) {
@@ -218,7 +218,7 @@ export default Component.extend(PropTypeMixin, {
     },
 
     onChange (bunsenId, value) {
-      const autoAdd = this.get('cellConfig.item.autoAdd')
+      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
       const clearingValue = [undefined, null, ''].indexOf(value) !== -1
       const onChange = this.get('onChange')
 
@@ -274,7 +274,7 @@ export default Component.extend(PropTypeMixin, {
      * @param {Number} index - index of item to remove
      */
     onRemoveItem (index) {
-      const autoAdd = this.get('cellConfig.item.autoAdd')
+      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
       const items = this.get('items')
       const itemToRemove = items.objectAt(index)
       const lastItemIndex = Math.max(0, items.length - 1)

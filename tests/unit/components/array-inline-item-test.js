@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              item: {
+              items: {
                 properties: {
                   bar: {type: 'string'}
                 },
@@ -43,7 +43,9 @@ describeComponent(
           view: {}
         }),
         cellConfig: Ember.Object.create({
-          item: {}
+          arrayOptions: {
+            itemCell: {}
+          }
         }),
         errors: {},
         index: 0,
@@ -78,12 +80,12 @@ describeComponent(
     })
 
     it('compact returns false when view config property is set to false', function () {
-      component.set('cellConfig.item.compact', false)
+      component.set('cellConfig.arrayOptions.compact', false)
       expect(component.get('compact')).to.be.false
     })
 
     it('compact returns true when view config property set to true', function () {
-      component.set('cellConfig.item.compact', true)
+      component.set('cellConfig.arrayOptions.compact', true)
       expect(component.get('compact')).to.be.true
     })
 

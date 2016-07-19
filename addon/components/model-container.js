@@ -70,12 +70,12 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('currentCell')
   /**
-   * Get instructions text for current cell
+   * Get description text for current cell
    * @param {BunsenCell} cell - current cell
-   * @returns {String} instructions text
+   * @returns {String} description text
    */
-  instructions (cell) {
-    return cell ? cell.instructions : null
+  description (cell) {
+    return cell ? cell.description : null
   },
 
   @readOnly

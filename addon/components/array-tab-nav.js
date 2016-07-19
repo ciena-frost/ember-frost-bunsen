@@ -28,7 +28,9 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.item.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions')
+  @computed(
+    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
+  )
   /**
    * Get title for tab
    * @param {String} cellId - ID of cells

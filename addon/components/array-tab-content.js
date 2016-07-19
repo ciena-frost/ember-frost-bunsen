@@ -33,7 +33,7 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.item.renderer.name', 'bunsenStore.renderers')
+  @computed('cellConfig.arrayOptions.itemCell.renderer.name', 'bunsenStore.renderers')
   /**
    * Get name of component for custom renderer
    * @param {String} renderer - custom renderer to use
@@ -64,7 +64,9 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions')
+  @computed(
+    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
+  )
   /**
    * Get label text for item
    * @param {String} cellId - ID of cell
