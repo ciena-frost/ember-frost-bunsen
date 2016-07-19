@@ -55,18 +55,7 @@ export default AbstractInput.extend({
     if (!modelDef) {
       return
     }
-    //on first run "this.get('initialized')" will always be 'false' & options will be set for component
-    if(!this.get('initialized')){
-
-       const dbStore = this.get('dbStore')
-       const value = this.get('bunsenStore.formValue')
-       const bunsenId = this.get('bunsenId')
-
-       listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
-         this.set('options', opts)
-       })
-     }else if(this.get('initialized') && modelDef.query){
-        if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query)) {
+   if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query)) {
            //setting required variables once above condition is true
            const dbStore = this.get('dbStore')
            const value = this.get('bunsenStore.formValue')
@@ -76,8 +65,8 @@ export default AbstractInput.extend({
                    this.set('options', opts)
                  })
              }
-        }
     }
+
   this.set('initialized', true)
   },
 
@@ -89,7 +78,12 @@ export default AbstractInput.extend({
    * @returns {Boolean} true if query has been changed
    */
    hasQueryChanged (oldAttrs, newAttrs, modelQuery) {
-
+     // allow models that don't have query defined to pass as well as
+     // allow the options to get initially populated
+     if (!modelQuery || !this.get('initialized')) {
+       return true
+     }
+     
      var modelQueryHasProperty = false;
      for(var prop in modelQuery){
         if(prop){
@@ -108,7 +102,7 @@ export default AbstractInput.extend({
         //If valueVariable exists in newAttrs & oldAttrs only then evaluate further
         let value_result = utils.findValue(value, valueVariable, bunsenId)
         let oldValue_result = utils.findValue(oldValue, valueVariable, bunsenId)
-          if(value_result && oldValue_result){
+          if(value_result || oldValue_result){
 
               let oldQuery
               let query
