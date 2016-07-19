@@ -1,19 +1,19 @@
 export default {
   version: '2.0',
   type: 'form',
-  containers: [
+  cellDefinitions: [
     {
       id: 'main',
       children: [
-        [{container: 'name'}],
+        [{extends: 'name'}],
         [{
           model: 'addresses',
-          container: 'address',
+          extends: 'address',
           item: {
             label: 'Addr'
           }
         }],
-        [{container: 'nameModel', model: 'name'}],
+        [{extends: 'nameModel', model: 'name'}],
         [{
           label: 'Custom Name',
           model: 'name',
@@ -45,5 +45,5 @@ export default {
       ]
     }
   ],
-  cells: [{label: 'Main', container: 'main'}]
+  cells: [{label: 'Main', extends: 'main'}]
 }

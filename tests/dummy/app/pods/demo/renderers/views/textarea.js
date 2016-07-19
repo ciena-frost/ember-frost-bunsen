@@ -1,5 +1,5 @@
 export default {
-  containers: [{
+  cellDefinitions: [{
     id: 'main',
     children: [
       [
@@ -18,7 +18,7 @@ export default {
   }],
   cells: [
     {
-      container: 'main',
+      extends: 'main',
       label: 'Main'
     }
   ],

@@ -35,7 +35,7 @@ const cellConfig = {
 }
 
 const view = {
-  containers: [
+  cellDefinitions: [
     {
       id: 'main',
       children: [
@@ -44,7 +44,7 @@ const view = {
     }
   ],
   cells: [{
-    container: 'main',
+    extends: 'main',
     label: 'Main'
   }],
   type: 'form',

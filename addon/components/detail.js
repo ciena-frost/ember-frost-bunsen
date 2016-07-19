@@ -108,7 +108,7 @@ export default Component.extend(PropTypeMixin, {
 
   @readOnly
   @computed('renderView.cells')
-  containerTabs (cells) {
+  cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return Ember.A([])
@@ -287,8 +287,8 @@ export default Component.extend(PropTypeMixin, {
     onChange () {},
 
     /**
-     * Change selected tab/root container
-     * @param {Number} tabIndex - index of root container corresponding to tab
+     * Change selected tab/root cell
+     * @param {Number} tabIndex - index of root cell corresponding to tab
      */
     onTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)

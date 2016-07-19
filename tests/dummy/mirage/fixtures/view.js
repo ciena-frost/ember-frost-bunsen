@@ -9,10 +9,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           classNames: {
@@ -57,24 +57,24 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
             [
               {
                 model: 'name',
-                container: 'name'
+                extends: 'name'
               }
             ],
             [
               {
                 model: 'addresses',
                 item: {
-                  container: 'addr',
+                  extends: 'addr',
                   label: 'Address'
                 }
               }
@@ -131,24 +131,24 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
             [
               {
                 model: 'name',
-                container: 'name'
+                extends: 'name'
               }
             ],
             [
               {
                 model: 'addresses',
                 item: {
-                  container: 'addr',
+                  extends: 'addr',
                   label: 'Address'
                 }
               }
@@ -202,14 +202,14 @@ export default [
       cells: [
         {
           label: 'Name',
-          container: 'name'
+          extends: 'name'
         },
         {
           label: 'Addresses',
-          container: 'addresses'
+          extends: 'addresses'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'name',
           children: [
@@ -226,7 +226,7 @@ export default [
               {
                 model: 'addresses',
                 item: {
-                  container: 'addr',
+                  extends: 'addr',
                   label: 'Address'
                 }
               }
@@ -257,10 +257,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -269,7 +269,7 @@ export default [
                 model: 'info.people',
                 item: {
                   autoAdd: true,
-                  container: 'person',
+                  extends: 'person',
                   label: 'Person'
                 }
               }
@@ -297,10 +297,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -308,14 +308,14 @@ export default [
               {
                 item: {
                   label: 'Plaintiff',
-                  container: 'person'
+                  extends: 'person'
                 },
                 model: 'info.people.0'
               },
               {
                 item: {
                   label: 'Defendant',
-                  container: 'person'
+                  extends: 'person'
                 },
                 model: 'info.people.1'
               }
@@ -343,10 +343,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -375,10 +375,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -386,7 +386,7 @@ export default [
               {
                 model: 'info.people',
                 item: {
-                  container: 'person',
+                  extends: 'person',
                   label: 'Person',
                   sortable: true
                 }
@@ -412,13 +412,13 @@ export default [
     view: {
       version: '2.0',
       type: 'form',
-      cells: [{label: 'Flat', container: 'flat'}],
-      containers: [
+      cells: [{label: 'Flat', extends: 'flat'}],
+      cellDefinitions: [
         {
           id: 'networkElement',
           children: [
             [{model: 'name'}],
-            [{model: 'interfaces', container: 'interface'}]
+            [{model: 'interfaces', extends: 'interface'}]
           ]
         },
 
@@ -436,13 +436,13 @@ export default [
           id: 'flat',
           children: [
             [{model: 'network.host.name', label: 'Host name'}],
-            [{model: 'network.host.interfaces', label: 'Host interfaces', item: {container: 'interface'}}],
+            [{model: 'network.host.interfaces', label: 'Host interfaces', item: {extends: 'interface'}}],
             [{model: 'network.firewall.name', label: 'Firewall name'}],
             [{
               model: 'network.firewall.interfaces',
               label: 'Firewall Interfaces',
               item: {
-                container: 'interface'
+                extends: 'interface'
               }
             }]
           ]
@@ -460,10 +460,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -556,10 +556,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -597,10 +597,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -642,10 +642,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -699,10 +699,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -739,10 +739,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -789,10 +789,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -821,10 +821,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           label: 'User Information',
@@ -862,17 +862,17 @@ export default [
     label: 'Two Column',
     modelIds: ['wedding-application'],
     view: {
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
             [
               {
-                container: 'groom',
+                extends: 'groom',
                 model: 'groom'
               },
               {
-                container: 'bride',
+                extends: 'bride',
                 model: 'bride'
               }
             ]
@@ -883,10 +883,10 @@ export default [
           id: 'groom',
           children: [
             [
-              {container: 'details'},
-              {container: 'address'}
+              {extends: 'details'},
+              {extends: 'address'}
             ],
-            [{container: 'parents'}]
+            [{extends: 'parents'}]
           ]
         },
         {
@@ -894,10 +894,10 @@ export default [
           id: 'bride',
           children: [
             [
-              {container: 'details'},
-              {container: 'address'}
+              {extends: 'details'},
+              {extends: 'address'}
             ],
-            [{container: 'parents'}]
+            [{extends: 'parents'}]
           ]
         },
         {
@@ -935,11 +935,11 @@ export default [
           children: [
             [
               {
-                container: 'father',
+                extends: 'father',
                 model: 'father'
               },
               {
-                container: 'mother',
+                extends: 'mother',
                 model: 'mother'
               }
             ]
@@ -968,7 +968,7 @@ export default [
       ],
       cells: [{
         label: 'Main',
-        container: 'main'
+        extends: 'main'
       }],
       type: 'form',
       version: '2.0'
@@ -984,10 +984,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -1021,10 +1021,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -1058,10 +1058,10 @@ export default [
       cells: [
         {
           label: 'Main',
-          container: 'main'
+          extends: 'main'
         }
       ],
-      containers: [
+      cellDefinitions: [
         {
           id: 'tags',
           children: [
@@ -1090,7 +1090,7 @@ export default [
                 model: 'tags',
                 item: {
                   label: 'Tags',
-                  container: 'tags'
+                  extends: 'tags'
                 }
               }
             ]

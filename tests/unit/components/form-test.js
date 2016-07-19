@@ -63,11 +63,11 @@ describeComponent(
       ])
     })
 
-    describe('containerTabs', function () {
-      describe('when one root container', function () {
+    describe('cellTabs', function () {
+      describe('when one root cell', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            containers: [{
+            cellDefinitions: [{
               id: 'main',
               children: [
                 [{model: 'foo'}],
@@ -76,7 +76,7 @@ describeComponent(
               ]
             }],
             cells: [{
-              container: 'main',
+              extends: 'main',
               label: 'Main'
             }],
             type: 'form',
@@ -85,15 +85,15 @@ describeComponent(
         })
 
         it('returns empty array', function () {
-          const tabs = component.get('containerTabs')
+          const tabs = component.get('cellTabs')
           expect(tabs.length).to.equal(0)
         })
       })
 
-      describe('when multiple root containers', function () {
+      describe('when multiple root cells', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            containers: [
+            cellDefinitions: [
               {
                 id: 'one',
                 children: [
@@ -110,11 +110,11 @@ describeComponent(
             ],
             cells: [
               {
-                container: 'one',
+                extends: 'one',
                 label: 'One'
               },
               {
-                container: 'two',
+                extends: 'two',
                 label: 'Two'
               }
             ],
@@ -124,7 +124,7 @@ describeComponent(
         })
 
         it('returns expected array of tabs', function () {
-          const tabs = component.get('containerTabs')
+          const tabs = component.get('cellTabs')
           expect(tabs.length).to.equal(2)
           expect(tabs[0]).to.eql({
             alias: 'One',

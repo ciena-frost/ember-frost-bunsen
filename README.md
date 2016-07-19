@@ -114,7 +114,7 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "containers": [
+  "cellDefinitions": [
     {
       "id": "main",
       "children": [
@@ -168,7 +168,7 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "containers": [
+  "cellDefinitions": [
     {
       "id": "main",
       "children": [
@@ -228,7 +228,7 @@ ember install ember-frost-bunsen
     "label": "Main",
     "id": "main"
   },
-  "containers": [
+  "cellDefinitions": [
     {
       "id": "main",
       "children": [
@@ -315,7 +315,7 @@ message:
     "label": "Main",
     "id": "main"
   },
-  "containers": [
+  "cellDefinitions": [
     {
       "id": "main",
       "children": [

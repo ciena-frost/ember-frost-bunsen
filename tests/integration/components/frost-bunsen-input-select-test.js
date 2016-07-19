@@ -135,7 +135,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         }
 
         const view = {
-          containers: [
+          cellDefinitions: [
             {
               id: 'main',
               children: [
@@ -144,7 +144,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             }
           ],
           cells: [{
-            container: 'main',
+            extends: 'main',
             label: 'Main'
           }],
           type: 'form',

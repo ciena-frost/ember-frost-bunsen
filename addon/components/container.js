@@ -38,15 +38,15 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.container', 'bunsenStore.view.containers')
+  @computed('cellConfig.extends', 'bunsenStore.view.cellDefinitions')
   /**
-   * Get definition for current container
-   * @param {String} containerId - ID of current container
-   * @param {BunsenContainer[]} containers - list of container definitions
-   * @returns {BunsenContainer} current container definition
+   * Get definition for current cell
+   * @param {String} cellId - ID of current cell
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
    */
-  config (containerId, containers) {
-    const result = _.findWhere(containers, {id: containerId})
+  config (cellId, cellDefinitions) {
+    const result = _.findWhere(cellDefinitions, {id: cellId})
 
     if (!result || !result.children) {
       return result
@@ -58,9 +58,9 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('bunsenModel')
   /**
-   * Determine whether or not container contains required inputs
+   * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
-   * @returns {Boolean} whether or not container contains required inputs
+   * @returns {Boolean} whether or not cell contains required inputs
    */
   isRequired (bunsenModel) {
     return doesModelContainRequiredField(bunsenModel)

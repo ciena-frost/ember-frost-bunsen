@@ -80,19 +80,19 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.{container,label}', 'index', 'bunsenModel', 'bunsenStore.view.containers')
+  @computed('cellConfig.item.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions')
   /**
    * Get label text for item
-   * @param {String} containerId - ID of container
+   * @param {String} cellId - ID of cell
    * @param {String} label - label
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
-   * @param {BunsenContainer[]} containers - view containers
+   * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} label
    */
-  label (containerId, label, index, bunsenModel, containers) {
-    const itemContainerConfig = containerId ? _.find(containers, {id: containerId}) : null
-    const itemId = itemContainerConfig ? itemContainerConfig.get('id') : ''
+  label (cellId, label, index, bunsenModel, cellDefinitions) {
+    const itemCellConfig = cellId ? _.find(cellDefinitions, {id: cellId}) : null
+    const itemId = itemCellConfig ? itemCellConfig.get('id') : ''
     const itemLabel = Ember.String.singularize(getLabel(label, bunsenModel, itemId))
     return itemLabel ? `${itemLabel} ${index + 1}` : null
   },

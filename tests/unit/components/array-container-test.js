@@ -43,7 +43,7 @@ function generateCellConfig (autoAdd) {
   return {
     item: {
       autoAdd,
-      container: 'person',
+      extends: 'person',
       label: 'person'
     },
     model: 'people'
@@ -57,7 +57,7 @@ function generateCellConfig (autoAdd) {
  */
 function generateView (cellConfig) {
   return {
-    containers: [
+    cellDefinitions: [
       {
 
         id: 'main',
@@ -75,7 +75,7 @@ function generateView (cellConfig) {
       }
     ],
     cells: [{
-      container: 'main',
+      extends: 'main',
       label: 'Main'
     }],
     type: 'form',

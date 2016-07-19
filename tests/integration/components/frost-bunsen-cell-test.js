@@ -33,7 +33,7 @@ function tests (ctx) {
 
   describe('when sub-model is an object', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.containers[0].children[1][0])
+      const config = Ember.Object.create(view.cellDefinitions[0].children[1][0])
       this.set('config', config) // name model
     })
 
@@ -45,7 +45,7 @@ function tests (ctx) {
 
   describe('when sub-model is an array', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.containers[0].children[1][0])
+      const config = Ember.Object.create(view.cellDefinitions[0].children[1][0])
       this.set('config', config) // address
     })
 
@@ -56,7 +56,7 @@ function tests (ctx) {
 
   describe('when sub-model is an input', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.containers[1].children[0][0])
+      const config = Ember.Object.create(view.cellDefinitions[1].children[0][0])
       this.set('config', config) // name.first
     })
 
@@ -65,9 +65,9 @@ function tests (ctx) {
     })
   })
 
-  describe('when config is a container', function () {
+  describe('when config is a cell', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.containers[0].children[0][0])
+      const config = Ember.Object.create(view.cellDefinitions[0].children[0][0])
       this.set('config', config) // name
     })
 

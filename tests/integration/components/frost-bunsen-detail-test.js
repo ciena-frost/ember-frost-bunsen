@@ -89,7 +89,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     const invalidView = {
       version: '1.0',
       type: 'form',
-      containers: [
+      cellDefinitions: [
         {
           id: 'main',
           children: [
@@ -97,7 +97,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
           ]
         }
       ],
-      cells: [{label: 'Main', container: 'main'}]
+      cells: [{label: 'Main', extends: 'main'}]
     }
     this.set('bunsenView', invalidView)
 

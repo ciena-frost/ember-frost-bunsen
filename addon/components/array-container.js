@@ -48,25 +48,25 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.container', 'bunsenStore.view.containers')
+  @computed('cellConfig.item.extends', 'bunsenStore.view.cellDefinitions')
   /**
-   * Get definition for current container
-   * @param {String} containerId - ID of current container
-   * @param {BunsenContainer[]} containers - list of container definitions
-   * @returns {BunsenContainer} current container definition
+   * Get definition for current cell
+   * @param {String} cellId - ID of current cell
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
    */
-  currentContainer (containerId, containers) {
-    if (!containerId) {
+  currentCell (cellId, cellDefinitions) {
+    if (!cellId) {
       return null
     }
 
-    containers = containers.filterBy('id', containerId)
+    cellDefinitions = cellDefinitions.filterBy('id', cellId)
 
-    if (containers.length === 0) {
+    if (cellDefinitions.length === 0) {
       return null
     }
 
-    return containers[0]
+    return cellDefinitions[0]
   },
 
   @readOnly
@@ -76,20 +76,20 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('currentContainer')
+  @computed('currentCell')
   /**
-   * Get instructions text for current container
-   * @param {BunsenContainer} container - current container
+   * Get instructions text for current cell
+   * @param {BunsenCell} cell - current cell
    * @returns {String} instructions text
    */
-  instructions (container) {
-    return container ? container.instructions : null
+  instructions (cell) {
+    return cell ? cell.instructions : null
   },
 
   @readOnly
   @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
   /**
-   * Get label for container
+   * Get label for cell
    * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
    * @param {String} label - label
    * @param {BunsenModel} bunsenModel - bunsen model
@@ -133,7 +133,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
-   * Initialze state of container
+   * Initialze state of cell
    */
   init () {
     this._super()
