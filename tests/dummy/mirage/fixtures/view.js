@@ -17,7 +17,7 @@ export default [
           id: 'main',
           className: 'test1 test2',
           defaultClassName: 'cellDef1 cellDef2',
-          rows: [
+          children: [
             [
               {
                 model: 'name',
@@ -55,7 +55,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'name',
@@ -77,7 +77,7 @@ export default [
           collapsible: true,
           id: 'name',
           instructions: 'Who are you?',
-          rows: [
+          children: [
             [
               {
                 model: 'first'
@@ -91,7 +91,7 @@ export default [
         {
           id: 'addr',
           instructions: 'Where have you lived?',
-          rows: [
+          children: [
             [
               {
                 model: 'street'
@@ -129,7 +129,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'name',
@@ -149,7 +149,7 @@ export default [
         },
         {
           id: 'name',
-          rows: [
+          children: [
             [
               {
                 model: 'first'
@@ -162,7 +162,7 @@ export default [
         },
         {
           id: 'addr',
-          rows: [
+          children: [
             [
               {
                 model: 'street'
@@ -204,7 +204,7 @@ export default [
       containers: [
         {
           id: 'name',
-          rows: [
+          children: [
             [
               {model: 'name.first'},
               {model: 'name.last'}
@@ -213,7 +213,7 @@ export default [
         },
         {
           id: 'addresses',
-          rows: [
+          children: [
             [
               {
                 model: 'addresses',
@@ -227,7 +227,7 @@ export default [
         },
         {
           id: 'addr',
-          rows: [
+          children: [
             [{model: 'street'}],
             [
               {model: 'city'},
@@ -255,7 +255,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'info.people',
@@ -270,7 +270,7 @@ export default [
         },
         {
           id: 'person',
-          rows: [
+          children: [
             [{model: 'name.first'}],
             [{model: 'name.last'}],
             [{model: 'age'}]
@@ -295,7 +295,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 item: {
@@ -316,7 +316,7 @@ export default [
         },
         {
           id: 'person',
-          rows: [
+          children: [
             [{model: 'name.first'}],
             [{model: 'name.last'}],
             [{model: 'age'}]
@@ -341,7 +341,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 label: "Plaintiff's Last Name",
@@ -373,7 +373,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'info.people',
@@ -388,7 +388,7 @@ export default [
         },
         {
           id: 'person',
-          rows: [
+          children: [
             [{model: 'name.first'}],
             [{model: 'name.last'}],
             [{model: 'age'}]
@@ -408,7 +408,7 @@ export default [
       containers: [
         {
           id: 'networkElement',
-          rows: [
+          children: [
             [{model: 'name'}],
             [{model: 'interfaces', container: 'interface'}]
           ]
@@ -416,7 +416,7 @@ export default [
 
         {
           id: 'interface',
-          rows: [
+          children: [
             [
               {model: 'name'},
               {model: 'adminState'}
@@ -426,7 +426,7 @@ export default [
 
         {
           id: 'flat',
-          rows: [
+          children: [
             [{model: 'network.host.name', label: 'Host name'}],
             [{model: 'network.host.interfaces', label: 'Host interfaces', item: {container: 'interface'}}],
             [{model: 'network.firewall.name', label: 'Firewall name'}],
@@ -458,7 +458,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'name'
@@ -552,7 +552,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'alias'
@@ -593,7 +593,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'firstName'
@@ -636,7 +636,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'alias'
@@ -691,7 +691,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'enumExample'
@@ -729,7 +729,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'enumExample'
@@ -775,7 +775,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'enumExample'
@@ -808,7 +808,7 @@ export default [
         {
           id: 'main',
           label: 'User Information',
-          rows: [
+          children: [
             [
               {
                 model: 'firstName'
@@ -843,7 +843,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 container: 'groom',
@@ -859,7 +859,7 @@ export default [
         {
           collapsible: true,
           id: 'groom',
-          rows: [
+          children: [
             [
               {container: 'details'},
               {container: 'address'}
@@ -870,7 +870,7 @@ export default [
         {
           collapsible: true,
           id: 'bride',
-          rows: [
+          children: [
             [
               {container: 'details'},
               {container: 'address'}
@@ -881,7 +881,7 @@ export default [
         {
           id: 'details',
           label: 'Details',
-          rows: [
+          children: [
             [{model: 'firstName'}],
             [{model: 'middleName'}],
             [{
@@ -900,7 +900,7 @@ export default [
         {
           id: 'address',
           label: 'Address',
-          rows: [
+          children: [
             [{model: 'address'}],
             [{model: 'city'}],
             [{model: 'state'}],
@@ -910,7 +910,7 @@ export default [
         },
         {
           id: 'parents',
-          rows: [
+          children: [
             [
               {
                 container: 'father',
@@ -925,7 +925,7 @@ export default [
         },
         {
           id: 'father',
-          rows: [
+          children: [
             [{model: 'firstName'}],
             [{model: 'middleName'}],
             [{model: 'lastName'}],
@@ -935,7 +935,7 @@ export default [
         },
         {
           id: 'mother',
-          rows: [
+          children: [
             [{model: 'firstName'}],
             [{model: 'middleName'}],
             [{model: 'lastName'}],
@@ -968,7 +968,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'tagType'
@@ -1005,7 +1005,7 @@ export default [
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'tagType'
@@ -1042,7 +1042,7 @@ export default [
       containers: [
         {
           id: 'tags',
-          rows: [
+          children: [
             [
               {
                 model: 'tagType'
@@ -1062,7 +1062,7 @@ export default [
         },
         {
           id: 'main',
-          rows: [
+          children: [
             [
               {
                 model: 'tags',

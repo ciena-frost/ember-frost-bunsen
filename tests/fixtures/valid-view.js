@@ -4,7 +4,7 @@ export default {
   containers: [
     {
       id: 'main',
-      rows: [
+      children: [
         [{container: 'name'}],
         [{
           model: 'addresses',
@@ -19,21 +19,21 @@ export default {
     },
     {
       id: 'name',
-      rows: [
+      children: [
         [{model: 'name.first'}],
         [{model: 'name.last'}]
       ]
     },
     {
       id: 'address',
-      rows: [
+      children: [
         [{model: 'street'}],
         [{model: 'city'}, {model: 'state'}, {model: 'zip'}]
       ]
     },
     {
       id: 'nameModel',
-      rows: [
+      children: [
         [{model: 'first'}],
         [{model: 'last'}]
       ]

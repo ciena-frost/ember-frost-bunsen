@@ -134,7 +134,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           containers: [
             {
               id: 'main',
-              rows: [
+              children: [
                 [cellConfig]
               ]
             }

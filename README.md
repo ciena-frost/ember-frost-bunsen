@@ -117,7 +117,7 @@ ember install ember-frost-bunsen
   "containers": [
     {
       "id": "main",
-      "rows": [
+      "children": [
         [
           {"model": "firstName"},
           {"model": "lastName"},
@@ -171,7 +171,7 @@ ember install ember-frost-bunsen
   "containers": [
     {
       "id": "main",
-      "rows": [
+      "children": [
         [
           {"model": "name.first"},
           {"model": "name.last"},
@@ -231,7 +231,7 @@ ember install ember-frost-bunsen
   "containers": [
     {
       "id": "main",
-      "rows": [
+      "children": [
         [
           {"model": "name"},
           {"model": "age"},
@@ -318,7 +318,7 @@ message:
   "containers": [
     {
       "id": "main",
-      "rows": [
+      "children": [
         [
           {"model": "palindrome"},
         ]

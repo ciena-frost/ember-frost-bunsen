@@ -16,7 +16,7 @@ const props = {
     containers: [
       {
         id: 'main',
-        rows: [
+        children: [
           [{model: 'foo'}],
           [{model: 'bar'}],
           [{model: 'baz'}]

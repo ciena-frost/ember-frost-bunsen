@@ -92,7 +92,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
       containers: [
         {
           id: 'main',
-          rows: [
+          children: [
             [{model: 'some.non-existing.property'}]
           ]
         }

@@ -48,7 +48,7 @@ export default Component.extend(PropTypeMixin, {
   config (containerId, containers) {
     const result = _.findWhere(containers, {id: containerId})
 
-    if (!result || !result.rows) {
+    if (!result || !result.children) {
       return result
     }
 

@@ -1,7 +1,7 @@
 export default {
   containers: [{
     id: 'main',
-    rows: [
+    children: [
       [
         {
           model: 'foo',

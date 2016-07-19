@@ -16,14 +16,14 @@ const props = {
     containers: [
       {
         id: 'one',
-        rows: [
+        children: [
           [{model: 'foo'}],
           [{model: 'bar'}]
         ]
       },
       {
         id: 'two',
-        rows: [
+        children: [
           [{model: 'baz'}]
         ]
       }

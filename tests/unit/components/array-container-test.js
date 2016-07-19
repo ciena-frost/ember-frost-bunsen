@@ -61,13 +61,13 @@ function generateView (cellConfig) {
       {
 
         id: 'main',
-        rows: [
+        children: [
           [cellConfig]
         ]
       },
       {
         id: 'people',
-        rows: [
+        children: [
           [{model: 'name.first'}],
           [{model: 'name.last'}],
           [{model: 'age'}]

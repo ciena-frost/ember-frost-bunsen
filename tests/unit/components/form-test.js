@@ -69,7 +69,7 @@ describeComponent(
           component.set('bunsenView', {
             containers: [{
               id: 'main',
-              rows: [
+              children: [
                 [{model: 'foo'}],
                 [{model: 'bar'}],
                 [{model: 'baz'}]
@@ -96,14 +96,14 @@ describeComponent(
             containers: [
               {
                 id: 'one',
-                rows: [
+                children: [
                   [{model: 'foo'}],
                   [{model: 'bar'}]
                 ]
               },
               {
                 id: 'two',
-                rows: [
+                children: [
                   [{model: 'baz'}]
                 ]
               }

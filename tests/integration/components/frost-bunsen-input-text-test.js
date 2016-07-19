@@ -33,7 +33,7 @@ const view = {
   containers: [
     {
       id: 'main',
-      rows: [
+      children: [
         [cellConfig]
       ]
     }

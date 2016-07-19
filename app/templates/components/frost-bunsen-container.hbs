@@ -7,12 +7,12 @@
     title=config.label
   }}
     <div class={{config.className}}>
-      {{#each config.rows as |row index|}}
+      {{#each config.children as |child index|}}
         {{frost-bunsen-row
           bunsenId=bunsenId
           bunsenModel=bunsenModel
           bunsenStore=bunsenStore
-          cellConfigs=row
+          cellConfigs=child
           defaultClassName=config.defaultClassName
           errors=errors
           onChange=onChange
@@ -24,12 +24,12 @@
   {{/frost-bunsen-section}}
 {{else}}
   <div class={{config.className}}>
-    {{#each config.rows as |row index|}}
+    {{#each config.children as |child index|}}
       {{frost-bunsen-row
         bunsenId=bunsenId
         bunsenModel=bunsenModel
         bunsenStore=bunsenStore
-        cellConfigs=row
+        cellConfigs=child
         errors=errors
         defaultClassName=config.defaultClassName
         onChange=onChange
