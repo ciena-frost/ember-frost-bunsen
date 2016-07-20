@@ -2,7 +2,7 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {doesModelContainRequiredField, getLabel} from 'bunsen-core/utils'
+import {doesModelContainRequiredField, getLabel} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
@@ -41,48 +41,54 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.extend', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig.container', 'bunsenStore.view.containers')
   /**
-   * Get definition for current cell
-   * @param {String} cellId - ID of current cell
-   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
-   * @returns {BunsenCell} current cell definition
+   * Get definition for current container
+   * @param {String} containerId - ID of current container
+   * @param {BunsenContainer[]} containers - list of container definitions
+   * @returns {BunsenContainer} current container definition
    */
-  currentCell (cellId, cellDefinitions) {
-    if (!cellId) {
+  currentContainer (containerId, containers) {
+    if (!containerId) {
       return null
     }
 
-    return cellDefinitions[cellId] || null
+    containers = containers.filterBy('id', containerId)
+
+    if (containers.length === 0) {
+      return null
+    }
+
+    return containers[0]
   },
 
   @readOnly
-  @computed('currentCell')
+  @computed('currentContainer')
   /**
-   * Determine if current cell can be collapsed
-   * @param {BunsenCell} cell - current cell
-   * @returns {Boolean} whether or not cell is collapsible
+   * Determine if current container can be collapsed
+   * @param {BunsenContainer} container - current container
+   * @returns {Boolean} whether or not container is collapsible
    */
-  collapsible (cell) {
-    return Boolean(cell && cell.collapsible)
+  collapsible (container) {
+    return Boolean(container && container.collapsible)
   },
 
   @readOnly
-  @computed('currentCell')
+  @computed('currentContainer')
   /**
-   * Get description text for current cell
-   * @param {BunsenCell} cell - current cell
-   * @returns {String} description text
+   * Get instructions text for current container
+   * @param {BunsenContainer} container - current container
+   * @returns {String} instructions text
    */
-  description (cell) {
-    return cell ? cell.description : null
+  instructions (container) {
+    return container ? container.instructions : null
   },
 
   @readOnly
   @computed('bunsenId', 'cellConfig.{label,showLabel}', 'label', 'bunsenModel')
   /**
-   * Get label for cell
-   * @param {String} bunsenId - bunsen ID for cell in model
+   * Get label for container
+   * @param {String} bunsenId - bunsen ID for container in model
    * @param {String} configLabel - label defined in view
    * @param {Boolean} showLabel - whether or not to show label
    * @param {String} label - label
@@ -101,9 +107,9 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('bunsenModel')
   /**
-   * Determine whether or not cell contains required inputs
+   * Determine whether or not container contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
-   * @returns {Boolean} whether or not cell contains required inputs
+   * @returns {Boolean} whether or not container contains required inputs
    */
   isRequired (bunsenModel) {
     return doesModelContainRequiredField(bunsenModel)

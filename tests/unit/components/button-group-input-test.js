@@ -25,9 +25,9 @@ describeComponent(
         },
         bunsenStore: Ember.Object.create({}),
         cellConfig: Ember.Object.create({
-          model: 'foo',
-          renderer: {
-            name: 'button-group'
+          properties: {
+            model: 'foo',
+            type: 'button-group'
           }
         }),
         onChange () {},
@@ -125,8 +125,8 @@ describeComponent(
       expect(component.get('size')).to.eql('medium')
     })
 
-    it('size can be overridden by renderer.size', function () {
-      component.set('cellConfig.renderer.size', 'small')
+    it('size can be overridden by properties.size', function () {
+      component.set('cellConfig.properties', {size: 'small'})
       expect(component.get('size')).to.eql('small')
     })
 

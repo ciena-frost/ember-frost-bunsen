@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 
 describeComponent(
   'frost-bunsen-cell',

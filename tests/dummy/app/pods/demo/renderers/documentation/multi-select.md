@@ -8,9 +8,7 @@ This renderers a select input that allows for more than one option to be selecte
 {
   "label": "Bar",
   "model": "foo",
-  "renderer": {
-    "name": "multi-select"
-  }
+  "renderer": "multi-select"
 }
 ```
 
@@ -20,8 +18,6 @@ This renderers a select input that allows for more than one option to be selecte
 {
   "model": "foo",
   "placeholder": "Select something…",
-  "renderer": {
-    "name": "multi-select"
-  }
+  "renderer": "multi-select"
 }
 ```

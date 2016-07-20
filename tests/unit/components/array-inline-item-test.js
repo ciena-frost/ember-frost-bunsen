@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              items: {
+              item: {
                 properties: {
                   bar: {type: 'string'}
                 },
@@ -43,9 +43,7 @@ describeComponent(
           view: {}
         }),
         cellConfig: Ember.Object.create({
-          arrayOptions: {
-            itemCell: {}
-          }
+          item: {}
         }),
         errors: {},
         index: 0,
@@ -80,12 +78,12 @@ describeComponent(
     })
 
     it('compact returns false when view config property is set to false', function () {
-      component.set('cellConfig.arrayOptions.compact', false)
+      component.set('cellConfig.item.compact', false)
       expect(component.get('compact')).to.be.false
     })
 
     it('compact returns true when view config property set to true', function () {
-      component.set('cellConfig.arrayOptions.compact', true)
+      component.set('cellConfig.item.compact', true)
       expect(component.get('compact')).to.be.true
     })
 

@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
 import _ from 'lodash'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 
 function makeProps (props) {
   return _.merge({

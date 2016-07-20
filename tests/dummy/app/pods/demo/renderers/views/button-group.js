@@ -1,34 +1,33 @@
 export default {
-  cellDefinitions: {
-    main: {
-      children: [
+  containers: [{
+    id: 'main',
+    rows: [
+      [
         {
           model: 'foo',
-          renderer: {
-            name: 'button-group'
-          }
-        },
+          renderer: 'button-group'
+        }
+      ],
+      [
         {
           model: 'bar',
-          renderer: {
-            name: 'button-group'
-          }
-        },
+          renderer: 'button-group'
+        }
+      ],
+      [
         {
           model: 'baz',
-          renderer: {
-            name: 'button-group'
-          }
+          renderer: 'button-group'
         }
       ]
-    }
-  },
-  cells: [
+    ]
+  }],
+  rootContainers: [
     {
-      extends: 'main',
+      container: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '2.0'
+  version: '1.0'
 }

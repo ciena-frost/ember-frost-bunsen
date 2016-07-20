@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              items: {
+              item: {
                 properties: {
                   bar: {type: 'string'}
                 },

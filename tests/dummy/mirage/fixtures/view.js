@@ -4,43 +4,40 @@ export default [
     label: 'Array (Custom)',
     modelIds: ['array'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          classNames: {
-            cell: 'test1 test2'
-          },
-          children: [
-            {
-              model: 'name',
-              renderer: {
-                name: 'name-renderer'
-              },
-              classNames: {
-                cell: 'testCellClass'
+      containers: [
+        {
+          id: 'main',
+          className: 'test1 test2',
+          defaultClassName: 'cellDef1 cellDef2',
+          rows: [
+            [
+              {
+                model: 'name',
+                renderer: 'name-renderer',
+                className: 'testCellClass'
               }
-            },
-            {
-              model: 'addresses',
-              arrayOptions: {
-                itemCell: {
+            ],
+            [
+              {
+                model: 'addresses',
+                item: {
+                  // TODO: add back inline: false, once tab UX is addressed
                   label: 'Address',
-                  renderer: {
-                    name: 'AddressRenderer'
-                  }
+                  renderer: 'AddressRenderer'
                 }
               }
-            }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -48,62 +45,74 @@ export default [
     label: 'Array (Inline)',
     modelIds: ['array'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        addr: {
-          description: 'Where have you lived?',
-          children: [
-            {
-              model: 'street'
-            },
-            {
-              model: 'city'
-            },
-            {
-              model: 'state'
-            },
-            {
-              model: 'zip'
-            }
-          ]
-        },
-        main: {
-          children: [
-            {
-              model: 'name',
-              extends: 'name'
-            },
-            {
-              model: 'addresses',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'addr',
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'name',
+                container: 'name'
+              }
+            ],
+            [
+              {
+                model: 'addresses',
+                item: {
+                  container: 'addr',
+                  inline: true,
                   label: 'Address'
                 }
               }
-            }
+            ]
           ]
         },
-        name: {
+        {
           collapsible: true,
-          description: 'Who are you?',
-          children: [
-            {
-              model: 'first'
-            },
-            {
-              model: 'last'
-            }
+          id: 'name',
+          instructions: 'Who are you?',
+          rows: [
+            [
+              {
+                model: 'first'
+              },
+              {
+                model: 'last'
+              }
+            ]
+          ]
+        },
+        {
+          id: 'addr',
+          instructions: 'Where have you lived?',
+          rows: [
+            [
+              {
+                model: 'street'
+              }
+            ],
+            [
+              {
+                model: 'city'
+              },
+              {
+                model: 'state'
+              },
+              {
+                model: 'zip'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -111,59 +120,70 @@ export default [
     label: 'Array (Standard)',
     modelIds: ['array'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        addr: {
-          children: [
-            {
-              model: 'street'
-            },
-            {
-              model: 'city'
-            },
-            {
-              model: 'state'
-            },
-            {
-              model: 'zip'
-            }
-          ]
-        },
-        main: {
-          children: [
-            {
-              model: 'name',
-              extends: 'name'
-            },
-            {
-              model: 'addresses',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'addr',
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'name',
+                container: 'name'
+              }
+            ],
+            [
+              {
+                model: 'addresses',
+                item: {
+                  container: 'addr',
                   label: 'Address'
                 }
               }
-            }
+            ]
           ]
         },
-        name: {
-          children: [
-            {
-              model: 'first'
-            },
-            {
-              model: 'last'
-            }
+        {
+          id: 'name',
+          rows: [
+            [
+              {
+                model: 'first'
+              },
+              {
+                model: 'last'
+              }
+            ]
+          ]
+        },
+        {
+          id: 'addr',
+          rows: [
+            [
+              {
+                model: 'street'
+              }
+            ],
+            [
+              {
+                model: 'city'
+              },
+              {
+                model: 'state'
+              },
+              {
+                model: 'zip'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -171,47 +191,54 @@ export default [
     label: 'Array (Tabs)',
     modelIds: ['array'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Name',
-          extends: 'name'
+          container: 'name'
         },
         {
           label: 'Addresses',
-          extends: 'addresses'
+          container: 'addresses'
         }
       ],
-      cellDefinitions: {
-        addr: {
-          children: [
-            {model: 'street'},
-            {model: 'city'},
-            {model: 'state'},
-            {model: 'zip'}
+      containers: [
+        {
+          id: 'name',
+          rows: [
+            [
+              {model: 'name.first'},
+              {model: 'name.last'}
+            ]
           ]
         },
-        addresses: {
-          children: [
-            {
-              model: 'addresses',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'addr',
+        {
+          id: 'addresses',
+          rows: [
+            [
+              {
+                model: 'addresses',
+                item: {
+                  container: 'addr',
                   label: 'Address'
                 }
               }
-            }
+            ]
           ]
         },
-        name: {
-          children: [
-            {model: 'name.first'},
-            {model: 'name.last'}
+        {
+          id: 'addr',
+          rows: [
+            [{model: 'street'}],
+            [
+              {model: 'city'},
+              {model: 'state'},
+              {model: 'zip'}
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -219,37 +246,39 @@ export default [
     label: 'Array (Auto Add)',
     modelIds: ['array-2'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'info.people',
-              arrayOptions: {
-                autoAdd: true,
-                itemCell: {
-                  extends: 'person',
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'info.people',
+                item: {
+                  autoAdd: true,
+                  container: 'person',
                   label: 'Person'
                 }
               }
-            }
+            ]
           ]
         },
-        person: {
-          children: [
-            {model: 'name.first'},
-            {model: 'name.last'},
-            {model: 'age'}
+        {
+          id: 'person',
+          rows: [
+            [{model: 'name.first'}],
+            [{model: 'name.last'}],
+            [{model: 'age'}]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -257,45 +286,45 @@ export default [
     label: 'Array (Indexed)',
     modelIds: ['array-2'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              arrayOptions: {
-                itemCell: {
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                item: {
                   label: 'Plaintiff',
-                  extends: 'person'
-                }
+                  container: 'person'
+                },
+                model: 'info.people.0'
               },
-              model: 'info.people.0'
-            },
-            {
-              arrayOptions: {
-                itemCell: {
+              {
+                item: {
                   label: 'Defendant',
-                  extends: 'person'
-                }
-              },
-              model: 'info.people.1'
-            }
+                  container: 'person'
+                },
+                model: 'info.people.1'
+              }
+            ]
           ]
         },
-        person: {
-          children: [
-            {model: 'name.first'},
-            {model: 'name.last'},
-            {model: 'age'}
+        {
+          id: 'person',
+          rows: [
+            [{model: 'name.first'}],
+            [{model: 'name.last'}],
+            [{model: 'age'}]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -303,28 +332,31 @@ export default [
     label: 'Array (Indexed 2)',
     modelIds: ['array-2'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              label: "Plaintiff's Last Name",
-              model: 'info.people.0.name.last'
-            },
-            {
-              label: "Defendant's Last Name",
-              model: 'info.people.1.name.last'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                label: "Plaintiff's Last Name",
+                model: 'info.people.0.name.last'
+              },
+              {
+                label: "Defendant's Last Name",
+                model: 'info.people.1.name.last'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -332,37 +364,39 @@ export default [
     label: 'Array (Sortable)',
     modelIds: ['array-2'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'info.people',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'person',
-                  label: 'Person'
-                },
-                sortable: true
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'info.people',
+                item: {
+                  container: 'person',
+                  label: 'Person',
+                  sortable: true
+                }
               }
-            }
+            ]
           ]
         },
-        person: {
-          children: [
-            {model: 'name.first'},
-            {model: 'name.last'},
-            {model: 'age'}
+        {
+          id: 'person',
+          rows: [
+            [{model: 'name.first'}],
+            [{model: 'name.last'}],
+            [{model: 'age'}]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -370,47 +404,44 @@ export default [
     label: 'Complex',
     modelIds: ['complex'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [{label: 'Flat', extends: 'flat'}],
-      cellDefinitions: {
-        flat: {
-          children: [
-            {model: 'network.host.name', label: 'Host name'},
-            {
-              model: 'network.host.interfaces',
-              label: 'Host interfaces',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'interface'
-                }
-              }
-            },
-            {model: 'network.firewall.name', label: 'Firewall name'},
-            {
+      rootContainers: [{label: 'Flat', container: 'flat'}],
+      containers: [
+        {
+          id: 'networkElement',
+          rows: [
+            [{model: 'name'}],
+            [{model: 'interfaces', container: 'interface'}]
+          ]
+        },
+
+        {
+          id: 'interface',
+          rows: [
+            [
+              {model: 'name'},
+              {model: 'adminState'}
+            ]
+          ]
+        },
+
+        {
+          id: 'flat',
+          rows: [
+            [{model: 'network.host.name', label: 'Host name'}],
+            [{model: 'network.host.interfaces', label: 'Host interfaces', item: {container: 'interface'}}],
+            [{model: 'network.firewall.name', label: 'Firewall name'}],
+            [{
               model: 'network.firewall.interfaces',
               label: 'Firewall Interfaces',
-              arrayOptions: {
-                itemCell: {
-                  extends: 'interface'
-                }
+              item: {
+                container: 'interface'
               }
-            }
-          ]
-        },
-        interface: {
-          children: [
-            {model: 'name'},
-            {model: 'adminState'}
-          ]
-        },
-        networkElement: {
-          children: [
-            {model: 'name'},
-            {model: 'interfaces', extends: 'interface'}
+            }]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -418,74 +449,93 @@ export default [
     label: 'Dependencies',
     modelIds: ['dependencies'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'name'
-            },
-            {
-              model: 'email'
-            },
-            {
-              model: 'paymentInfo',
-              renderer: {
-                choices: [
-                  {
-                    label: 'Electronic funds transfer',
-                    value: 'useEft'
-                  },
-                  {
-                    label: 'Credit card',
-                    value: 'useCreditCard'
-                  },
-                  {
-                    label: 'PayPal',
-                    value: 'usePayPal'
-                  }
-                ],
-                name: 'property-chooser'
-              },
-              label: 'Payment Type'
-            },
-            {
-              model: 'paymentInfo.routingNumber',
-              dependsOn: 'paymentInfo.useEft'
-            },
-            {
-              model: 'paymentInfo.accountNumber',
-              dependsOn: 'paymentInfo.useEft'
-            },
-            {
-              model: 'paymentInfo.creditCardNumber',
-              dependsOn: 'paymentInfo.useCreditCard'
-            },
-            {
-              label: 'CCV',
-              model: 'paymentInfo.ccv',
-              dependsOn: 'paymentInfo.useCreditCard'
-            },
-            {
-              label: 'PayPal username',
-              model: 'paymentInfo.payPalUsername',
-              dependsOn: 'paymentInfo.usePayPal'
-            },
-            {
-              label: 'PayPal password',
-              model: 'paymentInfo.payPalPassword',
-              dependsOn: 'paymentInfo.usePayPal'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'name'
+              }
+            ],
+            [
+              {
+                model: 'email'
+              }
+            ],
+            [
+              {
+                model: 'paymentInfo',
+                renderer: 'property-chooser',
+                label: 'Payment Type',
+                properties: {
+                  choices: [
+                    {
+                      label: 'Electronic funds transfer',
+                      value: 'useEft'
+                    },
+                    {
+                      label: 'Credit card',
+                      value: 'useCreditCard'
+                    },
+                    {
+                      label: 'PayPal',
+                      value: 'usePayPal'
+                    }
+                  ]
+                }
+              }
+            ],
+            [
+              {
+                model: 'paymentInfo.routingNumber',
+                dependsOn: 'paymentInfo.useEft'
+              }
+            ],
+            [
+              {
+                model: 'paymentInfo.accountNumber',
+                dependsOn: 'paymentInfo.useEft'
+              }
+            ],
+            [
+              {
+                model: 'paymentInfo.creditCardNumber',
+                dependsOn: 'paymentInfo.useCreditCard'
+              }
+            ],
+            [
+              {
+                label: 'CCV',
+                model: 'paymentInfo.ccv',
+                dependsOn: 'paymentInfo.useCreditCard'
+              }
+            ],
+            [
+              {
+                label: 'PayPal username',
+                model: 'paymentInfo.payPalUsername',
+                dependsOn: 'paymentInfo.usePayPal'
+              }
+            ],
+            [
+              {
+                label: 'PayPal password',
+                model: 'paymentInfo.payPalPassword',
+                dependsOn: 'paymentInfo.usePayPal'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -493,32 +543,43 @@ export default [
     label: 'Simple (Standard)',
     modelIds: ['simple'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'alias'
-            },
-            {
-              model: 'firstName',
-              label: 'First'
-            },
-            {
-              model: 'lastName'
-            },
-            {
-              model: 'onlyChild'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'alias'
+              }
+            ],
+            [
+              {
+                model: 'firstName',
+                label: 'First'
+              },
+              {
+                model: 'lastName'
+              }
+            ],
+            [
+              {
+                model: 'onlyChild'
+              }
+            ]
           ]
         }
+      ],
+      buttonLabels: {
+        cancel: 'Cancel',
+        submit: 'Create'
       }
     }
   },
@@ -527,35 +588,42 @@ export default [
     label: 'Simple (Custom)',
     modelIds: ['simple'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'firstName'
-            },
-            {
-              model: 'lastName'
-            },
-            {
-              model: 'alias'
-            },
-            {
-              model: 'onlyChild',
-              renderer: {
-                name: 'BooleanRenderer'
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'firstName'
               }
-            }
+            ],
+            [
+              {
+                model: 'lastName'
+              }
+            ],
+            [
+              {
+                model: 'alias'
+              }
+            ],
+            [
+              {
+                model: 'onlyChild',
+                renderer: 'BooleanRenderer'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -563,48 +631,57 @@ export default [
     label: 'Simple (Transforms)',
     modelIds: ['simple'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'alias'
-            },
-            {
-              model: 'firstName',
-              label: 'First',
-              transforms: {
-                read: [
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'alias'
+              }
+            ],
+            [
+              {
+                model: 'firstName',
+                label: 'First',
+                readTransforms: [
                   {from: '^Alexander$', regex: true, to: 'Alex'},
                   {from: '^Christopher$', regex: true, to: 'Chris'},
                   {from: '^Matthew$', regex: true, to: 'Matt'},
                   {from: '^Johnathan$', regex: true, to: 'John'},
                   {from: '^Samantha$', regex: true, to: 'Sam'}
                 ],
-                write: [
+                writeTransforms: [
                   {from: '^Alex$', regex: true, to: 'Alexander'},
                   {from: '^Chris$', regex: true, to: 'Christopher'},
                   {from: '^Matt$', regex: true, to: 'Matthew'},
                   {from: '^John$', regex: true, to: 'Johnathan'},
                   {from: '^Sam$', regex: true, to: 'Samantha'}
                 ]
+              },
+              {
+                model: 'lastName'
               }
-            },
-            {
-              model: 'lastName'
-            },
-            {
-              model: 'onlyChild'
-            }
+            ],
+            [
+              {
+                model: 'onlyChild'
+              }
+            ]
           ]
         }
+      ],
+      buttonLabels: {
+        cancel: 'Cancel',
+        submit: 'Create'
       }
     }
   },
@@ -613,32 +690,37 @@ export default [
     label: 'Select Form',
     modelIds: ['select'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'enumExample'
-            },
-            {
-              model: 'queryExample'
-            },
-            {
-              model: 'multiSelectExample',
-              renderer: {
-                name: 'multi-select'
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample'
               }
-            }
+            ],
+            [
+              {
+                model: 'queryExample'
+              }
+            ],
+            [
+              {
+                model: 'multiSelectExample',
+                renderer: 'multi-select'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -646,24 +728,27 @@ export default [
     label: 'Select Form (Tranforms)',
     modelIds: ['select'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'enumExample'
-            },
-            {
-              model: 'queryExample',
-              transforms: {
-                write: [
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample'
+              }
+            ],
+            [
+              {
+                model: 'queryExample',
+                writeTransforms: [
                   {
                     object: {
                       id: '${value}',
@@ -672,16 +757,16 @@ export default [
                   }
                 ]
               }
-            },
-            {
-              model: 'multiSelectExample',
-              renderer: {
-                name: 'multi-select'
+            ],
+            [
+              {
+                model: 'multiSelectExample',
+                renderer: 'multi-select'
               }
-            }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -689,26 +774,31 @@ export default [
     label: 'Select Detail',
     modelIds: ['select'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'detail',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'enumExample'
-            },
-            {
-              model: 'queryExample'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'enumExample'
+              }
+            ],
+            [
+              {
+                model: 'queryExample'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -716,35 +806,46 @@ export default [
     label: 'Simple (Grouping)',
     modelIds: ['simple'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
+      containers: [
+        {
+          id: 'main',
           label: 'User Information',
-          children: [
-            {
-              model: 'firstName'
-            },
-            {
-              model: 'lastName'
-            },
-            {
-              model: 'alias'
-            },
-            {
-              model: 'onlyChild',
-              renderer: {
-                name: 'BooleanRenderer'
+          rows: [
+            [
+              {
+                model: 'firstName'
               }
-            }
+            ],
+            [
+              {
+                model: 'lastName'
+              }
+            ],
+            [
+              {
+                model: 'alias'
+              }
+            ],
+            [
+              {
+                model: 'onlyChild',
+                renderer: 'BooleanRenderer'
+              }
+            ]
           ]
         }
+      ],
+      buttonLabels: {
+        cancel: 'Cancel',
+        submit: 'Create'
       }
     }
   },
@@ -753,100 +854,116 @@ export default [
     label: 'Two Column',
     modelIds: ['wedding-application'],
     view: {
-      cellDefinitions: {
-        address: {
-          label: 'Address',
-          children: [
-            {model: 'address'},
-            {model: 'city'},
-            {model: 'state'},
-            {model: 'country'},
-            {model: 'zipCode'}
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                container: 'groom',
+                model: 'groom'
+              },
+              {
+                container: 'bride',
+                model: 'bride'
+              }
+            ]
           ]
         },
-        bride: {
+        {
           collapsible: true,
-          children: [
-            {extends: 'details'},
-            {extends: 'address'},
-            {extends: 'parents'}
+          id: 'groom',
+          rows: [
+            [
+              {container: 'details'},
+              {container: 'address'}
+            ],
+            [{container: 'parents'}]
           ]
         },
-        details: {
+        {
+          collapsible: true,
+          id: 'bride',
+          rows: [
+            [
+              {container: 'details'},
+              {container: 'address'}
+            ],
+            [{container: 'parents'}]
+          ]
+        },
+        {
+          id: 'details',
           label: 'Details',
-          children: [
-            {model: 'firstName'},
-            {model: 'middleName'},
-            {
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{
               label: 'Current last name',
               model: 'lastName'
-            },
-            {
+            }],
+            [{
               label: 'Last name at birth (if different)',
               model: 'lastNameAtBirth'
-            },
-            {model: 'dateOfBirth'},
-            {model: 'countryOfBirth'},
-            {model: 'stateOfBirth'}
+            }],
+            [{model: 'dateOfBirth'}],
+            [{model: 'countryOfBirth'}],
+            [{model: 'stateOfBirth'}]
           ]
         },
-        father: {
-          children: [
-            {model: 'firstName'},
-            {model: 'middleName'},
-            {model: 'lastName'},
-            {model: 'stateOfBirth'},
-            {model: 'countryOfBirth'}
+        {
+          id: 'address',
+          label: 'Address',
+          rows: [
+            [{model: 'address'}],
+            [{model: 'city'}],
+            [{model: 'state'}],
+            [{model: 'country'}],
+            [{model: 'zipCode'}]
           ]
         },
-        groom: {
-          collapsible: true,
-          children: [
-            {extends: 'details'},
-            {extends: 'address'},
-            {extends: 'parents'}
+        {
+          id: 'parents',
+          rows: [
+            [
+              {
+                container: 'father',
+                model: 'father'
+              },
+              {
+                container: 'mother',
+                model: 'mother'
+              }
+            ]
           ]
         },
-        main: {
-          children: [
-            {
-              extends: 'groom',
-              model: 'groom'
-            },
-            {
-              extends: 'bride',
-              model: 'bride'
-            }
+        {
+          id: 'father',
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{model: 'lastName'}],
+            [{model: 'stateOfBirth'}],
+            [{model: 'countryOfBirth'}]
           ]
         },
-        mother: {
-          children: [
-            {model: 'firstName'},
-            {model: 'middleName'},
-            {model: 'lastName'},
-            {model: 'stateOfBirth'},
-            {model: 'countryOfBirth'}
-          ]
-        },
-        parents: {
-          children: [
-            {
-              extends: 'father',
-              model: 'father'
-            },
-            {
-              extends: 'mother',
-              model: 'mother'
-            }
+        {
+          id: 'mother',
+          rows: [
+            [{model: 'firstName'}],
+            [{model: 'middleName'}],
+            [{model: 'lastName'}],
+            [{model: 'stateOfBirth'}],
+            [{model: 'countryOfBirth'}]
           ]
         }
-      },
-      cells: [{
+      ],
+      rootContainers: [{
         label: 'Main',
-        extends: 'main'
+        container: 'main'
       }],
       type: 'form',
-      version: '2.0'
+      version: '1.0'
     }
   },
   {
@@ -854,29 +971,36 @@ export default [
     label: 'Conditional Props',
     modelIds: ['conditional-properties'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'tagType'
-            },
-            {
-              model: 'tag'
-            },
-            {
-              model: 'tag2'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tagType'
+              }
+            ],
+            [
+              {
+                model: 'tag'
+              }
+            ],
+            [
+              {
+                model: 'tag2'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -884,29 +1008,36 @@ export default [
     label: 'Nested Conditions',
     modelIds: ['conditions-in-definitions', 'conditions'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'tagType'
-            },
-            {
-              model: 'myTags.tag'
-            },
-            {
-              model: 'myTags.tag2'
-            }
+      containers: [
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tagType'
+              }
+            ],
+            [
+              {
+                model: 'myTags.tag'
+              }
+            ],
+            [
+              {
+                model: 'myTags.tag2'
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   },
   {
@@ -914,42 +1045,50 @@ export default [
     label: 'Complex With Select',
     modelIds: ['complex-conditional-properties'],
     view: {
-      version: '2.0',
+      version: '1.0',
       type: 'form',
-      cells: [
+      rootContainers: [
         {
           label: 'Main',
-          extends: 'main'
+          container: 'main'
         }
       ],
-      cellDefinitions: {
-        main: {
-          children: [
-            {
-              model: 'tags',
-              arrayOptions: {
-                itemCell: {
-                  label: 'Tags',
-                  extends: 'tags'
-                }
+      containers: [
+        {
+          id: 'tags',
+          rows: [
+            [
+              {
+                model: 'tagType'
               }
-            }
+            ],
+            [
+              {
+                model: 'tag'
+              }
+            ],
+            [
+              {
+                model: 'tag2'
+              }
+            ]
           ]
         },
-        tags: {
-          children: [
-            {
-              model: 'tagType'
-            },
-            {
-              model: 'tag'
-            },
-            {
-              model: 'tag2'
-            }
+        {
+          id: 'main',
+          rows: [
+            [
+              {
+                model: 'tags',
+                item: {
+                  label: 'Tags',
+                  container: 'tags'
+                }
+              }
+            ]
           ]
         }
-      }
+      ]
     }
   }
 ]

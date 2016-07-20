@@ -4,13 +4,13 @@
   }}
 {{else}}
 <form>
-  {{#if cellTabs.length}}
+  {{#if containerTabs.length}}
     {{#frost-tabs
       onChange=(action "onTabChange")
       selection=(or selectedTabIndex 0)
-      tabs=cellTabs
+      tabs=containerTabs
     }}
-      {{#each cellTabs as |tab|}}
+      {{#each containerTabs as |tab|}}
         {{frost-tab
           alias=tab.alias
           id=tab.id

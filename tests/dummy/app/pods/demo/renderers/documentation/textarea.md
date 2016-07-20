@@ -7,10 +7,7 @@ This renderer provides a textarea input.
 ```json
 {
   "label": "Bar",
-  "model": "foo",
-  "renderer": {
-    "name": "textarea"
-  }
+  "model": "foo"
 }
 ```
 
@@ -19,32 +16,27 @@ This renderer provides a textarea input.
 ```json
 {
   "model": "foo",
-  "placeholder": "Bar",
-  "renderer": {
-    "name": "textarea"
-  }
+  "placeholder": "Bar"
 }
 ```
 
-#### renderer.cols
+#### properties.cols
 
 ```json
 {
   "model": "foo",
-  "renderer": {
-    "cols": 4,
-    "name": "textarea"
+  "properties": {
+    "cols": 4
   }
 }
 ```
 
-#### renderer.rows
+#### properties.rows
 
 ```json
 {
   "model": "foo",
-  "renderer": {
-    "name": "textarea",
+  "properties": {
     "rows": 4
   }
 }

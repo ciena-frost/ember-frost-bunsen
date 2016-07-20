@@ -8,9 +8,7 @@ This renderer provides a password input which includes a button to reveal the pa
 {
   "label": "Bar",
   "model": "foo",
-  "renderer": {
-    "name": "password"
-  }
+  "renderer": "password"
 }
 ```
 
@@ -20,8 +18,6 @@ This renderer provides a password input which includes a button to reveal the pa
 {
   "model": "foo",
   "placeholder": "Bar",
-  "renderer": {
-    "name": "password"
-  }
+  "renderer": "password"
 }
 ```
