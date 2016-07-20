@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {recursiveObjectCreate} from 'ember-frost-bunsen/utils'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
 import {setupComponentTest} from 'dummy/tests/helpers/template'
 
 import model from '../../fixtures/valid-model'
@@ -33,7 +33,7 @@ function tests (ctx) {
 
   describe('when sub-model is an object', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.cellDefinitions.main.children[1])
+      const config = Ember.Object.create(view.containers[0].rows[1][0])
       this.set('config', config) // name model
     })
 
@@ -45,7 +45,7 @@ function tests (ctx) {
 
   describe('when sub-model is an array', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.cellDefinitions.main.children[1])
+      const config = Ember.Object.create(view.containers[0].rows[1][0])
       this.set('config', config) // address
     })
 
@@ -56,7 +56,7 @@ function tests (ctx) {
 
   describe('when sub-model is an input', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.cellDefinitions.name.children[0])
+      const config = Ember.Object.create(view.containers[1].rows[0][0])
       this.set('config', config) // name.first
     })
 
@@ -65,9 +65,9 @@ function tests (ctx) {
     })
   })
 
-  describe('when config is a cell', function () {
+  describe('when config is a container', function () {
     beforeEach(function () {
-      const config = Ember.Object.create(view.cellDefinitions.main.children[0])
+      const config = Ember.Object.create(view.containers[0].rows[0][0])
       this.set('config', config) // name
     })
 

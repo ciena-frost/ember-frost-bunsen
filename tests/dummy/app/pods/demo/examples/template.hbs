@@ -17,6 +17,7 @@
     viewSelectionDisabled=viewSelectionDisabled
   }}
     Detail: {{frost-checkbox onInput=(action "toggleDetail")}}
+    Inline: {{frost-checkbox onInput=(action "toggleInline")}}
     Show All Errors: {{frost-checkbox onInput=(action "toggleShowAllErrors")}}
     Disable: {{frost-checkbox onInput=(action "toggleDisabled")}}
     <h2 class="demo-header">Rendered Demo</h2>
@@ -32,6 +33,7 @@
         bunsenModel=selectedModel.model
         bunsenView=selectedView.view
         disabled=disabled
+        inline=inline
         onChange=(action "onChange")
         onValidation=(action "onValidation")
         renderers=renderers

@@ -38,6 +38,7 @@ describeComponent(
       bunsenModel: PropTypes.object.isRequired,
       bunsenStore: PropTypes.EmberObject.isRequired,
       config: PropTypes.EmberObject.isRequired,
+      defaultClassName: PropTypes.string,
       errors: PropTypes.object.isRequired,
       onChange: PropTypes.func.isRequired,
       readOnly: PropTypes.bool,

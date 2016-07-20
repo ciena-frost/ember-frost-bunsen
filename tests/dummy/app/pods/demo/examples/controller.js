@@ -5,6 +5,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 export default Controller.extend({
   detail: false,
   disabled: false,
+  inline: false,
   selectedModel: null,
   selectedValue: null,
   selectedView: null,
@@ -133,6 +134,11 @@ export default Controller.extend({
     toggleDisabled () {
       const isDisabled = this.get('disabled')
       this.set('disabled', !isDisabled)
+    },
+
+    toggleInline () {
+      const isInline = this.get('inline')
+      this.set('inline', !isInline)
     },
 
     toggleShowAllErrors () {

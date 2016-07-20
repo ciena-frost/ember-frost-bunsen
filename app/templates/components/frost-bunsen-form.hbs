@@ -3,14 +3,14 @@
     model=propValidationResult
   }}
 {{else}}
-  <form class="form">
-    {{#if cellTabs.length}}
+  <form class="form" onsubmit={{action "onSubmit"}}>
+    {{#if containerTabs.length}}
       {{#frost-tabs
         onChange=(action "onTabChange")
         selection=(or selectedTabIndex 0)
-        tabs=cellTabs
+        tabs=containerTabs
       }}
-        {{#each cellTabs as |tab|}}
+        {{#each containerTabs as |tab|}}
           {{frost-tab
             alias=tab.alias
             id=tab.id
@@ -27,4 +27,31 @@
       value=renderValue
     }}
   </form>
+  {{#if hasButtons}}
+    <div class="form-group button-bar">
+        <div>
+            <div class="pull-right">
+              {{#if onCancel}}
+                <button
+                  class="btn btn-default pull-right"
+                  onClick={{action "onCancel"}}
+                  type="button"
+                >
+                  {buttonLabels.cancel}
+                </button>
+              {{/if}}
+              {{#if onSubmit}}
+                <button
+                  class="btn btn-default pull-right"
+                  disabled={{isSubmitBtnDisabled}}
+                  onClick={{action "onSubmit"}}
+                  type="submit"
+                >
+                  {butonLabels.submit}
+                </button>
+              {{/if}}
+            </div>
+        </div>
+    </div>
+  {{/if}}
 {{/if}}

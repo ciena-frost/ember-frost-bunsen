@@ -2,10 +2,11 @@
   <h3>{{renderLabel}}</h3>
 </div>
 <div>
-  {{frost-text
+  {{input
     change=(action "onChange")
     disabled=disabled
     placeholder="John Doe"
-    value=(readonly renderValue)
+    type="text"
+    value=renderValue
   }}
 </div>

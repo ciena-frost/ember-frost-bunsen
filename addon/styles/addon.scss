@@ -13,7 +13,7 @@ $frost-row-field-padding: 40px;
     height: 32px;
   }
 
-  .description {
+  .instructions {
     margin-bottom: 10px;
     color: $frost-color-grey-3;
     font-size: $frost-font-s;
@@ -155,10 +155,12 @@ $frost-row-field-padding: 40px;
   }
 }
 
-.frost-bunsen-section {
-  padding-top: 30px;
-  border-top: 1px solid $frost-color-lgrey-1;
+.frost-bunsen-row {
+  display: flex;
+  flex-flow: row wrap;
+}
 
+.frost-bunsen-section {
   &.collapsed {
     .frost-icon {
       transform: rotate(-90deg);
@@ -174,33 +176,12 @@ $frost-row-field-padding: 40px;
     display: inline-block;
   }
 
-  .frost-bunsen-section {
-    border-top-width: 1px;
-  }
-
-  > .frost-button {
-    margin-top: 20px;
-  }
-
   > .heading {
-    button {
-      width: 16px;
-      padding: 0;
-      float: left;
-      border: 0;
-      background: transparent;
-    }
-
     h3 {
       margin: 0 0 0 28px;
       color: $frost-color-grey-1;
       font-size: $frost-font-l;
       font-weight: normal;
-    }
-
-    .frost-icon {
-      width: 16px;
-      height: 16px;
     }
 
     .required {
@@ -270,12 +251,90 @@ $frost-row-field-padding: 40px;
   margin-left: 0;
 }
 
-.description {
-  display: none;
+.frost-bunsen-section > .frost-button {
+  margin-top: 20px;
 }
 
-// First section in form
-form > div > .frost-bunsen-section {
-  padding-top: 0;
-  border-top: 0;
+.inline {
+  .frost-bunsen-section  > .heading {
+    button {
+      width: 16px;
+      padding: 0;
+      float: left;
+      border: 0;
+      background: transparent;
+    }
+
+    .frost-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .instructions {
+    display: none;
+  }
+
+  .frost-bunsen-section {
+    padding-top: 30px;
+    border-top: 1px solid $frost-color-lgrey-1;
+
+    .frost-bunsen-section {
+      border-top-width: 1px;
+    }
+  }
+
+  // First section in group of sections
+  .frost-bunsen-row {
+    &:first-child > div > div > .frost-bunsen-section {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+
+  // First section in form
+  form > div > .frost-bunsen-section {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.not-inline {
+  .frost-bunsen-section > .heading {
+    display: inline-block;
+    width: 130px;
+    padding-right: 20px;
+    vertical-align: top;
+
+    button {
+      display: none;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+
+  .frost-bunsen-section {
+    padding-top: 30px;
+    border-top: 2px solid $frost-color-lgrey-1;
+
+    .frost-bunsen-section {
+      border-top-width: 1px;
+    }
+  }
+
+  // First section in group of sections
+  .frost-bunsen-row {
+    &:first-child > div > div > .frost-bunsen-section {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+
+  // First setion in form
+  form > div > .frost-bunsen-section {
+    padding-top: 0;
+    border-top: 0;
+  }
 }

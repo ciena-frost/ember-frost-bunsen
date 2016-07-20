@@ -28,8 +28,8 @@ export default AbstractInput.extend({
     return value
   },
 
-  parseValue (e) {
-    const parts = e.target.value.split(' ')
+  parseValue (value) {
+    const parts = value.split(' ')
     const first = parts[0]
     const last = (parts.length > 1) ? parts.slice(1).join(' ') : undefined
 

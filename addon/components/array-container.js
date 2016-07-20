@@ -1,12 +1,11 @@
-import 'bunsen-core/typedefs'
+import 'ember-frost-bunsen/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
 const {A, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from 'bunsen-core/utils'
-import {deemberify} from '../utils'
+import {deemberify, getLabel} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
@@ -48,42 +47,48 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.itemCell.extends', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig.item.container', 'bunsenStore.view.containers')
   /**
-   * Get definition for current cell
-   * @param {String} cellId - ID of current cell
-   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
-   * @returns {BunsenCell} current cell definition
+   * Get definition for current container
+   * @param {String} containerId - ID of current container
+   * @param {BunsenContainer[]} containers - list of container definitions
+   * @returns {BunsenContainer} current container definition
    */
-  currentCell (cellId, cellDefinitions) {
-    if (!cellId) {
+  currentContainer (containerId, containers) {
+    if (!containerId) {
       return null
     }
 
-    return cellDefinitions[cellId] || null
+    containers = containers.filterBy('id', containerId)
+
+    if (containers.length === 0) {
+      return null
+    }
+
+    return containers[0]
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.inline')
+  @computed('cellConfig.item.inline')
   inline (inline) {
     return inline === undefined || inline === true
   },
 
   @readOnly
-  @computed('currentCell')
+  @computed('currentContainer')
   /**
-   * Get description text for current cell
-   * @param {BunsenCell} cell - current cell
-   * @returns {String} description text
+   * Get instructions text for current container
+   * @param {BunsenContainer} container - current container
+   * @returns {String} instructions text
    */
-  description (cell) {
-    return cell ? cell.description : null
+  instructions (container) {
+    return container ? container.instructions : null
   },
 
   @readOnly
   @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
   /**
-   * Get label for cell
+   * Get label for container
    * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
    * @param {String} label - label
    * @param {BunsenModel} bunsenModel - bunsen model
@@ -94,13 +99,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('inline', 'cellConfig.arrayOptions.autoAdd')
+  @computed('inline', 'cellConfig.item.autoAdd')
   showAddButton (inline, autoAdd) {
     return inline && !autoAdd
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.sortable')
+  @computed('cellConfig.item.sortable')
   /**
    * Whether or not array items can be sorted by user
    * @param {Boolean} enabled - whether or not sorting should be enabled
@@ -127,7 +132,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
-   * Initialze state of cell
+   * Initialze state of container
    */
   init () {
     this._super()
@@ -138,8 +143,8 @@ export default Component.extend(PropTypeMixin, {
     this._super(...arguments)
     const value = _.get(this.get('value'), this.get('bunsenId'))
     const items = this.get('items')
-    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.arrayOptions.autoAdd')
-    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.arrayOptions.autoAdd')
+    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.item.autoAdd')
+    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.item.autoAdd')
 
     // If autoAdd is being enabled add empty item to end of array
     if (newAutoAddValue === true && oldAutoAddValue !== true) {
@@ -218,7 +223,7 @@ export default Component.extend(PropTypeMixin, {
     },
 
     onChange (bunsenId, value) {
-      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
+      const autoAdd = this.get('cellConfig.item.autoAdd')
       const clearingValue = [undefined, null, ''].indexOf(value) !== -1
       const onChange = this.get('onChange')
 
@@ -274,7 +279,7 @@ export default Component.extend(PropTypeMixin, {
      * @param {Number} index - index of item to remove
      */
     onRemoveItem (index) {
-      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
+      const autoAdd = this.get('cellConfig.item.autoAdd')
       const items = this.get('items')
       const itemToRemove = items.objectAt(index)
       const lastItemIndex = Math.max(0, items.length - 1)

@@ -20,13 +20,12 @@ This renders a text input and is the default renderer for properties with a `typ
 }
 ```
 
-#### renderer.type
+#### properties.type
 
 ```json
 {
   "model": "foo",
-  "rendererer": {
-    "name": "string",
+  "properties": {
     "type": "datetime"
   }
 }

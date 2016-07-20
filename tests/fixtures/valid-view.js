@@ -1,47 +1,47 @@
 export default {
-  version: '2.0',
+  version: '1.0',
   type: 'form',
-  cellDefinitions: {
-    address: {
-      children: [
-        {model: 'street'},
-        {model: 'city'}, {model: 'state'}, {model: 'zip'}
-      ]
-    },
-    main: {
-      children: [
-        {extends: 'name'},
-        {
+  containers: [
+    {
+      id: 'main',
+      rows: [
+        [{container: 'name'}],
+        [{
           model: 'addresses',
-          extends: 'address',
-          arrayOptions: {
-            itemCell: {
-              label: 'Addr'
-            }
+          container: 'address',
+          item: {
+            label: 'Addr'
           }
-        },
-        {extends: 'nameModel', model: 'name'},
-        {
-          label: 'Custom Name',
-          model: 'name',
-          renderer: {
-            name: 'NameRenderer'
-          }
-        }
+        }],
+        [{container: 'nameModel', model: 'name'}],
+        [{model: 'name', renderer: 'NameRenderer', label: 'Custom Name'}]
       ]
     },
-    name: {
-      children: [
-        {model: 'name.first'},
-        {model: 'name.last'}
+    {
+      id: 'name',
+      rows: [
+        [{model: 'name.first'}],
+        [{model: 'name.last'}]
       ]
     },
-    nameModel: {
-      children: [
-        {model: 'first'},
-        {model: 'last'}
+    {
+      id: 'address',
+      rows: [
+        [{model: 'street'}],
+        [{model: 'city'}, {model: 'state'}, {model: 'zip'}]
+      ]
+    },
+    {
+      id: 'nameModel',
+      rows: [
+        [{model: 'first'}],
+        [{model: 'last'}]
       ]
     }
+  ],
+  buttonLabels: {
+    submit: 'Create',
+    reset: 'Clear'
   },
-  cells: [{label: 'Main', extends: 'main'}]
+  rootContainers: [{label: 'Main', container: 'main'}]
 }

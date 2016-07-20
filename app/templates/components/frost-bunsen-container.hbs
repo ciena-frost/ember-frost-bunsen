@@ -2,17 +2,18 @@
   {{#frost-bunsen-section
     className="model-container"
     collapsible=config.collapsible
-    description=config.description
+    instructions=config.instructions
     required=isRequired
     title=config.label
   }}
-    <div class={{config.classNames.cell}}>
-      {{#each config.children as |child index|}}
-        {{frost-bunsen-cell
+    <div class={{config.className}}>
+      {{#each config.rows as |row index|}}
+        {{frost-bunsen-row
           bunsenId=bunsenId
           bunsenModel=bunsenModel
           bunsenStore=bunsenStore
-          config=child
+          cellConfigs=row
+          defaultClassName=config.defaultClassName
           errors=errors
           onChange=onChange
           readOnly=readOnly
@@ -22,14 +23,15 @@
     </div>
   {{/frost-bunsen-section}}
 {{else}}
-  <div class={{config.classNames.cell}}>
-    {{#each config.children as |child index|}}
-      {{frost-bunsen-cell
+  <div class={{config.className}}>
+    {{#each config.rows as |row index|}}
+      {{frost-bunsen-row
         bunsenId=bunsenId
         bunsenModel=bunsenModel
         bunsenStore=bunsenStore
-        config=child
+        cellConfigs=row
         errors=errors
+        defaultClassName=config.defaultClassName
         onChange=onChange
         readOnly=readOnly
         value=value

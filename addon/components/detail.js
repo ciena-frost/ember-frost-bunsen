@@ -1,21 +1,21 @@
-import 'bunsen-core/typedefs'
+import 'ember-frost-bunsen/typedefs'
 
 import redux from 'npm:redux'
 const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer from 'bunsen-core/reducer'
-import {validate, changeModel} from 'bunsen-core/actions'
+import reducer from '../reducer'
+import {validate, changeModel} from '../actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, getOwner, RSVP} = Ember
+const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {dereference} from 'bunsen-core/dereference'
-import {getDefaultView} from 'bunsen-core/generator'
-import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
+import dereference from '../dereference'
+import {getDefaultView} from '../generator'
+import validateView, {builtInRenderers, validateModel} from '../validator/index'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
 /**
@@ -58,7 +58,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail'],
+      classNames: ['frost-bunsen-detail', 'inline'],
       disabled: false,
       renderers: {},
       showAllErrors: false,
@@ -99,24 +99,21 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, bunsenView) {
-    if (_.isEmpty(bunsenView)) {
-      bunsenView = getDefaultView(model)
-    }
-
+    bunsenView = !_.isEmpty(bunsenView) ? bunsenView : getDefaultView(model)
     return recursiveObjectCreate(bunsenView)
   },
 
   @readOnly
-  @computed('renderView.cells')
-  cellTabs (cells) {
-    // If there is only one cell then we don't need to render tabs
-    if (cells.length === 1) {
+  @computed('renderView.rootContainers')
+  containerTabs (rootContainers) {
+    // If there is only one root container then we don't need to render tabs
+    if (rootContainers.length === 1) {
       return Ember.A([])
     }
 
-    const tabs = cells.map((cell, index) => {
+    const tabs = rootContainers.map((container, index) => {
       return {
-        alias: cell.label,
+        alias: container.label,
         id: index
       }
     })
@@ -127,7 +124,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('selectedTabIndex', 'renderView')
   cellConfig (selectedTabIndex) {
-    return this.get(`renderView.cells.${selectedTabIndex || 0}`)
+    return this.get(`renderView.rootContainers.${selectedTabIndex || 0}`)
   },
 
   @readOnly
@@ -268,7 +265,7 @@ export default Component.extend(PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
+        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
       )
     }
 
@@ -287,8 +284,8 @@ export default Component.extend(PropTypeMixin, {
     onChange () {},
 
     /**
-     * Change selected tab/root cell
-     * @param {Number} tabIndex - index of root cell corresponding to tab
+     * Change selected tab/root container
+     * @param {Number} tabIndex - index of root container corresponding to tab
      */
     onTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)

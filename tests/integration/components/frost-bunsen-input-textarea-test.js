@@ -5,49 +5,46 @@ import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/templ
 
 const cellConfig = {
   model: 'name',
-  renderer: {
-    name: 'textarea'
-  },
-  transforms: {
-    read: [
-      {
-        from: '^Chris$',
-        regex: true,
-        to: 'Christopher'
-      },
-      {
-        from: 'Matt',
-        to: 'Matthew'
-      }
-    ],
-    write: [
-      {
-        from: '^Alexander$',
-        regex: true,
-        to: 'Alex'
-      },
-      {
-        from: 'Johnathan',
-        to: 'John'
-      }
-    ]
-  }
+  readTransforms: [
+    {
+      from: '^Chris$',
+      regex: true,
+      to: 'Christopher'
+    },
+    {
+      from: 'Matt',
+      to: 'Matthew'
+    }
+  ],
+  renderer: 'textarea',
+  writeTransforms: [
+    {
+      from: '^Alexander$',
+      regex: true,
+      to: 'Alex'
+    },
+    {
+      from: 'Johnathan',
+      to: 'John'
+    }
+  ]
 }
 
 const view = {
-  cellDefinitions: {
-    main: {
-      children: [
-        cellConfig
+  containers: [
+    {
+      id: 'main',
+      rows: [
+        [cellConfig]
       ]
     }
-  },
-  cells: [{
-    extends: 'main',
+  ],
+  rootContainers: [{
+    container: 'main',
     label: 'Main'
   }],
   type: 'form',
-  version: '2.0'
+  version: '1.0'
 }
 
 describeComponent(...integrationTestContext('frost-bunsen-input-textarea'), function () {

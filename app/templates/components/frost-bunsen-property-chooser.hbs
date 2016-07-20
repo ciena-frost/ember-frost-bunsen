@@ -15,7 +15,7 @@
     >
       Please select an item…
     </option>
-    {{#each cellConfig.renderer.choices as |option index|}}
+    {{#each cellConfig.properties.choices as |option index|}}
       <option
         selected={{eq useKey option.value}}
         value={{option.value}}

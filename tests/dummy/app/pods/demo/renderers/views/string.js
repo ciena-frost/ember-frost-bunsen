@@ -1,19 +1,20 @@
 export default {
-  cellDefinitions: {
-    main: {
-      children: [
+  containers: [{
+    id: 'main',
+    rows: [
+      [
         {
           model: 'foo'
         }
       ]
-    }
-  },
-  cells: [
+    ]
+  }],
+  rootContainers: [
     {
-      extends: 'main',
+      container: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '2.0'
+  version: '1.0'
 }

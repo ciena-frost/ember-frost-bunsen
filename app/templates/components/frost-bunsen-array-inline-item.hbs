@@ -12,7 +12,7 @@
   {{frost-icon class="handle" icon="menu"}}
 {{/if}}
 <div class="item-input">
-  {{#if cellConfig.arrayOptions.itemCell.renderer}}
+  {{#if cellConfig.item.renderer}}
     {{component customRenderer
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
@@ -40,7 +40,7 @@
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
       bunsenStore=bunsenStore
-      cellConfig=cellConfig.arrayOptions.itemCell
+      cellConfig=cellConfig.item
       errors=errors
       label=label
       onChange=onChange
@@ -52,7 +52,7 @@
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
       bunsenStore=bunsenStore
-      cellConfig=cellConfig.arrayOptions.itemCell
+      cellConfig=cellConfig.item
       errorMessage=errorMessage
       label=label
       onChange=onChange

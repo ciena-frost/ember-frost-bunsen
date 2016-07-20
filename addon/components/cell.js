@@ -3,7 +3,7 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getSubModel, getModelPath} from 'bunsen-core/utils'
+import {getSubModel, getModelPath} from '../utils'
 
 /**
  * Return path without an index at the end
@@ -33,6 +33,7 @@ export default Component.extend(PropTypeMixin, {
     bunsenModel: PropTypes.object.isRequired,
     bunsenStore: PropTypes.EmberObject.isRequired,
     config: PropTypes.EmberObject.isRequired,
+    defaultClassName: PropTypes.string,
     errors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -50,15 +51,22 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('classNames')
+  @computed('classNames', 'defaultClassName')
   /**
    * Get class name for cell
    * @param {String} classNames - class names
+   * @param {String} defaultClassName - default class name
    * @returns {String} cell's class name
    */
-  computedClassName (classNames) {
+  computedClassName (classNames, defaultClassName) {
     const classes = classNames.toString().split(' ')
+
+    if (classes.length <= 1) { // "ember-view" is always present
+      classes.push(defaultClassName)
+    }
+
     classes.push('frost-bunsen-cell')
+
     return classes.join(' ')
   },
 

@@ -58,7 +58,7 @@ export default Component.extend(PropTypeMixin, {
 
   @readOnly
   @computed(
-    'cellConfig.renderer.name', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
+    'cellConfig.renderer', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
     'bunsenStore.renderers'
   )
   /**

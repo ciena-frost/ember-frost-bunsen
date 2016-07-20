@@ -13,23 +13,24 @@ const props = {
     type: 'object'
   },
   bunsenView: {
-    cellDefinitions: {
-      main: {
-        children: [
-          {model: 'foo'},
-          {model: 'bar'},
-          {model: 'baz'}
+    containers: [
+      {
+        id: 'main',
+        rows: [
+          [{model: 'foo'}],
+          [{model: 'bar'}],
+          [{model: 'baz'}]
         ]
       }
-    },
-    cells: [{label: 'Main', extends: 'main'}],
+    ],
+    rootContainers: [{label: 'Main', container: 'main'}],
     type: 'form',
-    version: '2.0'
+    version: '1.0'
   }
 }
 
 function tests (ctx) {
-  describe('one root cell', function () {
+  describe('one root container', function () {
     it('does not render frost-tabs', function () {
       expect(ctx.rootNode.find('.frost-tabs').length).to.equal(0)
     })
