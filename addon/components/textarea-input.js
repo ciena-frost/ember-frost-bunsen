@@ -20,7 +20,7 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.properties.cols')
+  @computed('cellConfig.renderer.cols')
   /**
    * Get how many columns textarea should contain
    * @param {Number} cols - number of columns
@@ -31,7 +31,7 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('cellConfig.properties.rows')
+  @computed('cellConfig.renderer.rows')
   /**
    * Get how many rows textarea should contain
    * @param {Number} rows - number of rows

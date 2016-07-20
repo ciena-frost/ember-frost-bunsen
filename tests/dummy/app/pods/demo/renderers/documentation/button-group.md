@@ -15,18 +15,16 @@ If the property type is *boolean* this input will render with the buttons `On` a
 }
 ```
 
-#### properties.size
+#### renderer.size
 
 Change what size buttons are used. See [ember-frost-core](http://ciena-frost.github.io/ember-frost-core/#/button) for supported sizes.
 
 ```json
 {
   "model": "foo",
-  "properties": {
-    "size": "small"
-  },
   "renderer": {
-    "name": "button-group"
+    "name": "button-group",
+    "size": "small"
   }
 }
 ```

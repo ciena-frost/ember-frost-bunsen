@@ -439,10 +439,6 @@ export default [
             {
               model: 'paymentInfo',
               renderer: {
-                name: 'property-chooser'
-              },
-              label: 'Payment Type',
-              properties: {
                 choices: [
                   {
                     label: 'Electronic funds transfer',
@@ -456,8 +452,10 @@ export default [
                     label: 'PayPal',
                     value: 'usePayPal'
                   }
-                ]
-              }
+                ],
+                name: 'property-chooser'
+              },
+              label: 'Payment Type'
             },
             {
               model: 'paymentInfo.routingNumber',

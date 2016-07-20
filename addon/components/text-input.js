@@ -21,7 +21,7 @@ export default AbstractInput.extend({
 
   // We totally don't care about this cause it's view schema
   @readOnly
-  @computed('cellConfig.properties.type')
+  @computed('cellConfig.renderer.type')
   inputType (type) {
     return type || 'text'
   }

@@ -20,23 +20,25 @@ This renderer provides a textarea input.
 }
 ```
 
-#### properties.cols
+#### renderer.cols
 
 ```json
 {
   "model": "foo",
-  "properties": {
-    "cols": 4
+  "renderer": {
+    "cols": 4,
+    "name": "textarea"
   }
 }
 ```
 
-#### properties.rows
+#### renderer.rows
 
 ```json
 {
   "model": "foo",
-  "properties": {
+  "renderer": {
+    "name": "textarea",
     "rows": 4
   }
 }

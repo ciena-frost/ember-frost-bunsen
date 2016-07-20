@@ -4,7 +4,7 @@ export default {
       children: [
         {
           model: 'foo',
-          properties: {
+          renderer: {
             choices: [
               {
                 label: 'Bar',
@@ -14,9 +14,7 @@ export default {
                 label: 'Baz',
                 value: 'useBaz'
               }
-            ]
-          },
-          renderer: {
+            ],
             name: 'property-chooser'
           }
         },

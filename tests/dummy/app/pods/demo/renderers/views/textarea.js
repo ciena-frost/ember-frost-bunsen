@@ -4,12 +4,10 @@ export default {
       children: [
         {
           model: 'foo',
-          properties: {
-            cols: 2,
-            rows: 4
-          },
           renderer: {
-            name: 'textarea'
+            cols: 2,
+            name: 'textarea',
+            rows: 4
           }
         }
       ]
