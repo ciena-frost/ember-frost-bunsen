@@ -1,21 +1,22 @@
 export default {
-  containers: [{
-    id: 'main',
-    rows: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
-          renderer: 'select'
+          renderer: {
+            name: 'select'
+          }
         }
       ]
-    ]
-  }],
-  rootContainers: [
+    }
+  },
+  cells: [
     {
-      container: 'main',
+      extends: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '1.0'
+  version: '2.0'
 }

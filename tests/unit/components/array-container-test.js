@@ -41,10 +41,12 @@ function setPropsAndAttrs (component, props) {
  */
 function generateCellConfig (autoAdd) {
   return {
-    item: {
+    arrayOptions: {
       autoAdd,
-      container: 'person',
-      label: 'person'
+      itemCell: {
+        extends: 'person',
+        label: 'person'
+      }
     },
     model: 'people'
   }
@@ -57,29 +59,26 @@ function generateCellConfig (autoAdd) {
  */
 function generateView (cellConfig) {
   return {
-    containers: [
-      {
-
-        id: 'main',
-        rows: [
-          [cellConfig]
+    cellDefinitions: {
+      main: {
+        children: [
+          cellConfig
         ]
       },
-      {
-        id: 'people',
-        rows: [
-          [{model: 'name.first'}],
-          [{model: 'name.last'}],
-          [{model: 'age'}]
+      people: {
+        children: [
+          {model: 'name.first'},
+          {model: 'name.last'},
+          {model: 'age'}
         ]
       }
-    ],
-    rootContainers: [{
-      container: 'main',
+    },
+    cells: [{
+      extends: 'main',
       label: 'Main'
     }],
     type: 'form',
-    version: '1.0'
+    version: '2.0'
   }
 }
 
@@ -164,28 +163,6 @@ describeComponent(
       })
     })
 
-    describe('inline', function () {
-      it('returns true when property is undefined', function () {
-        component.set('cellConfig.item.inline', undefined)
-        expect(component.get('inline')).to.be.true
-      })
-
-      it('returns true when property is true', function () {
-        component.set('cellConfig.item.inline', true)
-        expect(component.get('inline')).to.be.true
-      })
-
-      it('returns false when property is null', function () {
-        component.set('cellConfig.item.inline', null)
-        expect(component.get('inline')).to.be.false
-      })
-
-      it('returns false when property is false', function () {
-        component.set('cellConfig.item.inline', false)
-        expect(component.get('inline')).to.be.false
-      })
-    })
-
     describe('sortable', function () {
       [
         undefined,
@@ -195,13 +172,13 @@ describeComponent(
         1
       ].forEach((enabled) => {
         it(`returns false when enabled is ${enabled}`, function () {
-          component.set('cellConfig.item.sortable', enabled)
+          component.set('cellConfig.arrayOptions.sortable', enabled)
           expect(component.get('sortable')).to.be.false
         })
       })
 
       it('returns true when enabled is true', function () {
-        component.set('cellConfig.item.sortable', true)
+        component.set('cellConfig.arrayOptions.sortable', true)
         expect(component.get('sortable')).to.be.true
       })
     })
@@ -292,7 +269,7 @@ describeComponent(
           beforeEach(function () {
             bunsenId = 'people.0.age'
             value = 32
-            component.set('cellConfig.item.autoAdd', false)
+            component.set('cellConfig.arrayOptions.autoAdd', false)
             component.actions.onChange.call(component, bunsenId, value)
           })
 
@@ -303,7 +280,7 @@ describeComponent(
 
         describe('when autoAdd is enabled', function () {
           beforeEach(function () {
-            component.set('cellConfig.item.autoAdd', true)
+            component.set('cellConfig.arrayOptions.autoAdd', true)
           })
 
           describe('when setting a value', function () {

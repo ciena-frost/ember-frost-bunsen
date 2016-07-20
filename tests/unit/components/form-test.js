@@ -47,19 +47,14 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]),
-      cancelLabel: PropTypes.string,
       disabled: PropTypes.bool,
-      inline: PropTypes.bool,
-      onCancel: PropTypes.func,
       onChange: PropTypes.func,
-      onSubmit: PropTypes.func,
       onValidation: PropTypes.func,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
       ]),
       showAllErrors: PropTypes.bool,
-      submitLabel: PropTypes.string,
       validators: PropTypes.array,
       value: PropTypes.oneOfType([
         PropTypes.EmberObject,
@@ -68,68 +63,67 @@ describeComponent(
       ])
     })
 
-    describe('containerTabs', function () {
-      describe('when one root container', function () {
+    describe('cellTabs', function () {
+      describe('when one root cell', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            containers: [{
-              id: 'main',
-              rows: [
-                [{model: 'foo'}],
-                [{model: 'bar'}],
-                [{model: 'baz'}]
-              ]
-            }],
-            rootContainers: [{
-              container: 'main',
+            cellDefinitions: {
+              main: {
+                children: [
+                  {model: 'foo'},
+                  {model: 'bar'},
+                  {model: 'baz'}
+                ]
+              }
+            },
+            cells: [{
+              extends: 'main',
               label: 'Main'
             }],
             type: 'form',
-            version: '1.0'
+            version: '2.0'
           })
         })
 
         it('returns empty array', function () {
-          const tabs = component.get('containerTabs')
+          const tabs = component.get('cellTabs')
           expect(tabs.length).to.equal(0)
         })
       })
 
-      describe('when multiple root containers', function () {
+      describe('when multiple root cells', function () {
         beforeEach(function () {
           component.set('bunsenView', {
-            containers: [
-              {
-                id: 'one',
-                rows: [
-                  [{model: 'foo'}],
-                  [{model: 'bar'}]
+            cellDefinitions: {
+              one: {
+                children: [
+                  {model: 'foo'},
+                  {model: 'bar'}
                 ]
               },
-              {
-                id: 'two',
-                rows: [
-                  [{model: 'baz'}]
+              two: {
+                children: [
+                  {model: 'baz'}
                 ]
               }
-            ],
-            rootContainers: [
+            },
+            cells: [
               {
-                container: 'one',
+                extends: 'one',
                 label: 'One'
               },
               {
-                container: 'two',
+                extends: 'two',
                 label: 'Two'
               }
             ],
             type: 'form',
-            version: '1.0'
+            version: '2.0'
           })
         })
 
         it('returns expected array of tabs', function () {
-          const tabs = component.get('containerTabs')
+          const tabs = component.get('cellTabs')
           expect(tabs.length).to.equal(2)
           expect(tabs[0]).to.eql({
             alias: 'One',

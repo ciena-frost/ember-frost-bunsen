@@ -116,35 +116,38 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       beforeEach(function () {
         const cellConfig = {
           model: 'name',
-          renderer: 'select',
-          writeTransforms: [
-            {
-              object: {
-                id: '${id}',
-                index: '${index}',
-                label: '${label}',
-                literal: 'foo',
-                value: '${value}'
+          renderer: {
+            name: 'select'
+          },
+          transforms: {
+            write: [
+              {
+                object: {
+                  id: '${id}',
+                  index: '${index}',
+                  label: '${label}',
+                  literal: 'foo',
+                  value: '${value}'
+                }
               }
-            }
-          ]
+            ]
+          }
         }
 
         const view = {
-          containers: [
-            {
-              id: 'main',
-              rows: [
-                [cellConfig]
+          cellDefinitions: {
+            main: {
+              children: [
+                cellConfig
               ]
             }
-          ],
-          rootContainers: [{
-            container: 'main',
+          },
+          cells: [{
+            extends: 'main',
             label: 'Main'
           }],
           type: 'form',
-          version: '1.0'
+          version: '2.0'
         }
 
         props = {

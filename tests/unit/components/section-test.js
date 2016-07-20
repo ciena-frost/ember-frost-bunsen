@@ -19,12 +19,12 @@ describeComponent(
 
     validatePropTypes({
       collapsible: PropTypes.bool,
-      expanded: PropTypes.bool,
-      expandedOnInitialRender: PropTypes.bool,
-      instructions: PropTypes.oneOfType([
+      description: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
+      expanded: PropTypes.bool,
+      expandedOnInitialRender: PropTypes.bool,
       onToggle: PropTypes.func,
       renderContentWhenCollapsed: PropTypes.bool,
       required: PropTypes.bool.isRequired,
