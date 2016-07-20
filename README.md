@@ -38,16 +38,11 @@ ember install ember-frost-bunsen
 | `autofocus`     | `boolean`                  | No       | Whether or not to focus on first input   |
 | `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
-| `cancelLabel`   | `string`                   | No       | Text for cancel button                   |
 | `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
-| `inline`        | `boolean`                  | No       | Whether or not to render form inline     |
-| `onCancel`      | `Function`                 | No       | Callback for when form is cancelled      |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
-| `onSubmit`      | `Function`                 | No       | Callback for when form is submitted      |
 | `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
 | `renderers`     | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `showAllErrors` | `boolean`                  | No       | Whether or not to show error messages before user interaction occurs |
-| `submitLabel`   | `string`                   | No       | Text for submit button                   |
 | `validators`    | `Array<Function>`          | No       | List of custom validation functions      |
 | `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
 
@@ -84,7 +79,7 @@ ember install ember-frost-bunsen
 }}
 ```
 
-> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-frost/ember-frost-bunsen/blob/master/addon/components/validator/view-schema.js). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
+> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-blueplanet/bunsen-core/tree/master/src/validator/view-schemas). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
 
 ### Minimal Example
 
@@ -113,23 +108,20 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "firstName"},
-          {"model": "lastName"},
-        ]
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "firstName"},
+        {"model": "lastName"}
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -167,23 +159,20 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "name.first"},
-          {"model": "name.last"},
-        ]
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "name.first"},
+        {"model": "name.last"}
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -227,32 +216,29 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "name"},
-          {"model": "age"},
-          {"model": "married"},
-          {
-            "label": "Spouse's Name",
-            "model": "spouse.name"
-          },
-          {
-            "label": "Spouse's Age",
-            "model": "spouse.age"
-          }
-        ]
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "name"},
+        {"model": "age"},
+        {"model": "married"},
+        {
+          "label": "Spouse's Name",
+          "model": "spouse.name"
+        },
+        {
+          "label": "Spouse's Age",
+          "model": "spouse.age"
+        }
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -314,22 +300,19 @@ message:
 
 ```json
 {
-  "version": "1.0",
+  "version": "2.0",
   "type": "form",
-  "rootContainers": {
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "palindrome"},
-        ]
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "palindrome"}
       ]
     }
-  ]
+  }
 }
 ```
 

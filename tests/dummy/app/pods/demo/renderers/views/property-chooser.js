@@ -1,11 +1,10 @@
 export default {
-  containers: [{
-    id: 'main',
-    rows: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
-          properties: {
+          renderer: {
             choices: [
               {
                 label: 'Bar',
@@ -15,31 +14,27 @@ export default {
                 label: 'Baz',
                 value: 'useBaz'
               }
-            ]
-          },
-          renderer: 'property-chooser'
-        }
-      ],
-      [
+            ],
+            name: 'property-chooser'
+          }
+        },
         {
           dependsOn: 'foo.useBar',
           model: 'foo.name'
-        }
-      ],
-      [
+        },
         {
           dependsOn: 'foo.useBaz',
           model: 'foo.title'
         }
       ]
-    ]
-  }],
-  rootContainers: [
+    }
+  },
+  cells: [
     {
-      container: 'main',
+      extends: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '1.0'
+  version: '2.0'
 }

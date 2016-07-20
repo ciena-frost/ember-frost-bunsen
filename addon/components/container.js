@@ -1,9 +1,8 @@
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {doesModelContainRequiredField} from '../utils'
+import {doesModelContainRequiredField} from 'bunsen-core/utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
@@ -38,17 +37,21 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('cellConfig.container', 'bunsenStore.view.containers')
+  @computed('cellConfig.extends', 'bunsenStore.view.cellDefinitions')
   /**
-   * Get definition for current container
-   * @param {String} containerId - ID of current container
-   * @param {BunsenContainer[]} containers - list of container definitions
-   * @returns {BunsenContainer} current container definition
+   * Get definition for current cell
+   * @param {String} cellId - ID of current cell
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
    */
-  config (containerId, containers) {
-    const result = _.findWhere(containers, {id: containerId})
+  config (cellId, cellDefinitions) {
+    if (!cellId) {
+      return this.get('cellConfig')
+    }
 
-    if (!result || !result.rows) {
+    const result = cellDefinitions[cellId]
+
+    if (!result || !result.children) {
       return result
     }
 
@@ -58,9 +61,9 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('bunsenModel')
   /**
-   * Determine whether or not container contains required inputs
+   * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
-   * @returns {Boolean} whether or not container contains required inputs
+   * @returns {Boolean} whether or not cell contains required inputs
    */
   isRequired (bunsenModel) {
     return doesModelContainRequiredField(bunsenModel)

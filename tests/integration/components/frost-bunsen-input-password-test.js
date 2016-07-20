@@ -5,24 +5,25 @@ import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/templ
 
 const cellConfig = {
   model: 'password',
-  renderer: 'password'
+  renderer: {
+    name: 'password'
+  }
 }
 
 const view = {
-  containers: [
-    {
-      id: 'main',
-      rows: [
-        [cellConfig]
+  cellDefinitions: {
+    main: {
+      children: [
+        cellConfig
       ]
     }
-  ],
-  rootContainers: [{
-    container: 'main',
+  },
+  cells: [{
+    extends: 'main',
     label: 'Main'
   }],
   type: 'form',
-  version: '1.0'
+  version: '2.0'
 }
 
 describeComponent(...integrationTestContext('frost-bunsen-input-password'), function () {

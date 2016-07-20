@@ -1,25 +1,24 @@
 export default {
-  containers: [{
-    id: 'main',
-    rows: [
-      [
+  cellDefinitions: {
+    main: {
+      children: [
         {
           model: 'foo',
-          properties: {
+          renderer: {
             cols: 2,
+            name: 'textarea',
             rows: 4
-          },
-          renderer: 'textarea'
+          }
         }
       ]
-    ]
-  }],
-  rootContainers: [
+    }
+  },
+  cells: [
     {
-      container: 'main',
+      extends: 'main',
       label: 'Main'
     }
   ],
   type: 'form',
-  version: '1.0'
+  version: '2.0'
 }
