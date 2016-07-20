@@ -17,7 +17,6 @@ export default [
           classNames: {
             cell: 'test1 test2'
           },
-          defaultClassName: 'cellDef1 cellDef2',
           children: [
             {
               model: 'name',

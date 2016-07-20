@@ -33,7 +33,6 @@ export default Component.extend(PropTypeMixin, {
     bunsenModel: PropTypes.object.isRequired,
     bunsenStore: PropTypes.EmberObject.isRequired,
     config: PropTypes.EmberObject.isRequired,
-    defaultClassName: PropTypes.string,
     errors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -51,22 +50,15 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
-  @computed('classNames', 'defaultClassName')
+  @computed('classNames')
   /**
    * Get class name for cell
    * @param {String} classNames - class names
-   * @param {String} defaultClassName - default class name
    * @returns {String} cell's class name
    */
-  computedClassName (classNames, defaultClassName) {
+  computedClassName (classNames) {
     const classes = classNames.toString().split(' ')
-
-    if (classes.length <= 1) { // "ember-view" is always present
-      classes.push(defaultClassName)
-    }
-
     classes.push('frost-bunsen-cell')
-
     return classes.join(' ')
   },
 

@@ -8,10 +8,7 @@ This is the default renderer when the model contains the property `enum` or the 
 ```json
 {
   "label": "Bar",
-  "model": "foo",
-  "renderer": {
-    "name": "select"
-  }
+  "model": "foo"
 }
 ```
 
@@ -20,9 +17,6 @@ This is the default renderer when the model contains the property `enum` or the 
 ```json
 {
   "model": "foo",
-  "placeholder": "Select something…",
-  "renderer": {
-    "name": "select"
-  }
+  "placeholder": "Select something…"
 }
 ```
