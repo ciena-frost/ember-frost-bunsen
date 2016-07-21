@@ -203,5 +203,264 @@ describeComponent(
           .to.equal(0)
       })
     })
+
+    describe('transforms', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    name: 'password'
+                  },
+                  transforms: {
+                    read: [
+                      {
+                        from: '^Chris$',
+                        regex: true,
+                        to: 'Christopher'
+                      },
+                      {
+                        from: 'Matt',
+                        to: 'Matthew'
+                      }
+                    ],
+                    write: [
+                      {
+                        from: '^Alexander$',
+                        regex: true,
+                        to: 'Alex'
+                      },
+                      {
+                        from: 'Johnathan',
+                        to: 'John'
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      describe('value matches literal string read transform', function () {
+        const input = 'Matt'
+
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+          this.set('onValidation', props.onValidation)
+
+          this.$(selectors.frost.password.input.enabled)
+            .val(input)
+            .trigger('input')
+        })
+
+        it('functions as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.password),
+            'renders a bunsen password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled),
+            'renders an enabled password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled).val(),
+            'renders transformed value in password input'
+          )
+            .to.equal('Matthew')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'informs consumer of change'
+          )
+            .to.eql({
+              foo: input
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'does not provide consumer with validation results via onValidation() property'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('value matches regex string read transform', function () {
+        const input = 'Chris'
+
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+          this.set('onValidation', props.onValidation)
+
+          this.$(selectors.frost.password.input.enabled)
+            .val(input)
+            .trigger('input')
+        })
+
+        it('functions as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.password),
+            'renders a bunsen password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled),
+            'renders an enabled password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled).val(),
+            'renders transformed value in password input'
+          )
+            .to.equal('Christopher')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'informs consumer of change'
+          )
+            .to.eql({
+              foo: input
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'does not provide consumer with validation results via onValidation() property'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('applies literal string write transform', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+          this.set('onValidation', props.onValidation)
+
+          this.$(selectors.frost.password.input.enabled)
+            .val('Johnathan')
+            .trigger('input')
+        })
+
+        it('functions as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.password),
+            'renders a bunsen password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled),
+            'renders an enabled password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled).val(),
+            'renders transformed value in password input'
+          )
+            .to.equal('John')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'informs consumer of change'
+          )
+            .to.eql({
+              foo: 'John'
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'does not provide consumer with validation results via onValidation() property'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('applies regex string write transform', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+          this.set('onValidation', props.onValidation)
+
+          this.$(selectors.frost.password.input.enabled)
+            .val('Alexander')
+            .trigger('input')
+        })
+
+        it('functions as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.password),
+            'renders a bunsen password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled),
+            'renders an enabled password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.password.input.enabled).val(),
+            'renders transformed value in password input'
+          )
+            .to.equal('Alex')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'informs consumer of change'
+          )
+            .to.eql({
+              foo: 'Alex'
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'does not provide consumer with validation results via onValidation() property'
+          )
+            .to.equal(0)
+        })
+      })
+    })
   }
 )
