@@ -44,12 +44,18 @@ export default function (format, invalidValues, validValues) {
         sandbox.restore()
       })
 
-      it('renders a text input', function () {
-        expect(this.$('input[type="text"]')).to.have.length(1)
-      })
+      it('renders as expected', function () {
+        expect(
+          this.$('input[type="text"]'),
+          'renders a text input'
+        )
+          .to.have.length(1)
 
-      it('does not have any validation errors', function () {
-        expect(this.$('.error')).to.have.length(0)
+        expect(
+          this.$('.error'),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
       })
 
       invalidValues.forEach((input) => {
@@ -73,21 +79,46 @@ export default function (format, invalidValues, validValues) {
               .trigger('input')
           })
 
-          it('provides consumer correct value via onChange() property', function () {
-            expect(value).to.eql({
-              foo: input
-            })
-          })
+          it('functions as expected', function () {
+            expect(
+              value,
+              'provides consumer correct value via onChange() property'
+            )
+              .to.eql({
+                foo: input
+              })
 
-          it('provides consumer correct validation results via onValidation() property', function () {
-            expect(validationResult.errors.length).to.equal(1)
+            expect(
+              validationResult.errors.length,
+              'informs consumer of one error'
+            )
+              .to.equal(1)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer of zero warnings'
+            )
+              .to.equal(0)
+
             const error = validationResult.errors[0]
-            expect(error.message).to.equal(`Object didn't pass validation for format ${format}: ${input}`)
-            expect(error.path).to.equal('#/foo')
-          })
 
-          it('input maintains user input value', function () {
-            expect(this.$('input[type="text"]').val()).to.equal(input)
+            expect(
+              error.message,
+              'error has correct message'
+            )
+              .to.equal(`Object didn't pass validation for format ${format}: ${input}`)
+
+            expect(
+              error.path,
+              'error has correct path'
+            )
+              .to.equal('#/foo')
+
+            expect(
+              this.$('input[type="text"]').val(),
+              'input maintains user input value'
+            )
+              .to.equal(input)
           })
 
           describe('when user removes focus from input', function () {
@@ -95,18 +126,27 @@ export default function (format, invalidValues, validValues) {
               this.$('input[type="text"]').focusout()
             })
 
-            it('input maintains user input value', function () {
-              expect(this.$('input[type="text"]').val()).to.equal(input)
-            })
+            it('renders as expected', function () {
+              expect(
+                this.$('input[type="text"]').val(),
+                'input maintains user input value'
+              )
+                .to.equal(input)
 
-            it('adds error class to input', function () {
-              expect(this.$('.frost-text.error')).to.have.length(1)
-            })
+              expect(
+                this.$('.frost-text.error'),
+                'adds error class to input'
+              )
+                .to.have.length(1)
 
-            it('presents user with validation error message', function () {
               const actual = this.$('.frost-field .error:not(.frost-text)').text().trim()
               const expected = `Object didn't pass validation for format ${format}: ${input}`
-              expect(actual).to.equal(expected)
+
+              expect(
+                actual,
+                'presents user with validation error message'
+              )
+                .to.equal(expected)
             })
           })
         })
@@ -133,18 +173,26 @@ export default function (format, invalidValues, validValues) {
               .trigger('input')
           })
 
-          it('provides consumer correct value via onChange() property', function () {
-            expect(value).to.eql({
-              foo: input
-            })
-          })
+          it('functions as expected', function () {
+            expect(
+              value,
+              'provides consumer correct value via onChange() property'
+            )
+              .to.eql({
+                foo: input
+              })
 
-          it('does not provide consumer with validation results via onValidation() property', function () {
-            expect(validationResult).to.be.undefined
-          })
+            expect(
+              validationResult,
+              'does not provide consumer with validation results via onValidation() property'
+            )
+              .to.be.undefined
 
-          it('input maintains user input value', function () {
-            expect(this.$('input[type="text"]').val()).to.equal(input)
+            expect(
+              this.$('input[type="text"]').val(),
+              'input maintains user input value'
+            )
+              .to.equal(input)
           })
 
           describe('when user removes focus from input', function () {
@@ -152,16 +200,24 @@ export default function (format, invalidValues, validValues) {
               this.$('input[type="text"]').focusout()
             })
 
-            it('input maintains user input value', function () {
-              expect(this.$('input[type="text"]').val()).to.equal(input)
-            })
+            it('renders as expected', function () {
+              expect(
+                this.$('input[type="text"]').val(),
+                'input maintains user input value'
+              )
+                .to.equal(input)
 
-            it('does not add error class to input', function () {
-              expect(this.$('.frost-text').hasClass('error')).to.be.false
-            })
+              expect(
+                this.$('.frost-text').hasClass('error'),
+                'does not add error class to input'
+              )
+                .to.be.false
 
-            it('does not present user with validation error message', function () {
-              expect(this.$('.frost-field .error')).to.have.length(0)
+              expect(
+                this.$('.frost-field .error'),
+                'does not present user with validation error message'
+              )
+                .to.have.length(0)
             })
           })
         })
