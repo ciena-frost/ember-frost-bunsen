@@ -97,7 +97,7 @@ const bunsenModel = {
 
 describeComponent(
   'frost-bunsen-array-container',
-  'FrostBunsenArrayContainerComponent',
+  'Unit: Component | frost-bunsen-array-container',
   {
     unit: true
   },

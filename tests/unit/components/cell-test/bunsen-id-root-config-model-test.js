@@ -5,7 +5,7 @@ import {builtInRenderers} from 'bunsen-core/validator'
 
 describeComponent(
   'frost-bunsen-cell',
-  'FrostBunsenCellComponent with bunsenId and root config model',
+  'Unit: Component | frost-bunsen-cell with bunsenId and root config model',
   {
     unit: true
   },

@@ -38,6 +38,9 @@ module.exports = function (environment) {
     ENV.APP.LOG_ACTIVE_GENERATION = false
     ENV.APP.LOG_VIEW_LOOKUPS = false
 
+    // Don't log multiline stack-traces for deprecation warnings
+    ENV.EmberENV.LOG_STACKTRACE_ON_DEPRECATION = false
+
     ENV.APP.rootElement = '#ember-testing'
   }
 

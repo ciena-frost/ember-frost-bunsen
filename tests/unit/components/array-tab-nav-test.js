@@ -5,7 +5,7 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-array-tab-nav',
-  'FrostBunsenArrayTabNavComponent',
+  'Unit: Component | frost-bunsen-array-tab-nav',
   {
     unit: true
   },

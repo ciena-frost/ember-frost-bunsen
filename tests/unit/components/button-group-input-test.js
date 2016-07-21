@@ -8,7 +8,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-input-button-group',
-  'FrostBunsenInputButtonGroupComponent',
+  'Unit: Component | frost-bunsen-input-button-group',
   {
     unit: true
   },

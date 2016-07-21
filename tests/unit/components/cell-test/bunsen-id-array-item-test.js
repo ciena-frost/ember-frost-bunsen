@@ -5,7 +5,7 @@ import {builtInRenderers} from 'bunsen-core/validator'
 
 describeComponent(
   'frost-bunsen-cell',
-  'FrostBunsenCellComponent when array item with bunsenId',
+  'Unit: Component | frost-bunsen-cell when array item with bunsenId',
   {
     unit: true
   },

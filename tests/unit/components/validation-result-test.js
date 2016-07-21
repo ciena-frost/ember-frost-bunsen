@@ -5,7 +5,7 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-validation-result',
-  'FrostBunsenValidationResultComponent',
+  'Unit: Component | frost-bunsen-validation-result',
   {
     unit: true
   },

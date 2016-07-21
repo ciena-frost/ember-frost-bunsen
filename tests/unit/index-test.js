@@ -53,7 +53,7 @@ import {default as TextInput} from 'ember-frost-bunsen/components/text-input'
 import {default as TextareaInput} from 'ember-frost-bunsen/components/textarea-input'
 import {default as ValidationResult} from 'ember-frost-bunsen/components/validation-result'
 
-describe('ember-frost-bunsen', function () {
+describe('Unit: ember-frost-bunsen', function () {
   it('imports AbstractInput', function () {
     expect(AbstractInput).to.equal(_AbstractInput)
   })

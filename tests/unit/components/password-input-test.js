@@ -7,7 +7,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-input-password',
-  'FrostBunsenInputPasswordComponent',
+  'Unit: Component | frost-bunsen-input-password',
   {
     unit: true
   },

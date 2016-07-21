@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describe, it} from 'mocha'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 
-describe('list-utils', () => {
+describe('Unit: list-utils', () => {
   describe('getEnumValues()', () => {
     it('returns literal values', () => {
       const values = ['Foo', 'BAR', 'baz']

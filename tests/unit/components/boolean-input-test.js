@@ -7,7 +7,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-input-boolean',
-  'FrostBunsenInputBooleanComponent',
+  'Unit: Component | frost-bunsen-input-boolean',
   {
     unit: true
   },

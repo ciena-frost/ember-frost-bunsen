@@ -7,7 +7,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-input-textarea',
-  'FrostBunsenInputTextareaComponent',
+  'Unit: Component | frost-bunsen-input-textarea',
   {
     unit: true
   },

@@ -6,7 +6,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-input-multi-select',
-  'FrostBunsenInputMultiSelectComponent',
+  'Unit: Component | frost-bunsen-input-multi-select',
   {
     unit: true
   },

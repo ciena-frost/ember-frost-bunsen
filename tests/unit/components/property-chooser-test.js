@@ -6,7 +6,7 @@ import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstra
 
 describeComponent(
   'frost-bunsen-property-chooser',
-  'FrostBunsenPropertyChooserComponent',
+  'Unit: Component | frost-bunsen-property-chooser',
   {
     unit: true
   },

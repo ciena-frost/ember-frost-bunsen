@@ -5,7 +5,7 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-model-container',
-  'FrostBunsenContainerModelComponent',
+  'Unit: Component | frost-bunsen-model-container',
   {
     unit: true
   },

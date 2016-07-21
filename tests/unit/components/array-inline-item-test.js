@@ -7,7 +7,7 @@ import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-array-inline-item',
-  'FrostBunsenArrayInlineItemComponent',
+  'Unit: Component | frost-bunsen-array-inline-item',
   {
     unit: true
   },

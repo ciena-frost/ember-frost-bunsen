@@ -5,7 +5,7 @@ import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 import {removeIndex} from 'ember-frost-bunsen/components/cell'
 
-describe('removeIndex()', function () {
+describe('Unit: removeIndex()', function () {
   it('removes index from path with index', function () {
     expect(removeIndex('foo.bar.0')).to.equal('foo.bar')
   })
@@ -17,7 +17,7 @@ describe('removeIndex()', function () {
 
 describeComponent(
   'frost-bunsen-cell',
-  'FrostBunsenCellComponent',
+  'Unit: Component | frost-bunsen-cell',
   {
     unit: true
   },
