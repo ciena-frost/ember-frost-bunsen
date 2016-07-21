@@ -192,11 +192,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       })
     })
 
-    it('has correct classes', function () {
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
-      expect(rootNode).to.have.class('frost-bunsen-input-select')
-    })
-
     it('has correct enum of values', function () {
       props.bunsenModel.enum = ['foo', 'bar', 'fitz', 'batz']
       rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)

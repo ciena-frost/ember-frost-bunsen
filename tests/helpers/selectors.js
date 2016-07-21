@@ -1,4 +1,16 @@
 export default {
+  bunsen: {
+    renderer: {
+      boolean: '.frost-bunsen-input-boolean',
+      buttonGroup: '.frost-bunsen-input-button-group',
+      multiSelect: '.frost-bunsen-input-multi-select',
+      number: '.frost-bunsen-input-number',
+      password: '.frost-bunsen-input-password',
+      select: '.frost-bunsen-input-select',
+      text: '.frost-bunsen-input-text',
+      textarea: '.frost-bunsen-input-textarea'
+    }
+  },
   error: '.error',
   frost: {
     button: {

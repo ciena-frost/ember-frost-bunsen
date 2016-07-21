@@ -11,10 +11,6 @@ const props = {
 }
 
 function tests (ctx) {
-  it('has correct classes', function () {
-    expect(ctx.rootNode).to.have.class('frost-bunsen-input-number')
-  })
-
   it('calls onChange callback with id and value when the value is changed', function (done) {
     let setVal = 146623462
 

@@ -75,7 +75,7 @@ describeComponent(
 
     it('renders as expected', function () {
       expect(
-        this.$('.frost-bunsen-input-multi-select'),
+        this.$(selectors.bunsen.renderer.multiSelect),
         'renders a bunsen multi-select input'
       )
         .to.have.length(1)
