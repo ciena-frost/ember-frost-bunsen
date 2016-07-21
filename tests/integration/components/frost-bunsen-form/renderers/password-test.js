@@ -150,5 +150,58 @@ describeComponent(
           .to.have.length(0)
       })
     })
+
+    describe('when user inputs value', function () {
+      const input = 'bar'
+
+      beforeEach(function () {
+        props.onValidation = sandbox.spy()
+        this.set('onValidation', props.onValidation)
+
+        this.$(selectors.frost.password.input.enabled)
+          .val(input)
+          .trigger('input')
+      })
+
+      it('functions as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.password),
+          'renders a bunsen password input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.password.input.enabled),
+          'renders an enabled password input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.password.input.enabled).val(),
+          'input maintains user input value'
+        )
+          .to.equal(`${input}`)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onChange.lastCall.args[0],
+          'informs consumer of change'
+        )
+          .to.eql({
+            foo: input
+          })
+
+        expect(
+          props.onValidation.callCount,
+          'does not provide consumer with validation results via onValidation() property'
+        )
+          .to.equal(0)
+      })
+    })
   }
 )

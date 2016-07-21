@@ -150,5 +150,65 @@ describeComponent(
           .to.have.length(0)
       })
     })
+
+    describe('when user inputs value', function () {
+      const input = 'bar'
+
+      beforeEach(function (done) {
+        props.onValidation = sandbox.spy()
+        this.set('onValidation', props.onValidation)
+
+        this.$(selectors.frost.textarea.input.enabled)
+          .val(input)
+          .trigger('input')
+
+        // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
+        // Required because frost-textarea uses Ember.run.later() to inform consumer of change
+        // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
+        Ember.run.later(() => {
+          done()
+        }, 10)
+      })
+
+      it('functions as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.textarea),
+          'renders a bunsen textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.textarea.input.enabled),
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.textarea.input.enabled).val(),
+          'input maintains user input value'
+        )
+          .to.equal(`${input}`)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onChange.lastCall.args[0],
+          'informs consumer of change'
+        )
+          .to.eql({
+            foo: input
+          })
+
+        expect(
+          props.onValidation.callCount,
+          'does not provide consumer with validation results via onValidation() property'
+        )
+          .to.equal(0)
+      })
+    })
   }
 )
