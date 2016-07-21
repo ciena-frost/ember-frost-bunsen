@@ -5,6 +5,8 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 
+import selectors from 'dummy/tests/helpers/selectors'
+
 export default function (format, invalidValues, validValues) {
   describeComponent(
     'frost-bunsen-form',
@@ -46,13 +48,13 @@ export default function (format, invalidValues, validValues) {
 
       it('renders as expected', function () {
         expect(
-          this.$('input[type="text"]'),
+          this.$(selectors.input.text),
           'renders a text input'
         )
           .to.have.length(1)
 
         expect(
-          this.$('.error'),
+          this.$(selectors.error),
           'does not have any validation errors'
         )
           .to.have.length(0)
@@ -73,7 +75,7 @@ export default function (format, invalidValues, validValues) {
               }
             })
 
-            this.$('input[type="text"]')
+            this.$(selectors.input.text)
               .focus()
               .val(input)
               .trigger('input')
@@ -115,7 +117,7 @@ export default function (format, invalidValues, validValues) {
               .to.equal('#/foo')
 
             expect(
-              this.$('input[type="text"]').val(),
+              this.$(selectors.input.text).val(),
               'input maintains user input value'
             )
               .to.equal(input)
@@ -123,23 +125,23 @@ export default function (format, invalidValues, validValues) {
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$('input[type="text"]').focusout()
+              this.$(selectors.input.text).focusout()
             })
 
             it('renders as expected', function () {
               expect(
-                this.$('input[type="text"]').val(),
+                this.$(selectors.input.text).val(),
                 'input maintains user input value'
               )
                 .to.equal(input)
 
               expect(
-                this.$('.frost-text.error'),
+                this.$(selectors.frost.input.text.error),
                 'adds error class to input'
               )
                 .to.have.length(1)
 
-              const actual = this.$('.frost-field .error:not(.frost-text)').text().trim()
+              const actual = this.$(selectors.frost.input.not.text.error).text().trim()
               const expected = `Object didn't pass validation for format ${format}: ${input}`
 
               expect(
@@ -167,7 +169,7 @@ export default function (format, invalidValues, validValues) {
               }
             })
 
-            this.$('input[type="text"]')
+            this.$(selectors.input.text)
               .focus()
               .val(input)
               .trigger('input')
@@ -189,7 +191,7 @@ export default function (format, invalidValues, validValues) {
               .to.be.undefined
 
             expect(
-              this.$('input[type="text"]').val(),
+              this.$(selectors.input.text).val(),
               'input maintains user input value'
             )
               .to.equal(input)
@@ -197,24 +199,24 @@ export default function (format, invalidValues, validValues) {
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$('input[type="text"]').focusout()
+              this.$(selectors.input.text).focusout()
             })
 
             it('renders as expected', function () {
               expect(
-                this.$('input[type="text"]').val(),
+                this.$(selectors.input.text).val(),
                 'input maintains user input value'
               )
                 .to.equal(input)
 
               expect(
-                this.$('.frost-text').hasClass('error'),
+                this.$(selectors.frost.input.text.main).hasClass('error'),
                 'does not add error class to input'
               )
                 .to.be.false
 
               expect(
-                this.$('.frost-field .error'),
+                this.$(selectors.frost.input.error),
                 'does not present user with validation error message'
               )
                 .to.have.length(0)
