@@ -54,6 +54,12 @@ describeComponent(
 
           it('renders as expected', function () {
             expect(
+              this.$('.frost-bunsen-input-number'),
+              'renders a bunsen number input'
+            )
+              .to.have.length(1)
+
+            expect(
               this.$(selectors.frost.number.input.enabled),
               'renders an enabled number input'
             )

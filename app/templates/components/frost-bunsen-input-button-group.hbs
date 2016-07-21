@@ -8,6 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{#each options as |option index|}}
       {{#frost-button
+        disabled=disabled
         onClick=(action "onChange" index)
         priority=(if (eq index activeIndex) "primary" "secondary")
         size=size

@@ -71,6 +71,12 @@ describeComponent(
 
     it('renders as expected', function () {
       expect(
+        this.$('.frost-bunsen-input-password'),
+        'renders a bunsen password input'
+      )
+        .to.have.length(1)
+
+      expect(
         this.$(selectors.frost.password.input.enabled),
         'renders an enabled password input'
       )

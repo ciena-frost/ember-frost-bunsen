@@ -71,6 +71,12 @@ describeComponent(
 
     it('renders as expected', function () {
       expect(
+        this.$('.frost-bunsen-input-textarea'),
+        'renders a bunsen textarea input'
+      )
+        .to.have.length(1)
+
+      expect(
         this.$(selectors.frost.textarea.input.enabled),
         'renders an enabled textarea input'
       )

@@ -48,6 +48,12 @@ describeComponent(
 
     it('renders as expected', function () {
       expect(
+        this.$('.frost-bunsen-input-boolean'),
+        'renders a bunsen boolean input'
+      )
+        .to.have.length(1)
+
+      expect(
         this.$(selectors.frost.checkbox.input.enabled),
         'renders an enabled checkbox input'
       )

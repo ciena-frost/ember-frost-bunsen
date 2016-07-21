@@ -1,6 +1,12 @@
 export default {
   error: '.error',
   frost: {
+    button: {
+      input: {
+        disabled: '.frost-button:disabled',
+        enabled: '.frost-button:not(:disabled)'
+      }
+    },
     checkbox: {
       input: {
         disabled: '.frost-checkbox input[type="checkbox"]:disabled',
@@ -13,6 +19,12 @@ export default {
         error: '.frost-field .error:not(.frost-text)'
       }
     },
+    multiSelect: {
+      input: {
+        disabled: '.frost-select.multi input.trigger:disabled',
+        enabled: '.frost-select.multi input.trigger:not(:disabled)'
+      }
+    },
     number: {
       input: {
         disabled: '.frost-text input[type="number"]:disabled',
@@ -23,6 +35,12 @@ export default {
       input: {
         disabled: '.frost-password input:disabled',
         enabled: '.frost-password input:not(:disabled)'
+      }
+    },
+    select: {
+      input: {
+        disabled: '.frost-select input:disabled',
+        enabled: '.frost-select input:not(:disabled)'
       }
     },
     text: {
