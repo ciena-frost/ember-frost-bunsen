@@ -48,7 +48,7 @@ export default function (format, invalidValues, validValues) {
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.input.text),
+          this.$(selectors.frost.text.input.enabled),
           'renders a text input'
         )
           .to.have.length(1)
@@ -75,7 +75,7 @@ export default function (format, invalidValues, validValues) {
               }
             })
 
-            this.$(selectors.input.text)
+            this.$(selectors.frost.text.input.enabled)
               .focus()
               .val(input)
               .trigger('input')
@@ -117,7 +117,7 @@ export default function (format, invalidValues, validValues) {
               .to.equal('#/foo')
 
             expect(
-              this.$(selectors.input.text).val(),
+              this.$(selectors.frost.text.input.enabled).val(),
               'input maintains user input value'
             )
               .to.equal(input)
@@ -125,23 +125,23 @@ export default function (format, invalidValues, validValues) {
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$(selectors.input.text).focusout()
+              this.$(selectors.frost.text.input.enabled).focusout()
             })
 
             it('renders as expected', function () {
               expect(
-                this.$(selectors.input.text).val(),
+                this.$(selectors.frost.text.input.enabled).val(),
                 'input maintains user input value'
               )
                 .to.equal(input)
 
               expect(
-                this.$(selectors.frost.input.text.error),
+                this.$(selectors.frost.text.error),
                 'adds error class to input'
               )
                 .to.have.length(1)
 
-              const actual = this.$(selectors.frost.input.not.text.error).text().trim()
+              const actual = this.$(selectors.frost.not.text.error).text().trim()
               const expected = `Object didn't pass validation for format ${format}: ${input}`
 
               expect(
@@ -169,7 +169,7 @@ export default function (format, invalidValues, validValues) {
               }
             })
 
-            this.$(selectors.input.text)
+            this.$(selectors.frost.text.input.enabled)
               .focus()
               .val(input)
               .trigger('input')
@@ -191,7 +191,7 @@ export default function (format, invalidValues, validValues) {
               .to.be.undefined
 
             expect(
-              this.$(selectors.input.text).val(),
+              this.$(selectors.frost.text.input.enabled).val(),
               'input maintains user input value'
             )
               .to.equal(input)
@@ -199,24 +199,24 @@ export default function (format, invalidValues, validValues) {
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$(selectors.input.text).focusout()
+              this.$(selectors.frost.text.input.enabled).focusout()
             })
 
             it('renders as expected', function () {
               expect(
-                this.$(selectors.input.text).val(),
+                this.$(selectors.frost.text.input.enabled).val(),
                 'input maintains user input value'
               )
                 .to.equal(input)
 
               expect(
-                this.$(selectors.frost.input.text.main).hasClass('error'),
+                this.$(selectors.frost.text.wrapper).hasClass('error'),
                 'does not add error class to input'
               )
                 .to.be.false
 
               expect(
-                this.$(selectors.frost.input.error),
+                this.$(selectors.frost.error),
                 'does not present user with validation error message'
               )
                 .to.have.length(0)

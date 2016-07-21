@@ -71,28 +71,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-textarea'), func
     rootNode = renderWithProps(this, 'frost-bunsen-input-textarea', props)
   })
 
-  describe('when bunsenStore.disabled is true', function () {
-    beforeEach(function () {
-      this.set('bunsenStore.disabled', true)
-    })
-
-    it('disables input', function () {
-      const $input = rootNode.find('.frost-textarea textarea')
-      expect($input.is(':disabled')).to.be.true
-    })
-  })
-
-  describe('when bunsenStore.disabled is false', function () {
-    beforeEach(function () {
-      this.set('bunsenStore.disabled', false)
-    })
-
-    it('disables input', function () {
-      const $input = rootNode.find('.frost-textarea textarea')
-      expect($input.is(':disabled')).to.be.false
-    })
-  })
-
   describe('render with read transforms', function () {
     it('applies non-regex string transform', function () {
       this.set('value', 'Matt')
