@@ -6,6 +6,7 @@ export default {
       multiSelect: '.frost-bunsen-input-multi-select',
       number: '.frost-bunsen-input-number',
       password: '.frost-bunsen-input-password',
+      propertyChooser: '.frost-bunsen-property-chooser',
       select: '.frost-bunsen-input-select',
       text: '.frost-bunsen-input-text',
       textarea: '.frost-bunsen-input-textarea'

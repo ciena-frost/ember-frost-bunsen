@@ -17,6 +17,12 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   @readOnly
+  @computed('cellConfig.renderer.choices')
+  data (choices) {
+    return choices || []
+  },
+
+  @readOnly
   @computed('bunsenModel.dependencies', 'value')
   useKey (dependencies, value) {
     if (value) {
@@ -45,11 +51,15 @@ export default AbstractInput.extend({
   actions: {
     /**
      * Handle user updating selected item
-     * @param {Event} e - event
+     * @param {Array<String>} selected - selected values
      */
-    onChange (e) {
+    onChange (selected) {
+      if (selected.length === 0) {
+        return
+      }
+
       const bunsenId = this.get('bunsenId')
-      const newValue = e.target.value
+      const newValue = selected[0]
       const onChange = this.get('onChange')
       const oldValue = this.get('useKey')
 

@@ -5,23 +5,10 @@
     {{/if}}
 </div>
 <div class='{{labelPlacement}}-input'>
-  <select
-    disabled={{disabled}}
-    onchange={{action "onChange"}}
-  >
-    <option
-      disabled
-      selected={{not useKey}}
-    >
-      Please select an item…
-    </option>
-    {{#each cellConfig.renderer.choices as |option index|}}
-      <option
-        selected={{eq useKey option.value}}
-        value={{option.value}}
-      >
-        {{option.label}}
-      </option>
-    {{/each}}
-  </select>
+  {{frost-select
+    data=data
+    disabled=disabled
+    onChange=(action "onChange")
+    selectedValue=useKey
+  }}
 </div>
