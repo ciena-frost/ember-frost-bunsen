@@ -28,6 +28,12 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
 
   @readOnly
+  @computed('bunsenStore.disabled', 'cellConfig.disabled')
+  disabled (formDisabled, disabledInView) {
+    return formDisabled || disabledInView
+  },
+
+  @readOnly
   @computed(
     'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
   )

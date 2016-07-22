@@ -66,6 +66,7 @@
     <li role="presentation">
       {{#frost-button
         class="medium tertiary"
+        disabled=disabled
         onClick=(action "onAddItem")
       }}
       <div class="icon-text text">
@@ -94,6 +95,7 @@
 {{#if showAddButton}}
   {{#frost-button
     class="medium tertiary"
+    disabled=disabled
     onClick=(action "onAddItem")
   }}
   <div class="icon-text text">

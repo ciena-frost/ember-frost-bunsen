@@ -64,6 +64,12 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
+  @computed('bunsenStore.disabled', 'cellConfig.disabled')
+  disabled (formDisabled, disabledInView) {
+    return formDisabled || disabledInView
+  },
+
+  @readOnly
   @computed('cellConfig.arrayOptions.inline')
   inline (inline) {
     return inline === undefined || inline === true

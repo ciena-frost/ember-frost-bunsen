@@ -60,6 +60,12 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
+  @computed('bunsenStore.disabled', 'cellConfig.disabled')
+  disabled (formDisabled, disabledInView) {
+    return formDisabled || disabledInView
+  },
+
+  @readOnly
   @computed('errors')
   errorMessage (errors) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
