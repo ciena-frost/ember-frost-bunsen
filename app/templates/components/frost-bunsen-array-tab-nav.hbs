@@ -1,12 +1,12 @@
 <a>
   <span>
     {{title}}
-    {{#frost-button
-      class="medium tertiary text"
+    {{frost-button
       disabled=disabled
       onClick=(action "onRemove")
+      priority="tertiary"
+      size="medium"
+      text="Remove"
     }}
-      Remove
-    {{/frost-button}}
   </span>
 </a>

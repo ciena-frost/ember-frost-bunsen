@@ -64,16 +64,14 @@
       }}
     {{/each}}
     <li role="presentation">
-      {{#frost-button
-        class="medium tertiary"
+      {{frost-button
         disabled=disabled
+        icon="round-add"
         onClick=(action "onAddItem")
+        priority="tertiary"
+        size="medium"
+        text=addLabel
       }}
-      <div class="icon-text text">
-        {{frost-icon icon='round-add'}}
-        <div class="text">{{addLabel}}</div>
-      </div>
-      {{/frost-button}}
     </li>
   </ul>
   <div class="tab-content">
@@ -93,14 +91,12 @@
   </div>
 {{/if}}
 {{#if showAddButton}}
-  {{#frost-button
-    class="medium tertiary"
+  {{frost-button
     disabled=disabled
+    icon="round-add"
     onClick=(action "onAddItem")
+    priority="tertiary"
+    size="medium"
+    text=addLabel
   }}
-  <div class="icon-text text">
-    {{frost-icon icon='round-add'}}
-    <div class="text">{{addLabel}}</div>
-  </div>
-  {{/frost-button}}
 {{/if}}

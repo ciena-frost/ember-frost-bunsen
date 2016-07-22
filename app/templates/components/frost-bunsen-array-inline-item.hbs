@@ -1,12 +1,12 @@
 {{#if (and (not compact) showRemoveButton)}}
   <div class="remove-btn-container">
-    {{#frost-button
-      class="medium tertiary text"
+    {{frost-button
       disabled=disabled
       onClick=(action "onRemove")
+      priority="tertiary"
+      size="medium"
+      text="Remove"
     }}
-      Remove
-    {{/frost-button}}
   </div>
 {{/if}}
 {{#if sortable}}
@@ -64,12 +64,12 @@
 </div>
 {{#if (and compact showRemoveButton)}}
   <div class="remove-btn-container">
-    {{#frost-button
-      class="medium tertiary text"
+    {{frost-button
       disabled=disabled
       onClick=(action "onRemove")
+      priority="tertiary"
+      size="medium"
+      text="Remove"
     }}
-      Remove
-    {{/frost-button}}
   </div>
 {{/if}}
