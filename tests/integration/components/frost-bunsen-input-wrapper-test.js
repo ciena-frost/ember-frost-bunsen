@@ -19,46 +19,6 @@ function makeProps (props) {
 }
 
 describeComponent(...integrationTestContext('frost-bunsen-input-wrapper'), function () {
-  it('renders', function () {
-    const props = makeProps()
-
-    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
-
-    expect(this.$()).to.have.length(1)
-  })
-
-  it('supports string bunsenModel type', function () {
-    const props = makeProps()
-
-    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
-
-    expect(this.$()).to.have.length(1)
-  })
-
-  it('supports number bunsenModel type', function () {
-    const props = makeProps({
-      bunsenModel: {
-        type: 'number'
-      }
-    })
-
-    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
-
-    expect(this.$()).to.have.length(1)
-  })
-
-  it('supports boolean bunsenModel type', function () {
-    const props = makeProps({
-      bunsenModel: {
-        type: 'boolean'
-      }
-    })
-
-    renderWithProps(this, 'frost-bunsen-input-wrapper', props)
-
-    expect(this.$()).to.have.length(1)
-  })
-
   it('does not render if the bunsenModel is not defined', function () {
     const props = makeProps()
     delete props.bunsenModel

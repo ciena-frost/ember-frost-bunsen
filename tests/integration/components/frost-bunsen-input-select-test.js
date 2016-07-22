@@ -187,7 +187,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           })
 
           rootNode.find('.down-arrow').click()
-          rootNode.find('li[data-value="Chris"]').click()
+          rootNode.find('li:nth-child(2)').click()
         })
       })
     })

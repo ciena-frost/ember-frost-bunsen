@@ -4,7 +4,7 @@ import {afterEach, beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {helpers} from 'ember-frost-bunsen/components/button-group-input'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
+import {renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-button-group',
@@ -62,7 +62,6 @@ describeComponent(
       ])
     })
 
-    disabledTests(ctx)
     renderErrorMessageTests(ctx)
 
     describe('options', function () {
@@ -175,18 +174,6 @@ describeComponent(
             expect(component.parseValue(index)).to.eql(value)
           })
         })
-      })
-    })
-
-    describe('when onChange property is omitted', function () {
-      beforeEach(function () {
-        component.set('onChange', undefined)
-      })
-
-      it('does not throw an error when onChange action is triggered', function () {
-        expect(function () {
-          component.get('actions.onChange').call(component, 0)
-        }).not.to.throw(Error)
       })
     })
   }

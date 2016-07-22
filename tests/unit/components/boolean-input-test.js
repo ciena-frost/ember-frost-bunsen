@@ -3,7 +3,6 @@ import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-boolean',
@@ -47,24 +46,6 @@ describeComponent(
         PropTypes.object,
         PropTypes.string
       ])
-    })
-
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
-
-    describe('when onChange property is omitted', function () {
-      beforeEach(function () {
-        component.set('onChange', undefined)
-      })
-
-      it('does not throw an error when onChange action is triggered', function () {
-        expect(function () {
-          const e = {
-            value: true
-          }
-          component.get('actions.onChange').call(component, e)
-        }).not.to.throw(Error)
-      })
     })
 
     describe('checked', function () {

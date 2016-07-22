@@ -270,6 +270,18 @@ export default Component.extend(PropTypeMixin, {
       reduxStore.dispatch(
         validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
+    } else {
+      const newModel = _.get(newAttrs, 'bunsenModel.value')
+      const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
+      const oldModel = _.get(oldAttrs, 'bunsenModel.value')
+      const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
+      const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
+
+      if (modelChanged) {
+        reduxStore.dispatch(
+          validate(null, value, newModelPojo, this.get('validators'), RSVP.all)
+        )
+      }
     }
 
     this.validateProps()

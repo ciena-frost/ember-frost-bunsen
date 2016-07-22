@@ -1,5 +1,12 @@
 export default {
   bunsen: {
+    errorMessage: {
+      boolean: '.frost-bunsen-input-boolean > div:nth-child(2) .error',
+      number: '.frost-bunsen-input-number > div:nth-child(2) .error',
+      password: '.frost-bunsen-input-password > div:nth-child(2) .error',
+      text: '.frost-bunsen-input-text > div:nth-child(2) .error',
+      textarea: '.frost-bunsen-input-textarea > div:nth-child(2) .error'
+    },
     renderer: {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',
@@ -39,12 +46,14 @@ export default {
       }
     },
     number: {
+      error: '.frost-text.error',
       input: {
         disabled: '.frost-text input[type="number"]:disabled',
         enabled: '.frost-text input[type="number"]:not(:disabled)'
       }
     },
     password: {
+      error: '.frost-password.error',
       input: {
         disabled: '.frost-password input:disabled',
         enabled: '.frost-password input:not(:disabled)'
@@ -64,6 +73,7 @@ export default {
       }
     },
     textarea: {
+      error: '.frost-textarea.error',
       input: {
         disabled: '.frost-textarea textarea:disabled',
         enabled: '.frost-textarea textarea:not(:disabled)'

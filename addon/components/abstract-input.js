@@ -238,7 +238,7 @@ export default Component.extend(PropTypeMixin, {
     /**
      * When input looses focus we want to start showing error messages
      */
-    onBlur () {
+    onFocusOut () {
       if (!this.get('showErrorMessage')) {
         this.set('showErrorMessage', true)
       }
@@ -247,7 +247,7 @@ export default Component.extend(PropTypeMixin, {
     /**
      * When input enters focus we want to stop showing error messages
      */
-    onFocus () {
+    onFocusIn () {
       if (this.get('showErrorMessage')) {
         this.set('showErrorMessage', false)
       }
@@ -264,9 +264,9 @@ export default Component.extend(PropTypeMixin, {
       const transforms = this.get('cellConfig.transforms.write')
       const transformedNewValue = this.applyTransforms(newValue, transforms)
       const oldValue = this.get('value')
-      const onChange = this.get('onChange')
 
-      if (onChange && !_.isEqual(transformedNewValue, oldValue)) {
+      if (!_.isEqual(transformedNewValue, oldValue)) {
+        const onChange = this.get('onChange')
         onChange(bunsenId, transformedNewValue)
       }
     }

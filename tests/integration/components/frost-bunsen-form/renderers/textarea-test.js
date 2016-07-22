@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {Logger, run} = Ember
+const {Logger} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -53,7 +53,8 @@ describeComponent(
         },
         disabled: undefined,
         onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        onValidation: sandbox.spy(),
+        showAllErrors: undefined
       }
 
       this.setProperties(props)
@@ -64,6 +65,7 @@ describeComponent(
         disabled=disabled
         onChange=onChange
         onValidation=onValidation
+        showAllErrors=showAllErrors
       }}`)
     })
 
@@ -154,20 +156,13 @@ describeComponent(
     describe('when user inputs value', function () {
       const input = 'bar'
 
-      beforeEach(function (done) {
+      beforeEach(function () {
         props.onValidation = sandbox.spy()
         this.set('onValidation', props.onValidation)
 
         this.$(selectors.frost.textarea.input.enabled)
           .val(input)
           .trigger('input')
-
-        // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
-        // Required because frost-textarea uses Ember.run.later() to inform consumer of change
-        // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
-        run.later(() => {
-          done()
-        }, 10)
       })
 
       it('functions as expected', function () {
@@ -208,6 +203,148 @@ describeComponent(
           'does not provide consumer with validation results via onValidation() property'
         )
           .to.equal(0)
+      })
+    })
+
+    describe('when field is required', function () {
+      beforeEach(function () {
+        props.onValidation = sandbox.spy()
+
+        this.setProperties({
+          bunsenModel: {
+            properties: {
+              foo: {
+                type: 'string'
+              }
+            },
+            required: ['foo'],
+            type: 'object'
+          },
+          onValidation: props.onValidation
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.textarea),
+          'renders a bunsen textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.textarea.input.enabled),
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there is one error'
+        )
+          .to.equal(1)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when showAllErrors is false', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+
+          this.setProperties({
+            onValidation: props.onValidation,
+            showAllErrors: false
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.textarea),
+            'renders a bunsen textarea input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.textarea.input.enabled),
+            'renders an enabled textarea input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'does not inform consumer of validation results'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when showAllErrors is true', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+
+          this.setProperties({
+            onValidation: props.onValidation,
+            showAllErrors: true
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.textarea),
+            'renders a bunsen textarea input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.textarea.input.enabled),
+            'renders an enabled textarea input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.textarea.error),
+            'adds error class to input'
+          )
+            .to.have.length(1)
+
+          const actual = this.$(selectors.bunsen.errorMessage.textarea).text().trim()
+          const expected = 'Field is required.'
+
+          expect(
+            actual,
+            'presents user with validation error message'
+          )
+            .to.equal(expected)
+
+          expect(
+            props.onValidation.callCount,
+            'does not inform consumer of validation results'
+          )
+            .to.equal(0)
+        })
       })
     })
 
@@ -264,20 +401,13 @@ describeComponent(
       describe('value matches literal string read transform', function () {
         const input = 'Matt'
 
-        beforeEach(function (done) {
+        beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
 
           this.$(selectors.frost.textarea.input.enabled)
             .val(input)
             .trigger('input')
-
-          // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
-          // Required because frost-textarea uses Ember.run.later() to inform consumer of change
-          // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
-          run.later(() => {
-            done()
-          }, 50)
         })
 
         it('functions as expected', function () {
@@ -324,20 +454,13 @@ describeComponent(
       describe('value matches regex string read transform', function () {
         const input = 'Chris'
 
-        beforeEach(function (done) {
+        beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
 
           this.$(selectors.frost.textarea.input.enabled)
             .val(input)
             .trigger('input')
-
-          // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
-          // Required because frost-textarea uses Ember.run.later() to inform consumer of change
-          // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
-          run.later(() => {
-            done()
-          }, 50)
         })
 
         it('functions as expected', function () {
@@ -382,20 +505,13 @@ describeComponent(
       })
 
       describe('applies literal string write transform', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
 
           this.$(selectors.frost.textarea.input.enabled)
             .val('Johnathan')
             .trigger('input')
-
-          // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
-          // Required because frost-textarea uses Ember.run.later() to inform consumer of change
-          // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
-          run.later(() => {
-            done()
-          }, 50)
         })
 
         it('functions as expected', function () {
@@ -440,20 +556,13 @@ describeComponent(
       })
 
       describe('applies regex string write transform', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
 
           this.$(selectors.frost.textarea.input.enabled)
             .val('Alexander')
             .trigger('input')
-
-          // FIXME: remove this if/when frost-textarea removes later call (MRD - 2016-07-21)
-          // Required because frost-textarea uses Ember.run.later() to inform consumer of change
-          // @reference https://github.com/ciena-frost/ember-frost-core/blob/master/addon/components/frost-textarea.js#L54
-          run.later(() => {
-            done()
-          }, 50)
         })
 
         it('functions as expected', function () {

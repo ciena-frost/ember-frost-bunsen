@@ -8,11 +8,11 @@
   <div class={{inputWrapperClassName}}>
     {{frost-select
       class=valueClassName
-      disabled=disabled
-      onBlur=(action "onBlur")
-      onInput=(action "onInput")
-      onChange=(action "onChange")
       data=options
+      disabled=disabled
+      onChange=(action "onChange")
+      onFocusOut=(action "onFocusOut")
+      onInput=(action "onInput")
       placeholder=cellConfig.placeholder
       selectedValue=value
     }}

@@ -7,7 +7,7 @@
 <div class='{{labelPlacement}}-input'>
   {{frost-select
     data=data
-    disabled=disabled
+    disabled=(readonly disabled)
     onChange=(action "onChange")
     selectedValue=useKey
   }}

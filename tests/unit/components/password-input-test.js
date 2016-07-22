@@ -1,9 +1,8 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
-import {beforeEach, describe} from 'mocha'
+import {beforeEach} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-password',
@@ -49,34 +48,16 @@ describeComponent(
       ])
     })
 
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
-
-    it('onBlur action sets showErrorMessage to true', function () {
+    it('onFocusOut action sets showErrorMessage to true', function () {
       component.set('showErrorMessage', true)
-      component.get('actions.onBlur').call(component)
+      component.get('actions.onFocusOut').call(component)
       expect(component.get('renderErrorMessage')).to.not.be.null
     })
 
-    it('onFocus action sets showErrorMessage to false', function () {
+    it('onFocusIn action sets showErrorMessage to false', function () {
       component.set('showErrorMessage', true)
-      component.get('actions.onFocus').call(component)
+      component.get('actions.onFocusIn').call(component)
       expect(component.get('showErrorMessage')).to.be.false
-    })
-
-    describe('when onChange property is omitted', function () {
-      beforeEach(function () {
-        component.set('onChange', undefined)
-      })
-
-      it('does not throw an error when onChange action is triggered', function () {
-        expect(function () {
-          const e = {
-            target: 'John'
-          }
-          component.get('actions.onChange').call(component, e)
-        }).not.to.throw(Error)
-      })
     })
   }
 )
