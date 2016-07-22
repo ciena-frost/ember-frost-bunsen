@@ -24,11 +24,11 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              enum: [
-                'bar',
-                'baz'
-              ],
-              type: 'string'
+              items: {
+                enum: ['bar', 'baz'],
+                type: 'string'
+              },
+              type: 'array'
             }
           },
           type: 'object'
