@@ -35,13 +35,13 @@ export function getOptions (value, modelDef, bunsenId, dbStore, filter = '') {
  * @returns {Object[]} a list of item objects
  */
 export function getEnumValues (values = [], filter = '') {
-  const filteredValues=[];
-  const filteredVals = values.filter((value) => {
-    if(!filter || value.toLowerCase().indexOf(filter.toLowerCase()) !== -1){
-      filteredValues.push({label: value, value});
+  const filteredValues = []
+  values.filter((value) => {
+    if (!filter || value.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
+      filteredValues.push({label: value, value})
     }
   })
-  return filteredValues;
+  return filteredValues
 }
 
 /**
