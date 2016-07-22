@@ -16,7 +16,10 @@
     "start": "ember server",
     "test": "npm run lint && ember test"
   },
-  "repository": "git@github.com:ciena-frost/ember-frost-bunsen.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciena-frost/ember-frost-bunsen.git"
+  },
   "engines": {
     "node": ">= 5.0.0"
   },
@@ -84,7 +87,12 @@
   },
   "keywords": [
     "ember-addon",
-    "frost"
+    "frost",
+    "forms",
+    "data",
+    "dynamic",
+    "json",
+    "schema"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
