@@ -132,6 +132,84 @@ describeComponent(
       })
     })
 
+    describe('when property explicitly enabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: false,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.text.input.enabled),
+          'renders an enabled text input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when property disabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: true,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.text.input.disabled),
+          'renders a disabled text input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
     describe('when user inputs value', function () {
       const input = 'bar'
 

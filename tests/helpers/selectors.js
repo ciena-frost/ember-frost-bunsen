@@ -2,8 +2,10 @@ export default {
   bunsen: {
     errorMessage: {
       boolean: '.frost-bunsen-input-boolean > div:nth-child(2) .error',
+      multiSelect: '.frost-bunsen-input-multi-select > div:nth-child(2) .error',
       number: '.frost-bunsen-input-number > div:nth-child(2) .error',
       password: '.frost-bunsen-input-password > div:nth-child(2) .error',
+      select: '.frost-bunsen-input-select > div:nth-child(2) .error',
       text: '.frost-bunsen-input-text > div:nth-child(2) .error',
       textarea: '.frost-bunsen-input-textarea > div:nth-child(2) .error'
     },
@@ -40,6 +42,7 @@ export default {
       }
     },
     multiSelect: {
+      error: '.frost-select.multi.error',
       input: {
         disabled: '.frost-select.multi input.trigger:disabled',
         enabled: '.frost-select.multi input.trigger:not(:disabled)'
@@ -60,6 +63,7 @@ export default {
       }
     },
     select: {
+      error: '.frost-select.error',
       input: {
         disabled: '.frost-select input:disabled',
         enabled: '.frost-select input:not(:disabled)'

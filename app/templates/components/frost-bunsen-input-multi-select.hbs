@@ -14,10 +14,10 @@
       selectedValue=value
     }}
   </div>
-  {{#if errorMessage}}
+  {{#if renderErrorMessage}}
     <div class={{labelWrapperClassName}}></div>
     <div class="error">
-      {{errorMessage}}
+      {{renderErrorMessage}}
     </div>
   {{/if}}
 </div>

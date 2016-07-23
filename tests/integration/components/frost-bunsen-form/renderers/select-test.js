@@ -33,6 +33,7 @@ describeComponent(
           },
           type: 'object'
         },
+        bunsenView: undefined,
         disabled: undefined,
         onChange: sandbox.spy(),
         onValidation: sandbox.spy()
@@ -42,6 +43,7 @@ describeComponent(
 
       this.render(hbs`{{frost-bunsen-form
         bunsenModel=bunsenModel
+        bunsenView=bunsenView
         disabled=disabled
         onChange=onChange
         onValidation=onValidation
@@ -129,6 +131,232 @@ describeComponent(
           'does not have any validation errors'
         )
           .to.have.length(0)
+      })
+    })
+
+    describe('when property explicitly enabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: false,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.select.input.enabled),
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when property disabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: true,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.select.input.disabled),
+          'renders a disabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when field is required', function () {
+      beforeEach(function () {
+        props.onValidation = sandbox.spy()
+
+        this.setProperties({
+          bunsenModel: {
+            properties: {
+              foo: {
+                enum: [
+                  'bar',
+                  'baz'
+                ],
+                type: 'string'
+              }
+            },
+            required: ['foo'],
+            type: 'object'
+          },
+          onValidation: props.onValidation
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.select),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.select.input.enabled),
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there is one error'
+        )
+          .to.equal(1)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when showAllErrors is false', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+
+          this.setProperties({
+            onValidation: props.onValidation,
+            showAllErrors: false
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.select),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.select.input.enabled),
+            'renders an enabled select input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'does not inform consumer of validation results'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when showAllErrors is true', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+
+          this.setProperties({
+            onValidation: props.onValidation,
+            showAllErrors: true
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.select),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.select.input.enabled),
+            'renders an enabled select input'
+          )
+            .to.have.length(1)
+
+          /* FIXME: select isn't showing errors as expected (MRD - 2016-07-22)
+          expect(
+            this.$(selectors.frost.select.error),
+            'adds error class to input'
+          )
+            .to.have.length(1)
+
+          const actual = this.$(selectors.bunsen.errorMessage.select).text().trim()
+          const expected = 'Field is required.'
+
+          expect(
+            actual,
+            'presents user with validation error message'
+          )
+            .to.equal(expected)
+          */
+
+          expect(
+            props.onValidation.callCount,
+            'does not inform consumer of validation results'
+          )
+            .to.equal(0)
+        })
       })
     })
   }

@@ -153,6 +153,90 @@ describeComponent(
       })
     })
 
+    describe('when property explicitly enabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: false,
+                  model: 'foo',
+                  renderer: {
+                    name: 'textarea'
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.textarea.input.enabled),
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when property disabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: true,
+                  model: 'foo',
+                  renderer: {
+                    name: 'textarea'
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.textarea.input.disabled),
+          'renders a disabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
     describe('when user inputs value', function () {
       const input = 'bar'
 

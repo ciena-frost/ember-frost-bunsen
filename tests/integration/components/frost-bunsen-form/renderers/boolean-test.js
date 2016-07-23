@@ -29,6 +29,7 @@ describeComponent(
           },
           type: 'object'
         },
+        bunsenView: undefined,
         disabled: undefined,
         onChange: sandbox.spy(),
         onValidation: sandbox.spy(),
@@ -39,6 +40,7 @@ describeComponent(
 
       this.render(hbs`{{frost-bunsen-form
         bunsenModel=bunsenModel
+        bunsenView=bunsenView
         disabled=disabled
         onChange=onChange
         onValidation=onValidation
@@ -119,6 +121,84 @@ describeComponent(
     describe('when form disabled', function () {
       beforeEach(function () {
         this.set('disabled', true)
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.checkbox.input.disabled),
+          'renders a disabled checkbox input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when property explicitly enabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: false,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'renders an enabled checkbox input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when property disabled in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  disabled: true,
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
       })
 
       it('renders as expected', function () {
@@ -300,6 +380,114 @@ describeComponent(
           .to.equal(0)
       })
 
+      describe('when user checks checkbox', function () {
+        beforeEach(function () {
+          props.onValidation = sandbox.spy()
+          this.set('onValidation', props.onValidation)
+
+          this.$(selectors.frost.checkbox.input.enabled)
+            .trigger('click')
+        })
+
+        it('functions as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.boolean),
+            'renders a bunsen boolean input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.checkbox.input.enabled),
+            'renders an enabled checkbox input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+            'checkbox is checked'
+          )
+            .to.be.true
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'informs consumer of change'
+          )
+            .to.eql({
+              foo: true
+            })
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when user unchecks checkbox', function () {
+          beforeEach(function () {
+            props.onValidation = sandbox.spy()
+            this.set('onValidation', props.onValidation)
+
+            this.$(selectors.frost.checkbox.input.enabled)
+              .trigger('click')
+          })
+
+          it('functions as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.boolean),
+              'renders a bunsen boolean input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled),
+              'renders an enabled checkbox input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+              'checkbox is unchecked'
+            )
+              .to.be.false
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'informs consumer of change'
+            )
+              .to.eql({
+                foo: false
+              })
+
+            expect(
+              props.onValidation.callCount,
+              'does not provide consumer with validation results via onValidation() property'
+            )
+              .to.equal(0)
+          })
+        })
+      })
+
       describe('when showAllErrors is false', function () {
         beforeEach(function () {
           props.onValidation = sandbox.spy()
@@ -340,6 +528,114 @@ describeComponent(
             'does not inform consumer of validation results'
           )
             .to.equal(0)
+        })
+
+        describe('when user checks checkbox', function () {
+          beforeEach(function () {
+            props.onValidation = sandbox.spy()
+            this.set('onValidation', props.onValidation)
+
+            this.$(selectors.frost.checkbox.input.enabled)
+              .trigger('click')
+          })
+
+          it('functions as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.boolean),
+              'renders a bunsen boolean input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled),
+              'renders an enabled checkbox input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+              'checkbox is checked'
+            )
+              .to.be.true
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'informs consumer of change'
+            )
+              .to.eql({
+                foo: true
+              })
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+
+          describe('when user unchecks checkbox', function () {
+            beforeEach(function () {
+              props.onValidation = sandbox.spy()
+              this.set('onValidation', props.onValidation)
+
+              this.$(selectors.frost.checkbox.input.enabled)
+                .trigger('click')
+            })
+
+            it('functions as expected', function () {
+              expect(
+                this.$(selectors.bunsen.renderer.boolean),
+                'renders a bunsen boolean input'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.frost.checkbox.input.enabled),
+                'renders an enabled checkbox input'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+                'checkbox is unchecked'
+              )
+                .to.be.false
+
+              expect(
+                this.$(selectors.error),
+                'does not have any validation errors'
+              )
+                .to.have.length(0)
+
+              expect(
+                props.onChange.lastCall.args[0],
+                'informs consumer of change'
+              )
+                .to.eql({
+                  foo: false
+                })
+
+              expect(
+                props.onValidation.callCount,
+                'does not provide consumer with validation results via onValidation() property'
+              )
+                .to.equal(0)
+            })
+          })
         })
       })
 
@@ -392,6 +688,114 @@ describeComponent(
             'does not inform consumer of validation results'
           )
             .to.equal(0)
+        })
+
+        describe('when user checks checkbox', function () {
+          beforeEach(function () {
+            props.onValidation = sandbox.spy()
+            this.set('onValidation', props.onValidation)
+
+            this.$(selectors.frost.checkbox.input.enabled)
+              .trigger('click')
+          })
+
+          it('functions as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.boolean),
+              'renders a bunsen boolean input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled),
+              'renders an enabled checkbox input'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+              'checkbox is checked'
+            )
+              .to.be.true
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'informs consumer of change'
+            )
+              .to.eql({
+                foo: true
+              })
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+
+          describe('when user unchecks checkbox', function () {
+            beforeEach(function () {
+              props.onValidation = sandbox.spy()
+              this.set('onValidation', props.onValidation)
+
+              this.$(selectors.frost.checkbox.input.enabled)
+                .trigger('click')
+            })
+
+            it('functions as expected', function () {
+              expect(
+                this.$(selectors.bunsen.renderer.boolean),
+                'renders a bunsen boolean input'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.frost.checkbox.input.enabled),
+                'renders an enabled checkbox input'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+                'checkbox is unchecked'
+              )
+                .to.be.false
+
+              expect(
+                this.$(selectors.error),
+                'does not have any validation errors'
+              )
+                .to.have.length(0)
+
+              expect(
+                props.onChange.lastCall.args[0],
+                'informs consumer of change'
+              )
+                .to.eql({
+                  foo: false
+                })
+
+              expect(
+                props.onValidation.callCount,
+                'does not provide consumer with validation results via onValidation() property'
+              )
+                .to.equal(0)
+            })
+          })
         })
       })
     })

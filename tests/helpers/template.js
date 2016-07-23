@@ -5,14 +5,6 @@ import Ember from 'ember'
 import {describeComponent} from 'ember-mocha'
 import {beforeEach, it} from 'mocha'
 
-export function buildRenderfunction (template) {
-  return function (renderer, props) {
-    renderer.setProperties(props)
-
-    renderer.render(template)
-  }
-}
-
 export function renderWithProps (renderer, componentName, props, more) {
   // Make sure not to set property "view" as it causes following error:
   // Using `{{view}}` or any path based on it (L1:C32) has been removed in Ember 2.0
