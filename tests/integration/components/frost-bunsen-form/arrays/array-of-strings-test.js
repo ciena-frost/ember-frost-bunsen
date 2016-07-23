@@ -65,6 +65,12 @@ describeComponent(
         )
           .to.have.length(0)
 
+        expect(
+          this.$(selectors.bunsen.array.sort.handle),
+          'does not render any sort handles'
+        )
+          .to.have.length(0)
+
         const $button = this.$(selectors.frost.button.input.enabled)
 
         expect(
@@ -130,6 +136,12 @@ describeComponent(
           expect(
             this.$(selectors.frost.text.input.enabled),
             'does not render any text inputs'
+          )
+            .to.have.length(0)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render any sort handles'
           )
             .to.have.length(0)
 
@@ -199,6 +211,12 @@ describeComponent(
           expect(
             this.$(selectors.frost.text.input.enabled),
             'does not render any text inputs'
+          )
+            .to.have.length(0)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render any sort handles'
           )
             .to.have.length(0)
 
@@ -309,6 +327,12 @@ describeComponent(
         )
           .to.have.length(2)
 
+        expect(
+          this.$(selectors.bunsen.array.sort.handle),
+          'does not render sort handle for array items'
+        )
+          .to.have.length(0)
+
         const $button = this.$(selectors.frost.button.input.enabled)
 
         expect(
@@ -394,6 +418,12 @@ describeComponent(
             'renders an enabled text input for each array item'
           )
             .to.have.length(2)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle for array items'
+          )
+            .to.have.length(0)
 
           const $button = this.$(selectors.frost.button.input.enabled)
 
@@ -481,6 +511,12 @@ describeComponent(
             'renders a disabled text input for each array item'
           )
             .to.have.length(2)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle for array items'
+          )
+            .to.have.length(0)
 
           const $button = this.$(selectors.frost.button.input.disabled)
 

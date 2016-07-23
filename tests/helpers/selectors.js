@@ -1,5 +1,10 @@
 export default {
   bunsen: {
+    array: {
+      sort: {
+        handle: '.handle'
+      }
+    },
     errorMessage: {
       boolean: '.frost-bunsen-input-boolean > div:nth-child(2) .error',
       multiSelect: '.frost-bunsen-input-multi-select > div:nth-child(2) .error',
