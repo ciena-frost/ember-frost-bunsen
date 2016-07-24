@@ -20,7 +20,7 @@ const props = {
   bunsenStore: Ember.Object.create({}),
   cellConfig: Ember.Object.create({
     arrayOptions: {
-      itemCell: {}
+      itemCell: Ember.Object.create({})
     }
   }),
   errors: {},

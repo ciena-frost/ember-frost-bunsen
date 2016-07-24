@@ -57,7 +57,7 @@ export default Component.extend(PropTypeMixin, {
    */
   currentCell (cellId, cellDefinitions) {
     if (!cellId) {
-      return null
+      return this.get('cellConfig')
     }
 
     return cellDefinitions[cellId] || null
@@ -120,6 +120,28 @@ export default Component.extend(PropTypeMixin, {
   // Functions
   // ==========================================================================
 
+  getEmptyItem () {
+    const type = this.get('bunsenModel.items.type')
+
+    switch (type) {
+      case 'array':
+        return []
+
+      case 'boolean':
+        return null
+
+      case 'integer':
+      case 'number':
+        return NaN
+
+      case 'object':
+        return {}
+
+      case 'string':
+        return ''
+    }
+  },
+
   /**
    * Handle new values coming in as props (either during initial render or during update)
    */
@@ -140,6 +162,28 @@ export default Component.extend(PropTypeMixin, {
     this.handleNewValues()
   },
 
+  isItemEmpty (item) {
+    const type = this.get('bunsenModel.items.type')
+
+    switch (type) {
+      case 'array':
+        return item.length !== 0
+
+      case 'boolean':
+        return [undefined, null].indexOf(item) !== -1
+
+      case 'integer':
+      case 'number':
+        return isNaN(item)
+
+      case 'object':
+        return Object.keys(item).length !== 0
+
+      case 'string':
+        return [undefined, null, ''].indexOf(item) !== -1
+    }
+  },
+
   didReceiveAttrs ({newAttrs, oldAttrs}) {
     this._super(...arguments)
     const value = _.get(this.get('value'), this.get('bunsenId'))
@@ -149,7 +193,7 @@ export default Component.extend(PropTypeMixin, {
 
     // If autoAdd is being enabled add empty item to end of array
     if (newAutoAddValue === true && oldAutoAddValue !== true) {
-      items.pushObject({})
+      items.pushObject(this.getEmptyItem())
     // If autoAdd is being disabled remove empty object from end of array
     } else if (newAutoAddValue !== true && oldAutoAddValue === true) {
       items.popObject()
@@ -181,9 +225,9 @@ export default Component.extend(PropTypeMixin, {
     // end when autoAdd is enabled
     if (
       newAutoAddValue &&
-      (items.length === 0 || Object.keys(items.objectAt(items.length - 1)).length !== 0)
+      (items.length === 0 || !this.isItemEmpty(value[value.length - 1]))
     ) {
-      items.pushObject({})
+      items.pushObject(this.getEmptyItem())
     }
   },
 

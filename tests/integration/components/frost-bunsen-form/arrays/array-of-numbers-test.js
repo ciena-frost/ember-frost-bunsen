@@ -33,6 +33,7 @@ describeComponent(
             },
             type: 'object'
           },
+          bunsenView: undefined,
           disabled: undefined,
           onChange: sandbox.spy(),
           onValidation: sandbox.spy()
@@ -42,6 +43,7 @@ describeComponent(
 
         this.render(hbs`{{frost-bunsen-form
           bunsenModel=bunsenModel
+          bunsenView=bunsenView
           disabled=disabled
           onChange=onChange
           onValidation=onValidation
@@ -270,6 +272,171 @@ describeComponent(
             .to.equal(0)
         })
       })
+
+      describe('when autoAdd enabled', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cellDefinitions: {
+              main: {
+                children: [
+                  {
+                    arrayOptions: {
+                      autoAdd: true
+                    },
+                    model: 'foo'
+                  }
+                ]
+              }
+            },
+            cells: [
+              {
+                extends: 'main',
+                label: 'Main'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.number),
+            'renders a bunsen number input for auto added item'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.number.input.enabled),
+            'renders an enabled number input for auto added item'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle for auto added array item'
+          )
+            .to.have.length(0)
+
+          const $button = this.$(selectors.frost.button.input.enabled)
+
+          expect(
+            $button,
+            'has an enabled button for removing auto added item'
+          )
+            .to.have.length(1)
+
+          expect(
+            $button.text().trim(),
+            'remove first item button has correct text'
+          )
+            .to.equal('Remove')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when user inputs number', function () {
+          beforeEach(function () {
+            this.$(selectors.frost.number.input.enabled)
+              .val('10')
+              .trigger('input')
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.number),
+              'renders a bunsen number input for item plus one'
+            )
+              .to.have.length(2)
+
+            expect(
+              this.$(selectors.frost.number.input.enabled),
+              'renders an enabled number input for item plus one'
+            )
+              .to.have.length(2)
+
+            expect(
+              this.$(selectors.bunsen.array.sort.handle),
+              'does not render sort handle for auto added array item'
+            )
+              .to.have.length(0)
+
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'has an enabled button for removing item plus one'
+            )
+              .to.have.length(2)
+
+            const $removeItem1Button = $buttons.eq(0)
+
+            expect(
+              $removeItem1Button.text().trim(),
+              'remove first item button has correct text'
+            )
+              .to.equal('Remove')
+
+            const $removeItem2Button = $buttons.eq(0)
+
+            expect(
+              $removeItem2Button.text().trim(),
+              'remove second item button has correct text'
+            )
+              .to.equal('Remove')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+      })
     })
 
     describe('with initial value', function () {
@@ -291,6 +458,7 @@ describeComponent(
             },
             type: 'object'
           },
+          bunsenView: undefined,
           disabled: undefined,
           onChange: sandbox.spy(),
           onValidation: sandbox.spy(),
@@ -303,6 +471,7 @@ describeComponent(
 
         this.render(hbs`{{frost-bunsen-form
           bunsenModel=bunsenModel
+          bunsenView=bunsenView
           disabled=disabled
           onChange=onChange
           onValidation=onValidation
@@ -353,7 +522,7 @@ describeComponent(
 
         expect(
           $removeItem2Button.text().trim(),
-          'remove first item button has correct text'
+          'remove second item button has correct text'
         )
           .to.equal('Remove')
 
@@ -445,7 +614,7 @@ describeComponent(
 
           expect(
             $removeItem2Button.text().trim(),
-            'remove first item button has correct text'
+            'remove second item button has correct text'
           )
             .to.equal('Remove')
 
@@ -538,7 +707,342 @@ describeComponent(
 
           expect(
             $removeItem2Button.text().trim(),
+            'remove second item button has correct text'
+          )
+            .to.equal('Remove')
+
+          const $addButton = $button.eq(2)
+
+          // FIXME: the icon pack name in the below class should actually be frost but for some
+          // reason in our integration test it isn't. I'm not sure how to address this issue so
+          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
+          expect(
+            $addButton.find('.frost-icon-undefined-round-add'),
+            'add button has add icon'
+          )
+            .to.have.length(1)
+
+          expect(
+            $addButton.text().trim(),
+            'add button has correct text'
+          )
+            .to.equal('Add foo')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when sortable enabled', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cellDefinitions: {
+                main: {
+                  children: [
+                    {
+                      arrayOptions: {
+                        sortable: true
+                      },
+                      model: 'foo'
+                    }
+                  ]
+                }
+              },
+              cells: [
+                {
+                  extends: 'main',
+                  label: 'Main'
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.number),
+              'renders a bunsen number input for each array item'
+            )
+              .to.have.length(2)
+
+            expect(
+              this.$(selectors.frost.number.input.disabled),
+              'renders a disabled number input for each array item'
+            )
+              .to.have.length(2)
+
+            expect(
+              this.$(selectors.bunsen.array.sort.handle),
+              'renders a sort handle for each array item'
+            )
+              .to.have.length(2)
+
+            // TODO: add test that ensures sort handles appear disabled
+
+            const $button = this.$(selectors.frost.button.input.disabled)
+
+            expect(
+              $button,
+              'has three enabled buttons (1 for adding and 2 for removing)'
+            )
+              .to.have.length(3)
+
+            const $removeItem1Button = $button.eq(0)
+
+            expect(
+              $removeItem1Button.text().trim(),
+              'remove first item button has correct text'
+            )
+              .to.equal('Remove')
+
+            const $removeItem2Button = $button.eq(1)
+
+            expect(
+              $removeItem2Button.text().trim(),
+              'remove second item button has correct text'
+            )
+              .to.equal('Remove')
+
+            const $addButton = $button.eq(2)
+
+            // FIXME: the icon pack name in the below class should actually be frost but for some
+            // reason in our integration test it isn't. I'm not sure how to address this issue so
+            // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
+            expect(
+              $addButton.find('.frost-icon-undefined-round-add'),
+              'add button has add icon'
+            )
+              .to.have.length(1)
+
+            expect(
+              $addButton.text().trim(),
+              'add button has correct text'
+            )
+              .to.equal('Add foo')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+      })
+
+      describe('when autoAdd enabled', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cellDefinitions: {
+              main: {
+                children: [
+                  {
+                    arrayOptions: {
+                      autoAdd: true
+                    },
+                    model: 'foo'
+                  }
+                ]
+              }
+            },
+            cells: [
+              {
+                extends: 'main',
+                label: 'Main'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.number),
+            'renders a bunsen number input for each array item plus one'
+          )
+            .to.have.length(3)
+
+          expect(
+            this.$(selectors.frost.number.input.enabled),
+            'renders an enabled number input for each array item plus one'
+          )
+            .to.have.length(3)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle for array items'
+          )
+            .to.have.length(0)
+
+          const $button = this.$(selectors.frost.button.input.enabled)
+
+          expect(
+            $button,
+            'has three enabled buttons for removing items'
+          )
+            .to.have.length(3)
+
+          const $removeItem1Button = $button.eq(0)
+
+          expect(
+            $removeItem1Button.text().trim(),
             'remove first item button has correct text'
+          )
+            .to.equal('Remove')
+
+          const $removeItem2Button = $button.eq(1)
+
+          expect(
+            $removeItem2Button.text().trim(),
+            'remove second item button has correct text'
+          )
+            .to.equal('Remove')
+
+          const $removeItem3Button = $button.eq(2)
+
+          expect(
+            $removeItem3Button.text().trim(),
+            'remove third item button has correct text'
+          )
+            .to.equal('Remove')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when sortable enabled', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cellDefinitions: {
+              main: {
+                children: [
+                  {
+                    arrayOptions: {
+                      sortable: true
+                    },
+                    model: 'foo'
+                  }
+                ]
+              }
+            },
+            cells: [
+              {
+                extends: 'main',
+                label: 'Main'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.number),
+            'renders a bunsen number input for each array item'
+          )
+            .to.have.length(2)
+
+          expect(
+            this.$(selectors.frost.number.input.enabled),
+            'renders an enabled number input for each array item'
+          )
+            .to.have.length(2)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'renders a sort handle for each array item'
+          )
+            .to.have.length(2)
+
+          const $button = this.$(selectors.frost.button.input.enabled)
+
+          expect(
+            $button,
+            'has three enabled buttons (1 for adding and 2 for removing)'
+          )
+            .to.have.length(3)
+
+          const $removeItem1Button = $button.eq(0)
+
+          expect(
+            $removeItem1Button.text().trim(),
+            'remove first item button has correct text'
+          )
+            .to.equal('Remove')
+
+          const $removeItem2Button = $button.eq(1)
+
+          expect(
+            $removeItem2Button.text().trim(),
+            'remove second item button has correct text'
           )
             .to.equal('Remove')
 
