@@ -2,7 +2,6 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {afterEach, beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {helpers} from 'ember-frost-bunsen/components/button-group-input'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
@@ -59,62 +58,6 @@ describeComponent(
         PropTypes.object,
         PropTypes.string
       ])
-    })
-
-    describe('options', function () {
-      let validateValuesSpy
-
-      beforeEach(function () {
-        validateValuesSpy = sandbox.stub(helpers, 'validateValues')
-      })
-
-      describe('when type is boolean', function () {
-        beforeEach(function () {
-          component.set('bunsenModel.type', 'boolean')
-        })
-
-        it('returns expected options', function () {
-          expect(component.get('options')).to.eql(['On', 'Off'])
-        })
-      })
-
-      describe('when type is number', function () {
-        let options, values
-
-        beforeEach(function () {
-          values = [0, 0.5, 1]
-          component.set('bunsenModel.enum', values)
-          component.set('bunsenModel.type', 'number')
-          options = component.get('options')
-        })
-
-        it('validates values', function () {
-          expect(validateValuesSpy.callCount).to.eql(1)
-        })
-
-        it('returns expected options', function () {
-          expect(options).to.eql([0, 0.5, 1])
-        })
-      })
-
-      describe('when type is string', function () {
-        let options, values
-
-        beforeEach(function () {
-          values = ['one', 'two', 'three']
-          component.set('bunsenModel.enum', values)
-          component.set('bunsenModel.type', 'string')
-          options = component.get('options')
-        })
-
-        it('validates values', function () {
-          expect(validateValuesSpy.callCount).to.eql(1)
-        })
-
-        it('returns expected options', function () {
-          expect(options).to.eql(['One', 'Two', 'Three'])
-        })
-      })
     })
 
     it('size defaults to medium', function () {

@@ -141,12 +141,6 @@ describeComponent(
       value: PropTypes.object.isRequired
     })
 
-    it('has correct classes', function () {
-      const classNames = component.get('classNames')
-      expect(classNames).to.include('frost-bunsen-array-container')
-      expect(classNames).to.include('frost-bunsen-section')
-    })
-
     it('readOnly defaults to false', function () {
       expect(component.get('readOnly')).to.be.false
     })

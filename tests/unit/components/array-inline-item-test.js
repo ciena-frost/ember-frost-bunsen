@@ -89,17 +89,6 @@ describeComponent(
       expect(component.get('compact')).to.be.true
     })
 
-    it('errorMessage returns null when no erorrs', function () {
-      component.set('errors', {})
-      expect(component.get('errorMessage')).to.be.null
-    })
-
-    it('errorMessage returns signle error', function () {
-      const error = 'what is foo without a little bar'
-      component.set('errors', {'foo.0': [error]})
-      expect(component.get('errorMessage').toString()).to.eql(error)
-    })
-
     it('errorMessage returns multiple errors', function () {
       const error1 = 'what is foo without a little bar'
       const error2 = 'baz is feeling lonely'
