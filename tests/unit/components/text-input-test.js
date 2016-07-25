@@ -1,5 +1,4 @@
-import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
+import {describeComponent} from 'ember-mocha'
 import {beforeEach} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
@@ -46,18 +45,6 @@ describeComponent(
         PropTypes.object,
         PropTypes.string
       ])
-    })
-
-    it('onFocusOut action sets showErrorMessage to true', function () {
-      component.set('showErrorMessage', true)
-      component.get('actions.onFocusOut').call(component)
-      expect(component.get('renderErrorMessage')).to.not.be.null
-    })
-
-    it('onFocusIn action sets showErrorMessage to false', function () {
-      component.set('showErrorMessage', true)
-      component.get('actions.onFocusIn').call(component)
-      expect(component.get('showErrorMessage')).to.be.false
     })
   }
 )
