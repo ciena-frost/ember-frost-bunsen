@@ -56,7 +56,7 @@ export default AbstractInput.extend({
       return
     }
     if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query)) {
-           // setting required variables once above condition is true
+      // setting required variables once above condition is true
       const dbStore = this.get('dbStore')
       const value = this.get('bunsenStore.formValue')
       const bunsenId = this.get('bunsenId')
@@ -78,8 +78,8 @@ export default AbstractInput.extend({
    * @returns {Boolean} true if query has been changed
    */
   hasQueryChanged (oldAttrs, newAttrs, modelQuery) {
-     // allow models that don't have query defined to pass as well as
-     // allow the options to get initially populated
+    // allow models that don't have query defined to pass as well as
+    // allow the options to get initially populated
     if (!modelQuery || !this.get('initialized')) {
       return true
     }
