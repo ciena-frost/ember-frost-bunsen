@@ -95,6 +95,12 @@ describeComponent(
         .to.equal('')
 
       expect(
+        this.$(selectors.bunsen.label).text(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
         this.$(selectors.error),
         'does not have any validation errors'
       )
@@ -119,6 +125,88 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+    })
+
+    describe('when label defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  label: 'FooBar Baz',
+                  model: 'foo',
+                  renderer: {
+                    name: 'textarea'
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.textarea),
+          'renders a bunsen textarea input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.textarea.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          this.$(selectors.bunsen.label).text(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
     })
 
     describe('when placeholder defined in view', function () {

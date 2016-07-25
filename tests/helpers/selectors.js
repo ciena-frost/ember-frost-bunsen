@@ -14,6 +14,7 @@ export default {
       text: '.frost-bunsen-input-text > div:nth-child(2) .error',
       textarea: '.frost-bunsen-input-textarea > div:nth-child(2) .error'
     },
+    label: '.left-label .alias',
     renderer: {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',

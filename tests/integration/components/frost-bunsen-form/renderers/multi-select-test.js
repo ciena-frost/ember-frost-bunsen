@@ -97,10 +97,78 @@ describeComponent(
         .to.equal('')
 
       expect(
+        this.$(selectors.bunsen.label).text(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
         this.$(selectors.error),
         'does not have any validation errors'
       )
         .to.have.length(0)
+    })
+
+    describe('when label defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  label: 'FooBar Baz',
+                  model: 'foo',
+                  renderer: {
+                    name: 'multi-select'
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.multiSelect),
+          'renders a bunsen multi-select input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.multiSelect.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled multi-select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          this.$(selectors.bunsen.label).text(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
     })
 
     describe('when placeholder defined in view', function () {

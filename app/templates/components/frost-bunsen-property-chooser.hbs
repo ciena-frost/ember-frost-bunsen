@@ -1,15 +1,17 @@
-<div class='{{labelPlacement}}-label'>
-    <label for={{_inputId}} class="alias">{{renderLabel}}</label>
+<div>
+  <div class={{labelWrapperClassName}}>
+    <label class="alias">{{renderLabel}}</label>
     {{#if required}}
-        <div class='required'>Required</div>
+      <div class='required'>Required</div>
     {{/if}}
-</div>
-<div class='{{labelPlacement}}-input'>
-  {{frost-select
-    data=data
-    disabled=(readonly disabled)
-    onChange=(action "onChange")
-    placeholder=cellConfig.placeholder
-    selectedValue=useKey
-  }}
+  </div>
+  <div class={{inputWrapperClassName}}>
+    {{frost-select
+      data=data
+      disabled=(readonly disabled)
+      onChange=(action "onChange")
+      placeholder=cellConfig.placeholder
+      selectedValue=useKey
+    }}
+  </div>
 </div>

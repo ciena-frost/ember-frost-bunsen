@@ -121,10 +121,88 @@ describeComponent(
         .to.have.length(1)
 
       expect(
+        this.$(selectors.bunsen.label).text(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
         this.$(selectors.error),
         'does not have any validation errors'
       )
         .to.have.length(0)
+    })
+
+    describe('when label defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  label: 'FooBar Baz',
+                  model: 'foo',
+                  renderer: {
+                    choices: [
+                      {
+                        label: 'Bar',
+                        value: 'useBar'
+                      },
+                      {
+                        label: 'Baz',
+                        value: 'useBaz'
+                      }
+                    ],
+                    name: 'property-chooser'
+                  }
+                },
+                {
+                  dependsOn: 'foo.useBar',
+                  model: 'foo.name'
+                },
+                {
+                  dependsOn: 'foo.useBaz',
+                  model: 'foo.title'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.propertyChooser),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.select.input.enabled),
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
     })
 
     describe('when placeholder defined in view', function () {

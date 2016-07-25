@@ -72,6 +72,12 @@ describeComponent(
         .to.be.false
 
       expect(
+        this.$(selectors.bunsen.label).text(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
         this.$(selectors.error),
         'does not have any validation errors'
       )
@@ -96,6 +102,83 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+    })
+
+    describe('when label defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  label: 'FooBar Baz',
+                  model: 'foo'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.boolean),
+          'renders a bunsen boolean input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'renders an enabled checkbox input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
+          'checkbox is unchecked'
+        )
+          .to.be.false
+
+        expect(
+          this.$(selectors.bunsen.label).text(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
     })
 
     describe('when form explicitly enabled', function () {
