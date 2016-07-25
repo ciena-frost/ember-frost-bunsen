@@ -61,11 +61,19 @@ describeComponent(
       )
         .to.have.length(1)
 
+      const $input = this.$(selectors.frost.select.input.enabled)
+
       expect(
-        this.$(selectors.frost.select.input.enabled),
+        $input,
         'renders an enabled select input'
       )
         .to.have.length(1)
+
+      expect(
+        $input.prop('placeholder'),
+        'does not have placeholder text'
+      )
+        .to.equal('')
 
       expect(
         this.$(selectors.error),
@@ -92,6 +100,79 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+    })
+
+    describe('when placeholder defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  model: 'foo',
+                  placeholder: 'Foo bar'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.select),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.select.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'has expected placeholder text'
+        )
+          .to.equal('Foo bar')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
     })
 
     describe('when form explicitly enabled', function () {

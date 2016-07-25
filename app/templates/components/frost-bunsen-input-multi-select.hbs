@@ -7,10 +7,11 @@
   </div>
   <div class={{inputWrapperClassName}}>
     {{frost-multi-select
+      data=options
       disabled=disabled
       onInput=onInput
       onChange=(action "onChange")
-      data=options
+      placeholder=cellConfig.placeholder
       selectedValue=value
     }}
   </div>
