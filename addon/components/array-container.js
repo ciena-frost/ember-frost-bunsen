@@ -120,7 +120,7 @@ export default Component.extend(PropTypeMixin, {
   // Functions
   // ==========================================================================
 
-  getEmptyItem () {
+  _getEmptyItem () {
     const type = this.get('bunsenModel.items.type')
 
     switch (type) {
@@ -139,6 +139,103 @@ export default Component.extend(PropTypeMixin, {
 
       case 'string':
         return ''
+    }
+  },
+
+  _handleArrayChange (bunsenId, value, autoAdd) {
+    // TODO: implement functionality
+  },
+
+  _handleObjectChange (bunsenId, value, autoAdd) {
+    const clearingValue = [undefined, null, ''].indexOf(value) !== -1
+
+    if (autoAdd && clearingValue) {
+      const arrayPath = this.get('bunsenId')
+      const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
+      const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
+      const itemPath = `${arrayPath}.${itemIndex}`
+      const item = this.get(`bunsenStore.formValue.${itemPath}`)
+      const itemCopy = _.cloneDeep(item)
+
+      let key = itemPathBits.pop()
+
+      // If property is not not nested go ahead and clear it
+      if (itemPathBits.length === 0) {
+        delete itemCopy[key]
+        bunsenId = bunsenId.replace(`.${key}`, '')
+
+      // If property is nested further down clear it and remove any empty parent items
+      } else {
+        let relativeObject = _.get(itemCopy, itemPathBits)
+        delete relativeObject[key]
+        bunsenId = bunsenId.replace(`.${key}`, '')
+
+        while (itemPathBits.length > 0) {
+          key = itemPathBits.pop()
+          relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
+          const parentObject = relativeObject[key]
+
+          if (Object.keys(parentObject).length === 0) {
+            delete relativeObject[key]
+            bunsenId = bunsenId.replace(`.${key}`, '')
+          }
+        }
+      }
+
+      if (Object.keys(itemCopy).length === 0) {
+        this.actions.onRemoveItem.call(this, itemIndex)
+        return
+      }
+
+      const relativePath = bunsenId.replace(itemPath, '')
+      value = _.get(itemCopy, relativePath, itemCopy)
+    }
+
+    const onChange = this.get('onChange')
+
+    if (onChange) {
+      onChange(bunsenId, value)
+    }
+  },
+
+  _handlePrimitiveChange (bunsenId, value, autoAdd) {
+    if (this._isItemEmpty(value)) {
+      const arrayPath = this.get('bunsenId')
+      const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
+      const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
+
+      if (itemIndex !== 0 || !autoAdd) {
+        this.actions.onRemoveItem.call(this, itemIndex)
+        return
+      }
+    }
+
+    const onChange = this.get('onChange')
+
+    if (onChange) {
+      onChange(bunsenId, value)
+    }
+  },
+
+  _isItemEmpty (item) {
+    const type = this.get('bunsenModel.items.type')
+
+    switch (type) {
+      case 'array':
+        return item.length !== 0
+
+      case 'boolean':
+        return [undefined, null].indexOf(item) !== -1
+
+      case 'integer':
+      case 'number':
+        return isNaN(item) || item === null
+
+      case 'object':
+        return Object.keys(item).length !== 0
+
+      case 'string':
+        return [undefined, null, ''].indexOf(item) !== -1
     }
   },
 
@@ -162,28 +259,6 @@ export default Component.extend(PropTypeMixin, {
     this.handleNewValues()
   },
 
-  isItemEmpty (item) {
-    const type = this.get('bunsenModel.items.type')
-
-    switch (type) {
-      case 'array':
-        return item.length !== 0
-
-      case 'boolean':
-        return [undefined, null].indexOf(item) !== -1
-
-      case 'integer':
-      case 'number':
-        return isNaN(item)
-
-      case 'object':
-        return Object.keys(item).length !== 0
-
-      case 'string':
-        return [undefined, null, ''].indexOf(item) !== -1
-    }
-  },
-
   didReceiveAttrs ({newAttrs, oldAttrs}) {
     this._super(...arguments)
     const value = _.get(this.get('value'), this.get('bunsenId'))
@@ -193,7 +268,7 @@ export default Component.extend(PropTypeMixin, {
 
     // If autoAdd is being enabled add empty item to end of array
     if (newAutoAddValue === true && oldAutoAddValue !== true) {
-      items.pushObject(this.getEmptyItem())
+      items.pushObject(this._getEmptyItem())
     // If autoAdd is being disabled remove empty object from end of array
     } else if (newAutoAddValue !== true && oldAutoAddValue === true) {
       items.popObject()
@@ -225,9 +300,9 @@ export default Component.extend(PropTypeMixin, {
     // end when autoAdd is enabled
     if (
       newAutoAddValue &&
-      (items.length === 0 || !this.isItemEmpty(value[value.length - 1]))
+      (items.length === 0 || !this._isItemEmpty(value[value.length - 1]))
     ) {
-      items.pushObject(this.getEmptyItem())
+      items.pushObject(this._getEmptyItem())
     }
   },
 
@@ -269,53 +344,23 @@ export default Component.extend(PropTypeMixin, {
 
     onChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
-      const clearingValue = [undefined, null, ''].indexOf(value) !== -1
-      const onChange = this.get('onChange')
+      const type = this.get('bunsenModel.items.type')
 
-      if (autoAdd && clearingValue) {
-        const arrayPath = this.get('bunsenId')
-        const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
-        const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
-        const itemPath = `${arrayPath}.${itemIndex}`
-        const item = this.get(`bunsenStore.formValue.${itemPath}`)
-        const itemCopy = _.cloneDeep(item)
+      switch (type) {
+        case 'array':
+          this._handleArrayChange(bunsenId, value, autoAdd)
+          break
 
-        let key = itemPathBits.pop()
+        case 'boolean':
+        case 'integer':
+        case 'number':
+        case 'string':
+          this._handlePrimitiveChange(bunsenId, value, autoAdd)
+          break
 
-        // If property is not not nested go ahead and clear it
-        if (itemPathBits.length === 0) {
-          delete itemCopy[key]
-          bunsenId = bunsenId.replace(`.${key}`, '')
-
-        // If property is nested further down clear it and remove any empty parent items
-        } else {
-          let relativeObject = _.get(itemCopy, itemPathBits)
-          delete relativeObject[key]
-          bunsenId = bunsenId.replace(`.${key}`, '')
-
-          while (itemPathBits.length > 0) {
-            key = itemPathBits.pop()
-            relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
-            const parentObject = relativeObject[key]
-
-            if (Object.keys(parentObject).length === 0) {
-              delete relativeObject[key]
-              bunsenId = bunsenId.replace(`.${key}`, '')
-            }
-          }
-        }
-
-        if (Object.keys(itemCopy).length === 0) {
-          this.actions.onRemoveItem.call(this, itemIndex)
-          return
-        }
-
-        const relativePath = bunsenId.replace(itemPath, '')
-        value = _.get(itemCopy, relativePath, itemCopy)
-      }
-
-      if (onChange) {
-        onChange(bunsenId, value)
+        case 'object':
+          this._handleObjectChange(bunsenId, value, autoAdd)
+          break
       }
     },
 

@@ -81,11 +81,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        // FIXME: the icon pack name in the below class should actually be frost but for some
-        // reason in our integration test it isn't. I'm not sure how to address this issue so
-        // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
         expect(
-          $button.find('.frost-icon-undefined-round-add'),
+          $button.find('.frost-icon-frost-round-add'),
           'button has add icon'
         )
           .to.have.length(1)
@@ -155,11 +152,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $button.find('.frost-icon-undefined-round-add'),
+            $button.find('.frost-icon-frost-round-add'),
             'button has add icon'
           )
             .to.have.length(1)
@@ -230,11 +224,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $button.find('.frost-icon-undefined-round-add'),
+            $button.find('.frost-icon-frost-round-add'),
             'button has add icon'
           )
             .to.have.length(1)
@@ -527,11 +518,8 @@ describeComponent(
 
         const $addButton = $button.eq(2)
 
-        // FIXME: the icon pack name in the below class should actually be frost but for some
-        // reason in our integration test it isn't. I'm not sure how to address this issue so
-        // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
         expect(
-          $addButton.find('.frost-icon-undefined-round-add'),
+          $addButton.find('.frost-icon-frost-round-add'),
           'add button has add icon'
         )
           .to.have.length(1)
@@ -619,11 +607,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)
@@ -712,11 +697,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)
@@ -827,11 +809,8 @@ describeComponent(
 
             const $addButton = $button.eq(2)
 
-            // FIXME: the icon pack name in the below class should actually be frost but for some
-            // reason in our integration test it isn't. I'm not sure how to address this issue so
-            // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
             expect(
-              $addButton.find('.frost-icon-undefined-round-add'),
+              $addButton.find('.frost-icon-frost-round-add'),
               'add button has add icon'
             )
               .to.have.length(1)
@@ -1047,11 +1026,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)

@@ -81,11 +81,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        // FIXME: the icon pack name in the below class should actually be frost but for some
-        // reason in our integration test it isn't. I'm not sure how to address this issue so
-        // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
         expect(
-          $button.find('.frost-icon-undefined-round-add'),
+          $button.find('.frost-icon-frost-round-add'),
           'button has add icon'
         )
           .to.have.length(1)
@@ -155,11 +152,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $button.find('.frost-icon-undefined-round-add'),
+            $button.find('.frost-icon-frost-round-add'),
             'button has add icon'
           )
             .to.have.length(1)
@@ -230,11 +224,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $button.find('.frost-icon-undefined-round-add'),
+            $button.find('.frost-icon-frost-round-add'),
             'button has add icon'
           )
             .to.have.length(1)
@@ -435,6 +426,79 @@ describeComponent(
             )
               .to.equal(0)
           })
+
+          describe('when user clears input', function () {
+            beforeEach(function () {
+              this.$(selectors.frost.text.input.enabled).first()
+                .val('')
+                .trigger('input')
+            })
+
+            it('renders as expected', function () {
+              expect(
+                this.$(selectors.bunsen.renderer.text),
+                'renders a bunsen text input for auto added item'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.frost.text.input.enabled),
+                'renders an enabled text input for auto added item'
+              )
+                .to.have.length(1)
+
+              expect(
+                this.$(selectors.bunsen.array.sort.handle),
+                'does not render sort handle for auto added array item'
+              )
+                .to.have.length(0)
+
+              const $button = this.$(selectors.frost.button.input.enabled)
+
+              expect(
+                $button,
+                'has an enabled button for removing auto added item'
+              )
+                .to.have.length(1)
+
+              expect(
+                $button.text().trim(),
+                'remove first item button has correct text'
+              )
+                .to.equal('Remove')
+
+              expect(
+                this.$(selectors.error),
+                'does not have any validation errors'
+              )
+                .to.have.length(0)
+
+              const validationResult = props.onValidation.lastCall.args[0]
+
+              /* FIXME: getting the following error when we expect no errors (MRD - 2016-07-24)
+               *
+               *   {
+               *     "code": "INVALID_TYPE",
+               *     "message": "Expected type string but found type null",
+               *     "params": ["string", "null"],
+               *     "path": "#/foo/0",
+               *     "schemaId": undefined
+               *   }
+               *
+              expect(
+                validationResult.errors.length,
+                'informs consumer there are no errors'
+              )
+                .to.equal(0)
+              */
+
+              expect(
+                validationResult.warnings.length,
+                'informs consumer there are no warnings'
+              )
+                .to.equal(0)
+            })
+          })
         })
       })
     })
@@ -528,11 +592,8 @@ describeComponent(
 
         const $addButton = $button.eq(2)
 
-        // FIXME: the icon pack name in the below class should actually be frost but for some
-        // reason in our integration test it isn't. I'm not sure how to address this issue so
-        // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
         expect(
-          $addButton.find('.frost-icon-undefined-round-add'),
+          $addButton.find('.frost-icon-frost-round-add'),
           'add button has add icon'
         )
           .to.have.length(1)
@@ -620,11 +681,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)
@@ -713,11 +771,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)
@@ -828,11 +883,8 @@ describeComponent(
 
             const $addButton = $button.eq(2)
 
-            // FIXME: the icon pack name in the below class should actually be frost but for some
-            // reason in our integration test it isn't. I'm not sure how to address this issue so
-            // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
             expect(
-              $addButton.find('.frost-icon-undefined-round-add'),
+              $addButton.find('.frost-icon-frost-round-add'),
               'add button has add icon'
             )
               .to.have.length(1)
@@ -1048,11 +1100,8 @@ describeComponent(
 
           const $addButton = $button.eq(2)
 
-          // FIXME: the icon pack name in the below class should actually be frost but for some
-          // reason in our integration test it isn't. I'm not sure how to address this issue so
-          // for now I'm just going to use what the integration test sees. (MRD - 2016-07-22)
           expect(
-            $addButton.find('.frost-icon-undefined-round-add'),
+            $addButton.find('.frost-icon-frost-round-add'),
             'add button has add icon'
           )
             .to.have.length(1)
