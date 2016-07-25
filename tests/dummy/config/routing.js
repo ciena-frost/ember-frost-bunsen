@@ -43,6 +43,12 @@ module.exports = [
         alias: 'Examples',
         type: 'route',
         route: 'demo.examples'
+      },
+      {
+        id: 'editor',
+        alias: 'Editor',
+        type: 'route',
+        route: 'demo.editor'
       }
     ]
   }

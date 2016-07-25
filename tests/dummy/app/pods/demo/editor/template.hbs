@@ -1,0 +1,44 @@
+<div class='demo-container fullscreen'>
+  <div class="demo-banner">
+    <h1>Editor</h1>
+    <p>Playground for creating bunsen models and views with rendered form.</p>
+  </div>
+  <div class="flex-grid">
+    <div class="one-third">
+      <h3>Model</h3>
+      {{ivy-codemirror
+        lineNumbers=true
+        mode="javascript"
+        theme="mdn-like"
+        value=computedBunsenModel
+        valueUpdated=(action "modelUpdated")
+      }}
+    </div>
+    <div class="one-third">
+      <h3>View</h3>
+      {{ivy-codemirror
+        lineNumbers=true
+        mode="javascript"
+        theme="mdn-like"
+        value=computedBunsenView
+        valueUpdated=(action "viewUpdated")
+      }}
+    </div>
+    <div class="one-third">
+      <h3>Value</h3>
+      {{ivy-codemirror
+        lineNumbers=true
+        mode="javascript"
+        theme="mdn-like"
+        value=computedBunsenValue
+        valueUpdated=(action "valueUpdated")
+      }}
+    </div>
+  </div>
+  {{frost-bunsen-form
+    bunsenModel=bunsenModel
+    bunsenView=bunsenView
+    onChange=(action "formChange")
+    value=bunsenValue
+  }}
+</div>

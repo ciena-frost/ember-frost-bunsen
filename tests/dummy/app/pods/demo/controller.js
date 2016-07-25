@@ -28,6 +28,10 @@ export default Controller.extend({
     {
       route: 'demo.examples',
       title: 'Examples'
+    },
+    {
+      route: 'demo.editor',
+      title: 'Editor'
     }
   ]
 })
