@@ -25,6 +25,10 @@ export default {
       select: '.frost-bunsen-input-select',
       text: '.frost-bunsen-input-text',
       textarea: '.frost-bunsen-input-textarea'
+    },
+    validationErrors: {
+      error: '.frost-bunsen-error',
+      heading: '.frost-bunsen-validation-result h4'
     }
   },
   error: '.error',
