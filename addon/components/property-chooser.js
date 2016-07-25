@@ -10,7 +10,10 @@ export default AbstractInput.extend({
   // Properties
   // ==========================================================================
 
-  classNames: ['frost-bunsen-property-chooser'],
+  classNames: [
+    'frost-bunsen-property-chooser',
+    'frost-field'
+  ],
 
   // ==========================================================================
   // Computed Properties

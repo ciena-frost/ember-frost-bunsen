@@ -1,6 +1,4 @@
 import {expect} from 'chai'
-import Ember from 'ember'
-const {Logger} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -19,7 +17,6 @@ export default function (format, invalidValues, validValues) {
 
       beforeEach(function () {
         sandbox = sinon.sandbox.create()
-        sandbox.stub(Logger, 'warn', () => {})
 
         this.setProperties({
           bunsenModel: {

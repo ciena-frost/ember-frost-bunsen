@@ -12,7 +12,7 @@ export default Component.extend(PropTypeMixin, {
   // Properties
   // ==========================================================================
 
-  classNames: ['frost-bunsen-input-wrapper'],
+  tagName: '',
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -106,7 +106,7 @@ export default Component.extend(PropTypeMixin, {
     }
 
     // If renderer isn't in renderers mapping check if it is a registered component
-    if (getOwner(this).lookup(`component:${renderer}`)) {
+    if (getOwner(this).hasRegistration(`component:${renderer}`)) {
       return renderer
     }
 

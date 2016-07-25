@@ -1,6 +1,8 @@
 @import 'node_modules/ember-frost-core/addon/styles/frost-theme';
 
 $frost-row-field-padding: 40px;
+$left-label-width: 140px;
+$left-input-width: 250px;
 
 .frost-bunsen-cell {
   flex: 1 1 auto;
@@ -212,35 +214,22 @@ $frost-row-field-padding: 40px;
 }
 
 .frost-field {
+  display: flex;
   position: relative;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: $left-label-width + $left-input-width;
   padding-bottom: 10px;
-
-  > div {
-    display: flex;
-    flex-basis: 100%;
-    align-items: center;
-  }
-
-  .alias {
-    display: block;
-    color: $frost-color-grey-3;
-    font-size: $frost-font-s;
-  }
-
-  &.checkbox-array {
-    .alias {
-      margin-bottom: 10px;
-    }
-  }
-
-  .frost-checkbox-array {
-    color: $frost-color-grey-1;
-  }
 
   .error {
     padding-top: 3px;
     color: $frost-color-danger;
     font-size: $frost-font-xs;
+  }
+
+  > .error {
+    margin-left: $left-label-width;
   }
 
   .break {
@@ -251,8 +240,10 @@ $frost-row-field-padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 140px;
+    width: $left-label-width;
     padding-right: 15px;
+    color: $frost-color-grey-3;
+    font-size: $frost-font-s;
     text-align: right;
 
     .required {
@@ -262,7 +253,7 @@ $frost-row-field-padding: 40px;
   }
 
   .left-input {
-    width: 250px;
+    width: $left-input-width;
   }
 }
 

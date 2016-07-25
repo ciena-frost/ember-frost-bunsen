@@ -1,29 +1,24 @@
-<div>
-  <div class={{labelWrapperClassName}}>
-    <label class="alias">{{renderLabel}}</label>
-    {{#if required}}
-      <div class='required'>Required</div>
-    {{/if}}
-  </div>
-  <div class={{inputWrapperClassName}}>
-    {{frost-textarea
-      class=valueClassName
-      cols=cols
-      disabled=disabled
-      onFocusIn=(action "onFocusIn")
-      onFocusOut=(action "onFocusOut")
-      onInput=(action "onChange")
-      placeholder=cellConfig.placeholder
-      rows=rows
-      value=(readonly transformedValue)
-    }}
-  </div>
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-textarea
+    class=valueClassName
+    cols=cols
+    disabled=disabled
+    onFocusIn=(action "onFocusIn")
+    onFocusOut=(action "onFocusOut")
+    onInput=(action "onChange")
+    placeholder=cellConfig.placeholder
+    rows=rows
+    value=(readonly transformedValue)
+  }}
 </div>
 {{#if renderErrorMessage}}
-  <div>
-    <div class={{labelWrapperClassName}}></div>
-    <div class="error">
-      {{renderErrorMessage}}
-    </div>
+  <div class="error">
+    {{renderErrorMessage}}
   </div>
 {{/if}}

@@ -6,15 +6,15 @@ export default {
       }
     },
     errorMessage: {
-      boolean: '.frost-bunsen-input-boolean > div:nth-child(2) .error',
-      multiSelect: '.frost-bunsen-input-multi-select > div:nth-child(2) .error',
-      number: '.frost-bunsen-input-number > div:nth-child(2) .error',
-      password: '.frost-bunsen-input-password > div:nth-child(2) .error',
-      select: '.frost-bunsen-input-select > div:nth-child(2) .error',
-      text: '.frost-bunsen-input-text > div:nth-child(2) .error',
-      textarea: '.frost-bunsen-input-textarea > div:nth-child(2) .error'
+      boolean: '.frost-bunsen-input-boolean > .error',
+      multiSelect: '.frost-bunsen-input-multi-select > .error',
+      number: '.frost-bunsen-input-number > .error',
+      password: '.frost-bunsen-input-password > .error',
+      select: '.frost-bunsen-input-select > .error',
+      text: '.frost-bunsen-input-text > .error',
+      textarea: '.frost-bunsen-input-textarea > .error'
     },
-    label: '.left-label .alias',
+    label: '.left-label',
     renderer: {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',

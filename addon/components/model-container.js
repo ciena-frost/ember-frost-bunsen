@@ -13,7 +13,7 @@ export default Component.extend(PropTypeMixin, {
   // Properties
   // ==========================================================================
 
-  classNames: ['frost-bunsen-model-container'],
+  tagName: '',
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,

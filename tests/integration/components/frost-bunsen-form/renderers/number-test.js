@@ -1,6 +1,4 @@
 import {expect} from 'chai'
-import Ember from 'ember'
-const {Logger} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -26,7 +24,6 @@ describeComponent(
 
           beforeEach(function () {
             sandbox = sinon.sandbox.create()
-            sandbox.stub(Logger, 'warn', () => {})
 
             props = {
               bunsenModel: {
@@ -82,7 +79,7 @@ describeComponent(
               .to.equal('')
 
             expect(
-              this.$(selectors.bunsen.label).text(),
+              this.$(selectors.bunsen.label).text().trim(),
               'renders expected label text'
             )
               .to.equal('Foo')
@@ -140,7 +137,7 @@ describeComponent(
                 .to.equal('')
 
               expect(
-                this.$(selectors.bunsen.label).text(),
+                this.$(selectors.bunsen.label).text().trim(),
                 'renders expected label text'
               )
                 .to.equal('FooBar Baz')

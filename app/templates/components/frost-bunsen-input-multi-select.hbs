@@ -1,22 +1,19 @@
-<div>
-  <div class={{labelWrapperClassName}}>
-    <label class="alias">{{renderLabel}}</label>
-    {{#if required}}
-      <div class='required'>Required</div>
-    {{/if}}
-  </div>
-  <div class={{inputWrapperClassName}}>
-    {{frost-multi-select
-      data=options
-      disabled=disabled
-      onInput=onInput
-      onChange=(action "onChange")
-      placeholder=cellConfig.placeholder
-      selectedValue=value
-    }}
-  </div>
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-multi-select
+    data=options
+    disabled=disabled
+    onInput=onInput
+    onChange=(action "onChange")
+    placeholder=cellConfig.placeholder
+    selectedValue=value
+  }}
   {{#if renderErrorMessage}}
-    <div class={{labelWrapperClassName}}></div>
     <div class="error">
       {{renderErrorMessage}}
     </div>
