@@ -232,7 +232,7 @@ export default Component.extend(PropTypeMixin, {
         return isNaN(item) || item === null
 
       case 'object':
-        return Object.keys(item).length !== 0
+        return Object.keys(item).length === 0
 
       case 'string':
         return [undefined, null, ''].indexOf(item) !== -1
