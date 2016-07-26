@@ -18,13 +18,15 @@
         {{/each}}
       {{/frost-tabs}}
     {{/if}}
-    {{frost-bunsen-container
-      bunsenModel=renderModel
-      bunsenStore=bunsenStore
-      cellConfig=cellConfig
-      errors=renderErrors
-      onChange=(action "onChange")
-      value=renderValue
-    }}
+    {{#each renderView.cells as |cell|}}
+      {{frost-bunsen-cell
+        bunsenModel=renderModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        errors=renderErrors
+        onChange=(action "onChange")
+        value=renderValue
+      }}
+    {{/each}}
   </form>
 {{/if}}
