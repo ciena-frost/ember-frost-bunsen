@@ -2,7 +2,7 @@
   "name": "ember-frost-bunsen",
   "dependencies": {
     "codemirror": "5.17.0",
-    "ember": "2.7.0",
+    "ember": "2.6.2",
     "ember-cli-shims": "0.1.3",
     "ember-cli-test-loader": "0.2.2",
     "ember-inflector": "1.3.1",
@@ -16,11 +16,11 @@
     "sinonjs": "1.17.1"
   },
   "resolutions": {
-    "ember": "2.7.0",
+    "ember": "2.6.2",
     "jquery": "2.2.4"
   },
   "devDependencies": {
-    "ember-mocha": "0.8.11",
-    "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26"
+    "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26",
+    "ember-mocha": "0.8.11"
   }
 }
