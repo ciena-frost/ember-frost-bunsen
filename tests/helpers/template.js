@@ -1,31 +1,7 @@
 import {expect} from 'chai'
-const {HTMLBars} = Ember
 import _ from 'lodash'
 import Ember from 'ember'
-import {describeComponent} from 'ember-mocha'
-import {beforeEach, it} from 'mocha'
-
-export function renderWithProps (renderer, componentName, props, more) {
-  // Make sure not to set property "view" as it causes following error:
-  // Using `{{view}}` or any path based on it (L1:C32) has been removed in Ember 2.0
-  if ('view' in props) {
-    props._view = props.view
-    delete props.view
-  }
-
-  renderer.setProperties(props)
-
-  const templateOptions = Object.keys(props).map((key) => {
-    return `${key}=${key}`
-  }).join(' ')
-
-  const template = `{{${componentName} ${templateOptions} ${more || ''}}}`
-  const compiledTemplate = HTMLBars.compile(template)
-
-  renderer.render(compiledTemplate)
-
-  return renderer.$('> *')
-}
+import {it} from 'mocha'
 
 export function integrationTestContext (name) {
   return [
@@ -35,20 +11,6 @@ export function integrationTestContext (name) {
       integration: true
     }
   ]
-}
-
-export function setupComponentTest (name, props, tests) {
-  describeComponent(...integrationTestContext(name),
-    function () {
-      let ctx = {}
-
-      beforeEach(function () {
-        ctx.rootNode = renderWithProps(this, name, props)
-      })
-
-      tests(ctx)
-    }
-  )
 }
 
 export function validatePropTypes (expectedPropTypes) {

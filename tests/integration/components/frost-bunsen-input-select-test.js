@@ -1,8 +1,9 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe} from 'mocha'
-import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 import _ from 'lodash'
 import $ from 'jquery'
 
@@ -165,7 +166,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           value: undefined // Must be present so we can set it via this.set('value', value)
         }
 
-        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.setProperties(props)
+        this.render(hbs`{{frost-bunsen-input-select
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          onChange=onChange
+          state=state
+          dbStore=dbStore
+        }}`)
+        rootNode = this.$('> *')
       })
 
       it('applies the object transform', function (done) {
@@ -194,7 +205,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
 
     it('has correct enum of values', function () {
       props.bunsenModel.enum = ['foo', 'bar', 'fitz', 'batz']
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-input-select
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        onChange=onChange
+        state=state
+        dbStore=dbStore
+      }}`)
+      rootNode = this.$('> *')
       _.forEach(props.bunsenModel.enum, (value) => {
         const isPresent = $(rootNode).text().indexOf(value) !== -1
         expect(isPresent).to.eql(true)
@@ -212,7 +233,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             q: 'domainId:${domainId}'
           }
         }
-        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.setProperties(props)
+        this.render(hbs`{{frost-bunsen-input-select
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          onChange=onChange
+          state=state
+          dbStore=dbStore
+        }}`)
+        rootNode = this.$('> *')
       })
 
       it('enables the input', function () {
@@ -247,7 +278,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             }
           }
         })
-        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.setProperties(props)
+        this.render(hbs`{{frost-bunsen-input-select
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          onChange=onChange
+          state=state
+          dbStore=dbStore
+        }}`)
+        rootNode = this.$('> *')
       })
 
       it('disables the input', function () {
@@ -274,7 +315,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             domainId: 12345
           }
         })
-        rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+        this.setProperties(props)
+        this.render(hbs`{{frost-bunsen-input-select
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          onChange=onChange
+          state=state
+          dbStore=dbStore
+        }}`)
+        rootNode = this.$('> *')
       })
 
       it('disables the input', function () {
@@ -289,7 +340,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     it('filters locally for enum-based lists', function () {
       props.bunsenModel.enum = ['foo', 'bar', 'fitz', 'batz']
       const expected = ['foo', 'fitz']
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-input-select
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        onChange=onChange
+        state=state
+        dbStore=dbStore
+      }}`)
+      rootNode = this.$('> *')
       $(rootNode).find('input[type=text]').val('f').trigger('input')
       expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
       expect($(rootNode).find('li').length).to.equal(expected.length)
@@ -304,7 +365,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           p: ''
         }
       }
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-input-select
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        onChange=onChange
+        state=state
+        dbStore=dbStore
+      }}`)
+      rootNode = this.$('> *')
       $(rootNode).find('input[type=text]').val('resource 1').trigger('input')
       const expected = ['Resource 1']
       expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
@@ -312,7 +383,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
     })
 
     it('supports placeholder in cellConfig', function () {
-      rootNode = renderWithProps(this, 'frost-bunsen-input-select', props)
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-input-select
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        onChange=onChange
+        state=state
+        dbStore=dbStore
+      }}`)
+      rootNode = this.$('> *')
       const placeholderText = 'Select something already'
       this.set('cellConfig.placeholder', placeholderText)
       expect(rootNode.find('input').attr('placeholder')).to.eql(placeholderText)

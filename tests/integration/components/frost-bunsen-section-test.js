@@ -1,22 +1,27 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe} from 'mocha'
-import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 
-const COMPONENT_NAME = 'frost-bunsen-section'
-
-describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
+describeComponent(...integrationTestContext('frost-bunsen-section'), function () {
   describe('component', function () {
     let rootNode
 
     beforeEach(function () {
-      let props = {
+      this.setProperties({
         expandedOnInitialRender: true,
         required: false,
         title: 'Lorem Ipsum'
-      }
+      })
 
-      rootNode = renderWithProps(this, COMPONENT_NAME, props)
+      this.render(hbs`{{frost-bunsen-section
+        expandedOnInitialRender=expandedOnInitialRender
+        required=required
+        title=title
+      }}`)
+
+      rootNode = this.$('> *')
     })
 
     it('has correct classes', function () {
@@ -29,13 +34,19 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
     let panelHeaderNode
 
     beforeEach(function () {
-      let props = {
+      this.setProperties({
         expandedOnInitialRender: true,
         required: false,
         title: 'Lorem Ipsum'
-      }
+      })
 
-      rootNode = renderWithProps(this, COMPONENT_NAME, props)
+      this.render(hbs`{{frost-bunsen-section
+        expandedOnInitialRender=expandedOnInitialRender
+        required=required
+        title=title
+      }}`)
+
+      rootNode = this.$('> *')
       panelHeaderNode = rootNode.find('> div:nth-child(1)')
     })
 
@@ -63,13 +74,19 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
       let rootNode
       let panelBodyNode
       beforeEach(function () {
-        let props = {
+        this.setProperties({
           expandedOnInitialRender: true,
           required: false,
           title: 'Lorem Ipsum'
-        }
+        })
 
-        rootNode = renderWithProps(this, COMPONENT_NAME, props)
+        this.render(hbs`{{frost-bunsen-section
+          expandedOnInitialRender=expandedOnInitialRender
+          required=required
+          title=title
+        }}`)
+
+        rootNode = this.$('> *')
         panelBodyNode = rootNode.find('> div:nth-child(2)')
       })
 
@@ -82,13 +99,19 @@ describeComponent(...integrationTestContext(COMPONENT_NAME), function () {
       let rootNode
       let panelBodyNode
       beforeEach(function () {
-        let props = {
+        this.setProperties({
           expandedOnInitialRender: false,
           required: false,
           title: 'Lorem Ipsum'
-        }
+        })
 
-        rootNode = renderWithProps(this, COMPONENT_NAME, props)
+        this.render(hbs`{{frost-bunsen-section
+          expandedOnInitialRender=expandedOnInitialRender
+          required=required
+          title=title
+        }}`)
+
+        rootNode = this.$('> *')
         panelBodyNode = rootNode.find('> div:nth-child(2)')
       })
 

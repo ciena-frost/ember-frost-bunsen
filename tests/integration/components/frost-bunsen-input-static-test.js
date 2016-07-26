@@ -1,8 +1,9 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
 import {beforeEach} from 'mocha'
-import {integrationTestContext, renderWithProps} from 'dummy/tests/helpers/template'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 
 describeComponent(...integrationTestContext('frost-bunsen-input-static'), function () {
   let rootNode
@@ -10,16 +11,25 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
   const TEST_VALUE = 'Some Test Value'
 
   beforeEach(function () {
-    let props = {
+    this.setProperties({
       bunsenId: 'name',
       bunsenModel: {},
       bunsenStore: Ember.Object.create({}),
       cellConfig: Ember.Object.create({}),
       onChange () {},
       value: TEST_VALUE
-    }
+    })
 
-    rootNode = renderWithProps(this, 'frost-bunsen-input-static', props)
+    this.render(hbs`{{frost-bunsen-input-static
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
+      bunsenStore=bunsenStore
+      cellConfig=cellConfig
+      onChange=onChange
+      value=value
+    }}`)
+
+    rootNode = this.$('> *')
   })
 
   it('has correct classes', function () {
