@@ -88,6 +88,13 @@ export default {
       input: {
         disabled: '.frost-text input[type="text"]:disabled',
         enabled: '.frost-text input[type="text"]:not(:disabled)'
+      },
+      type: {
+        date: {
+          input: {
+            enabled: '.frost-text input[type="date"]:not(:disabled)'
+          }
+        }
       }
     },
     textarea: {

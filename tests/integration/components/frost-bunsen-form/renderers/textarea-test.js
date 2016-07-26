@@ -92,6 +92,18 @@ describeComponent(
         .to.equal('')
 
       expect(
+        $input.attr('cols'),
+        'does not have cols property set'
+      )
+        .to.be.undefined
+
+      expect(
+        $input.attr('rows'),
+        'does not have cols property set'
+      )
+        .to.be.undefined
+
+      expect(
         this.$(selectors.bunsen.label).text().trim(),
         'renders expected label text'
       )
@@ -122,6 +134,100 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+    })
+
+    describe('when rows defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    cols: 3,
+                    name: 'textarea'
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.textarea),
+          'renders a bunsen textarea input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.textarea.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          $input.attr('cols'),
+          'has expected number of cols'
+        )
+          .to.equal('3')
+
+        expect(
+          $input.attr('rows'),
+          'does not have rows property set'
+        )
+          .to.be.undefined
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
     })
 
     describe('when label defined in view', function () {
@@ -253,6 +359,100 @@ describeComponent(
           'has expected placeholder text'
         )
           .to.equal('Foo bar')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+    })
+
+    describe('when rows defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    name: 'textarea',
+                    rows: 5
+                  }
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.textarea),
+          'renders a bunsen textarea input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.textarea.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled textarea input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          $input.attr('cols'),
+          'does not have cols property set'
+        )
+          .to.be.undefined
+
+        expect(
+          $input.attr('rows'),
+          'has expected number of rows'
+        )
+          .to.equal('5')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
 
         expect(
           this.$(selectors.error),
