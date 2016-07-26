@@ -1,3 +1,9 @@
+# 6.6.5
+
+* I did performance enhancement for select-input component
+* I have modified 'didrecieveAttrs' & 'hasQueryChanged' method for select-input component 
+* I improved performance by 50% depending on length of bunsen form
+
 # 6.6.4
 
 **fixes** Fixes false validation warnings on the model due to dirty `value`
