@@ -38,7 +38,7 @@
     "bunsen-core": "0.6.0",
     "ember-browserify": "1.1.11",
     "ember-bunsen-core": "0.3.0",
-    "ember-cli": "2.6.3",
+    "ember-cli": "2.7.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-blanket": "0.9.5",
     "ember-cli-dependency-checker": "^1.2.0",
@@ -57,7 +57,7 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.5",
-    "ember-frost-core": "0.19.1",
+    "ember-frost-core": "0.19.2",
     "ember-frost-demo-components": "0.1.2",
     "ember-frost-popover": "0.0.2",
     "ember-frost-tabs": "^2.0.2",
@@ -84,7 +84,7 @@
     "remark-lint": "^4.0.0",
     "sass-lint": "^1.7.0",
     "svg4everybody": "2.1.0",
-    "validator": "5.4.0",
+    "validator": "5.5.0",
     "z-schema": "3.17.0"
   },
   "keywords": [
