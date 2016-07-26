@@ -3,7 +3,12 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getSubModel, getModelPath} from 'bunsen-core/utils'
+
+import {
+  doesModelContainRequiredField,
+  getSubModel,
+  getModelPath
+} from 'bunsen-core/utils'
 
 /**
  * Return path without an index at the end
@@ -48,6 +53,39 @@ export default Component.extend(PropTypeMixin, {
   // ==========================================================================
   // Computed Properties
   // ==========================================================================
+
+  @readOnly
+  @computed('cellConfig.extends', 'bunsenStore.view.cellDefinitions')
+  /**
+   * Get definition for current cell
+   * @param {String} cellId - ID of current cell
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
+   */
+  mergedConfig (cellId, cellDefinitions) {
+    if (!cellId) {
+      return this.get('cellConfig')
+    }
+
+    const result = cellDefinitions[cellId]
+
+    if (!result || !result.children) {
+      return result
+    }
+
+    return result
+  },
+
+  @readOnly
+  @computed('bunsenModel')
+  /**
+   * Determine whether or not cell contains required inputs
+   * @param {BunsenModel} bunsenModel - bunsen model for form
+   * @returns {Boolean} whether or not cell contains required inputs
+   */
+  isRequired (bunsenModel) {
+    return doesModelContainRequiredField(bunsenModel)
+  },
 
   @readOnly
   @computed('classNames')

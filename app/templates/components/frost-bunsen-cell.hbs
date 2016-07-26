@@ -54,14 +54,43 @@
     }}
   {{/if}}
 {{else if cellConfig.extends}}
-  {{frost-bunsen-container
-    bunsenId=bunsenId
-    bunsenModel=bunsenModel
-    bunsenStore=bunsenStore
-    cellConfig=cellConfig
-    errors=errors
-    onChange=onChange
-    readOnly=readOnly
-    value=value
-  }}
+  {{#if mergedConfig.label}}
+    {{#frost-bunsen-section
+      className="model-container"
+      collapsible=mergedConfig.collapsible
+      description=mergedConfig.description
+      required=isRequired
+      title=mergedConfig.label
+    }}
+      <div class={{mergedConfig.classNames.cell}}>
+        {{#each mergedConfig.children as |child index|}}
+          {{frost-bunsen-cell
+            bunsenId=bunsenId
+            bunsenModel=bunsenModel
+            bunsenStore=bunsenStore
+            cellConfig=child
+            errors=errors
+            onChange=onChange
+            readOnly=readOnly
+            value=value
+          }}
+        {{/each}}
+      </div>
+    {{/frost-bunsen-section}}
+  {{else}}
+    <div class={{mergedConfig.classNames.cell}}>
+      {{#each mergedConfig.children as |child index|}}
+        {{frost-bunsen-cell
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenStore=bunsenStore
+          cellConfig=child
+          errors=errors
+          onChange=onChange
+          readOnly=readOnly
+          value=value
+        }}
+      {{/each}}
+    </div>
+  {{/if}}
 {{/if}}

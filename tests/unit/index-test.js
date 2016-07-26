@@ -10,7 +10,6 @@ import {
   BooleanInput as _BooleanInput,
   ButtonGroupInput as _ButtonGroupInput,
   Cell as _Cell,
-  Container as _Container,
   Detail as _Detail,
   Error as _Error,
   Form as _Form,
@@ -36,7 +35,6 @@ import {default as ArrayTabNav} from 'ember-frost-bunsen/components/array-tab-na
 import {default as BooleanInput} from 'ember-frost-bunsen/components/boolean-input'
 import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/button-group-input'
 import {default as Cell} from 'ember-frost-bunsen/components/cell'
-import {default as Container} from 'ember-frost-bunsen/components/container'
 import {default as Detail} from 'ember-frost-bunsen/components/detail'
 import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
@@ -84,10 +82,6 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('imports Cell', function () {
     expect(Cell).to.equal(_Cell)
-  })
-
-  it('imports Container', function () {
-    expect(Container).to.equal(_Container)
   })
 
   it('exports Detail', function () {
