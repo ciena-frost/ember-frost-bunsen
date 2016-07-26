@@ -34,7 +34,7 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        config: Ember.Object.create({
+        cellConfig: Ember.Object.create({
           model: 'foo.bar'
         }),
         errors: {},

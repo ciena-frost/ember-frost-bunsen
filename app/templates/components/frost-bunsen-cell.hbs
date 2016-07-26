@@ -1,10 +1,10 @@
-{{#if config.model}}
+{{#if cellConfig.model}}
   {{#if isSubModelObject}}
     {{frost-bunsen-model-container
       bunsenId=renderId
       bunsenModel=subModel
       bunsenStore=bunsenStore
-      cellConfig=config
+      cellConfig=cellConfig
       errors=errors
       onChange=onChange
       readOnly=readOnly
@@ -17,7 +17,7 @@
         bunsenId=nonIndexId
         bunsenModel=subModel
         bunsenStore=bunsenStore
-        cellConfig=config
+        cellConfig=cellConfig
         errors=errors
         index=index
         onChange=onChange
@@ -31,7 +31,7 @@
         bunsenId=renderId
         bunsenModel=subModel
         bunsenStore=bunsenStore
-        cellConfig=config
+        cellConfig=cellConfig
         errors=errors
         onChange=onChange
         readOnly=readOnly
@@ -44,7 +44,7 @@
       bunsenId=renderId
       bunsenModel=subModel
       bunsenStore=bunsenStore
-      cellConfig=config
+      cellConfig=cellConfig
       errorMessage=errorMessage
       onChange=onChange
       readOnly=readOnly
@@ -53,11 +53,11 @@
       value=renderValue
     }}
   {{/if}}
-{{else if config.extends}}
+{{else if cellConfig.extends}}
   {{frost-bunsen-container
     bunsenModel=bunsenModel
     bunsenStore=bunsenStore
-    cellConfig=config
+    cellConfig=cellConfig
     errors=errors
     onChange=onChange
     readOnly=readOnly

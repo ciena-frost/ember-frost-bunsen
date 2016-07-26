@@ -32,7 +32,7 @@ export default Component.extend(PropTypeMixin, {
     bunsenId: PropTypes.string,
     bunsenModel: PropTypes.object.isRequired,
     bunsenStore: PropTypes.EmberObject.isRequired,
-    config: PropTypes.EmberObject.isRequired,
+    cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -83,7 +83,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}')
+  @computed('cellConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -98,7 +98,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
@@ -118,7 +118,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'config.model')
+  @computed('bunsenId', 'cellConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
@@ -163,7 +163,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -175,7 +175,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -187,7 +187,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config', 'renderId', 'value')
+  @computed('cellConfig', 'renderId', 'value')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
