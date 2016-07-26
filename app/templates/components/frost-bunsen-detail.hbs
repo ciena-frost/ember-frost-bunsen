@@ -3,29 +3,31 @@
     model=propValidationResult
   }}
 {{else}}
-<form>
-  {{#if cellTabs.length}}
-    {{#frost-tabs
-      onChange=(action "onTabChange")
-      selection=(or selectedTabIndex 0)
-      tabs=cellTabs
-    }}
-      {{#each cellTabs as |tab|}}
-        {{frost-tab
-          alias=tab.alias
-          id=tab.id
-        }}
-      {{/each}}
-    {{/frost-tabs}}
-  {{/if}}
-  {{frost-bunsen-container
-    bunsenModel=renderModel
-    bunsenStore=bunsenStore
-    cellConfig=cellConfig
-    errors=errors
-    onChange=(action "onChange")
-    readOnly=true
-    value=renderValue
-  }}
-</form>
+  <form>
+    {{#if cellTabs.length}}
+      {{#frost-tabs
+        onChange=(action "onTabChange")
+        selection=(or selectedTabIndex 0)
+        tabs=cellTabs
+      }}
+        {{#each cellTabs as |tab|}}
+          {{frost-tab
+            alias=tab.alias
+            id=tab.id
+          }}
+        {{/each}}
+      {{/frost-tabs}}
+    {{/if}}
+    {{#each renderView.cells as |cell|}}
+      {{frost-bunsen-cell
+        bunsenModel=renderModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        errors=renderErrors
+        onChange=(action "onChange")
+        readOnly=true
+        value=renderValue
+      }}
+    {{/each}}
+  </form>
 {{/if}}
