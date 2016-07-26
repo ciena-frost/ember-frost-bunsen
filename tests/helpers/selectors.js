@@ -37,6 +37,10 @@ export default {
       input: {
         disabled: '.frost-button:disabled',
         enabled: '.frost-button:not(:disabled)'
+      },
+      size: {
+        medium: 'medium',
+        small: 'small'
       }
     },
     checkbox: {

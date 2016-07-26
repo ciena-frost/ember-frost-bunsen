@@ -117,17 +117,33 @@ describeComponent(
             )
               .to.have.length(2)
 
+            const $firstButton = $buttons.eq(0)
+
             expect(
-              $buttons.eq(0).text().trim(),
+              $firstButton.text().trim(),
               'first button has expected text'
             )
               .to.equal(buttonLabels[0])
 
             expect(
-              $buttons.eq(1).text().trim(),
+              $firstButton.hasClass(selectors.frost.button.size.medium),
+              'first button is correct size'
+            )
+              .to.be.true
+
+            const $secondButton = $buttons.eq(1)
+
+            expect(
+              $secondButton.text().trim(),
               'second button has expected text'
             )
               .to.equal(buttonLabels[1])
+
+            expect(
+              $secondButton.hasClass(selectors.frost.button.size.medium),
+              'first button is correct size'
+            )
+              .to.be.true
 
             expect(
               this.$(selectors.bunsen.label).text().trim(),
@@ -221,6 +237,110 @@ describeComponent(
                 'renders expected label text'
               )
                 .to.equal('FooBar Baz')
+
+              expect(
+                this.$(selectors.error),
+                'does not have any validation errors'
+              )
+                .to.have.length(0)
+
+              expect(
+                props.onValidation.callCount,
+                'informs consumer of validation results'
+              )
+                .to.equal(1)
+
+              const validationResult = props.onValidation.lastCall.args[0]
+
+              expect(
+                validationResult.errors.length,
+                'informs consumer there are no errors'
+              )
+                .to.equal(0)
+
+              expect(
+                validationResult.warnings.length,
+                'informs consumer there are no warnings'
+              )
+                .to.equal(0)
+            })
+          })
+
+          describe('when size defined in view', function () {
+            beforeEach(function () {
+              this.set('bunsenView', {
+                cellDefinitions: {
+                  main: {
+                    children: [
+                      {
+                        model: 'foo',
+                        renderer: {
+                          name: 'button-group',
+                          size: 'small'
+                        }
+                      }
+                    ]
+                  }
+                },
+                cells: [
+                  {
+                    extends: 'main',
+                    label: 'Main'
+                  }
+                ],
+                type: 'form',
+                version: '2.0'
+              })
+            })
+
+            it('renders as expected', function () {
+              expect(
+                this.$(selectors.bunsen.renderer.buttonGroup),
+                'renders a bunsen button-group input'
+              )
+                .to.have.length(1)
+
+              const $buttons = this.$(selectors.frost.button.input.enabled)
+
+              expect(
+                $buttons,
+                'renders enabled buttons'
+              )
+                .to.have.length(2)
+
+              const $firstButton = $buttons.eq(0)
+
+              expect(
+                $firstButton.text().trim(),
+                'first button has expected text'
+              )
+                .to.equal(buttonLabels[0])
+
+              expect(
+                $firstButton.hasClass(selectors.frost.button.size.small),
+                'first button is correct size'
+              )
+                .to.be.true
+
+              const $secondButton = $buttons.eq(1)
+
+              expect(
+                $secondButton.text().trim(),
+                'second button has expected text'
+              )
+                .to.equal(buttonLabels[1])
+
+              expect(
+                $secondButton.hasClass(selectors.frost.button.size.small),
+                'first button is correct size'
+              )
+                .to.be.true
+
+              expect(
+                this.$(selectors.bunsen.label).text().trim(),
+                'renders expected label text'
+              )
+                .to.equal('Foo')
 
               expect(
                 this.$(selectors.error),
