@@ -1,86 +1,88 @@
 import Ember from 'ember'
 const {Controller} = Ember
-import computed, {readOnly} from 'ember-computed-decorators'
+
+const bunsenModel = {
+  properties: {
+    foo: {
+      type: 'string'
+    }
+  },
+  type: 'object'
+}
+
+const bunsenValue = {
+  foo: 'Bar'
+}
+
+const bunsenView = {
+  cellDefinitions: {
+    main: {
+      children: [
+        {
+          model: 'foo'
+        }
+      ]
+    }
+  },
+  cells: [
+    {
+      extends: 'main',
+      label: 'Main'
+    }
+  ],
+  type: 'form',
+  version: '2.0'
+}
 
 export default Controller.extend({
-  bunsenModel: {
-    properties: {
-      foo: {
-        type: 'string'
-      }
-    },
-    type: 'object'
-  },
-  bunsenValue: {
-    foo: 'Bar'
-  },
-  bunsenView: {
-    cellDefinitions: {
-      main: {
-        children: [
-          {
-            model: 'foo'
-          }
-        ]
-      }
-    },
-    cells: [
-      {
-        extends: 'main',
-        label: 'Main'
-      }
-    ],
-    type: 'form',
-    version: '2.0'
-  },
-
-  @readOnly
-  @computed('bunsenModel')
-  computedBunsenModel (bunsenModel) {
-    return JSON.stringify(bunsenModel, null, 2)
-  },
-
-  @readOnly
-  @computed('bunsenValue')
-  computedBunsenValue (bunsenValue) {
-    return JSON.stringify(bunsenValue, null, 2)
-  },
-
-  @readOnly
-  @computed('bunsenView')
-  computedBunsenView (bunsenView) {
-    return JSON.stringify(bunsenView, null, 2)
-  },
+  bunsenModel,
+  bunsenModelString: JSON.stringify(bunsenModel, null, 2),
+  bunsenValue,
+  bunsenValueString: JSON.stringify(bunsenValue, null, 2),
+  bunsenView,
+  bunsenViewString: JSON.stringify(bunsenView, null, 2),
 
   actions: {
     formChange (bunsenValue) {
-      this.set('bunsenValue', bunsenValue)
+      this.setProperties({
+        bunsenValue,
+        bunsenValueString: JSON.stringify(bunsenValue, null, 2)
+      })
     },
 
     modelUpdated (newValue) {
       try {
-        const bunsenModel = JSON.parse(newValue)
-        this.set('bunsenModel', bunsenModel)
+        const model = JSON.parse(newValue)
+        this.setProperties({
+          bunsenModel: model,
+          bunsenModelString: newValue
+        })
       } catch (err) {
-        //
+        this.set('bunsenModelString', newValue)
       }
     },
 
     valueUpdated (newValue) {
       try {
-        const bunsenValue = JSON.parse(newValue)
-        this.set('bunsenValue', bunsenValue)
+        const value = JSON.parse(newValue)
+        this.setProperties({
+          bunsenValue: value,
+          bunsenValueString: newValue
+        })
       } catch (err) {
-        //
+        this.set('bunsenValueString', newValue)
       }
     },
 
     viewUpdated (newValue) {
       try {
-        const bunsenView = JSON.parse(newValue)
-        this.set('bunsenView', bunsenView)
+        const view = JSON.parse(newValue)
+        this.setProperties({
+          bunsenView: view,
+          bunsenViewString: newValue
+        })
       } catch (err) {
-        //
+        this.set('bunsenViewString', newValue)
       }
     }
   }
