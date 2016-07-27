@@ -125,12 +125,6 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('selectedTabIndex', 'renderView')
-  cellConfig (selectedTabIndex) {
-    return this.get(`renderView.cells.${selectedTabIndex || 0}`)
-  },
-
-  @readOnly
   @computed('allRenderers', 'disabled', 'renderValue', 'renderView', 'showAllErrors')
   /**
    * Get store
