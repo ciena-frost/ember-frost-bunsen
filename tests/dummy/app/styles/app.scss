@@ -1,3 +1,5 @@
+@import 'node_modules/ember-frost-core/addon/styles/addon';
+
 .dummy-body{
   margin-left: 20px;
 }
@@ -16,6 +18,12 @@
 .demo-code-block {
   flex-grow: 1;
   padding: 10px;
+}
+
+.demo-heading {
+  margin-bottom: 6px;
+  font-weight: 100;
+  font-size: 24px;
 }
 
 .double-bunsen {
