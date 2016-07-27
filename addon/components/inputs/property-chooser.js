@@ -11,7 +11,7 @@ export default AbstractInput.extend({
   // ==========================================================================
 
   classNames: [
-    'frost-bunsen-property-chooser',
+    'frost-bunsen-input-property-chooser',
     'frost-field'
   ],
 

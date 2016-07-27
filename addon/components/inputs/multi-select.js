@@ -1,4 +1,4 @@
-import SelectInput from './select-input'
+import SelectInput from './select'
 
 export default SelectInput.extend({
   // ==========================================================================

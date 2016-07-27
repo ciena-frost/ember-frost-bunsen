@@ -2,6 +2,19 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {A} = Ember
 
+export const builtInRenderers = {
+  boolean: 'frost-bunsen-input-boolean',
+  'button-group': 'frost-bunsen-input-button-group',
+  integer: 'frost-bunsen-input-number',
+  'multi-select': 'frost-bunsen-input-multi-select',
+  number: 'frost-bunsen-input-number',
+  password: 'frost-bunsen-input-password',
+  'property-chooser': 'frost-bunsen-input-property-chooser',
+  select: 'frost-bunsen-input-select',
+  string: 'frost-bunsen-input-text',
+  textarea: 'frost-bunsen-input-textarea'
+}
+
 export function deemberify (emberObject) {
   if (emberObject === null || emberObject === undefined) {
     return emberObject
@@ -44,4 +57,12 @@ export function recursiveObjectCreate (object) {
   }
 
   return object
+}
+
+export function getRendererComponentName (rendererName) {
+  return builtInRenderers[rendererName] || rendererName
+}
+
+export function validateRenderer (owner, rendererName) {
+  return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
 }

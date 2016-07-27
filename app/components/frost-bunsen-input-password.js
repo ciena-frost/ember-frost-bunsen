@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/password-input'
+export {default} from 'ember-frost-bunsen/components/inputs/password'

@@ -16,7 +16,12 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
-import {deemberify, recursiveObjectCreate} from '../utils'
+
+import {
+  deemberify,
+  recursiveObjectCreate,
+  validateRenderer
+} from '../utils'
 
 function getAlias (cell) {
   if (cell.label) {
@@ -235,7 +240,8 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
-      result = validateView(viewPojo, bunsenModel, _.keys(renderers), getOwner(this))
+      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
+      result = validateView(viewPojo, bunsenModel, _.keys(renderers), validateRendererFn)
     }
 
     this.set('propValidationResult', result)

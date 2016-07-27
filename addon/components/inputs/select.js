@@ -1,5 +1,5 @@
 import AbstractInput from './abstract-input'
-import * as listUtils from '../list-utils'
+import * as listUtils from '../../list-utils'
 import utils from 'bunsen-core/utils'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'

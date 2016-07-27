@@ -7,48 +7,39 @@ import {
   ArrayInlineItem as _ArrayInlineItem,
   ArrayTabContent as _ArrayTabContent,
   ArrayTabNav as _ArrayTabNav,
-  BooleanInput as _BooleanInput,
-  ButtonGroupInput as _ButtonGroupInput,
   Cell as _Cell,
   Detail as _Detail,
   Error as _Error,
   Form as _Form,
+  Inputs,
   InputWrapper as _InputWrapper,
   ModelContainer as _ModelContainer,
-  MultiSelectInput as _MultiSelectInput,
-  NumberInput as _NumberInput,
-  PasswordInput as _PasswordInput,
-  PropertyChooser as _PropertyChooser,
   Section as _Section,
-  SelectInput as _SelectInput,
-  StaticInput as _StaticInput,
-  TextInput as _TextInput,
-  TextareaInput as _TextareaInput,
   ValidationResult as _ValidationResult
 } from 'ember-frost-bunsen'
 
-import {default as AbstractInput} from 'ember-frost-bunsen/components/abstract-input'
+import {default as AbstractInput} from 'ember-frost-bunsen/components/inputs/abstract-input'
 import {default as ArrayContainer} from 'ember-frost-bunsen/components/array-container'
 import {default as ArrayInlineItem} from 'ember-frost-bunsen/components/array-inline-item'
 import {default as ArrayTabContent} from 'ember-frost-bunsen/components/array-tab-content'
 import {default as ArrayTabNav} from 'ember-frost-bunsen/components/array-tab-nav'
-import {default as BooleanInput} from 'ember-frost-bunsen/components/boolean-input'
-import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/button-group-input'
+import {default as BooleanInput} from 'ember-frost-bunsen/components/inputs/boolean'
+import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/inputs/button-group'
 import {default as Cell} from 'ember-frost-bunsen/components/cell'
 import {default as Detail} from 'ember-frost-bunsen/components/detail'
 import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
 import {default as InputWrapper} from 'ember-frost-bunsen/components/input-wrapper'
 import {default as ModelContainer} from 'ember-frost-bunsen/components/model-container'
-import {default as MultiSelectInput} from 'ember-frost-bunsen/components/multi-select-input'
-import {default as NumberInput} from 'ember-frost-bunsen/components/number-input'
-import {default as PasswordInput} from 'ember-frost-bunsen/components/password-input'
-import {default as PropertyChooser} from 'ember-frost-bunsen/components/property-chooser'
+import {default as MultiSelectInput} from 'ember-frost-bunsen/components/inputs/multi-select'
+import {default as NumberInput} from 'ember-frost-bunsen/components/inputs/number'
+import {default as PasswordInput} from 'ember-frost-bunsen/components/inputs/password'
+import {default as PropertyChooserInput} from 'ember-frost-bunsen/components/inputs/property-chooser'
 import {default as Section} from 'ember-frost-bunsen/components/section'
-import {default as SelectInput} from 'ember-frost-bunsen/components/select-input'
-import {default as StaticInput} from 'ember-frost-bunsen/components/static-input'
-import {default as TextInput} from 'ember-frost-bunsen/components/text-input'
-import {default as TextareaInput} from 'ember-frost-bunsen/components/textarea-input'
+import {default as SelectInput} from 'ember-frost-bunsen/components/inputs/select'
+import {default as StaticInput} from 'ember-frost-bunsen/components/inputs/static'
+import {default as TextInput} from 'ember-frost-bunsen/components/inputs/text'
+import {default as TextareaInput} from 'ember-frost-bunsen/components/inputs/textarea'
 import {default as ValidationResult} from 'ember-frost-bunsen/components/validation-result'
 
 describe('Unit: ember-frost-bunsen', function () {
@@ -73,11 +64,11 @@ describe('Unit: ember-frost-bunsen', function () {
   })
 
   it('imports BooleanInput', function () {
-    expect(BooleanInput).to.equal(_BooleanInput)
+    expect(BooleanInput).to.equal(Inputs.Boolean)
   })
 
   it('imports ButtonGroupInput', function () {
-    expect(ButtonGroupInput).to.equal(_ButtonGroupInput)
+    expect(ButtonGroupInput).to.equal(Inputs.ButtonGroup)
   })
 
   it('imports Cell', function () {
@@ -105,19 +96,19 @@ describe('Unit: ember-frost-bunsen', function () {
   })
 
   it('exports MultiSelectInput', function () {
-    expect(MultiSelectInput).to.equal(_MultiSelectInput)
+    expect(MultiSelectInput).to.equal(Inputs.MultiSelect)
   })
 
   it('exports NumberInput', function () {
-    expect(NumberInput).to.equal(_NumberInput)
+    expect(NumberInput).to.equal(Inputs.Number)
   })
 
   it('exports PasswordInput', function () {
-    expect(PasswordInput).to.equal(_PasswordInput)
+    expect(PasswordInput).to.equal(Inputs.Password)
   })
 
-  it('exports PropertyChooser', function () {
-    expect(PropertyChooser).to.equal(_PropertyChooser)
+  it('exports PropertyChooserInput', function () {
+    expect(PropertyChooserInput).to.equal(Inputs.PropertyChooser)
   })
 
   it('exports Section', function () {
@@ -125,19 +116,19 @@ describe('Unit: ember-frost-bunsen', function () {
   })
 
   it('exports SelectInput', function () {
-    expect(SelectInput).to.equal(_SelectInput)
+    expect(SelectInput).to.equal(Inputs.Select)
   })
 
   it('exports StaticInput', function () {
-    expect(StaticInput).to.equal(_StaticInput)
+    expect(StaticInput).to.equal(Inputs.Static)
   })
 
   it('exports TextInput', function () {
-    expect(TextInput).to.equal(_TextInput)
+    expect(TextInput).to.equal(Inputs.Text)
   })
 
   it('exports TextareaInput', function () {
-    expect(TextareaInput).to.equal(_TextareaInput)
+    expect(TextareaInput).to.equal(Inputs.Textarea)
   })
 
   it('exports ValidationResult', function () {

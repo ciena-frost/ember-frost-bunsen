@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/static-input'
+export {default} from 'ember-frost-bunsen/components/inputs/static'

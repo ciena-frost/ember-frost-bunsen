@@ -4,8 +4,8 @@ import {beforeEach} from 'mocha'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
-  'frost-bunsen-property-chooser',
-  'Unit: Component | frost-bunsen-property-chooser',
+  'frost-bunsen-input-property-chooser',
+  'Unit: Component | frost-bunsen-input-property-chooser',
   {
     unit: true
   },

@@ -2,6 +2,7 @@ import Ember from 'ember'
 const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import {getRendererComponentName, validateRenderer} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
   // ==========================================================================
@@ -105,9 +106,8 @@ export default Component.extend(PropTypeMixin, {
       return renderers[renderer]
     }
 
-    // If renderer isn't in renderers mapping check if it is a registered component
-    if (getOwner(this).hasRegistration(`component:${renderer}`)) {
-      return renderer
+    if (validateRenderer(getOwner(this), renderer)) {
+      return getRendererComponentName(renderer)
     }
 
     throw new Error(`"${renderer}" is not a registered component or in the renderers mapping`)

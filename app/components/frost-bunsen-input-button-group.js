@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/button-group-input'
+export {default} from 'ember-frost-bunsen/components/inputs/button-group'
