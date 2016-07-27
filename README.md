@@ -108,12 +108,6 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "2.0",
-  "type": "form",
-  "cells": {
-    "label": "Main",
-    "id": "main"
-  },
   "cellDefinitions": {
     "main": {
       "children": [
@@ -121,7 +115,13 @@ ember install ember-frost-bunsen
         {"model": "lastName"}
       ]
     }
-  }
+  },
+  "cells": {
+    "label": "Main",
+    "id": "main"
+  },
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -159,12 +159,6 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "2.0",
-  "type": "form",
-  "cells": {
-    "label": "Main",
-    "id": "main"
-  },
   "cellDefinitions": {
     "main": {
       "children": [
@@ -172,7 +166,13 @@ ember install ember-frost-bunsen
         {"model": "name.last"}
       ]
     }
-  }
+  },
+  "cells": {
+    "label": "Main",
+    "id": "main"
+  },
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -216,12 +216,6 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "2.0",
-  "type": "form",
-  "cells": {
-    "label": "Main",
-    "id": "main"
-  },
   "cellDefinitions": {
     "main": {
       "children": [
@@ -238,7 +232,13 @@ ember install ember-frost-bunsen
         }
       ]
     }
-  }
+  },
+  "cells": {
+    "label": "Main",
+    "id": "main"
+  },
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -300,19 +300,13 @@ message:
 
 ```json
 {
-  "version": "2.0",
-  "type": "form",
-  "cells": {
-    "label": "Main",
-    "id": "main"
-  },
-  "cellDefinitions": {
-    "main": {
-      "children": [
-        {"model": "palindrome"}
-      ]
+  "cells": [
+    {
+      "model": "palindrome"
     }
-  }
+  ],
+  "type": "form",
+  "version": "2.0"
 }
 ```
 

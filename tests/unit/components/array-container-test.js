@@ -60,11 +60,6 @@ function generateCellConfig (autoAdd) {
 function generateView (cellConfig) {
   return {
     cellDefinitions: {
-      main: {
-        children: [
-          cellConfig
-        ]
-      },
       people: {
         children: [
           {model: 'name.first'},
@@ -73,10 +68,7 @@ function generateView (cellConfig) {
         ]
       }
     },
-    cells: [{
-      extends: 'main',
-      label: 'Main'
-    }],
+    cells: [cellConfig],
     type: 'form',
     version: '2.0'
   }

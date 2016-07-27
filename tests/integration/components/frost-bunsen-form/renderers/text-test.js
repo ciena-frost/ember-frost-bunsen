@@ -106,20 +106,10 @@ describeComponent(
     describe('when label defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  label: 'FooBar Baz',
-                  model: 'foo'
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              label: 'FooBar Baz',
+              model: 'foo'
             }
           ],
           type: 'form',
@@ -185,20 +175,10 @@ describeComponent(
     describe('when placeholder defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  placeholder: 'Foo bar'
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              placeholder: 'Foo bar'
             }
           ],
           type: 'form',
@@ -258,23 +238,13 @@ describeComponent(
     describe('when type defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    name: 'string',
-                    type: 'date'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              renderer: {
+                name: 'string',
+                type: 'date'
+              }
             }
           ],
           type: 'form',
@@ -380,20 +350,10 @@ describeComponent(
     describe('when property explicitly enabled in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  disabled: false,
-                  model: 'foo'
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              disabled: false,
+              model: 'foo'
             }
           ],
           type: 'form',
@@ -419,20 +379,10 @@ describeComponent(
     describe('when property disabled in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  disabled: true,
-                  model: 'foo'
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              disabled: true,
+              model: 'foo'
             }
           ],
           type: 'form',
@@ -653,43 +603,33 @@ describeComponent(
     describe('transforms', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  transforms: {
-                    read: [
-                      {
-                        from: '^Chris$',
-                        regex: true,
-                        to: 'Christopher'
-                      },
-                      {
-                        from: 'Matt',
-                        to: 'Matthew'
-                      }
-                    ],
-                    write: [
-                      {
-                        from: '^Alexander$',
-                        regex: true,
-                        to: 'Alex'
-                      },
-                      {
-                        from: 'Johnathan',
-                        to: 'John'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              transforms: {
+                read: [
+                  {
+                    from: '^Chris$',
+                    regex: true,
+                    to: 'Christopher'
+                  },
+                  {
+                    from: 'Matt',
+                    to: 'Matthew'
+                  }
+                ],
+                write: [
+                  {
+                    from: '^Alexander$',
+                    regex: true,
+                    to: 'Alex'
+                  },
+                  {
+                    from: 'Johnathan',
+                    to: 'John'
+                  }
+                ]
+              }
             }
           ],
           type: 'form',

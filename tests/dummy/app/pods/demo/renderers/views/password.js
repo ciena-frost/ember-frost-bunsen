@@ -1,20 +1,10 @@
 export default {
-  cellDefinitions: {
-    main: {
-      children: [
-        {
-          model: 'foo',
-          renderer: {
-            name: 'password'
-          }
-        }
-      ]
-    }
-  },
   cells: [
     {
-      extends: 'main',
-      label: 'Main'
+      model: 'foo',
+      renderer: {
+        name: 'password'
+      }
     }
   ],
   type: 'form',

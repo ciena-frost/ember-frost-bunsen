@@ -1,17 +1,7 @@
 export default {
-  cellDefinitions: {
-    main: {
-      children: [
-        {
-          model: 'foo'
-        }
-      ]
-    }
-  },
   cells: [
     {
-      extends: 'main',
-      label: 'Main'
+      model: 'foo'
     }
   ],
   type: 'form',

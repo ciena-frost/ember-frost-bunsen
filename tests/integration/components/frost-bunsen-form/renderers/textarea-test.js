@@ -27,22 +27,12 @@ describeComponent(
           type: 'object'
         },
         bunsenView: {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              renderer: {
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -139,23 +129,13 @@ describeComponent(
     describe('when rows defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    cols: 3,
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              renderer: {
+                cols: 3,
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -233,23 +213,13 @@ describeComponent(
     describe('when label defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  label: 'FooBar Baz',
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              label: 'FooBar Baz',
+              model: 'foo',
+              renderer: {
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -315,23 +285,13 @@ describeComponent(
     describe('when placeholder defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  placeholder: 'Foo bar',
-                  renderer: {
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              placeholder: 'Foo bar',
+              renderer: {
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -391,23 +351,13 @@ describeComponent(
     describe('when rows defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea',
-                    rows: 5
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              renderer: {
+                name: 'textarea',
+                rows: 5
+              }
             }
           ],
           type: 'form',
@@ -525,23 +475,13 @@ describeComponent(
     describe('when property explicitly enabled in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  disabled: false,
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              disabled: false,
+              model: 'foo',
+              renderer: {
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -567,23 +507,13 @@ describeComponent(
     describe('when property disabled in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  disabled: true,
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea'
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              disabled: true,
+              model: 'foo',
+              renderer: {
+                name: 'textarea'
+              }
             }
           ],
           type: 'form',
@@ -804,46 +734,36 @@ describeComponent(
     describe('transforms', function () {
       beforeEach(function () {
         this.set('bunsenView', {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    name: 'textarea'
-                  },
-                  transforms: {
-                    read: [
-                      {
-                        from: '^Chris$',
-                        regex: true,
-                        to: 'Christopher'
-                      },
-                      {
-                        from: 'Matt',
-                        to: 'Matthew'
-                      }
-                    ],
-                    write: [
-                      {
-                        from: '^Alexander$',
-                        regex: true,
-                        to: 'Alex'
-                      },
-                      {
-                        from: 'Johnathan',
-                        to: 'John'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo',
+              renderer: {
+                name: 'textarea'
+              },
+              transforms: {
+                read: [
+                  {
+                    from: '^Chris$',
+                    regex: true,
+                    to: 'Christopher'
+                  },
+                  {
+                    from: 'Matt',
+                    to: 'Matthew'
+                  }
+                ],
+                write: [
+                  {
+                    from: '^Alexander$',
+                    regex: true,
+                    to: 'Alex'
+                  },
+                  {
+                    from: 'Johnathan',
+                    to: 'John'
+                  }
+                ]
+              }
             }
           ],
           type: 'form',

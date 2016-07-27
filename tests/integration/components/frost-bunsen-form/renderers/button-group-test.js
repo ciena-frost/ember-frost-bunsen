@@ -61,22 +61,12 @@ describeComponent(
                 type: 'object'
               },
               bunsenView: {
-                cellDefinitions: {
-                  main: {
-                    children: [
-                      {
-                        model: 'foo',
-                        renderer: {
-                          name: 'button-group'
-                        }
-                      }
-                    ]
-                  }
-                },
                 cells: [
                   {
-                    extends: 'main',
-                    label: 'Main'
+                    model: 'foo',
+                    renderer: {
+                      name: 'button-group'
+                    }
                   }
                 ],
                 type: 'form',
@@ -181,23 +171,13 @@ describeComponent(
           describe('when label defined in view', function () {
             beforeEach(function () {
               this.set('bunsenView', {
-                cellDefinitions: {
-                  main: {
-                    children: [
-                      {
-                        label: 'FooBar Baz',
-                        model: 'foo',
-                        renderer: {
-                          name: 'button-group'
-                        }
-                      }
-                    ]
-                  }
-                },
                 cells: [
                   {
-                    extends: 'main',
-                    label: 'Main'
+                    label: 'FooBar Baz',
+                    model: 'foo',
+                    renderer: {
+                      name: 'button-group'
+                    }
                   }
                 ],
                 type: 'form',
@@ -269,23 +249,13 @@ describeComponent(
           describe('when size defined in view', function () {
             beforeEach(function () {
               this.set('bunsenView', {
-                cellDefinitions: {
-                  main: {
-                    children: [
-                      {
-                        model: 'foo',
-                        renderer: {
-                          name: 'button-group',
-                          size: 'small'
-                        }
-                      }
-                    ]
-                  }
-                },
                 cells: [
                   {
-                    extends: 'main',
-                    label: 'Main'
+                    model: 'foo',
+                    renderer: {
+                      name: 'button-group',
+                      size: 'small'
+                    }
                   }
                 ],
                 type: 'form',
@@ -441,23 +411,13 @@ describeComponent(
           describe('when property explicitly enabled in view', function () {
             beforeEach(function () {
               this.set('bunsenView', {
-                cellDefinitions: {
-                  main: {
-                    children: [
-                      {
-                        disabled: false,
-                        model: 'foo',
-                        renderer: {
-                          name: 'button-group'
-                        }
-                      }
-                    ]
-                  }
-                },
                 cells: [
                   {
-                    extends: 'main',
-                    label: 'Main'
+                    disabled: false,
+                    model: 'foo',
+                    renderer: {
+                      name: 'button-group'
+                    }
                   }
                 ],
                 type: 'form',
@@ -497,23 +457,13 @@ describeComponent(
           describe('when property disabled in view', function () {
             beforeEach(function () {
               this.set('bunsenView', {
-                cellDefinitions: {
-                  main: {
-                    children: [
-                      {
-                        disabled: true,
-                        model: 'foo',
-                        renderer: {
-                          name: 'button-group'
-                        }
-                      }
-                    ]
-                  }
-                },
                 cells: [
                   {
-                    extends: 'main',
-                    label: 'Main'
+                    disabled: true,
+                    model: 'foo',
+                    renderer: {
+                      name: 'button-group'
+                    }
                   }
                 ],
                 type: 'form',

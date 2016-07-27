@@ -136,17 +136,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         }
 
         const view = {
-          cellDefinitions: {
-            main: {
-              children: [
-                cellConfig
-              ]
-            }
-          },
-          cells: [{
-            extends: 'main',
-            label: 'Main'
-          }],
+          cells: [cellConfig],
           type: 'form',
           version: '2.0'
         }

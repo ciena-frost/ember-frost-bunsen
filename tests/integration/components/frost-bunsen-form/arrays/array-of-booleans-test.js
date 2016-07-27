@@ -264,22 +264,12 @@ describeComponent(
       describe('when autoAdd enabled', function () {
         beforeEach(function () {
           this.set('bunsenView', {
-            cellDefinitions: {
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      autoAdd: true
-                    },
-                    model: 'foo'
-                  }
-                ]
-              }
-            },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  autoAdd: true
+                },
+                model: 'foo'
               }
             ],
             type: 'form',
@@ -735,22 +725,12 @@ describeComponent(
         describe('when sortable enabled', function () {
           beforeEach(function () {
             this.set('bunsenView', {
-              cellDefinitions: {
-                main: {
-                  children: [
-                    {
-                      arrayOptions: {
-                        sortable: true
-                      },
-                      model: 'foo'
-                    }
-                  ]
-                }
-              },
               cells: [
                 {
-                  extends: 'main',
-                  label: 'Main'
+                  arrayOptions: {
+                    sortable: true
+                  },
+                  model: 'foo'
                 }
               ],
               type: 'form',
@@ -849,22 +829,12 @@ describeComponent(
       describe('when autoAdd enabled', function () {
         beforeEach(function () {
           this.set('bunsenView', {
-            cellDefinitions: {
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      autoAdd: true
-                    },
-                    model: 'foo'
-                  }
-                ]
-              }
-            },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  autoAdd: true
+                },
+                model: 'foo'
               }
             ],
             type: 'form',
@@ -954,22 +924,12 @@ describeComponent(
       describe('when sortable enabled', function () {
         beforeEach(function () {
           this.set('bunsenView', {
-            cellDefinitions: {
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      sortable: true
-                    },
-                    model: 'foo'
-                  }
-                ]
-              }
-            },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  sortable: true
+                },
+                model: 'foo'
               }
             ],
             type: 'form',

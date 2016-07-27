@@ -23,19 +23,9 @@ describeComponent(
           type: 'object'
         },
         bunsenView: {
-          cellDefinitions: {
-            main: {
-              children: [
-                {
-                  model: 'foo'
-                }
-              ]
-            }
-          },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              model: 'foo'
             }
           ],
           type: 'form',

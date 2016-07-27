@@ -318,25 +318,17 @@ describeComponent(
                     model: 'baz'
                   }
                 ]
-              },
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      autoAdd: true,
-                      itemCell: {
-                        extends: 'foo'
-                      }
-                    },
-                    model: 'foo'
-                  }
-                ]
               }
             },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  autoAdd: true,
+                  itemCell: {
+                    extends: 'foo'
+                  }
+                },
+                model: 'foo'
               }
             ],
             type: 'form',
@@ -963,25 +955,17 @@ describeComponent(
                       model: 'baz'
                     }
                   ]
-                },
-                main: {
-                  children: [
-                    {
-                      arrayOptions: {
-                        sortable: true,
-                        itemCell: {
-                          extends: 'foo'
-                        }
-                      },
-                      model: 'foo'
-                    }
-                  ]
                 }
               },
               cells: [
                 {
-                  extends: 'main',
-                  label: 'Main'
+                  arrayOptions: {
+                    sortable: true,
+                    itemCell: {
+                      extends: 'foo'
+                    }
+                  },
+                  model: 'foo'
                 }
               ],
               type: 'form',
@@ -1102,25 +1086,17 @@ describeComponent(
                     model: 'baz'
                   }
                 ]
-              },
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      autoAdd: true,
-                      itemCell: {
-                        extends: 'foo'
-                      }
-                    },
-                    model: 'foo'
-                  }
-                ]
               }
             },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  autoAdd: true,
+                  itemCell: {
+                    extends: 'foo'
+                  }
+                },
+                model: 'foo'
               }
             ],
             type: 'form',
@@ -1232,25 +1208,17 @@ describeComponent(
                     model: 'baz'
                   }
                 ]
-              },
-              main: {
-                children: [
-                  {
-                    arrayOptions: {
-                      sortable: true,
-                      itemCell: {
-                        extends: 'foo'
-                      }
-                    },
-                    model: 'foo'
-                  }
-                ]
               }
             },
             cells: [
               {
-                extends: 'main',
-                label: 'Main'
+                arrayOptions: {
+                  sortable: true,
+                  itemCell: {
+                    extends: 'foo'
+                  }
+                },
+                model: 'foo'
               }
             ],
             type: 'form',
