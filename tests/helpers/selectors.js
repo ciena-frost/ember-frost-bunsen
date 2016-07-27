@@ -12,7 +12,8 @@ export default {
       password: '.frost-bunsen-input-password > .error',
       select: '.frost-bunsen-input-select > .error',
       text: '.frost-bunsen-input-text > .error',
-      textarea: '.frost-bunsen-input-textarea > .error'
+      textarea: '.frost-bunsen-input-textarea > .error',
+      url: '.frost-bunsen-input-url > .error'
     },
     label: '.left-label',
     renderer: {
@@ -24,7 +25,8 @@ export default {
       propertyChooser: '.frost-bunsen-input-property-chooser',
       select: '.frost-bunsen-input-select',
       text: '.frost-bunsen-input-text',
-      textarea: '.frost-bunsen-input-textarea'
+      textarea: '.frost-bunsen-input-textarea',
+      url: '.frost-bunsen-input-url'
     },
     validationErrors: {
       error: '.frost-bunsen-error',
@@ -102,6 +104,13 @@ export default {
       input: {
         disabled: '.frost-textarea textarea:disabled',
         enabled: '.frost-textarea textarea:not(:disabled)'
+      }
+    },
+    url: {
+      error: '.frost-url-input.error',
+      input: {
+        disabled: '.frost-url-input input:disabled',
+        enabled: '.frost-url-input input:not(:disabled)'
       }
     }
   }

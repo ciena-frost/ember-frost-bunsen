@@ -40,6 +40,7 @@ import {default as SelectInput} from 'ember-frost-bunsen/components/inputs/selec
 import {default as StaticInput} from 'ember-frost-bunsen/components/inputs/static'
 import {default as TextInput} from 'ember-frost-bunsen/components/inputs/text'
 import {default as TextareaInput} from 'ember-frost-bunsen/components/inputs/textarea'
+import {default as UrlInput} from 'ember-frost-bunsen/components/inputs/url'
 import {default as ValidationResult} from 'ember-frost-bunsen/components/validation-result'
 
 describe('Unit: ember-frost-bunsen', function () {
@@ -129,6 +130,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('exports TextareaInput', function () {
     expect(TextareaInput).to.equal(Inputs.Textarea)
+  })
+
+  it('exports UrlInput', function () {
+    expect(UrlInput).to.equal(Inputs.Url)
   })
 
   it('exports ValidationResult', function () {

@@ -7,6 +7,7 @@ import propertyChooser from './property-chooser'
 import select from './select'
 import string from './string'
 import textarea from './textarea'
+import url from './url'
 
 export default {
   boolean,
@@ -17,5 +18,6 @@ export default {
   'property-chooser': propertyChooser,
   select,
   string,
-  textarea
+  textarea,
+  url
 }

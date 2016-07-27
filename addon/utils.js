@@ -12,7 +12,8 @@ export const builtInRenderers = {
   'property-chooser': 'frost-bunsen-input-property-chooser',
   select: 'frost-bunsen-input-select',
   string: 'frost-bunsen-input-text',
-  textarea: 'frost-bunsen-input-textarea'
+  textarea: 'frost-bunsen-input-textarea',
+  url: 'frost-bunsen-input-url'
 }
 
 export function deemberify (emberObject) {

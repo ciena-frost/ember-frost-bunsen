@@ -22,6 +22,7 @@ import {default as Select} from './components/inputs/select'
 import {default as Static} from './components/inputs/static'
 import {default as Text} from './components/inputs/text'
 import {default as Textarea} from './components/inputs/textarea'
+import {default as Url} from './components/inputs/url'
 
 export const Inputs = {
   Boolean,
@@ -33,5 +34,6 @@ export const Inputs = {
   Select,
   Static,
   Text,
-  Textarea
+  Textarea,
+  Url
 }
