@@ -14,11 +14,25 @@
   <div class="flex-grid">
     <div class="one-third">
       <h3>Model</h3>
-      {{ivy-codemirror value=(to-json bunsenModel) lineNumbers=true mode='javascript' theme='mdn-like'}}
+      {{ivy-codemirror
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
+        value=(to-json bunsenModel)
+      }}
     </div>
     <div class="one-third">
       <h3>View</h3>
-      {{ivy-codemirror value=(to-json bunsenView) lineNumbers=true mode='javascript' theme='mdn-like'}}
+      {{ivy-codemirror
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
+        value=(to-json bunsenView)
+      }}
     </div>
     <div class="one-third">
       <h3>Demo</h3>

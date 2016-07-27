@@ -7,9 +7,11 @@
     <div class="one-third">
       <h3>Model</h3>
       {{ivy-codemirror
-        lineNumbers=true
-        mode="javascript"
-        theme="mdn-like"
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
         value=bunsenModelString
         valueUpdated=(action "modelUpdated")
       }}
@@ -17,9 +19,11 @@
     <div class="one-third">
       <h3>View</h3>
       {{ivy-codemirror
-        lineNumbers=true
-        mode="javascript"
-        theme="mdn-like"
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
         value=bunsenViewString
         valueUpdated=(action "viewUpdated")
       }}
@@ -27,9 +31,11 @@
     <div class="one-third">
       <h3>Value</h3>
       {{ivy-codemirror
-        lineNumbers=true
-        mode="javascript"
-        theme="mdn-like"
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
         value=bunsenValueString
         valueUpdated=(action "valueUpdated")
       }}
