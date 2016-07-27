@@ -1,4 +1,4 @@
-{{#if cellConfig.arrayOptions.itemCell.renderer}}
+{{#if itemCell.renderer}}
   {{component customRenderer
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
@@ -13,7 +13,7 @@
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
     bunsenStore=bunsenStore
-    cellConfig=cellConfig.arrayOptions.itemCell
+    cellConfig=itemCell
     errors=errors
     label=label
     onChange=onChange
@@ -25,7 +25,7 @@
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
     bunsenStore=bunsenStore
-    cellConfig=cellConfig.arrayOptions.itemCell
+    cellConfig=itemCell
     errors=errors
     label=label
     onChange=onChange
@@ -37,7 +37,7 @@
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
     bunsenStore=bunsenStore
-    cellConfig=cellConfig.arrayOptions.itemCell
+    cellConfig=itemCell
     errorMessage=errorMessage
     label=label
     onChange=onChange

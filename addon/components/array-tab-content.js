@@ -81,6 +81,12 @@ export default Component.extend(PropTypeMixin, {
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : null
+  },
+
+  @readOnly
+  @computed('cellConfig.arrayOptions.itemCell')
+  itemCell (itemCell) {
+    return itemCell || Ember.Object.create({})
   }
 
   // ==========================================================================

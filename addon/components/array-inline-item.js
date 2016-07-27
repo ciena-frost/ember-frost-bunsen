@@ -105,6 +105,12 @@ export default Component.extend(PropTypeMixin, {
     return itemLabel ? `${itemLabel} ${index + 1}` : null
   },
 
+  @readOnly
+  @computed('cellConfig.arrayOptions.itemCell')
+  itemCell (itemCell) {
+    return itemCell || Ember.Object.create({})
+  },
+
   // ==========================================================================
   // Functions
   // ==========================================================================
