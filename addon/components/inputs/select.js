@@ -50,20 +50,23 @@ export default AbstractInput.extend({
 
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
+
     const modelDef = this.get('bunsenModel')
     if (!modelDef) {
       return
     }
-    const dbStore = this.get('dbStore')
-    const value = this.get('bunsenStore.formValue')
-    const bunsenId = this.get('bunsenId')
-
-    if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query) &&
-      utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
-      listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
-        this.set('options', opts)
-      })
+    if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query)) {
+      // setting required variables once above condition is true
+      const dbStore = this.get('dbStore')
+      const value = this.get('bunsenStore.formValue')
+      const bunsenId = this.get('bunsenId')
+      if (utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
+        listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
+          this.set('options', opts)
+        })
+      }
     }
+
     this.set('initialized', true)
   },
 
@@ -81,30 +84,47 @@ export default AbstractInput.extend({
       return true
     }
 
-    const bunsenId = this.get('bunsenId')
-    const value = _.get(newAttrs, 'bunsenStore.value.formValue')
-    const oldValue = _.get(oldAttrs, 'bunsenStore.value.formValue')
-
-    let oldQuery
-    let query
-
-    // parse old and new query before look for differences
-    try {
-      oldQuery = utils.populateQuery(oldValue, modelQuery, bunsenId)
-    } catch (e) {
-      oldQuery = {}
+    var modelQueryHasProperty = false
+    for (var prop in modelQuery) {
+      if (prop) {
+        modelQueryHasProperty = true
+      }
     }
+      // If modelQuery has properties then evaluate further
+    if (modelQueryHasProperty && this.get('initialized')) {
+      const bunsenId = this.get('bunsenId')
+      const value = _.get(newAttrs, 'bunsenStore.value.formValue')
+      const oldValue = _.get(oldAttrs, 'bunsenStore.value.formValue')
 
-    try {
-      query = utils.populateQuery(value, modelQuery, bunsenId)
-    } catch (e) {
-      query = {}
+      const modelQueryString = JSON.stringify(modelQuery)
+      const valueVariable = modelQueryString.split('${')[1].split('}')[0]
+
+        // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
+      let valueResult = utils.findValue(value, valueVariable, bunsenId)
+      let oldValueResult = utils.findValue(oldValue, valueVariable, bunsenId)
+      if (valueResult || oldValueResult) {
+        let oldQuery
+        let query
+              // parse old and new query before look for differences
+        try {
+          oldQuery = utils.populateQuery(oldValue, modelQuery, bunsenId)
+        } catch (e) {
+          oldQuery = {}
+        }
+
+        try {
+          query = utils.populateQuery(value, modelQuery, bunsenId)
+        } catch (e) {
+          query = {}
+        }
+               // returns false when every top level key/value pair are equal
+        return !Object.keys(modelQuery).every((key) => {
+          return query[key] === oldQuery[key]
+        })
+      }
+    } else {
+      return false
     }
-
-    // returns false when every top level key/value pair are equal
-    return !Object.keys(modelQuery).every((key) => {
-      return query[key] === oldQuery[key]
-    })
   },
 
   /**
