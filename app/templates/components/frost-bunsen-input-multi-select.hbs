@@ -6,6 +6,7 @@
 </label>
 <div class={{inputWrapperClassName}}>
   {{frost-multi-select
+    class=valueClassName
     data=options
     disabled=disabled
     onInput=onInput
@@ -13,9 +14,9 @@
     placeholder=cellConfig.placeholder
     selectedValue=value
   }}
-  {{#if renderErrorMessage}}
-    <div class="error">
-      {{renderErrorMessage}}
-    </div>
-  {{/if}}
 </div>
+{{#if renderErrorMessage}}
+  <div class="error">
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

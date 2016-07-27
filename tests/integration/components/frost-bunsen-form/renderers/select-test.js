@@ -33,7 +33,8 @@ describeComponent(
         bunsenView: undefined,
         disabled: undefined,
         onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        onValidation: sandbox.spy(),
+        showAllErrors: undefined
       }
 
       this.setProperties(props)
@@ -44,6 +45,7 @@ describeComponent(
         disabled=disabled
         onChange=onChange
         onValidation=onValidation
+        showAllErrors=showAllErrors
       }}`)
     })
 
@@ -457,7 +459,6 @@ describeComponent(
           )
             .to.have.length(1)
 
-          /* FIXME: select isn't showing errors as expected (MRD - 2016-07-22)
           expect(
             this.$(selectors.frost.select.error),
             'adds error class to input'
@@ -472,7 +473,6 @@ describeComponent(
             'presents user with validation error message'
           )
             .to.equal(expected)
-          */
 
           expect(
             props.onValidation.callCount,
