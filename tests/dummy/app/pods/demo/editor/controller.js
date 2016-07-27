@@ -3,6 +3,9 @@ const {Controller} = Ember
 
 const bunsenModel = {
   properties: {
+    bar: {
+      type: 'string'
+    },
     foo: {
       type: 'string'
     }
@@ -11,23 +14,16 @@ const bunsenModel = {
 }
 
 const bunsenValue = {
-  foo: 'Bar'
+  foo: 'Baz'
 }
 
 const bunsenView = {
-  cellDefinitions: {
-    main: {
-      children: [
-        {
-          model: 'foo'
-        }
-      ]
-    }
-  },
   cells: [
     {
-      extends: 'main',
-      label: 'Main'
+      model: 'foo'
+    },
+    {
+      model: 'bar'
     }
   ],
   type: 'form',

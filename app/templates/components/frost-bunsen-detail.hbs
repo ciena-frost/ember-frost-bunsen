@@ -8,26 +8,35 @@
       {{#frost-tabs
         onChange=(action "onTabChange")
         selection=(or selectedTabIndex 0)
-        tabs=cellTabs
       }}
-        {{#each cellTabs as |tab|}}
-          {{frost-tab
+        {{#each cellTabs key="id" as |tab|}}
+          {{#frost-tab
             alias=tab.alias
             id=tab.id
           }}
+            {{frost-bunsen-cell
+              bunsenModel=renderModel
+              bunsenStore=bunsenStore
+              cellConfig=tab.cell
+              errors=renderErrors
+              onChange=(action "onChange")
+              value=renderValue
+            }}
+          {{/frost-tab}}
         {{/each}}
       {{/frost-tabs}}
+    {{else}}
+      {{#each renderView.cells as |cell|}}
+        {{frost-bunsen-cell
+          bunsenModel=renderModel
+          bunsenStore=bunsenStore
+          cellConfig=cell
+          errors=renderErrors
+          onChange=(action "onChange")
+          readOnly=true
+          value=renderValue
+        }}
+      {{/each}}
     {{/if}}
-    {{#each renderView.cells as |cell|}}
-      {{frost-bunsen-cell
-        bunsenModel=renderModel
-        bunsenStore=bunsenStore
-        cellConfig=cell
-        errors=renderErrors
-        onChange=(action "onChange")
-        readOnly=true
-        value=renderValue
-      }}
-    {{/each}}
   </form>
 {{/if}}

@@ -18,6 +18,15 @@ import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
 import {deemberify, recursiveObjectCreate} from '../utils'
 
+function getAlias (cell) {
+  if (cell.label) {
+    return cell.label
+  }
+
+  const words = Ember.String.dasherize(cell.model).replace('-', ' ')
+  return Ember.String.capitalize(words)
+}
+
 /**
  * Determine if an object is an Ember.Object or not
  * @param {Object|Ember.Object} object - object to check
@@ -116,7 +125,8 @@ export default Component.extend(PropTypeMixin, {
 
     const tabs = cells.map((cell, index) => {
       return {
-        alias: cell.label,
+        alias: getAlias(cell),
+        cell,
         id: index
       }
     })

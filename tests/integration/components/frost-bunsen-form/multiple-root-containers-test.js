@@ -20,16 +20,11 @@ const props = {
           {model: 'foo'},
           {model: 'bar'}
         ]
-      },
-      two: {
-        children: [
-          {model: 'baz'}
-        ]
       }
     },
     cells: [
       {label: 'One', extends: 'one'},
-      {label: 'Two', extends: 'two'}
+      {model: 'two'}
     ],
     type: 'form',
     version: '2.0'
