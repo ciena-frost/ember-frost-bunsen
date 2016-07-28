@@ -1,41 +1,55 @@
 <div class='demo-container fullscreen'>
   <div class="demo-banner">
     <h1>Renderers</h1>
+    {{frost-select
+      class="top-right-select"
+      data=rendererOptions
+      onChange=(action "onSelectedRendererChange")
+      selectedValue=selectedRendererValue
+    }}
     <p>This is a list of the different view renderers built into ember-frost-bunsen</p>
   </div>
-  {{frost-select
-    data=rendererOptions
-    onChange=(action "onSelectedRendererChange")
-    selectedValue=selectedRendererValue
-  }}
-  <h2>Documentation</h2>
-  {{markdown-to-html markdown=documentation ghCodeBlocks=true}}
-  <h2>Example</h2>
-  <div class="flex-grid">
-    <div class="one-third">
-      <h3 class=demo-heading">Model</h3>
-      {{ivy-codemirror
-        options=(hash
-          lineNumbers=true
-          mode="javascript"
-          theme="mdn-like"
-        )
-        value=(to-json bunsenModel)
-      }}
+  <div class="demo-showcase">
+    <div class="demo-editor">
+      <div class="ribbon">
+        <div class="tabs bunsen-editor">
+          <div class="tab value {{valueClass}}" onclick={{action "selectTab" "value"}}>
+            Value
+          </div>
+          <div class="tab view {{viewClass}}" onclick={{action "selectTab" "view"}}>
+            View
+          </div>
+          <div class="tab model {{modelClass}}" onclick={{action "selectTab" "model"}}>
+            Model
+          </div>
+          <div class="tab doc {{docClass}}" onclick={{action "selectTab" "doc"}}>
+            Documentation
+          </div>
+        </div>
+      </div>
+      {{#unless (eq selectedTab "doc")}}
+        <div class="demo-code">
+          {{ivy-codemirror
+            options=(hash
+              lineNumbers=true
+              mode="javascript"
+              theme="mdn-like"
+            )
+            value=code
+          }}
+        </div>
+      {{else}}
+        <div class="demo-doc">
+          {{markdown-to-html
+            ghCodeBlocks=true
+            markdown=documentation
+            tables=true
+          }}
+        </div>
+      {{/unless}}
     </div>
-    <div class="one-third">
-      <h3 class=demo-heading">View</h3>
-      {{ivy-codemirror
-        options=(hash
-          lineNumbers=true
-          mode="javascript"
-          theme="mdn-like"
-        )
-        value=(to-json bunsenView)
-      }}
-    </div>
-    <div class="one-third">
-      <h3 class=demo-heading">Demo</h3>
+    <div class="demo-view">
+      <br/>
       {{frost-bunsen-form
         bunsenModel=bunsenModel
         bunsenView=bunsenView

@@ -1,3 +1,5 @@
+## button-group
+
 This renderer provides a button group input that allows for only one option to be selected.
 If the property type is *boolean* this input will render with the buttons `On` and `Off`, otherwise `enum` must be provided with a list of possible options.
 

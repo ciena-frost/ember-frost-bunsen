@@ -1,3 +1,5 @@
+##password
+
 This renderer provides a password input which includes a button to reveal the password.
 
 ### Properties

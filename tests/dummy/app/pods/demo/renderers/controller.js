@@ -1,6 +1,7 @@
 import Ember from 'ember'
-const {Controller, Logger} = Ember
+const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 import rawFiles from 'ember-frost-demo-components/raw'
 import models from './models'
@@ -14,7 +15,17 @@ const rendererOptions = Object.keys(models)
     }
   })
 
-export default Controller.extend({
+export default Controller.extend(PropTypeMixin, {
+  propTypes: {
+    selectedTab: PropTypes.string
+  },
+
+  getDefaultProps () {
+    return {
+      selectedTab: 'doc'
+    }
+  },
+
   @readOnly
   @computed('selectedRendererValue')
   bunsenModel (selectedRendererValue) {
@@ -25,6 +36,48 @@ export default Controller.extend({
   @computed('selectedRendererValue')
   bunsenView (selectedRendererValue) {
     return views[selectedRendererValue]
+  },
+
+  @readOnly
+  @computed('selectedTab')
+  code (selectedTab) {
+    switch (selectedTab) {
+      case 'model':
+        return JSON.stringify(this.get('bunsenModel'), null, 2)
+
+      case 'value':
+        return JSON.stringify(this.get('value'), null, 2)
+
+      case 'view':
+        return JSON.stringify(this.get('bunsenView'), null, 2)
+
+      default:
+        return ''
+    }
+  },
+
+  @readOnly
+  @computed('selectedTab')
+  docClass (selectedTab) {
+    return selectedTab === 'doc' ? 'active' : ''
+  },
+
+  @readOnly
+  @computed('selectedTab')
+  modelClass (selectedTab) {
+    return selectedTab === 'model' ? 'active' : ''
+  },
+
+  @readOnly
+  @computed('selectedTab')
+  viewClass (selectedTab) {
+    return selectedTab === 'view' ? 'active' : ''
+  },
+
+  @readOnly
+  @computed('selectedTab')
+  valueClass (selectedTab) {
+    return selectedTab === 'value' ? 'active' : ''
   },
 
   getDocumentation (rendererName) {
@@ -48,7 +101,7 @@ export default Controller.extend({
 
   actions: {
     onFormValueChange (value) {
-      Logger.info(value)
+      this.set('value', value)
     },
 
     onSelectedRendererChange (value) {
@@ -57,6 +110,10 @@ export default Controller.extend({
         value: {},
         selectedRendererValue: value
       })
+    },
+
+    selectTab (tab) {
+      this.set('selectedTab', tab)
     }
   }
 })

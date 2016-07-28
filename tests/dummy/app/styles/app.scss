@@ -49,3 +49,11 @@ pre.value-code-block {
 .one-third {
   width: percentage(1 / 3);
 }
+
+.fullscreen .demo-showcase .demo-editor .ribbon .tabs.bunsen-editor {
+  transform: rotate(-90deg) translateX(-312px);
+}
+
+.top-right-select {
+  float: right;
+}

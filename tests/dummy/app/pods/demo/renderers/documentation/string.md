@@ -1,3 +1,5 @@
+## string
+
 This renders a text input and is the default renderer for properties with a `type` of `string`.
 
 ### Properties

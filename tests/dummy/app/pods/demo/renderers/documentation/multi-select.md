@@ -1,3 +1,5 @@
+## multi-select
+
 This renderers a select input that allows for more than one option to be selected.
 
 ### Properties

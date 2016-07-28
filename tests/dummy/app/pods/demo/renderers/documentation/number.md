@@ -1,3 +1,5 @@
+## number
+
 This renders a number input and is the default renderer for properties with a `type` of `number`.
 
 ### Properties
