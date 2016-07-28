@@ -60,7 +60,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-frost-core": "0.19.2",
     "ember-frost-demo-components": "0.1.2",
-    "ember-frost-fields": "0.1.3",
+    "ember-frost-fields": "0.1.4",
     "ember-frost-popover": "0.0.2",
     "ember-frost-tabs": "^2.0.2",
     "ember-load-initializers": "^0.5.1",
