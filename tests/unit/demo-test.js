@@ -1,6 +1,6 @@
 import {assert} from 'chai'
 import {describe, it} from 'mocha'
-import steps from 'dummy/pods/demo/tutorial/steps'
+import steps from 'dummy/pods/tutorial/steps'
 
 function verifyPropertyPresent (steps, property) {
   const stepsMissingSlug = []
