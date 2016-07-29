@@ -22,7 +22,7 @@ export default Controller.extend({
 
   getDocumentation (rendererName) {
     const key = `${rendererName}.md`
-    return rawFiles.demo.formats.documentation[key] || 'No content found'
+    return rawFiles.model.formats.documentation[key] || 'No content found'
   },
 
   init () {

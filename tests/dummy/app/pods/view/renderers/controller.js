@@ -82,7 +82,7 @@ export default Controller.extend(PropTypeMixin, {
 
   getDocumentation (rendererName) {
     const key = `${rendererName}.md`
-    return rawFiles.demo.renderers.documentation[key] || 'No content found'
+    return rawFiles.view.renderers.documentation[key] || 'No content found'
   },
 
   init () {
