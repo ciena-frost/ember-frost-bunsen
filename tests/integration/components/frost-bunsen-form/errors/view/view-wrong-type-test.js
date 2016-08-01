@@ -1,7 +1,9 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {Logger} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, it} from 'mocha'
+import {afterEach, beforeEach, it} from 'mocha'
 
 import selectors from 'dummy/tests/helpers/selectors'
 
@@ -12,7 +14,12 @@ describeComponent(
     integration: true
   },
   function () {
+    let sandbox
+
     beforeEach(function () {
+      sandbox = sinon.sandbox.create()
+      sandbox.stub(Logger, 'warn')
+
       this.setProperties({
         bunsenModel: {
           properties: {
@@ -29,6 +36,10 @@ describeComponent(
         bunsenModel=bunsenModel
         bunsenView=bunsenView
       }}`)
+    })
+
+    afterEach(function () {
+      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -58,6 +69,14 @@ describeComponent(
         'first validation error has correct text'
       )
         .to.equal('# Invalid JSON')
+
+      expect(
+        Logger.warn.lastCall.args,
+        'logs expected warning'
+      )
+        .to.eql([
+          'Property bunsenView does not match expected types: EmberObject, object'
+        ])
     })
   }
 )

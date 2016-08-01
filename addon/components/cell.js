@@ -84,7 +84,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Boolean} whether or not cell contains required inputs
    */
   isRequired (bunsenModel) {
-    return doesModelContainRequiredField(bunsenModel)
+    return doesModelContainRequiredField(bunsenModel) || false
   },
 
   @readOnly

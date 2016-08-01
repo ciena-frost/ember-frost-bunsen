@@ -232,7 +232,7 @@ export default Component.extend(PropTypeMixin, {
         return isNaN(item) || item === null
 
       case 'object':
-        return Object.keys(item).length === 0
+        return [undefined, null].indexOf(item) !== -1 || Object.keys(item).length === 0
 
       case 'string':
         return [undefined, null, ''].indexOf(item) !== -1
@@ -243,10 +243,15 @@ export default Component.extend(PropTypeMixin, {
    * Handle new values coming in as props (either during initial render or during update)
    */
   handleNewValues () {
-    const newValue = this.get(`value.${this.get('bunsenId')}`) || []
+    let newValue = this.get(`value.${this.get('bunsenId')}`) || []
     const oldValue = this.get('items')
 
     if (!_.isEqual(newValue, oldValue)) {
+      // Make sure new value is not immutable as Ember.A() will choke
+      if ('asMutable' in newValue) {
+        newValue = newValue.asMutable({deep: true})
+      }
+
       this.set('items', A(newValue))
     }
   },
@@ -278,10 +283,12 @@ export default Component.extend(PropTypeMixin, {
       return
     }
 
+    // Remove extra items
     if (value.length < items.length) {
       items.removeAt(value.length, items.length - value.length)
     }
 
+    // Update items
     items.forEach((item, index) => {
       const incomingItem = value[index]
       const stateItem = deemberify(item)
@@ -291,6 +298,7 @@ export default Component.extend(PropTypeMixin, {
       }
     })
 
+    // Add missing items
     if (value.length > items.length) {
       const itemsToAdd = value.slice(items.length)
       items.pushObjects(itemsToAdd)
@@ -312,13 +320,18 @@ export default Component.extend(PropTypeMixin, {
    * @param {Number} index - the index of the item
    */
   notifyParentOfNewItem (item, index) {
+    const bunsenId = this.get('bunsenId')
     const onChange = this.get('onChange')
 
     if (!onChange) {
       return
     }
 
-    onChange(`${this.get('bunsenId')}.${index}`, item)
+    if (this.get(`bunsenStore.formValue.${bunsenId}`)) {
+      onChange(`${bunsenId}.${index}`, item)
+    } else {
+      onChange(bunsenId, [item])
+    }
   },
 
   // ==========================================================================
@@ -334,7 +347,7 @@ export default Component.extend(PropTypeMixin, {
      * Add an empty item then focus on it after it's been rendererd
      */
     onAddItem () {
-      const newItem = this.get('bunsenModel').items.type === 'object' ? {} : ''
+      const newItem = this._getEmptyItem()
       const items = this.get('items')
       const index = items.length
 
