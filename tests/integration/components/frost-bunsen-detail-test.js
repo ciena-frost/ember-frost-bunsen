@@ -89,8 +89,6 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   it('displays an error message if the model is not valid', function () {
     const invalidView = {
-      version: '1.0',
-      type: 'form',
       cellDefinitions: {
         main: {
           children: [
@@ -98,7 +96,9 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
           ]
         }
       },
-      cells: [{label: 'Main', extends: 'main'}]
+      cells: [{label: 'Main', extends: 'main'}],
+      type: 'form',
+      version: '2.0'
     }
     this.set('bunsenView', invalidView)
 
