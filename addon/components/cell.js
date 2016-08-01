@@ -136,7 +136,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('mergedConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
