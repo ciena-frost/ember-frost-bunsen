@@ -11,7 +11,7 @@ module.exports = {
             {name: 'ember-bunsen-core', target: '>=0.3.0 <=2.0.0'},
             {name: 'ember-frost-core', target: '>=0.19.0 <2.0.0'},
             {name: 'ember-frost-tabs', target: '^2.0.2'},
-            {name: 'ember-lodash', target: '>=0.0.6 <2.0.0'},
+            {name: 'ember-lodash-shim', target: '>=0.1.0 <2.0.0'},
             {name: 'ember-prop-types', target: '^2.0.0'},
             {name: 'ember-redux', target: '^1.0.0'},
             {name: 'ember-sortable', target: '^1.8.1'}
