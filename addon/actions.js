@@ -28,7 +28,7 @@ export function updateValidationResults (validationResult) {
   const errorsByInput = _.groupBy(validationResult.errors, 'path')
   const errorsFilteredToMessagesOnly = _.mapValues(
     errorsByInput,
-    (fieldErrors, bunsenId) => _.pluck(fieldErrors, 'message')
+    (fieldErrors, bunsenId) => _.map(fieldErrors, 'message')
   )
   const errorsMappedToDotNotation = _.mapKeys(errorsFilteredToMessagesOnly, (value, key) => getPath(key))
 
@@ -156,7 +156,7 @@ export function validate (bunsenId, inputValue, renderModel, validators) {
 
     RSVP.all(promises)
       .then((snapshots) => {
-        const results = _.pluck(snapshots, 'value')
+        const results = _.map(snapshots, 'value')
         results.push(result)
 
         const aggregatedResult = aggregateResults(results)
