@@ -1,3 +1,7 @@
+# 6.6.6
+
+* **Replaced** `_.pluck()` with `_.map()` in preparation for lodash 4.
+
 # 6.6.5
 
 * I did performance enhancement for select-input component
