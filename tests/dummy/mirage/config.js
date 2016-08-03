@@ -64,7 +64,7 @@ export default function () {
 
       if ('p' in request.queryParams) {
         const pQueries = request.queryParams.p.split(',')
-        _.each(pQueries, (query) => {
+        _.forEach(pQueries, (query) => {
           let [attr, value] = query.split(':')
           items = items.filter((item) => {
             return item[attr] ? item[attr].toLowerCase().indexOf(value.toLowerCase()) !== -1 : false

@@ -46,7 +46,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenContainer} current container definition
    */
   config (containerId, containers) {
-    const result = _.findWhere(containers, {id: containerId})
+    const result = _.find(containers, {id: containerId})
 
     if (!result || !result.rows) {
       return result
