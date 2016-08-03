@@ -39,8 +39,8 @@ export function validateRequiredAttribute (object, path, attribute, possibleValu
  */
 export function aggregateResults (results) {
   return {
-    errors: _(results).pluck('errors').flatten().compact().value(),
-    warnings: _(results).pluck('warnings').flatten().compact().value()
+    errors: _(results).map('errors').flatten().compact().value(),
+    warnings: _(results).map('warnings').flatten().compact().value()
   }
 }
 
