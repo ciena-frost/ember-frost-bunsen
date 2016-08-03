@@ -138,14 +138,14 @@ export function getInitialValue (id, formValue, initialValue, model, defaultValu
 export function recursiveObjectCreate (object) {
   if (_.isPlainObject(object)) {
     let newObj = {}
-    _.each(object, function (value, key) {
+    _.forEach(object, function (value, key) {
       newObj[key] = recursiveObjectCreate(value)
     })
 
     return Ember.Object.create(newObj)
   } else if (_.isArray(object)) {
     let newArray = []
-    _.each(object, function (value) {
+    _.forEach(object, function (value) {
       newArray.push(recursiveObjectCreate(value))
     })
 

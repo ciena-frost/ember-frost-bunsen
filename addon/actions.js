@@ -103,7 +103,7 @@ function findDefaults (value, path, model, resolveRef) {
   if (model.type === 'object' || model.properties) { // Recursing only makes sense for objects
     let subSchemaDefaults = {}
     let hasDefaults = false
-    _.each(schema.properties, function (subSchema, propName) {
+    _.forEach(schema.properties, function (subSchema, propName) {
       const defaults = findDefaults(value && value[propName], null, subSchema, resolveRef)
       if (defaults !== undefined) {
         subSchemaDefaults[propName] = defaults
