@@ -1,3 +1,7 @@
+# 6.6.7
+
+* **Replace** more `_.pluck()` with `_.map()`.
+
 # 6.6.6
 
 * **Replaced** `_.pluck()` with `_.map()` in preparation for lodash 4.
