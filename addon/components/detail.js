@@ -16,6 +16,7 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
+import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 
 import {
   deemberify,
@@ -115,6 +116,10 @@ export default Component.extend(PropTypeMixin, {
   renderView (model, bunsenView) {
     if (_.isEmpty(bunsenView)) {
       bunsenView = getDefaultView(model)
+    } else if (bunsenView.version === '1.0') {
+      bunsenView = viewV1ToV2(bunsenView)
+    } else if (_.isFunction(bunsenView.get) && bunsenView.get('view') === '1.0') {
+      bunsenView = viewV1ToV2(deemberify(bunsenView))
     }
 
     return recursiveObjectCreate(bunsenView)
