@@ -7,12 +7,13 @@ module.exports = {
       .then(() => {
         return this.addAddonsToProject({
           packages: [
-            {name: 'ember-browserify', target: '^1.1.8'},
-            {name: 'ember-bunsen-core', target: '>=0.3.0 <=2.0.0'},
-            {name: 'ember-frost-core', target: '>=0.19.0 <2.0.0'},
+            {name: 'ember-browserify', target: '^1.1.11'},
+            {name: 'ember-bunsen-core', target: '>=0.6.0 <=2.0.0'},
+            {name: 'ember-frost-core', target: '>=0.21.1 <2.0.0'},
+            {name: 'ember-frost-fields', target: '>=0.2.0 <2.0.0'},
             {name: 'ember-frost-tabs', target: '^2.0.2'},
-            {name: 'ember-lodash-shim', target: '>=0.1.0 <2.0.0'},
-            {name: 'ember-prop-types', target: '^2.0.0'},
+            {name: 'ember-lodash-shim', target: '>=0.1.3 <2.0.0'},
+            {name: 'ember-prop-types', target: '2.1.0'},
             {name: 'ember-redux', target: '^1.0.0'},
             {name: 'ember-sortable', target: '^1.8.1'}
           ]

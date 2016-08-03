@@ -187,7 +187,7 @@ export default Component.extend(PropTypeMixin, {
         return
       }
 
-      const relativePath = bunsenId.replace(itemPath, '')
+      const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
       value = _.get(itemCopy, relativePath, itemCopy)
     }
 
