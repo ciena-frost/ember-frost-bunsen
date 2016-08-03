@@ -46,7 +46,7 @@ function _validateRootContainers (view, model, containerValidator) {
     const containerPath = `#/containers/${containerIndex}`
     const rootContainerResults = [
       validateRequiredAttribute(rootContainer, path, 'label'),
-      validateRequiredAttribute(rootContainer, path, 'container', _.pluck(view.containers, 'id'))
+      validateRequiredAttribute(rootContainer, path, 'container', _.map(view.containers, 'id'))
     ]
 
     if (container !== undefined) {
