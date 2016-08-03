@@ -168,7 +168,7 @@ export function findValue (obj, valuePath, startPath = '') {
   const parentLevels = valueLevels.filter((element) => element === '.')
   const valueKey = valueLevels.pop()
   const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
-  const absValueKey = [absValuePath, valueKey].join('.')
+  const absValueKey = [absValuePath, valueKey].join('.').replace(/^\./, '')
   return _.get(obj, absValueKey)
 }
 
