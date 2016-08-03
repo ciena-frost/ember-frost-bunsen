@@ -1,3 +1,7 @@
+# 6.6.8
+
+* Addressed more things blocking the upgrade to lodash 4.
+
 # 6.6.7
 
 * **Replace** more `_.pluck()` with `_.map()`.
