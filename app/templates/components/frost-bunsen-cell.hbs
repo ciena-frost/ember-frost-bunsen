@@ -1,4 +1,4 @@
-{{#if mergedConfig.label}}
+{{#if (and mergedConfig.label mergedCell.children)}}
   {{#frost-bunsen-section
     className="model-container"
     collapsible=mergedConfig.collapsible
