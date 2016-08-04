@@ -15,7 +15,6 @@ import selectors from 'dummy/tests/helpers/selectors'
     type: 'form',
     version: '2.0'
   },
-  /* FIXME: get view working
   {
     cellDefinitions: {
       foo: {
@@ -30,7 +29,6 @@ import selectors from 'dummy/tests/helpers/selectors'
     type: 'form',
     version: '2.0'
   },
-  */
   {
     cells: [
       {
@@ -44,7 +42,6 @@ import selectors from 'dummy/tests/helpers/selectors'
     type: 'form',
     version: '2.0'
   },
-  /* FIXME: get view working
   {
     cellDefinitions: {
       foo: {
@@ -63,7 +60,6 @@ import selectors from 'dummy/tests/helpers/selectors'
     type: 'form',
     version: '2.0'
   },
-  */
   {
     cellDefinitions: {
       foo: {
