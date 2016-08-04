@@ -17,8 +17,8 @@ import {
  * @returns {String} path without index
  */
 export function removeIndex (path) {
-  const parts = path.split('.')
-  const last = parts.pop()
+  const parts = (path || '').split('.')
+  const last = parts.length !== 0 ? parts.pop() : ''
   return /^\d+$/.test(last) ? parts.join('.') : path
 }
 
