@@ -95,8 +95,15 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} cell's class name
    */
   computedClassName (classNames) {
+    const viewDefinedClass = this.get('mergedConfig.classNames.cell')
     const classes = classNames.toString().split(' ')
+
     classes.push('frost-bunsen-cell')
+
+    if (viewDefinedClass) {
+      classes.push(viewDefinedClass)
+    }
+
     return classes.join(' ')
   },
 
