@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component} = Ember
+const {assign, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
@@ -9,6 +9,25 @@ import {
   getSubModel,
   getModelPath
 } from 'bunsen-core/utils'
+
+/**
+ * Get merged definition for current cell
+ * @param {BunsenCell} cellConfig - current cell
+ * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} current merged cell definition
+ */
+function getMergedConfig (cellConfig, cellDefinitions) {
+  if (!cellConfig.extends) {
+    return _.cloneDeep(cellConfig)
+  }
+
+  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends])
+  const mergedConfig = assign(superCell, cellConfig)
+
+  delete mergedConfig.extends
+
+  return mergedConfig
+}
 
 /**
  * Return path without an index at the end
@@ -49,25 +68,15 @@ export default Component.extend(PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.extends', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig', 'bunsenStore.view.cellDefinitions')
   /**
    * Get definition for current cell
-   * @param {String} cellId - ID of current cell
+   * @param {BunsenCell} cellConfig - current cell
    * @param {BunsenCell[]} cellDefinitions - list of cell definitions
    * @returns {BunsenCell} current cell definition
    */
-  mergedConfig (cellId, cellDefinitions) {
-    if (!cellId) {
-      return this.get('cellConfig')
-    }
-
-    const result = cellDefinitions[cellId]
-
-    if (!result || !result.children) {
-      return result
-    }
-
-    return result
+  mergedConfig (cellConfig, cellDefinitions) {
+    return getMergedConfig(cellConfig, cellDefinitions)
   },
 
   @readOnly
@@ -122,7 +131,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.{dependsOn,model}')
+  @computed('mergedConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -157,7 +166,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.model')
+  @computed('bunsenId', 'mergedConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
@@ -202,7 +211,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'subModel.type')
+  @computed('mergedConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -214,7 +223,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'subModel.type')
+  @computed('mergedConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -226,7 +235,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig', 'renderId', 'value')
+  @computed('mergedConfig', 'renderId', 'value')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
