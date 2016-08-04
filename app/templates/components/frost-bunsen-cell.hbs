@@ -1,60 +1,3 @@
-{{#if cellConfig.model}}
-  {{#if isSubModelObject}}
-    {{frost-bunsen-model-container
-      bunsenId=renderId
-      bunsenModel=subModel
-      bunsenStore=bunsenStore
-      cellConfig=cellConfig
-      errors=errors
-      onChange=onChange
-      readOnly=readOnly
-      required=required
-      value=value
-    }}
-  {{else if isSubModelArray}}
-    {{#if isArrayItem}}
-      {{frost-bunsen-array-inline-item
-        bunsenId=nonIndexId
-        bunsenModel=subModel
-        bunsenStore=bunsenStore
-        cellConfig=cellConfig
-        errors=errors
-        index=index
-        onChange=onChange
-        readOnly=readOnly
-        showRemoveButton=false
-        sortable=false
-        value=value
-      }}
-    {{else}}
-      {{frost-bunsen-array-container
-        bunsenId=renderId
-        bunsenModel=subModel
-        bunsenStore=bunsenStore
-        cellConfig=cellConfig
-        errors=errors
-        onChange=onChange
-        readOnly=readOnly
-        required=required
-        value=value
-      }}
-    {{/if}}
-  {{else}}
-    {{frost-bunsen-input-wrapper
-      bunsenId=renderId
-      bunsenModel=subModel
-      bunsenStore=bunsenStore
-      cellConfig=cellConfig
-      errorMessage=errorMessage
-      onChange=onChange
-      readOnly=readOnly
-      required=required
-      isDependencyMet=isDependencyMet
-      value=renderValue
-    }}
-  {{/if}}
-{{/if}}
-
 {{#if mergedConfig.label}}
   {{#frost-bunsen-section
     className="model-container"
@@ -64,6 +7,62 @@
     title=mergedConfig.label
   }}
     <div class={{mergedConfig.classNames.cell}}>
+      {{#if cellConfig.model}}
+        {{#if isSubModelObject}}
+          {{frost-bunsen-model-container
+            bunsenId=renderId
+            bunsenModel=subModel
+            bunsenStore=bunsenStore
+            cellConfig=cellConfig
+            errors=errors
+            onChange=onChange
+            readOnly=readOnly
+            required=required
+            value=value
+          }}
+        {{else if isSubModelArray}}
+          {{#if isArrayItem}}
+            {{frost-bunsen-array-inline-item
+              bunsenId=nonIndexId
+              bunsenModel=subModel
+              bunsenStore=bunsenStore
+              cellConfig=cellConfig
+              errors=errors
+              index=index
+              onChange=onChange
+              readOnly=readOnly
+              showRemoveButton=false
+              sortable=false
+              value=value
+            }}
+          {{else}}
+            {{frost-bunsen-array-container
+              bunsenId=renderId
+              bunsenModel=subModel
+              bunsenStore=bunsenStore
+              cellConfig=cellConfig
+              errors=errors
+              onChange=onChange
+              readOnly=readOnly
+              required=required
+              value=value
+            }}
+          {{/if}}
+        {{else}}
+          {{frost-bunsen-input-wrapper
+            bunsenId=renderId
+            bunsenModel=subModel
+            bunsenStore=bunsenStore
+            cellConfig=cellConfig
+            errorMessage=errorMessage
+            onChange=onChange
+            readOnly=readOnly
+            required=required
+            isDependencyMet=isDependencyMet
+            value=renderValue
+          }}
+        {{/if}}
+      {{/if}}
       {{#each mergedConfig.children as |child index|}}
         {{frost-bunsen-cell
           bunsenId=bunsenId
@@ -80,6 +79,62 @@
   {{/frost-bunsen-section}}
 {{else}}
   <div class={{mergedConfig.classNames.cell}}>
+    {{#if cellConfig.model}}
+      {{#if isSubModelObject}}
+        {{frost-bunsen-model-container
+          bunsenId=renderId
+          bunsenModel=subModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          errors=errors
+          onChange=onChange
+          readOnly=readOnly
+          required=required
+          value=value
+        }}
+      {{else if isSubModelArray}}
+        {{#if isArrayItem}}
+          {{frost-bunsen-array-inline-item
+            bunsenId=nonIndexId
+            bunsenModel=subModel
+            bunsenStore=bunsenStore
+            cellConfig=cellConfig
+            errors=errors
+            index=index
+            onChange=onChange
+            readOnly=readOnly
+            showRemoveButton=false
+            sortable=false
+            value=value
+          }}
+        {{else}}
+          {{frost-bunsen-array-container
+            bunsenId=renderId
+            bunsenModel=subModel
+            bunsenStore=bunsenStore
+            cellConfig=cellConfig
+            errors=errors
+            onChange=onChange
+            readOnly=readOnly
+            required=required
+            value=value
+          }}
+        {{/if}}
+      {{else}}
+        {{frost-bunsen-input-wrapper
+          bunsenId=renderId
+          bunsenModel=subModel
+          bunsenStore=bunsenStore
+          cellConfig=cellConfig
+          errorMessage=errorMessage
+          onChange=onChange
+          readOnly=readOnly
+          required=required
+          isDependencyMet=isDependencyMet
+          value=renderValue
+        }}
+      {{/if}}
+    {{/if}}
     {{#each mergedConfig.children as |child index|}}
       {{frost-bunsen-cell
         bunsenId=bunsenId
