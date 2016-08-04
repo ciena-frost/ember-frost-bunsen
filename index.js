@@ -7,7 +7,7 @@ module.exports = {
 
   included: function (app) {
     this._super.included(app)
-    app.import('bower_components/z-schema/dist/ZSchema-browser.js')
+    this.app.import('bower_components/z-schema/dist/ZSchema-browser.js')
   },
 
   init: function (app) {
