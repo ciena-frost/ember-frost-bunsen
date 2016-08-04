@@ -1,7 +1,6 @@
 /* globals module */
 
 'use strict'
-require('ember-cli-import-polyfill')
 
 module.exports = {
   name: 'ember-frost-bunsen',
