@@ -23,15 +23,11 @@ export function removeIndex (path) {
 }
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNameBindings: ['computedClassName'],
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string,
@@ -50,9 +46,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('cellConfig.extends', 'bunsenStore.view.cellDefinitions')
@@ -251,9 +245,7 @@ export default Component.extend(PropTypeMixin, {
     return dependencyValue !== undefined
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Get parent's model
@@ -267,12 +259,4 @@ export default Component.extend(PropTypeMixin, {
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
   }
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

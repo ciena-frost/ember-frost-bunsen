@@ -6,20 +6,18 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
 export default AbstractInput.extend({
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Dependencies ===========================================================
 
   dbStore: Ember.inject.service('store'),
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNames: [
     'frost-bunsen-input-select',
     'frost-field'
   ],
+
+  // == State Properties =======================================================
 
   getDefaultProps () {
     return {
@@ -30,9 +28,7 @@ export default AbstractInput.extend({
 
   selectedOptions: [],
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'bunsenStore.{disabled,formValue}')
@@ -44,9 +40,7 @@ export default AbstractInput.extend({
     return !utils.hasValidQueryValues(value, bunsenModel.query, bunsenId)
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
@@ -159,13 +153,7 @@ export default AbstractInput.extend({
     return data[0]
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**

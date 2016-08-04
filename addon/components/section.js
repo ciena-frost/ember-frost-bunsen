@@ -4,16 +4,12 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNameBindings: ['state.expanded:expanded:collapsed'],
   classNames: ['frost-bunsen-section'],
+
+  // == State Properties =======================================================
 
   propTypes: {
     collapsible: PropTypes.bool,
@@ -36,9 +32,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('state.expanded', 'renderContentWhenCollapsed')
@@ -52,9 +46,7 @@ export default Component.extend(PropTypeMixin, {
     return expanded || renderContentWhenCollapsed
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Initialize state
@@ -82,13 +74,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**

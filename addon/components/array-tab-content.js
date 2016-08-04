@@ -6,15 +6,11 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-tab-content'],
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -28,9 +24,7 @@ export default Component.extend(PropTypeMixin, {
     value: PropTypes.object.isRequired
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('cellConfig.arrayOptions.itemCell.renderer.name', 'bunsenStore.renderers')
@@ -88,16 +82,4 @@ export default Component.extend(PropTypeMixin, {
   itemCell (itemCell) {
     return itemCell || Ember.Object.create({})
   }
-
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

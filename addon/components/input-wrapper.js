@@ -5,15 +5,11 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getRendererComponentName, validateRenderer} from '../utils'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   tagName: '',
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -40,9 +36,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('cellConfig.dependsOn', 'isDependencyMet', 'bunsenModel')
@@ -90,9 +84,7 @@ export default Component.extend(PropTypeMixin, {
     return this.getComponentName(type, renderers)
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Get component name for a provided renderer name
@@ -112,12 +104,4 @@ export default Component.extend(PropTypeMixin, {
 
     throw new Error(`"${renderer}" is not a registered component or in the renderers mapping`)
   }
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

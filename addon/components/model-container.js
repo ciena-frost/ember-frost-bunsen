@@ -5,15 +5,11 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {doesModelContainRequiredField, getLabel} from 'bunsen-core/utils'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   tagName: '',
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -36,9 +32,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('cellConfig.extend', 'bunsenStore.view.cellDefinitions')
@@ -108,16 +102,4 @@ export default Component.extend(PropTypeMixin, {
   isRequired (bunsenModel) {
     return doesModelContainRequiredField(bunsenModel) || false
   }
-
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })
