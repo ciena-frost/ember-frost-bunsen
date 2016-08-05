@@ -13,7 +13,6 @@ import {
   Form as _Form,
   Inputs,
   InputWrapper as _InputWrapper,
-  ModelContainer as _ModelContainer,
   Section as _Section,
   ValidationResult as _ValidationResult
 } from 'ember-frost-bunsen'
@@ -30,7 +29,6 @@ import {default as Detail} from 'ember-frost-bunsen/components/detail'
 import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
 import {default as InputWrapper} from 'ember-frost-bunsen/components/input-wrapper'
-import {default as ModelContainer} from 'ember-frost-bunsen/components/model-container'
 import {default as MultiSelectInput} from 'ember-frost-bunsen/components/inputs/multi-select'
 import {default as NumberInput} from 'ember-frost-bunsen/components/inputs/number'
 import {default as PasswordInput} from 'ember-frost-bunsen/components/inputs/password'
@@ -90,10 +88,6 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('exports InputWrapper', function () {
     expect(InputWrapper).to.equal(_InputWrapper)
-  })
-
-  it('exports ModelContainer', function () {
-    expect(ModelContainer).to.equal(_ModelContainer)
   })
 
   it('exports MultiSelectInput', function () {

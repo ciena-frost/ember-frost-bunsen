@@ -37,7 +37,7 @@
       value=value
     }}
   {{else if (eq bunsenModel.items.type "object")}}
-    {{frost-bunsen-model-container
+    {{frost-bunsen-cell
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
       bunsenStore=bunsenStore

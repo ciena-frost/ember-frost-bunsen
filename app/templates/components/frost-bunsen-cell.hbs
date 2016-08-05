@@ -1,6 +1,5 @@
 {{#if (and mergedConfig.label mergedCell.children)}}
   {{#frost-bunsen-section
-    className="model-container"
     collapsible=mergedConfig.collapsible
     description=mergedConfig.description
     required=isRequired
@@ -8,7 +7,7 @@
   }}
     {{#if mergedConfig.model}}
       {{#if isSubModelObject}}
-        {{frost-bunsen-model-container
+        {{frost-bunsen-cell
           bunsenId=renderId
           bunsenModel=subModel
           bunsenStore=bunsenStore
@@ -16,7 +15,6 @@
           errors=errors
           onChange=onChange
           readOnly=readOnly
-          required=required
           value=value
         }}
       {{else if isSubModelArray}}
@@ -78,7 +76,7 @@
 {{else}}
   {{#if mergedConfig.model}}
     {{#if isSubModelObject}}
-      {{frost-bunsen-model-container
+      {{frost-bunsen-cell
         bunsenId=renderId
         bunsenModel=subModel
         bunsenStore=bunsenStore
@@ -86,7 +84,6 @@
         errors=errors
         onChange=onChange
         readOnly=readOnly
-        required=required
         value=value
       }}
     {{else if isSubModelArray}}

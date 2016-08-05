@@ -8,7 +8,6 @@ export {default as Detail} from './components/detail'
 export {default as Error} from './components/error'
 export {default as Form} from './components/form'
 export {default as InputWrapper} from './components/input-wrapper'
-export {default as ModelContainer} from './components/model-container'
 export {default as Section} from './components/section'
 export {default as ValidationResult} from './components/validation-result'
 
