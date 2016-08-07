@@ -141,6 +141,11 @@ export default Component.extend(PropTypeMixin, {
   required (dependsOn, model) {
     model = removeIndex(model)
     const parentModel = this.getParentModel(model, dependsOn)
+
+    if (!parentModel) {
+      return false
+    }
+
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
   },
