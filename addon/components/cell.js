@@ -21,7 +21,7 @@ function getMergedConfig (cellConfig, cellDefinitions) {
     return _.cloneDeep(cellConfig)
   }
 
-  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends])
+  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
   const mergedConfig = assign(superCell, cellConfig)
 
   delete mergedConfig.extends
