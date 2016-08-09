@@ -1,4 +1,5 @@
 import SelectInput from './select'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-multi-select'
 
 export default SelectInput.extend({
   // == Component Properties ===================================================
@@ -7,6 +8,8 @@ export default SelectInput.extend({
     'frost-bunsen-input-multi-select',
     'frost-field'
   ],
+
+  layout,
 
   // == Functions ==============================================================
 

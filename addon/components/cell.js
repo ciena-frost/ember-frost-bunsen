@@ -3,6 +3,7 @@ import Ember from 'ember'
 const {assign, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 
 import {
   doesModelContainRequiredField,
@@ -45,6 +46,7 @@ export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNameBindings: ['computedClassName'],
+  layout,
 
   // == State Properties =======================================================
 

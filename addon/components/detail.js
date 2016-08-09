@@ -17,6 +17,7 @@ import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
 import {
   deemberify,
@@ -43,6 +44,10 @@ function isEmberObject (object) {
 }
 
 export default Component.extend(PropTypeMixin, {
+  // == Component Properties ===================================================
+
+  layout,
+
   // == State Properties =======================================================
 
   propTypes: {

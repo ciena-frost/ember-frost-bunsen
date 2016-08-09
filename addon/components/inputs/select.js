@@ -4,6 +4,7 @@ import utils from 'bunsen-core/utils'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 
 export default AbstractInput.extend({
   // == Dependencies ===========================================================
@@ -16,6 +17,8 @@ export default AbstractInput.extend({
     'frost-bunsen-input-select',
     'frost-field'
   ],
+
+  layout,
 
   // == State Properties =======================================================
 

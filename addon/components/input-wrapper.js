@@ -3,10 +3,12 @@ const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getRendererComponentName, validateRenderer} from '../utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-wrapper'
 
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
+  layout,
   tagName: '',
 
   // == State Properties =======================================================

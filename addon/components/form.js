@@ -5,8 +5,13 @@ import {validate} from 'bunsen-core/actions'
 
 import {PropTypes} from 'ember-prop-types'
 import DetailComponent from './detail'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-form'
 
 export default DetailComponent.extend({
+  // == Component Properties ===================================================
+
+  layout,
+
   // == State Properties =======================================================
 
   propTypes: {

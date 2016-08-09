@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import computed from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-number'
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -9,6 +10,8 @@ export default AbstractInput.extend({
     'frost-bunsen-input-number',
     'frost-field'
   ],
+
+  layout,
 
   // == Computed Properties ====================================================
 

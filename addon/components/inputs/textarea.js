@@ -1,5 +1,6 @@
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-textarea'
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -8,6 +9,8 @@ export default AbstractInput.extend({
     'frost-bunsen-input-textarea',
     'frost-field'
   ],
+
+  layout,
 
   // == Computed Properties ====================================================
 

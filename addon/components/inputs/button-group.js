@@ -2,6 +2,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-button-group'
 
 export const helpers = {
   validateValues (values, type) {
@@ -18,6 +19,8 @@ export default AbstractInput.extend({
     'frost-bunsen-input-button-group',
     'frost-field'
   ],
+
+  layout,
 
   // == Computed Properties ====================================================
 

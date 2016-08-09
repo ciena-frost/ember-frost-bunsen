@@ -4,11 +4,13 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-content'
 
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-tab-content'],
+  layout,
 
   // == State Properties =======================================================
 

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-static'
 
 const PLACEHOLDER = '—'
 
@@ -11,6 +12,8 @@ export default AbstractInput.extend({
     'frost-bunsen-input-static',
     'frost-field'
   ],
+
+  layout,
 
   // == Computed Properties ====================================================
 
