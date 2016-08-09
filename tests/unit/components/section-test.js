@@ -28,7 +28,7 @@ describeComponent(
       onToggle: PropTypes.func,
       renderContentWhenCollapsed: PropTypes.bool,
       required: PropTypes.bool.isRequired,
-      title: PropTypes.string.isRequired
+      title: PropTypes.string
     })
   }
 )

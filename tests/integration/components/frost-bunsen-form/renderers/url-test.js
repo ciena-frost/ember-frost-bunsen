@@ -139,6 +139,12 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
           this.$(selectors.bunsen.renderer.url),
           'renders a bunsen url input'
         )
@@ -163,6 +169,162 @@ describeComponent(
           'renders expected label text'
         )
           .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+    })
+
+    describe('when collapsible is set to true in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: true,
+              model: 'foo',
+              renderer: {
+                name: 'url'
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'renders collapsible handle'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.url),
+          'renders a bunsen url input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.url.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled url input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+    })
+
+    describe('when collapsible is set to false in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: false,
+              model: 'foo',
+              renderer: {
+                name: 'url'
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.url),
+          'renders a bunsen url input'
+        )
+          .to.have.length(1)
+
+        const $input = this.$(selectors.frost.url.input.enabled)
+
+        expect(
+          $input,
+          'renders an enabled url input'
+        )
+          .to.have.length(1)
+
+        expect(
+          $input.prop('placeholder'),
+          'does not have placeholder text'
+        )
+          .to.equal('')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
 
         expect(
           this.$(selectors.error),

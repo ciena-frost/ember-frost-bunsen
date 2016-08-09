@@ -183,6 +183,12 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
           this.$(selectors.bunsen.renderer.propertyChooser),
           'renders a bunsen select input'
         )
@@ -199,6 +205,162 @@ describeComponent(
           'renders expected label text'
         )
           .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when collapsible is set to true in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  collapsible: true,
+                  model: 'foo',
+                  renderer: {
+                    choices: [
+                      {
+                        label: 'Bar',
+                        value: 'useBar'
+                      },
+                      {
+                        label: 'Baz',
+                        value: 'useBaz'
+                      }
+                    ],
+                    name: 'property-chooser'
+                  }
+                },
+                {
+                  dependsOn: 'foo.useBar',
+                  model: 'foo.name'
+                },
+                {
+                  dependsOn: 'foo.useBaz',
+                  model: 'foo.title'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'renders collapsible handle'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.propertyChooser),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.select.input.enabled),
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when collapsible is set to false in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cellDefinitions: {
+            main: {
+              children: [
+                {
+                  collapsible: false,
+                  model: 'foo',
+                  renderer: {
+                    choices: [
+                      {
+                        label: 'Bar',
+                        value: 'useBar'
+                      },
+                      {
+                        label: 'Baz',
+                        value: 'useBaz'
+                      }
+                    ],
+                    name: 'property-chooser'
+                  }
+                },
+                {
+                  dependsOn: 'foo.useBar',
+                  model: 'foo.name'
+                },
+                {
+                  dependsOn: 'foo.useBaz',
+                  model: 'foo.title'
+                }
+              ]
+            }
+          },
+          cells: [
+            {
+              extends: 'main',
+              label: 'Main'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.propertyChooser),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.frost.select.input.enabled),
+          'renders an enabled select input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
 
         expect(
           this.$(selectors.error),
