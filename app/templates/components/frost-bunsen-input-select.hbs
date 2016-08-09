@@ -8,7 +8,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-select
       class=inputClassName
-      disabled=disabled
+      disabled=(readonly disabled)
       onBlur=(action "onBlur")
       onInput=(action "onInput")
       onChange=(action "onChange")

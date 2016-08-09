@@ -7,7 +7,7 @@
   </div>
   <div class={{inputWrapperClassName}}>
     {{frost-multi-select
-      disabled=disabled
+      disabled=(readonly disabled)
       onInput=onInput
       onChange=(action "onChange")
       data=options
