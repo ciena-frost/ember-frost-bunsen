@@ -9,8 +9,10 @@ export const networkMaskMin = 0
 export function decimalToBinary (decimal) {
   // NOTE: we are applying two's complement so we can properly represent negative
   // numbers in binary. See: https://en.wikipedia.org/wiki/Two%27s_complement
+  const PAD = '00000000'
   const twosComplement = decimal >>> 0
-  return twosComplement.toString(2)
+  const binaryStr = twosComplement.toString(2)
+  return PAD.substring(binaryStr.length) + binaryStr
 }
 
 /**
