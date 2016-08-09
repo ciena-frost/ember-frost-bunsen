@@ -94,9 +94,15 @@ export default AbstractInput.extend({
       const oldValue = _.get(oldAttrs, 'bunsenStore.value.formValue')
 
       const modelQueryString = JSON.stringify(modelQuery)
-      const valueVariable = modelQueryString.split('${')[1].split('}')[0]
+      const parts = modelQueryString.split('${')
 
-        // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
+      if (parts.length < 2) {
+        return false
+      }
+
+      const valueVariable = parts[1].split('}')[0]
+
+      // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
       let valueResult = utils.findValue(value, valueVariable, bunsenId)
       let oldValueResult = utils.findValue(oldValue, valueVariable, bunsenId)
       if (valueResult || oldValueResult) {
