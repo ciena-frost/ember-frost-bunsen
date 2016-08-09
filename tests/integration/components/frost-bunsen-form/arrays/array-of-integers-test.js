@@ -53,6 +53,12 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
           this.$(selectors.bunsen.renderer.number),
           'does not render any bunsen number inputs'
         )
@@ -123,6 +129,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
           expect(
             this.$(selectors.bunsen.renderer.number),
             'does not render any bunsen number inputs'
@@ -195,6 +207,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
           expect(
             this.$(selectors.bunsen.renderer.number),
             'does not render any bunsen number inputs'
@@ -279,6 +297,12 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
+          expect(
             this.$(selectors.bunsen.renderer.number),
             'renders a bunsen number input for auto added item'
           )
@@ -345,6 +369,12 @@ describeComponent(
           })
 
           it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.collapsible.handle),
+              'does not render collapsible handle'
+            )
+              .to.have.length(0)
+
             expect(
               this.$(selectors.bunsen.renderer.number),
               'renders a bunsen number input for item plus one'
@@ -422,6 +452,12 @@ describeComponent(
             })
 
             it('renders as expected', function () {
+              expect(
+                this.$(selectors.bunsen.collapsible.handle),
+                'does not render collapsible handle'
+              )
+                .to.have.length(0)
+
               expect(
                 this.$(selectors.bunsen.renderer.number),
                 'renders a bunsen number input for auto added item'
@@ -535,6 +571,12 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
           this.$(selectors.bunsen.renderer.number),
           'renders a bunsen number input for each array item'
         )
@@ -623,6 +665,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
           expect(
             this.$(selectors.bunsen.renderer.number),
             'renders a bunsen number input for each array item'
@@ -713,6 +761,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
           expect(
             this.$(selectors.bunsen.renderer.number),
             'renders a bunsen number input for each array item'
@@ -813,6 +867,12 @@ describeComponent(
           })
 
           it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.collapsible.handle),
+              'does not render collapsible handle'
+            )
+              .to.have.length(0)
+
             expect(
               this.$(selectors.bunsen.renderer.number),
               'renders a bunsen number input for each array item'
@@ -918,6 +978,12 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
+          expect(
             this.$(selectors.bunsen.renderer.number),
             'renders a bunsen number input for each array item plus one'
           )
@@ -1012,6 +1078,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
           expect(
             this.$(selectors.bunsen.renderer.number),
             'renders a bunsen integer input for each array item'
