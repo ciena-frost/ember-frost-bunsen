@@ -66,6 +66,12 @@ describeComponent(
 
     it('renders as expected', function () {
       expect(
+        this.$(selectors.bunsen.collapsible.handle),
+        'does not render collapsible handle'
+      )
+        .to.have.length(0)
+
+      expect(
         this.$(selectors.bunsen.renderer.multiSelect),
         'renders a bunsen multi-select input'
       )

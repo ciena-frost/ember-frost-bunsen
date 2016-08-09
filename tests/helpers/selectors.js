@@ -5,6 +5,9 @@ export default {
         handle: '.handle'
       }
     },
+    collapsible: {
+      handle: '.frost-icon-frost-expand-collapse'
+    },
     errorMessage: {
       boolean: '.frost-bunsen-input-boolean > .error',
       multiSelect: '.frost-bunsen-input-multi-select > .error',

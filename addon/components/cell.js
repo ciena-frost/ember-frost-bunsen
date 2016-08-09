@@ -261,6 +261,15 @@ export default Component.extend(PropTypeMixin, {
     return dependencyValue !== undefined
   },
 
+  @readOnly
+  @computed('mergedConfig')
+  showSection (mergedConfig) {
+    return (
+      mergedConfig.collapsible ||
+      (mergedConfig.label && mergedConfig.children)
+    )
+  },
+
   // == Functions ==============================================================
 
   /**
