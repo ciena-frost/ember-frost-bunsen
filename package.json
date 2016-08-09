@@ -74,6 +74,7 @@
     "ivy-codemirror": "^2.0.2",
     "loader.js": "^4.0.1",
     "lodash-es": "4.14.1",
+    "redux": "^3.5.2",
     "redux-thunk": "^2.0.1",
     "remark-cli": "^1.0.0",
     "remark-lint": "^4.0.0",
@@ -86,7 +87,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.3",
-    "ember-cli-sass": "^5.2.0"
+    "ember-cli-sass": ">=5.2.0 <=5.4.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
