@@ -216,6 +216,14 @@ export default Component.extend(PropTypeMixin, {
     })
   },
 
+  // == Events =================================================================
+
+  init () {
+    this._super(...arguments)
+    this.set('hook', this.get('formHook') +
+      '-' + this.get('bunsenId').split('.').slice(-1)[0])
+  },
+
   // == Actions ================================================================
 
   actions: {
