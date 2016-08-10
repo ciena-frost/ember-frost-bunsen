@@ -122,7 +122,7 @@ export default Component.extend(PropTypeMixin, {
         return []
 
       case 'boolean':
-        return null
+        return false
 
       case 'integer':
       case 'number':
@@ -274,37 +274,42 @@ export default Component.extend(PropTypeMixin, {
     }
 
     if (!value) {
-      return
-    }
+      items.clear()
 
-    // Remove extra items
-    if (value.length < items.length) {
-      items.removeAt(value.length, items.length - value.length)
-    }
-
-    // Update items
-    items.forEach((item, index) => {
-      const incomingItem = value[index]
-      const stateItem = deemberify(item)
-
-      if (!_.isEqual(stateItem, incomingItem)) {
-        _.assign(item, incomingItem)
+      // Make sure empty item is present when autoAdd is enabled
+      if (newAutoAddValue) {
+        items.pushObject(this._getEmptyItem())
       }
-    })
+    } else {
+      // Remove extra items
+      if (value.length < items.length) {
+        items.removeAt(value.length, items.length - value.length)
+      }
 
-    // Add missing items
-    if (value.length > items.length) {
-      const itemsToAdd = value.slice(items.length)
-      items.pushObjects(itemsToAdd)
-    }
+      // Update items
+      items.forEach((item, index) => {
+        const incomingItem = value[index]
+        const stateItem = deemberify(item)
 
-    // After syncing items array with value array make sure empty item is at the
-    // end when autoAdd is enabled
-    if (
-      newAutoAddValue &&
-      (items.length === 0 || !this._isItemEmpty(value[value.length - 1]))
-    ) {
-      items.pushObject(this._getEmptyItem())
+        if (!_.isEqual(stateItem, incomingItem)) {
+          _.assign(item, incomingItem)
+        }
+      })
+
+      // Add missing items
+      if (value.length > items.length) {
+        const itemsToAdd = value.slice(items.length)
+        items.pushObjects(itemsToAdd)
+      }
+
+      // After syncing items array with value array make sure empty item is at the
+      // end when autoAdd is enabled
+      if (
+        newAutoAddValue &&
+        (items.length === 0 || !this._isItemEmpty(value[value.length - 1]))
+      ) {
+        items.pushObject(this._getEmptyItem())
+      }
     }
   },
 
@@ -372,24 +377,20 @@ export default Component.extend(PropTypeMixin, {
     onRemoveItem (index) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
       const items = this.get('items')
-      const itemToRemove = items.objectAt(index)
       const lastItemIndex = Math.max(0, items.length - 1)
 
       if (autoAdd && index === lastItemIndex) {
         return
       }
 
-      items.removeObject(itemToRemove)
-
+      const bunsenId = this.get('bunsenId')
+      const oldValue = this.get(`value.${bunsenId}`)
       const onChange = this.get('onChange')
-
-      if (!onChange) {
-        return
-      }
+      const newValue = oldValue.slice(0, index).concat(oldValue.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things
       // we basically need to re-set the whole array
-      onChange(this.get('bunsenId'), items)
+      onChange(bunsenId, newValue)
     },
 
     /**
