@@ -220,8 +220,11 @@ export default Component.extend(PropTypeMixin, {
 
   init () {
     this._super(...arguments)
-    this.set('hook', this.get('formHook') +
-      '-' + this.get('bunsenId').split('.').slice(-1)[0])
+    try {
+      this.set('hook', this.get('formHook') + '-' + this.get('bunsenId').split('.').slice(-1)[0])
+    } catch (err) {
+      Logger.debug(err)
+    }
   },
 
   // == Actions ================================================================
