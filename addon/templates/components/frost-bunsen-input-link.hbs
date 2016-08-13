@@ -1,0 +1,22 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  <a
+    class={{valueClassName}}
+    href={{value}}
+    onFocusIn={{action "onFocusIn"}}
+    onFocusOut={{action "onFocusOut"}}
+    onInput={{action "onChange"}}
+  >
+    {{linkLabel}}
+  </a>
+</div>
+{{#if renderErrorMessage}}
+  <div class="error">
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

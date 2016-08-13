@@ -29,6 +29,7 @@ import {default as Detail} from 'ember-frost-bunsen/components/detail'
 import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
 import {default as InputWrapper} from 'ember-frost-bunsen/components/input-wrapper'
+import {default as LinkInput} from 'ember-frost-bunsen/components/inputs/link'
 import {default as MultiSelectInput} from 'ember-frost-bunsen/components/inputs/multi-select'
 import {default as NumberInput} from 'ember-frost-bunsen/components/inputs/number'
 import {default as PasswordInput} from 'ember-frost-bunsen/components/inputs/password'
@@ -88,6 +89,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('exports InputWrapper', function () {
     expect(InputWrapper).to.equal(_InputWrapper)
+  })
+
+  it('exports LinkInput', function () {
+    expect(LinkInput).to.equal(Inputs.Link)
   })
 
   it('exports MultiSelectInput', function () {

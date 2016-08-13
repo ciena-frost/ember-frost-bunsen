@@ -1,5 +1,6 @@
 import boolean from './boolean'
 import buttonGroup from './button-group'
+import link from './link'
 import multiSelect from './multi-select'
 import number from './number'
 import password from './password'
@@ -12,6 +13,7 @@ import url from './url'
 export default {
   boolean,
   'button-group': buttonGroup,
+  link,
   'multi-select': multiSelect,
   number,
   password,

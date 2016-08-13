@@ -5,6 +5,7 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 import rawFiles from 'ember-frost-demo-components/raw'
 import models from './models'
+import values from './values'
 import views from './views'
 
 const rendererOptions = Object.keys(models)
@@ -92,7 +93,7 @@ export default Controller.extend(PropTypeMixin, {
     const documentation = this.getDocumentation(selectedRendererValue)
 
     this.setProperties({
-      value: {},
+      value: values[selectedRendererValue],
       documentation,
       rendererOptions,
       selectedRendererValue
@@ -107,7 +108,7 @@ export default Controller.extend(PropTypeMixin, {
     onSelectedRendererChange (value) {
       this.setProperties({
         documentation: this.getDocumentation(value),
-        value: {},
+        value: values[value],
         selectedRendererValue: value
       })
     },
