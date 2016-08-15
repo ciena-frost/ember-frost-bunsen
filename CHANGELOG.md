@@ -1,3 +1,6 @@
+# 6.6.13
+ * **Fixed** issue where `onValidation` was only called if validation result changed. It is now called whenever the value of the form changes. This fix requires a bit of explanation. If consumers want to use a `frost-bunsen-form` to update a remote resource whenever something changes (i.e. no `Submit` button), due to the async aspect of validation, one is forced to use `onValidation` to trigger a save of the last observed value from an `onChange` call. However, if the previous value was  valid, no subsequent `onValidation` was previously made when a new value was delivered with `onChange`. This effectively meant that the only way a user could actually update the remote resource would be to first enter an invalid value, then a valid one. Not exactly the best user experience, especially in the case of free text fields where no validation exists ;)
+
 # 6.6.12
 No CHANGELOG section found in Pull Request description.
 Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
