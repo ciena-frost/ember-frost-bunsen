@@ -1,0 +1,269 @@
+$frost-row-field-padding: 40px;
+$left-label-width: 140px;
+$left-input-width: 250px;
+
+.frost-bunsen-cell {
+  flex: 1 1 auto;
+}
+
+.frost-bunsen-detail,
+.frost-bunsen-form {
+  .handle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .description {
+    margin-bottom: 10px;
+    color: $frost-color-grey-3;
+    font-size: $frost-font-s;
+  }
+
+  .image-wrapper {
+    padding: 15px;
+  }
+
+  .item-wrapper > div > div > .frost-bunsen-section {
+    border-top-width: 0;
+  }
+
+  .header + .item-wrapper {
+    margin-top: 20px;
+  }
+
+  .item-wrapper + .item-wrapper {
+    border-top-width: 0;
+  }
+
+  // Add some spacing to visualize object nesting
+  .array-container {
+    margin: 5px;
+    padding: 5px;
+  }
+
+  .required {
+    border-radius: 4px;
+  }
+
+  .button-bar {
+    button {
+      margin-left: 5px;
+    }
+  }
+
+  .frost-tabs {
+    margin-bottom: 15px;
+
+    .tab-nav {
+      .tab {
+        height: 40px;
+        padding: 0 25px;
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 3px solid $frost-color-grey-4;
+        }
+
+        &:hover {
+          .text {
+            color: $frost-color-grey-3;
+          }
+        }
+      }
+    }
+  }
+}
+
+.frost-bunsen-detail {
+  .frost-bunsen-section {
+    margin-left: 110px;
+  }
+
+  // Remove the add/remove buttons when in read-only (Detail) components
+  .frost-bunsen-section > .frost-button {
+    display: none;
+  }
+
+  .frost-field {
+    .left-input {
+      width: auto;
+      color: $frost-color-grey-2;
+      font-size: $frost-font-m;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .item-wrapper {
+    > div > div > .frost-bunsen-section {
+      border: 0;
+    }
+  }
+
+  .remove-btn-container {
+    display: none;
+  }
+
+  .required {
+    display: none;
+  }
+}
+
+.frost-bunsen-form {
+  .item-wrapper {
+    border: 1px solid $frost-color-lgrey-1;
+
+    &.compact {
+      display: flex;
+      align-items: center;
+
+      .frost-field {
+        margin-bottom: 0;
+      }
+
+      .remove-btn-container {
+        float: none;
+      }
+    }
+  }
+
+  .remove-btn-container {
+    float: right;
+  }
+}
+
+.frost-bunsen-input-button-group {
+  .frost-button {
+    border-radius: 0;
+
+    &:not(:first-child) {
+      border-left-width: 0;
+    }
+
+    &:first-child {
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+    }
+  }
+}
+
+.frost-bunsen-section {
+  padding-top: 30px;
+  border-top: 1px solid $frost-color-lgrey-1;
+
+  &.collapsed {
+    .frost-icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &:not(.collapsed) > .heading {
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+
+  > .body {
+    display: inline-block;
+  }
+
+  .frost-bunsen-section {
+    border-top-width: 1px;
+  }
+
+  > .frost-button {
+    margin-top: 20px;
+  }
+
+  > .heading {
+    button {
+      width: 16px;
+      padding: 0;
+      float: left;
+      border: 0;
+      background: transparent;
+    }
+
+    h3 {
+      margin: 0 0 0 28px;
+      color: $frost-color-grey-1;
+      font-size: $frost-font-l;
+      font-weight: normal;
+    }
+
+    .frost-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .required {
+      margin: 0 0 0 28px;
+      color: $frost-color-grey-6;
+      font-size: $frost-font-s;
+    }
+  }
+}
+
+.frost-field {
+  display: flex;
+  position: relative;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: $left-label-width + $left-input-width;
+  padding-bottom: 10px;
+
+  .error {
+    padding-top: 3px;
+    color: $frost-color-danger;
+    font-size: $frost-font-xs;
+  }
+
+  > .error {
+    margin-left: $left-label-width;
+  }
+
+  .break {
+    height: 10px;
+  }
+
+  .left-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: $left-label-width;
+    padding-right: 15px;
+    color: $frost-color-grey-3;
+    font-size: $frost-font-s;
+    text-align: right;
+
+    .required {
+      color: $frost-color-grey-6;
+      font-size: $frost-font-xs;
+    }
+  }
+
+  .left-input {
+    width: $left-input-width;
+  }
+}
+
+.no-left-margin {
+  margin-left: 0;
+}
+
+.description {
+  display: none;
+}
+
+// First section in form
+form > div > .frost-bunsen-section {
+  padding-top: 0;
+  border-top: 0;
+}

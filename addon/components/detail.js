@@ -131,8 +131,13 @@ export default Component.extend(PropTypeMixin, {
     }
 
     const tabs = cells.map((cell, index) => {
+      const alias = getAlias(cell)
+
+      // Since label is used for tab text don't render a label within tab as well
+      delete cell.label
+
       return {
-        alias: getAlias(cell),
+        alias,
         cell,
         id: index
       }
