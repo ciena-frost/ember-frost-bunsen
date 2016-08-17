@@ -8,6 +8,28 @@ $left-input-width: 250px;
 
 .frost-bunsen-detail,
 .frost-bunsen-form {
+  .frost-bunsen-cell {
+    &.one-fourth {
+      width: 25%;
+    }
+
+    &.one-half {
+      width: 50%;
+    }
+
+    &.one-third {
+      width: percentage(2 / 3);
+    }
+
+    &.three-fourths {
+      width: 75%;
+    }
+
+    &.two-thirds {
+      width: percentage(2 / 3);
+    }
+  }
+
   .handle {
     width: 32px;
     height: 32px;
