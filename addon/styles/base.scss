@@ -115,6 +115,8 @@ $left-input-width: 250px;
   }
 
   .frost-field {
+    max-width: none;
+
     .left-input {
       width: auto;
       color: $frost-color-grey-2;
