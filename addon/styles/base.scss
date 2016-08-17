@@ -14,19 +14,19 @@ $left-input-width: 250px;
     }
 
     &.one-half {
-      width: 50%;
+      flex-basis: 50%;
     }
 
     &.one-third {
-      width: percentage(2 / 3);
+      flex-basis: percentage(2 / 3);
     }
 
     &.three-fourths {
-      width: 75%;
+      flex-basis: 75%;
     }
 
     &.two-thirds {
-      width: percentage(2 / 3);
+      flex-basis: percentage(2 / 3);
     }
   }
 
