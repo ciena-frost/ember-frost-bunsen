@@ -54,6 +54,14 @@ $left-input-width: 250px;
   .frost-tabs {
     margin-bottom: 15px;
 
+    > .content {
+      margin-top: 15px;
+
+      > .frost-bunsen-cell > .frost-bunsen-section {
+        margin-left: 0;
+      }
+    }
+
     .tab-nav {
       .tab {
         height: 40px;
