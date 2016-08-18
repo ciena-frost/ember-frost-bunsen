@@ -208,7 +208,7 @@ export default Component.extend(PropTypeMixin, {
       onChange(value)
     }
 
-    if ('errors' in newProps && onValidation) {
+    if (('errors' in newProps || 'renderValue' in newProps) && onValidation) {
       onValidation(validationResult)
     }
   },

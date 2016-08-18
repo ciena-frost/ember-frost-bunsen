@@ -571,9 +571,23 @@ describeComponent(
 
         expect(
           props.onValidation.callCount,
-          'does not provide consumer with validation results via onValidation() property'
+          'informs consumer of validation results'
         )
-          .to.equal(0)
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors,
+          'has no validation errors'
+        )
+          .to.eql([])
+
+        expect(
+          validationResult.warnings,
+          'has no validation warnings'
+        )
+          .to.eql([])
       })
     })
 
@@ -806,9 +820,23 @@ describeComponent(
 
           expect(
             props.onValidation.callCount,
-            'does not provide consumer with validation results via onValidation() property'
+            'informs consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors,
+            'has no validation errors'
+          )
+            .to.eql([])
+
+          expect(
+            validationResult.warnings,
+            'has no validation warnings'
+          )
+            .to.eql([])
         })
       })
 
@@ -859,9 +887,23 @@ describeComponent(
 
           expect(
             props.onValidation.callCount,
-            'does not provide consumer with validation results via onValidation() property'
+            'informs consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors,
+            'has no validation errors'
+          )
+            .to.eql([])
+
+          expect(
+            validationResult.warnings,
+            'has no validation warnings'
+          )
+            .to.eql([])
         })
       })
 
@@ -910,9 +952,23 @@ describeComponent(
 
           expect(
             props.onValidation.callCount,
-            'does not provide consumer with validation results via onValidation() property'
+            'informs consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors,
+            'has no validation errors'
+          )
+            .to.eql([])
+
+          expect(
+            validationResult.warnings,
+            'has no validation warnings'
+          )
+            .to.eql([])
         })
       })
 
@@ -961,9 +1017,23 @@ describeComponent(
 
           expect(
             props.onValidation.callCount,
-            'does not provide consumer with validation results via onValidation() property'
+            'informs consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors,
+            'has no validation errors'
+          )
+            .to.eql([])
+
+          expect(
+            validationResult.warnings,
+            'has no validation warnings'
+          )
+            .to.eql([])
         })
       })
     })

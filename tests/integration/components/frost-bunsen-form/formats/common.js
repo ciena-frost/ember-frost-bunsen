@@ -183,9 +183,21 @@ export default function (format, invalidValues, validValues) {
 
             expect(
               validationResult,
-              'does not provide consumer with validation results via onValidation() property'
+              'provides consumer with validation results via onValidation() property'
             )
-              .to.be.undefined
+              .to.be.defined
+
+            expect(
+              validationResult.errors,
+              'has no validation errors'
+            )
+              .to.eql([])
+
+            expect(
+              validationResult.warnings,
+              'has no validation warnings'
+            )
+              .to.eql([])
 
             expect(
               this.$(selectors.frost.text.input.enabled).val(),

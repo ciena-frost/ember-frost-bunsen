@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "6.6.12",
+  "version": "6.6.13",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -74,6 +74,7 @@
     "ember-redux": "^1.5.0",
     "ember-resolver": "^2.0.3",
     "ember-seamless-immutable-shim": "0.2.13",
+    "ember-sinon": "0.5.1",
     "ember-sortable": "^1.8.2",
     "ember-tooltips": "0.7.0",
     "ember-truth-helpers": "1.2.0",
