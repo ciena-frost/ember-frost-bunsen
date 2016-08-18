@@ -2,7 +2,7 @@ import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, Component} = Ember
+const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
@@ -288,17 +288,26 @@ export default Component.extend(PropTypeMixin, {
 
       // Update items
       items.forEach((item, index) => {
-        const incomingItem = value[index]
+        let incomingItem = value[index]
         const stateItem = deemberify(item)
 
         if (!_.isEqual(stateItem, incomingItem)) {
+          if ('asMutable' in incomingItem) {
+            incomingItem = incomingItem.asMutable({deep: true})
+          }
+
           _.assign(item, incomingItem)
         }
       })
 
       // Add missing items
       if (value.length > items.length) {
-        const itemsToAdd = value.slice(items.length)
+        let itemsToAdd = value.slice(items.length)
+
+        if ('asMutable' in itemsToAdd) {
+          itemsToAdd = itemsToAdd.asMutable({deep: true})
+        }
+
         items.pushObjects(itemsToAdd)
       }
 
