@@ -2,7 +2,7 @@ import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, Component, typeOf} = Ember
+const {A, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
@@ -242,7 +242,7 @@ export default Component.extend(PropTypeMixin, {
 
     if (!_.isEqual(newValue, oldValue)) {
       // Make sure new value is not immutable as Ember.A() will choke
-      if ('asMutable' in newValue) {
+      if (typeof newValue === 'object' && 'asMutable' in newValue) {
         newValue = newValue.asMutable({deep: true})
       }
 
@@ -292,7 +292,7 @@ export default Component.extend(PropTypeMixin, {
         const stateItem = deemberify(item)
 
         if (!_.isEqual(stateItem, incomingItem)) {
-          if ('asMutable' in incomingItem) {
+          if (typeof incomingItem === 'object' && 'asMutable' in incomingItem) {
             incomingItem = incomingItem.asMutable({deep: true})
           }
 
@@ -304,7 +304,7 @@ export default Component.extend(PropTypeMixin, {
       if (value.length > items.length) {
         let itemsToAdd = value.slice(items.length)
 
-        if ('asMutable' in itemsToAdd) {
+        if (typeof itemsToAdd === 'object' && 'asMutable' in itemsToAdd) {
           itemsToAdd = itemsToAdd.asMutable({deep: true})
         }
 
