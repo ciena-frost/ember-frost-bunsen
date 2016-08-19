@@ -31,8 +31,7 @@ export default {
   },
   cells: [
     {
-      extends: 'main',
-      label: 'Main'
+      extends: 'main'
     }
   ],
   type: 'form',

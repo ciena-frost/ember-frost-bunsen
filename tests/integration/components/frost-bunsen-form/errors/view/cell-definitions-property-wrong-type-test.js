@@ -28,8 +28,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',

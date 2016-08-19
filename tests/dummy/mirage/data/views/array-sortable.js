@@ -3,7 +3,6 @@ export default {
   type: 'form',
   cells: [
     {
-      label: 'Main',
       extends: 'main'
     }
   ],

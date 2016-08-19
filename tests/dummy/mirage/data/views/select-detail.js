@@ -3,7 +3,6 @@ export default {
   type: 'detail',
   cells: [
     {
-      label: 'Main',
       extends: 'main'
     }
   ],

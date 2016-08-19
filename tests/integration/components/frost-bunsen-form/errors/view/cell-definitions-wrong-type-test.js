@@ -26,8 +26,7 @@ describeComponent(
           cellDefinitions: 'main',
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',

@@ -88,7 +88,6 @@ export default {
     }
   },
   cells: [{
-    label: 'Main',
     extends: 'main'
   }],
   type: 'form',

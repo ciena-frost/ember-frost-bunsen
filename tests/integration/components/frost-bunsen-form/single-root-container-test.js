@@ -23,7 +23,7 @@ const props = {
         ]
       }
     },
-    cells: [{label: 'Main', extends: 'main'}],
+    cells: [{extends: 'main'}],
     type: 'form',
     version: '2.0'
   }

@@ -77,8 +77,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -172,8 +171,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -250,8 +248,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -328,8 +325,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -406,8 +402,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -548,8 +543,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
@@ -608,8 +602,7 @@ describeComponent(
           },
           cells: [
             {
-              extends: 'main',
-              label: 'Main'
+              extends: 'main'
             }
           ],
           type: 'form',
