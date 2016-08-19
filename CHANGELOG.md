@@ -1,3 +1,32 @@
+# 7.0.0
+
+## Breaking
+
+* **Moved** non-Ember specific code to [bunsen-core](https://github.com/ciena-blueplanet/bunsen-core) and started consuming via [ember-bunsen-core](https://github.com/ciena-blueplanet/ember-bunsen-core).
+* **Removed** following properties from `frost-bunsen-form` component: `cancelLabel`, `inline`, `onCancel`, `onSubmit`, and `submitLabel`.
+* **Removed** `z-schema` bower dependency in favor of using [ember-z-schema](https://github.com/ciena-blueplanet/ember-z-schema).
+* **Removed** `frost-bunsen-container`, `frost-bunsen-model-container`, and `frost-bunsen-row` components as they are no longer necessary to support schema.
+* **Updated** CSS to no longer provide `.inline` and `.not-inline` classes for forms and just made previous `.inline` styles the default without the extra `.inline` class name.
+* **Updated** dependencies to latest versions.
+* **Updated** internal components to work with view schema version 2.
+* **Updated** internal store to use immutable for the forms value. See [seamless-immutable](https://github.com/rtfeldman/seamless-immutable) for more.
+* Simplified the DOM being rendered by the components to reduce the DOM footprint and make the styles less complex.
+
+## Non-Breaking
+
+* **Added** a new `url` renderer.
+* **Added** a ton of integration tests to help prevent any future regressions.
+* **Fixed** `button-group` renderer to support disabled state.
+* **Fixed** CI build for `EMBER_TRY_SCENARIO=ember-beta`.
+* **Fixed** false positive `ember-prop-type` warnings by using [hasRegistration()](http://emberjs.com/api/classes/RegistryProxyMixin.html#method_hasRegistration) instead of [lookup()](https://guides.emberjs.com/v2.6.0/applications/dependency-injection/#toc_factory-instance-lookups).
+* **Fixed** `multi-select` renderer documentation to provide working example.
+* **Fixed** array add and remove buttons to become disabled when appropriate.
+* **Fixed** issue with changing model not revalidating.
+* **Fixed** array `autoAdd` feature to work with non-object arrays.
+* **Fixed** `property-chooser` and `multi-select` renderers to implement `placeholder` view property.
+* **Fixed** `property-chooser` to properly implement `label` property.
+* Drastically improved demo.
+
 # 6.6.13
  * **Fixed** issue where `onValidation` was only called if validation result changed. It is now called whenever the value of the form changes. This fix requires a bit of explanation. If consumers want to use a `frost-bunsen-form` to update a remote resource whenever something changes (i.e. no `Submit` button), due to the async aspect of validation, one is forced to use `onValidation` to trigger a save of the last observed value from an `onChange` call. However, if the previous value was  valid, no subsequent `onValidation` was previously made when a new value was delivered with `onChange`. This effectively meant that the only way a user could actually update the remote resource would be to first enter an invalid value, then a valid one. Not exactly the best user experience, especially in the case of free text fields where no validation exists ;)
 
