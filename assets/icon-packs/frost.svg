@@ -1,15 +1,15 @@
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='display: none'>
-<symbol id="add" viewBox="55 0 40 40">
+<symbol id="add" viewBox="55 0 40 40" preserveAspectRatio="undefined">
   <rect x="57.9" y="17.9" width="33.3" height="4.1"/>
   <rect x="72.5" y="3.3" width="4.1" height="33.3"/>
 </symbol>
-<symbol id="app/company-strip" viewBox="0 0 5 375">
+<symbol id="app/company-strip" viewBox="0 0 5 375" preserveAspectRatio="undefined">
   <g>
     <rect fill="#7B7F7F" width="4" height="260"/>
     <rect fill="#7B7F7F" width="4" height="260"/>
   </g>
 </symbol>
-<symbol id="app/company" viewBox="0 0 730 200">
+<symbol id="app/company" viewBox="0 0 730 200" preserveAspectRatio="undefined">
 <g>
 	<text transform="matrix(1 0 0 1 -1 77.1748)"><tspan x="0" y="0" fill="#919395" font-family="&apos;Roboto-Medium&apos;" font-size="60">Company</tspan><tspan x="212.7" y="0" font-family="&apos;Roboto-Medium&apos;" font-size="60"> </tspan></text>
 </g>
@@ -17,7 +17,7 @@
 	<text transform="matrix(1 0 0 1 98.75 106.3463)" fill="#083245" font-family="&apos;Roboto-Regular&apos;" font-size="20">a division of Ipsum</text>
 </g>
 </symbol>
-<symbol id="app/user" viewBox="0 0 35 35">
+<symbol id="app/user" viewBox="0 0 35 35" preserveAspectRatio="undefined">
 	<g>
 		<path style="fill:#E8E8E8;" d="M17.462,6.65H17.4l-0.005,0c-3.689,0.038-6.658,3.058-6.658,6.767c0,0.562,0.067,1.107,0.196,1.628
 			l0.472-0.116l-0.206-0.441c-0.218,0.102-0.422,0.24-0.598,0.415l0,0c-0.362,0.361-0.596,0.865-0.596,1.424l0.004,0.065
@@ -91,7 +91,7 @@
 		<polyline style="fill:#E8E8E8;" points="31.663,0.487 17.485,0.487 31.663,0.487 		"/>
 	</g>
 </symbol>
-<symbol id="application" viewBox="0 0 45 45">
+<symbol id="application" viewBox="0 0 45 45" preserveAspectRatio="undefined">
 	<path class="base" d="M40.12,45h-35c-2.761,0-5-2.239-5-5V5c0-2.761,2.239-5,5-5h35c2.761,0,5,2.239,5,5v35
 		C45.12,42.761,42.882,45,40.12,45z"/>
 	<polygon style="fill:#272425;opacity:0.15;" points="35,9.772 45,21.721 45.086,40.586 44.917,41.375 44.75,41.75 44.417,42.542
@@ -109,47 +109,47 @@
 	<rect x="16.562" y="21.92" style="fill:#F1F1F1;opacity:0.5;" width="16.938" height="5"/>
 	<rect x="16.562" y="28.48" style="fill:#F1F1F1;opacity:0.5;" width="16.938" height="5"/>
 </symbol>
-<symbol id="arrow" viewBox="0 0 35 20">
+<symbol id="arrow" viewBox="0 0 35 20" preserveAspectRatio="undefined">
 	<line fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" x1="32.6" y1="10.3" x2="4.4" y2="10.3"/>
 	<polyline fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" points="12.8,1.7 4.4,9.9 12.8,18.3 "/>
 </symbol>
-<symbol id="back" viewBox="0 0 480 480">
+<symbol id="back" viewBox="0 0 480 480" preserveAspectRatio="undefined">
     <path d="M240,180c0,0,0-46.667,0-60c0-6.667-6.667-6.667-6.667-6.667l-140,120c-6.666,6.667,0,13.334,0,13.334l140,120c0,0,6.667,0,6.667-6.667s0-60,0-60h146.667V180H240z"/>
 </symbol>
-<symbol id="chevron-left" viewBox="0 0 48 48">
+<symbol id="chevron-left" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M30.83 14.83L28 12 16 24l12 12 2.83-2.83L21.66 24z"/>
 </symbol>
-<symbol id="chevron" viewBox="0 0 35 35">
+<symbol id="chevron" viewBox="0 0 35 35" preserveAspectRatio="undefined">
   <polygon points="13.5,17.6 27.8,32.2 25.1,35 8,17.6 8.2,17.4 10.7,14.8 25.3,0 28,2.8"/>
   <polygon points="10.7,14.8 8.2,17.4 10.7,14.8"/>
 </symbol>
-<symbol id="close-circle" viewBox="0 0 30 30">
+<symbol id="close-circle" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 	<circle fill="#FFFFFF" cx="15" cy="15" r="15"/>
   <rect x="13.5" y="7" transform="matrix(0.7071 0.7071 -0.7071 0.7071 15 -6.2132)" width="3" height="15.9"/>
   <rect x="7" y="13.5" transform="matrix(0.7071 0.7071 -0.7071 0.7071 15 -6.2132)" width="15.9" height="3"/>
   <path d="M15,2c7.2,0,13,5.8,13,13s-5.8,13-13,13S2,22.2,2,15S7.8,2,15,2 M15,0C6.7,0,0,6.7,0,15s6.7,15,15,15
   s15-6.7,15-15S23.3,0,15,0L15,0z"/>
 </symbol>
-<symbol id="close" viewBox="0 0 48 48">
+<symbol id="close" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
 </symbol>
-<symbol id="dialog-error" viewBox="0 0 80 80">
+<symbol id="dialog-error" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<polygon fill="#ED5959" points="24.3,80 0,55.7 0,22.4 24.3,0 57.6,0 80,22.4 80,55.7 57.6,80"/>
 	<circle fill="#FFFFFF" cx="40.1" cy="58.1" r="4.5"/>
 	<path fill="#FFFFFF" d="M45.3,22.5c0-3.6-2.4-6.6-5.5-6.6s-5.3,3.4-5.3,7l3.3,24c0,1.3,0.9,2.4,2,2.4s2-1.1,2-2.4L45.3,22.5z"/>
 </symbol>
-<symbol id="double-chevron-left" viewBox="0 0 48 48">
+<symbol id="double-chevron-left" viewBox="0 0 48 48" preserveAspectRatio="undefined">
   <path class="base" d="M 24.83,14.83 22,12 10,24 22,36 24.83,33.17 15.66,24 Z"/>
   <path class="base" d="m 38.797605,14.855422 -2.83,-2.83 -12,12 12,12 2.83,-2.83 -9.17,-9.17 z"/>
 </symbol>
-<symbol id="expand-collapse" viewBox="0 0 15 15">
+<symbol id="expand-collapse" viewBox="0 0 15 15" preserveAspectRatio="undefined">
 <polygon fill="#676767" points="7.5,11.4 1.1,5 2.5,3.6 7.5,8.6 12.5,3.6 13.9,5 "/>
 </symbol>
-<symbol id="frost/add" viewBox="55 0 40 40">
+<symbol id="frost/add" viewBox="55 0 40 40" preserveAspectRatio="undefined">
 	<rect x="57.9" y="17.9" fill="#FFFFFF" width="33.3" height="4.1"/>
 	<rect x="72.5" y="3.3" fill="#FFFFFF" width="4.1" height="33.3"/>
 </symbol>
-<symbol id="frost/application" viewBox="0 0 45 45">
+<symbol id="frost/application" viewBox="0 0 45 45" preserveAspectRatio="undefined">
 	<path class="base" d="M40.12,45h-35c-2.761,0-5-2.239-5-5V5c0-2.761,2.239-5,5-5h35c2.761,0,5,2.239,5,5v35
 		C45.12,42.761,42.882,45,40.12,45z"/>
 	<polygon style="fill:#272425;opacity:0.15;" points="35,9.772 45,21.721 45.086,40.586 44.917,41.375 44.75,41.75 44.417,42.542
@@ -167,23 +167,23 @@
 	<rect x="16.562" y="21.92" style="fill:#F1F1F1;opacity:0.5;" width="16.938" height="5"/>
 	<rect x="16.562" y="28.48" style="fill:#F1F1F1;opacity:0.5;" width="16.938" height="5"/>
 </symbol>
-<symbol id="frost/arrow" viewBox="0 0 35 20">
+<symbol id="frost/arrow" viewBox="0 0 35 20" preserveAspectRatio="undefined">
 	<line fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" x1="32.6" y1="10.3" x2="4.4" y2="10.3"/>
 	<polyline fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" points="12.8,1.7 4.4,9.9 12.8,18.3 "/>
 </symbol>
-<symbol id="frost/back" viewBox="0 0 480 480">
+<symbol id="frost/back" viewBox="0 0 480 480" preserveAspectRatio="undefined">
     <path d="M240,180c0,0,0-46.667,0-60c0-6.667-6.667-6.667-6.667-6.667l-140,120c-6.666,6.667,0,13.334,0,13.334l140,120c0,0,6.667,0,6.667-6.667s0-60,0-60h146.667V180H240z"/>
 </symbol>
-<symbol id="frost/chevron-left" viewBox="0 0 48 48">
+<symbol id="frost/chevron-left" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M30.83 14.83L28 12 16 24l12 12 2.83-2.83L21.66 24z"/>
 </symbol>
-<symbol id="frost/chevron" viewBox="0 0 35 35">
+<symbol id="frost/chevron" viewBox="0 0 35 35" preserveAspectRatio="undefined">
   <g class="frost-svg-chevron">
     <polygon points="13.5,17.6 27.8,32.2 25.1,35 8,17.6 8.2,17.4 10.7,14.8 25.3,0 28,2.8"/>
     <polygon points="10.7,14.8 8.2,17.4 10.7,14.8"/>
   </g>
 </symbol>
-<symbol id="frost/close-circle" viewBox="0 0 30 30">
+<symbol id="frost/close-circle" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 	<circle fill="#FFFFFF" cx="15" cy="15" r="15"/>
 	<g class="frost-svg-close-circle">
 		<rect x="13.5" y="7" transform="matrix(0.7071 0.7071 -0.7071 0.7071 15 -6.2132)" width="3" height="15.9"/>
@@ -192,22 +192,22 @@
 		s15-6.7,15-15S23.3,0,15,0L15,0z"/>
 	</g>
 </symbol>
-<symbol id="frost/close" viewBox="0 0 48 48">
+<symbol id="frost/close" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
 </symbol>
-<symbol id="frost/dialog-error" viewBox="0 0 80 80">
+<symbol id="frost/dialog-error" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<polygon fill="#ED5959" points="24.3,80 0,55.7 0,22.4 24.3,0 57.6,0 80,22.4 80,55.7 57.6,80"/>
 	<circle fill="#FFFFFF" cx="40.1" cy="58.1" r="4.5"/>
 	<path fill="#FFFFFF" d="M45.3,22.5c0-3.6-2.4-6.6-5.5-6.6s-5.3,3.4-5.3,7l3.3,24c0,1.3,0.9,2.4,2,2.4s2-1.1,2-2.4L45.3,22.5z"/>
 </symbol>
-<symbol id="frost/double-chevron-left" viewBox="0 0 48 48">
+<symbol id="frost/double-chevron-left" viewBox="0 0 48 48" preserveAspectRatio="undefined">
   <path class="base" d="M 24.83,14.83 22,12 10,24 22,36 24.83,33.17 15.66,24 Z"/>
   <path class="base" d="m 38.797605,14.855422 -2.83,-2.83 -12,12 12,12 2.83,-2.83 -9.17,-9.17 z"/>
 </symbol>
-<symbol id="frost/expand-collapse" viewBox="0 0 15 15">
+<symbol id="frost/expand-collapse" viewBox="0 0 15 15" preserveAspectRatio="undefined">
 <polygon fill="#676767" points="7.5,11.4 1.1,5 2.5,3.6 7.5,8.6 12.5,3.6 13.9,5 "/>
 </symbol>
-<symbol id="frost/hide" viewBox="0 0 21.6 20">
+<symbol id="frost/hide" viewBox="0 0 21.6 20" preserveAspectRatio="undefined">
 <circle fill="#B3B3B3" cx="10.7" cy="10" r="5.1"/>
 <path fill="#B3B3B3" d="M20.7,11.3c-3.6-4.1-7.3-6-10.8-5.7C4.6,6,1.2,11.1,1.2,11.2l-1-0.7c0.2-0.2,3.8-5.7,9.6-6.2
 	c4-0.3,8,1.7,11.9,6.1L20.7,11.3z"/>
@@ -218,25 +218,25 @@
 		L5.5,20l14-18.3L20,1.1l-0.6-0.4l-1.1-0.9L17.7-0.6L17.7-0.6z"/>
 </g>
 </symbol>
-<symbol id="frost/home" viewBox="0 0 480 480">
+<symbol id="frost/home" viewBox="0 0 480 480" preserveAspectRatio="undefined">
   	<path d="M400.336,268.281c-2.736,2.921-7.379,3.081-10.299,0.346L240.668,129.156c-2.92-2.735-7.727-2.735-10.656,0L84.389,264.907   c-2.938,2.749-7.562,2.576-10.299-0.357l-14.92-16.003c-2.734-2.921-2.57-7.563,0.359-10.294l170.5-158.955   c2.938-2.735,7.736-2.735,10.67,0.018l174.211,162.669c2.924,2.735,3.094,7.378,0.344,10.312L400.336,268.281z"/>
   	<path d="M235.333,154.331L112.577,268.765v118.645c0,4.029,3.312,7.344,7.352,7.344h80.68V291.891c0-4.03,3.311-7.344,7.354-7.344   h58.771c4.047,0,7.344,3.313,7.344,7.344v102.862h80.943c4.047,0,7.344-3.314,7.344-7.344V272.954L235.333,154.331z"/>
   	<path d="M361.881,94.593c0-4.043-3.314-7.356-7.361-7.356h-44.076c-4.031,0-7.344,3.313-7.344,7.356v12.831l58.781,55.342V94.593z"/>
 </symbol>
-<symbol id="frost/info" viewBox="0 0 80 80">
+<symbol id="frost/info" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<path fill="#BABCBE" d="M40,9.6c16.7,0,30.2,13.6,30.2,30.2S56.7,70.1,40,70.1S9.8,56.5,9.8,39.8S23.3,9.6,40,9.6 M40,4.8
 		c-19.3,0-35,15.7-35,35s15.7,35,35,35s35-15.7,35-35S59.3,4.8,40,4.8L40,4.8z"/>
 	<circle fill="#7C807F" cx="40" cy="24.5" r="6"/>
 	<path fill="#7C807F" d="M40.6,61.5h-1.2c-1.7,0-3-1.3-3-3V37.1c0-1.6,1.3-3,3-3h1.2c1.6,0,3,1.3,3,3v21.4
 		C43.6,60.2,42.2,61.5,40.6,61.5z"/>
 </symbol>
-<symbol id="frost/infobar-create" viewBox="0 0 30 30">
+<symbol id="frost/infobar-create" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <g>
 	<polygon fill="#009EEF" points="25,13.3 25,16.7 16.7,16.7 16.7,25 13.3,25 13.3,16.7 5,16.7 5,13.3 13.3,13.3 13.3,5 16.7,5
 		16.7,13.3 	"/>
 </g>
 </symbol>
-<symbol id="frost/infobar-find" viewBox="-374 286 30 30">
+<symbol id="frost/infobar-find" viewBox="-374 286 30 30" preserveAspectRatio="undefined">
 <g>
 	<path fill="#009EEF" d="M-361.1,291.8c4,0,7.3,3.3,7.3,7.2s-3.3,7.2-7.3,7.2s-7.3-3.3-7.3-7.2S-365.1,291.8-361.1,291.8
 		 M-361.1,290.6c-4.8,0-8.5,3.8-8.5,8.4c0,4.6,3.8,8.4,8.5,8.4s8.5-3.8,8.5-8.4C-352.5,294.4-356.4,290.6-361.1,290.6L-361.1,290.6z
@@ -244,22 +244,22 @@
 </g>
 <line fill="none" stroke="#009EEF" stroke-width="2" stroke-miterlimit="10" x1="-354.7" y1="305.7" x2="-349.6" y2="310.8"/>
 </symbol>
-<symbol id="frost/line" viewBox="0 0 35 20">
+<symbol id="frost/line" viewBox="0 0 35 20" preserveAspectRatio="undefined">
 	<line fill="none" stroke="#BABCBE" stroke-width="5" stroke-miterlimit="10" x1="32.6" y1="10.3" x2="4.4" y2="10.3"/>
 </symbol>
-<symbol id="frost/link" viewBox="0 0 30 30">
+<symbol id="frost/link" viewBox="0 0 30 30" preserveAspectRatio="undefined">
   <g class="frost-svg-link">
     <path d="M23,14v11H5V7h11V5H6C4.9,5,3,6.9,3,8v16c0,1.1,1.9,3,3,3h16c1.1,0,3-1.9,3-3V14H23z"/>
 	<polygon points="27,3 27,10 25,10 25,6.5 17.3,14.2 15.9,12.8 23.7,5 20,5 20,3 "/>
   </g>
 </symbol>
-<symbol id="frost/list-large" viewBox="0 0 10 10">
+<symbol id="frost/list-large" viewBox="0 0 10 10" preserveAspectRatio="undefined">
 	<g class="view-size-svg">
 		<rect x="0" y="0" width="10" height="4.5"/>
 		<rect x="0" y="5.5" width="10" height="4.5"/>
 	</g>
 </symbol>
-<symbol id="frost/list-medium" viewBox="0 0 10 10">
+<symbol id="frost/list-medium" viewBox="0 0 10 10" preserveAspectRatio="undefined">
 	<g class="view-size-svg">
 		<rect x="0" y="0" width="10" height="1.75"/>
 		<rect x="0" y="2.75" width="10" height="1.75"/>
@@ -267,7 +267,7 @@
 		<rect x="0" y="8.25" width="10" height="1.75"/>
 	</g>
 </symbol>
-<symbol id="frost/list-small" viewBox="0 0 10 10">
+<symbol id="frost/list-small" viewBox="0 0 10 10" preserveAspectRatio="undefined">
   <g class="view-size-svg">
     <rect x="0" y="0" width="10" height="1"/>
     <rect x="0" y="2.25" width="10" height="1"/>
@@ -276,32 +276,32 @@
     <rect x="0" y="9" width="10" height="1"/>
   </g>
 </symbol>
-<symbol id="frost/menu" viewBox="0 0 48 48">
+<symbol id="frost/menu" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z"/>
 </symbol>
-<symbol id="frost/new-tab" viewBox="0 0 25 25">
+<symbol id="frost/new-tab" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 <path fill="#FFFFFF" d="M21,11v10H3V4h10V2H3.5C2.3,2,1,2.4,1,3.5v17.2C1,21.8,2.3,23,3.5,23h17.2c1.1,0,2.4-1.2,2.4-2.3V11H21z"/>
 <polygon fill="#FFFFFF" points="24,1 24,7 22,7 22,4.6 14.5,12.2 13,10.8 20.8,3 17,3 17,1 "/>
 </symbol>
-<symbol id="frost/round-add" viewBox="0 0 30 30">
+<symbol id="frost/round-add" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <rect x="14.5" y="7.5" fill="#009EEF" width="1" height="15"/>
 <rect x="7.5" y="14.5" fill="#009EEF" width="15" height="1"/>
 <path fill="#009EEF" d="M15,2.5c6.9,0,12.5,5.6,12.5,12.5S21.9,27.5,15,27.5S2.5,21.9,2.5,15S8.1,2.5,15,2.5 M15,1.5
 	C7.5,1.5,1.5,7.5,1.5,15s6,13.5,13.5,13.5s13.5-6,13.5-13.5S22.5,1.5,15,1.5L15,1.5z"/>
 </symbol>
-<symbol id="frost/round-remove" viewBox="0 15 30 30">
+<symbol id="frost/round-remove" viewBox="0 15 30 30" preserveAspectRatio="undefined">
 <rect x="7.5" y="29.5" fill="#E32C2C" width="15" height="1"/>
 <g>
 	<path fill="#E32C2C" d="M15,18.5c6.3,0,11.5,5.2,11.5,11.5S21.3,41.5,15,41.5S3.5,36.3,3.5,30S8.7,18.5,15,18.5 M15,17.5
 		C8.1,17.5,2.5,23.1,2.5,30S8.1,42.5,15,42.5S27.5,36.9,27.5,30S21.9,17.5,15,17.5L15,17.5z"/>
 </g>
 </symbol>
-<symbol id="frost/search" viewBox="0 0 30 30">
+<symbol id="frost/search" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 	<path class="base" d="M12.7,7c2.9,0,5.3,2.4,5.3,5.3s-2.4,5.3-5.3,5.3s-5.3-2.4-5.3-5.3S9.8,7,12.7,7 M12.7,5
 	c-4,0-7.3,3.3-7.3,7.3s3.3,7.3,7.3,7.3s7.3-3.3,7.3-7.3S16.8,5,12.7,5L12.7,5z"/>
 	<line class="base" stroke-width="2" stroke-miterlimit="10" x1="18.9" y1="18.2" x2="24.5" y2="23.8"/>
 </symbol>
-<symbol id="frost/shield" viewBox="0 0 25 25">
+<symbol id="frost/shield" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 	<g opacity="0.8">
 		<path fill="#595A5C" d="M12.5,8.1c0.8,0.9,2.2,2.1,4.4,2.3c0,1.6-0.5,5.3-4.4,7.1c-3.9-1.9-4.4-5.5-4.4-7.1
 			C10.3,10.2,11.7,9,12.5,8.1 M12.5,6.4c0,0-1.5,3.1-5.4,3.1c0,0-0.9,6.5,5.4,9.2c6.3-2.7,5.4-9.2,5.4-9.2
@@ -309,7 +309,7 @@
 		<path fill="#595A5C" d="M12.5,6.4c0,0,1.5,3.1,5.4,3.1c0,0,0.9,6.5-5.4,9.2V6.4z"/>
 	</g>
 </symbol>
-<symbol id="frost/show" viewBox="0 0 21.6 20">
+<symbol id="frost/show" viewBox="0 0 21.6 20" preserveAspectRatio="undefined">
 <g>
 	<path fill="#B3B3B3" d="M20.7,11.4c-3.6-4.1-7.3-6-10.8-5.7c-5.3,0.4-8.7,5.6-8.7,5.6l-1-0.7c0.2-0.2,3.8-5.7,9.6-6.2
 		c4-0.3,8,1.7,11.9,6.1L20.7,11.4z"/>
@@ -317,7 +317,7 @@
 		c-0.8,0-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5s1.4,0.7,1.4,1.5C14.4,9.5,13.8,10.1,13,10.1z"/>
 </g>
 </symbol>
-<symbol id="frost/sidebar-layer-normal" viewBox="0 0 40 40">
+<symbol id="frost/sidebar-layer-normal" viewBox="0 0 40 40" preserveAspectRatio="undefined">
 <g>
 	<polygon style="fill:#FFFFFF;stroke:#859CA8;stroke-width:1.9282;stroke-miterlimit:10;" points="37.6,23.941 19.875,34.917 
 		2.15,23.941 19.875,15.857 	"/>
@@ -327,7 +327,7 @@
 		2.15,12.372 19.875,4.288 	"/>
 </g>
 </symbol>
-<symbol id="frost/sidebar-layer-open" viewBox="0 0 40 40">
+<symbol id="frost/sidebar-layer-open" viewBox="0 0 40 40" preserveAspectRatio="undefined">
 <g>
 	<polygon style="fill:#859CA8;stroke:#FFFFFF;stroke-width:1.9282;stroke-miterlimit:10;" points="37.6,23.941 19.875,34.917 
 		2.15,23.941 19.875,15.857 	"/>
@@ -337,14 +337,14 @@
 		2.15,12.372 19.875,4.288 	"/>
 </g>
 </symbol>
-<symbol id="frost/sort-direction" viewBox="0 15 30 30">
+<symbol id="frost/sort-direction" viewBox="0 15 30 30" preserveAspectRatio="undefined">
 <rect x="14.2" y="21.7" fill="#009EEF" width="1.4" height="17.4"/>
 <rect x="11.1" y="19.2" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 3.1541 49.4962)" fill="#009EEF" width="1.4" height="9.8"/>
 <rect x="17.2" y="19.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -11.9147 19.746)" fill="#009EEF" width="1.4" height="9.8"/>
 <path fill="#009EEF" d="M15,17.5c6.9,0,12.5,5.6,12.5,12.5S21.9,42.5,15,42.5S2.5,36.9,2.5,30S8.1,17.5,15,17.5 M15,16.5
 	c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5s13.5-6,13.5-13.5S22.5,16.5,15,16.5L15,16.5z"/>
 </symbol>
-<symbol id="frost/user" viewBox="0 0 25 25">
+<symbol id="frost/user" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 	<path class="base" d="M12.483,4.84h-0.046C9.925,4.865,7.9,6.924,7.9,9.454c0,0.384,0.046,0.756,0.133,1.111
 		c-0.125,0.058-0.242,0.138-0.337,0.234c-0.204,0.205-0.333,0.484-0.333,0.793l0.129,0.96c0,0.618,0.379,1.127,1.004,1.127h0.05
 		c0.208,1.315,0.536,2.691,1.648,3.263c0,0-0.415,1.434-0.407,1.505c-0.625,0.037-0.221,0.016-0.275,0.016
@@ -355,7 +355,7 @@
 		c0-0.309-0.129-0.589-0.333-0.793c-0.096-0.096-0.212-0.175-0.337-0.234C17.054,10.21,17.1,9.838,17.1,9.454
 		c0-2.53-2.025-4.589-4.538-4.614h-0.046"/>
 </symbol>
-<symbol id="frost/warning" viewBox="0 0 80 80">
+<symbol id="frost/warning" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<path fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" d="M435.1,599l30-45.1c1.9-2.9,6.2-2.9,8.2,0
 		l30.2,45.1c2.2,3.3-0.2,7.6-4.1,7.6h-60.2C435.3,606.6,432.9,602.3,435.1,599z"/>
 	<circle fill="#7C807F" cx="469.1" cy="596" r="3.3"/>
@@ -367,7 +367,7 @@
 	<path fill="#7C807F" d="M44,30.8c0-2.7-1.8-4.8-4-4.8c-2.2,0-3.9,2.5-3.9,5.2l2.4,17.6c0,1,0.6,1.7,1.4,1.7s1.4-0.8,1.4-1.7
 		L44,30.8z"/>
 </symbol>
-<symbol id="hide" viewBox="0 0 21.6 20">
+<symbol id="hide" viewBox="0 0 21.6 20" preserveAspectRatio="undefined">
 <circle fill="#B3B3B3" cx="10.7" cy="10" r="5.1"/>
 <path fill="#B3B3B3" d="M20.7,11.3c-3.6-4.1-7.3-6-10.8-5.7C4.6,6,1.2,11.1,1.2,11.2l-1-0.7c0.2-0.2,3.8-5.7,9.6-6.2
 	c4-0.3,8,1.7,11.9,6.1L20.7,11.3z"/>
@@ -378,25 +378,25 @@
 		L5.5,20l14-18.3L20,1.1l-0.6-0.4l-1.1-0.9L17.7-0.6L17.7-0.6z"/>
 </g>
 </symbol>
-<symbol id="home" viewBox="0 0 480 480">
+<symbol id="home" viewBox="0 0 480 480" preserveAspectRatio="undefined">
   	<path d="M400.336,268.281c-2.736,2.921-7.379,3.081-10.299,0.346L240.668,129.156c-2.92-2.735-7.727-2.735-10.656,0L84.389,264.907   c-2.938,2.749-7.562,2.576-10.299-0.357l-14.92-16.003c-2.734-2.921-2.57-7.563,0.359-10.294l170.5-158.955   c2.938-2.735,7.736-2.735,10.67,0.018l174.211,162.669c2.924,2.735,3.094,7.378,0.344,10.312L400.336,268.281z"/>
   	<path d="M235.333,154.331L112.577,268.765v118.645c0,4.029,3.312,7.344,7.352,7.344h80.68V291.891c0-4.03,3.311-7.344,7.354-7.344   h58.771c4.047,0,7.344,3.313,7.344,7.344v102.862h80.943c4.047,0,7.344-3.314,7.344-7.344V272.954L235.333,154.331z"/>
   	<path d="M361.881,94.593c0-4.043-3.314-7.356-7.361-7.356h-44.076c-4.031,0-7.344,3.313-7.344,7.356v12.831l58.781,55.342V94.593z"/>
 </symbol>
-<symbol id="info" viewBox="0 0 80 80">
+<symbol id="info" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<path fill="#BABCBE" d="M40,9.6c16.7,0,30.2,13.6,30.2,30.2S56.7,70.1,40,70.1S9.8,56.5,9.8,39.8S23.3,9.6,40,9.6 M40,4.8
 		c-19.3,0-35,15.7-35,35s15.7,35,35,35s35-15.7,35-35S59.3,4.8,40,4.8L40,4.8z"/>
 	<circle fill="#7C807F" cx="40" cy="24.5" r="6"/>
 	<path fill="#7C807F" d="M40.6,61.5h-1.2c-1.7,0-3-1.3-3-3V37.1c0-1.6,1.3-3,3-3h1.2c1.6,0,3,1.3,3,3v21.4
 		C43.6,60.2,42.2,61.5,40.6,61.5z"/>
 </symbol>
-<symbol id="infobar-create" viewBox="0 0 30 30">
+<symbol id="infobar-create" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <g>
 	<polygon fill="#009EEF" points="25,13.3 25,16.7 16.7,16.7 16.7,25 13.3,25 13.3,16.7 5,16.7 5,13.3 13.3,13.3 13.3,5 16.7,5
 		16.7,13.3 	"/>
 </g>
 </symbol>
-<symbol id="infobar-find" viewBox="-374 286 30 30">
+<symbol id="infobar-find" viewBox="-374 286 30 30" preserveAspectRatio="undefined">
 <g>
 	<path fill="#009EEF" d="M-361.1,291.8c4,0,7.3,3.3,7.3,7.2s-3.3,7.2-7.3,7.2s-7.3-3.3-7.3-7.2S-365.1,291.8-361.1,291.8
 		 M-361.1,290.6c-4.8,0-8.5,3.8-8.5,8.4c0,4.6,3.8,8.4,8.5,8.4s8.5-3.8,8.5-8.4C-352.5,294.4-356.4,290.6-361.1,290.6L-361.1,290.6z
@@ -404,26 +404,26 @@
 </g>
 <line fill="none" stroke="#009EEF" stroke-width="2" stroke-miterlimit="10" x1="-354.7" y1="305.7" x2="-349.6" y2="310.8"/>
 </symbol>
-<symbol id="launch/transition-arrow" viewBox="0 0 25 40">
+<symbol id="launch/transition-arrow" viewBox="0 0 25 40" preserveAspectRatio="undefined">
   <g opacity="0.15">
     <polygon fill="#FFFFFF" points="21.4,16.8 25,20.1 3.6,40 0,36.7 "/>
     <polygon fill="#FFFFFF" points="25,19.9 21.4,23.2 0,3.3 3.6,0 "/>
   </g>
 </symbol>
-<symbol id="line" viewBox="0 0 35 20">
+<symbol id="line" viewBox="0 0 35 20" preserveAspectRatio="undefined">
 	<line fill="none" stroke="#BABCBE" stroke-width="5" stroke-miterlimit="10" x1="32.6" y1="10.3" x2="4.4" y2="10.3"/>
 </symbol>
-<symbol id="link" viewBox="0 0 30 30">
+<symbol id="link" viewBox="0 0 30 30" preserveAspectRatio="undefined">
     <path d="M23,14v11H5V7h11V5H6C4.9,5,3,6.9,3,8v16c0,1.1,1.9,3,3,3h16c1.1,0,3-1.9,3-3V14H23z"/>
 	<polygon points="27,3 27,10 25,10 25,6.5 17.3,14.2 15.9,12.8 23.7,5 20,5 20,3 "/>
 </symbol>
-<symbol id="list-large" viewBox="0 0 10 10">
+<symbol id="list-large" viewBox="0 0 10 10" preserveAspectRatio="undefined">
 	<g class="view-size-svg">
 		<rect x="0" y="0" width="10" height="4.5"/>
 		<rect x="0" y="5.5" width="10" height="4.5"/>
 	</g>
 </symbol>
-<symbol id="list-medium" viewBox="0 0 10 10">
+<symbol id="list-medium" viewBox="0 0 10 10" preserveAspectRatio="undefined">
 	<g class="view-size-svg">
 		<rect x="0" y="0" width="10" height="1.75"/>
 		<rect x="0" y="2.75" width="10" height="1.75"/>
@@ -431,7 +431,7 @@
 		<rect x="0" y="8.25" width="10" height="1.75"/>
 	</g>
 </symbol>
-<symbol id="list-small" viewBox="0 0 10 10">
+<symbol id="list-small" viewBox="0 0 10 10" preserveAspectRatio="undefined">
   <g class="view-size-svg">
     <rect x="0" y="0" width="10" height="1"/>
     <rect x="0" y="2.25" width="10" height="1"/>
@@ -440,7 +440,7 @@
     <rect x="0" y="9" width="10" height="1"/>
   </g>
 </symbol>
-<symbol id="loading/ring" viewBox="0 0 100 100">
+<symbol id="loading/ring" viewBox="0 0 100 100" preserveAspectRatio="undefined">
 	<rect x="0" y="0" width="100" height="100" fill="none" class="bk"/>
 	<defs>
 		<filter id="uil-ring-shadow" x="-100%" y="-100%" width="300%" height="300%">
@@ -453,7 +453,7 @@
 		<animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" repeatCount="indefinite" dur="1s"/>
 	</path>
 </symbol>
-<symbol id="loading/ripple" viewBox="0 0 100 100">
+<symbol id="loading/ripple" viewBox="0 0 100 100" preserveAspectRatio="undefined">
 	<rect x="0" y="0" width="100" height="100" fill="none" class="bk"/>
 	<g>
 		<animate attributeName="opacity" dur="2s" repeatCount="indefinite" begin="0s" keyTimes="0;0.33;1" values="1;1;0"/>
@@ -468,19 +468,19 @@
 		</circle>
 	</g>
 </symbol>
-<symbol id="menu" viewBox="0 0 48 48">
+<symbol id="menu" viewBox="0 0 48 48" preserveAspectRatio="undefined">
 	<path class="base" d="M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z"/>
 </symbol>
-<symbol id="more" viewBox="0 0 35 35">
+<symbol id="more" viewBox="0 0 35 35" preserveAspectRatio="undefined">
   <circle fill="#009EEF" cx="4.5" cy="17.5" r="4"/>
   <circle fill="#009EEF" cx="17.5" cy="17.5" r="4"/>
   <circle fill="#009EEF" cx="30.5" cy="17.5" r="4"/>
 </symbol>
-<symbol id="new-tab" viewBox="0 0 25 25">
+<symbol id="new-tab" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 <path fill="#FFFFFF" d="M21,11v10H3V4h10V2H3.5C2.3,2,1,2.4,1,3.5v17.2C1,21.8,2.3,23,3.5,23h17.2c1.1,0,2.4-1.2,2.4-2.3V11H21z"/>
 <polygon fill="#FFFFFF" points="24,1 24,7 22,7 22,4.6 14.5,12.2 13,10.8 20.8,3 17,3 17,1 "/>
 </symbol>
-<symbol id="notifications/error" viewBox="0 0 30 30">
+<symbol id="notifications/error" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <g id="Layer_1" style="display:none;">
 	<g style="display:inline;">
 		<path style="fill:#009999;" d="M15,29.5C7.005,29.5,0.5,22.995,0.5,15S7.005,0.5,15,0.5S29.5,7.005,29.5,15S22.995,29.5,15,29.5z"/>
@@ -527,7 +527,7 @@
 	</g>
 </g>
 </symbol>
-<symbol id="notifications/info" viewBox="0 0 30 30">
+<symbol id="notifications/info" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <g>
 	<path style="fill:#009999;" d="M15,29.5C7.005,29.5,0.5,22.995,0.5,15S7.005,0.5,15,0.5S29.5,7.005,29.5,15S22.995,29.5,15,29.5z"/>
 	<path style="fill:#FFFFFF;" d="M15,1c7.72,0,14,6.28,14,14s-6.28,14-14,14S1,22.72,1,15S7.28,1,15,1 M15,0C6.716,0,0,6.716,0,15
@@ -539,7 +539,7 @@
 		c0,0.38,0.228,0.646,0.532,0.646c0.304,0,0.532-0.304,0.532-0.646L16.766,10.31z"/>
 </g>
 </symbol>
-<symbol id="notifications/warning" viewBox="0 0 30 30">
+<symbol id="notifications/warning" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <g id="Layer_1" style="display:none;">
 	<g style="display:inline;">
 		<path style="fill:#009999;" d="M15,29.5C7.005,29.5,0.5,22.995,0.5,15S7.005,0.5,15,0.5S29.5,7.005,29.5,15S22.995,29.5,15,29.5z"/>
@@ -586,26 +586,26 @@
 	</g>
 </g>
 </symbol>
-<symbol id="round-add" viewBox="0 0 30 30">
+<symbol id="round-add" viewBox="0 0 30 30" preserveAspectRatio="undefined">
 <rect x="14.5" y="7.5" fill="#009EEF" width="1" height="15"/>
 <rect x="7.5" y="14.5" fill="#009EEF" width="15" height="1"/>
 <path fill="#009EEF" d="M15,2.5c6.9,0,12.5,5.6,12.5,12.5S21.9,27.5,15,27.5S2.5,21.9,2.5,15S8.1,2.5,15,2.5 M15,1.5
 	C7.5,1.5,1.5,7.5,1.5,15s6,13.5,13.5,13.5s13.5-6,13.5-13.5S22.5,1.5,15,1.5L15,1.5z"/>
 </symbol>
-<symbol id="round-remove" viewBox="0 15 30 30">
+<symbol id="round-remove" viewBox="0 15 30 30" preserveAspectRatio="undefined">
 <rect x="7.5" y="29.5" fill="#E32C2C" width="15" height="1"/>
 <g>
 	<path fill="#E32C2C" d="M15,18.5c6.3,0,11.5,5.2,11.5,11.5S21.3,41.5,15,41.5S3.5,36.3,3.5,30S8.7,18.5,15,18.5 M15,17.5
 		C8.1,17.5,2.5,23.1,2.5,30S8.1,42.5,15,42.5S27.5,36.9,27.5,30S21.9,17.5,15,17.5L15,17.5z"/>
 </g>
 </symbol>
-<symbol id="search" viewBox="0 0 35 35">
+<symbol id="search" viewBox="0 0 35 35" preserveAspectRatio="undefined">
     <g opacity="0.7">
       <path d="M13.9,1.9 L13.9,1.9 L14,1.9 C17.2,1.9 20.3,3.3 22.5,5.5 C24.7,7.9 26,10.8 26,14 C26,20.7 20.7,26 14.1,26 L14,26 C10.8,26 7.7,24.6 5.5,22.4 C3.1,20.2 2,17.1 2,13.9 C2,7.2 7.4,1.9 13.9,1.9 L13.9,1.9 Z M13.9,0.5 C6.6,0.5 0.6,6.4 0.5,13.8 C0.4,21.2 6.4,27.4 13.8,27.5 L13.9,27.5 C21.3,27.5 27.3,21.6 27.3,14.2 C27.4,6.8 21.4,0.6 14,0.5 C14.1,0.5 14.1,0.5 13.9,0.5 L13.9,0.5 L13.9,0.5 Z"/>
       <rect transform="translate(30.468955, 30.261670) rotate(45.773837) translate(-30.468955, -30.261670) " x="23.1188748" y="29.2616591" width="14.7001603" height="2.00002181"/>
     </g>
 </symbol>
-<symbol id="shield-full" viewBox="0 0 11 13">
+<symbol id="shield-full" viewBox="0 0 11 13" preserveAspectRatio="undefined">
 <style type="text/css">
 	.st0{fill:#7B7F7F;}
 </style>
@@ -620,7 +620,7 @@
 	</g>
 </g>
 </symbol>
-<symbol id="shield-half" viewBox="0 0 11 13">
+<symbol id="shield-half" viewBox="0 0 11 13" preserveAspectRatio="undefined">
 <style type="text/css">
 	.st0{fill:#7B7F7F;}
 </style>
@@ -635,7 +635,7 @@
 	</g>
 </g>
 </symbol>
-<symbol id="shield" viewBox="0 0 25 25">
+<symbol id="shield" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 	<g opacity="0.8">
 		<path fill="#595A5C" d="M12.5,8.1c0.8,0.9,2.2,2.1,4.4,2.3c0,1.6-0.5,5.3-4.4,7.1c-3.9-1.9-4.4-5.5-4.4-7.1
 			C10.3,10.2,11.7,9,12.5,8.1 M12.5,6.4c0,0-1.5,3.1-5.4,3.1c0,0-0.9,6.5,5.4,9.2c6.3-2.7,5.4-9.2,5.4-9.2
@@ -643,7 +643,7 @@
 		<path fill="#595A5C" d="M12.5,6.4c0,0,1.5,3.1,5.4,3.1c0,0,0.9,6.5-5.4,9.2V6.4z"/>
 	</g>
 </symbol>
-<symbol id="show" viewBox="0 0 21.6 20">
+<symbol id="show" viewBox="0 0 21.6 20" preserveAspectRatio="undefined">
 <g>
 	<path fill="#B3B3B3" d="M20.7,11.4c-3.6-4.1-7.3-6-10.8-5.7c-5.3,0.4-8.7,5.6-8.7,5.6l-1-0.7c0.2-0.2,3.8-5.7,9.6-6.2
 		c4-0.3,8,1.7,11.9,6.1L20.7,11.4z"/>
@@ -651,7 +651,7 @@
 		c-0.8,0-1.4-0.7-1.4-1.5c0-0.8,0.6-1.5,1.4-1.5s1.4,0.7,1.4,1.5C14.4,9.5,13.8,10.1,13,10.1z"/>
 </g>
 </symbol>
-<symbol id="sidebar-layer-normal" viewBox="0 0 40 40">
+<symbol id="sidebar-layer-normal" viewBox="0 0 40 40" preserveAspectRatio="undefined">
 <g>
 	<polygon style="fill:#FFFFFF;stroke:#859CA8;stroke-width:1.9282;stroke-miterlimit:10;" points="37.6,23.941 19.875,34.917 
 		2.15,23.941 19.875,15.857 	"/>
@@ -661,7 +661,7 @@
 		2.15,12.372 19.875,4.288 	"/>
 </g>
 </symbol>
-<symbol id="sidebar-layer-open" viewBox="0 0 40 40">
+<symbol id="sidebar-layer-open" viewBox="0 0 40 40" preserveAspectRatio="undefined">
 <g>
 	<polygon style="fill:#859CA8;stroke:#FFFFFF;stroke-width:1.9282;stroke-miterlimit:10;" points="37.6,23.941 19.875,34.917 
 		2.15,23.941 19.875,15.857 	"/>
@@ -671,14 +671,14 @@
 		2.15,12.372 19.875,4.288 	"/>
 </g>
 </symbol>
-<symbol id="sort-direction" viewBox="0 15 30 30">
+<symbol id="sort-direction" viewBox="0 15 30 30" preserveAspectRatio="undefined">
 <rect x="14.2" y="21.7" fill="#009EEF" width="1.4" height="17.4"/>
 <rect x="11.1" y="19.2" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 3.1541 49.4962)" fill="#009EEF" width="1.4" height="9.8"/>
 <rect x="17.2" y="19.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -11.9147 19.746)" fill="#009EEF" width="1.4" height="9.8"/>
 <path fill="#009EEF" d="M15,17.5c6.9,0,12.5,5.6,12.5,12.5S21.9,42.5,15,42.5S2.5,36.9,2.5,30S8.1,17.5,15,17.5 M15,16.5
 	c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5s13.5-6,13.5-13.5S22.5,16.5,15,16.5L15,16.5z"/>
 </symbol>
-<symbol id="user" viewBox="0 0 25 25">
+<symbol id="user" viewBox="0 0 25 25" preserveAspectRatio="undefined">
 	<path class="base" d="M12.483,4.84h-0.046C9.925,4.865,7.9,6.924,7.9,9.454c0,0.384,0.046,0.756,0.133,1.111
 		c-0.125,0.058-0.242,0.138-0.337,0.234c-0.204,0.205-0.333,0.484-0.333,0.793l0.129,0.96c0,0.618,0.379,1.127,1.004,1.127h0.05
 		c0.208,1.315,0.536,2.691,1.648,3.263c0,0-0.415,1.434-0.407,1.505c-0.625,0.037-0.221,0.016-0.275,0.016
@@ -689,7 +689,7 @@
 		c0-0.309-0.129-0.589-0.333-0.793c-0.096-0.096-0.212-0.175-0.337-0.234C17.054,10.21,17.1,9.838,17.1,9.454
 		c0-2.53-2.025-4.589-4.538-4.614h-0.046"/>
 </symbol>
-<symbol id="warning" viewBox="0 0 80 80">
+<symbol id="warning" viewBox="0 0 80 80" preserveAspectRatio="undefined">
 	<path fill="none" stroke="#BABCBE" stroke-width="4" stroke-miterlimit="10" d="M435.1,599l30-45.1c1.9-2.9,6.2-2.9,8.2,0
 		l30.2,45.1c2.2,3.3-0.2,7.6-4.1,7.6h-60.2C435.3,606.6,432.9,602.3,435.1,599z"/>
 	<circle fill="#7C807F" cx="469.1" cy="596" r="3.3"/>
