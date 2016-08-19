@@ -1,0 +1,30 @@
+<h1 class="demo-step-title">
+  {{currentStep.title}}
+</h1>
+
+<div class="demo-step-content">
+  {{component
+    currentStep.component
+    props=currentStep.props
+  }}
+</div>
+
+{{#if showPreviousStepButton}}
+  {{frost-button
+    class="demo-previous-button"
+    onClick=(action "previous")
+    priority="secondary"
+    size="medium"
+    text="Previous"
+  }}
+{{/if}}
+
+{{#if showNextStepButton}}
+  {{frost-button
+    class="demo-next-button"
+    onClick=(action "next")
+    priority="primary"
+    size="medium"
+    text="Next"
+  }}
+{{/if}}

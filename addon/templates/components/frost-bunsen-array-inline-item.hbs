@@ -1,0 +1,75 @@
+{{#if (and (not compact) showRemoveButton)}}
+  <div class="remove-btn-container">
+    {{frost-button
+      disabled=disabled
+      onClick=(action "onRemove")
+      priority="tertiary"
+      size="medium"
+      text="Remove"
+    }}
+  </div>
+{{/if}}
+{{#if sortable}}
+  {{frost-icon class="handle" icon="menu"}}
+{{/if}}
+<div class="item-input">
+  {{#if itemCell.renderer}}
+    {{component customRenderer
+      bunsenId=(concat bunsenId '.' index)
+      bunsenModel=bunsenModel.items
+      bunsenStore=bunsenStore
+      cellConfig=cellConfig
+      label=label
+      onChange=onChange
+      readOnly=readOnly
+      value=value
+    }}
+  {{else if (eq bunsenModel.items.type "array")}}
+    {{frost-bunsen-array-container
+      bunsenId=(concat bunsenId '.' index)
+      bunsenModel=bunsenModel.items
+      bunsenStore=bunsenStore
+      cellConfig=cellConfig
+      errors=errors
+      label=label
+      onChange=onChange
+      readOnly=readOnly
+      value=value
+    }}
+  {{else if (eq bunsenModel.items.type "object")}}
+    {{frost-bunsen-cell
+      bunsenId=(concat bunsenId '.' index)
+      bunsenModel=bunsenModel.items
+      bunsenStore=bunsenStore
+      cellConfig=itemCell
+      errors=errors
+      label=label
+      onChange=onChange
+      readOnly=readOnly
+      value=value
+    }}
+  {{else}}
+    {{frost-bunsen-input-wrapper
+      bunsenId=(concat bunsenId '.' index)
+      bunsenModel=bunsenModel.items
+      bunsenStore=bunsenStore
+      cellConfig=itemCell
+      errorMessage=errorMessage
+      label=label
+      onChange=onChange
+      readOnly=readOnly
+      value=renderValue
+    }}
+  {{/if}}
+</div>
+{{#if (and compact showRemoveButton)}}
+  <div class="remove-btn-container">
+    {{frost-button
+      disabled=disabled
+      onClick=(action "onRemove")
+      priority="tertiary"
+      size="medium"
+      text="Remove"
+    }}
+  </div>
+{{/if}}

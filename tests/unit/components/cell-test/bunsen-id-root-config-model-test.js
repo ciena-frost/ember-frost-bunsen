@@ -1,11 +1,11 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import {builtInRenderers} from 'bunsen-core/validator'
 
 describeComponent(
   'frost-bunsen-cell',
-  'FrostBunsenCellComponent with bunsenId and root config model',
+  'Unit: Component | frost-bunsen-cell with bunsenId and root config model',
   {
     unit: true
   },
@@ -34,7 +34,7 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        config: Ember.Object.create({
+        cellConfig: Ember.Object.create({
           model: 'bar'
         }),
         errors: {},

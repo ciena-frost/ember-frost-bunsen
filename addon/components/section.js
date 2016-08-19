@@ -2,31 +2,29 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-section'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNameBindings: ['state.expanded:expanded:collapsed'],
   classNames: ['frost-bunsen-section'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     collapsible: PropTypes.bool,
-    expanded: PropTypes.bool,
-    expandedOnInitialRender: PropTypes.bool,
-    instructions: PropTypes.oneOfType([
+    description: PropTypes.oneOfType([
       PropTypes.null,
       PropTypes.string
     ]),
+    expanded: PropTypes.bool,
+    expandedOnInitialRender: PropTypes.bool,
     onToggle: PropTypes.func,
     renderContentWhenCollapsed: PropTypes.bool,
     required: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string
   },
 
   getDefaultProps () {
@@ -36,9 +34,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('state.expanded', 'renderContentWhenCollapsed')
@@ -52,9 +48,7 @@ export default Component.extend(PropTypeMixin, {
     return expanded || renderContentWhenCollapsed
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Initialize state
@@ -82,13 +76,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**

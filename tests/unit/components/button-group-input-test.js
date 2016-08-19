@@ -2,13 +2,11 @@ import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {afterEach, beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {helpers} from 'ember-frost-bunsen/components/button-group-input'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-button-group',
-  'FrostBunsenInputButtonGroupComponent',
+  'Unit: Component | frost-bunsen-input-button-group',
   {
     unit: true
   },
@@ -25,9 +23,9 @@ describeComponent(
         },
         bunsenStore: Ember.Object.create({}),
         cellConfig: Ember.Object.create({
-          properties: {
-            model: 'foo',
-            type: 'button-group'
+          model: 'foo',
+          renderer: {
+            name: 'button-group'
           }
         }),
         onChange () {},
@@ -62,71 +60,12 @@ describeComponent(
       ])
     })
 
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
-
-    describe('options', function () {
-      let validateValuesSpy
-
-      beforeEach(function () {
-        validateValuesSpy = sandbox.stub(helpers, 'validateValues')
-      })
-
-      describe('when type is boolean', function () {
-        beforeEach(function () {
-          component.set('bunsenModel.type', 'boolean')
-        })
-
-        it('returns expected options', function () {
-          expect(component.get('options')).to.eql(['On', 'Off'])
-        })
-      })
-
-      describe('when type is number', function () {
-        let options, values
-
-        beforeEach(function () {
-          values = [0, 0.5, 1]
-          component.set('bunsenModel.enum', values)
-          component.set('bunsenModel.type', 'number')
-          options = component.get('options')
-        })
-
-        it('validates values', function () {
-          expect(validateValuesSpy.callCount).to.eql(1)
-        })
-
-        it('returns expected options', function () {
-          expect(options).to.eql([0, 0.5, 1])
-        })
-      })
-
-      describe('when type is string', function () {
-        let options, values
-
-        beforeEach(function () {
-          values = ['one', 'two', 'three']
-          component.set('bunsenModel.enum', values)
-          component.set('bunsenModel.type', 'string')
-          options = component.get('options')
-        })
-
-        it('validates values', function () {
-          expect(validateValuesSpy.callCount).to.eql(1)
-        })
-
-        it('returns expected options', function () {
-          expect(options).to.eql(['One', 'Two', 'Three'])
-        })
-      })
-    })
-
     it('size defaults to medium', function () {
       expect(component.get('size')).to.eql('medium')
     })
 
-    it('size can be overridden by properties.size', function () {
-      component.set('cellConfig.properties', {size: 'small'})
+    it('size can be overridden by renderer.size', function () {
+      component.set('cellConfig.renderer.size', 'small')
       expect(component.get('size')).to.eql('small')
     })
 
@@ -175,18 +114,6 @@ describeComponent(
             expect(component.parseValue(index)).to.eql(value)
           })
         })
-      })
-    })
-
-    describe('when onChange property is omitted', function () {
-      beforeEach(function () {
-        component.set('onChange', undefined)
-      })
-
-      it('does not throw an error when onChange action is triggered', function () {
-        expect(function () {
-          component.get('actions.onChange').call(component, 0)
-        }).not.to.throw(Error)
       })
     })
   }

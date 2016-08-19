@@ -2,12 +2,12 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import {builtInRenderers} from 'bunsen-core/validator'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-array-tab-content',
-  'FrostBunsenArrayTabContentComponent',
+  'Unit: Component | frost-bunsen-array-tab-content',
   {
     unit: true
   },
@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              item: {
+              items: {
                 properties: {
                   bar: {type: 'string'}
                 },

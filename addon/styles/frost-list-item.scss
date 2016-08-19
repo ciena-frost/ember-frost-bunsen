@@ -1,0 +1,71 @@
+.frost-list-item {
+  p {
+    margin: 0;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .frost-bunsen-cell {
+    &.description {
+      display: block;
+    }
+  }
+
+  .frost-bunsen-detail {
+    width: calc(100% - 40px); // 40px is width of checkbox
+  }
+
+  // Row
+  form > .frost-bunsen-cell {
+    display: flex;
+
+    // Columns
+    > .frost-bunsen-cell {
+      // Last column
+      &:last-child {
+        padding-right: 10px;
+
+        .frost-bunsen-cell,
+        .frost-field,
+        .item-input,
+        .item-wrapper {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+        }
+      }
+    }
+
+    .frost-bunsen-cell {
+      &.small {
+        .ob-input {
+          color: $frost-color-grey-4;
+          font-size: $frost-font-xs;
+        }
+      }
+    }
+  }
+
+  .frost-field {
+    display: flex;
+    flex-direction: row;
+    max-width: none;
+  }
+
+  .ob-label {
+    display: flex;
+    align-items: baseline;
+    margin-right: 12px;
+    white-space: nowrap;
+
+    &.hide-label {
+      display: none;
+    }
+
+    &:after {
+      content: ':';
+    }
+  }
+}

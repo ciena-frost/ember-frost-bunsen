@@ -3,18 +3,16 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from '../utils'
+import {getLabel} from 'bunsen-core/utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-content'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-tab-content'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -28,12 +26,10 @@ export default Component.extend(PropTypeMixin, {
     value: PropTypes.object.isRequired
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.item.renderer', 'bunsenStore.renderers')
+  @computed('cellConfig.arrayOptions.itemCell.renderer.name', 'bunsenStore.renderers')
   /**
    * Get name of component for custom renderer
    * @param {String} renderer - custom renderer to use
@@ -64,32 +60,28 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.{container,label}', 'index', 'bunsenModel', 'bunsenStore.view.containers')
+  @computed(
+    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
+  )
   /**
    * Get label text for item
-   * @param {String} containerId - ID of container
+   * @param {String} cellId - ID of cell
    * @param {String} label - label
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
-   * @param {BunsenContainer[]} containers - view containers
+   * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} label
    */
-  label (containerId, label, index, bunsenModel, containers) {
-    const itemContainerConfig = containerId ? _.find(containers, {id: containerId}) : null
-    const itemId = itemContainerConfig ? itemContainerConfig.get('id') : ''
+  label (cellId, label, index, bunsenModel, cellDefinitions) {
+    const itemCellConfig = cellId ? cellDefinitions[cellId] : null
+    const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : null
+  },
+
+  @readOnly
+  @computed('cellConfig.arrayOptions.itemCell')
+  itemCell (itemCell) {
+    return itemCell || Ember.Object.create({})
   }
-
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

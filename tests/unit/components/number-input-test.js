@@ -3,11 +3,10 @@ import {describeComponent, it} from 'ember-mocha'
 import {beforeEach, describe} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-number',
-  'FrostBunsenInputNumberComponent',
+  'Unit: Component | frost-bunsen-input-number',
   {
     unit: true
   },
@@ -47,36 +46,6 @@ describeComponent(
         PropTypes.object,
         PropTypes.string
       ])
-    })
-
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
-
-    it('onBlur action sets showErrorMessage to true', function () {
-      component.set('showErrorMessage', true)
-      component.get('actions.onBlur').call(component)
-      expect(component.get('renderErrorMessage')).to.not.be.null
-    })
-
-    it('onFocus action sets showErrorMessage to false', function () {
-      component.set('showErrorMessage', true)
-      component.get('actions.onFocus').call(component)
-      expect(component.get('showErrorMessage')).to.be.false
-    })
-
-    describe('when onChange property is omitted', function () {
-      beforeEach(function () {
-        component.set('onChange', undefined)
-      })
-
-      it('does not throw an error when onChange action is triggered', function () {
-        expect(function () {
-          const e = {
-            value: '1'
-          }
-          component.get('actions.onChange').call(component, e)
-        }).not.to.throw(Error)
-      })
     })
 
     describe('parseValue', function () {

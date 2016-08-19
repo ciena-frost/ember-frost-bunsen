@@ -1,22 +1,38 @@
-import 'ember-frost-bunsen/typedefs'
+import 'bunsen-core/typedefs'
 
 import redux from 'npm:redux'
 const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer from '../reducer'
-import {validate, changeModel} from '../actions'
+import reducer from 'bunsen-core/reducer'
+import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, getOwner} = Ember
+const {Component, getOwner, RSVP} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import dereference from '../dereference'
-import {getDefaultView} from '../generator'
-import validateView, {builtInRenderers, validateModel} from '../validator/index'
-import {deemberify, recursiveObjectCreate} from '../utils'
+import {dereference} from 'bunsen-core/dereference'
+import {getDefaultView} from 'bunsen-core/generator'
+import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
+import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
+
+import {
+  deemberify,
+  recursiveObjectCreate,
+  validateRenderer
+} from '../utils'
+
+function getAlias (cell) {
+  if (cell.label) {
+    return cell.label
+  }
+
+  const words = Ember.String.dasherize(cell.model).replace('-', ' ')
+  return Ember.String.capitalize(words)
+}
 
 /**
  * Determine if an object is an Ember.Object or not
@@ -28,13 +44,11 @@ function isEmberObject (object) {
 }
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Component Properties ===================================================
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenModel: PropTypes.oneOfType([
@@ -58,7 +72,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail', 'inline'],
+      classNames: ['frost-bunsen-detail'],
       disabled: false,
       renderers: {},
       showAllErrors: false,
@@ -67,9 +81,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('renderers')
@@ -99,32 +111,39 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, bunsenView) {
-    bunsenView = !_.isEmpty(bunsenView) ? bunsenView : getDefaultView(model)
+    if (_.isEmpty(bunsenView)) {
+      bunsenView = getDefaultView(model)
+    } else if (bunsenView.version === '1.0') {
+      bunsenView = viewV1ToV2(bunsenView)
+    } else if (_.isFunction(bunsenView.get) && bunsenView.get('view') === '1.0') {
+      bunsenView = viewV1ToV2(deemberify(bunsenView))
+    }
+
     return recursiveObjectCreate(bunsenView)
   },
 
   @readOnly
-  @computed('renderView.rootContainers')
-  containerTabs (rootContainers) {
-    // If there is only one root container then we don't need to render tabs
-    if (rootContainers.length === 1) {
+  @computed('renderView.cells')
+  cellTabs (cells) {
+    // If there is only one cell then we don't need to render tabs
+    if (cells.length === 1) {
       return Ember.A([])
     }
 
-    const tabs = rootContainers.map((container, index) => {
+    const tabs = cells.map((cell, index) => {
+      const alias = getAlias(cell)
+
+      // Since label is used for tab text don't render a label within tab as well
+      delete cell.label
+
       return {
-        alias: container.label,
+        alias,
+        cell,
         id: index
       }
     })
 
     return Ember.A(tabs)
-  },
-
-  @readOnly
-  @computed('selectedTabIndex', 'renderView')
-  cellConfig (selectedTabIndex) {
-    return this.get(`renderView.rootContainers.${selectedTabIndex || 0}`)
   },
 
   @readOnly
@@ -154,9 +173,7 @@ export default Component.extend(PropTypeMixin, {
     return !_.isEmpty(propValidationResult.errors)
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Keep UI in sync with updates to redux store
@@ -228,7 +245,8 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const viewPojo = isEmberObject(view) ? deemberify(view) : view
-      result = validateView(viewPojo, bunsenModel, _.keys(renderers), getOwner(this))
+      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
+      result = validateView(viewPojo, bunsenModel, _.keys(renderers), validateRendererFn)
     }
 
     this.set('propValidationResult', result)
@@ -265,27 +283,33 @@ export default Component.extend(PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'))
+        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
+    } else {
+      const newModel = _.get(newAttrs, 'bunsenModel.value')
+      const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
+      const oldModel = _.get(oldAttrs, 'bunsenModel.value')
+      const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
+      const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
+
+      if (modelChanged) {
+        reduxStore.dispatch(
+          validate(null, value, newModelPojo, this.get('validators'), RSVP.all)
+        )
+      }
     }
 
     this.validateProps()
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     onChange () {},
 
     /**
-     * Change selected tab/root container
-     * @param {Number} tabIndex - index of root container corresponding to tab
+     * Change selected tab/root cell
+     * @param {Number} tabIndex - index of root cell corresponding to tab
      */
     onTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)

@@ -1,17 +1,15 @@
-<div>
-  <div class={{labelWrapperClassName}}>
-    <label class="alias">{{renderLabel}}</label>
-    {{#if required}}
-      <div class='required'>Required</div>
-    {{/if}}
-  </div>
-  <div class={{inputWrapperClassName}}>
-    {{#if value}}
-      ✓
-    {{else}}
-      ✘
-    {{/if}}
-  </div>
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{#if value}}
+    ✓
+  {{else}}
+    ✘
+  {{/if}}
 </div>
 {{#if renderErrorMessage}}
   <div>

@@ -49,10 +49,11 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
   })
 
   it('displays initial value', function () {
+    const $values = this.$('.left-input p')
     const displayValue = {
-      firstName: this.$('.frost-bunsen-row:first-child').find('.left-input p').text(),
-      lastName: this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text(),
-      alias: this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+      firstName: $values.eq(0).text(),
+      lastName: $values.eq(1).text(),
+      alias: $values.eq(2).text()
     }
     expect(displayValue).to.eql({
       firstName: 'John',
@@ -70,9 +71,10 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
     this.set('value', newValue)
 
-    const firstName = this.$('.frost-bunsen-row:first-child').find('.left-input p').text()
-    const lastName = this.$('.frost-bunsen-row:nth-child(2)').find('.left-input p').text()
-    const alias = this.$('.frost-bunsen-row:nth-child(3)').find('.left-input p').text()
+    const $values = this.$('.left-input p')
+    const firstName = $values.eq(0).text()
+    const lastName = $values.eq(1).text()
+    const alias = $values.eq(2).text()
 
     expect(firstName).to.equal(newValue.firstName)
     expect(lastName).to.equal(newValue.lastName)
@@ -87,21 +89,16 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   it('displays an error message if the model is not valid', function () {
     const invalidView = {
-      version: '1.0',
-      type: 'form',
-      containers: [
-        {
-          id: 'main',
-          rows: [
-            [{model: 'some.non-existing.property'}]
+      cellDefinitions: {
+        main: {
+          children: [
+            {model: 'some.non-existing.property'}
           ]
         }
-      ],
-      buttonLabels: {
-        submit: 'Create',
-        reset: 'Clear'
       },
-      rootContainers: [{label: 'Main', container: 'main'}]
+      cells: [{extends: 'main'}],
+      type: 'form',
+      version: '2.0'
     }
     this.set('bunsenView', invalidView)
 

@@ -1,0 +1,7 @@
+<h4>There seems to be something wrong with your schema</h4>
+{{#each model.warnings as |warning|}}
+  {{frost-bunsen-error data=warning warning=true}}
+{{/each}}
+{{#each model.errors as |error|}}
+  {{frost-bunsen-error data=error}}
+{{/each}}

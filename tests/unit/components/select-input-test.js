@@ -3,11 +3,10 @@ import {expect} from 'chai'
 import {PropTypes} from 'ember-prop-types'
 import {describe, beforeEach, it} from 'mocha'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
   'frost-bunsen-input-select',
-  'FrostBunsenInputSelectComponent',
+  'Unit: Component | frost-bunsen-input-select',
   {
     unit: true
   },
@@ -48,9 +47,6 @@ describeComponent(
         PropTypes.string
       ])
     })
-
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
 
     /**
      * Helper that creates an attribute object populated with a given bunsenStore formValue

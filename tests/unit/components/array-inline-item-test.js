@@ -2,12 +2,12 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import {builtInRenderers} from 'bunsen-core/validator'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
 describeComponent(
   'frost-bunsen-array-inline-item',
-  'FrostBunsenArrayInlineItemComponent',
+  'Unit: Component | frost-bunsen-array-inline-item',
   {
     unit: true
   },
@@ -24,7 +24,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              item: {
+              items: {
                 properties: {
                   bar: {type: 'string'}
                 },
@@ -43,7 +43,9 @@ describeComponent(
           view: {}
         }),
         cellConfig: Ember.Object.create({
-          item: {}
+          arrayOptions: {
+            itemCell: {}
+          }
         }),
         errors: {},
         index: 0,
@@ -78,24 +80,13 @@ describeComponent(
     })
 
     it('compact returns false when view config property is set to false', function () {
-      component.set('cellConfig.item.compact', false)
+      component.set('cellConfig.arrayOptions.compact', false)
       expect(component.get('compact')).to.be.false
     })
 
     it('compact returns true when view config property set to true', function () {
-      component.set('cellConfig.item.compact', true)
+      component.set('cellConfig.arrayOptions.compact', true)
       expect(component.get('compact')).to.be.true
-    })
-
-    it('errorMessage returns null when no erorrs', function () {
-      component.set('errors', {})
-      expect(component.get('errorMessage')).to.be.null
-    })
-
-    it('errorMessage returns signle error', function () {
-      const error = 'what is foo without a little bar'
-      component.set('errors', {'foo.0': [error]})
-      expect(component.get('errorMessage').toString()).to.eql(error)
     })
 
     it('errorMessage returns multiple errors', function () {

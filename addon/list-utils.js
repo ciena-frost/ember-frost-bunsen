@@ -1,4 +1,4 @@
-import * as utils from './utils'
+import * as utils from 'bunsen-core/utils'
 import Ember from 'ember'
 const {RSVP} = Ember
 

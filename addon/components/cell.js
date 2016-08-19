@@ -1,9 +1,34 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component} = Ember
+const {assign, Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getSubModel, getModelPath} from '../utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
+
+import {
+  doesModelContainRequiredField,
+  getSubModel,
+  getModelPath
+} from 'bunsen-core/utils'
+
+/**
+ * Get merged definition for current cell
+ * @param {BunsenCell} cellConfig - current cell
+ * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} current merged cell definition
+ */
+function getMergedConfig (cellConfig, cellDefinitions) {
+  if (!cellConfig.extends) {
+    return _.cloneDeep(cellConfig)
+  }
+
+  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
+  const mergedConfig = assign(superCell, cellConfig)
+
+  delete mergedConfig.extends
+
+  return mergedConfig
+}
 
 /**
  * Return path without an index at the end
@@ -12,28 +37,24 @@ import {getSubModel, getModelPath} from '../utils'
  * @returns {String} path without index
  */
 export function removeIndex (path) {
-  const parts = path.split('.')
-  const last = parts.pop()
-  return /^\d+$/.test(last) ? parts.join('.') : path
+  const parts = (path || '').split('.')
+  const last = parts.length !== 0 ? parts.pop() : ''
+  return /^\d+$/.test(last) ? parts.join('.') : path || ''
 }
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNameBindings: ['computedClassName'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string,
     bunsenModel: PropTypes.object.isRequired,
     bunsenStore: PropTypes.EmberObject.isRequired,
-    config: PropTypes.EmberObject.isRequired,
-    defaultClassName: PropTypes.string,
+    cellConfig: PropTypes.EmberObject.isRequired,
     errors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -46,26 +67,47 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('classNames', 'defaultClassName')
+  @computed('cellConfig', 'bunsenStore.view.cellDefinitions')
+  /**
+   * Get definition for current cell
+   * @param {BunsenCell} cellConfig - current cell
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
+   */
+  mergedConfig (cellConfig, cellDefinitions) {
+    return getMergedConfig(cellConfig, cellDefinitions)
+  },
+
+  @readOnly
+  @computed('bunsenModel')
+  /**
+   * Determine whether or not cell contains required inputs
+   * @param {BunsenModel} bunsenModel - bunsen model for form
+   * @returns {Boolean} whether or not cell contains required inputs
+   */
+  isRequired (bunsenModel) {
+    return doesModelContainRequiredField(bunsenModel) || false
+  },
+
+  @readOnly
+  @computed('classNames')
   /**
    * Get class name for cell
    * @param {String} classNames - class names
-   * @param {String} defaultClassName - default class name
    * @returns {String} cell's class name
    */
-  computedClassName (classNames, defaultClassName) {
+  computedClassName (classNames) {
+    const viewDefinedClass = this.get('mergedConfig.classNames.cell')
     const classes = classNames.toString().split(' ')
 
-    if (classes.length <= 1) { // "ember-view" is always present
-      classes.push(defaultClassName)
-    }
-
     classes.push('frost-bunsen-cell')
+
+    if (viewDefinedClass) {
+      classes.push(viewDefinedClass)
+    }
 
     return classes.join(' ')
   },
@@ -91,7 +133,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}')
+  @computed('mergedConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -101,12 +143,17 @@ export default Component.extend(PropTypeMixin, {
   required (dependsOn, model) {
     model = removeIndex(model)
     const parentModel = this.getParentModel(model, dependsOn)
+
+    if (!parentModel) {
+      return false
+    }
+
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('mergedConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
@@ -126,7 +173,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'config.model')
+  @computed('bunsenId', 'mergedConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
@@ -171,7 +218,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('mergedConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -183,7 +230,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('mergedConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -195,7 +242,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config', 'renderId', 'value')
+  @computed('mergedConfig', 'renderId', 'value')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
@@ -214,9 +261,16 @@ export default Component.extend(PropTypeMixin, {
     return dependencyValue !== undefined
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  @readOnly
+  @computed('mergedConfig')
+  showSection (mergedConfig) {
+    return (
+      mergedConfig.collapsible ||
+      (mergedConfig.label && mergedConfig.children)
+    )
+  },
+
+  // == Functions ==============================================================
 
   /**
    * Get parent's model
@@ -230,12 +284,4 @@ export default Component.extend(PropTypeMixin, {
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
   }
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

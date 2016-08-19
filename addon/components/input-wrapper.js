@@ -2,17 +2,16 @@ import Ember from 'ember'
 const {Component, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import {getRendererComponentName, validateRenderer} from '../utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-wrapper'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Component Properties ===================================================
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  layout,
+  tagName: '',
 
-  classNames: ['frost-bunsen-input-wrapper'],
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
@@ -39,9 +38,7 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
   @computed('cellConfig.dependsOn', 'isDependencyMet', 'bunsenModel')
@@ -58,7 +55,7 @@ export default Component.extend(PropTypeMixin, {
 
   @readOnly
   @computed(
-    'cellConfig.renderer', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
+    'cellConfig.renderer.name', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
     'bunsenStore.renderers'
   )
   /**
@@ -89,9 +86,7 @@ export default Component.extend(PropTypeMixin, {
     return this.getComponentName(type, renderers)
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Functions ==============================================================
 
   /**
    * Get component name for a provided renderer name
@@ -105,19 +100,10 @@ export default Component.extend(PropTypeMixin, {
       return renderers[renderer]
     }
 
-    // If renderer isn't in renderers mapping check if it is a registered component
-    if (getOwner(this).lookup(`component:${renderer}`)) {
-      return renderer
+    if (validateRenderer(getOwner(this), renderer)) {
+      return getRendererComponentName(renderer)
     }
 
     throw new Error(`"${renderer}" is not a registered component or in the renderers mapping`)
   }
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

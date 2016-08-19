@@ -1,0 +1,35 @@
+<div class='demo-container fullscreen'>
+  <div class="demo-banner">
+    <h1>Formats</h1>
+    <p>This is a list of the different formats built into ember-frost-bunsen</p>
+  </div>
+  {{frost-select
+    data=rendererOptions
+    onChange=(action "onSelectedRendererChange")
+    selectedValue=selectedRendererValue
+  }}
+  <h2>Documentation</h2>
+  {{markdown-to-html markdown=documentation ghCodeBlocks=true}}
+  <h2>Example</h2>
+  <div class="flex-grid">
+    <div class="one-half">
+      <h3 class=demo-heading">Model</h3>
+      {{ivy-codemirror
+        options=(hash
+          lineNumbers=true
+          mode="javascript"
+          theme="mdn-like"
+        )
+        value=(to-json bunsenModel)
+      }}
+    </div>
+    <div class="one-half">
+      <h3 class=demo-heading">Demo</h3>
+      {{frost-bunsen-form
+        bunsenModel=bunsenModel
+        onChange=(action "onFormValueChange")
+        value=value
+      }}
+    </div>
+  </div>
+</div>

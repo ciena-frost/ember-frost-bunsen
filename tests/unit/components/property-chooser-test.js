@@ -2,11 +2,10 @@ import {describeComponent} from 'ember-mocha'
 import {PropTypes} from 'ember-prop-types'
 import {beforeEach} from 'mocha'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
 
 describeComponent(
-  'frost-bunsen-property-chooser',
-  'FrostBunsenPropertyChooserComponent',
+  'frost-bunsen-input-property-chooser',
+  'Unit: Component | frost-bunsen-input-property-chooser',
   {
     unit: true
   },
@@ -47,8 +46,5 @@ describeComponent(
         PropTypes.string
       ])
     })
-
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
   }
 )

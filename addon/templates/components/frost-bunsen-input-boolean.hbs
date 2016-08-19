@@ -1,0 +1,21 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-checkbox
+    checked=checked
+    disabled=disabled
+    hook=hook
+    onFocusIn=(action "onFocusIn")
+    onFocusOut=(action "onFocusOut")
+    onInput=(action "onChange")
+  }}
+</div>
+{{#if renderErrorMessage}}
+  <div class="error">
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

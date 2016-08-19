@@ -1,20 +1,17 @@
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from '../utils'
+import {getLabel} from 'bunsen-core/utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-nav'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Component Properties ===================================================
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
-
+  layout,
   tagName: 'li',
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenModel: PropTypes.object.isRequired,
@@ -24,39 +21,35 @@ export default Component.extend(PropTypeMixin, {
     onRemove: PropTypes.func.isRequired
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.item.{container,label}', 'index', 'bunsenModel', 'bunsenStore.view.containers')
+  @computed('bunsenStore.disabled', 'cellConfig.disabled')
+  disabled (formDisabled, disabledInView) {
+    return formDisabled || disabledInView
+  },
+
+  @readOnly
+  @computed(
+    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
+  )
   /**
    * Get title for tab
-   * @param {String} containerId - ID of container
+   * @param {String} cellId - ID of cells
    * @param {String} label - label
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
-   * @param {BunsenContainer[]} containers - view containers
+   * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} tab title
    */
-  title (containerId, label, index, bunsenModel, containers) {
-    const itemContainerConfig = containerId ? _.find(containers, {id: containerId}) : null
-    const itemId = itemContainerConfig ? itemContainerConfig.get('id') : ''
+  title (cellId, label, index, bunsenModel, cellDefinitions) {
+    const itemCellConfig = cellId ? cellDefinitions[cellId] : null
+    const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : `${index + 1}`
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**

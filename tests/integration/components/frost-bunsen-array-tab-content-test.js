@@ -1,6 +1,8 @@
 import {expect} from 'chai'
-import {it} from 'ember-mocha'
-import {setupComponentTest} from 'dummy/tests/helpers/template'
+import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import {beforeEach} from 'mocha'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenId: 'addresses',
@@ -19,7 +21,9 @@ const props = {
   },
   bunsenStore: Ember.Object.create({}),
   cellConfig: Ember.Object.create({
-    item: Ember.Object.create({})
+    arrayOptions: {
+      itemCell: Ember.Object.create({})
+    }
   }),
   errors: {},
   index: 0,
@@ -42,4 +46,25 @@ function tests (ctx) {
   })
 }
 
-setupComponentTest('frost-bunsen-array-tab-content', props, tests)
+describeComponent(...integrationTestContext('frost-bunsen-array-tab-content'),
+  function () {
+    let ctx = {}
+
+    beforeEach(function () {
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-array-tab-content
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenStore=bunsenStore
+        cellConfig=cellConfig
+        errors=errors
+        index=index
+        onChange=onChange
+        value=value
+      }}`)
+      ctx.rootNode = this.$('> *')
+    })
+
+    tests(ctx)
+  }
+)
