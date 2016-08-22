@@ -2,6 +2,13 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {A} = Ember
 
+/**
+ * @typedef {Object} Facet
+ * @property {String} label - label to use for facet
+ * @property {String} model - model property to generate facet for
+ * @property {BunsenRenderer} [renderer] - renderer to use for facet
+ */
+
 export const builtInRenderers = {
   boolean: 'frost-bunsen-input-boolean',
   'button-group': 'frost-bunsen-input-button-group',
@@ -40,6 +47,58 @@ export function deemberify (emberObject) {
 
   return JSON.parse(JSON.stringify(emberObject))
 }
+
+import Ember from 'ember'
+
+/**
+ * Generate label from bunsen model
+ * @param {String} model - bunsen model/property path
+ * @returns {String} model converted to label
+ */
+export function generateLabelFromModel (model) {
+  const property = model.split('.').pop()
+  const dasherizedName = Ember.String.dasherize(property).replace('-', ' ')
+  return Ember.String.capitalize(dasherizedName)
+}
+
+/**
+ * Generate cell for a facet
+ * @param {Facet} facet - facet to generate cell for
+ * @returns {BunsenCell} bunsen cell for facet
+ */
+export function generateFacetCell (facet) {
+  const cell = {
+    model: facet.model
+  }
+
+  if (facet.renderer) {
+    cell.renderer = facet.renderer
+  }
+
+  return {
+    children: [cell],
+    collapsible: true,
+    label: facet.label || generateLabelFromModel(facet.model)
+  }
+}
+
+/**
+ * Generate bunsen view for facets
+ * @param {Facet[]} facets - facets to generate view for
+ * @returns {BunsenView} bunsen view for facets
+ */
+export function generateFacetView (facets) {
+  return {
+    cells: [
+      {
+        children: facets.map(generateFacetCell)
+      }
+    ],
+    type: 'form',
+    version: '2.0'
+  }
+}
+
 
 export function recursiveObjectCreate (object) {
   if (_.isPlainObject(object)) {
