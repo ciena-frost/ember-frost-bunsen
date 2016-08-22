@@ -1,3 +1,7 @@
+# 7.1.0
+
+* **Added** the following utility methods for easily generating bunsen views for [ember-frost-object-browser](https://github.com/ciena-frost/ember-frost-object-browser) facets: `generateFacetCell`, `generateFacetView`, and `generateLabelFromModel`.
+
 # 7.0.0
 
 ## Breaking
