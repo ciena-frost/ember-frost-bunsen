@@ -97,7 +97,6 @@ export function generateFacetView (facets) {
   }
 }
 
-
 export function recursiveObjectCreate (object) {
   if (_.isPlainObject(object)) {
     let newObj = {}
