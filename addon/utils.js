@@ -48,8 +48,6 @@ export function deemberify (emberObject) {
   return JSON.parse(JSON.stringify(emberObject))
 }
 
-import Ember from 'ember'
-
 /**
  * Generate label from bunsen model
  * @param {String} model - bunsen model/property path
