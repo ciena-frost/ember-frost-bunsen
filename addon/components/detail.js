@@ -10,8 +10,9 @@ import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, getOwner, RSVP} = Ember
+const {Component, RSVP} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
