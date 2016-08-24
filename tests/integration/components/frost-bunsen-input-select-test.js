@@ -5,7 +5,6 @@ import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe} from 'mocha'
 import {integrationTestContext} from 'dummy/tests/helpers/template'
 import _ from 'lodash'
-import $ from 'jquery'
 
 const records = [
   {
@@ -94,7 +93,7 @@ function stubDbService (ctx) {
 }
 
 describeComponent(...integrationTestContext('frost-bunsen-input-select'), function () {
-  let rootNode
+  let $rootNode
   let props
 
   describe('the select input renderer', function () {
@@ -166,7 +165,7 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           state=state
           dbStore=dbStore
         }}`)
-        rootNode = this.$('> *')
+        $rootNode = this.$('> *')
       })
 
       it('applies the object transform', function (done) {
@@ -187,8 +186,8 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             }
           })
 
-          rootNode.find('.down-arrow').click()
-          rootNode.find('li:nth-child(2)').click()
+          $rootNode.find('.down-arrow').click()
+          $rootNode.find('li:nth-child(2)').click()
         })
       })
     })
@@ -205,9 +204,9 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         state=state
         dbStore=dbStore
       }}`)
-      rootNode = this.$('> *')
+      $rootNode = this.$('> *')
       _.forEach(props.bunsenModel.enum, (value) => {
-        const isPresent = $(rootNode).text().indexOf(value) !== -1
+        const isPresent = $rootNode.text().indexOf(value) !== -1
         expect(isPresent).to.eql(true)
       })
     })
@@ -233,17 +232,17 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           state=state
           dbStore=dbStore
         }}`)
-        rootNode = this.$('> *')
+        $rootNode = this.$('> *')
       })
 
       it('enables the input', function () {
-        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(false)
+        expect($rootNode.find('.frost-select input').prop('disabled')).to.equal(false)
       })
 
       it('gets async values per query instructions', function () {
         const expected = ['Resource 2']
-        expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
-        expect($(rootNode).find('li').length).to.equal(expected.length)
+        expect($rootNode.text().indexOf(expected[0]) !== -1).to.eql(true)
+        expect($rootNode.find('li').length).to.equal(expected.length)
       })
     })
 
@@ -278,11 +277,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           state=state
           dbStore=dbStore
         }}`)
-        rootNode = this.$('> *')
+        $rootNode = this.$('> *')
       })
 
       it('disables the input', function () {
-        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
+        expect($rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
       })
 
       it('does not fetch data', function () {
@@ -315,11 +314,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
           state=state
           dbStore=dbStore
         }}`)
-        rootNode = this.$('> *')
+        $rootNode = this.$('> *')
       })
 
       it('disables the input', function () {
-        expect(rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
+        expect($rootNode.find('.frost-select input').prop('disabled')).to.equal(true)
       })
 
       it('does not fetch data', function () {
@@ -340,10 +339,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         state=state
         dbStore=dbStore
       }}`)
-      rootNode = this.$('> *')
-      $(rootNode).find('input[type=text]').val('f').trigger('input')
-      expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
-      expect($(rootNode).find('li').length).to.equal(expected.length)
+      $rootNode = this.$('> *')
+      $rootNode.find('input[type=text]').val('f').trigger('input')
+      expect($rootNode.text().indexOf(expected[0]) !== -1).to.eql(true)
+      expect($rootNode.find('li').length).to.equal(expected.length)
     })
 
     it('filters asynchronously for query.p-based lists', function () {
@@ -365,11 +364,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         state=state
         dbStore=dbStore
       }}`)
-      rootNode = this.$('> *')
-      $(rootNode).find('input[type=text]').val('resource 1').trigger('input')
+      $rootNode = this.$('> *')
+      $rootNode.find('input[type=text]').val('resource 1').trigger('input')
       const expected = ['Resource 1']
-      expect($(rootNode).text().indexOf(expected[0]) !== -1).to.eql(true)
-      expect($(rootNode).find('li').length).to.equal(expected.length)
+      expect($rootNode.text().indexOf(expected[0]) !== -1).to.eql(true)
+      expect($rootNode.find('li').length).to.equal(expected.length)
     })
 
     it('supports placeholder in cellConfig', function () {
@@ -383,10 +382,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         state=state
         dbStore=dbStore
       }}`)
-      rootNode = this.$('> *')
+      $rootNode = this.$('> *')
       const placeholderText = 'Select something already'
       this.set('cellConfig.placeholder', placeholderText)
-      expect(rootNode.find('input').attr('placeholder')).to.eql(placeholderText)
+      expect($rootNode.find('input').attr('placeholder')).to.eql(placeholderText)
     })
   })
 })
