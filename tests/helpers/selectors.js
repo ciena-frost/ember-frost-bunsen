@@ -31,6 +31,9 @@ export default {
       textarea: '.frost-bunsen-input-textarea',
       url: '.frost-bunsen-input-url'
     },
+    section: {
+      heading: '.heading h3'
+    },
     validationErrors: {
       error: '.frost-bunsen-error',
       heading: '.frost-bunsen-validation-result h4'
