@@ -1,6 +1,6 @@
 # ember-frost-bunsen
 
-[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
+[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url] ![Ember][ember-img]
 
 * [Tutorial](#Tutorial)
 * [Installation](#installation)
@@ -403,5 +403,6 @@ and output code coverage.
 [ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
 [cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
 [cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
+[ember-img]: https://img.shields.io/badge/ember-2.2+-green.svg "Ember 2.2+"
 [npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/ember-frost-bunsen

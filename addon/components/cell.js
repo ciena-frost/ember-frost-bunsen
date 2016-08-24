@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {assign, Component} = Ember
+const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
@@ -10,6 +10,8 @@ import {
   getSubModel,
   getModelPath
 } from 'bunsen-core/utils'
+
+const assign = Ember.assign || Object.assign || Ember.merge
 
 /**
  * Get merged definition for current cell

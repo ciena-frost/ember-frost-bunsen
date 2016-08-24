@@ -1,6 +1,7 @@
 import Ember from 'ember'
-const {Component, getOwner} = Ember
+const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getRendererComponentName, validateRenderer} from '../utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-wrapper'
