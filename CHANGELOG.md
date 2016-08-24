@@ -1,3 +1,8 @@
+# 7.2.1
+
+* Cleaned up dependencies and almost got functioning with Ember version `2.1`. There are still two failing tests when run against Ember `2.1`.
+
+
 # 7.2.0
 
 * **Fixed** addon so it works with older versions of Ember all the way back to Ember `2.2`. Note: this means consumers now need `ember-getowner-polyfill` which they will get if they rerun the blueprints upon updating.
