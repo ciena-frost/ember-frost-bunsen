@@ -50,7 +50,6 @@
     "ember-cli-moment-shim": "2.0.0",
     "ember-cli-notifications": "^4.0.4",
     "ember-cli-showdown": "^2.5.0",
-    "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-computed-decorators": "0.2.2",
