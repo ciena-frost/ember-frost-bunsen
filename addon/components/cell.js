@@ -262,8 +262,14 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig')
-  showSection (mergedConfig) {
+  @computed('isSubModelObject', 'mergedConfig')
+  showSection (isSubModelObject, mergedConfig) {
+    // If sub model is object we end up running through another cell and thus if
+    // this method were to return true we'd end up with duplicate headings.
+    if (mergedConfig.model && isSubModelObject) {
+      return false
+    }
+
     return (
       mergedConfig.collapsible ||
       (mergedConfig.label && mergedConfig.children)
