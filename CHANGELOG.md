@@ -1,3 +1,8 @@
+# 7.2.0
+
+* **Fixed** addon so it works with older versions of Ember all the way back to Ember `2.2`. Note: this means consumers now need `ember-getowner-polyfill` which they will get if they rerun the blueprints upon updating.
+
+
 # 7.1.1
 
 * **Fixed** bug where certain view schemas would render with a duplicate section heading. See issue #165 for more.
