@@ -1,3 +1,8 @@
+# 7.1.1
+
+* **Fixed** bug where certain view schemas would render with a duplicate section heading. See issue #165 for more.
+
+
 # 7.1.0
 
 * **Added** the following utility methods for easily generating bunsen views for [ember-frost-object-browser](https://github.com/ciena-frost/ember-frost-object-browser) facets: `generateFacetCell`, `generateFacetView`, and `generateLabelFromModel`.
