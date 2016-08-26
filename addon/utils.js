@@ -150,7 +150,7 @@ export function isLastSegmentRequired (path, bunsenModel) {
  * @returns {Boolean} whether or not cell contains required inputs
  */
 export function isRequired (cell, cellDefinitions, bunsenModel) {
-  cell = getMergedConfig(cell)
+  cell = getMergedConfig(cell, cellDefinitions)
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
@@ -162,7 +162,9 @@ export function isRequired (cell, cellDefinitions, bunsenModel) {
   if (cell.model) {
     const modelPath = getModelPath(cell.model)
 
-    // NOTE: under some scenarios the bunsenModel is already scoped hence the or condition below
+    // NOTE: Under some scenarios the bunsen  model is already scoped hence the or condition below.
+    // FIXME: We should figure out why we sometimes feed the frost-bunsen-cell instance a scoped model and other times not
+    // and clean it up to always pass in the unscoped model. At which point this or condition can and should be removed.
     bunsenModel = get(bunsenModel, modelPath) || bunsenModel
   }
 
