@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {A} = Ember
+const {A, get} = Ember
+import {getModelPath} from 'bunsen-core/utils'
+
+const assign = Ember.assign || Object.assign || Ember.merge
 
 /**
  * @typedef {Object} Facet
@@ -97,6 +100,79 @@ export function generateFacetView (facets) {
   }
 }
 
+/**
+ * Get merged definition for current cell
+ * @param {BunsenCell} cellConfig - current cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} current merged cell definition
+ */
+export function getMergedConfig (cellConfig, cellDefinitions) {
+  if (!cellConfig.extends) {
+    return _.cloneDeep(cellConfig)
+  }
+
+  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
+  const mergedConfig = assign(superCell, cellConfig)
+
+  delete mergedConfig.extends
+
+  return mergedConfig
+}
+
+export function getRendererComponentName (rendererName) {
+  return builtInRenderers[rendererName] || rendererName
+}
+
+/**
+ * Determine if last segment of a bunsen model path is required
+ * @param {String} path - path to property in bunsen model
+ * @param {BunsemModel} bunsenModel - bunsen model
+ * @returns {Boolean} whether or not last path is required
+ */
+export function isLastSegmentRequired (path, bunsenModel) {
+  const segments = path.split('.')
+  const lastSegment = segments.pop()
+
+  // Make sure we get the correct bunsen model for nested properties
+  if (segments.length !== 0) {
+    bunsenModel = get(bunsenModel, getModelPath(segments.join('.'))) || bunsenModel
+  }
+
+  // Determine if last segment is marked as required by it's parent in the bunsen model
+  return bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1
+}
+
+/**
+ * Determine whether or not cell contains required inputs
+ * @param {BunsenCell} cell - bunsen view cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @param {BunsenModel} bunsenModel - bunsen model
+ * @returns {Boolean} whether or not cell contains required inputs
+ */
+export function isRequired (cell, cellDefinitions, bunsenModel) {
+  cell = getMergedConfig(cell, cellDefinitions)
+
+  // If the view cell doesn't contain children we can just determine if the model property is required
+  if (!cell.children) {
+    return isLastSegmentRequired(cell.model, bunsenModel)
+  }
+
+  // If the cell has a model defined, that model is applied to all children cells and thus we need to get
+  // the sub-model of the current bunsenModel that represents this scoped/nested model
+  if (cell.model) {
+    const modelPath = getModelPath(cell.model)
+
+    // NOTE: Under some scenarios the bunsen  model is already scoped hence the or condition below.
+    // FIXME: We should figure out why we sometimes feed the frost-bunsen-cell instance a scoped model and other times not
+    // and clean it up to always pass in the unscoped model. At which point this or condition can and should be removed.
+    bunsenModel = get(bunsenModel, modelPath) || bunsenModel
+  }
+
+  // If any child view cell is required then the parent cell should be labeled as required in the UI
+  return cell.children
+    .some((child) => isRequired(child, cellDefinitions, bunsenModel))
+}
+
 export function recursiveObjectCreate (object) {
   if (_.isPlainObject(object)) {
     let newObj = {}
@@ -115,10 +191,6 @@ export function recursiveObjectCreate (object) {
   }
 
   return object
-}
-
-export function getRendererComponentName (rendererName) {
-  return builtInRenderers[rendererName] || rendererName
 }
 
 export function validateRenderer (owner, rendererName) {
