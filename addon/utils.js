@@ -130,19 +130,12 @@ export function getRendererComponentName (rendererName) {
  * @returns {Boolean} whether or not last path is required
  */
 export function isLastSegmentRequired (path, bunsenModel) {
-  if (!bunsenModel) {
-    // NOTE: It appears under certain scenarios we do not have a bunsen model present
-    // FIXME: Figure out when the bunsen model is undefined and see if we can resolve this
-    // elsewhere so we can remove this extra check.
-    return false
-  }
-
   const segments = path.split('.')
   const lastSegment = segments.pop()
 
   // Make sure we get the correct bunsen model for nested properties
   if (segments.length !== 0) {
-    bunsenModel = get(bunsenModel, getModelPath(segments.join('.')))
+    bunsenModel = get(bunsenModel, getModelPath(segments.join('.'))) || bunsenModel
   }
 
   // Determine if last segment is marked as required by it's parent in the bunsen model
