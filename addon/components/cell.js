@@ -4,33 +4,12 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
+import {getMergedConfig, isRequired} from 'ember-frost-bunsen/utils'
 
 import {
-  doesModelContainRequiredField,
   getSubModel,
   getModelPath
 } from 'bunsen-core/utils'
-
-const assign = Ember.assign || Object.assign || Ember.merge
-
-/**
- * Get merged definition for current cell
- * @param {BunsenCell} cellConfig - current cell
- * @param {BunsenCell[]} cellDefinitions - list of cell definitions
- * @returns {BunsenCell} current merged cell definition
- */
-function getMergedConfig (cellConfig, cellDefinitions) {
-  if (!cellConfig.extends) {
-    return _.cloneDeep(cellConfig)
-  }
-
-  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
-  const mergedConfig = assign(superCell, cellConfig)
-
-  delete mergedConfig.extends
-
-  return mergedConfig
-}
 
 /**
  * Return path without an index at the end
@@ -76,7 +55,7 @@ export default Component.extend(PropTypeMixin, {
   /**
    * Get definition for current cell
    * @param {BunsenCell} cellConfig - current cell
-   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
    * @returns {BunsenCell} current cell definition
    */
   mergedConfig (cellConfig, cellDefinitions) {
@@ -84,14 +63,16 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel')
+  @computed('bunsenModel', 'bunsenStore.view.cellDefinitions', 'mergedConfig')
   /**
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
+   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+   * @param {BunsenCell} mergedConfig - bunsen view cell
    * @returns {Boolean} whether or not cell contains required inputs
    */
-  isRequired (bunsenModel) {
-    return doesModelContainRequiredField(bunsenModel) || false
+  isRequired (bunsenModel, cellDefinitions, mergedConfig) {
+    return isRequired(mergedConfig, cellDefinitions, bunsenModel)
   },
 
   @readOnly

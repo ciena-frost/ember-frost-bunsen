@@ -3,7 +3,8 @@ import {expect} from 'chai'
 import {
   generateFacetCell,
   generateFacetView,
-  generateLabelFromModel
+  generateLabelFromModel,
+  isRequired
 } from 'ember-frost-bunsen/utils'
 
 import {beforeEach, describe, it} from 'mocha'
@@ -178,6 +179,105 @@ describe('bunsen-utils', function () {
     it('returns expected label when model is camelCase and nested property', function () {
       const actual = generateLabelFromModel('foo.barBaz')
       expect(actual).to.equal('Bar baz')
+    })
+  })
+
+  describe('isRequired()', function () {
+    let bunsenModel
+
+    beforeEach(function () {
+      bunsenModel = {
+        properties: {
+          alpha: {type: 'string'},
+          bravo: {type: 'string'},
+          charlie: {
+            properties: {
+              foo: {type: 'string'},
+              bar: {type: 'string'}
+            },
+            required: ['foo'],
+            type: 'object'
+          },
+          delta: {
+            properties: {
+              baz: {type: 'string'},
+              spam: {type: 'string'}
+            },
+            required: ['baz'],
+            type: 'object'
+          }
+        },
+        required: ['alpha', 'charlie'],
+        type: 'object'
+      }
+    })
+
+    describe('when children not present in view cell', function () {
+      it('returns true when model is required root leaf property', function () {
+        const cell = {model: 'alpha'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.true
+      })
+
+      it('returns false when model is not required root leaf property', function () {
+        const cell = {model: 'bravo'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.false
+      })
+
+      it('returns true when model is required root non-leaf property', function () {
+        const cell = {model: 'charlie'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.true
+      })
+
+      it('returns false when model is not required root non-leaf property', function () {
+        const cell = {model: 'delta'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.false
+      })
+    })
+
+    describe('when children present in view cell', function () {
+      describe('when model is required root property', function () {
+        it('and child is required leaf-property', function () {
+          const cell = {
+            model: 'charlie',
+            children: [
+              {model: 'foo'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.true
+        })
+
+        it('and child is not required leaf property', function () {
+          const cell = {
+            model: 'charlie',
+            children: [
+              {model: 'bar'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.false
+        })
+      })
+
+      describe('when model is not required root property', function () {
+        it('and child is required leaf-property', function () {
+          const cell = {
+            model: 'delta',
+            children: [
+              {model: 'baz'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.true
+        })
+
+        it('and child is not required leaf property', function () {
+          const cell = {
+            model: 'delta',
+            children: [
+              {model: 'spam'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.false
+        })
+      })
     })
   })
 })
