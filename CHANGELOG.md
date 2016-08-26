@@ -1,3 +1,8 @@
+# 7.2.2
+
+* **Fixed** bug where under certain scenarios parent view cells were showing as required when they shouldn't have been.
+
+
 # 7.2.1
 
 * Cleaned up dependencies and almost got functioning with Ember version `2.1`. There are still two failing tests when run against Ember `2.1`.
