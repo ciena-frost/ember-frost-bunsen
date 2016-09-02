@@ -3,13 +3,13 @@ import Ember from 'ember'
 const {RSVP} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
   'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | renderer | select',
+  'Integration: Component | frost-bunsen-form | renderer | select view query',
   {
     integration: true
   },
@@ -91,7 +91,7 @@ describeComponent(
         .to.have.length(0)
 
       expect(
-        this.$(selectors.bunsen.renderer.select),
+        this.$(selectors.bunsen.renderer.select.input),
         'renders a bunsen select input'
       )
         .to.have.length(1)
@@ -141,6 +141,38 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+    })
+
+    describe('when expanded/opened', function () {
+      beforeEach(function () {
+        this.$(selectors.bunsen.renderer.select.arrow).click()
+      })
+
+      it('renders as expected', function () {
+        const $items = this.$(selectors.bunsen.renderer.select.items)
+
+        expect(
+          $items,
+          'has correct number of options'
+        )
+          .to.have.length(2)
+
+        const $firstItem = $items.eq(0)
+
+        expect(
+          $firstItem.text().trim(),
+          'first item has expected text'
+        )
+          .to.equal('bar')
+
+        const $secondItem = $items.eq(1)
+
+        expect(
+          $secondItem.text().trim(),
+          'second item has expected text'
+        )
+          .to.equal('baz')
+      })
     })
   }
 )

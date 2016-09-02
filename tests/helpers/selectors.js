@@ -26,7 +26,11 @@ export default {
       number: '.frost-bunsen-input-number',
       password: '.frost-bunsen-input-password',
       propertyChooser: '.frost-bunsen-input-property-chooser',
-      select: '.frost-bunsen-input-select',
+      select: {
+        arrow: '.frost-bunsen-input-select .down-arrow',
+        input: '.frost-bunsen-input-select',
+        items: '.frost-bunsen-input-select .list-container li'
+      },
       text: '.frost-bunsen-input-text',
       textarea: '.frost-bunsen-input-textarea',
       url: '.frost-bunsen-input-url'

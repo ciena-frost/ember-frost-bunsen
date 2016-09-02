@@ -9,7 +9,7 @@ import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
   'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | renderer | select',
+  'Integration: Component | frost-bunsen-form | renderer | select model query',
   {
     integration: true
   },
@@ -78,7 +78,7 @@ describeComponent(
         .to.have.length(0)
 
       expect(
-        this.$(selectors.bunsen.renderer.select),
+        this.$(selectors.bunsen.renderer.select.input),
         'renders a bunsen select input'
       )
         .to.have.length(1)
@@ -130,6 +130,38 @@ describeComponent(
         .to.equal(0)
     })
 
+    describe('when expanded/opened', function () {
+      beforeEach(function () {
+        this.$(selectors.bunsen.renderer.select.arrow).click()
+      })
+
+      it('renders as expected', function () {
+        const $items = this.$(selectors.bunsen.renderer.select.items)
+
+        expect(
+          $items,
+          'has correct number of options'
+        )
+          .to.have.length(2)
+
+        const $firstItem = $items.eq(0)
+
+        expect(
+          $firstItem.text().trim(),
+          'first item has expected text'
+        )
+          .to.equal('bar')
+
+        const $secondItem = $items.eq(1)
+
+        expect(
+          $secondItem.text().trim(),
+          'second item has expected text'
+        )
+          .to.equal('baz')
+      })
+    })
+
     describe('when label defined in view', function () {
       beforeEach(function () {
         this.set('bunsenView', {
@@ -152,7 +184,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.select),
+          this.$(selectors.bunsen.renderer.select.input),
           'renders a bunsen select input'
         )
           .to.have.length(1)
@@ -227,7 +259,7 @@ describeComponent(
           .to.have.length(1)
 
         expect(
-          this.$(selectors.bunsen.renderer.select),
+          this.$(selectors.bunsen.renderer.select.input),
           'renders a bunsen select input'
         )
           .to.have.length(1)
@@ -302,7 +334,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.select),
+          this.$(selectors.bunsen.renderer.select.input),
           'renders a bunsen select input'
         )
           .to.have.length(1)
@@ -371,7 +403,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.bunsen.renderer.select),
+          this.$(selectors.bunsen.renderer.select.input),
           'renders a bunsen select input'
         )
           .to.have.length(1)
@@ -540,7 +572,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.bunsen.renderer.select),
+          this.$(selectors.bunsen.renderer.select.input),
           'renders a bunsen select input'
         )
           .to.have.length(1)
@@ -590,7 +622,7 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.select),
+            this.$(selectors.bunsen.renderer.select.input),
             'renders a bunsen select input'
           )
             .to.have.length(1)
@@ -627,7 +659,7 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.select),
+            this.$(selectors.bunsen.renderer.select.input),
             'renders a bunsen select input'
           )
             .to.have.length(1)
