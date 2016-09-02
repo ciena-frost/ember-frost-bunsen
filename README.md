@@ -10,7 +10,7 @@
 
 ## Tutorial
 
-Start with a step-by-step tutorial on bunsen [here](https://github.com/ciena-frost/bunsen-tutorial)
+Try to start with a step-by-step tutorial on bunsen [here](https://github.com/ciena-frost/bunsen-tutorial)
 
 ## Installation
 
