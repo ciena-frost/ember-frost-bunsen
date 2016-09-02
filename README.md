@@ -406,3 +406,4 @@ and output code coverage.
 [ember-img]: https://img.shields.io/badge/ember-2.2+-green.svg "Ember 2.2+"
 [npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/ember-frost-bunsen
+
