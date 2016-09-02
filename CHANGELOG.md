@@ -1,3 +1,8 @@
+# 7.2.5
+
+* Fixing CSS class `one-third`.
+
+
 # 7.2.4
 
 * Consuming latest `ember-frost-fields` because the previous version was overriding the default application template in consuming apps.
