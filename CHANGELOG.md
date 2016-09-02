@@ -1,3 +1,9 @@
+# 7.2.4
+
+* Consuming latest `ember-frost-fields` because the previous version was overriding the default application template in consuming apps.
+
+
+
 # 7.2.3
 
 * Consuming latest `ember-frost-fields` because the previous version was overriding the default application template in consuming apps.
