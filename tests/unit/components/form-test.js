@@ -1,7 +1,6 @@
 import {expect} from 'chai'
-const {RSVP} = Ember
 import {describeComponent} from 'ember-mocha'
-import {afterEach, beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, it} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
@@ -48,8 +47,10 @@ describeComponent(
         PropTypes.object
       ]),
       disabled: PropTypes.bool,
+      hook: PropTypes.string,
       onChange: PropTypes.func,
       onValidation: PropTypes.func,
+      registeredComponents: PropTypes.array,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object
@@ -67,130 +68,6 @@ describeComponent(
       [0, 1, 2].forEach((index) => {
         component.actions.onTabChange.call(component, index)
         expect(component.get('selectedTabIndex')).to.eql(index)
-      })
-    })
-
-    describe('update bar', function () {
-      let updatedValue
-
-      beforeEach(function () {
-        const onChangeDeferred = RSVP.defer()
-
-        component.setProperties({
-          onChange (value) {
-            updatedValue = value
-            onChangeDeferred.resolve()
-          }
-        })
-
-        component.actions.onChange.call(component, 'bar', 'test')
-
-        return onChangeDeferred.promise
-      })
-
-      it('bunsenStore gets expected formValue', function () {
-        const bunsenStore = component.get('bunsenStore')
-        expect(bunsenStore.formValue).to.eql({
-          bar: 'test'
-        })
-      })
-
-      it('onChange gets expected value', function () {
-        expect(updatedValue).to.eql({
-          bar: 'test'
-        })
-      })
-    })
-
-    describe('update baz', function () {
-      let updatedValue
-
-      beforeEach(function () {
-        const onChangeDeferred = RSVP.defer()
-
-        component.setProperties({
-          onChange (value) {
-            updatedValue = value
-            onChangeDeferred.resolve()
-          }
-        })
-
-        component.actions.onChange.call(component, 'baz', 42)
-
-        return onChangeDeferred.promise
-      })
-
-      it('bunsenStore gets expected formValue', function () {
-        const bunsenStore = component.get('bunsenStore')
-        expect(bunsenStore.formValue).to.eql({
-          baz: 42
-        })
-      })
-
-      it('onChange gets expected value', function () {
-        expect(updatedValue).to.eql({
-          baz: 42
-        })
-      })
-    })
-
-    describe('update foo', function () {
-      let updatedValue, validationResult
-
-      beforeEach(function () {
-        const onChangeDeferred = RSVP.defer()
-        const onValidationDeferred = RSVP.defer()
-
-        component.setProperties({
-          onChange (value) {
-            updatedValue = value
-            onChangeDeferred.resolve()
-          },
-          onValidation (result) {
-            validationResult = result
-            onValidationDeferred.resolve()
-          }
-        })
-
-        component.actions.onChange.call(component, 'foo', 'test')
-
-        return RSVP.all([
-          onChangeDeferred.promise,
-          onValidationDeferred.promise
-        ])
-      })
-
-      it('bunsenStore gets expected formValue', function () {
-        const bunsenStore = component.get('bunsenStore')
-        expect(bunsenStore.formValue).to.eql({
-          foo: 'test'
-        })
-      })
-
-      it('onChange gets expected value', function () {
-        expect(updatedValue).to.eql({
-          foo: 'test'
-        })
-      })
-
-      it('onValidation gets expected validation errors', function () {
-        expect(validationResult.errors).to.eql([])
-      })
-
-      it('onValidation gets expected validation warnings', function () {
-        expect(validationResult.warnings).to.eql([])
-      })
-    })
-
-    describe('bunsenStore', function () {
-      let bunsenStore
-
-      beforeEach(function () {
-        bunsenStore = component.get('bunsenStore')
-      })
-
-      it('has expected formValue', function () {
-        expect(bunsenStore.formValue).to.eql({})
       })
     })
   }

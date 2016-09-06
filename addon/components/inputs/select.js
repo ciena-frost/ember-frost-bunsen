@@ -60,6 +60,10 @@ export default AbstractInput.extend({
   },
 
   formValueChanged (newValue) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
+      return
+    }
+
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
 
@@ -200,7 +204,7 @@ export default AbstractInput.extend({
       const modelDef = this._getModelDef()
       const bunsenId = this.get('bunsenId')
       const dbStore = this.get('dbStore')
-      const value = this.get('bunsenStore.formValue')
+      const value = this.get('formValue')
       listUtils.getOptions(value, modelDef, bunsenId, dbStore, filter).then((opts) => {
         this.set('options', opts)
       })

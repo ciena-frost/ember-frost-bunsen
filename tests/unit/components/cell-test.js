@@ -41,6 +41,7 @@ describeComponent(
       errors: PropTypes.object.isRequired,
       formDisabled: PropTypes.bool,
       onChange: PropTypes.func.isRequired,
+      registerForFormValueChanges: PropTypes.func,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object

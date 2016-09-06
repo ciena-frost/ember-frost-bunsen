@@ -11,7 +11,7 @@ import startApp from '../helpers/start-app'
 import destroyApp from '../helpers/destroy-app'
 
 // FIXME: Try to get this even lower, maybe with some debouncing of the input as the user types? (ARM 2016-09-06)
-const MAX_LATENCY = 600
+const MAX_LATENCY = 800
 
 /**
  * Helper to simulate user typing a single character
@@ -59,6 +59,8 @@ function getValue () {
 describe('Acceptance: Performance', function () {
   let application
 
+  this.timeout(5000)
+
   before(function () {
     application = startApp()
     server.loadFixtures()
@@ -98,7 +100,7 @@ describe('Acceptance: Performance', function () {
 
   describe('typing on a complex form', function () {
     let $input, beforeTime
-    this.timeout(5000)
+
     before(function (done) {
       visit('/examples?model=evc')
       andThen(() => {

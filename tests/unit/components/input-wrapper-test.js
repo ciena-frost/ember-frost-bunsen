@@ -25,6 +25,7 @@ describeComponent(
       formDisabled: PropTypes.bool,
       onChange: PropTypes.func,
       readOnly: PropTypes.bool,
+      registerForFormValueChanges: PropTypes.func,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object

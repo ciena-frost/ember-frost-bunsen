@@ -21,6 +21,8 @@ describeComponent(
         PropTypes.EmberObject,
         PropTypes.object
       ]),
+      hook: PropTypes.string,
+      registeredComponents: PropTypes.array,
       renderers: PropTypes.oneOfType([
         PropTypes.EmberObject,
         PropTypes.object

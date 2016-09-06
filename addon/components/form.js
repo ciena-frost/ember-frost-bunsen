@@ -28,11 +28,11 @@ export default DetailComponent.extend({
     hook: PropTypes.string,
     onChange: PropTypes.func,
     onValidation: PropTypes.func,
+    registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
-    regiteredComponents: PropTypes.array,
     showAllErrors: PropTypes.bool,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([

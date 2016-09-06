@@ -230,11 +230,6 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
-  didRender () {
-    this._super(...arguments)
-    console.log('didRender() called')
-  },
-
   // == Actions ================================================================
 
   actions: {

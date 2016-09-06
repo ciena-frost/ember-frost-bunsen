@@ -1,25 +1,23 @@
-import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
-import {afterEach, beforeEach, it} from 'mocha'
+import {afterEach, beforeEach} from 'mocha'
 import {PropTypes} from 'ember-prop-types'
-import {builtInRenderers} from 'bunsen-core/validator'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
-describeComponent.only(
+describeComponent(
   'frost-bunsen-array-inline-item',
   'Unit: Component | frost-bunsen-array-inline-item',
   {
     unit: true
   },
   function () {
-    let component, onChangeSpy, onRemoveSpy, sandbox
+    let onChangeSpy, onRemoveSpy, sandbox
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
       onChangeSpy = sandbox.spy()
       onRemoveSpy = sandbox.spy()
 
-      component = this.subject({
+      this.subject({
         bunsenId: 'foo',
         bunsenModel: {
           properties: {
@@ -35,13 +33,6 @@ describeComponent.only(
           },
           type: 'object'
         },
-        bunsenStore: Ember.Object.create({
-          formValue: {
-            foo: [{}]
-          },
-          renderers: builtInRenderers,
-          view: {}
-        }),
         bunsenView: {},
         cellConfig: {
           arrayOptions: {
@@ -52,6 +43,7 @@ describeComponent.only(
         index: 0,
         onChange: onChangeSpy,
         onRemove: onRemoveSpy,
+        registerForFormValueChanges () {},
         sortable: false,
         value: {foo: []}
       })
@@ -64,7 +56,6 @@ describeComponent.only(
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
       bunsenView: PropTypes.object.isRequired,
       cellConfig: PropTypes.object.isRequired,
       errors: PropTypes.object.isRequired,
@@ -82,28 +73,6 @@ describeComponent.only(
       showRemoveButton: PropTypes.bool,
       sortable: PropTypes.bool.isRequired,
       value: PropTypes.object.isRequired
-    })
-
-    it('compact returns false when view config property is missing', function () {
-      expect(component.get('compact')).to.be.false
-    })
-
-    it('compact returns false when view config property is set to false', function () {
-      component.set('cellConfig.arrayOptions.compact', false)
-      expect(component.get('compact')).to.be.false
-    })
-
-    it('compact returns true when view config property set to true', function () {
-      component.set('cellConfig.arrayOptions.compact', true)
-      expect(component.get('compact')).to.be.fooBarBaz
-      expect(false).to.be.ok
-    })
-
-    it('errorMessage returns multiple errors', function () {
-      const error1 = 'what is foo without a little bar'
-      const error2 = 'baz is feeling lonely'
-      component.set('errors', {'foo.0': [error1, error2]})
-      expect(component.get('errorMessage').toString()).to.eql(`${error1}<br>${error2}`)
     })
   }
 )

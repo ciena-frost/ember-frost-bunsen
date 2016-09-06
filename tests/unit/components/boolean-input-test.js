@@ -38,6 +38,7 @@ describeComponent(
       formDisabled: PropTypes.bool,
       label: PropTypes.string,
       onChange: PropTypes.func.isRequired,
+      registerForFormValueChanges: PropTypes.func,
       required: PropTypes.bool,
       showAllErrors: PropTypes.bool,
       value: PropTypes.oneOfType([

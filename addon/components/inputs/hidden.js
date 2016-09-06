@@ -11,6 +11,10 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   formValueChanged (newFormValue) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
+      return
+    }
+
     let value
     const currentValue = this.get('value')
     const valueRef = this.get('cellConfig.renderer.valueRef')
@@ -25,9 +29,15 @@ export default AbstractInput.extend({
       // NOTE: we must use Ember.run.later to prevent multiple updates during a render cycle
       // which throws deprecation warnings in the console for performance reasons.
       run.later(() => {
-        console.log('calling onChange')
         this.onChange(this.get('bunsenId'), value)
       })
     }
+  },
+
+  // == Events ================================================================
+
+  init () {
+    this._super(...arguments)
+    this.registerForFormValueChanges(this)
   }
 })

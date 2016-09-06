@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import Ember from 'ember'
 import {describeComponent, it} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach} from 'mocha'
@@ -14,7 +13,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
     this.setProperties({
       bunsenId: 'name',
       bunsenModel: {},
-      bunsenStore: Ember.Object.create({}),
       bunsenView: {},
       cellConfig: {},
       onChange () {},
@@ -24,7 +22,6 @@ describeComponent(...integrationTestContext('frost-bunsen-input-static'), functi
     this.render(hbs`{{frost-bunsen-input-static
       bunsenId=bunsenId
       bunsenModel=bunsenModel
-      bunsenStore=bunsenStore
       bunsenView=bunsenView
       cellConfig=cellConfig
       formDisabled=formDisabled
