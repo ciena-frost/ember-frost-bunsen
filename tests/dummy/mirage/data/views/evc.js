@@ -37,18 +37,12 @@ export default {
           classNames: {
             cell: 'half-col'
           },
-<<<<<<< HEAD
           /*
-=======
->>>>>>> 82ec8ab... Add initial EVC model/view
           renderer: {
             name: 'product-id',
             resourceType: 'mdsolayer2.resourceTypes.EVCRequestFacade'
           },
-<<<<<<< HEAD
           */
-=======
->>>>>>> 82ec8ab... Add initial EVC model/view
           label: 'Product ID',
           model: 'productId'
         },
@@ -208,33 +202,24 @@ export default {
     flowDetails: {
       children: [
         {
-<<<<<<< HEAD
           /*
-=======
->>>>>>> 82ec8ab... Add initial EVC model/view
           renderer: {
             name: 'bandwidth-profile',
             resourceType: 'mdso.resourceTypes.BandwidthProfile'
           },
-<<<<<<< HEAD
           */
-=======
->>>>>>> 82ec8ab... Add initial EVC model/view
           label: 'Bandwidth profile',
           model: 'details.0.flowSettings.0.ingressPolicer'
         },
         {
-<<<<<<< HEAD
           /*
           renderer: {
             name: 'filter-profile'
           },
           */
-=======
           renderer: {
             name: 'filter-profile'
           },
->>>>>>> 82ec8ab... Add initial EVC model/view
           label: 'Filter profile',
           model: 'details.0.flowSettings.0.filter'
         },
@@ -391,17 +376,11 @@ export default {
     routeSelection: {
       children: [
         {
-<<<<<<< HEAD
           /*
           renderer: {
             name: 'route-selection-input'
           },
           */
-=======
-          renderer: {
-            name: 'route-selection-input'
-          },
->>>>>>> 82ec8ab... Add initial EVC model/view
           model: 'properties.routeDescriptor'
         }
       ],

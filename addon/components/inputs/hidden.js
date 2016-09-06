@@ -10,23 +10,13 @@ export default AbstractInput.extend({
 
   // == Functions ==============================================================
 
-<<<<<<< HEAD
   formValueChanged (newFormValue) {
     let value
-=======
-  didReceiveAttrs () {
-    let value
-
->>>>>>> da8dfb1... Add hidden-input renderer
     const currentValue = this.get('value')
     const valueRef = this.get('cellConfig.renderer.valueRef')
 
     if (valueRef) {
-<<<<<<< HEAD
       value = _.get(newFormValue, valueRef)
-=======
-      value = this.get(`bunsenStore.formValue.${valueRef}`)
->>>>>>> da8dfb1... Add hidden-input renderer
     } else {
       value = this.get('bunsenModel.default')
     }

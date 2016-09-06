@@ -18,16 +18,10 @@ function render (ctx) {
   ctx.render(hbs`{{frost-bunsen-input-hidden
     bunsenId=bunsenId
     bunsenModel=bunsenModel
-<<<<<<< HEAD
     bunsenView=bunsenView
     cellConfig=cellConfig
     onChange=onChange
     registerForFormValueChanges=registerForFormValueChanges
-=======
-    bunsenStore=bunsenStore
-    cellConfig=cellConfig
-    onChange=onChange
->>>>>>> da8dfb1... Add hidden-input renderer
     value=value
   }}`)
 }
@@ -40,16 +34,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-hidden'), functi
     this.setProperties({
       bunsenId: 'name',
       bunsenModel: {},
-<<<<<<< HEAD
       bunsenView: {},
       cellConfig: {},
       onChange,
       registerForFormValueChanges () {},
-=======
-      bunsenStore: Ember.Object.create({}),
-      cellConfig: Ember.Object.create({}),
-      onChange,
->>>>>>> da8dfb1... Add hidden-input renderer
       value: ''
     })
   })
@@ -116,19 +104,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-hidden'), functi
     describe('and nothing is set yet', function () {
       beforeEach(function () {
         this.setProperties({
-<<<<<<< HEAD
           cellConfig: {
             renderer: {
               valueRef: 'nickname'
             }
           },
-=======
-          cellConfig: Ember.Object.create({
-            renderer: {
-              valueRef: 'nickname'
-            }
-          }),
->>>>>>> da8dfb1... Add hidden-input renderer
           bunsenStore: Ember.Object.create({
             formValue: {
               name: '',
@@ -157,19 +137,11 @@ describeComponent(...integrationTestContext('frost-bunsen-input-hidden'), functi
     describe('and that value is already set', function () {
       beforeEach(function () {
         this.setProperties({
-<<<<<<< HEAD
           cellConfig: {
             renderer: {
               valueRef: 'nickname'
             }
           },
-=======
-          cellConfig: Ember.Object.create({
-            renderer: {
-              valueRef: 'nickname'
-            }
-          }),
->>>>>>> da8dfb1... Add hidden-input renderer
           bunsenStore: Ember.Object.create({
             formValue: {
               name: 'Green Lantern',
