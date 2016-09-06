@@ -37,7 +37,7 @@ function tests (ctx) {
   })
 }
 
-describeComponent(...integrationTestContext('frost=bunsen-detail'),
+describeComponent(...integrationTestContext('frost-bunsen-detail'),
   function () {
     let ctx = {}
 
