@@ -1,3 +1,8 @@
+# 7.3.0
+
+* **Added** ability to specific select options in view instead of model.
+
+
 # 7.2.5
 
 * Fixing CSS class `one-third`.
