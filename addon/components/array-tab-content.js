@@ -17,26 +17,34 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
     index: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     readOny: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    showAllErrors: PropTypes.bool,
     value: PropTypes.object.isRequired
   },
 
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.arrayOptions.itemCell.renderer.name', 'bunsenStore.renderers')
+  @computed('cellConfig', 'renderers')
   /**
    * Get name of component for custom renderer
-   * @param {String} renderer - custom renderer to use
+   * @param {Object} cellConfig - cell config
    * @returns {String} name of custom renderer component
    */
-  customRenderer (renderer) {
-    return this.get(`bunsenStore.renderers.${renderer}`)
+  customRenderer (cellConfig) {
+    const renderer = _.get(cellConfig, 'arrayOptions.itemCell.renderer.name')
+    return this.get(`renderers.${renderer}`)
   },
 
   @readOnly
@@ -61,18 +69,19 @@ export default Component.extend(PropTypeMixin, {
 
   @readOnly
   @computed(
-    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
+    'cellConfig', 'index', 'bunsenModel', 'bunsenView.cellDefinitions'
   )
   /**
    * Get label text for item
-   * @param {String} cellId - ID of cell
-   * @param {String} label - label
+   * @param {Object} cellConfig - cell config
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
    * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} label
    */
-  label (cellId, label, index, bunsenModel, cellDefinitions) {
+  label (cellConfig, index, bunsenModel, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
@@ -80,8 +89,8 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.itemCell')
-  itemCell (itemCell) {
-    return itemCell || Ember.Object.create({})
+  @computed('cellConfig')
+  itemCell (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.itemCell') || {}
   }
 })

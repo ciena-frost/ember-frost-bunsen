@@ -17,5 +17,15 @@ export default Route.extend({
         }
       })
     /* eslint-enable new-cap */
+  },
+
+  setupController (controller, model) {
+    this._super(...arguments)
+    if (controller.get('selectedModelId')) {
+      controller.set('viewSelectionDisabled', false)
+    }
+    if (controller.get('selectedViewId')) {
+      controller.set('valueSelectionDisabled', false)
+    }
   }
 })

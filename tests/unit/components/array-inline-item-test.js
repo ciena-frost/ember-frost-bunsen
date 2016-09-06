@@ -5,7 +5,7 @@ import {PropTypes} from 'ember-prop-types'
 import {builtInRenderers} from 'bunsen-core/validator'
 import {validatePropTypes} from 'dummy/tests/helpers/template'
 
-describeComponent(
+describeComponent.only(
   'frost-bunsen-array-inline-item',
   'Unit: Component | frost-bunsen-array-inline-item',
   {
@@ -42,11 +42,12 @@ describeComponent(
           renderers: builtInRenderers,
           view: {}
         }),
-        cellConfig: Ember.Object.create({
+        bunsenView: {},
+        cellConfig: {
           arrayOptions: {
             itemCell: {}
           }
-        }),
+        },
         errors: {},
         index: 0,
         onChange: onChangeSpy,
@@ -64,12 +65,20 @@ describeComponent(
       bunsenId: PropTypes.string.isRequired,
       bunsenModel: PropTypes.object.isRequired,
       bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
+      bunsenView: PropTypes.object.isRequired,
+      cellConfig: PropTypes.object.isRequired,
       errors: PropTypes.object.isRequired,
+      formDisabled: PropTypes.bool,
       index: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
       onRemove: PropTypes.func,
       readOny: PropTypes.bool,
+      registerForFormValueChanges: PropTypes.func.isRequired,
+      renderers: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
+      showAllErrors: PropTypes.bool,
       showRemoveButton: PropTypes.bool,
       sortable: PropTypes.bool.isRequired,
       value: PropTypes.object.isRequired
@@ -86,7 +95,8 @@ describeComponent(
 
     it('compact returns true when view config property set to true', function () {
       component.set('cellConfig.arrayOptions.compact', true)
-      expect(component.get('compact')).to.be.true
+      expect(component.get('compact')).to.be.fooBarBaz
+      expect(false).to.be.ok
     })
 
     it('errorMessage returns multiple errors', function () {

@@ -19,12 +19,12 @@ const props = {
     },
     minItems: 1
   },
-  bunsenStore: Ember.Object.create({}),
-  cellConfig: Ember.Object.create({
+  bunsenView: {},
+  cellConfig: {
     arrayOptions: {
-      itemCell: Ember.Object.create({})
+      itemCell: {}
     }
-  }),
+  },
   errors: {},
   index: 0,
   onChange () {},
@@ -55,7 +55,7 @@ describeComponent(...integrationTestContext('frost-bunsen-array-tab-content'),
       this.render(hbs`{{frost-bunsen-array-tab-content
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         errors=errors
         index=index

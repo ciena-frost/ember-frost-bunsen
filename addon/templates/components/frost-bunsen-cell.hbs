@@ -10,12 +10,16 @@
         {{frost-bunsen-cell
           bunsenId=renderId
           bunsenModel=subModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=mergedConfig
           errors=errors
+          formDisabled=formDisabled
           formHook=formHook
           onChange=onChange
           readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          renderers=renderers
+          showAllErrors=showAllErrors
           value=value
         }}
       {{else if isSubModelArray}}
@@ -23,13 +27,17 @@
           {{frost-bunsen-array-inline-item
             bunsenId=nonIndexId
             bunsenModel=subModel
-            bunsenStore=bunsenStore
+            bunsenView=bunsenView
             cellConfig=mergedConfig
             errors=errors
+            formDisabled=formDisabled
             formHook=formHook
             index=index
             onChange=onChange
             readOnly=readOnly
+            registerForFormValueChanges=registerForFormValueChanges
+            renderers=renderers
+            showAllErrors=showAllErrors
             showRemoveButton=false
             sortable=false
             value=value
@@ -38,13 +46,17 @@
           {{frost-bunsen-array-container
             bunsenId=renderId
             bunsenModel=subModel
-            bunsenStore=bunsenStore
+            bunsenView=bunsenView
             cellConfig=mergedConfig
             errors=errors
+            formDisabled=formDisabled
             formHook=formHook
             onChange=onChange
             readOnly=readOnly
+            registerForFormValueChanges=registerForFormValueChanges
+            renderers=renderers
             required=required
+            showAllErrors=showAllErrors
             value=value
           }}
         {{/if}}
@@ -52,13 +64,17 @@
         {{frost-bunsen-input-wrapper
           bunsenId=renderId
           bunsenModel=subModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=mergedConfig
           errorMessage=errorMessage
+          formDisabled=formDisabled
           formHook=formHook
           onChange=onChange
           readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          renderers=renderers
           required=required
+          showAllErrors=showAllErrors
           isDependencyMet=isDependencyMet
           value=renderValue
         }}
@@ -68,12 +84,16 @@
       {{frost-bunsen-cell
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=child
         errors=errors
+        formDisabled=formDisabled
         formHook=formHook
         onChange=onChange
         readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
         value=value
       }}
     {{/each}}
@@ -84,12 +104,16 @@
       {{frost-bunsen-cell
         bunsenId=renderId
         bunsenModel=subModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=mergedConfig
         errors=errors
+        formDisabled=formDisabled
         formHook=formHook
         onChange=onChange
         readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
         value=value
       }}
     {{else if isSubModelArray}}
@@ -97,13 +121,17 @@
         {{frost-bunsen-array-inline-item
           bunsenId=nonIndexId
           bunsenModel=subModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=mergedConfig
           errors=errors
+          formDisabled=formDisabled
           formHook=formHook
           index=index
           onChange=onChange
           readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          renderers=renderers
+          showAllErrors=showAllErrors
           showRemoveButton=false
           sortable=false
           value=value
@@ -112,13 +140,17 @@
         {{frost-bunsen-array-container
           bunsenId=renderId
           bunsenModel=subModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=mergedConfig
           errors=errors
+          formDisabled=formDisabled
           formHook=formHook
           onChange=onChange
           readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          renderers=renderers
           required=required
+          showAllErrors=showAllErrors
           value=value
         }}
       {{/if}}
@@ -126,13 +158,17 @@
       {{frost-bunsen-input-wrapper
         bunsenId=renderId
         bunsenModel=subModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=mergedConfig
         errorMessage=errorMessage
+        formDisabled=formDisabled
         formHook=formHook
         onChange=onChange
         readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
         required=required
+        showAllErrors=showAllErrors
         isDependencyMet=isDependencyMet
         value=renderValue
       }}
@@ -142,12 +178,16 @@
     {{frost-bunsen-cell
       bunsenId=bunsenId
       bunsenModel=bunsenModel
-      bunsenStore=bunsenStore
+      bunsenView=bunsenView
       cellConfig=child
       errors=errors
+      formDisabled=formDisabled
       formHook=formHook
       onChange=onChange
       readOnly=readOnly
+      registerForFormValueChanges=registerForFormValueChanges
+      renderers=renderers
+      showAllErrors=showAllErrors
       value=value
     }}
   {{/each}}

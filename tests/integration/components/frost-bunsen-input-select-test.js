@@ -105,8 +105,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         bunsenStore: Ember.Object.create({
           formValue
         }),
-        cellConfig: Ember.Object.create({}),
+        bunsenView: {},
+        cellConfig: {},
         onChange () {},
+        registerForFormValueChanges () {},
         state: Ember.Object.create(),
         dbStore: this.get('dbStore')
       }
@@ -146,11 +148,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
             enum: ['Adam', 'Chris', 'Matt', 'Niko', 'Sophy'],
             type: 'string'
           },
-          bunsenStore: Ember.Object.create({
-            view
-          }),
-          cellConfig: Ember.Object.create(cellConfig),
+          bunsenView: view,
+          cellConfig,
           onChange () {},
+          registerForFormValueChanges () {},
           state: Ember.Object.create({}),
           value: undefined // Must be present so we can set it via this.set('value', value)
         }
@@ -159,9 +160,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         this.render(hbs`{{frost-bunsen-input-select
           bunsenId=bunsenId
           bunsenModel=bunsenModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=cellConfig
           onChange=onChange
+          registerForFormValueChanges=registerForFormValueChanges
           state=state
           dbStore=dbStore
         }}`)
@@ -198,9 +200,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       this.render(hbs`{{frost-bunsen-input-select
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         onChange=onChange
+        registerForFormValueChanges=registerForFormValueChanges
         state=state
         dbStore=dbStore
       }}`)
@@ -226,9 +229,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         this.render(hbs`{{frost-bunsen-input-select
           bunsenId=bunsenId
           bunsenModel=bunsenModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=cellConfig
           onChange=onChange
+          registerForFormValueChanges=registerForFormValueChanges
           state=state
           dbStore=dbStore
         }}`)
@@ -271,9 +275,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         this.render(hbs`{{frost-bunsen-input-select
           bunsenId=bunsenId
           bunsenModel=bunsenModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=cellConfig
           onChange=onChange
+          registerForFormValueChanges=registerForFormValueChanges
           state=state
           dbStore=dbStore
         }}`)
@@ -308,9 +313,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
         this.render(hbs`{{frost-bunsen-input-select
           bunsenId=bunsenId
           bunsenModel=bunsenModel
-          bunsenStore=bunsenStore
+          bunsenView=bunsenView
           cellConfig=cellConfig
           onChange=onChange
+          registerForFormValueChanges=registerForFormValueChanges
           state=state
           dbStore=dbStore
         }}`)
@@ -333,9 +339,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       this.render(hbs`{{frost-bunsen-input-select
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         onChange=onChange
+        registerForFormValueChanges=registerForFormValueChanges
         state=state
         dbStore=dbStore
       }}`)
@@ -358,9 +365,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       this.render(hbs`{{frost-bunsen-input-select
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         onChange=onChange
+        registerForFormValueChanges=registerForFormValueChanges
         state=state
         dbStore=dbStore
       }}`)
@@ -376,9 +384,10 @@ describeComponent(...integrationTestContext('frost-bunsen-input-select'), functi
       this.render(hbs`{{frost-bunsen-input-select
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         onChange=onChange
+        registerForFormValueChanges=registerForFormValueChanges
         state=state
         dbStore=dbStore
       }}`)

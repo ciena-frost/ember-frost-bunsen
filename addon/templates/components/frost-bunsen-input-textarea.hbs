@@ -7,14 +7,14 @@
 <div class={{inputWrapperClassName}}>
   {{frost-textarea
     class=valueClassName
-    cols=cols
+    cols=cellConfig.renderer.cols
     disabled=disabled
     hook=hook
     onFocusIn=(action "onFocusIn")
     onFocusOut=(action "onFocusOut")
     onInput=(action "onChange")
     placeholder=cellConfig.placeholder
-    rows=rows
+    rows=cellConfig.renderer.rows
     value=(readonly transformedValue)
   }}
 </div>

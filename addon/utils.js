@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, get} = Ember
+const {get} = Ember
 import {getModelPath} from 'bunsen-core/utils'
 
 const assign = Ember.assign || Object.assign || Ember.merge
@@ -15,6 +15,7 @@ const assign = Ember.assign || Object.assign || Ember.merge
 export const builtInRenderers = {
   boolean: 'frost-bunsen-input-boolean',
   'button-group': 'frost-bunsen-input-button-group',
+  hidden: 'frost-bunsen-input-hidden',
   integer: 'frost-bunsen-input-number',
   link: 'frost-bunsen-input-link',
   'multi-select': 'frost-bunsen-input-multi-select',
@@ -171,26 +172,6 @@ export function isRequired (cell, cellDefinitions, bunsenModel) {
   // If any child view cell is required then the parent cell should be labeled as required in the UI
   return cell.children
     .some((child) => isRequired(child, cellDefinitions, bunsenModel))
-}
-
-export function recursiveObjectCreate (object) {
-  if (_.isPlainObject(object)) {
-    let newObj = {}
-    _.forEach(object, function (value, key) {
-      newObj[key] = recursiveObjectCreate(value)
-    })
-
-    return Ember.Object.create(newObj)
-  } else if (_.isArray(object)) {
-    let newArray = []
-    _.forEach(object, function (value) {
-      newArray.push(recursiveObjectCreate(value))
-    })
-
-    return A(newArray) // eslint-disable-line new-cap
-  }
-
-  return object
 }
 
 export function validateRenderer (owner, rendererName) {

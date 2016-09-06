@@ -2,46 +2,62 @@
   {{component customRenderer
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
-    bunsenStore=bunsenStore
+    bunsenView=bunsenView
     cellConfig=cellConfig
+    formDisabled=formDisabled
     label=label
     onChange=onChange
     readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
   }}
 {{else if (eq bunsenModel.items.type "array")}}
   {{frost-bunsen-array-container
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
-    bunsenStore=bunsenStore
+    bunsenView=bunsenView
     cellConfig=itemCell
     errors=errors
+    formDisabled=formDisabled
     label=label
     onChange=onChange
     readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
     value=value
   }}
 {{else if (eq bunsenModel.items.type "object")}}
   {{frost-bunsen-cell
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
-    bunsenStore=bunsenStore
+    bunsenView=bunsenView
     cellConfig=itemCell
     errors=errors
+    formDisabled=formDisabled
     label=label
     onChange=onChange
     readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
     value=value
   }}
 {{else}}
   {{frost-bunsen-input-wrapper
     bunsenId=(concat bunsenId '.' index)
     bunsenModel=bunsenModel.items
-    bunsenStore=bunsenStore
+    bunsenView=bunsenView
     cellConfig=itemCell
     errorMessage=errorMessage
+    formDisabled=formDisabled
     label=label
     onChange=onChange
     readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
     value=value
   }}
 {{/if}}

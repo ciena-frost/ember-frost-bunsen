@@ -13,8 +13,8 @@ describeComponent(
     beforeEach(function () {
       this.subject({
         bunsenModel: {},
-        bunsenStore: Ember.Object.create({}),
-        cellConfig: Ember.Object.create({}),
+        bunsenView: {},
+        cellConfig: {},
         index: 1,
         onRemove () {}
       })
@@ -22,10 +22,16 @@ describeComponent(
 
     validatePropTypes({
       bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
+      bunsenView: PropTypes.object.isRequired,
+      cellConfig: PropTypes.object.isRequired,
+      formDisabled: PropTypes.bool,
       index: PropTypes.number.isRequired,
-      onRemove: PropTypes.func.isRequired
+      onRemove: PropTypes.func.isRequired,
+      renderers: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
+      showAllErrors: PropTypes.bool
     })
   }
 )

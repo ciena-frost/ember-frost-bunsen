@@ -18,14 +18,14 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.placeholder', 'value')
-  renderValue (placeholder, value) {
+  @computed('cellConfig', 'value')
+  renderValue (cellConfig, value) {
     if (_.isBoolean(value)) {
       return value ? 'true' : 'false'
     }
 
     if ([null, undefined, ''].indexOf(value) !== -1) {
-      return placeholder || PLACEHOLDER
+      return _.get(cellConfig, 'placeholder') || PLACEHOLDER
     }
 
     return value

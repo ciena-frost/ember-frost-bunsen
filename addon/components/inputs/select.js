@@ -34,7 +34,7 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'bunsenStore.{disabled,formValue}')
+  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'formValue')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, value) {
     if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel) {
       return true
@@ -59,38 +59,36 @@ export default AbstractInput.extend({
     return modelDef
   },
 
-  didReceiveAttrs ({oldAttrs, newAttrs}) {
-    this._super(...arguments)
-
+  formValueChanged (newValue) {
     const modelDef = this._getModelDef()
+    const oldValue = this.get('formValue')
+
+    this.set('formValue', newValue)
 
     if (!modelDef) {
       return
     }
 
-    if (this.hasQueryChanged(oldAttrs, newAttrs, modelDef.query)) {
+    if (this.hasQueryChanged(oldValue, newValue, modelDef.query)) {
       // setting required variables once above condition is true
       const dbStore = this.get('dbStore')
-      const value = this.get('bunsenStore.formValue')
       const bunsenId = this.get('bunsenId')
-      if (utils.hasValidQueryValues(value, modelDef.query, bunsenId)) {
-        listUtils.getOptions(value, modelDef, bunsenId, dbStore).then((opts) => {
+      if (utils.hasValidQueryValues(newValue, modelDef.query, bunsenId)) {
+        listUtils.getOptions(newValue, modelDef, bunsenId, dbStore).then((opts) => {
           this.set('options', opts)
         })
       }
     }
-
-    this.set('initialized', true)
   },
 
   /**
    * Checks if query has been changed
-   * @param {Object} oldAttrs - old attributes
-   * @param {Object} newAttrs - new attributes
+   * @param {Object} oldValue - old formValue
+   * @param {Object} newValue - new formValue
    * @param {Object} query - query model
    * @returns {Boolean} true if query has been changed
    */
-  hasQueryChanged (oldAttrs, newAttrs, query) {
+  hasQueryChanged (oldValue, newValue, query) {
     // allow models that don't have query defined to pass as well as
     // allow the options to get initially populated
     if (!query || !this.get('initialized')) {
@@ -110,9 +108,6 @@ export default AbstractInput.extend({
     }
 
     const bunsenId = this.get('bunsenId')
-    const value = _.get(newAttrs, 'bunsenStore.value.formValue')
-    const oldValue = _.get(oldAttrs, 'bunsenStore.value.formValue')
-
     const queryString = JSON.stringify(query)
     const parts = queryString.split('${')
 
@@ -123,10 +118,10 @@ export default AbstractInput.extend({
     const valueVariable = parts[1].split('}')[0]
 
     // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
-    let valueResult = utils.findValue(value, valueVariable, bunsenId)
+    let newValueResult = utils.findValue(newValue, valueVariable, bunsenId)
     let oldValueResult = utils.findValue(oldValue, valueVariable, bunsenId)
 
-    if (valueResult || oldValueResult) {
+    if (newValueResult || oldValueResult) {
       let oldQuery
       let newQuery
 
@@ -138,7 +133,7 @@ export default AbstractInput.extend({
       }
 
       try {
-        newQuery = utils.populateQuery(value, query, bunsenId)
+        newQuery = utils.populateQuery(newValue, query, bunsenId)
       } catch (e) {
         newQuery = {}
       }
@@ -180,6 +175,18 @@ export default AbstractInput.extend({
    */
   parseValue (data) {
     return data[0]
+  },
+
+  // == Events ================================================================
+
+  init () {
+    this._super(...arguments)
+    this.registerForFormValueChanges(this)
+  },
+
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
+    this._super(...arguments)
+    this.set('initialized', true)
   },
 
   // == Actions ================================================================

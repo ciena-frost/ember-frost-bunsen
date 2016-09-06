@@ -1,4 +1,5 @@
 import computed, {readOnly} from 'ember-computed-decorators'
+import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-property-chooser'
 
@@ -15,9 +16,9 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.renderer.choices')
-  data (choices) {
-    return choices || []
+  @computed('cellConfig')
+  data (cellConfig) {
+    return _.get(cellConfig, 'renderer.choices') || []
   },
 
   @readOnly

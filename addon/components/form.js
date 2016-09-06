@@ -25,12 +25,14 @@ export default DetailComponent.extend({
       PropTypes.object
     ]),
     disabled: PropTypes.bool,
+    hook: PropTypes.string,
     onChange: PropTypes.func,
     onValidation: PropTypes.func,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    regiteredComponents: PropTypes.array,
     showAllErrors: PropTypes.bool,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([
@@ -45,7 +47,9 @@ export default DetailComponent.extend({
       autofocus: true,
       classNames: ['frost-bunsen-form'],
       disabled: false,
+      hook: 'bunsenForm',
       renderers: {},
+      registeredComponents: [],
       showAllErrors: false,
       validators: [],
       value: null

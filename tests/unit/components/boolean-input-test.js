@@ -18,8 +18,8 @@ describeComponent(
       component = this.subject({
         bunsenId: 'enabled',
         bunsenModel: {},
-        bunsenStore: Ember.Object.create({}),
-        cellConfig: Ember.Object.create({}),
+        bunsenView: {},
+        cellConfig: {},
         onChange () {},
         state: Ember.Object.create({value: true})
       })
@@ -29,15 +29,17 @@ describeComponent(
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
+      bunsenView: PropTypes.object.isRequired,
+      cellConfig: PropTypes.object.isRequired,
       errorMessage: PropTypes.oneOfType([
         PropTypes.null,
         PropTypes.string
       ]),
+      formDisabled: PropTypes.bool,
       label: PropTypes.string,
       onChange: PropTypes.func.isRequired,
       required: PropTypes.bool,
+      showAllErrors: PropTypes.bool,
       value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,

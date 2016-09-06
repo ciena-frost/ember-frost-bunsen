@@ -19,15 +19,18 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errorMessage: PropTypes.oneOfType([
       PropTypes.null,
       PropTypes.string
     ]),
+    formDisabled: PropTypes.bool,
     label: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    registerForFormValueChanges: PropTypes.func,
     required: PropTypes.bool,
+    showAllErrors: PropTypes.bool,
     value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
@@ -48,13 +51,13 @@ export default Component.extend(PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenStore.disabled', 'cellConfig.disabled')
-  disabled (formDisabled, disabledInView) {
-    return formDisabled || disabledInView
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
   },
 
   @readOnly
-  @computed('errorMessage', 'showErrorMessage', 'bunsenStore.showAllErrors')
+  @computed('errorMessage', 'showErrorMessage', 'showAllErrors')
   renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
     if (!showAllErrors && !showErrorMessage) {
       return null
@@ -75,25 +78,25 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.classNames.value')
+  @computed('cellConfig')
   /**
    * Get class name for input wrapper element
-   * @param {String} valueClassName - class name defined in view definition
+   * @param {Object} cellConfig - cell config
    * @returns {String} input wrapper element class name
    */
-  inputWrapperClassName (valueClassName) {
-    return valueClassName || defaultClassNames.inputWrapper
+  inputWrapperClassName (cellConfig) {
+    return _.get(cellConfig, 'classNames.value') || defaultClassNames.inputWrapper
   },
 
   @readOnly
-  @computed('cellConfig.classNames.label')
+  @computed('cellConfig')
   /**
    * Get class name for label wrapper element
-   * @param {String} labelClassName - class name defined in view definition
+   * @param {Object} cellConfig - cell config
    * @returns {String} label wrapper element class name
    */
-  labelWrapperClassName (labelClassName) {
-    return labelClassName || defaultClassNames.labelWrapper
+  labelWrapperClassName (cellConfig) {
+    return _.get(cellConfig, 'classNames.label') || defaultClassNames.labelWrapper
   },
 
   @readOnly
@@ -113,13 +116,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('value', 'cellConfig.transforms.read')
-  transformedValue (value, transforms) {
+  @computed('value', 'cellConfig')
+  transformedValue (value, cellConfig) {
     if (!_.isString(value)) {
       return value
     }
 
-    return this.applyTransforms(value, transforms)
+    return this.applyTransforms(value, _.get(cellConfig, 'transforms.read'))
   },
 
   // == Functions ==============================================================
@@ -225,6 +228,11 @@ export default Component.extend(PropTypeMixin, {
     } catch (err) {
       Logger.debug(err)
     }
+  },
+
+  didRender () {
+    this._super(...arguments)
+    console.log('didRender() called')
   },
 
   // == Actions ================================================================

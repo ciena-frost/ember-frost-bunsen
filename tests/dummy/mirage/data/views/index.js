@@ -10,6 +10,7 @@ import complex from './complex'
 import complexConditionalPropSelectForm from './complex-conditional-prop-select-form'
 import conditionalPropSelectForm from './conditional-prop-select-form'
 import dependencies from './dependencies'
+import evc from './evc'
 import nestedConditionalsForm from './nested-conditionals-form'
 import selectDetail from './select-detail'
 import selectForm from './select-form'
@@ -33,6 +34,7 @@ export default {
   complexConditionalPropSelectForm,
   conditionalPropSelectForm,
   dependencies,
+  evc,
   nestedConditionalsForm,
   selectDetail,
   selectForm,

@@ -182,58 +182,6 @@ describeComponent(
       })
     })
 
-    describe('when disabled is true', function () {
-      let bunsenStore
-
-      beforeEach(function () {
-        component.set('disabled', true)
-        bunsenStore = component.get('bunsenStore')
-      })
-
-      it('bunsenStore has disabled value', function () {
-        expect(bunsenStore.disabled).to.be.true
-      })
-    })
-
-    describe('when disabled is false', function () {
-      let bunsenStore
-
-      beforeEach(function () {
-        component.set('disabled', false)
-        bunsenStore = component.get('bunsenStore')
-      })
-
-      it('bunsenStore has disabled value', function () {
-        expect(bunsenStore.disabled).to.be.false
-      })
-    })
-
-    describe('when showAllErrors is true', function () {
-      let bunsenStore
-
-      beforeEach(function () {
-        component.set('showAllErrors', true)
-        bunsenStore = component.get('bunsenStore')
-      })
-
-      it('bunsenStore has showAllErrors value', function () {
-        expect(bunsenStore.showAllErrors).to.be.true
-      })
-    })
-
-    describe('when showAllErrors is false', function () {
-      let bunsenStore
-
-      beforeEach(function () {
-        component.set('showAllErrors', false)
-        bunsenStore = component.get('bunsenStore')
-      })
-
-      it('bunsenStore has showAllErrors value', function () {
-        expect(bunsenStore.showAllErrors).to.be.false
-      })
-    })
-
     describe('bunsenStore', function () {
       let bunsenStore
 
@@ -243,10 +191,6 @@ describeComponent(
 
       it('has expected formValue', function () {
         expect(bunsenStore.formValue).to.eql({})
-      })
-
-      it('has expected renderers', function () {
-        expect(bunsenStore.renderers).to.eql({})
       })
     })
   }

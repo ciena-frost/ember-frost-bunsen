@@ -44,6 +44,13 @@ export default function () {
     }
   })
 
+  this.get('/nodes', function ({db}, request) {
+    const nodes = db.nodes
+    return {
+      nodes
+    }
+  })
+
   ;[
     'models',
     'values',

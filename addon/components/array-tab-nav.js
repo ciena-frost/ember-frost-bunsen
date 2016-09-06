@@ -3,6 +3,7 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
+import _ from 'lodash'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-nav'
 
 export default Component.extend(PropTypeMixin, {
@@ -15,34 +16,39 @@ export default Component.extend(PropTypeMixin, {
 
   propTypes: {
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
     index: PropTypes.number.isRequired,
-    onRemove: PropTypes.func.isRequired
+    onRemove: PropTypes.func.isRequired,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    showAllErrors: PropTypes.bool
   },
 
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenStore.disabled', 'cellConfig.disabled')
-  disabled (formDisabled, disabledInView) {
-    return formDisabled || disabledInView
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
   },
 
   @readOnly
-  @computed(
-    'cellConfig.arrayOptions.itemCell.{extends,label}', 'index', 'bunsenModel', 'bunsenStore.view.cellDefinitions'
-  )
+  @computed('cellConfig', 'index', 'bunsenModel', 'bunsenView.cellDefinitions')
   /**
    * Get title for tab
-   * @param {String} cellId - ID of cells
-   * @param {String} label - label
+   * @param {Object} cellConfig - cell config
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
    * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} tab title
    */
-  title (cellId, label, index, bunsenModel, cellDefinitions) {
+  title (cellConfig, index, bunsenModel, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)

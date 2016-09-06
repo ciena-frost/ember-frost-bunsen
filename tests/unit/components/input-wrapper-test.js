@@ -13,18 +13,24 @@ describeComponent(
     beforeEach(function () {
       this.subject({
         bunsenId: 'foo',
-        bunsenStore: Ember.Object.create({})
+        bunsenView: {}
       })
     })
 
     validatePropTypes({
       bunsenId: PropTypes.string.isRequired,
       bunsenModel: PropTypes.object,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject,
+      bunsenView: PropTypes.object.isRequired,
+      cellConfig: PropTypes.object,
+      formDisabled: PropTypes.bool,
       onChange: PropTypes.func,
       readOnly: PropTypes.bool,
+      renderers: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
       required: PropTypes.bool,
+      showAllErrors: PropTypes.bool,
       value: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.bool,

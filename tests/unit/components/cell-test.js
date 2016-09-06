@@ -25,8 +25,8 @@ describeComponent(
     beforeEach(function () {
       this.subject({
         bunsenModel: {},
-        bunsenStore: Ember.Object.create({}),
-        cellConfig: Ember.Object.create({}),
+        bunsenView: {},
+        cellConfig: {},
         errors: {},
         onChange () {},
         value: {}
@@ -36,11 +36,17 @@ describeComponent(
     validatePropTypes({
       bunsenId: PropTypes.string,
       bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
+      bunsenView: PropTypes.object.isRequired,
+      cellConfig: PropTypes.object.isRequired,
       errors: PropTypes.object.isRequired,
+      formDisabled: PropTypes.bool,
       onChange: PropTypes.func.isRequired,
+      renderers: PropTypes.oneOfType([
+        PropTypes.EmberObject,
+        PropTypes.object
+      ]),
       readOnly: PropTypes.bool,
+      showAllErrors: PropTypes.bool,
       value: PropTypes.object.isRequired
     })
   }

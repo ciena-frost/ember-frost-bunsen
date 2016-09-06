@@ -7,6 +7,7 @@ import conditionalProperties from './conditional-properties'
 import conditions from './conditions'
 import conditionsInDefinitions from './conditions-in-definitions'
 import dependencies from './dependencies'
+import evc from './evc'
 import select from './select'
 import simple from './simple'
 import simpleWithDefaults from './simple-with-defaults'
@@ -22,6 +23,7 @@ export default {
   conditions,
   conditionsInDefinitions,
   dependencies,
+  evc,
   select,
   simple,
   simpleWithDefaults,

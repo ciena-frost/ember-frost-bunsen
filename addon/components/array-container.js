@@ -20,17 +20,26 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
+    formValue: PropTypes.EmberObject,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     required: PropTypes.bool,
+    showAllErrors: PropTypes.bool,
     value: PropTypes.object.isRequired
   },
 
   getDefaultProps () {
     return {
+      formValue: Ember.Object.create({}),
       readOnly: false
     }
   },
@@ -44,14 +53,16 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.itemCell.extends', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig', 'bunsenView.cellDefinitions')
   /**
    * Get definition for current cell
-   * @param {String} cellId - ID of current cell
+   * @param {Object} cellConfig - cell config
    * @param {BunsenCell[]} cellDefinitions - list of cell definitions
    * @returns {BunsenCell} current cell definition
    */
-  currentCell (cellId, cellDefinitions) {
+  currentCell (cellConfig, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+
     if (!cellId) {
       return this.get('cellConfig')
     }
@@ -60,14 +71,15 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenStore.disabled', 'cellConfig.disabled')
-  disabled (formDisabled, disabledInView) {
-    return formDisabled || disabledInView
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.inline')
-  inline (inline) {
+  @computed('cellConfig')
+  inline (cellConfig) {
+    const inline = _.get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
   },
 
@@ -83,33 +95,34 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
+  @computed('bunsenId', 'cellConfig', 'bunsenModel')
   /**
    * Get label for cell
    * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
-   * @param {String} label - label
+   * @param {Object} cellConfig - cell config
    * @param {BunsenModel} bunsenModel - bunsen model
    * @returns {String} label
    */
-  renderLabel (bunsenId, label, bunsenModel) {
+  renderLabel (bunsenId, cellConfig, bunsenModel) {
+    const label = _.get(cellConfig, 'label')
     return getLabel(label, bunsenModel, bunsenId)
   },
 
   @readOnly
-  @computed('inline', 'cellConfig.arrayOptions.autoAdd')
-  showAddButton (inline, autoAdd) {
-    return inline && !autoAdd
+  @computed('inline', 'cellConfig')
+  showAddButton (inline, cellConfig) {
+    return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.sortable')
+  @computed('cellConfig')
   /**
    * Whether or not array items can be sorted by user
-   * @param {Boolean} enabled - whether or not sorting should be enabled
+   * @param {Object} cellConfig - cell config
    * @returns {Boolean} whether or not sorting is enabled
    */
-  sortable (enabled) {
-    return enabled === true
+  sortable (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.sortable') === true
   },
 
   // == Functions ==============================================================
@@ -148,7 +161,7 @@ export default Component.extend(PropTypeMixin, {
       const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
       const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
       const itemPath = `${arrayPath}.${itemIndex}`
-      const item = this.get(`bunsenStore.formValue.${itemPath}`)
+      const item = this.get(`formValue.${itemPath}`)
       const itemCopy = _.cloneDeep(item)
 
       let key = itemPathBits.pop()
@@ -254,8 +267,21 @@ export default Component.extend(PropTypeMixin, {
    * Initialze state of cell
    */
   init () {
-    this._super()
+    this._super(...arguments)
     this.handleNewValues()
+    this.registerForFormValueChanges(this)
+  },
+
+  /**
+   * Method called by parent when formValue changes
+   * @param {Object} newValue - the new formValue
+   */
+  formValueChanged (newValue) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
+      return
+    }
+
+    this.set('formValue', newValue)
   },
 
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -335,7 +361,7 @@ export default Component.extend(PropTypeMixin, {
       return
     }
 
-    if (this.get(`bunsenStore.formValue.${bunsenId}`)) {
+    if (this.get(`formValue.${bunsenId}`)) {
       onChange(`${bunsenId}.${index}`, item)
     } else {
       onChange(bunsenId, [item])

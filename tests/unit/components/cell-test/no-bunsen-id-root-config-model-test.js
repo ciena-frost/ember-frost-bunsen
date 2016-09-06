@@ -1,7 +1,6 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'bunsen-core/validator'
 
 describeComponent(
   'frost-bunsen-cell',
@@ -24,14 +23,10 @@ describeComponent(
           },
           type: 'object'
         },
-        bunsenStore: Ember.Object.create({
-          formValue: {},
-          renderers: builtInRenderers,
-          view: {}
-        }),
-        cellConfig: Ember.Object.create({
+        bunsenView: {},
+        cellConfig: {
           model: 'foo'
-        }),
+        },
         errors: {},
         onChange: onChangeSpy,
         value: {}
