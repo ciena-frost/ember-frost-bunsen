@@ -12,7 +12,7 @@
 {{#if inline }}
   {{#if sortable}}
     {{#sortable-group onChange=(action 'onReorderItems') as |group|}}
-      {{#each items as |item index|}}
+      {{#each items key='@index' as |item index|}}
         {{#sortable-item group=group handle='.handle' model=item}}
           {{frost-bunsen-array-inline-item
             bunsenId=bunsenId
@@ -35,7 +35,7 @@
       {{/each}}
     {{/sortable-group}}
   {{else}}
-    {{#each items as |item index|}}
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-inline-item
         bunsenId=bunsenId
         bunsenModel=bunsenModel
@@ -62,7 +62,7 @@
     </div>
   {{/if}}
   <ul class='nav nav-tabs'>
-    {{#each items as |item index|}}
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-nav
         bunsenModel=bunsenModel
         bunsenView=bunsenView
@@ -86,7 +86,7 @@
     </li>
   </ul>
   <div class='tab-content'>
-    {{#each items as |item index|}}
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-content
         bunsenId=bunsenId
         bunsenModel=bunsenModel
