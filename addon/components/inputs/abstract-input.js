@@ -230,6 +230,11 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
+  didRender () {
+    this._super(...arguments)
+    Logger.debug('AbstractInput::didRender() called')
+  },
+
   // == Actions ================================================================
 
   actions: {
