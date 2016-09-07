@@ -78,6 +78,7 @@
     "ember-seamless-immutable-shim": "^1.0.0",
     "ember-sinon": "0.5.1",
     "ember-sortable": "^1.8.2",
+    "ember-tooltips": "0.7.0",
     "ember-truth-helpers": "1.2.0",
     "ember-validator-shim": "^1.0.1",
     "ember-z-schema": "^1.0.1",
