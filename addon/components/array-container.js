@@ -215,9 +215,7 @@ export default Component.extend(PropTypeMixin, {
 
     const onChange = this.get('onChange')
 
-    if (onChange) {
-      onChange(bunsenId, value)
-    }
+    onChange(bunsenId, value)
   },
 
   _handlePrimitiveChange (bunsenId, value, autoAdd) {
@@ -234,9 +232,7 @@ export default Component.extend(PropTypeMixin, {
 
     const onChange = this.get('onChange')
 
-    if (onChange) {
-      onChange(bunsenId, value)
-    }
+    onChange(bunsenId, value)
   },
 
   _isItemEmpty (item) {
@@ -297,10 +293,6 @@ export default Component.extend(PropTypeMixin, {
   notifyParentOfNewItem (item, index) {
     const bunsenId = this.get('bunsenId')
     const onChange = this.get('onChange')
-
-    if (!onChange) {
-      return
-    }
 
     if (this.get(`formValue.${bunsenId}`)) {
       onChange(`${bunsenId}.${index}`, item)
@@ -371,9 +363,7 @@ export default Component.extend(PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const onChange = this.get('onChange')
 
-      if (onChange) {
-        onChange(bunsenId, reorderedItems)
-      }
+      onChange(bunsenId, reorderedItems)
     }
   }
 })

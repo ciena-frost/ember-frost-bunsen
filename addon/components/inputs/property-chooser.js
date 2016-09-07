@@ -52,14 +52,12 @@ export default AbstractInput.extend({
       const onChange = this.get('onChange')
       const oldValue = this.get('useKey')
 
-      if (onChange) {
-        if (oldValue) {
-          onChange(`${bunsenId}.${oldValue}`, '')
-        }
+      if (oldValue) {
+        onChange(`${bunsenId}.${oldValue}`, '')
+      }
 
-        if (newValue) {
-          onChange(`${bunsenId}.${newValue}`, 'selected')
-        }
+      if (newValue) {
+        onChange(`${bunsenId}.${newValue}`, 'selected')
       }
     }
   }
