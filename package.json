@@ -9,12 +9,13 @@
   },
   "scripts": {
     "build": "ember build",
+    "coverage": "COVERAGE=true ember test",
     "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
     "lint-js": "eslint *.js addon app blueprints config tests",
     "lint-md": "remark *.md",
     "lint-sass": "sass-lint -v -q",
     "start": "ember server",
-    "test": "npm run lint && ember test"
+    "test": "npm run lint && npm run coverage"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,7 @@
     "ember-bunsen-core": "0.8.0",
     "ember-cli": "^2.7.0",
     "ember-cli-app-version": "^2.0.0",
-    "ember-cli-blanket": "0.9.8",
+    "ember-cli-code-coverage": "kategengler/ember-cli-code-coverage#addon-spike",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.4",
     "ember-cli-inject-live-reload": "^1.4.0",
