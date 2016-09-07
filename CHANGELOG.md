@@ -1,3 +1,8 @@
+# 7.3.1
+
+ * **Replaced** `ember-cli-blanket` with `ember-cli-code-coverage` (the `addon-spike` branch since it hasn't been merged yet). 
+
+
 # 7.3.0
 
 * **Added** ability to specific select options in view instead of model.
