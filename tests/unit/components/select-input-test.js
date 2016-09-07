@@ -1,54 +1,76 @@
 import {describeComponent} from 'ember-mocha'
-import {PropTypes} from 'ember-prop-types'
-import {beforeEach} from 'mocha'
-import {validatePropTypes} from 'dummy/tests/helpers/template'
+import {expect} from 'chai'
+import {describe, beforeEach, it} from 'mocha'
+import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(
-  'frost-bunsen-input-select',
-  'Unit: Component | frost-bunsen-input-select',
-  {
-    unit: true
-  },
-  function () {
-    const ctx = {}
-    let component
+describeComponent(...unitTest('frost-bunsen-input-select'), function () {
+  const ctx = {}
+  let component
+
+  beforeEach(function () {
+    component = this.subject({
+      bunsenId: 'name',
+      bunsenModel: {},
+      bunsenView: {},
+      cellConfig: {},
+      onChange () {},
+      registerForFormValueChanges () {},
+      state: Ember.Object.create({})
+    })
+    ctx.component = component
+  })
+
+  describe('hasQueryChanged', function () {
+    let modelQuery, component, formValue, oldFormValue
 
     beforeEach(function () {
+      modelQuery = {
+        foo: '${bar}'
+      }
+      formValue = {
+        bar: 'baz'
+      }
+      oldFormValue = {
+        bar: 'bar'
+      }
+
       component = this.subject({
-        bunsenId: 'name',
-        bunsenModel: {},
-        bunsenView: {},
-        cellConfig: {},
-        onChange () {},
-        registerForFormValueChanges () {},
-        state: Ember.Object.create({})
+        initialized: true,
+        bunsenId: ''
       })
-      ctx.component = component
     })
 
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenView: PropTypes.object.isRequired,
-      cellConfig: PropTypes.object.isRequired,
-      errorMessage: PropTypes.oneOfType([
-        PropTypes.null,
-        PropTypes.string
-      ]),
-      formDisabled: PropTypes.bool,
-      label: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-      registerForFormValueChanges: PropTypes.func,
-      required: PropTypes.bool,
-      showAllErrors: PropTypes.bool,
-      value: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.bool,
-        PropTypes.null,
-        PropTypes.number,
-        PropTypes.object,
-        PropTypes.string
-      ])
+    describe('when query is not defined', function () {
+      it('returns true when queries are the same', function () {
+        expect(component.hasQueryChanged(formValue, formValue, undefined)).to.be.equal(true)
+      })
+
+      it('returns true when queries are not the same', function () {
+        expect(component.hasQueryChanged(oldFormValue, formValue, undefined)).to.be.equal(true)
+      })
     })
-  }
-)
+
+    describe('when not initialized', function () {
+      beforeEach(() => {
+        component.set('initialized', false)
+      })
+      it('returns true when queries are the same', function () {
+        expect(component.hasQueryChanged(formValue, formValue, undefined)).to.be.equal(true)
+      })
+
+      it('returns true when queries are not the same', function () {
+        expect(component.hasQueryChanged(oldFormValue, formValue, undefined)).to.be.equal(true)
+      })
+    })
+
+    describe('when queries initialized and query is defined', function () {
+      it('returns false when queries are equal', function () {
+        expect(component.hasQueryChanged(oldFormValue, oldFormValue, modelQuery)).to.be.equal(false)
+      })
+
+      it('returns true when queries mismatch', function () {
+        expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+      })
+    })
+  })
+})

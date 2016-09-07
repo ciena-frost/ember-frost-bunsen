@@ -1,6 +1,5 @@
-/* global $ */
 import Ember from 'ember'
-const {RSVP} = Ember
+const {$, RSVP} = Ember
 import {validate} from 'bunsen-core/actions'
 
 import {PropTypes} from 'ember-prop-types'

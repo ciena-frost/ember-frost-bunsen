@@ -59,7 +59,7 @@ function getValue () {
 describe('Acceptance: Performance', function () {
   let application
 
-  this.timeout(5000)
+  this.timeout(6000)
 
   before(function () {
     application = startApp()

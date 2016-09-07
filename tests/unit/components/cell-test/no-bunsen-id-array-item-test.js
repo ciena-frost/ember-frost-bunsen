@@ -1,14 +1,10 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
+import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(
-  'frost-bunsen-cell',
-  'Unit: Component | frost-bunsen-cell when array item without bunsenId',
-  {
-    unit: true
-  },
-  function () {
+describeComponent(...unitTest('frost-bunsen-cell'), function () {
+  describe('when array item without bunsenId', function () {
     let component, onChangeSpy, sandbox
 
     beforeEach(function () {
@@ -117,5 +113,5 @@ describeComponent(
         expect(component.get('renderValue')).to.be.undefined
       })
     })
-  }
-)
+  })
+})
