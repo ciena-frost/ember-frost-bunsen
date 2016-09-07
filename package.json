@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "coverage": "COVERAGE=true ember test",
+    "coverage": "COVERAGE=true ember test -r 'dot'",
     "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
     "lint-js": "eslint *.js addon app blueprints config tests",
     "lint-md": "remark *.md",
