@@ -51,7 +51,6 @@ function tests (ctx) {
 describeComponent(...integrationTestContext('frost-bunsen-detail'),
   function () {
     let ctx = {}
-
     beforeEach(function () {
       this.setProperties(props)
       this.render(hbs`{{frost-bunsen-detail

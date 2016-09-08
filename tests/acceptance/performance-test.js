@@ -3,15 +3,16 @@
  */
 
 import Ember from 'ember'
-const {RSVP} = Ember
+const {Logger, RSVP} = Ember
 import {after, before, describe, it} from 'mocha'
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
 import startApp from '../helpers/start-app'
 import destroyApp from '../helpers/destroy-app'
+import sinon from 'sinon'
 
-// FIXME: Try to get this even lower, maybe with some debouncing of the input as the user types? (ARM 2016-09-06)
-const MAX_LATENCY = 1100 // For some reason this is a good 500ms slower in Firefox :(
+const MAX_TIMEOUT = 10000 // Travis CI can take a long time sometimes
+const DEBUG_MSG = 'AbstractInput::didRender() called'
 
 /**
  * Helper to simulate user typing a single character
@@ -57,27 +58,32 @@ function getValue () {
 }
 
 describe('Acceptance: Performance', function () {
-  let application
-
-  this.timeout(6000)
+  let application, sandbox
 
   before(function () {
+    sandbox = sinon.sandbox.create()
+    sandbox.stub(Logger, 'debug')
+    Logger.debug.withArgs(DEBUG_MSG)
     application = startApp()
     server.loadFixtures()
     server.createList('node', 5)
   })
 
   after(function () {
+    sandbox.restore()
     destroyApp(application)
   })
 
   describe('typing on a simple form', function () {
-    let $input, beforeTime
+    let $input, initialRenderCount
     before(function (done) {
+      const count = Logger.debug.withArgs(DEBUG_MSG).callCount
+      console.log(`called ${count} times before visit()`)
       visit('/examples?model=simple')
       andThen(() => {
+        initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
+        Logger.debug.reset()
         $input = $hook('bunsenForm-lastName-input')
-        beforeTime = new Date()
         typeText('abcdef', $input).then(() => {
           done()
         })
@@ -91,22 +97,22 @@ describe('Acceptance: Performance', function () {
       })
     })
 
-    it(`should be done in less than ${MAX_LATENCY}ms`, function () {
-      const afterTime = new Date()
-      const elapsedTime = afterTime.getTime() - beforeTime.getTime()
-      console.log(`simple elapsedTime: ${elapsedTime}`)
-      expect(elapsedTime).to.be.at.most(MAX_LATENCY)
+    it('should re-render fewer times than initial render', function () {
+      const count = Logger.debug.withArgs(DEBUG_MSG).callCount
+      console.log(`initial: ${initialRenderCount}, count: ${count}`)
+      expect(count).to.be.below(initialRenderCount)
     })
   })
 
   describe('typing on a complex form', function () {
-    let $input, beforeTime
-
+    let $input, initialRenderCount
+    this.timeout(MAX_TIMEOUT)
     before(function (done) {
       visit('/examples?model=evc')
       andThen(() => {
         $input = $hook('bunsenForm-createdAt-input')
-        beforeTime = new Date()
+        initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
+        Logger.debug.reset()
         typeText('abcdef', $input).then(() => {
           done()
         })
@@ -117,11 +123,10 @@ describe('Acceptance: Performance', function () {
       expect($input.val()).to.be.equal('abcdef')
     })
 
-    it(`should be done in less than ${MAX_LATENCY}ms`, function () {
-      const afterTime = new Date()
-      const elapsedTime = afterTime.getTime() - beforeTime.getTime()
-      console.log(`complex elapsedTime: ${elapsedTime}`)
-      expect(elapsedTime).to.be.at.most(MAX_LATENCY)
+    it('should re-render fewer times than initial render', function () {
+      const count = Logger.debug.withArgs(DEBUG_MSG).callCount
+      console.log(`initial: ${initialRenderCount}, count: ${count}`)
+      expect(count).to.be.below(initialRenderCount)
     })
   })
 })
