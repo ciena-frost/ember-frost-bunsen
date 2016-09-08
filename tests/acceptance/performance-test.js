@@ -59,6 +59,7 @@ function getValue () {
 
 describe('Acceptance: Performance', function () {
   let application, sandbox
+  this.timeout(MAX_TIMEOUT)
 
   before(function () {
     sandbox = sinon.sandbox.create()
@@ -77,8 +78,6 @@ describe('Acceptance: Performance', function () {
   describe('typing on a simple form', function () {
     let $input, initialRenderCount
     before(function (done) {
-      const count = Logger.debug.withArgs(DEBUG_MSG).callCount
-      console.log(`called ${count} times before visit()`)
       visit('/examples?model=simple')
       andThen(() => {
         initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
@@ -99,14 +98,12 @@ describe('Acceptance: Performance', function () {
 
     it('should re-render fewer times than initial render', function () {
       const count = Logger.debug.withArgs(DEBUG_MSG).callCount
-      console.log(`initial: ${initialRenderCount}, count: ${count}`)
       expect(count).to.be.below(initialRenderCount)
     })
   })
 
   describe('typing on a complex form', function () {
     let $input, initialRenderCount
-    this.timeout(MAX_TIMEOUT)
     before(function (done) {
       visit('/examples?model=evc')
       andThen(() => {
@@ -125,7 +122,6 @@ describe('Acceptance: Performance', function () {
 
     it('should re-render fewer times than initial render', function () {
       const count = Logger.debug.withArgs(DEBUG_MSG).callCount
-      console.log(`initial: ${initialRenderCount}, count: ${count}`)
       expect(count).to.be.below(initialRenderCount)
     })
   })
