@@ -47,6 +47,11 @@ export default [
     model: models.dependencies
   },
   {
+    id: 'evc',
+    label: 'EVC',
+    model: models.evc
+  },
+  {
     id: 'select',
     label: 'Select',
     model: models.select

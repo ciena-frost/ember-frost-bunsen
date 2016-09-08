@@ -11,6 +11,9 @@
     selectedModel=selectedModel
     selectedValue=selectedValue
     selectedView=selectedView
+    selectedModelId=selectedModelId
+    selectedValueId=selectedValueId
+    selectedViewId=selectedViewId
     valueOptions=valueOptions
     valueSelectionDisabled=valueSelectionDisabled
     viewOptions=viewOptions
@@ -42,7 +45,7 @@
   {{/model-view-selector}}
   <div class="demo-code-container">
     {{#if formValue}}
-      <div class="demo-code-block">
+      <div class="demo-code-block demo-value">
         <h2>Value</h2>
         {{ivy-codemirror value=formValue lineNumbers=true mode='javascript' theme='mdn-like'}}
       </div>

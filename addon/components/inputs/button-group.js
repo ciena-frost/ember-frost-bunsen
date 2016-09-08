@@ -56,9 +56,9 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('cellConfig.renderer.size')
-  size (size) {
-    return size || 'medium'
+  @computed('cellConfig')
+  size (cellConfig) {
+    return _.get(cellConfig, 'renderer.size') || 'medium'
   },
 
   // == Functions ==============================================================

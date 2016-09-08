@@ -1,6 +1,5 @@
-/* global $ */
 import Ember from 'ember'
-const {RSVP} = Ember
+const {$, RSVP} = Ember
 import {validate} from 'bunsen-core/actions'
 
 import {PropTypes} from 'ember-prop-types'
@@ -25,8 +24,10 @@ export default DetailComponent.extend({
       PropTypes.object
     ]),
     disabled: PropTypes.bool,
+    hook: PropTypes.string,
     onChange: PropTypes.func,
     onValidation: PropTypes.func,
+    registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
@@ -45,7 +46,9 @@ export default DetailComponent.extend({
       autofocus: true,
       classNames: ['frost-bunsen-form'],
       disabled: false,
+      hook: 'bunsenForm',
       renderers: {},
+      registeredComponents: [],
       showAllErrors: false,
       validators: [],
       value: null

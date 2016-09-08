@@ -94,4 +94,9 @@ chai.Assertion.overwriteChainableMethod('contain',
   }
 )
 
+// FIXME: move this to ember-test-utils maybe? (ARM 2016-09-07)
+chai.Assertion.addMethod('msg', function (msg) {
+  flag(this, 'message', msg)
+})
+
 setResolver(resolver)

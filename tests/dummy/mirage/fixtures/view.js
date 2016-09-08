@@ -74,6 +74,12 @@ export default [
     view: views.dependencies
   },
   {
+    id: 'evc',
+    label: 'EVC',
+    modelIds: ['evc'],
+    view: views.evc
+  },
+  {
     id: 'nested-conditionals-form',
     label: 'Nested Conditions',
     modelIds: ['conditions-in-definitions', 'conditions'],

@@ -34,11 +34,18 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    showAllErrors: PropTypes.bool,
     value: PropTypes.object.isRequired
   },
 
@@ -51,7 +58,7 @@ export default Component.extend(PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig', 'bunsenView.cellDefinitions')
   /**
    * Get definition for current cell
    * @param {BunsenCell} cellConfig - current cell
@@ -63,7 +70,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel', 'bunsenStore.view.cellDefinitions', 'mergedConfig')
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'mergedConfig')
   /**
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form

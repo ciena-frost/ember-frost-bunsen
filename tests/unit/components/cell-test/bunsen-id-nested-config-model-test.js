@@ -1,15 +1,10 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'bunsen-core/validator'
+import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(
-  'frost-bunsen-cell',
-  'Unit: Component | frost-bunsen-cell with bunsenId and nested config model',
-  {
-    unit: true
-  },
-  function () {
+describeComponent(...unitTest('frost-bunsen-cell'), function () {
+  describe('when bunsenId and nested config model', function () {
     let component, onChangeSpy, sandbox
 
     beforeEach(function () {
@@ -34,14 +29,10 @@ describeComponent(
           },
           type: 'object'
         },
-        bunsenStore: Ember.Object.create({
-          formValue: {},
-          renderers: builtInRenderers,
-          view: {}
-        }),
-        cellConfig: Ember.Object.create({
+        bunsenView: {},
+        cellConfig: {
           model: 'bar.baz'
-        }),
+        },
         errors: {},
         onChange: onChangeSpy,
         value: {}
@@ -123,5 +114,5 @@ describeComponent(
         expect(component.get('renderValue')).to.be.undefined
       })
     })
-  }
-)
+  })
+})

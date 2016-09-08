@@ -2,11 +2,10 @@ import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, Component} = Ember
+const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel} from 'bunsen-core/utils'
-import {deemberify} from '../utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
 export default Component.extend(PropTypeMixin, {
@@ -20,17 +19,26 @@ export default Component.extend(PropTypeMixin, {
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
+    formValue: PropTypes.EmberObject,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     required: PropTypes.bool,
+    showAllErrors: PropTypes.bool,
     value: PropTypes.object.isRequired
   },
 
   getDefaultProps () {
     return {
+      formValue: Ember.Object.create({}),
       readOnly: false
     }
   },
@@ -44,14 +52,16 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.itemCell.extends', 'bunsenStore.view.cellDefinitions')
+  @computed('cellConfig', 'bunsenView.cellDefinitions')
   /**
    * Get definition for current cell
-   * @param {String} cellId - ID of current cell
+   * @param {Object} cellConfig - cell config
    * @param {BunsenCell[]} cellDefinitions - list of cell definitions
    * @returns {BunsenCell} current cell definition
    */
-  currentCell (cellId, cellDefinitions) {
+  currentCell (cellConfig, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+
     if (!cellId) {
       return this.get('cellConfig')
     }
@@ -60,14 +70,15 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenStore.disabled', 'cellConfig.disabled')
-  disabled (formDisabled, disabledInView) {
-    return formDisabled || disabledInView
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.inline')
-  inline (inline) {
+  @computed('cellConfig')
+  inline (cellConfig) {
+    const inline = _.get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
   },
 
@@ -83,33 +94,50 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
+  @computed('bunsenId', 'cellConfig', 'bunsenModel')
   /**
    * Get label for cell
    * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
-   * @param {String} label - label
+   * @param {Object} cellConfig - cell config
    * @param {BunsenModel} bunsenModel - bunsen model
    * @returns {String} label
    */
-  renderLabel (bunsenId, label, bunsenModel) {
+  renderLabel (bunsenId, cellConfig, bunsenModel) {
+    const label = _.get(cellConfig, 'label')
     return getLabel(label, bunsenModel, bunsenId)
   },
 
   @readOnly
-  @computed('inline', 'cellConfig.arrayOptions.autoAdd')
-  showAddButton (inline, autoAdd) {
-    return inline && !autoAdd
+  @computed('inline', 'cellConfig')
+  showAddButton (inline, cellConfig) {
+    return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
   },
 
   @readOnly
-  @computed('cellConfig.arrayOptions.sortable')
+  @computed('cellConfig')
   /**
    * Whether or not array items can be sorted by user
-   * @param {Boolean} enabled - whether or not sorting should be enabled
+   * @param {Object} cellConfig - cell config
    * @returns {Boolean} whether or not sorting is enabled
    */
-  sortable (enabled) {
-    return enabled === true
+  sortable (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.sortable') === true
+  },
+
+  @readOnly
+  @computed('bunsenId', 'value')
+  items (bunsenId, value) {
+    if (typeOf(value) === 'object' && 'asMutable' in value) {
+      value = value.asMutable({deep: true})
+    }
+
+    const items = _.get(value, bunsenId) || []
+
+    if (this.get('cellConfig.arrayOptions.autoAdd') === true) {
+      items.push(this._getEmptyItem())
+    }
+
+    return A(items)
   },
 
   // == Functions ==============================================================
@@ -148,7 +176,7 @@ export default Component.extend(PropTypeMixin, {
       const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
       const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
       const itemPath = `${arrayPath}.${itemIndex}`
-      const item = this.get(`bunsenStore.formValue.${itemPath}`)
+      const item = this.get(`formValue.${itemPath}`)
       const itemCopy = _.cloneDeep(item)
 
       let key = itemPathBits.pop()
@@ -187,9 +215,7 @@ export default Component.extend(PropTypeMixin, {
 
     const onChange = this.get('onChange')
 
-    if (onChange) {
-      onChange(bunsenId, value)
-    }
+    onChange(bunsenId, value)
   },
 
   _handlePrimitiveChange (bunsenId, value, autoAdd) {
@@ -206,9 +232,7 @@ export default Component.extend(PropTypeMixin, {
 
     const onChange = this.get('onChange')
 
-    if (onChange) {
-      onChange(bunsenId, value)
-    }
+    onChange(bunsenId, value)
   },
 
   _isItemEmpty (item) {
@@ -234,92 +258,31 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
-   * Handle new values coming in as props (either during initial render or during update)
-   */
-  handleNewValues () {
-    let newValue = this.get(`value.${this.get('bunsenId')}`) || []
-    const oldValue = this.get('items')
-
-    if (!_.isEqual(newValue, oldValue)) {
-      // Make sure new value is not immutable as Ember.A() will choke
-      if (typeof newValue === 'object' && 'asMutable' in newValue) {
-        newValue = newValue.asMutable({deep: true})
-      }
-
-      this.set('items', A(newValue))
-    }
-  },
-
-  /**
    * Initialze state of cell
    */
   init () {
-    this._super()
-    this.handleNewValues()
+    this._super(...arguments)
+    this.registerForFormValueChanges(this)
   },
 
-  didReceiveAttrs ({newAttrs, oldAttrs}) {
-    this._super(...arguments)
-    const value = _.get(this.get('value'), this.get('bunsenId'))
-    const items = this.get('items')
-    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.arrayOptions.autoAdd')
-    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.arrayOptions.autoAdd')
-
-    // If autoAdd is being enabled add empty item to end of array
-    if (newAutoAddValue === true && oldAutoAddValue !== true) {
-      items.pushObject(this._getEmptyItem())
-    // If autoAdd is being disabled remove empty object from end of array
-    } else if (newAutoAddValue !== true && oldAutoAddValue === true) {
-      items.popObject()
+  /**
+   * Method called by parent when formValue changes
+   * @param {Object} newValue - the new formValue
+   */
+  formValueChanged (newValue) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
+      return
     }
 
-    if (!value) {
-      items.clear()
+    const bunsenId = this.get('bunsenId')
+    const newItems = _.get(newValue, bunsenId)
+    const oldItems = _.get(this.get('value'), bunsenId)
 
-      // Make sure empty item is present when autoAdd is enabled
-      if (newAutoAddValue) {
-        items.pushObject(this._getEmptyItem())
-      }
-    } else {
-      // Remove extra items
-      if (value.length < items.length) {
-        items.removeAt(value.length, items.length - value.length)
-      }
-
-      // Update items
-      items.forEach((item, index) => {
-        let incomingItem = value[index]
-        const stateItem = deemberify(item)
-
-        if (!_.isEqual(stateItem, incomingItem)) {
-          if (typeof incomingItem === 'object' && 'asMutable' in incomingItem) {
-            incomingItem = incomingItem.asMutable({deep: true})
-          }
-
-          _.assign(item, incomingItem)
-        }
-      })
-
-      // Add missing items
-      if (value.length > items.length) {
-        let itemsToAdd = value.slice(items.length)
-
-        if (typeof itemsToAdd === 'object' && 'asMutable' in itemsToAdd) {
-          itemsToAdd = itemsToAdd.asMutable({deep: true})
-        }
-
-        items.pushObjects(itemsToAdd)
-      }
-
-      // After syncing items array with value array make sure empty item is at the
-      // end when autoAdd is enabled
-      if (
-        newAutoAddValue &&
-        (items.length === 0 || !this._isItemEmpty(value[value.length - 1]))
-      ) {
-        items.pushObject(this._getEmptyItem())
-      }
+    if (!_.isEqual(oldItems, newItems)) {
+      this.notifyPropertyChange('value')
     }
+
+    this.set('formValue', newValue)
   },
 
   /**
@@ -331,11 +294,7 @@ export default Component.extend(PropTypeMixin, {
     const bunsenId = this.get('bunsenId')
     const onChange = this.get('onChange')
 
-    if (!onChange) {
-      return
-    }
-
-    if (this.get(`bunsenStore.formValue.${bunsenId}`)) {
+    if (this.get(`formValue.${bunsenId}`)) {
       onChange(`${bunsenId}.${index}`, item)
     } else {
       onChange(bunsenId, [item])
@@ -349,11 +308,12 @@ export default Component.extend(PropTypeMixin, {
      * Add an empty item then focus on it after it's been rendererd
      */
     onAddItem () {
+      const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
-      const items = this.get('items')
+      const value = this.get('value')
+      const items = _.get(value, bunsenId) || []
       const index = items.length
 
-      items.pushObject(newItem)
       this.notifyParentOfNewItem(newItem, index)
     },
 
@@ -384,18 +344,11 @@ export default Component.extend(PropTypeMixin, {
      * @param {Number} index - index of item to remove
      */
     onRemoveItem (index) {
-      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
-      const items = this.get('items')
-      const lastItemIndex = Math.max(0, items.length - 1)
-
-      if (autoAdd && index === lastItemIndex) {
-        return
-      }
-
       const bunsenId = this.get('bunsenId')
-      const oldValue = this.get(`value.${bunsenId}`)
+      const value = this.get('value')
+      const items = _.get(value, bunsenId) || []
       const onChange = this.get('onChange')
-      const newValue = oldValue.slice(0, index).concat(oldValue.slice(index + 1))
+      const newValue = items.slice(0, index).concat(items.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things
       // we basically need to re-set the whole array
@@ -410,11 +363,7 @@ export default Component.extend(PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const onChange = this.get('onChange')
 
-      this.set('items', Ember.A(reorderedItems))
-
-      if (onChange) {
-        onChange(bunsenId, reorderedItems)
-      }
+      onChange(bunsenId, reorderedItems)
     }
   }
 })

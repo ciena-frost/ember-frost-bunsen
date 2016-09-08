@@ -1,29 +1,33 @@
-<div class="heading">
+<div class='heading'>
   <h3>{{renderLabel}}</h3>
   {{#if required}}
     <div class='required'>Required</div>
   {{/if}}
 </div>
 {{#if description}}
-  <div class="description">
+  <div class='description'>
     {{description}}
   </div>
 {{/if}}
 {{#if inline }}
   {{#if sortable}}
-    {{#sortable-group onChange=(action "onReorderItems") as |group|}}
-      {{#each items as |item index|}}
-        {{#sortable-item group=group handle=".handle" model=item}}
+    {{#sortable-group onChange=(action 'onReorderItems') as |group|}}
+      {{#each items key='@index' as |item index|}}
+        {{#sortable-item group=group handle='.handle' model=item}}
           {{frost-bunsen-array-inline-item
             bunsenId=bunsenId
             bunsenModel=bunsenModel
-            bunsenStore=bunsenStore
+            bunsenView=bunsenView
             cellConfig=cellConfig
             errors=errors
+            formDisabled=formDisabled
             index=index
-            onChange=(action "onChange")
-            onRemove=(action "onRemoveItem")
+            onChange=(action 'onChange')
+            onRemove=(action 'onRemoveItem')
             readOnly=readOnly
+            registerForFormValueChanges=registerForFormValueChanges
+            renderers=renderers
+            showAllErrors=showAllErrors
             sortable=true
             value=value
           }}
@@ -31,17 +35,21 @@
       {{/each}}
     {{/sortable-group}}
   {{else}}
-    {{#each items as |item index|}}
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-inline-item
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         errors=errors
+        formDisabled=formDisabled
         index=index
-        onChange=(action "onChange")
-        onRemove=(action "onRemoveItem")
+        onChange=(action 'onChange')
+        onRemove=(action 'onRemoveItem')
         readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
         sortable=false
         value=value
       }}
@@ -49,42 +57,49 @@
   {{/if}}
 {{else}}
   {{#if description}}
-    <div class="description">
+    <div class='description'>
       {{description}}
     </div>
   {{/if}}
-  <ul class="nav nav-tabs">
-    {{#each items as |item index|}}
+  <ul class='nav nav-tabs'>
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-nav
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
+        formDisabled=formDisabled
         index=index
         onRemove=(action "onRemoveItem")
+        renderers=renderers
+        showAllErrors=showAllErrors
       }}
     {{/each}}
-    <li role="presentation">
+    <li role='presentation'>
       {{frost-button
         disabled=disabled
-        icon="round-add"
-        onClick=(action "onAddItem")
-        priority="tertiary"
-        size="medium"
+        icon='round-add'
+        onClick=(action 'onAddItem')
+        priority='tertiary'
+        size='medium'
         text=addLabel
       }}
     </li>
   </ul>
-  <div class="tab-content">
-    {{#each items as |item index|}}
+  <div class='tab-content'>
+    {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-content
         bunsenId=bunsenId
         bunsenModel=bunsenModel
-        bunsenStore=bunsenStore
+        bunsenView=bunsenView
         cellConfig=cellConfig
         errors=errors
+        formDisabled=formDisabled
         index=index
-        onChange=(action "onChange")
+        onChange=(action 'onChange')
         readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
         value=value
       }}
     {{/each}}
@@ -93,10 +108,10 @@
 {{#if showAddButton}}
   {{frost-button
     disabled=disabled
-    icon="round-add"
-    onClick=(action "onAddItem")
-    priority="tertiary"
-    size="medium"
+    icon='round-add'
+    onClick=(action 'onAddItem')
+    priority='tertiary'
+    size='medium'
     text=addLabel
   }}
 {{/if}}

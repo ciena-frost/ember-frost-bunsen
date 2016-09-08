@@ -1,6 +1,6 @@
-import {expect} from 'chai'
 import _ from 'lodash'
 import Ember from 'ember'
+import {expect} from 'chai'
 import {it} from 'mocha'
 
 export function integrationTestContext (name) {
@@ -61,4 +61,39 @@ export function validatePropTypes (expectedPropTypes) {
 
     expect(messages).to.have.length(0, messages.join('\n'))
   })
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+function testCtx (name, options = {}) {
+  const testType = (options.unit) ? 'Unit' : 'Integration'
+  return [
+    name,
+    `${testType}: ${Ember.String.classify(name)}Component`,
+    options
+  ]
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set (alongside unit: true)
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+export function unitTest (name, options = {}) {
+  return testCtx(name, _.assign(options, {unit: true}))
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set (alongside integration: true)
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+export function integrationTest (name, options = {}) {
+  return testCtx(name, _.assign(options, {integration: true}))
 }

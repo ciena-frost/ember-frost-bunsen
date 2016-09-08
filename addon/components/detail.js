@@ -16,22 +16,18 @@ import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
-import validateView, {builtInRenderers, validateModel} from 'bunsen-core/validator'
+import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
-import {
-  deemberify,
-  recursiveObjectCreate,
-  validateRenderer
-} from '../utils'
+import {deemberify, validateRenderer} from '../utils'
 
 function getAlias (cell) {
   if (cell.label) {
     return cell.label
   }
 
-  const words = Ember.String.dasherize(cell.model).replace('-', ' ')
+  const words = Ember.String.dasherize(cell.model || 'Tab').replace('-', ' ')
   return Ember.String.capitalize(words)
 }
 
@@ -60,6 +56,8 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    hook: PropTypes.string,
+    registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
@@ -75,7 +73,9 @@ export default Component.extend(PropTypeMixin, {
     return {
       classNames: ['frost-bunsen-detail'],
       disabled: false,
+      hook: 'bunsenDetail',
       renderers: {},
+      registeredComponents: [],
       showAllErrors: false,
       validators: [],
       value: null
@@ -83,13 +83,6 @@ export default Component.extend(PropTypeMixin, {
   },
 
   // == Computed Properties ====================================================
-
-  @readOnly
-  @computed('renderers')
-  allRenderers (renderers) {
-    const passedInRenderers = renderers || {}
-    return _.assign({}, builtInRenderers, passedInRenderers)
-  },
 
   @readOnly
   @computed('errors')
@@ -113,19 +106,25 @@ export default Component.extend(PropTypeMixin, {
    */
   renderView (model, bunsenView) {
     if (_.isEmpty(bunsenView)) {
-      bunsenView = getDefaultView(model)
-    } else if (bunsenView.version === '1.0') {
-      bunsenView = viewV1ToV2(bunsenView)
-    } else if (_.isFunction(bunsenView.get) && bunsenView.get('view') === '1.0') {
-      bunsenView = viewV1ToV2(deemberify(bunsenView))
+      return getDefaultView(model)
     }
 
-    return recursiveObjectCreate(bunsenView)
+    if (bunsenView.version === '1.0') {
+      return viewV1ToV2(bunsenView)
+    }
+
+    if (_.isFunction(bunsenView.get) && bunsenView.get('view') === '1.0') {
+      return viewV1ToV2(deemberify(bunsenView))
+    }
+
+    return bunsenView
   },
 
   @readOnly
-  @computed('renderView.cells')
-  cellTabs (cells) {
+  @computed('renderView')
+  cellTabs () {
+    const cells = this.get('renderView.cells')
+
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return Ember.A([])
@@ -145,27 +144,6 @@ export default Component.extend(PropTypeMixin, {
     })
 
     return Ember.A(tabs)
-  },
-
-  @readOnly
-  @computed('allRenderers', 'disabled', 'renderValue', 'renderView', 'showAllErrors')
-  /**
-   * Get store
-   * @param {Object} renderers - renderer to component mapping
-   * @param {Boolean} disabled - whether or not entire form should be disabled
-   * @param {Object} formValue - current form value
-   * @param {BunsenView} view - view being rendered
-   * @param {Boolean} showAllErrors - whether or not to show all errors immediately
-   * @returns {Object} store
-   */
-  bunsenStore (renderers, disabled, formValue, view, showAllErrors) {
-    return Ember.Object.create({
-      disabled,
-      formValue,
-      renderers,
-      showAllErrors,
-      view
-    })
   },
 
   @readOnly
@@ -197,6 +175,10 @@ export default Component.extend(PropTypeMixin, {
 
     if (!_.isEqual(this.get('renderValue'), value)) {
       newProps.renderValue = value
+
+      this.get('registeredComponents').forEach((component) => {
+        component.formValueChanged(value)
+      })
     }
 
     if (Object.keys(newProps).length === 0) {
@@ -238,16 +220,15 @@ export default Component.extend(PropTypeMixin, {
   validateProps () {
     const bunsenModel = this.get('bunsenModel')
     const bunsenModelPojo = isEmberObject(bunsenModel) ? deemberify(bunsenModel) : bunsenModel
-    const renderers = this.get('allRenderers')
+    const renderers = this.get('renderers')
 
     let result = validateModel(bunsenModelPojo)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
     if (result.errors.length === 0) {
-      const viewPojo = isEmberObject(view) ? deemberify(view) : view
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      result = validateView(viewPojo, bunsenModel, _.keys(renderers), validateRendererFn)
+      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn)
     }
 
     this.set('propValidationResult', result)
@@ -314,6 +295,15 @@ export default Component.extend(PropTypeMixin, {
      */
     onTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)
+    },
+
+    /**
+     * Register a component for formValue changes
+     * @param {Ember.Component} component - the component being registered
+     */
+    registerComponentForFormValueChanges (component) {
+      component.formValueChanged(this.get('renderValue'))
+      this.get('registeredComponents').push(component)
     }
   }
 })

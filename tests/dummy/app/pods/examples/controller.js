@@ -5,10 +5,17 @@ import computed, {readOnly} from 'ember-computed-decorators'
 export default Controller.extend({
   detail: false,
   disabled: false,
-  selectedModel: null,
-  selectedValue: null,
-  selectedView: null,
   showAllErrors: false,
+
+  queryParams: [
+    {selectedModelId: 'model'},
+    {selectedValueId: 'value'},
+    {selectedViewId: 'view'}
+  ],
+
+  selectedViewId: null,
+  selectedModelId: null,
+  selectedValueId: null,
 
   renderers: {
     AddressRenderer: 'address-renderer',
@@ -48,6 +55,33 @@ export default Controller.extend({
   },
 
   @readOnly
+  @computed('model.models', 'selectedModelId')
+  selectedModel (models, id) {
+    if (!models) {
+      return null
+    }
+    return models.findBy('id', id)
+  },
+
+  @readOnly
+  @computed('model.views', 'selectedViewId')
+  selectedView (views, id) {
+    if (!views) {
+      return null
+    }
+    return views.findBy('id', id)
+  },
+
+  @readOnly
+  @computed('model.values', 'selectedValueId')
+  selectedValue (values, id) {
+    if (!values) {
+      return null
+    }
+    return values.findBy('id', id)
+  },
+
+  @readOnly
   @computed('selectedModel.model')
   modelCode (model) {
     return JSON.stringify(model, null, 2)
@@ -56,6 +90,10 @@ export default Controller.extend({
   @readOnly
   @computed('model.models')
   modelOptions (models) {
+    if (!models) {
+      return null
+    }
+
     return models.map((model) => {
       return {
         label: model.get('label'),
@@ -67,6 +105,10 @@ export default Controller.extend({
   @readOnly
   @computed('model.values')
   valueOptions (values) {
+    if (!values) {
+      return null
+    }
+
     return values.map((value) => {
       return {
         label: value.get('label'),
@@ -84,6 +126,10 @@ export default Controller.extend({
   @readOnly
   @computed('model.views')
   viewOptions (views) {
+    if (!views) {
+      return null
+    }
+
     return views.map((view) => {
       return {
         label: view.get('label'),
@@ -99,12 +145,12 @@ export default Controller.extend({
     },
 
     onSelectModel (selected) {
-      const selectedModel = this.get('model.models').findBy('id', selected[0])
+      const selectedModelId = selected[0]
 
       this.setProperties({
-        selectedModel,
-        selectedValue: null,
-        selectedView: null
+        selectedModelId,
+        selectedValueId: null,
+        selectedViewId: null
       })
 
       this.updateViews()
@@ -112,13 +158,11 @@ export default Controller.extend({
     },
 
     onSelectView (selected) {
-      const selectedView = this.get('model.views').findBy('id', selected[0])
-      this.set('selectedView', selectedView)
+      this.set('selectedViewId', selected[0])
     },
 
     onSelectValue (selected) {
-      const selectedValue = this.get('model.values').findBy('id', selected[0])
-      this.set('selectedValue', selectedValue)
+      this.set('selectedValueId', selected[0])
     },
 
     onValidation (errors) {

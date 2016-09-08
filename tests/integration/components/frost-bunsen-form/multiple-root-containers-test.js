@@ -33,18 +33,34 @@ const props = {
 
 function tests (ctx) {
   describe('multiple root cells', function () {
-    it('renders frost-tabs', function () {
-      expect(ctx.rootNode.find('.frost-tabs').length).to.equal(1)
-    })
+    it('renders as expected', function () {
+      const $tabs = ctx.rootNode.find('.frost-tabs')
 
-    it('renders tab for each root cell', function () {
-      expect(ctx.rootNode.find('.frost-tabs .frost-button').length).to.equal(2)
-    })
+      expect(
+        $tabs.length,
+        'renders frost-tabs'
+      )
+        .to.equal(1)
 
-    it('renders correct text for tab titles', function () {
-      const $tabs = ctx.rootNode.find('.frost-tabs .frost-button')
-      expect($tabs.first().find('.text').text()).to.equal('One')
-      expect($tabs.last().find('.text').text()).to.equal('Two')
+      const $tabButtons = $tabs.find('.frost-button')
+
+      expect(
+        $tabButtons.length,
+        'renders tab for each root cell'
+      )
+        .to.equal(2)
+
+      expect(
+        $tabButtons.first().find('.text').text(),
+        'renders correct text for first tab'
+      )
+        .to.equal('One')
+
+      expect(
+        $tabButtons.last().find('.text').text(),
+        'renders correct text for second tab'
+      )
+        .to.equal('Two')
     })
   })
 }
