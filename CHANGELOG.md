@@ -1,3 +1,16 @@
+# 8.0.0
+
+## Breaking changes
+ * **Removed** - `bunsenStore` from properties passed to a custom renderer. Some of the properties that used to be provided in `bunsenStore` are not provided individually (see below)
+ * **Added** - `bunsenView` to properties passed to a custom renderer
+ * **Added** - `formDisabled` to properties passed to a custom renderer
+ * **Added** - `showAllErrors` to properties passed to a custom renderer
+ * **Added** - `registerForFormValueChanges` to properties passed to a custom renderer, if a custom renderer wants to know about changes to `formValue` it must now call the passed in `registerForFormValueChanges` inside `init()` and pass itself into said function `this.registerForFormValueChanges(this)`, the custom renderer must also provide a `formValueChanged` function on the component which will be called by the parent `frost-bunsen-form` or `frost-bunsen-detail` component whenever the `formValue` changes. The only parameter to the `formValueChanged` function is the new `formValue`. 
+
+## Non-breaking changes
+ * **Added** ability for the demo app to store currently selected view/model/value in the URL
+ * **Added** the `hidden` renderer which allows setting a value in the form without displaying anything to the user. The value can come from the `default` in the bunsen model, or be copied from the value of some other portion of the `formValue` via the `valueRef` property. For instance ,if I want the `label` attribute to be set to what the user entered in `name`, I could specify a `valueRef` of `name`. The `valueRef` is the dotted path from the root of `formValue` to where the value should come from (not relative to the value being set). 
+
 # 7.3.1
 
  * **Replaced** `ember-cli-blanket` with `ember-cli-code-coverage` (the `addon-spike` branch since it hasn't been merged yet). 
