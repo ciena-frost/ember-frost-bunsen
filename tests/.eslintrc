@@ -1,9 +1,5 @@
 {
-  "globals": {
-    "chai": false,
-    "Ember": false,
-    "find": false,
-    "pauseTest": false,
-    "sinon": false
+  "rules": {
+    "no-unused-expressions": 2
   }
 }

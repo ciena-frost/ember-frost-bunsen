@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
 
 describeComponent(...unitTest('frost-bunsen-cell'), function () {
@@ -40,7 +41,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
 
     it('errorMessage returns null when no erorrs', function () {
       component.set('errors', {})
-      expect(component.get('errorMessage')).to.be.null
+      expect(component.get('errorMessage')).to.be.equal(null)
     })
 
     it('errorMessage returns signle error', function () {
@@ -57,15 +58,15 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
     })
 
     it('isArrayItem() returns false', function () {
-      expect(component.get('isArrayItem')).to.be.false
+      expect(component.get('isArrayItem')).to.be.equal(false)
     })
 
     it('isSubModelArray returns false', function () {
-      expect(component.get('isSubModelArray')).to.be.false
+      expect(component.get('isSubModelArray')).to.be.equal(false)
     })
 
     it('isSubModelObject returns false', function () {
-      expect(component.get('isSubModelObject')).to.be.false
+      expect(component.get('isSubModelObject')).to.be.equal(false)
     })
 
     it('nonIndexId returns expected value', function () {
@@ -73,7 +74,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
     })
 
     it('readOnly defaults to false', function () {
-      expect(component.get('readOnly')).to.be.false
+      expect(component.get('readOnly')).to.be.equal(false)
     })
 
     it('renderId returns ${bunsenId}.${model}', function () {
@@ -104,7 +105,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
       })
 
       it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.be.undefined
+        expect(component.get('renderValue')).to.be.equal(undefined)
       })
     })
   })

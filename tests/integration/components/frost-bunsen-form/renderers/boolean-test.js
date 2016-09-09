@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -72,7 +72,7 @@ describeComponent(
         this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
         'checkbox is unchecked'
       )
-        .to.be.false
+        .to.be.equal(false)
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -144,7 +144,7 @@ describeComponent(
           this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
           'checkbox is unchecked'
         )
-          .to.be.false
+          .to.be.equal(false)
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -217,7 +217,7 @@ describeComponent(
           this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
           'checkbox is unchecked'
         )
-          .to.be.false
+          .to.be.equal(false)
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -290,7 +290,7 @@ describeComponent(
           this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
           'checkbox is unchecked'
         )
-          .to.be.false
+          .to.be.equal(false)
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -450,7 +450,7 @@ describeComponent(
           this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
           'checkbox is checked'
         )
-          .to.be.true
+          .to.be.equal(true)
 
         expect(
           this.$(selectors.error),
@@ -513,7 +513,7 @@ describeComponent(
             this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
             'checkbox is unchecked'
           )
-            .to.be.false
+            .to.be.equal(false)
 
           expect(
             this.$(selectors.error),
@@ -587,7 +587,7 @@ describeComponent(
           this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
           'checkbox is unchecked'
         )
-          .to.be.false
+          .to.be.equal(false)
 
         expect(
           this.$(selectors.error),
@@ -642,7 +642,7 @@ describeComponent(
             this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
             'checkbox is checked'
           )
-            .to.be.true
+            .to.be.equal(true)
 
           expect(
             this.$(selectors.error),
@@ -699,7 +699,7 @@ describeComponent(
               this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
               'checkbox is unchecked'
             )
-              .to.be.false
+              .to.be.equal(false)
 
             expect(
               this.$(selectors.error),
@@ -765,7 +765,7 @@ describeComponent(
             this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
             'checkbox is unchecked'
           )
-            .to.be.false
+            .to.be.equal(false)
 
           expect(
             this.$(selectors.error),
@@ -806,7 +806,7 @@ describeComponent(
               this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
               'checkbox is checked'
             )
-              .to.be.true
+              .to.be.equal(true)
 
             expect(
               this.$(selectors.error),
@@ -863,7 +863,7 @@ describeComponent(
                 this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
                 'checkbox is unchecked'
               )
-                .to.be.false
+                .to.be.equal(false)
 
               expect(
                 this.$(selectors.error),
@@ -930,7 +930,7 @@ describeComponent(
             this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
             'checkbox is unchecked'
           )
-            .to.be.false
+            .to.be.equal(false)
 
           expect(
             this.$(selectors.frost.checkbox.error),
@@ -980,7 +980,7 @@ describeComponent(
               this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
               'checkbox is checked'
             )
-              .to.be.true
+              .to.be.equal(true)
 
             expect(
               this.$(selectors.error),
@@ -1037,7 +1037,7 @@ describeComponent(
                 this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
                 'checkbox is unchecked'
               )
-                .to.be.false
+                .to.be.equal(false)
 
               expect(
                 this.$(selectors.error),

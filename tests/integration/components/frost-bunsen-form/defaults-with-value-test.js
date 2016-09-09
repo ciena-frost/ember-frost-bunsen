@@ -40,7 +40,7 @@ function tests (ctx) {
     })
 
     it('renders a checkbox for baz with the user provided value', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.false
+      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.equal(false)
     })
 
     it('renders an input for foo with the user provided value', function () {

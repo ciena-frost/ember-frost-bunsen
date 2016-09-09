@@ -102,7 +102,7 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should not update errors in properties', function () {
-        expect(newProps.errors).not.to.be.defined
+        expect(newProps.errors).to.be.equal(undefined)
       })
 
       it('should fire onChange', function () {
@@ -147,7 +147,7 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should not update renderValue in properties', function () {
-        expect(newProps.renderValue).not.to.be.defined
+        expect(newProps.renderValue).to.be.equal(undefined)
       })
 
       it('should fire onValidation', function () {
@@ -155,7 +155,7 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should not fire onChange', function () {
-        expect(changeHandler.called).not.to.be.ok
+        expect(changeHandler.called).not.to.be.equal(true)
       })
     })
 

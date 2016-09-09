@@ -15,7 +15,8 @@ export default {
       valueAttribute: 'id',
       labelAttribute: 'label',
       query: {
-        q: 'domainId:12345'
+        q: 'domainId:12345',
+        p: 'label:$filter'
       }
     },
     multiSelectExample: {

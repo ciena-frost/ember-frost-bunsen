@@ -1,6 +1,8 @@
+import Ember from 'ember'
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import {afterEach, beforeEach, describe} from 'mocha'
+import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
 
 describeComponent(...unitTest('frost-bunsen-input-button-group'), function () {
@@ -47,11 +49,11 @@ describeComponent(...unitTest('frost-bunsen-input-button-group'), function () {
       })
 
       it('returns true when selected index is 0', function () {
-        expect(component.parseValue(0)).to.be.true
+        expect(component.parseValue(0)).to.be.equal(true)
       })
 
       it('returns false when selected index is 1', function () {
-        expect(component.parseValue(1)).to.be.false
+        expect(component.parseValue(1)).to.be.equal(false)
       })
     })
 

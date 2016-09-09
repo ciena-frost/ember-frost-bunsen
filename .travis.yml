@@ -30,6 +30,7 @@ matrix:
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
+    - env: EMBER_TRY_SCENARIO=ember-release
 before_install:
   - npm config set spin false
   - npm install -g coveralls pr-bumper
