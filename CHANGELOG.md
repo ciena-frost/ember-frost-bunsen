@@ -1,3 +1,13 @@
+# 9.0.0
+
+## Breaking changes
+ * **Stopped** automatically creating `p=label:foo` query param in select-renderer when user types `foo` This was useful for a particular API we were interfacing with early on, but never should have been in the open-source version of this component.
+
+## Non-breaking changes
+ * **Added** support for defining `$filter` in your definition of `query` within the bunsen model for a `select` input, which lets you specify what the query looks like to do text matching in query-driven select renderers. 
+ * **Added** a new `eslint` rule in `tests/.eslintrc` to stop us using `expect(foo).to.be.true` or other dangling property matchers from `chai` b/c they are dangerous. For more information about why that is, ask @job13er. 
+
+
 # 8.0.0
 
 ## Breaking changes
