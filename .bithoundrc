@@ -1,5 +1,7 @@
-"devDependencies": {
-  "mute": [
-    "ember-tooltips"
-  ]
+{
+  "dependencies": {
+    "mute": [
+      "ember-tooltips"
+    ]
+  }
 }
