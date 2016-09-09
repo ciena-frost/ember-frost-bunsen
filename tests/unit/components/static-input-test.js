@@ -1,3 +1,4 @@
+import Ember from 'ember'
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {beforeEach, describe, it} from 'mocha'

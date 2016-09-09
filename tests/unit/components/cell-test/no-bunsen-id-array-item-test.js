@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
 
 describeComponent(...unitTest('frost-bunsen-cell'), function () {
@@ -51,15 +52,15 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
     })
 
     it('isArrayItem() returns true', function () {
-      expect(component.get('isArrayItem')).to.be.true
+      expect(component.get('isArrayItem')).to.be.equal(true)
     })
 
     it('isSubModelArray returns true', function () {
-      expect(component.get('isSubModelArray')).to.be.true
+      expect(component.get('isSubModelArray')).to.be.equal(true)
     })
 
     it('isSubModelObject returns false', function () {
-      expect(component.get('isSubModelObject')).to.be.false
+      expect(component.get('isSubModelObject')).to.be.equal(false)
     })
 
     it('nonIndexId returns expected value', function () {
@@ -67,7 +68,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
     })
 
     it('readOnly defaults to false', function () {
-      expect(component.get('readOnly')).to.be.false
+      expect(component.get('readOnly')).to.be.equal(false)
     })
 
     it('renderId returns ${bunsenId}.${model}', function () {
@@ -110,7 +111,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
       })
 
       it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.be.undefined
+        expect(component.get('renderValue')).to.be.equal(undefined)
       })
     })
   })

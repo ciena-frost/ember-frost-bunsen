@@ -1,12 +1,12 @@
-import * as utils from 'bunsen-core/utils'
-import Ember from 'ember'
-const {RSVP} = Ember
+/**
+ * Utilitiy functions for working with lists, mainly used by select renderer
+ */
 
-function promiseValue (value) {
-  return new Ember.RSVP.Promise(function (resolve) {
-    resolve(value)
-  })
-}
+import _ from 'lodash'
+import Ember from 'ember'
+const {Logger, RSVP} = Ember
+
+import * as utils from 'bunsen-core/utils'
 
 /**
  * set a list's available options
@@ -15,17 +15,17 @@ function promiseValue (value) {
  * @param  {String} bunsenId the bunsen id for this property
  * @param  {Object} dbStore the ember-data store
  * @param  {String} filter the optional string to filter on
- * @returns {Ember.RSVP.Promise} a promise that resolves to a list of items
+ * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
 export function getOptions (value, modelDef, bunsenId, dbStore, filter = '') {
   const enumDef = modelDef.items ? modelDef.items.enum : modelDef.enum
   const queryDef = modelDef.query
   if (enumDef) {
-    return promiseValue(getEnumValues(enumDef, filter))
+    return RSVP.resolve(getEnumValues(enumDef, filter))
   } else if (queryDef) {
     return getAsyncDataValues(value, modelDef, bunsenId, dbStore, filter)
   }
-  return promiseValue([])
+  return RSVP.resolve([])
 }
 
 /**
@@ -51,7 +51,7 @@ export function getEnumValues (values = [], filter = '') {
  * @param  {Object} bunsenId the bunsenId for this form
  * @param  {Object} dbStore the ember-data store
  * @param  {String} filter the partial match query filter to populate
- * @returns {Ember.RSVP.Promise} a promise that resolves to the list of items
+ * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
 export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) {
   let query
@@ -64,10 +64,12 @@ export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) 
 
   const labelAttr = modelDef.labelAttribute || 'label'
   const valueAttr = modelDef.valueAttribute || 'id'
-  if (filter) {
-    const pQuery = `${labelAttr}:${filter}`
-    query.p = query.p ? [query.p, pQuery].join(',') : pQuery
-  }
+
+  // replace the special $filter placeholder with the filter value (if it exists)
+  _.forIn(query, (value, key) => {
+    query[key] = value.replace('$filter', filter)
+  })
+
   const modelType = modelDef.modelType || 'resources'
   return dbStore.query(modelType, query).then((resp) => {
     const items = resp.map((resource) => {
@@ -79,7 +81,9 @@ export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) 
       }
     })
     return items
+  }, function (err) {
+    console.log(`it errored ${err}`)
   }).catch((err) => { // eslint-disable-line handle-callback-err
-    Ember.Logger.log(`Error fetching ${modelType}`, err)
+    Logger.log(`Error fetching ${modelType}`, err)
   })
 }

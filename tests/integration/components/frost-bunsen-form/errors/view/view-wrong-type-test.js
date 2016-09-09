@@ -4,7 +4,7 @@ const {Logger} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(

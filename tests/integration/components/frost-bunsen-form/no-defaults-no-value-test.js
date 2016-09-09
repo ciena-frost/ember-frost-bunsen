@@ -26,7 +26,7 @@ function tests (ctx) {
     })
 
     it('renders an unckecked checkbox for baz', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.fasly
+      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.equal(false)
     })
 
     it('renders an input for foo with no value', function () {

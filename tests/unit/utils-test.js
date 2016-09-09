@@ -215,22 +215,22 @@ describe('bunsen-utils', function () {
     describe('when children not present in view cell', function () {
       it('returns true when model is required root leaf property', function () {
         const cell = {model: 'alpha'}
-        expect(isRequired(cell, {}, bunsenModel)).to.be.true
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
       })
 
       it('returns false when model is not required root leaf property', function () {
         const cell = {model: 'bravo'}
-        expect(isRequired(cell, {}, bunsenModel)).to.be.false
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
       })
 
       it('returns true when model is required root non-leaf property', function () {
         const cell = {model: 'charlie'}
-        expect(isRequired(cell, {}, bunsenModel)).to.be.true
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
       })
 
       it('returns false when model is not required root non-leaf property', function () {
         const cell = {model: 'delta'}
-        expect(isRequired(cell, {}, bunsenModel)).to.be.false
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
       })
     })
 
@@ -243,7 +243,7 @@ describe('bunsen-utils', function () {
               {model: 'foo'}
             ]
           }
-          expect(isRequired(cell, {}, bunsenModel)).to.be.true
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
         })
 
         it('and child is not required leaf property', function () {
@@ -253,7 +253,7 @@ describe('bunsen-utils', function () {
               {model: 'bar'}
             ]
           }
-          expect(isRequired(cell, {}, bunsenModel)).to.be.false
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
         })
       })
 
@@ -265,7 +265,7 @@ describe('bunsen-utils', function () {
               {model: 'baz'}
             ]
           }
-          expect(isRequired(cell, {}, bunsenModel)).to.be.true
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
         })
 
         it('and child is not required leaf property', function () {
@@ -275,7 +275,7 @@ describe('bunsen-utils', function () {
               {model: 'spam'}
             ]
           }
-          expect(isRequired(cell, {}, bunsenModel)).to.be.false
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
         })
       })
     })

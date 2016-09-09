@@ -6,7 +6,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 export default function (format, invalidValues, validValues, focus = false) {
@@ -168,7 +168,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               validationResult,
               'provides consumer with validation results via onValidation() property'
             )
-              .to.be.defined
+              .not.to.be.equal(undefined)
 
             expect(
               validationResult.errors,
@@ -205,7 +205,7 @@ export default function (format, invalidValues, validValues, focus = false) {
                 this.$(selectors.frost.text.wrapper).hasClass('error'),
                 'does not add error class to input'
               )
-                .to.be.false
+                .to.be.equal(false)
 
               expect(
                 this.$(selectors.frost.error),

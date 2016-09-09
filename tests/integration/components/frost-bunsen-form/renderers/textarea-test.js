@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -91,13 +91,13 @@ describeComponent(
         $input.attr('cols'),
         'does not have cols property set'
       )
-        .to.be.undefined
+        .to.be.equal(undefined)
 
       expect(
         $input.attr('rows'),
         'does not have cols property set'
       )
-        .to.be.undefined
+        .to.be.equal(undefined)
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -186,7 +186,7 @@ describeComponent(
           $input.attr('rows'),
           'does not have rows property set'
         )
-          .to.be.undefined
+          .to.be.equal(undefined)
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -564,7 +564,7 @@ describeComponent(
           $input.attr('cols'),
           'does not have cols property set'
         )
-          .to.be.undefined
+          .to.be.equal(undefined)
 
         expect(
           $input.attr('rows'),

@@ -3,7 +3,7 @@ import Ember from 'ember'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 /**
@@ -125,7 +125,7 @@ describeComponent(
               $firstButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.true
+              .to.be.equal(true)
 
             const $secondButton = $buttons.eq(1)
 
@@ -139,7 +139,7 @@ describeComponent(
               $secondButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.true
+              .to.be.equal(true)
 
             expect(
               this.$(selectors.bunsen.label).text().trim(),
@@ -470,7 +470,7 @@ describeComponent(
                 $firstButton.hasClass(selectors.frost.button.size.small),
                 'first button is correct size'
               )
-                .to.be.true
+                .to.be.equal(true)
 
               const $secondButton = $buttons.eq(1)
 
@@ -484,7 +484,7 @@ describeComponent(
                 $secondButton.hasClass(selectors.frost.button.size.small),
                 'first button is correct size'
               )
-                .to.be.true
+                .to.be.equal(true)
 
               expect(
                 this.$(selectors.bunsen.label).text().trim(),

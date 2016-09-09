@@ -3,6 +3,7 @@ const {RSVP} = Ember
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
 
 describeComponent(...unitTest('frost-bunsen-form'), function () {

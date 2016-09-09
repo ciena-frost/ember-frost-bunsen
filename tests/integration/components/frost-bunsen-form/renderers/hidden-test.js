@@ -1,8 +1,9 @@
+import Ember from 'ember'
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-
+import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(

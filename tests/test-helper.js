@@ -1,3 +1,4 @@
+/* global chai */
 import resolver from './helpers/resolver'
 import {setResolver} from 'ember-mocha'
 
