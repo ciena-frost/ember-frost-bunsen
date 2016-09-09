@@ -81,8 +81,6 @@ export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) 
       }
     })
     return items
-  }, function (err) {
-    console.log(`it errored ${err}`)
   }).catch((err) => { // eslint-disable-line handle-callback-err
     Logger.log(`Error fetching ${modelType}`, err)
   })
