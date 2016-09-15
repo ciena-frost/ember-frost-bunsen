@@ -139,7 +139,8 @@ export default Component.extend(PropTypeMixin, {
       return {
         alias,
         cell,
-        id: index
+        id: index,
+        classNames: Ember.String.dasherize(alias)
       }
     })
 
