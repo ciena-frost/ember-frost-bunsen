@@ -1,3 +1,8 @@
+# 9.1.0
+* Detail and form tab content areas will now have css classes based on their button label.
+
+
+
 # 9.0.0
 
 ## Breaking changes
