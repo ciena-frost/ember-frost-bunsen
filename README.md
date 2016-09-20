@@ -1,6 +1,18 @@
 # ember-frost-bunsen
 
-[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url] ![Ember][ember-img]
+###### Dependencies
+
+![Ember][ember-img]
+[![NPM][npm-img]][npm-url]
+
+###### Health
+
+[![Travis][ci-img]][ci-url]
+[![Coveralls][cov-img]][cov-url]
+
+###### Security
+
+[![bitHound][bithound-img]][bithound-url]
 
 * [Tutorial](#Tutorial)
 * [Installation](#installation)
@@ -399,11 +411,16 @@ visit the app at [http://localhost:4200](http://localhost:4200).
 Run `npm test` from the root of the project to run linting checks as well as execute the test suite
 and output code coverage.
 
+[bithound-img]: https://www.bithound.io/github/ciena-frost/ember-frost-bunsen/badges/score.svg "bitHound"
+[bithound-url]: https://www.bithound.io/github/ciena-frost/ember-frost-bunsen
+
 [ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "Travis CI Build Status"
 [ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
+
 [cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
 [cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
+
 [ember-img]: https://img.shields.io/badge/ember-2.2+-green.svg "Ember 2.2+"
+
 [npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/ember-frost-bunsen
-
