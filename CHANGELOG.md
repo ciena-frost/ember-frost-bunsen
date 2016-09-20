@@ -1,3 +1,8 @@
+# 9.2.0
+
+* **Added** new test helpers: `expectBunsenInputNotToHaveError()`, `expectBunsenInputToHaveError()`, and `fillInBunsenInput()`.
+
+
 # 9.1.0
 * Detail and form tab content areas will now have css classes based on their button label.
 
