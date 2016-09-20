@@ -10,7 +10,8 @@ import {$hook} from 'ember-hook'
  * @returns {RSVP.Promise} promise that resolves when all async behavior completes
  */
 export function fillInBunsenInput (bunsenId, value, hook = 'bunsenForm') {
-  return fillIn($hook(`${hook}-${bunsenId}`), value)
+  const hookName = `${hook}-${bunsenId}-input`
+  return fillIn($hook(hookName), value)
 }
 
 export default {
