@@ -7,6 +7,12 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {
+  expectBunsenInputNotToHaveError,
+  expectBunsenInputToHaveError
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 export default function (format, invalidValues, validValues, focus = false) {
@@ -119,16 +125,10 @@ export default function (format, invalidValues, validValues, focus = false) {
                 .msg('input maintains user input value')
                 .to.equal(input)
 
-              expect(this.$(selectors.frost.text.error))
-                .msg('adds error class to input')
-                .to.have.length(1)
-
-              const actual = this.$(selectors.frost.not.text.error).text().trim()
-              const expected = `Object didn't pass validation for format ${format}: ${input}`
-
-              expect(actual)
-                .msg('presents user with validation error message')
-                .to.equal(expected)
+              expectBunsenInputToHaveError(
+                'foo',
+                `Object didn't pass validation for format ${format}: ${input}`
+              )
             })
           })
         })
@@ -201,17 +201,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               )
                 .to.equal(input)
 
-              expect(
-                this.$(selectors.frost.text.wrapper).hasClass('error'),
-                'does not add error class to input'
-              )
-                .to.be.equal(false)
-
-              expect(
-                this.$(selectors.frost.error),
-                'does not present user with validation error message'
-              )
-                .to.have.length(0)
+              expectBunsenInputNotToHaveError('foo')
             })
           })
         })

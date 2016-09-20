@@ -3,6 +3,7 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -932,20 +933,7 @@ describeComponent(
           )
             .to.be.equal(false)
 
-          expect(
-            this.$(selectors.frost.checkbox.error),
-            'adds error class to input'
-          )
-            .to.have.length(1)
-
-          const actual = this.$(selectors.bunsen.errorMessage.boolean).text().trim()
-          const expected = 'Field is required.'
-
-          expect(
-            actual,
-            'presents user with validation error message'
-          )
-            .to.equal(expected)
+          expectBunsenInputToHaveError('foo', 'Field is required.')
 
           expect(
             props.onValidation.callCount,
