@@ -1,3 +1,9 @@
+# 9.2.1
+
+* **Fixed** serialization of Ember Data objects to keep `id` in object so it can be referenced in a bunsen model.
+
+
+
 # 9.2.0
 
 * **Added** new test helpers: `expectBunsenInputNotToHaveError()`, `expectBunsenInputToHaveError()`, and `fillInBunsenInput()`.
