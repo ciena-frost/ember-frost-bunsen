@@ -139,12 +139,18 @@ export default Component.extend(PropTypeMixin, {
       return {
         alias,
         cell,
-        id: index,
+        id: `${index}-${Date.now()}`,
         classNames: Ember.String.dasherize(alias)
       }
     })
 
     return Ember.A(tabs)
+  },
+
+  @readOnly
+  @computed('cellTabs', 'selectedTabIndex')
+  tabSelection (cellTabs, selectedTabIndex) {
+    return selectedTabIndex || cellTabs.get('0.id')
   },
 
   @readOnly
