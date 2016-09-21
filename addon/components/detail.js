@@ -10,7 +10,7 @@ import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP} = Ember
+const {Component, RSVP, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -113,7 +113,7 @@ export default Component.extend(PropTypeMixin, {
       return viewV1ToV2(bunsenView)
     }
 
-    if (_.isFunction(bunsenView.get) && bunsenView.get('view') === '1.0') {
+    if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
       return viewV1ToV2(deemberify(bunsenView))
     }
 
