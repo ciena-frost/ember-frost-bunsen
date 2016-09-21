@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {get} = Ember
+const {get, typeOf} = Ember
 import {getModelPath} from 'bunsen-core/utils'
 
 const assign = Ember.assign || Object.assign || Ember.merge
@@ -33,8 +33,8 @@ export function deemberify (emberObject) {
     return emberObject
   }
 
-  if (_.isFunction(emberObject.serialize)) {
-    return emberObject.serialize()
+  if (typeOf(emberObject.serialize) === 'function') {
+    return emberObject.serialize({includeId: true})
   }
 
   if (emberObject.content) {
