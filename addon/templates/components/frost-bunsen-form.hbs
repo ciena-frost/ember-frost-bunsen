@@ -7,9 +7,9 @@
     {{#if cellTabs.length}}
       {{#frost-tabs
         onChange=(action "onTabChange")
-        selection=(or selectedTabIndex 0)
+        selection=tabSelection
       }}
-        {{#each cellTabs key="id" as |tab|}}
+        {{#each cellTabs key='@index' as |tab|}}
           {{#frost-tab
             alias=tab.alias
             id=tab.id
