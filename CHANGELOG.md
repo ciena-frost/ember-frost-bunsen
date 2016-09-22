@@ -1,3 +1,9 @@
+# 9.2.2
+
+* **Fixed** bug to allow more than one bunsen instance with tabs on the page.
+
+
+
 # 9.2.1
 
 * **Fixed** serialization of Ember Data objects to keep `id` in object so it can be referenced in a bunsen model.
