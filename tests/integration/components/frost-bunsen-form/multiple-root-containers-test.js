@@ -1,8 +1,26 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
+import _ from 'lodash'
 import {beforeEach, describe} from 'mocha'
 import {integrationTestContext} from 'dummy/tests/helpers/template'
+
+const bunsenView = {
+  cellDefinitions: {
+    one: {
+      children: [
+        {model: 'foo'},
+        {model: 'bar'}
+      ]
+    }
+  },
+  cells: [
+    {label: 'One', extends: 'one'},
+    {model: 'two'}
+  ],
+  type: 'form',
+  version: '2.0'
+}
 
 const props = {
   bunsenModel: {
@@ -13,22 +31,7 @@ const props = {
     },
     type: 'object'
   },
-  bunsenView: {
-    cellDefinitions: {
-      one: {
-        children: [
-          {model: 'foo'},
-          {model: 'bar'}
-        ]
-      }
-    },
-    cells: [
-      {label: 'One', extends: 'one'},
-      {model: 'two'}
-    ],
-    type: 'form',
-    version: '2.0'
-  }
+  bunsenView: _.cloneDeep(bunsenView)
 }
 
 function tests (ctx) {
@@ -61,6 +64,10 @@ function tests (ctx) {
         'renders correct text for second tab'
       )
         .to.equal('Two')
+    })
+
+    it('does not mutate bunsenView', function () {
+      expect(props.bunsenView).to.eql(bunsenView)
     })
   })
 }
