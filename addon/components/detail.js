@@ -117,7 +117,7 @@ export default Component.extend(PropTypeMixin, {
       return viewV1ToV2(deemberify(bunsenView))
     }
 
-    return bunsenView
+    return _.cloneDeep(bunsenView)
   },
 
   @readOnly
