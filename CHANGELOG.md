@@ -1,3 +1,9 @@
+# 9.2.3
+
+* **Fixed** bug where `bunsenView` was being mutated by the codebase and causing labels to disappear from tabs when used in an [ember-frost-modal](https://github.com/ciena-frost/ember-frost-modal) that was closed and re-opened.
+
+
+
 # 9.2.2
 
 * **Fixed** bug to allow more than one bunsen instance with tabs on the page.
