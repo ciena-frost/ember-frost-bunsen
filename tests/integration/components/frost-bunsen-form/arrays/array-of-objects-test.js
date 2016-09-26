@@ -1397,7 +1397,7 @@ describeComponent(
       })
     })
 
-    describe('without defaults', function () {
+    describe('with defaults', function () {
       let props, sandbox
 
       beforeEach(function () {
