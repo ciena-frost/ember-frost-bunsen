@@ -41,7 +41,7 @@
     "broccoli-asset-rev": "^2.4.2",
     "bunsen-core": "0.12.2",
     "ember-browserify": "1.1.13",
-    "ember-bunsen-core": "0.8.0",
+    "ember-bunsen-core": "0.8.1",
     "ember-cli": "^2.7.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-code-coverage": "kategengler/ember-cli-code-coverage#addon-spike",
