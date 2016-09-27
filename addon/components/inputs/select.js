@@ -25,7 +25,7 @@ export default AbstractInput.extend({
   getDefaultProps () {
     return {
       options: Ember.A([]),
-      initialized: false
+      renderDisabled: false
     }
   },
 
@@ -33,7 +33,6 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
-  @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'formValue')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, value) {
     if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel) {
@@ -42,7 +41,7 @@ export default AbstractInput.extend({
 
     const query = bunsenModel.query || _.get(cellConfig, 'renderer.options.query')
 
-    return !utils.hasValidQueryValues(value, query, bunsenId)
+    return query !== undefined  && !utils.hasValidQueryValues(value, query, bunsenId)
   },
 
   // == Functions ==============================================================
@@ -67,22 +66,31 @@ export default AbstractInput.extend({
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
 
-    this.set('formValue', newValue)
-
     if (!modelDef) {
       return
     }
 
-    if (this.hasQueryChanged(oldValue, newValue, modelDef.query)) {
+    this.set('formValue', newValue)
+    let disabled = this.get('disabled')
+    if (this.get('renderDisabled') !== disabled) {
+      this.set('renderDisabled', disabled)
+    }
+
+    if (this.hasQueryChanged(oldValue, newValue, modelDef.query) || this.needsOptions()) {
       // setting required variables once above condition is true
       const dbStore = this.get('dbStore')
       const bunsenId = this.get('bunsenId')
-      if (utils.hasValidQueryValues(newValue, modelDef.query, bunsenId)) {
+      if (utils.hasValidQueryValues(newValue, modelDef.query, bunsenId) || this.needsOptions()) {
         listUtils.getOptions(newValue, modelDef, bunsenId, dbStore).then((opts) => {
           this.set('options', opts)
         })
       }
     }
+  },
+
+  needsOptions () {
+    const modelDef = this._getModelDef()
+    return _.isEmpty(this.get('options')) && ((modelDef.enum) || _.isEmpty(modelDef.query))
   },
 
   /**
@@ -93,10 +101,8 @@ export default AbstractInput.extend({
    * @returns {Boolean} true if query has been changed
    */
   hasQueryChanged (oldValue, newValue, query) {
-    // allow models that don't have query defined to pass as well as
-    // allow the options to get initially populated
-    if (!query || !this.get('initialized')) {
-      return true
+    if (!query) {
+      return false
     }
 
     var queryHasProperty = false
@@ -107,7 +113,7 @@ export default AbstractInput.extend({
       }
     }
 
-    if (!queryHasProperty || !this.get('initialized')) {
+    if (!queryHasProperty) {
       return false
     }
 
@@ -190,7 +196,6 @@ export default AbstractInput.extend({
 
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
-    this.set('initialized', true)
   },
 
   // == Actions ================================================================

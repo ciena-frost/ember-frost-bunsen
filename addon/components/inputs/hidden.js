@@ -16,7 +16,9 @@ export default AbstractInput.extend({
     }
 
     let value
-    const currentValue = this.get('value')
+    // using currentValue cache since depending since this.get('value') takes 2 additional
+    // cycles to update
+    const currentValue = this.get('currentValue') || this.get('value')
     const valueRef = this.get('cellConfig.renderer.valueRef')
 
     if (valueRef) {
@@ -25,10 +27,15 @@ export default AbstractInput.extend({
       value = this.get('bunsenModel.default')
     }
 
+    if (Array.isArray(value) && _.isEmpty(value)) {
+      return
+    }
+
     if (this.onChange && !_.isEqual(value, currentValue)) {
-      // NOTE: we must use Ember.run.later to prevent multiple updates during a render cycle
-      // which throws deprecation warnings in the console for performance reasons.
-      run.later(() => {
+      // set local currentValue cache to compare on the next run and prevent further onChange events
+      // from being called
+      this.set('currentValue', value)
+      run.schedule('sync', () => {
         this.onChange(this.get('bunsenId'), value)
       })
     }

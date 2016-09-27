@@ -33,8 +33,9 @@
         {{/each}}
       {{/frost-tabs}}
     {{else}}
-      {{#each renderView.cells as |cell|}}
+      {{#each precomputedCellConfig as |cell|}}
         {{frost-bunsen-cell
+          changeSet=changeSet
           bunsenModel=renderModel
           bunsenView=renderView
           cellConfig=cell

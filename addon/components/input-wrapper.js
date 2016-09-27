@@ -47,6 +47,12 @@ export default Component.extend(PropTypeMixin, {
     }
   },
 
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
+  },
+
+  didRender () {
+    console.log('didRender wrapper')
+  },
   // == Computed Properties ====================================================
 
   @readOnly

@@ -51,12 +51,6 @@ export default Component.extend(PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('formDisabled', 'cellConfig')
-  disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
-  },
-
-  @readOnly
   @computed('errorMessage', 'showErrorMessage', 'showAllErrors')
   renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
     if (!showAllErrors && !showErrorMessage) {
@@ -66,15 +60,11 @@ export default Component.extend(PropTypeMixin, {
     return errorMessage
   },
 
+
   @readOnly
-  @computed('renderErrorMessage')
-  /**
-   * Get class name for input element
-   * @param {String} errorMessage - error message for input
-   * @returns {String} input class name
-   */
-  valueClassName (errorMessage) {
-    return errorMessage ? 'error' : ''
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
   },
 
   @readOnly
@@ -232,7 +222,7 @@ export default Component.extend(PropTypeMixin, {
 
   didRender () {
     this._super(...arguments)
-    Logger.debug('AbstractInput::didRender() called')
+    Logger.debug('AbstractInput::didRender() called in ' + this.toString())
   },
 
   // == Actions ================================================================

@@ -10,7 +10,7 @@ import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf} = Ember
+const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -20,7 +20,7 @@ import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
-import {deemberify, validateRenderer} from '../utils'
+import {deemberify, validateRenderer, getMergedConfigRecursive, postOrderBFT, traverseObject} from '../utils'
 
 function getAlias (cell) {
   if (cell.label) {
@@ -120,6 +120,68 @@ export default Component.extend(PropTypeMixin, {
     return _.cloneDeep(bunsenView)
   },
 
+  precomputeBunsenIds (cellConfig, baseBunsenId = '') {
+    let bunsenId = baseBunsenId
+    if (cellConfig.model) {
+      bunsenId = baseBunsenId ? `${baseBunsenId}.${cellConfig.model}` : cellConfig.model
+    }
+
+    // store bunsenId only on the leaf nodes
+    if (!cellConfig.children) {
+      cellConfig.bunsenId = bunsenId
+    } else if (cellConfig.children) {
+      cellConfig.children.forEach((child) => {
+        this.precomputeBunsenIds(child, bunsenId)
+      })
+    }
+
+    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
+      this.precomputeBunsenIds(cellConfig.arrayOptions.itemCell, bunsenId)
+    }
+  },
+
+  precomputeAssociations (cellConfig) {
+    postOrderBFT(cellConfig, (config) => {
+      config.associations = {}
+      if (config.bunsenId) {
+        config.associations[config.bunsenId] = true
+      }
+
+      if (config.children) {
+        config.children.forEach((child) => {
+          if (child.associations) {
+            Object.keys(child.associations).forEach((bunsenId) => {
+              config.associations[bunsenId] = true
+            })
+          }
+        })
+      }
+
+      if (config.arrayOptions && config.arrayOptions.itemCell) {
+        const itemCell = config.arrayOptions.itemCell
+        if (itemCell.associations) {
+          Object.keys(itemCell.associations).forEach((bunsenId) => {
+            config.associations[bunsenId] = true
+          })
+        }
+      }
+    })
+  },
+
+  @readOnly
+  @computed('renderView.cells', 'renderView.cellDefinitions')
+  precomputedCellConfig (cells, cellDefinitions) {
+    let cellConfigs = cells.map(cell => getMergedConfigRecursive(cell, cellDefinitions))
+
+    // precompute the bunsenIds and associations
+    cellConfigs.forEach((cellConfig) => {
+      this.precomputeBunsenIds(cellConfig)
+      this.precomputeAssociations(cellConfig)
+    })
+
+    return cellConfigs
+  },
+
   @readOnly
   @computed('renderView')
   cellTabs () {
@@ -168,8 +230,8 @@ export default Component.extend(PropTypeMixin, {
     const onChange = this.get('onChange')
     const onValidation = this.get('onValidation')
     const state = this.get('reduxStore').getState()
-    const {errors, validationResult, value} = state
-
+    const {errors, validationResult, value, changeSet} = state
+    const hasChanges = changeSet.size > 0
     const newProps = {}
 
     if (!_.isEqual(this.get('errors'), errors)) {
@@ -180,8 +242,9 @@ export default Component.extend(PropTypeMixin, {
       newProps.reduxModel = state.model
     }
 
-    if (!_.isEqual(this.get('renderValue'), value)) {
+    if (hasChanges) {
       newProps.renderValue = value
+      newProps.changeSet = changeSet
 
       this.get('registeredComponents').forEach((component) => {
         component.formValueChanged(value)
@@ -193,6 +256,9 @@ export default Component.extend(PropTypeMixin, {
     }
 
     this.setProperties(newProps)
+
+    if (hasChanges) {
+    }
 
     if ('renderValue' in newProps && onChange) {
       onChange(value)
@@ -250,12 +316,24 @@ export default Component.extend(PropTypeMixin, {
     let dispatchValue
 
     const reduxStore = this.get('reduxStore')
+    const reduxStoreValue = reduxStore.getState().value
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
-    const reduxStoreValue = reduxStore.getState().value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
+
+    const newModel = _.get(newAttrs, 'bunsenModel.value')
+    const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
+    const oldModel = _.get(oldAttrs, 'bunsenModel.value')
+    const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
+    const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
+
+    const newView = _.get(newAttrs, 'bunsenView.value')
+    const newViewPojo = isEmberObject(newView) ? deemberify(newView) : newView
+    const oldView = _.get(oldAttrs, 'bunsenView.value')
+    const oldViewPojo = isEmberObject(oldView) ? deemberify(oldView) : oldView
+    const viewChanged = !_.isEqual(oldViewPojo, newViewPojo)
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -275,12 +353,6 @@ export default Component.extend(PropTypeMixin, {
         validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
     } else {
-      const newModel = _.get(newAttrs, 'bunsenModel.value')
-      const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
-      const oldModel = _.get(oldAttrs, 'bunsenModel.value')
-      const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
-      const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
-
       if (modelChanged) {
         reduxStore.dispatch(
           validate(null, value, newModelPojo, this.get('validators'), RSVP.all)
@@ -288,7 +360,9 @@ export default Component.extend(PropTypeMixin, {
       }
     }
 
-    this.validateProps()
+    if (modelChanged || viewChanged) {
+      this.validateProps()
+    }
   },
 
   // == Actions ================================================================

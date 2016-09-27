@@ -51,26 +51,16 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      readOnly: false
+      readOnly: false,
+      diffError: {},
+      diffValue: {}
     }
   },
 
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig', 'bunsenView.cellDefinitions')
-  /**
-   * Get definition for current cell
-   * @param {BunsenCell} cellConfig - current cell
-   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
-   * @returns {BunsenCell} current cell definition
-   */
-  mergedConfig (cellConfig, cellDefinitions) {
-    return getMergedConfig(cellConfig, cellDefinitions)
-  },
-
-  @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'mergedConfig')
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig')
   /**
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
@@ -90,7 +80,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} cell's class name
    */
   computedClassName (classNames) {
-    const viewDefinedClass = this.get('mergedConfig.classNames.cell')
+    const viewDefinedClass = this.get('cellConfig.classNames.cell')
     const classes = classNames.toString().split(' ')
 
     classes.push('frost-bunsen-cell')
@@ -102,10 +92,9 @@ export default Component.extend(PropTypeMixin, {
     return classes.join(' ')
   },
 
-  @readOnly
-  @computed('errors')
-  errorMessage (errors) {
-    const bunsenId = this.get('renderId')
+  getErrors () {
+    const errors = this.get('errors')
+    const bunsenId = this.get('cellConfig.bunsenId')
 
     if (_.isEmpty(errors)) {
       return null
@@ -115,15 +104,35 @@ export default Component.extend(PropTypeMixin, {
     return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
   },
 
-  @readOnly
-  @computed('value')
-  renderValue (value) {
-    const bunsenId = this.get('renderId')
-    return _.get(value, bunsenId)
+  didReceiveAttrs () {
+    const changeSet = this.get('changeSet')
+    const associations = this.get('cellConfig.associations')
+
+    if (changeSet) {
+      const a = performance.now()
+      let passAssocation = false
+      changeSet.forEach((value, key) => {
+        if (associations[key]) {
+          passAssocation = true
+        }
+      })
+      const b = performance.now()
+      console.log((b - a))
+      if (passAssocation) {
+        this.set('diffValue', this.get('value'))
+        this.set('propagatedChangeSet', this.get('changeSet'))
+
+        if (this.get('bunsenId')) {
+          this.set('renderValue', _.get(this.get('value'), this.get('bunsenId')))
+        }
+      }
+    } else {
+      this.set('diffValue', this.get('value'))
+    }
   },
 
   @readOnly
-  @computed('mergedConfig.{dependsOn,model}')
+  @computed('cellConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -143,7 +152,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
@@ -163,19 +172,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'mergedConfig.model')
-  /**
-   * Get bunsen ID for cell's input
-   * @param {String} bunsenId - bunsen ID
-   * @param {BunsenModel} model - bunsen model
-   * @returns {String} bunsen ID of input
-   */
-  renderId (bunsenId, model) {
-    return bunsenId ? `${bunsenId}.${model}` : model
-  },
-
-  @readOnly
-  @computed('renderId')
+  @computed('cellConfig.bunsenId')
   /**
    * Get bunsen ID for array
    * @param {String} renderId - render identifier
@@ -186,7 +183,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('renderId')
+  @computed('cellConfig.bunsenId')
   /**
    * Get index for single array item
    * @param {String} renderId - render identifier
@@ -208,7 +205,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -220,7 +217,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -232,7 +229,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig', 'renderId', 'value')
+  @computed('cellConfig', 'cellConfig.bunsenId', 'diffValue')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
@@ -252,7 +249,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('isSubModelObject', 'mergedConfig')
+  @computed('isSubModelObject', 'cellConfig')
   showSection (isSubModelObject, mergedConfig) {
     // If sub model is object we end up running through another cell and thus if
     // this method were to return true we'd end up with duplicate headings.

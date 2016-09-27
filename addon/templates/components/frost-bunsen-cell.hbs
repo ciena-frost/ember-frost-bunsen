@@ -1,18 +1,19 @@
 {{#if showSection}}
   {{#frost-bunsen-section
-    collapsible=mergedConfig.collapsible
-    description=mergedConfig.description
+    collapsible=cellConfig.collapsible
+    description=cellConfig.description
     required=isRequired
-    title=mergedConfig.label
+    title=cellConfig.label
   }}
-    {{#if mergedConfig.model}}
+    {{#if cellConfig.model}}
       {{#if isSubModelObject}}
         {{frost-bunsen-cell
-          bunsenId=renderId
+          changeSet=propagatedChangeSet
+          bunsenId=cellConfig.bunsenId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
-          errors=errors
+          cellConfig=cellConfig
+          errors=diffError
           formDisabled=formDisabled
           formHook=formHook
           onChange=onChange
@@ -20,16 +21,17 @@
           registerForFormValueChanges=registerForFormValueChanges
           renderers=renderers
           showAllErrors=showAllErrors
-          value=value
+          value=diffValue
         }}
       {{else if isSubModelArray}}
         {{#if isArrayItem}}
           {{frost-bunsen-array-inline-item
+            changeSet=propagatedChangeSet
             bunsenId=nonIndexId
             bunsenModel=subModel
             bunsenView=bunsenView
-            cellConfig=mergedConfig
-            errors=errors
+            cellConfig=cellConfig
+            errors=diffError
             formDisabled=formDisabled
             formHook=formHook
             index=index
@@ -40,15 +42,16 @@
             showAllErrors=showAllErrors
             showRemoveButton=false
             sortable=false
-            value=value
+            value=diffValue
           }}
         {{else}}
           {{frost-bunsen-array-container
-            bunsenId=renderId
+            changeSet=propagatedChangeSet
+            bunsenId=cellConfig.bunsenId
             bunsenModel=subModel
             bunsenView=bunsenView
-            cellConfig=mergedConfig
-            errors=errors
+            cellConfig=cellConfig
+            errors=diffError
             formDisabled=formDisabled
             formHook=formHook
             onChange=onChange
@@ -57,15 +60,16 @@
             renderers=renderers
             required=required
             showAllErrors=showAllErrors
-            value=value
+            value=diffValue
           }}
         {{/if}}
       {{else}}
         {{frost-bunsen-input-wrapper
-          bunsenId=renderId
+          changeSet=propagatedChangeSet
+          bunsenId=cellConfig.bunsenId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
+          cellConfig=cellConfig
           errorMessage=errorMessage
           formDisabled=formDisabled
           formHook=formHook
@@ -80,13 +84,14 @@
         }}
       {{/if}}
     {{/if}}
-    {{#each mergedConfig.children as |child index|}}
+    {{#each cellConfig.children as |child index|}}
       {{frost-bunsen-cell
-        bunsenId=bunsenId
+        changeSet=propagatedChangeSet
+        bunsenId=child.bunsenId
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=child
-        errors=errors
+        errors=diffError
         formDisabled=formDisabled
         formHook=formHook
         onChange=onChange
@@ -94,19 +99,20 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
-        value=value
+        value=diffValue
       }}
     {{/each}}
   {{/frost-bunsen-section}}
 {{else}}
-  {{#if mergedConfig.model}}
+  {{#if cellConfig.model}}
     {{#if isSubModelObject}}
       {{frost-bunsen-cell
-        bunsenId=renderId
+        changeSet=propagatedChangeSet
+        bunsenId=cellConfig.bunsenId
         bunsenModel=subModel
         bunsenView=bunsenView
-        cellConfig=mergedConfig
-        errors=errors
+        cellConfig=cellConfig
+        errors=diffError
         formDisabled=formDisabled
         formHook=formHook
         onChange=onChange
@@ -114,16 +120,17 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
-        value=value
+        value=diffValue
       }}
     {{else if isSubModelArray}}
       {{#if isArrayItem}}
         {{frost-bunsen-array-inline-item
+          changeSet=propagatedChangeSet
           bunsenId=nonIndexId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
-          errors=errors
+          cellConfig=cellConfig
+          errors=diffError
           formDisabled=formDisabled
           formHook=formHook
           index=index
@@ -134,15 +141,16 @@
           showAllErrors=showAllErrors
           showRemoveButton=false
           sortable=false
-          value=value
+          value=diffValue
         }}
       {{else}}
         {{frost-bunsen-array-container
-          bunsenId=renderId
+          changeSet=propagatedChangeSet
+          bunsenId=cellConfig.bunsenId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
-          errors=errors
+          cellConfig=cellConfig
+          errors=diffError
           formDisabled=formDisabled
           formHook=formHook
           onChange=onChange
@@ -151,15 +159,16 @@
           renderers=renderers
           required=required
           showAllErrors=showAllErrors
-          value=value
+          value=diffValue
         }}
       {{/if}}
     {{else}}
       {{frost-bunsen-input-wrapper
-        bunsenId=renderId
+        changeSet=propagatedChangeSet
+        bunsenId=cellConfig.bunsenId
         bunsenModel=subModel
         bunsenView=bunsenView
-        cellConfig=mergedConfig
+        cellConfig=cellConfig
         errorMessage=errorMessage
         formDisabled=formDisabled
         formHook=formHook
@@ -174,13 +183,14 @@
       }}
     {{/if}}
   {{/if}}
-  {{#each mergedConfig.children as |child index|}}
+  {{#each cellConfig.children as |child index|}}
     {{frost-bunsen-cell
-      bunsenId=bunsenId
+      changeSet=propagatedChangeSet
+      bunsenId=child.bunsenId
       bunsenModel=bunsenModel
       bunsenView=bunsenView
       cellConfig=child
-      errors=errors
+      errors=diffError
       formDisabled=formDisabled
       formHook=formHook
       onChange=onChange
@@ -188,7 +198,7 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
-      value=value
+      value=diffValue
     }}
   {{/each}}
 {{/if}}
