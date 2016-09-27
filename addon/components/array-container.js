@@ -285,22 +285,6 @@ export default Component.extend(PropTypeMixin, {
     this.set('formValue', newValue)
   },
 
-  /**
-   * Fire an initial BunsenChangeEvent to let parent know that a new item was added to the array
-   * @param {Object} item - the item being added
-   * @param {Number} index - the index of the item
-   */
-  notifyParentOfNewItem (item, index) {
-    const bunsenId = this.get('bunsenId')
-    const onChange = this.get('onChange')
-
-    if (this.get(`formValue.${bunsenId}`)) {
-      onChange(`${bunsenId}.${index}`, item)
-    } else {
-      onChange(bunsenId, [item])
-    }
-  },
-
   // == Actions ================================================================
 
   actions: {
@@ -310,11 +294,12 @@ export default Component.extend(PropTypeMixin, {
     onAddItem () {
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
+      const onChange = this.get('onChange')
       const value = this.get('value')
       const items = _.get(value, bunsenId) || []
       const index = items.length
 
-      this.notifyParentOfNewItem(newItem, index)
+      onChange(`${bunsenId}.${index}`, newItem)
     },
 
     onChange (bunsenId, value) {

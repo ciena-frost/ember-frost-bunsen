@@ -1,3 +1,8 @@
+# 9.2.4
+
+* **Fixed** issue where first item added to an object array wasn't getting defaults applied.
+
+
 # 9.2.3
 
 * **Fixed** bug where `bunsenView` was being mutated by the codebase and causing labels to disappear from tabs when used in an [ember-frost-modal](https://github.com/ciena-frost/ember-frost-modal) that was closed and re-opened.

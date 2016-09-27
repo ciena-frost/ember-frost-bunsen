@@ -8,7 +8,7 @@ module.exports = {
         return this.addAddonsToProject({
           packages: [
             {name: 'ember-browserify', target: '^1.1.12'},
-            {name: 'ember-bunsen-core', target: '0.8.0'},
+            {name: 'ember-bunsen-core', target: '0.8.1'},
             {name: 'ember-frost-core', target: '0.25.2'},
             {name: 'ember-frost-fields', target: '0.2.1'},
             {name: 'ember-frost-tabs', target: '^2.0.2'},
