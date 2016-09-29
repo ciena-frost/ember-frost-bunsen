@@ -77,12 +77,6 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('formDisabled', 'cellConfig')
-  disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
-  },
-
-  @readOnly
   @computed('cellConfig')
   /**
    * Get class name for input wrapper element
