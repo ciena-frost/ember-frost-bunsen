@@ -19,6 +19,8 @@
               bunsenModel=renderModel
               bunsenView=renderView
               cellConfig=tab.cell
+              cellSearchTree=cellSearchTree
+              changeSet=changeSet
               errors=renderErrors
               formDisabled=disabled
               formHook=hook
@@ -35,10 +37,11 @@
     {{else}}
       {{#each precomputedCellConfig as |cell|}}
         {{frost-bunsen-cell
-          changeSet=changeSet
           bunsenModel=renderModel
           bunsenView=renderView
           cellConfig=cell
+          cellSearchTree=cellSearchTree
+          changeSet=changeSet
           errors=renderErrors
           formDisabled=disabled
           formHook=hook

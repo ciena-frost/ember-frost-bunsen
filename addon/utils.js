@@ -120,10 +120,16 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
   return mergedConfig
 }
 
+/**
+ * Merges the cellConfig recursively
+ * @param {BunsenCell} cellConfig - top-level cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} merged cell definition
+ */
 export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
   const mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
 
-  // handle children
+  // recursive object case
   if (mergedConfig.children) {
     const mergedChildConfigs = []
     mergedConfig.children.forEach((childConfig) => {
@@ -132,7 +138,7 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
     mergedConfig.children = mergedChildConfigs
   }
 
-  // handle array cells
+  // recursive array case
   if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
     mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
   }
@@ -196,40 +202,4 @@ export function isRequired (cell, cellDefinitions, bunsenModel) {
 
 export function validateRenderer (owner, rendererName) {
   return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
-}
-
-/**
- * @typedef {Object} Node
- * @property {Node[]} children - links to other node objects
- */
-
-/**
- * Performs and post-order breadth-first-traversal on the view object
- * @param {Node} object - the object to traverse
- * @param {Function} iteratee - the function to be invoked on each visit
- */
-export function postOrderBFT (object, iteratee) {
-  let queue = [object]
-  let stack = []
-
-  while (queue.length > 0) {
-    let obj = queue.shift()
-
-    stack.push(obj)
-
-    if (obj.children && obj.children.length > 0) {
-      obj.children.forEach((child) => {
-        queue.push(child)
-      })
-    }
-
-    if (obj.arrayOptions && obj.arrayOptions.itemCell) {
-      queue.push(obj.arrayOptions.itemCell)
-    }
-  }
-
-  while (stack.length > 0) {
-    let obj = stack.pop()
-    iteratee(obj)
-  }
 }

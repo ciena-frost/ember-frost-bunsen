@@ -27,10 +27,6 @@ export default AbstractInput.extend({
       value = this.get('bunsenModel.default')
     }
 
-    if (Array.isArray(value) && _.isEmpty(value)) {
-      return
-    }
-
     if (this.onChange && !_.isEqual(value, currentValue)) {
       // set local currentValue cache to compare on the next run and prevent further onChange events
       // from being called

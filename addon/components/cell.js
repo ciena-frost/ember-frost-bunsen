@@ -4,7 +4,8 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
-import {getMergedConfig, isRequired} from 'ember-frost-bunsen/utils'
+import {isRequired} from 'ember-frost-bunsen/utils'
+import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 
 import {
   getSubModel,
@@ -52,8 +53,34 @@ export default Component.extend(PropTypeMixin, {
   getDefaultProps () {
     return {
       readOnly: false,
-      diffError: {},
-      diffValue: {}
+      renderValue: null,
+      propagatedValue: {},
+      propagatedChangeSet: null
+    }
+  },
+
+  didReceiveAttrs () {
+    const changeSet = this.get('changeSet')
+    const cellConfig = this.get('cellConfig')
+    let isDirty = false
+
+    if (changeSet) {
+      changeSet.forEach((value, key) => {
+        if (isCommonAncestor(cellConfig.__dependency__, key)) {
+          isDirty = true
+        }
+      })
+    } else {
+      isDirty = true
+    }
+
+    if (isDirty) {
+      this.set('propagatedValue', this.get('value'))
+      this.set('propagatedChangeSet', this.get('changeSet'))
+
+      if (this.get('cellConfig.__bunsenId__')) {
+        this.set('renderValue', _.get(this.get('value'), this.get('renderId')))
+      }
     }
   },
 
@@ -92,9 +119,10 @@ export default Component.extend(PropTypeMixin, {
     return classes.join(' ')
   },
 
-  getErrors () {
-    const errors = this.get('errors')
-    const bunsenId = this.get('cellConfig.bunsenId')
+  @readOnly
+  @computed('errors')
+  errorMessage (errors) {
+    const bunsenId = this.get('renderId')
 
     if (_.isEmpty(errors)) {
       return null
@@ -102,33 +130,6 @@ export default Component.extend(PropTypeMixin, {
 
     const errorMessages = errors[bunsenId]
     return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
-  },
-
-  didReceiveAttrs () {
-    const changeSet = this.get('changeSet')
-    const associations = this.get('cellConfig.associations')
-
-    if (changeSet) {
-      const a = performance.now()
-      let passAssocation = false
-      changeSet.forEach((value, key) => {
-        if (associations[key]) {
-          passAssocation = true
-        }
-      })
-      const b = performance.now()
-      console.log((b - a))
-      if (passAssocation) {
-        this.set('diffValue', this.get('value'))
-        this.set('propagatedChangeSet', this.get('changeSet'))
-
-        if (this.get('bunsenId')) {
-          this.set('renderValue', _.get(this.get('value'), this.get('bunsenId')))
-        }
-      }
-    } else {
-      this.set('diffValue', this.get('value'))
-    }
   },
 
   @readOnly
@@ -172,7 +173,19 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.bunsenId')
+  @computed('bunsenId', 'cellConfig.model')
+  /**
+   * Get bunsen ID for cell's input
+   * @param {String} bunsenId - bunsen ID
+   * @param {BunsenModel} model - bunsen model
+   * @returns {String} bunsen ID of input
+   */
+  renderId (bunsenId, model) {
+    return bunsenId ? `${bunsenId}.${model}` : model
+  },
+
+  @readOnly
+  @computed('renderId')
   /**
    * Get bunsen ID for array
    * @param {String} renderId - render identifier
@@ -183,7 +196,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.bunsenId')
+  @computed('renderId')
   /**
    * Get index for single array item
    * @param {String} renderId - render identifier
@@ -229,7 +242,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig', 'cellConfig.bunsenId', 'diffValue')
+  @computed('cellConfig', 'renderId', 'propagatedValue')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input

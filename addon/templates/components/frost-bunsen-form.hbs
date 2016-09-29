@@ -34,10 +34,10 @@
     {{else}}
       {{#each precomputedCellConfig as |cell|}}
         {{frost-bunsen-cell
-          changeSet=changeSet
           bunsenModel=renderModel
           bunsenView=renderView
           cellConfig=cell
+          changeSet=changeSet
           errors=renderErrors
           formDisabled=disabled
           formHook=hook

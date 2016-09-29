@@ -60,7 +60,6 @@ export default Component.extend(PropTypeMixin, {
     return errorMessage
   },
 
-
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {

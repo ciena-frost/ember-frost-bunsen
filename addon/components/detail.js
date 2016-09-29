@@ -10,7 +10,7 @@ import {validate, changeModel} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf, run} = Ember
+const {Component, RSVP, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -20,7 +20,8 @@ import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
-import {deemberify, validateRenderer, getMergedConfigRecursive, postOrderBFT, traverseObject} from '../utils'
+import {deemberify, validateRenderer, getMergedConfigRecursive} from '../utils'
+import {traverseCellBreadthFirst, findCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 
 function getAlias (cell) {
   if (cell.label) {
@@ -38,6 +39,19 @@ function getAlias (cell) {
  */
 function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
+}
+
+/**
+ * Adds an unenumerable property to an object
+ * @param {Object} object - object to add property to
+ * @param {String} propName - property name
+ * @param {Object|Number|String} value - property value
+ */
+function addMetaProperty (object, propName, value) {
+  Object.defineProperty(object, propName, {
+    enumerable: false,
+    value
+  })
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -120,73 +134,27 @@ export default Component.extend(PropTypeMixin, {
     return _.cloneDeep(bunsenView)
   },
 
-  precomputeBunsenIds (cellConfig, baseBunsenId = '') {
-    let bunsenId = baseBunsenId
-    if (cellConfig.model) {
-      bunsenId = baseBunsenId ? `${baseBunsenId}.${cellConfig.model}` : cellConfig.model
-    }
-
-    // store bunsenId only on the leaf nodes
-    if (!cellConfig.children) {
-      cellConfig.bunsenId = bunsenId
-    } else if (cellConfig.children) {
-      cellConfig.children.forEach((child) => {
-        this.precomputeBunsenIds(child, bunsenId)
-      })
-    }
-
-    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
-      this.precomputeBunsenIds(cellConfig.arrayOptions.itemCell, bunsenId)
-    }
-  },
-
-  precomputeAssociations (cellConfig) {
-    postOrderBFT(cellConfig, (config) => {
-      config.associations = {}
-      if (config.bunsenId) {
-        config.associations[config.bunsenId] = true
-      }
-
-      if (config.children) {
-        config.children.forEach((child) => {
-          if (child.associations) {
-            Object.keys(child.associations).forEach((bunsenId) => {
-              config.associations[bunsenId] = true
-            })
-          }
-        })
-      }
-
-      if (config.arrayOptions && config.arrayOptions.itemCell) {
-        const itemCell = config.arrayOptions.itemCell
-        if (itemCell.associations) {
-          Object.keys(itemCell.associations).forEach((bunsenId) => {
-            config.associations[bunsenId] = true
-          })
-        }
-      }
-    })
-  },
-
+  /**
+   * Precompute all model dependencies
+   * @param {Object[]} cells - the view cells
+   * @param {Object} cellDefinitions - the view cell definitions
+   * @returns {Object} cellConfigs with  precomputed model dependencies
+   */
   @readOnly
   @computed('renderView.cells', 'renderView.cellDefinitions')
   precomputedCellConfig (cells, cellDefinitions) {
     let cellConfigs = cells.map(cell => getMergedConfigRecursive(cell, cellDefinitions))
-
-    // precompute the bunsenIds and associations
     cellConfigs.forEach((cellConfig) => {
-      this.precomputeBunsenIds(cellConfig)
-      this.precomputeAssociations(cellConfig)
+      this.precomputeIds(cellConfig)
+      this.precomputeDependencies(cellConfig)
     })
 
     return cellConfigs
   },
 
   @readOnly
-  @computed('renderView')
-  cellTabs () {
-    const cells = this.get('renderView.cells')
-
+  @computed('precomputedCellConfig')
+  cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return Ember.A([])
@@ -224,6 +192,85 @@ export default Component.extend(PropTypeMixin, {
   // == Functions ==============================================================
 
   /**
+   * Precompute all model references from the view schema using the references `model` and `dependsOn`
+   * @param {Object} cellConfig - the cellConfig to precompute
+   * @param {String} [baseBunsenId] - the parent model path
+   * @param {String} [baseCellId] - the parent cell path
+   * Note: Only object types can be precomputed. The array items are more dynamic and we'll denote
+   * them with [] in the bunsenIds. That means all array items under the path `model.path.[]` share
+   * the same bunsenId.
+   */
+  precomputeIds (cellConfig, baseBunsenId = '', baseCellId = '') {
+    let bunsenId = baseBunsenId
+
+    // support relative model references
+    if (cellConfig.model) {
+      bunsenId = baseBunsenId ? `${baseBunsenId}.${cellConfig.model}` : cellConfig.model
+
+      if (cellConfig.dependsOn) {
+        addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(cellConfig.model, cellConfig.dependsOn))
+      }
+    }
+
+    if (!cellConfig.children || cellConfig.children.length === 0) {
+      // only add bunsenIds to leaf nodes
+      addMetaProperty(cellConfig, '__bunsenId__', bunsenId)
+    } else if (cellConfig.children) {
+      // recursive case for objects
+      cellConfig.children.forEach((child) => {
+        this.precomputeIds(child, bunsenId, cellConfig.id)
+      })
+    }
+
+    // recursive case for arrays
+    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
+      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`, cellConfig.id)
+    }
+  },
+
+  /**
+   * Precomputes the model dependencies or every cell in the view schema
+   * @param {Object} cellConfig - the view schema cell
+   */
+  precomputeDependencies (cellConfig) {
+    // determine dependencies from the bottom up (agglomerative)
+    traverseCellBreadthFirst(cellConfig, (config) => {
+      let deps = []
+
+      // direct __bunsenId__ reference
+      if (config.__bunsenId__) {
+        deps.push(config.__bunsenId__)
+      }
+
+      // direct __dependsOn__ reference
+      if (config.__dependsOn__) {
+        deps.push(config.__dependsOn__)
+      }
+
+      // descendant object dependency reference
+      if (config.children) {
+        config.children.forEach((child) => {
+          if (child.__dependency__) {
+            deps.push(child.__dependency__)
+          }
+        })
+      }
+
+      // descendant array dependency references
+      if (config.arrayOptions && config.arrayOptions.itemCell) {
+        const itemCell = config.arrayOptions.itemCell
+
+        if (itemCell.__dependency__) {
+          deps.push(itemCell.__dependency__)
+        }
+      }
+
+      // determine the common dependency reference
+      addMetaProperty(config, '__dependency__', findCommonAncestor(deps))
+    })
+  },
+
+  /**
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
@@ -257,14 +304,11 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties(newProps)
 
-    if (hasChanges) {
-    }
-
-    if ('renderValue' in newProps && onChange) {
+    if (hasChanges && onChange) {
       onChange(value)
     }
 
-    if (('errors' in newProps || 'renderValue' in newProps) && onValidation) {
+    if (('errors' in newProps || hasChanges) && onValidation) {
       onValidation(validationResult)
     }
   },
@@ -289,13 +333,12 @@ export default Component.extend(PropTypeMixin, {
 
   /**
    * Validate properties
+   * @param {Object} bunsenModel - a deemberified bunsenModel
    */
-  validateProps () {
-    const bunsenModel = this.get('bunsenModel')
-    const bunsenModelPojo = isEmberObject(bunsenModel) ? deemberify(bunsenModel) : bunsenModel
+  validateProps (bunsenModel) {
     const renderers = this.get('renderers')
 
-    let result = validateModel(bunsenModelPojo)
+    let result = validateModel(bunsenModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
@@ -305,6 +348,26 @@ export default Component.extend(PropTypeMixin, {
     }
 
     this.set('propValidationResult', result)
+  },
+
+  /**
+   * Determines if the any of the schema attrs has changed
+   * @param {String} schemaName - the name of the schema attribute
+   * @param {Object} oldAttrs - the old attributes
+   * @param {Object} newAttrs - the new attributes
+   * @returns {Object} the old and new schemas
+   */
+  getSchema (schemaName, oldAttrs, newAttrs) {
+    const newSchema = _.get(newAttrs, `${schemaName}.value`)
+    const newSchemaPojo = isEmberObject(newSchema) ? deemberify(newSchema) : newSchema
+    const oldSchema = _.get(oldAttrs, `${schemaName}.value`)
+    const oldSchemaPojo = isEmberObject(oldSchema) ? deemberify(oldSchema) : oldSchema
+
+    return {
+      hasChanged: !_.isEqual(oldSchemaPojo, newSchemaPojo),
+      oldSchema: oldSchemaPojo,
+      newSchema: newSchemaPojo
+    }
   },
 
   /**
@@ -322,18 +385,8 @@ export default Component.extend(PropTypeMixin, {
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
-
-    const newModel = _.get(newAttrs, 'bunsenModel.value')
-    const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
-    const oldModel = _.get(oldAttrs, 'bunsenModel.value')
-    const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
-    const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
-
-    const newView = _.get(newAttrs, 'bunsenView.value')
-    const newViewPojo = isEmberObject(newView) ? deemberify(newView) : newView
-    const oldView = _.get(oldAttrs, 'bunsenView.value')
-    const oldViewPojo = isEmberObject(oldView) ? deemberify(oldView) : oldView
-    const viewChanged = !_.isEqual(oldViewPojo, newViewPojo)
+    const {newSchema: newBunsenModel, hasChanged: hasModelChanged} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
+    const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -353,15 +406,15 @@ export default Component.extend(PropTypeMixin, {
         validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
     } else {
-      if (modelChanged) {
+      if (hasModelChanged) {
         reduxStore.dispatch(
-          validate(null, value, newModelPojo, this.get('validators'), RSVP.all)
+          validate(null, value, newBunsenModel, this.get('validators'), RSVP.all)
         )
       }
     }
 
-    if (modelChanged || viewChanged) {
-      this.validateProps()
+    if (hasModelChanged || hasViewChanged) {
+      this.validateProps(newBunsenModel)
     }
   },
 
