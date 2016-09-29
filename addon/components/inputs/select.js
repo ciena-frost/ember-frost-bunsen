@@ -33,6 +33,7 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
+  @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'formValue')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, value) {
     if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel) {
@@ -41,7 +42,7 @@ export default AbstractInput.extend({
 
     const query = bunsenModel.query || _.get(cellConfig, 'renderer.options.query')
 
-    return query !== undefined  && !utils.hasValidQueryValues(value, query, bunsenId)
+    return query !== undefined && !utils.hasValidQueryValues(value, query, bunsenId)
   },
 
   // == Functions ==============================================================

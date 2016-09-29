@@ -61,7 +61,6 @@ export default DetailComponent.extend({
    * After render select first input unless something else already has focus on page
    */
   didRender () {
-    /*
     if (!this.get('autofocus')) {
       return
     }
@@ -73,7 +72,6 @@ export default DetailComponent.extend({
 
     // Focus on first input in busen form
     this.$(':input:enabled:visible:first').focus()
-    */
   },
 
   // == Actions ================================================================

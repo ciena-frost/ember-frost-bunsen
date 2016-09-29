@@ -49,6 +49,22 @@ export default Component.extend(PropTypeMixin, {
   },
 
   // == Computed Properties ====================================================
+  @readOnly
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
+  },
+
+  @readOnly
+  @computed('renderErrorMessage')
+  /**
+   * Get class name for input element
+   * @param {String} errorMessage - error message for input
+   * @returns {String} input class name
+   */
+  valueClassName (errorMessage) {
+    return errorMessage ? 'error' : ''
+  },
 
   @readOnly
   @computed('errorMessage', 'showErrorMessage', 'showAllErrors')

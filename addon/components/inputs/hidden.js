@@ -16,7 +16,7 @@ export default AbstractInput.extend({
     }
 
     let value
-    // using currentValue cache since depending since this.get('value') takes 2 additional
+    // using currentValue cache since using this.get('value') takes 2 additional
     // cycles to update
     const currentValue = this.get('currentValue') || this.get('value')
     const valueRef = this.get('cellConfig.renderer.valueRef')
