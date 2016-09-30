@@ -11,13 +11,13 @@
     disabled=disabled
     hook=hook
     onInput=onInput
-    onChange=(action "onChange")
+    onChange=(action 'handleChange')
     placeholder=cellConfig.placeholder
     selectedValue=value
   }}
 </div>
 {{#if renderErrorMessage}}
-  <div class="error">
+  <div class='error'>
     {{renderErrorMessage}}
   </div>
 {{/if}}

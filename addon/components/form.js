@@ -26,6 +26,7 @@ export default DetailComponent.extend({
     disabled: PropTypes.bool,
     hook: PropTypes.string,
     onChange: PropTypes.func,
+    onError: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
@@ -82,7 +83,7 @@ export default DetailComponent.extend({
      * @param {String} bunsenId - ID of input that changed
      * @param {Object} inputValue - new value for input that changed
      */
-    onChange (bunsenId, inputValue) {
+    handleChange (bunsenId, inputValue) {
       const reduxStore = this.get('reduxStore')
 
       reduxStore.dispatch(

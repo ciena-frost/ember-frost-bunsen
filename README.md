@@ -38,6 +38,7 @@ ember install ember-frost-bunsen
 | ------------- | -------------------------- | -------- | ---------------------------------------- |
 | `bunsenModel` | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`  | `Ember.Object` or `object` | No       | View definition                          |
+| `onError`     | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `renderers`   | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `value`       | `Ember.Object` or `object` | No       | Data to render                           |
 
@@ -52,6 +53,7 @@ ember install ember-frost-bunsen
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
 | `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
+| `onError`       | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
 | `renderers`     | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `showAllErrors` | `boolean`                  | No       | Whether or not to show error messages before user interaction occurs |
@@ -59,6 +61,45 @@ ember install ember-frost-bunsen
 | `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
 
 <!--lint enable table-pipe-alignment-->
+
+### Callback signatures
+#### `onChange`
+```js
+/**
+ * Called whenever the value of the form changes (usually based on user interaction)
+ * @param {Object} value - the new value of the form
+ */
+function onChange (value) {
+  // handle the new value
+}
+```
+
+#### `onError`
+```js
+/**
+ * Called whenever a select renderer encounters an API error or a custom-renderer calls onError
+ * @param {String} bunsenId - the bunsenId of the input where the error originated
+ * @param {BunsenValidationError[]} errors - an array of errors, they aren't actually validation
+ *   errors per-se, but a BunsenValidationError is a convenient format for reporting them
+ *   see: https://github.com/ciena-blueplanet/bunsen-core/blob/master/src/typedefs.js#L75-L80
+ */
+function onError (bunsenId, errors) {
+  // Present the errors to the user
+}
+```
+
+#### `onValidation`
+```js
+/**
+ * Called whenever validation completes after a form value changes, since validation is async,
+ * this could be a while after the onChange is called.
+ * @param {BunsenValidationResult} result - the result of the validation
+ *   see: https://github.com/ciena-blueplanet/bunsen-core/blob/master/src/typedefs.js#L82-L86
+ */
+function onValidation (result) {
+  // Present the errors to the user
+}
+```
 
 ## Examples
 
