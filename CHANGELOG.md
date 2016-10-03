@@ -1,3 +1,9 @@
+# 9.3.2
+
+* **Fixed** bug introduced by latest `bunsen-core` update.
+
+
+
 # 9.3.1
 
 * **Fixed** bug where array items wouldn't render if they had the `compact` array option enabled.
