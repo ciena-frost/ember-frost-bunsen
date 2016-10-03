@@ -113,11 +113,23 @@ export default Component.extend(PropTypeMixin, {
     }
 
     if (bunsenView.version === '1.0') {
-      return viewV1ToV2(bunsenView)
+      bunsenView = viewV1ToV2(bunsenView)
+
+      if (bunsenView.cells.length === 1) {
+        delete bunsenView.cells[0].label
+      }
+
+      return bunsenView
     }
 
     if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      return viewV1ToV2(deemberify(bunsenView))
+      bunsenView = viewV1ToV2(deemberify(bunsenView))
+
+      if (bunsenView.cells.length === 1) {
+        delete bunsenView.cells[0].label
+      }
+
+      return bunsenView
     }
 
     return _.cloneDeep(bunsenView)
