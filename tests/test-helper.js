@@ -4,6 +4,7 @@ import {setResolver} from 'ember-mocha'
 
 const flag = chai.util.flag
 
+/* eslint-disable complexity */
 // Taken from chai-subset
 function compare (expected, actual) {
   if (typeof (actual) !== typeof (expected)) {
@@ -41,6 +42,7 @@ function compare (expected, actual) {
     return ao === eo
   })
 }
+/* eslint-enable complexity */
 
 // Taken from chai-subset
 chai.Assertion.addMethod('containSubset', function (expected) {

@@ -64,6 +64,7 @@ export default AbstractInput.extend({
     return modelDef
   },
 
+  /* eslint-disable complexity */
   formValueChanged (newValue) {
     if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
@@ -96,7 +97,9 @@ export default AbstractInput.extend({
       }
     }
   },
+  /* eslint-enable complexity */
 
+  /* eslint-disable complexity */
   /**
    * Checks if query has been changed
    * @param {Object} oldValue - old formValue
@@ -160,6 +163,7 @@ export default AbstractInput.extend({
         })
     }
   },
+  /* eslint-enable complexity */
 
   /**
    * Get variables for parsing template strings

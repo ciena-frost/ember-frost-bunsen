@@ -143,6 +143,7 @@ export default Component.extend(PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   _getEmptyItem () {
     const type = this.get('bunsenModel.items.type')
 
@@ -164,11 +165,13 @@ export default Component.extend(PropTypeMixin, {
         return ''
     }
   },
+  /* eslint-enable complexity */
 
   _handleArrayChange (bunsenId, value, autoAdd) {
     // TODO: implement functionality
   },
 
+  /* eslint-disable complexity */
   _handleObjectChange (bunsenId, value, autoAdd) {
     const clearingValue = [undefined, null, ''].indexOf(value) !== -1
 
@@ -216,6 +219,7 @@ export default Component.extend(PropTypeMixin, {
 
     this.onChange(bunsenId, value)
   },
+  /* eslint-enable complexity */
 
   _handlePrimitiveChange (bunsenId, value, autoAdd) {
     if (this._isItemEmpty(value)) {
@@ -232,6 +236,7 @@ export default Component.extend(PropTypeMixin, {
     this.onChange(bunsenId, value)
   },
 
+  /* eslint-disable complexity */
   _isItemEmpty (item) {
     const type = this.get('bunsenModel.items.type')
 
@@ -253,6 +258,7 @@ export default Component.extend(PropTypeMixin, {
         return [undefined, null, ''].indexOf(item) !== -1
     }
   },
+  /* eslint-enable complexity */
 
   /**
    * Initialze state of cell
@@ -298,6 +304,7 @@ export default Component.extend(PropTypeMixin, {
       this.onChange(`${bunsenId}.${index}`, newItem)
     },
 
+    /* eslint-disable complexity */
     handleChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
       const type = this.get('bunsenModel.items.type')
@@ -319,6 +326,7 @@ export default Component.extend(PropTypeMixin, {
           break
       }
     },
+    /* eslint-enable complexity */
 
     /**
      * Remove an item

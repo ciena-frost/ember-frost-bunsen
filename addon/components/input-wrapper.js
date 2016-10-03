@@ -64,6 +64,7 @@ export default Component.extend(PropTypeMixin, {
     return (!dependsOn || isDependencyMet) && (bunsenModel !== undefined)
   },
 
+  /* eslint-disable complexity */
   @readOnly
   @computed(
     'cellConfig', 'bunsenModel.{editable,enum,modelType,type}', 'readOnly', 'shouldRender',
@@ -98,6 +99,7 @@ export default Component.extend(PropTypeMixin, {
 
     return this.getComponentName(type, renderers)
   },
+  /* eslint-enable complexity */
 
   // == Functions ==============================================================
 
