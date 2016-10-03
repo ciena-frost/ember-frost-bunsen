@@ -271,5 +271,4 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
 
     // FIXME: add test for handleError action ARM IS HERE
   })
-
 })
