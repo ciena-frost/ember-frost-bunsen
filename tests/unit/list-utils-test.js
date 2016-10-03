@@ -54,7 +54,7 @@ describe('Unit: list-utils', function () {
   })
 
   describe('getAsyncDataValues()', function () {
-    let sandbox, value, modelDef, bunsenId, dbStore, filter
+    let sandbox, value, modelDef, bunsenId, store, filter
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
       value = {universe: 'DC'}
@@ -67,7 +67,7 @@ describe('Unit: list-utils', function () {
         }
       }
       bunsenId = 'heroSecret'
-      dbStore = {
+      store = {
         query: sandbox.stub()
       }
       filter = 'ark'
@@ -78,21 +78,32 @@ describe('Unit: list-utils', function () {
     })
 
     describe('with no filter', function () {
-      let options
-      beforeEach(function () {
-        dbStore.query.returns(RSVP.resolve(heroes))
+      let options, error
+      beforeEach(function (done) {
+        store.query.returns(RSVP.resolve(heroes))
 
-        return getAsyncDataValues(value, modelDef, bunsenId, dbStore, filter).then((items) => {
-          options = items
-        })
+        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+          .then((items) => {
+            options = items
+          })
+          .catch((err) => {
+            error = err
+          })
+          .finally(() => {
+            done()
+          })
       })
 
       it('should make the appropriate query', function () {
-        expect(dbStore.query.lastCall.args).to.be.eql(['hero', {universe: 'DC'}])
+        expect(store.query.lastCall.args).to.eql(['hero', {universe: 'DC'}])
+      })
+
+      it('should not trigger the catch', function () {
+        expect(error).to.equal(undefined)
       })
 
       it('should return the proper options', function () {
-        expect(options).to.be.eql([
+        expect(options).to.eql([
           {value: 'Bruce Wayne', label: 'Batman'},
           {value: 'Clark Kent', label: 'Superman'},
           {value: 'Hal Jordan', label: 'Green Lantern'},
@@ -103,22 +114,33 @@ describe('Unit: list-utils', function () {
     })
 
     describe('with filter', function () {
-      let options
-      beforeEach(function () {
+      let options, error
+      beforeEach(function (done) {
         modelDef.query.text = '$filter'
-        dbStore.query.returns(RSVP.resolve(heroes))
+        store.query.returns(RSVP.resolve(heroes))
 
-        return getAsyncDataValues(value, modelDef, bunsenId, dbStore, filter).then((items) => {
-          options = items
-        })
+        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+          .then((items) => {
+            options = items
+          })
+          .catch((err) => {
+            error = err
+          })
+          .finally(() => {
+            done()
+          })
       })
 
       it('should make the appropriate query', function () {
-        expect(dbStore.query.lastCall.args).to.be.eql(['hero', {universe: 'DC', text: 'ark'}])
+        expect(store.query.lastCall.args).to.eql(['hero', {universe: 'DC', text: 'ark'}])
+      })
+
+      it('should not trigger the catch', function () {
+        expect(error).to.equal(undefined)
       })
 
       it('should return the proper options', function () {
-        expect(options).to.be.eql([
+        expect(options).to.eql([
           {value: 'Bruce Wayne', label: 'Batman'},
           {value: 'Clark Kent', label: 'Superman'},
           {value: 'Hal Jordan', label: 'Green Lantern'},
@@ -128,17 +150,34 @@ describe('Unit: list-utils', function () {
       })
     })
 
-    // FIXME: somehow this is throwing an error instead of being caught in the `catch()` under test (ARM 2016-09-09)
-    describe.skip('when query is fails', function () {
-      beforeEach(function () {
+    describe('when query fails', function () {
+      let options, error
+      beforeEach(function (done) {
         modelDef.modelType = 'busted'
-        dbStore.query.withArgs('busted', {}).returns(RSVP.reject('Uh oh'))
+        store.query.withArgs('busted', {universe: 'DC'}).returns(RSVP.reject('Uh oh'))
         sandbox.stub(Logger, 'log')
-        return getAsyncDataValues(value, modelDef, bunsenId, dbStore, filter)
+        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+          .then((items) => {
+            options = items
+          })
+          .catch((err) => {
+            error = err
+          })
+          .finally(() => {
+            done()
+          })
+      })
+
+      it('should not resolve', function () {
+        expect(options).to.equal(undefined)
+      })
+
+      it('should reject', function () {
+        expect(error).to.equal('Uh oh')
       })
 
       it('should log the error', function () {
-        expect(Logger.log.lastCall.args).to.be.eql(['Error fetching busted', 'Uh oh'])
+        expect(Logger.log.lastCall.args).to.eql(['Error fetching busted', 'Uh oh'])
       })
     })
   })

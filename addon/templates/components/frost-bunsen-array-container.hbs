@@ -11,7 +11,7 @@
 {{/if}}
 {{#if inline }}
   {{#if sortable}}
-    {{#sortable-group onChange=(action 'onReorderItems') as |group|}}
+    {{#sortable-group onChange=(action 'reorderItems') as |group|}}
       {{#each items key='@index' as |item index|}}
         {{#sortable-item group=group handle='.handle' model=item}}
           {{frost-bunsen-array-inline-item
@@ -22,8 +22,9 @@
             errors=errors
             formDisabled=formDisabled
             index=index
-            onChange=(action 'onChange')
-            onRemove=(action 'onRemoveItem')
+            onChange=(action 'handleChange')
+            onError=onError
+            onRemove=(action 'removeItem')
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
             renderers=renderers
@@ -44,8 +45,8 @@
         errors=errors
         formDisabled=formDisabled
         index=index
-        onChange=(action 'onChange')
-        onRemove=(action 'onRemoveItem')
+        onChange=(action 'handleChange')
+        onRemove=(action 'removeItem')
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
@@ -69,7 +70,7 @@
         cellConfig=cellConfig
         formDisabled=formDisabled
         index=index
-        onRemove=(action "onRemoveItem")
+        onRemove=(action 'removeItem')
         renderers=renderers
         showAllErrors=showAllErrors
       }}
@@ -78,7 +79,7 @@
       {{frost-button
         disabled=disabled
         icon='round-add'
-        onClick=(action 'onAddItem')
+        onClick=(action 'addItem')
         priority='tertiary'
         size='medium'
         text=addLabel
@@ -95,7 +96,7 @@
         errors=errors
         formDisabled=formDisabled
         index=index
-        onChange=(action 'onChange')
+        onChange=(action 'handleChange')
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
@@ -109,7 +110,7 @@
   {{frost-button
     disabled=disabled
     icon='round-add'
-    onClick=(action 'onAddItem')
+    onClick=(action 'addItem')
     priority='tertiary'
     size='medium'
     text=addLabel

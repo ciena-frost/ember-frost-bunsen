@@ -61,13 +61,9 @@ export default Component.extend(PropTypeMixin, {
     /**
      * When user wants to remove item
      */
-    onRemove () {
+    remove () {
       const index = this.get('index')
-      const onRemove = this.get('onRemove')
-
-      if (onRemove) {
-        onRemove(index)
-      }
+      this.onRemove(index)
     }
   }
 })

@@ -10,16 +10,16 @@
     cols=cellConfig.renderer.cols
     disabled=disabled
     hook=hook
-    onFocusIn=(action "onFocusIn")
-    onFocusOut=(action "onFocusOut")
-    onInput=(action "onChange")
+    onFocusIn=(action 'hideErrorMessage')
+    onFocusOut=(action 'showErrorMessage')
+    onInput=(action 'handleChange')
     placeholder=cellConfig.placeholder
     rows=cellConfig.renderer.rows
     value=(readonly transformedValue)
   }}
 </div>
 {{#if renderErrorMessage}}
-  <div class="error">
+  <div class='error'>
     {{renderErrorMessage}}
   </div>
 {{/if}}
