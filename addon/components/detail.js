@@ -40,6 +40,21 @@ function isEmberObject (object) {
   return !_.isEmpty(object) && !_.isPlainObject(object)
 }
 
+/**
+ * Convert v1 view to v2 view
+ * @param {Object} bunsenView - v1 bunsen view
+ * @returns {Object} v2 bunsen view
+ */
+function v2View (bunsenView) {
+  bunsenView = viewV1ToV2(bunsenView)
+
+  if (bunsenView.cells.length === 1) {
+    delete bunsenView.cells[0].label
+  }
+
+  return bunsenView
+}
+
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
@@ -113,23 +128,11 @@ export default Component.extend(PropTypeMixin, {
     }
 
     if (bunsenView.version === '1.0') {
-      bunsenView = viewV1ToV2(bunsenView)
-
-      if (bunsenView.cells.length === 1) {
-        delete bunsenView.cells[0].label
-      }
-
-      return bunsenView
+      return v2View(bunsenView)
     }
 
     if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      bunsenView = viewV1ToV2(deemberify(bunsenView))
-
-      if (bunsenView.cells.length === 1) {
-        delete bunsenView.cells[0].label
-      }
-
-      return bunsenView
+      return v2View(deemberify(bunsenView))
     }
 
     return _.cloneDeep(bunsenView)
