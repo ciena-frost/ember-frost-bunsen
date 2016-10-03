@@ -1,3 +1,8 @@
+# 9.3.1
+
+* **Fixed** bug where array items wouldn't render if they had the `compact` array option enabled.
+* **Upgraded** dependencies to latest versions.
+
 # 9.3.0
 
 ## Additional Features
