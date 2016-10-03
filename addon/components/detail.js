@@ -161,6 +161,7 @@ export default Component.extend(PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   /**
    * Keep UI in sync with updates to redux store
    */
@@ -202,6 +203,7 @@ export default Component.extend(PropTypeMixin, {
       onValidation(validationResult)
     }
   },
+  /* eslint-enable complexity */
 
   /**
    * Setup redux store
@@ -241,6 +243,7 @@ export default Component.extend(PropTypeMixin, {
     this.set('propValidationResult', result)
   },
 
+  /* eslint-disable complexity */
   /**
    * Keep value in sync with store and validate properties
    */
@@ -290,6 +293,7 @@ export default Component.extend(PropTypeMixin, {
 
     this.validateProps()
   },
+  /* eslint-enable complexity */
 
   // == Actions ================================================================
 

@@ -28,6 +28,7 @@ export const builtInRenderers = {
   url: 'frost-bunsen-input-url'
 }
 
+/* eslint-disable complexity */
 export function deemberify (emberObject) {
   if (emberObject === null || emberObject === undefined) {
     return emberObject
@@ -51,6 +52,7 @@ export function deemberify (emberObject) {
 
   return JSON.parse(JSON.stringify(emberObject))
 }
+/* eslint-enable complexity */
 
 /**
  * Generate label from bunsen model
