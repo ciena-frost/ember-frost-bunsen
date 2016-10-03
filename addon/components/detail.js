@@ -57,6 +57,9 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.object
     ]),
     hook: PropTypes.string,
+    onChange: PropTypes.func,
+    onError: PropTypes.func,
+    onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -166,8 +169,6 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
-    const onChange = this.get('onChange')
-    const onValidation = this.get('onValidation')
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value} = state
 
@@ -195,12 +196,12 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties(newProps)
 
-    if ('renderValue' in newProps && onChange) {
-      onChange(value)
+    if ('renderValue' in newProps && this.onChange) {
+      this.onChange(value)
     }
 
-    if (('errors' in newProps || 'renderValue' in newProps) && onValidation) {
-      onValidation(validationResult)
+    if (('errors' in newProps || 'renderValue' in newProps) && this.onValidation) {
+      this.onValidation(validationResult)
     }
   },
   /* eslint-enable complexity */
@@ -209,7 +210,7 @@ export default Component.extend(PropTypeMixin, {
    * Setup redux store
    */
   init () {
-    this._super()
+    this._super(...arguments)
 
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
@@ -298,13 +299,30 @@ export default Component.extend(PropTypeMixin, {
   // == Actions ================================================================
 
   actions: {
-    onChange () {},
+    /**
+     * Nothing to handle, since value doesn't change for detail component
+     */
+    handleChange () {},
+
+    /**
+     * When a renderer has an error (not a validation issue, but more a logic error)
+     * we report it back to the consumer. The main use-case here is API errors
+     * for select renderers and custom renderers
+     * @param {String} bunsenId - the busnen ID of the component that had an error
+     * @param {BunsenValidationError[]} errors - the errors that occurred they're not actually validation errors,
+     *                                           but it's a handy format to use for errors
+     */
+    handleError (bunsenId, errors) {
+      if (this.onError) {
+        this.onError(bunsenId, errors)
+      }
+    },
 
     /**
      * Change selected tab/root cell
      * @param {Number} tabIndex - index of root cell corresponding to tab
      */
-    onTabChange (tabIndex) {
+    handleTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)
     },
 

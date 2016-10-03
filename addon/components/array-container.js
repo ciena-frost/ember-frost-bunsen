@@ -25,6 +25,7 @@ export default Component.extend(PropTypeMixin, {
     formDisabled: PropTypes.bool,
     formValue: PropTypes.EmberObject,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     registerForFormValueChanges: PropTypes.func,
     renderers: PropTypes.oneOfType([
@@ -208,7 +209,7 @@ export default Component.extend(PropTypeMixin, {
       }
 
       if (Object.keys(itemCopy).length === 0) {
-        this.actions.onRemoveItem.call(this, itemIndex)
+        this.send('removeItem', itemIndex)
         return
       }
 
@@ -216,9 +217,7 @@ export default Component.extend(PropTypeMixin, {
       value = _.get(itemCopy, relativePath, itemCopy)
     }
 
-    const onChange = this.get('onChange')
-
-    onChange(bunsenId, value)
+    this.onChange(bunsenId, value)
   },
   /* eslint-enable complexity */
 
@@ -229,14 +228,12 @@ export default Component.extend(PropTypeMixin, {
       const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
 
       if (itemIndex !== 0 || !autoAdd) {
-        this.actions.onRemoveItem.call(this, itemIndex)
+        this.send('removeItem', itemIndex)
         return
       }
     }
 
-    const onChange = this.get('onChange')
-
-    onChange(bunsenId, value)
+    this.onChange(bunsenId, value)
   },
 
   /* eslint-disable complexity */
@@ -297,19 +294,18 @@ export default Component.extend(PropTypeMixin, {
     /**
      * Add an empty item then focus on it after it's been rendererd
      */
-    onAddItem () {
+    addItem () {
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
-      const onChange = this.get('onChange')
       const value = this.get('value')
       const items = _.get(value, bunsenId) || []
       const index = items.length
 
-      onChange(`${bunsenId}.${index}`, newItem)
+      this.onChange(`${bunsenId}.${index}`, newItem)
     },
 
     /* eslint-disable complexity */
-    onChange (bunsenId, value) {
+    handleChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
       const type = this.get('bunsenModel.items.type')
 
@@ -336,27 +332,25 @@ export default Component.extend(PropTypeMixin, {
      * Remove an item
      * @param {Number} index - index of item to remove
      */
-    onRemoveItem (index) {
+    removeItem (index) {
       const bunsenId = this.get('bunsenId')
       const value = this.get('value')
       const items = _.get(value, bunsenId) || []
-      const onChange = this.get('onChange')
       const newValue = items.slice(0, index).concat(items.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things
       // we basically need to re-set the whole array
-      onChange(bunsenId, newValue)
+      this.onChange(bunsenId, newValue)
     },
 
     /**
      * Reorder items in array
      * @param {Array} reorderedItems - reordered items
      */
-    onReorderItems (reorderedItems) {
+    reorderItems (reorderedItems) {
       const bunsenId = this.get('bunsenId')
-      const onChange = this.get('onChange')
 
-      onChange(bunsenId, reorderedItems)
+      this.onChange(bunsenId, reorderedItems)
     }
   }
 })

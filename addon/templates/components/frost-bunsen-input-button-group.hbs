@@ -8,8 +8,8 @@
   {{#each options as |option index|}}
     {{#frost-button
       disabled=disabled
-      onClick=(action "onChange" index)
-      priority=(if (eq index activeIndex) "primary" "secondary")
+      onClick=(action 'handleChange' index)
+      priority=(if (eq index activeIndex) 'primary' 'secondary')
       size=size
     }}
       {{option}}
@@ -17,7 +17,7 @@
   {{/each}}
 </div>
 {{#if renderErrorMessage}}
-  <div class="error">
+  <div class='error'>
     {{renderErrorMessage}}
   </div>
 {{/if}}

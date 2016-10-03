@@ -13,17 +13,17 @@ import * as utils from 'bunsen-core/utils'
  * @param  {Object} value the current value object for the form instance
  * @param  {Object} modelDef the bunsen model definition
  * @param  {String} bunsenId the bunsen id for this property
- * @param  {Object} dbStore the ember-data store
+ * @param  {Object} store the ember-data store
  * @param  {String} filter the optional string to filter on
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions (value, modelDef, bunsenId, dbStore, filter = '') {
+export function getOptions (value, modelDef, bunsenId, store, filter = '') {
   const enumDef = modelDef.items ? modelDef.items.enum : modelDef.enum
   const queryDef = modelDef.query
   if (enumDef) {
     return RSVP.resolve(getEnumValues(enumDef, filter))
   } else if (queryDef) {
-    return getAsyncDataValues(value, modelDef, bunsenId, dbStore, filter)
+    return getAsyncDataValues(value, modelDef, bunsenId, store, filter)
   }
   return RSVP.resolve([])
 }
@@ -49,11 +49,11 @@ export function getEnumValues (values = [], filter = '') {
  * @param  {Object} value the bunsen value for this form
  * @param  {Object} modelDef the full bunsen model def for this property
  * @param  {Object} bunsenId the bunsenId for this form
- * @param  {Object} dbStore the ember-data store
+ * @param  {Object} store the ember-data store
  * @param  {String} filter the partial match query filter to populate
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) {
+export function getAsyncDataValues (value, modelDef, bunsenId, store, filter) {
   let query
 
   try {
@@ -71,17 +71,19 @@ export function getAsyncDataValues (value, modelDef, bunsenId, dbStore, filter) 
   })
 
   const modelType = modelDef.modelType || 'resources'
-  return dbStore.query(modelType, query).then((resp) => {
-    const items = resp.map((resource) => {
-      const label = resource.get(labelAttr) || resource.get('title')
-      const value = resource.get(valueAttr)
-      return {
-        label,
-        value
-      }
+  return store.query(modelType, query)
+    .then((resp) => {
+      const items = resp.map((resource) => {
+        const label = resource.get(labelAttr) || resource.get('title')
+        const value = resource.get(valueAttr)
+        return {
+          label,
+          value
+        }
+      })
+      return items
+    }).catch((err) => {
+      Logger.log(`Error fetching ${modelType}`, err)
+      throw err
     })
-    return items
-  }).catch((err) => { // eslint-disable-line handle-callback-err
-    Logger.log(`Error fetching ${modelType}`, err)
-  })
 }

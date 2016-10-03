@@ -21,7 +21,8 @@ export default Component.extend(PropTypeMixin, {
     bunsenView: PropTypes.object.isRequired,
     cellConfig: PropTypes.object,
     formDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     registerForFormValueChanges: PropTypes.func,
     renderers: PropTypes.oneOfType([

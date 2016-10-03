@@ -179,3 +179,27 @@ export function isRequired (cell, cellDefinitions, bunsenModel) {
 export function validateRenderer (owner, rendererName) {
   return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
 }
+
+/**
+ * Get an error message from an error Object
+ * @param {Object} error - may be an Error, an API response, or anything else (maybe?)
+ * @returns {String} the message for the error
+ */
+export function getErrorMessage (error) {
+  let message = 'Unable to parse error object'
+
+  // most common case will be a JSON-API error response from ember-data
+  message = _.get(error, 'responseJSON.errors[0].detail')
+
+  if (!message) {
+    // next common is maybe an Error Object
+    message = _.get(error, 'message')
+  }
+
+  if (!message && error.toString) {
+    // next option is anything else with a .toString() method
+    message = error.toString()
+  }
+
+  return message
+}

@@ -23,6 +23,7 @@ export default Component.extend(PropTypeMixin, {
     formDisabled: PropTypes.bool,
     index: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOny: PropTypes.bool,
     registerForFormValueChanges: PropTypes.func,
     renderers: PropTypes.oneOfType([

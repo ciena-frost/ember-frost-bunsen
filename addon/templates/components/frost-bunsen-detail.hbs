@@ -6,7 +6,7 @@
   <form>
     {{#if cellTabs.length}}
       {{#frost-tabs
-        onChange=(action 'onTabChange')
+        onChange=(action 'handleTabChange')
         selection=tabSelection
       }}
         {{#each cellTabs key='@index' as |tab|}}
@@ -22,7 +22,8 @@
               errors=renderErrors
               formDisabled=disabled
               formHook=hook
-              onChange=(action 'onChange')
+              onChange=(action 'handleChange')
+              onError=(action 'handleError')
               readOnly=true
               registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
               renderers=renderers
@@ -41,7 +42,8 @@
           errors=renderErrors
           formDisabled=disabled
           formHook=hook
-          onChange=(action 'onChange')
+          onChange=(action 'handleChange')
+          onError=(action 'handleError')
           readOnly=true
           registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
           renderers=renderers
