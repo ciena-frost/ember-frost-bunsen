@@ -1,3 +1,14 @@
+# 9.3.0
+
+## Additional Features
+* **Added** a new *optional* `onError` property to `frost-bunsen-form` and `frost-bunsen-detail` The `onError` callback will be called whenever an API error occurs in the select renderer, or whenever a custom renderer invokes their own `onError` callback. 
+This passes out errors that might occur when the select renderer queries for options
+
+## Deprecations
+ * **Deprecated** the `onChange` action in `AbstractInput` in favor of one named `handleChange`
+ * **Deprecated** the `onFocusIn` action in `AbstractInput` in favor of one named `hideErrorMessage`
+ * **Deprecated** the `onFocusOut` action in `AbstractInput` in favor of one named `showErrorMessage`
+
 # 9.2.4
 
 * **Fixed** issue where first item added to an object array wasn't getting defaults applied.
