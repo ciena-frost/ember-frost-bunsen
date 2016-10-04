@@ -98,7 +98,9 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
           }
         })
         addChangeSet(component)
-        component.didReceiveAttrs()
+        component.didReceiveAttrs({
+          oldAttrs: {}
+        })
       })
 
       it('renderValue returns value for config model', function () {
