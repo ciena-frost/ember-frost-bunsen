@@ -1,15 +1,20 @@
-import AbstractInput from './abstract-input'
-import * as listUtils from '../../list-utils'
-import utils from 'bunsen-core/utils'
-import Ember from 'ember'
-import computed from 'ember-computed-decorators'
+/**
+ * The select input component
+ */
 import _ from 'lodash'
+import Ember from 'ember'
+const {deprecate, inject} = Ember
+import utils from 'bunsen-core/utils'
+import computed from 'ember-computed-decorators'
+import * as listUtils from 'ember-frost-bunsen/list-utils'
+import {getErrorMessage} from 'ember-frost-bunsen/utils'
+import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 
 export default AbstractInput.extend({
   // == Dependencies ===========================================================
 
-  dbStore: Ember.inject.service('store'),
+  store: inject.service(),
 
   // == Component Properties ===================================================
 
@@ -63,6 +68,7 @@ export default AbstractInput.extend({
     return modelDef
   },
 
+  /* eslint-disable complexity */
   formValueChanged (newValue) {
     if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
@@ -70,6 +76,7 @@ export default AbstractInput.extend({
 
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
+    this.set('formValue', newValue)
 
     if (!modelDef) {
       return
@@ -83,14 +90,20 @@ export default AbstractInput.extend({
 
     if (!isQueryDisabled && this.hasQueryChanged(oldValue, newValue, modelDef.query) || this.needsInitialOptions()) {
       // setting required variables once above condition is true
-      const dbStore = this.get('dbStore')
+      const store = this.get('store')
       const bunsenId = this.get('bunsenId')
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
-
       this.set('optionsInitialized', true)
-      listUtils.getOptions(newValue, modelDef, bunsenId, dbStore).then((opts) => {
-        this.set('options', opts)
-      })
+      listUtils.getOptions(newValue, modelDef, bunsenId, store)
+        .then((opts) => {
+          this.set('options', opts)
+        })
+        .catch((err) => {
+          this.onError(bunsenId, [{
+            path: bunsenId,
+            message: getErrorMessage(err)
+          }])
+        })
     }
   },
 
@@ -116,6 +129,7 @@ export default AbstractInput.extend({
       (('enum' in modelDef) || !this.hasQueryParams(modelDef.query))
   },
 
+  /* eslint-disable complexity */
   /**
    * Checks if query has been changed
    * @param {Object} oldValue - old formValue
@@ -163,6 +177,7 @@ export default AbstractInput.extend({
 
     return false
   },
+  /* eslint-enable complexity */
 
   /**
    * Get variables for parsing template strings
@@ -200,6 +215,10 @@ export default AbstractInput.extend({
 
   init () {
     this._super(...arguments)
+
+    // maintain the deprecated dbStore property (at least for a little while, 2016-09-30)
+    this.set('dbStore', this.get('store'))
+
     this.registerForFormValueChanges(this)
   },
 
@@ -214,18 +233,32 @@ export default AbstractInput.extend({
   // == Actions ================================================================
 
   actions: {
+
     /**
      * perform a filter on the widget
      * @param  {String} filter the filter text
      */
-    onInput (filter) {
+    filterOptions (filter) {
       const modelDef = this._getModelDef()
       const bunsenId = this.get('bunsenId')
       const dbStore = this.get('dbStore')
       const value = this.get('formValue')
-      listUtils.getOptions(value, modelDef, bunsenId, dbStore, filter).then((opts) => {
-        this.set('options', opts)
-      })
+      listUtils.getOptions(value, modelDef, bunsenId, dbStore, filter)
+        .then((opts) => {
+          this.set('options', opts)
+        })
+        .catch((err) => {
+          this.onError(bunsenId, [{
+            path: bunsenId,
+            message: getErrorMessage(err)
+          }])
+        })
+    },
+
+    // Deprecated passthrough
+    onInput (filter) {
+      deprecate('The "onInput" action is deprecated. Use "filterOptions" instead')
+      this.send('filterOptions', filter)
     }
   }
 })

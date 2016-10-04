@@ -83,17 +83,15 @@ export default Component.extend(PropTypeMixin, {
      * Handle when user expands/collapses section
      * @param {Event} e - event
      */
-    onToggle (e) {
+    toggle (e) {
       e.stopPropagation()
       e.preventDefault()
 
       const expanded = !this.get('state.expanded')
-      const parentOnToggle = this.get('onToggle')
-
       this.set('state.expanded', expanded)
 
-      if (parentOnToggle) {
-        parentOnToggle(expanded)
+      if (this.onToggle) {
+        this.onToggle(expanded)
       }
     }
   }

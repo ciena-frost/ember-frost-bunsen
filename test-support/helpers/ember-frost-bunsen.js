@@ -35,7 +35,6 @@ export function expectBunsenInputToHaveError (bunsenId, errorMessage, hook = 'bu
   const hookName = `${hook}-${bunsenId}`
   const $container = $hook(hookName).first()
   const $errorMessage = $container.find('.left-input + .error')
-
   expect(
     $container.find('.left-input .error'),
     'input has error class'

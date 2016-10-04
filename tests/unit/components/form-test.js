@@ -32,9 +32,9 @@ describeComponent(...unitTest('frost-bunsen-form'), function () {
     sandbox.restore()
   })
 
-  it('actions.onTabChange() updates selectedTabIndex', function () {
+  it('actions.handleTabChange() updates selectedTabIndex', function () {
     [0, 1, 2].forEach((index) => {
-      component.send('onTabChange', index)
+      component.send('handleTabChange', index)
       expect(component.get('selectedTabIndex')).to.eql(index)
     })
   })
@@ -52,7 +52,7 @@ describeComponent(...unitTest('frost-bunsen-form'), function () {
         }
       })
 
-      component.send('onChange', 'bar', 'test')
+      component.send('handleChange', 'bar', 'test')
       return onChangeDeferred.promise
     })
 
@@ -83,7 +83,7 @@ describeComponent(...unitTest('frost-bunsen-form'), function () {
         }
       })
 
-      component.send('onChange', 'baz', 42)
+      component.send('handleChange', 'baz', 42)
       return onChangeDeferred.promise
     })
 
@@ -119,7 +119,7 @@ describeComponent(...unitTest('frost-bunsen-form'), function () {
         }
       })
 
-      component.send('onChange', 'foo', 'test')
+      component.send('handleChange', 'foo', 'test')
       return RSVP.all([
         onChangeDeferred.promise,
         onValidationDeferred.promise

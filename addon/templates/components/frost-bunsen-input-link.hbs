@@ -8,15 +8,15 @@
   <a
     class={{valueClassName}}
     href={{value}}
-    onFocusIn={{action "onFocusIn"}}
-    onFocusOut={{action "onFocusOut"}}
-    onInput={{action "onChange"}}
+    onFocusIn={{action (action 'hideErrorMessage')}}
+    onFocusOut={{action (action 'showErrorMessage')}}
+    onInput={{action (action 'handleChange')}}
   >
     {{linkLabel}}
   </a>
 </div>
 {{#if renderErrorMessage}}
-  <div class="error">
+  <div class='error'>
     {{renderErrorMessage}}
   </div>
 {{/if}}

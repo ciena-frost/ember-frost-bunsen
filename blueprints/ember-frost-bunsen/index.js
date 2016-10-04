@@ -8,9 +8,9 @@ module.exports = {
         return this.addAddonsToProject({
           packages: [
             {name: 'ember-browserify', target: '^1.1.12'},
-            {name: 'ember-bunsen-core', target: '0.8.1'},
-            {name: 'ember-frost-core', target: '0.25.2'},
-            {name: 'ember-frost-fields', target: '0.2.1'},
+            {name: 'ember-bunsen-core', target: '0.8.2'},
+            {name: 'ember-frost-core', target: '0.27.1'},
+            {name: 'ember-frost-fields', target: '^1.0.0'},
             {name: 'ember-frost-tabs', target: '^2.0.2'},
             {name: 'ember-getowner-polyfill', target: '^1.0.1'},
             {name: 'ember-lodash-shim', target: '^1.0.0'},

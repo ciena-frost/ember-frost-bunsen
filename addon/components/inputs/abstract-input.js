@@ -2,7 +2,7 @@ import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, Logger} = Ember
+const {Component, Logger, deprecate} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel, parseVariables} from 'bunsen-core/utils'
@@ -28,6 +28,7 @@ export default Component.extend(PropTypeMixin, {
     formDisabled: PropTypes.bool,
     label: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     registerForFormValueChanges: PropTypes.func,
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
@@ -239,28 +240,10 @@ export default Component.extend(PropTypeMixin, {
 
   actions: {
     /**
-     * When input looses focus we want to start showing error messages
-     */
-    onFocusOut () {
-      if (!this.get('showErrorMessage')) {
-        this.set('showErrorMessage', true)
-      }
-    },
-
-    /**
-     * When input enters focus we want to stop showing error messages
-     */
-    onFocusIn () {
-      if (this.get('showErrorMessage')) {
-        this.set('showErrorMessage', false)
-      }
-    },
-
-    /**
      * Handle user updating value
      * @param {Event} e - event data
      */
-    onChange (e) {
+    handleChange (e) {
       const bunsenId = this.get('bunsenId')
       const newValue = this.parseValue(e)
       this.getTemplateVariables(newValue)
@@ -269,8 +252,43 @@ export default Component.extend(PropTypeMixin, {
       const oldValue = this.get('value')
 
       if (!_.isEqual(transformedNewValue, oldValue)) {
-        const onChange = this.get('onChange')
-        onChange(bunsenId, transformedNewValue)
+        this.onChange(bunsenId, transformedNewValue)
+      }
+    },
+
+    /**
+     * Stop showing error messages
+     */
+    hideErrorMessage () {
+      if (this.get('showErrorMessage')) {
+        this.set('showErrorMessage', false)
+      }
+    },
+
+    // Deprecated passthrough
+    onChange (e) {
+      deprecate('The "onChange" action is deprecated, use "handleChange" instead')
+      this.send('handleChange', e)
+    },
+
+    // Deprecated passthrough
+    onFocusIn () {
+      deprecate('The "onFocusIn" action is deprecated, use "hideErrorMessage" instead')
+      this.send('hideErrorMessage')
+    },
+
+    // Deprecated passthrough
+    onFocusOut () {
+      deprecate('The "onFocusOut" action is deprecated, use "showErrorMessage" instead')
+      this.send('showErrorMessage')
+    },
+
+    /**
+     * Start showing error messages
+     */
+    showErrorMessage () {
+      if (!this.get('showErrorMessage')) {
+        this.set('showErrorMessage', true)
       }
     }
   }

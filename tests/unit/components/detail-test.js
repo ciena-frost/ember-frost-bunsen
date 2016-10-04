@@ -69,13 +69,6 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
     sandbox.restore()
   })
 
-  it('actions.onTabChange() updates selectedTabIndex', function () {
-    [0, 1, 2].forEach((index) => {
-      component.actions.onTabChange.call(component, index)
-      expect(component.get('selectedTabIndex')).to.eql(index)
-    })
-  })
-
   it('initializes the store with an initial value on init', function () {
     const expectedValue = {
       bar: 'bar'
@@ -355,5 +348,76 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
         }
       }
     })
+  })
+
+  describe('Actions', function () {
+    describe('.handleTabChange()', function () {
+      [0, 1, 2].forEach((index) => {
+        describe(`when passed in ${index}`, function () {
+          beforeEach(function () {
+            component.send('handleTabChange', index)
+          })
+
+          it(`should update selectedTabIndex to ${index}`, function () {
+            expect(component.get('selectedTabIndex')).to.equal(index)
+          })
+        })
+      })
+    })
+
+    describe('.handleError()', function () {
+      let errors
+      beforeEach(function () {
+        errors = [{
+          path: 'foo.bar.baz',
+          message: 'Uh oh! Something bad happend.'
+        }]
+      })
+
+      describe('when an onError callback is present', function () {
+        let errorCallback
+        beforeEach(function () {
+          errorCallback = sandbox.stub()
+          component.set('onError', errorCallback)
+          component.send('handleError', 'foo.bar.baz', errors)
+        })
+
+        it('should call the error callback', function () {
+          expect(errorCallback.lastCall.args).to.eql(['foo.bar.baz', errors])
+        })
+      })
+
+      describe('when an onError callback is missing', function () {
+        beforeEach(function () {
+          component.send('handleError', 'foo.bar.baz', errors)
+        })
+
+        it('should not blow up', function () {
+          // If it tried to call undefined, the beforeEach would have failed
+          expect(true).to.be.equal(true)
+        })
+      })
+    })
+
+    describe('.registerComponentForFormValueChanges()', function () {
+      let subComponent
+      beforeEach(function () {
+        subComponent = {
+          formValueChanged: sandbox.stub()
+        }
+        component.set('renderValue', {foo: 'bar'})
+        component.send('registerComponentForFormValueChanges', subComponent)
+      })
+
+      it('should call formValueChanged on the component being registered', function () {
+        expect(subComponent.formValueChanged.lastCall.args).to.be.eql([{foo: 'bar'}])
+      })
+
+      it('should save the new comopnent in registeredComponents', function () {
+        expect(component.get('registeredComponents')).to.contain(subComponent)
+      })
+    })
+
+    // FIXME: add test for handleError action ARM IS HERE
   })
 })

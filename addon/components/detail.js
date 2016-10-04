@@ -54,6 +54,21 @@ function addMetaProperty (object, propName, value) {
   })
 }
 
+/*
+ * Convert v1 view to v2 view
+ * @param {Object} bunsenView - v1 bunsen view
+ * @returns {Object} v2 bunsen view
+ */
+function v2View (bunsenView) {
+  bunsenView = viewV1ToV2(bunsenView)
+
+  if (bunsenView.cells.length === 1) {
+    delete bunsenView.cells[0].label
+  }
+
+  return bunsenView
+}
+
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
@@ -71,6 +86,9 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.object
     ]),
     hook: PropTypes.string,
+    onChange: PropTypes.func,
+    onError: PropTypes.func,
+    onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -124,11 +142,11 @@ export default Component.extend(PropTypeMixin, {
     }
 
     if (bunsenView.version === '1.0') {
-      return viewV1ToV2(bunsenView)
+      return v2View(bunsenView)
     }
 
     if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      return viewV1ToV2(deemberify(bunsenView))
+      return v2View(deemberify(bunsenView))
     }
 
     return _.cloneDeep(bunsenView)
@@ -191,6 +209,7 @@ export default Component.extend(PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   /**
    * Precompute all model references from the view schema using the references `model` and `dependsOn`
    * @param {Object} cellConfig - the cellConfig to precompute
@@ -273,8 +292,6 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
-    const onChange = this.get('onChange')
-    const onValidation = this.get('onValidation')
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value, valueChangeSet, lastAction} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
@@ -301,20 +318,21 @@ export default Component.extend(PropTypeMixin, {
 
     this.setProperties(newProps)
 
-    if (newProps.renderValue && onChange) {
-      onChange(value)
+    if ('renderValue' in newProps && this.onChange) {
+      this.onChange(value)
     }
 
-    if ((newProps.renderValue || newProps.errors) && onValidation) {
-      onValidation(validationResult)
+    if (('errors' in newProps || 'renderValue' in newProps) && this.onValidation) {
+      this.onValidation(validationResult)
     }
   },
+  /* eslint-enable complexity */
 
   /**
    * Setup redux store
    */
   init () {
-    this._super()
+    this._super(...arguments)
 
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
@@ -347,6 +365,7 @@ export default Component.extend(PropTypeMixin, {
     this.set('propValidationResult', result)
   },
 
+  /* eslint-disable complexity */
   /**
    * Determines if the any of the schema attrs has changed
    * @param {String} schemaName - the name of the schema attribute
@@ -414,17 +433,35 @@ export default Component.extend(PropTypeMixin, {
       this.validateProps(newBunsenModel)
     }
   },
+  /* eslint-enable complexity */
 
   // == Actions ================================================================
 
   actions: {
-    onChange () {},
+    /**
+     * Nothing to handle, since value doesn't change for detail component
+     */
+    handleChange () {},
+
+    /**
+     * When a renderer has an error (not a validation issue, but more a logic error)
+     * we report it back to the consumer. The main use-case here is API errors
+     * for select renderers and custom renderers
+     * @param {String} bunsenId - the busnen ID of the component that had an error
+     * @param {BunsenValidationError[]} errors - the errors that occurred they're not actually validation errors,
+     *                                           but it's a handy format to use for errors
+     */
+    handleError (bunsenId, errors) {
+      if (this.onError) {
+        this.onError(bunsenId, errors)
+      }
+    },
 
     /**
      * Change selected tab/root cell
      * @param {Number} tabIndex - index of root cell corresponding to tab
      */
-    onTabChange (tabIndex) {
+    handleTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)
     },
 

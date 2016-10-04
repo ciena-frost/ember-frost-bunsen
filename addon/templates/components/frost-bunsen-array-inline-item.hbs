@@ -1,18 +1,18 @@
 {{#if (and (not compact) showRemoveButton)}}
-  <div class="remove-btn-container">
+  <div class='remove-btn-container'>
     {{frost-button
       disabled=disabled
-      onClick=(action "onRemove")
-      priority="tertiary"
-      size="medium"
-      text="Remove"
+      onClick=(action 'remove')
+      priority='tertiary'
+      size='medium'
+      text='Remove'
     }}
   </div>
 {{/if}}
 {{#if sortable}}
-  {{frost-icon class="handle" icon="menu"}}
+  {{frost-icon class='handle' icon='menu'}}
 {{/if}}
-<div class="item-input">
+<div class='item-input'>
   {{#if itemCell.renderer}}
     {{component customRenderer
       bunsenId=(concat bunsenId '.' index)
@@ -22,6 +22,7 @@
       formDisabled=formDisabled
       label=label
       onChange=onChange
+      onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
@@ -29,7 +30,7 @@
       unregisterForFormValueChanges=unregisterForFormValueChanges
       value=value
     }}
-  {{else if (eq bunsenModel.items.type "array")}}
+  {{else if (eq bunsenModel.items.type 'array')}}
     {{frost-bunsen-array-container
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
@@ -39,6 +40,7 @@
       formDisabled=formDisabled
       label=label
       onChange=onChange
+      onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
@@ -47,7 +49,7 @@
       value=value
       valueChangeSet=valueChangeSet
     }}
-  {{else if (eq bunsenModel.items.type "object")}}
+  {{else if (eq bunsenModel.items.type 'object')}}
     {{frost-bunsen-cell
       bunsenId=(concat bunsenId '.' index)
       bunsenModel=bunsenModel.items
@@ -57,6 +59,7 @@
       formDisabled=formDisabled
       label=label
       onChange=onChange
+      onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
@@ -75,6 +78,7 @@
       formDisabled=formDisabled
       label=label
       onChange=onChange
+      onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
@@ -85,13 +89,13 @@
   {{/if}}
 </div>
 {{#if (and compact showRemoveButton)}}
-  <div class="remove-btn-container">
+  <div class='remove-btn-container'>
     {{frost-button
       disabled=disabled
-      onClick=(action "onRemove")
-      priority="tertiary"
-      size="medium"
-      text="Remove"
+      onClick=(action 'remove')
+      priority='tertiary'
+      size='medium'
+      text='Remove'
     }}
   </div>
 {{/if}}
