@@ -253,6 +253,12 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
+  @computed('mergedConfig')
+  clearable (mergedConfig) {
+    return mergedConfig.clearable || false
+  },
+
+  @readOnly
   @computed('isSubModelObject', 'mergedConfig')
   showSection (isSubModelObject, mergedConfig) {
     // If sub model is object we end up running through another cell and thus if

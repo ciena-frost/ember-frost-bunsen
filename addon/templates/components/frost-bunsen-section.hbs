@@ -12,6 +12,14 @@
   {{#if required}}
     <div class='required'>Required</div>
   {{/if}}
+  {{#if clearable}}
+    {{frost-button
+      onClick=(action 'clear')
+      priority='tertiary'
+      size='small'
+      text='Clear'
+    }}
+  {{/if}}
 </div>
 <div class='body'>
   {{#if showContent}}

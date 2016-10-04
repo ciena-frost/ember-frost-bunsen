@@ -14,6 +14,7 @@ export default Component.extend(PropTypeMixin, {
   // == State Properties =======================================================
 
   propTypes: {
+    clearable: PropTypes.bool,
     collapsible: PropTypes.bool,
     description: PropTypes.oneOfType([
       PropTypes.null,
@@ -29,6 +30,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
+      clearable: false,
       expandedOnInitialRender: true,
       renderContentWhenCollapsed: false
     }
