@@ -20,17 +20,22 @@
     }
 
     .heading {
-      display: block;
+      display: flex;
+      align-items: center;
       margin-top: 5px;
       margin-bottom: 5px;
       padding-right: 0;
       text-align: left;
 
       h3 {
-        margin-left: 20px;
+        margin-left: 10px;
         color: $frost-color-night-1;
         font-size: 14px;
         font-weight: bold;
+      }
+
+      h3 + button {
+        margin-left: auto;
       }
     }
 

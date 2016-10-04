@@ -1,3 +1,8 @@
+# 9.4.0
+
+* **Added** clear button to facets.
+
+
 # 9.3.2
 
 * **Fixed** bug introduced by latest `bunsen-core` update.

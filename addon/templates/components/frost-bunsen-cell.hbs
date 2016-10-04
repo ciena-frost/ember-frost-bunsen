@@ -1,7 +1,9 @@
 {{#if showSection}}
   {{#frost-bunsen-section
+    clearable=clearable
     collapsible=cellConfig.collapsible
     description=cellConfig.description
+    onClear=(action 'clear')
     required=isRequired
     title=cellConfig.label
   }}
