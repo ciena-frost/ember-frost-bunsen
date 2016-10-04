@@ -275,6 +275,22 @@ export default Component.extend(PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  _clearChildren (cell) {
+    if (!cell.children) {
+      return
+    }
+
+    cell.children
+      .forEach((child) => {
+        if (child.model) {
+          this.onChange(child.model, null)
+          return
+        }
+
+        this._clearChildren(child)
+      })
+  },
+
   /**
    * Get parent's model
    * @param {BunsenModel} reference - bunsen model of cell
@@ -292,7 +308,14 @@ export default Component.extend(PropTypeMixin, {
 
   actions: {
     clear () {
-      this.onChange(this.get('bunsenId'), null)
+      const bunsenId = this.get('bunsenId')
+
+      if (bunsenId) {
+        this.onChange(bunsenId, null)
+      } else {
+        const cell = this.get('mergedConfig')
+        this._clearChildren(cell)
+      }
     }
   }
 })
