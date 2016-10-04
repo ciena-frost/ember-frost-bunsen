@@ -10,7 +10,7 @@ import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf} = Ember
+const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -204,7 +204,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('propValidationResult')
   isInvalid (propValidationResult) {
-    return !_.isEmpty(propValidationResult.errors)
+    return propValidationResult && !_.isEmpty(propValidationResult.errors)
   },
 
   // == Functions ==============================================================
@@ -223,10 +223,12 @@ export default Component.extend(PropTypeMixin, {
 
     // support relative model references
     if (cellConfig.model) {
-      bunsenId = `${baseBunsenId}.${cellConfig.model}`
+      const nonIndexModel = cellConfig.model.replace(/\.\d+/g, '.[]')
+      bunsenId = `${baseBunsenId}.${nonIndexModel}`
 
       if (cellConfig.dependsOn) {
-        addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(cellConfig.model, cellConfig.dependsOn))
+        const nonIndexDep = cellConfig.dependsOn.replace(/\.\d+/g, '.[]')
+        addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(nonIndexModel, nonIndexDep))
       }
     }
 
@@ -289,6 +291,32 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
+   * Batches the changes in a change-set so multiple updates to a change-set
+   * don't override each other in a a single run loop
+   * @param {Map} changeSet - the changeSet to merge with the batched version
+   * @returns {Map} the newly updated batched change-sets
+   */
+  batchChanges (changeSet) {
+    let batchedChangeSet = this.get('batchedChangeSet')
+
+    if (!batchedChangeSet) {
+      batchedChangeSet = new Map()
+
+      this.set('batchedChangeSet', batchedChangeSet)
+    }
+
+    changeSet.forEach((value, key) => {
+      batchedChangeSet.set(key, value)
+    })
+
+    run.schedule('afterRender', () => {
+      this.set('batchedChangeSet', null)
+    })
+
+    return batchedChangeSet
+  },
+
+  /**
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
@@ -309,10 +337,12 @@ export default Component.extend(PropTypeMixin, {
     // not be wired up to change renderValue
     if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
-      newProps.valueChangeSet = valueChangeSet
+      newProps.valueChangeSet = this.batchChanges(valueChangeSet)
 
       this.get('registeredComponents').forEach((component) => {
-        component.formValueChanged(value)
+        if (!component.isDestroyed) {
+          component.formValueChanged(value)
+        }
       })
     }
 
@@ -470,7 +500,7 @@ export default Component.extend(PropTypeMixin, {
      * @param {Ember.Component} component - the component being registered
      */
     registerComponentForFormValueChanges (component) {
-      component.formValueChanged(this.get('renderValue'))
+      component.formValueChanged(this.get('renderValue') || {})
       this.get('registeredComponents').push(component)
     },
 

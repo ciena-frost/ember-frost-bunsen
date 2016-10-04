@@ -69,16 +69,16 @@ export default Component.extend(PropTypeMixin, {
   getDefaultProps () {
     return {
       readOnly: false,
-      renderValue: undefined,
       propagatedValue: {},
       propagatedValueChangeSet: null
     }
   },
 
-  didReceiveAttrs () {
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
     const valueChangeSet = this.get('valueChangeSet')
-
+    const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
     const cellConfig = this.get('cellConfig')
+
     let isDirty = false
 
     if (valueChangeSet) {
@@ -88,21 +88,22 @@ export default Component.extend(PropTypeMixin, {
           return false
         }
       })
-    } else {
-      isDirty = true
     }
 
-    if (isDirty) {
+    if (isDirty || !_.isEqual(oldCellConfig, cellConfig)) {
       this.set('propagatedValue', this.get('value'))
       this.set('propagatedValueChangeSet', this.get('valueChangeSet'))
-
-      if (this.get('cellConfig.__bunsenId__')) {
-        this.set('renderValue', _.get(this.get('value'), this.get('renderId')))
-      }
     }
   },
 
   // == Computed Properties ====================================================
+
+  @readOnly
+  @computed('propagatedValue')
+  renderValue (value) {
+    const bunsenId = this.get('renderId')
+    return _.get(value, bunsenId)
+  },
 
   @readOnly
   @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig')

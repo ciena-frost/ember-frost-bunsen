@@ -44,7 +44,7 @@ export default AbstractInput.extend({
      * Handle user updating selected item
      * @param {Array<String>} selected - selected values
      */
-    onChange (selected) {
+    handleChange (selected) {
       if (selected.length === 0) {
         return
       }
