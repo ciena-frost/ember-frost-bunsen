@@ -26,6 +26,7 @@ export default {
       url: '.frost-bunsen-input-url'
     },
     section: {
+      clearableButton: '.heading h3 + button',
       heading: '.heading h3'
     },
     validationErrors: {

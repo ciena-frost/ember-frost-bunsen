@@ -216,11 +216,13 @@ $left-input-width: 250px;
 
   > .heading {
     button {
-      width: 16px;
-      padding: 0;
-      float: left;
-      border: 0;
-      background: transparent;
+      &:nth-child(1) {
+        width: 16px;
+        padding: 0;
+        float: left;
+        border: 0;
+        background: transparent;
+      }
     }
 
     h3 {

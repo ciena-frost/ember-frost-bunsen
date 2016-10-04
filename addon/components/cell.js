@@ -253,6 +253,12 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
+  @computed('mergedConfig')
+  clearable (mergedConfig) {
+    return mergedConfig.clearable || false
+  },
+
+  @readOnly
   @computed('isSubModelObject', 'mergedConfig')
   showSection (isSubModelObject, mergedConfig) {
     // If sub model is object we end up running through another cell and thus if
@@ -269,6 +275,22 @@ export default Component.extend(PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  _clearChildren (cell) {
+    if (!cell.children) {
+      return
+    }
+
+    cell.children
+      .forEach((child) => {
+        if (child.model) {
+          this.onChange(child.model, null)
+          return
+        }
+
+        this._clearChildren(child)
+      })
+  },
+
   /**
    * Get parent's model
    * @param {BunsenModel} reference - bunsen model of cell
@@ -280,5 +302,20 @@ export default Component.extend(PropTypeMixin, {
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
+  },
+
+  // == Actions ================================================================
+
+  actions: {
+    clear () {
+      const bunsenId = this.get('bunsenId')
+
+      if (bunsenId) {
+        this.onChange(bunsenId, null)
+      } else {
+        const cell = this.get('mergedConfig')
+        this._clearChildren(cell)
+      }
+    }
   }
 })

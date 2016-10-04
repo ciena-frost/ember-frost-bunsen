@@ -81,6 +81,7 @@ export function generateFacetCell (facet) {
 
   return {
     children: [cell],
+    clearable: true,
     collapsible: true,
     label: facet.label || generateLabelFromModel(facet.model)
   }
