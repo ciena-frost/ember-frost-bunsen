@@ -38,6 +38,7 @@ describe('bunsen-utils', function () {
                 }
               }
             ],
+            clearable: true,
             collapsible: true,
             label: 'Bar'
           })
@@ -56,6 +57,7 @@ describe('bunsen-utils', function () {
                 }
               }
             ],
+            clearable: true,
             collapsible: true,
             label: 'Foo'
           })
@@ -77,6 +79,7 @@ describe('bunsen-utils', function () {
                 model: 'foo'
               }
             ],
+            clearable: true,
             collapsible: true,
             label: 'Bar'
           })
@@ -92,6 +95,7 @@ describe('bunsen-utils', function () {
                 model: 'foo'
               }
             ],
+            clearable: true,
             collapsible: true,
             label: 'Foo'
           })
@@ -130,6 +134,7 @@ describe('bunsen-utils', function () {
                     model: 'foo'
                   }
                 ],
+                clearable: true,
                 collapsible: true,
                 label: 'Foo'
               },
@@ -139,6 +144,7 @@ describe('bunsen-utils', function () {
                     model: 'bar'
                   }
                 ],
+                clearable: true,
                 collapsible: true,
                 label: 'Bar baz'
               },
@@ -148,6 +154,7 @@ describe('bunsen-utils', function () {
                     model: 'foo.bar.baz'
                   }
                 ],
+                clearable: true,
                 collapsible: true,
                 label: 'Baz'
               }
