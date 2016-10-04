@@ -286,5 +286,13 @@ export default Component.extend(PropTypeMixin, {
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
+  },
+
+  // == Actions ================================================================
+
+  actions: {
+    clear () {
+      this.onChange(this.get('bunsenId'), null)
+    }
   }
 })

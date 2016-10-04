@@ -22,6 +22,7 @@ export default Component.extend(PropTypeMixin, {
     ]),
     expanded: PropTypes.bool,
     expandedOnInitialRender: PropTypes.bool,
+    onClear: PropTypes.func,
     onToggle: PropTypes.func,
     renderContentWhenCollapsed: PropTypes.bool,
     required: PropTypes.bool.isRequired,
