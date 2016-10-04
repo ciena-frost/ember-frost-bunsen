@@ -31,6 +31,7 @@ export default Component.extend(PropTypeMixin, {
     registerForFormValueChanges: PropTypes.func,
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
@@ -231,7 +232,7 @@ export default Component.extend(PropTypeMixin, {
 
   didRender () {
     this._super(...arguments)
-    Logger.debug('AbstractInput::didRender() called in ' + this.toString())
+    Logger.debug('AbstractInput::didRender() called')
   },
 
   // == Actions ================================================================

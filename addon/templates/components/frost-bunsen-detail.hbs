@@ -19,7 +19,6 @@
               bunsenModel=renderModel
               bunsenView=renderView
               cellConfig=tab.cell
-              changeSet=changeSet
               errors=renderErrors
               formDisabled=disabled
               formHook=hook
@@ -28,7 +27,9 @@
               registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
               renderers=renderers
               showAllErrors=showAllErrors
+              unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
               value=renderValue
+              valueChangeSet=valueChangeSet
             }}
           {{/frost-tab}}
         {{/each}}
@@ -39,7 +40,6 @@
           bunsenModel=renderModel
           bunsenView=renderView
           cellConfig=cell
-          changeSet=changeSet
           errors=renderErrors
           formDisabled=disabled
           formHook=hook
@@ -48,7 +48,9 @@
           registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
           renderers=renderers
           showAllErrors=showAllErrors
+          unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
           value=renderValue
+          valueChangeSet=valueChangeSet
         }}
       {{/each}}
     {{/if}}

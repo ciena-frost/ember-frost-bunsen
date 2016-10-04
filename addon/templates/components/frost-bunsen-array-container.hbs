@@ -19,7 +19,6 @@
             bunsenModel=bunsenModel
             bunsenView=bunsenView
             cellConfig=cellConfig
-            changeSet=changeSet
             errors=errors
             formDisabled=formDisabled
             index=index
@@ -30,7 +29,9 @@
             renderers=renderers
             showAllErrors=showAllErrors
             sortable=true
+            unregisterForFormValueChanges=unregisterForFormValueChanges
             value=value
+            valueChangeSet=valueChangeSet
           }}
         {{/sortable-item}}
       {{/each}}
@@ -42,7 +43,6 @@
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=cellConfig
-        changeSet=changeSet
         errors=errors
         formDisabled=formDisabled
         index=index
@@ -53,7 +53,9 @@
         renderers=renderers
         showAllErrors=showAllErrors
         sortable=false
+        unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
+        valueChangeSet=valueChangeSet
       }}
     {{/each}}
   {{/if}}
@@ -69,7 +71,7 @@
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=cellConfig
-        changeSet=changeSet
+        valueChangeSet=valueChangeSet
         formDisabled=formDisabled
         index=index
         onRemove=(action "onRemoveItem")
@@ -95,7 +97,6 @@
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=cellConfig
-        changeSet=changeSet
         errors=errors
         formDisabled=formDisabled
         index=index
@@ -104,7 +105,9 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
+        unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
+        valueChangeSet=valueChangeSet
       }}
     {{/each}}
   </div>

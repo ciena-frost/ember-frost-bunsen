@@ -2,30 +2,26 @@ import _ from 'lodash'
 
 /**
  * Determines if aId or bId is a common ancestor of each other
- * @param {String} aId - path id
- * @param {String} bId - path id
+ * @param {String} dependencyId - precomputed path id
+ * @param {String} bunsenId - bunsen id
  * @returns {Boolean} whether aId or bId is a common ancestor
  */
-export function isCommonAncestor (aId, bId) {
-  if (aId === undefined || bId === undefined) {
+export function isCommonAncestor (dependencyId, bunsenId) {
+  if (dependencyId === undefined || bunsenId === undefined) {
     return false
   }
 
   // replace array indexes with []
-  aId = convertBunsenId(aId)
-  bId = convertBunsenId(bId)
+  if (!bunsenId.startsWith('root')) {
+    bunsenId = convertBunsenId(bunsenId)
+  }
 
-  if (aId === bId) {
+  if (dependencyId === bunsenId) {
     return true
   }
 
-  // empty string is the root id
-  if (aId === '') {
-    return true
-  }
-
-  let aPath = aId.split('.')
-  let bPath = bId.split('.')
+  let aPath = dependencyId.split('.')
+  let bPath = bunsenId.split('.')
 
   // swap paths if aId is longer than bId
   // NOTE: This is vital for verifying if a value change occurred at the ancestry or descendent level.
@@ -57,18 +53,18 @@ export function findCommonAncestor (ids) {
     return undefined
   }
 
-  // matches array indexes to []
-  let paths = ids.map((bunsenId) => {
-    bunsenId = convertBunsenId(bunsenId)
-    return bunsenId.split('.')
-  })
-
   let minLength = Infinity
-  paths.forEach((path) => {
+  let paths = []
+  for (let i = 0; i < ids.length; ++i) {
+    const pathId = ids[i]
+
+    const path = pathId.split('.')
     if (path.length < minLength) {
       minLength = path.length
     }
-  })
+
+    paths.push(path)
+  }
 
   let commonAncestorPath = []
   for (let i = 0; i < minLength; ++i) {
@@ -93,8 +89,7 @@ export function findCommonAncestor (ids) {
  * @returns {String} the converted bunsenId
  */
 export function convertBunsenId (bunsenId) {
-  // matches 0.foo and foo.0
-  return bunsenId.replace(/\.\d+/g, '.[]').replace(/\d+\./g, '[].')
+  return `root.${bunsenId}`.replace(/\.\d+/g, '.[]')
 }
 
 /**

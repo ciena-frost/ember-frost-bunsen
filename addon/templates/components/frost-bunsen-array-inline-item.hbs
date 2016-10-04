@@ -19,7 +19,6 @@
       bunsenModel=bunsenModel.items
       bunsenView=bunsenView
       cellConfig=cellConfig
-      changeSet=changeSet
       formDisabled=formDisabled
       label=label
       onChange=onChange
@@ -27,6 +26,7 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
+      unregisterForFormValueChanges=unregisterForFormValueChanges
       value=value
     }}
   {{else if (eq bunsenModel.items.type "array")}}
@@ -35,7 +35,6 @@
       bunsenModel=bunsenModel.items
       bunsenView=bunsenView
       cellConfig=cellConfig
-      changeSet=changeSet
       errors=errors
       formDisabled=formDisabled
       label=label
@@ -44,7 +43,9 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
+      unregisterForFormValueChanges=unregisterForFormValueChanges
       value=value
+      valueChangeSet=valueChangeSet
     }}
   {{else if (eq bunsenModel.items.type "object")}}
     {{frost-bunsen-cell
@@ -52,7 +53,6 @@
       bunsenModel=bunsenModel.items
       bunsenView=bunsenView
       cellConfig=itemCell
-      changeSet=changeSet
       errors=errors
       formDisabled=formDisabled
       label=label
@@ -61,7 +61,9 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
+      unregisterForFormValueChanges=unregisterForFormValueChanges
       value=value
+      valueChangeSet=valueChangeSet
     }}
   {{else}}
     {{frost-bunsen-input-wrapper
@@ -69,7 +71,6 @@
       bunsenModel=bunsenModel.items
       bunsenView=bunsenView
       cellConfig=itemCell
-      changeSet=changeSet
       errorMessage=errorMessage
       formDisabled=formDisabled
       label=label
@@ -78,6 +79,7 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
+      unregisterForFormValueChanges=unregisterForFormValueChanges
       value=renderValue
     }}
   {{/if}}

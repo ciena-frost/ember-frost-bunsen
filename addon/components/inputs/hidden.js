@@ -31,7 +31,7 @@ export default AbstractInput.extend({
       // set local currentValue cache to compare on the next run and prevent further onChange events
       // from being called
       this.set('currentValue', value)
-      run.schedule('sync', () => {
+      run.schedule('afterRender', () => {
         this.onChange(this.get('bunsenId'), value)
       })
     }
@@ -42,5 +42,9 @@ export default AbstractInput.extend({
   init () {
     this._super(...arguments)
     this.registerForFormValueChanges(this)
+  },
+
+  willDestroyElement () {
+    this.unregisterForFormValueChanges(this)
   }
 })

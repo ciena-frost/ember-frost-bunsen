@@ -6,7 +6,7 @@ import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 import reducer from 'bunsen-core/reducer'
-import {validate, changeModel} from 'bunsen-core/actions'
+import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
@@ -195,17 +195,16 @@ export default Component.extend(PropTypeMixin, {
    * Precompute all model references from the view schema using the references `model` and `dependsOn`
    * @param {Object} cellConfig - the cellConfig to precompute
    * @param {String} [baseBunsenId] - the parent model path
-   * @param {String} [baseCellId] - the parent cell path
    * Note: Only object types can be precomputed. The array items are more dynamic and we'll denote
    * them with [] in the bunsenIds. That means all array items under the path `model.path.[]` share
    * the same bunsenId.
    */
-  precomputeIds (cellConfig, baseBunsenId = '', baseCellId = '') {
+  precomputeIds (cellConfig, baseBunsenId = 'root') {
     let bunsenId = baseBunsenId
 
     // support relative model references
     if (cellConfig.model) {
-      bunsenId = baseBunsenId ? `${baseBunsenId}.${cellConfig.model}` : cellConfig.model
+      bunsenId = `${baseBunsenId}.${cellConfig.model}`
 
       if (cellConfig.dependsOn) {
         addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(cellConfig.model, cellConfig.dependsOn))
@@ -218,13 +217,13 @@ export default Component.extend(PropTypeMixin, {
     } else if (cellConfig.children) {
       // recursive case for objects
       cellConfig.children.forEach((child) => {
-        this.precomputeIds(child, bunsenId, cellConfig.id)
+        this.precomputeIds(child, bunsenId)
       })
     }
 
     // recursive case for arrays
     if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
-      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`, cellConfig.id)
+      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`)
     }
   },
 
@@ -277,11 +276,11 @@ export default Component.extend(PropTypeMixin, {
     const onChange = this.get('onChange')
     const onValidation = this.get('onValidation')
     const state = this.get('reduxStore').getState()
-    const {errors, validationResult, value, changeSet} = state
-    const hasChanges = changeSet.size > 0
+    const {errors, validationResult, value, valueChangeSet, lastAction} = state
+    const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
     const newProps = {}
 
-    if (!_.isEqual(this.get('errors'), errors)) {
+    if (!_.isEqual(errors, this.get('errors'))) {
       newProps.errors = errors
     }
 
@@ -289,26 +288,24 @@ export default Component.extend(PropTypeMixin, {
       newProps.reduxModel = state.model
     }
 
-    if (hasChanges) {
+    // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
+    // not be wired up to change renderValue
+    if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
-      newProps.changeSet = changeSet
+      newProps.valueChangeSet = valueChangeSet
 
       this.get('registeredComponents').forEach((component) => {
         component.formValueChanged(value)
       })
     }
 
-    if (Object.keys(newProps).length === 0) {
-      return
-    }
-
     this.setProperties(newProps)
 
-    if (hasChanges && onChange) {
+    if (newProps.renderValue && onChange) {
       onChange(value)
     }
 
-    if (('errors' in newProps || hasChanges) && onValidation) {
+    if ((newProps.renderValue || newProps.errors) && onValidation) {
       onValidation(validationResult)
     }
   },
@@ -438,6 +435,19 @@ export default Component.extend(PropTypeMixin, {
     registerComponentForFormValueChanges (component) {
       component.formValueChanged(this.get('renderValue'))
       this.get('registeredComponents').push(component)
+    },
+
+    /**
+     * Unregister a component for formValue changes
+     * @param {Ember.Component} component - the component used to register
+     */
+    unregisterComponentForFormValueChanges (component) {
+      const registeredComponents = this.get('registeredComponents')
+      const index = registeredComponents.indexOf(component)
+
+      if (index !== 1) {
+        registeredComponents.splice(index, 1)
+      }
     }
   }
 })
