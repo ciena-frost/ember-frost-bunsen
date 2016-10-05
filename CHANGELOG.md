@@ -1,3 +1,8 @@
+# 9.5.0
+
+* Added change-set processing to the view cells so they only propagate the form value when it has child cells that need updating.
+
+
 # 9.4.0
 
 * **Added** clear button to facets.
