@@ -1,3 +1,9 @@
+# 9.5.1
+
+* Fixes the blueprints so it installs v0.9.1 of ember-bunsen-core
+
+
+
 # 9.5.0
 
 * Added change-set processing to the view cells so they only propagate the form value when it has child cells that need updating.
