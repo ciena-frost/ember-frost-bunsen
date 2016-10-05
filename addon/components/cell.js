@@ -343,7 +343,7 @@ export default Component.extend(PropTypeMixin, {
       if (bunsenId) {
         this.onChange(bunsenId, null)
       } else {
-        const cell = this.get('mergedConfig')
+        const cell = this.get('cellConfig')
         this._clearChildren(cell)
       }
     }

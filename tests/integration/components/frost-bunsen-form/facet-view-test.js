@@ -161,6 +161,7 @@ describeComponent(
         'informs consumer there are no warnings'
       )
         .to.equal(0)
+
     })
 
     describe('when user inputs value', function () {
