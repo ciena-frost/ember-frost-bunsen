@@ -24,16 +24,16 @@ export function removeIndex (path) {
   return /^\d+$/.test(last) ? parts.join('.') : path || ''
 }
 
+/**
+ * Iterates through each entry in a map
+ * @param {Iterator} iterator - map iterator
+ * @param {Function} iteratee - callback that is involed on every etry
+ */
 export function iterateMap (iterator, iteratee) {
-  var current
+  let current
   while (true) {
     current = iterator.next()
-
-    if (current.done) {
-      break
-    }
-
-    if (iteratee(current.value) === false) {
+    if (current.done || iteratee(current.value) === false) {
       break
     }
   }
@@ -77,22 +77,24 @@ export default Component.extend(PropTypeMixin, {
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     const valueChangeSet = this.get('valueChangeSet')
     const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
-    const cellConfig = this.get('cellConfig')
+    const newCellConfig = this.get('cellConfig')
 
     let isDirty = false
 
     if (valueChangeSet) {
       iterateMap(valueChangeSet.keys(), (bunsenId) => {
-        if (isCommonAncestor(cellConfig.__dependency__, bunsenId)) {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
           isDirty = true
           return false
         }
       })
     }
 
-    if (isDirty || !_.isEqual(oldCellConfig, cellConfig)) {
-      this.set('propagatedValue', this.get('value'))
-      this.set('propagatedValueChangeSet', this.get('valueChangeSet'))
+    if (isDirty || !_.isEqual(oldCellConfig, newCellConfig)) {
+      this.setProperties({
+        'propagatedValue': this.get('value'),
+        'propagatedValueChangeSet': this.get('valueChangeSet')
+      })
     }
   },
 
