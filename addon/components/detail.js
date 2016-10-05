@@ -6,11 +6,11 @@ import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 import reducer from 'bunsen-core/reducer'
-import {validate, changeModel} from 'bunsen-core/actions'
+import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf} = Ember
+const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -20,7 +20,8 @@ import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
-import {deemberify, validateRenderer} from '../utils'
+import {deemberify, validateRenderer, getMergedConfigRecursive} from '../utils'
+import {traverseCellBreadthFirst, findCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 
 function getAlias (cell) {
   if (cell.label) {
@@ -41,6 +42,19 @@ function isEmberObject (object) {
 }
 
 /**
+ * Adds an unenumerable property to an object
+ * @param {Object} object - object to add property to
+ * @param {String} propName - property name
+ * @param {Object|Number|String} value - property value
+ */
+function addMetaProperty (object, propName, value) {
+  Object.defineProperty(object, propName, {
+    enumerable: false,
+    value
+  })
+}
+
+/*
  * Convert v1 view to v2 view
  * @param {Object} bunsenView - v1 bunsen view
  * @returns {Object} v2 bunsen view
@@ -138,11 +152,27 @@ export default Component.extend(PropTypeMixin, {
     return _.cloneDeep(bunsenView)
   },
 
+  /**
+   * Precompute all model dependencies
+   * @param {Object[]} cells - the view cells
+   * @param {Object} cellDefinitions - the view cell definitions
+   * @returns {Object} cellConfigs with  precomputed model dependencies
+   */
   @readOnly
-  @computed('renderView')
-  cellTabs () {
-    const cells = this.get('renderView.cells')
+  @computed('renderView.cells', 'renderView.cellDefinitions')
+  precomputedCellConfig (cells, cellDefinitions) {
+    let cellConfigs = cells.map(cell => getMergedConfigRecursive(cell, cellDefinitions))
+    cellConfigs.forEach((cellConfig) => {
+      this.precomputeIds(cellConfig)
+      this.precomputeDependencies(cellConfig)
+    })
 
+    return cellConfigs
+  },
+
+  @readOnly
+  @computed('precomputedCellConfig')
+  cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return Ember.A([])
@@ -174,22 +204,128 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('propValidationResult')
   isInvalid (propValidationResult) {
-    return !_.isEmpty(propValidationResult.errors)
+    return propValidationResult && !_.isEmpty(propValidationResult.errors)
   },
 
   // == Functions ==============================================================
 
   /* eslint-disable complexity */
   /**
+   * Precompute all model references from the view schema using the references `model` and `dependsOn`
+   * @param {Object} cellConfig - the cellConfig to precompute
+   * @param {String} [baseBunsenId] - the parent model path
+   * Note: Only object types can be precomputed. The array items are more dynamic and we'll denote
+   * them with [] in the bunsenIds. That means all array items under the path `model.path.[]` share
+   * the same bunsenId.
+   */
+  precomputeIds (cellConfig, baseBunsenId = 'root') {
+    let bunsenId = baseBunsenId
+
+    // support relative model references
+    if (cellConfig.model) {
+      const nonIndexModel = cellConfig.model.replace(/\.\d+/g, '.[]')
+      bunsenId = `${baseBunsenId}.${nonIndexModel}`
+
+      if (cellConfig.dependsOn) {
+        const nonIndexDep = cellConfig.dependsOn.replace(/\.\d+/g, '.[]')
+        addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(nonIndexModel, nonIndexDep))
+      }
+    }
+
+    if (!cellConfig.children || cellConfig.children.length === 0) {
+      // only add bunsenIds to leaf nodes
+      addMetaProperty(cellConfig, '__bunsenId__', bunsenId)
+    } else if (cellConfig.children) {
+      // recursive case for objects
+      cellConfig.children.forEach((child) => {
+        this.precomputeIds(child, bunsenId)
+      })
+    }
+
+    // recursive case for arrays
+    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
+      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`)
+    }
+  },
+
+  /**
+   * Precomputes the model dependencies or every cell in the view schema
+   * @param {Object} cellConfig - the view schema cell
+   */
+  precomputeDependencies (cellConfig) {
+    // determine dependencies from the bottom up (agglomerative)
+    traverseCellBreadthFirst(cellConfig, (config) => {
+      let deps = []
+
+      // direct __bunsenId__ reference
+      if (config.__bunsenId__) {
+        deps.push(config.__bunsenId__)
+      }
+
+      // direct __dependsOn__ reference
+      if (config.__dependsOn__) {
+        deps.push(config.__dependsOn__)
+      }
+
+      // descendant object dependency reference
+      if (config.children) {
+        config.children.forEach((child) => {
+          if (child.__dependency__) {
+            deps.push(child.__dependency__)
+          }
+        })
+      }
+
+      // descendant array dependency references
+      if (config.arrayOptions && config.arrayOptions.itemCell) {
+        const itemCell = config.arrayOptions.itemCell
+
+        if (itemCell.__dependency__) {
+          deps.push(itemCell.__dependency__)
+        }
+      }
+
+      // determine the common dependency reference
+      addMetaProperty(config, '__dependency__', findCommonAncestor(deps))
+    })
+  },
+
+  /**
+   * Batches the changes in a change-set so multiple updates to a change-set
+   * don't override each other in a a single run loop
+   * @param {Map} changeSet - the changeSet to merge with the batched version
+   * @returns {Map} the newly updated batched change-sets
+   */
+  batchChanges (changeSet) {
+    let batchedChangeSet = this.get('batchedChangeSet')
+
+    if (!batchedChangeSet) {
+      batchedChangeSet = new Map()
+
+      this.set('batchedChangeSet', batchedChangeSet)
+    }
+
+    changeSet.forEach((value, key) => {
+      batchedChangeSet.set(key, value)
+    })
+
+    run.schedule('afterRender', () => {
+      this.set('batchedChangeSet', null)
+    })
+
+    return batchedChangeSet
+  },
+
+  /**
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
     const state = this.get('reduxStore').getState()
-    const {errors, validationResult, value} = state
-
+    const {errors, validationResult, value, valueChangeSet, lastAction} = state
+    const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
     const newProps = {}
 
-    if (!_.isEqual(this.get('errors'), errors)) {
+    if (!_.isEqual(errors, this.get('errors'))) {
       newProps.errors = errors
     }
 
@@ -197,16 +333,17 @@ export default Component.extend(PropTypeMixin, {
       newProps.reduxModel = state.model
     }
 
-    if (!_.isEqual(this.get('renderValue'), value)) {
+    // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
+    // not be wired up to change renderValue
+    if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
+      newProps.valueChangeSet = this.batchChanges(valueChangeSet)
 
       this.get('registeredComponents').forEach((component) => {
-        component.formValueChanged(value)
+        if (!component.isDestroyed) {
+          component.formValueChanged(value)
+        }
       })
-    }
-
-    if (Object.keys(newProps).length === 0) {
-      return
     }
 
     this.setProperties(newProps)
@@ -241,13 +378,12 @@ export default Component.extend(PropTypeMixin, {
 
   /**
    * Validate properties
+   * @param {Object} bunsenModel - a deemberified bunsenModel
    */
-  validateProps () {
-    const bunsenModel = this.get('bunsenModel')
-    const bunsenModelPojo = isEmberObject(bunsenModel) ? deemberify(bunsenModel) : bunsenModel
+  validateProps (bunsenModel) {
     const renderers = this.get('renderers')
 
-    let result = validateModel(bunsenModelPojo)
+    let result = validateModel(bunsenModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
@@ -261,6 +397,26 @@ export default Component.extend(PropTypeMixin, {
 
   /* eslint-disable complexity */
   /**
+   * Determines if the any of the schema attrs has changed
+   * @param {String} schemaName - the name of the schema attribute
+   * @param {Object} oldAttrs - the old attributes
+   * @param {Object} newAttrs - the new attributes
+   * @returns {Object} the old and new schemas
+   */
+  getSchema (schemaName, oldAttrs, newAttrs) {
+    const newSchema = _.get(newAttrs, `${schemaName}.value`)
+    const newSchemaPojo = isEmberObject(newSchema) ? deemberify(newSchema) : newSchema
+    const oldSchema = _.get(oldAttrs, `${schemaName}.value`)
+    const oldSchemaPojo = isEmberObject(oldSchema) ? deemberify(oldSchema) : oldSchema
+
+    return {
+      hasChanged: !_.isEqual(oldSchemaPojo, newSchemaPojo),
+      oldSchema: oldSchemaPojo,
+      newSchema: newSchemaPojo
+    }
+  },
+
+  /**
    * Keep value in sync with store and validate properties
    */
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -269,12 +425,14 @@ export default Component.extend(PropTypeMixin, {
     let dispatchValue
 
     const reduxStore = this.get('reduxStore')
+    const reduxStoreValue = reduxStore.getState().value
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
-    const reduxStoreValue = reduxStore.getState().value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
+    const {newSchema: newBunsenModel, hasChanged: hasModelChanged} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
+    const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -294,20 +452,16 @@ export default Component.extend(PropTypeMixin, {
         validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
     } else {
-      const newModel = _.get(newAttrs, 'bunsenModel.value')
-      const newModelPojo = isEmberObject(newModel) ? deemberify(newModel) : newModel
-      const oldModel = _.get(oldAttrs, 'bunsenModel.value')
-      const oldModelPojo = isEmberObject(oldModel) ? deemberify(oldModel) : oldModel
-      const modelChanged = !_.isEqual(oldModelPojo, newModelPojo)
-
-      if (modelChanged) {
+      if (hasModelChanged) {
         reduxStore.dispatch(
-          validate(null, value, newModelPojo, this.get('validators'), RSVP.all)
+          validate(null, value, newBunsenModel, this.get('validators'), RSVP.all)
         )
       }
     }
 
-    this.validateProps()
+    if (hasModelChanged || hasViewChanged) {
+      this.validateProps(newBunsenModel)
+    }
   },
   /* eslint-enable complexity */
 
@@ -346,8 +500,21 @@ export default Component.extend(PropTypeMixin, {
      * @param {Ember.Component} component - the component being registered
      */
     registerComponentForFormValueChanges (component) {
-      component.formValueChanged(this.get('renderValue'))
+      component.formValueChanged(this.get('renderValue') || {})
       this.get('registeredComponents').push(component)
+    },
+
+    /**
+     * Unregister a component for formValue changes
+     * @param {Ember.Component} component - the component used to register
+     */
+    unregisterComponentForFormValueChanges (component) {
+      const registeredComponents = this.get('registeredComponents')
+      const index = registeredComponents.indexOf(component)
+
+      if (index !== 1) {
+        registeredComponents.splice(index, 1)
+      }
     }
   }
 })

@@ -3,6 +3,7 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+import {initialize} from 'ember-hook'
 
 import selectors from 'dummy/tests/helpers/selectors'
 
@@ -13,6 +14,10 @@ describeComponent(
     integration: true
   },
   function () {
+    beforeEach(function () {
+      initialize()
+    })
+
     describe('without initial value', function () {
       let props, sandbox
 

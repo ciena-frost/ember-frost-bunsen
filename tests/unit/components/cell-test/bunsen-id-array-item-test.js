@@ -3,6 +3,7 @@ import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
+import {addChangeSet} from './changeset-helper'
 
 describeComponent(...unitTest('frost-bunsen-cell'), function () {
   describe('when array item with bunsenId', function () {
@@ -89,12 +90,18 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
 
     describe('when value is present', function () {
       beforeEach(function () {
-        component.set('value', {
-          foo: {
-            bar: [
-              {baz: 'spam'}
-            ]
+        component.setProperties({
+          value: {
+            foo: {
+              bar: [
+                {baz: 'spam'}
+              ]
+            }
           }
+        })
+        addChangeSet(component)
+        component.didReceiveAttrs({
+          oldAttrs: {}
         })
       })
 

@@ -5,6 +5,7 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
+import {initialize} from 'ember-hook'
 
 describeComponent(
   'frost-bunsen-form',
@@ -16,6 +17,7 @@ describeComponent(
     let props, sandbox
 
     beforeEach(function () {
+      initialize()
       sandbox = sinon.sandbox.create()
 
       props = {

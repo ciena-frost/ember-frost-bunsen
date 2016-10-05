@@ -3,6 +3,7 @@ import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
+import {addChangeSet} from './changeset-helper'
 
 describeComponent(...unitTest('frost-bunsen-cell'), function () {
   describe('when bunsenId and nested config model', function () {
@@ -98,6 +99,10 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
               baz: 'spam'
             }
           }
+        })
+        addChangeSet(component)
+        component.didReceiveAttrs({
+          oldAttrs: {}
         })
       })
 

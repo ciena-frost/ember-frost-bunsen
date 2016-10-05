@@ -1,7 +1,9 @@
+import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-property-chooser'
+const {run} = Ember
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -42,7 +44,7 @@ export default AbstractInput.extend({
      * Handle user updating selected item
      * @param {Array<String>} selected - selected values
      */
-    onChange (selected) {
+    handleChange (selected) {
       if (selected.length === 0) {
         return
       }
@@ -57,7 +59,12 @@ export default AbstractInput.extend({
       }
 
       if (newValue) {
-        onChange(`${bunsenId}.${newValue}`, 'selected')
+        // this is required because calling onChange twice will batch the property change
+        // so the oldValue never gets set and it never notifies to renderers dependent on this
+        // change to update
+        run.schedule('afterRender', () => {
+          onChange(`${bunsenId}.${newValue}`, 'selected')
+        })
       }
     }
   }

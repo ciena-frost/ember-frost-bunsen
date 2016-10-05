@@ -10,13 +10,16 @@ export default AbstractInput.extend({
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   formValueChanged (newFormValue) {
     if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
     }
 
     let value
-    const currentValue = this.get('value')
+    // using currentValue cache since using this.get('value') takes 2 additional
+    // cycles to update
+    const currentValue = this.get('currentValue') || this.get('value')
     const valueRef = this.get('cellConfig.renderer.valueRef')
 
     if (valueRef) {
@@ -26,18 +29,24 @@ export default AbstractInput.extend({
     }
 
     if (this.onChange && !_.isEqual(value, currentValue)) {
-      // NOTE: we must use Ember.run.later to prevent multiple updates during a render cycle
-      // which throws deprecation warnings in the console for performance reasons.
-      run.later(() => {
+      // set local currentValue cache to compare on the next run and prevent further onChange events
+      // from being called
+      this.set('currentValue', value)
+      run.schedule('afterRender', () => {
         this.onChange(this.get('bunsenId'), value)
       })
     }
   },
+  /* eslint-enable complexity */
 
   // == Events ================================================================
 
   init () {
     this._super(...arguments)
     this.registerForFormValueChanges(this)
+  },
+
+  willDestroyElement () {
+    this.unregisterForFormValueChanges(this)
   }
 })

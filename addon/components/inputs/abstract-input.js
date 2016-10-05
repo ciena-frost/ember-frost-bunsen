@@ -32,6 +32,7 @@ export default Component.extend(PropTypeMixin, {
     registerForFormValueChanges: PropTypes.func,
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.bool,
@@ -50,21 +51,10 @@ export default Component.extend(PropTypeMixin, {
   },
 
   // == Computed Properties ====================================================
-
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
     return formDisabled || _.get(cellConfig, 'disabled')
-  },
-
-  @readOnly
-  @computed('errorMessage', 'showErrorMessage', 'showAllErrors')
-  renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
-    if (!showAllErrors && !showErrorMessage) {
-      return null
-    }
-
-    return errorMessage
   },
 
   @readOnly
@@ -76,6 +66,16 @@ export default Component.extend(PropTypeMixin, {
    */
   valueClassName (errorMessage) {
     return errorMessage ? 'error' : ''
+  },
+
+  @readOnly
+  @computed('errorMessage', 'showErrorMessage', 'showAllErrors')
+  renderErrorMessage (errorMessage, showErrorMessage, showAllErrors) {
+    if (!showAllErrors && !showErrorMessage) {
+      return null
+    }
+
+    return errorMessage
   },
 
   @readOnly

@@ -4,7 +4,8 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
-import {getMergedConfig, isRequired} from 'ember-frost-bunsen/utils'
+import {isRequired} from 'ember-frost-bunsen/utils'
+import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 
 import {
   getSubModel,
@@ -21,6 +22,21 @@ export function removeIndex (path) {
   const parts = (path || '').split('.')
   const last = parts.length !== 0 ? parts.pop() : ''
   return /^\d+$/.test(last) ? parts.join('.') : path || ''
+}
+
+/**
+ * Iterates through each entry in a map
+ * @param {Iterator} iterator - map iterator
+ * @param {Function} iteratee - callback that is involed on every etry
+ */
+export function iterateMap (iterator, iteratee) {
+  let current
+  while (true) {
+    current = iterator.next()
+    if (current.done || iteratee(current.value) === false) {
+      break
+    }
+  }
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -52,26 +68,47 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      readOnly: false
+      readOnly: false,
+      propagatedValue: {},
+      propagatedValueChangeSet: null
+    }
+  },
+
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
+    const valueChangeSet = this.get('valueChangeSet')
+    const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
+    const newCellConfig = this.get('cellConfig')
+
+    let isDirty = false
+
+    if (valueChangeSet) {
+      iterateMap(valueChangeSet.keys(), (bunsenId) => {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
+          isDirty = true
+          return false
+        }
+      })
+    }
+
+    if (isDirty || !_.isEqual(oldCellConfig, newCellConfig)) {
+      this.setProperties({
+        'propagatedValue': this.get('value'),
+        'propagatedValueChangeSet': this.get('valueChangeSet')
+      })
     }
   },
 
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig', 'bunsenView.cellDefinitions')
-  /**
-   * Get definition for current cell
-   * @param {BunsenCell} cellConfig - current cell
-   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
-   * @returns {BunsenCell} current cell definition
-   */
-  mergedConfig (cellConfig, cellDefinitions) {
-    return getMergedConfig(cellConfig, cellDefinitions)
+  @computed('propagatedValue')
+  renderValue (value) {
+    const bunsenId = this.get('renderId')
+    return _.get(value, bunsenId)
   },
 
   @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'mergedConfig')
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig')
   /**
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
@@ -91,7 +128,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} cell's class name
    */
   computedClassName (classNames) {
-    const viewDefinedClass = this.get('mergedConfig.classNames.cell')
+    const viewDefinedClass = this.get('cellConfig.classNames.cell')
     const classes = classNames.toString().split(' ')
 
     classes.push('frost-bunsen-cell')
@@ -117,14 +154,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('value')
-  renderValue (value) {
-    const bunsenId = this.get('renderId')
-    return _.get(value, bunsenId)
-  },
-
-  @readOnly
-  @computed('mergedConfig.{dependsOn,model}')
+  @computed('cellConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -144,7 +174,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
@@ -164,7 +194,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'mergedConfig.model')
+  @computed('bunsenId', 'cellConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
@@ -209,7 +239,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -221,7 +251,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -233,7 +263,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig', 'renderId', 'value')
+  @computed('cellConfig', 'renderId', 'propagatedValue')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
@@ -253,13 +283,13 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('mergedConfig')
+  @computed('cellConfig')
   clearable (mergedConfig) {
     return mergedConfig.clearable || false
   },
 
   @readOnly
-  @computed('isSubModelObject', 'mergedConfig')
+  @computed('isSubModelObject', 'cellConfig')
   showSection (isSubModelObject, mergedConfig) {
     // If sub model is object we end up running through another cell and thus if
     // this method were to return true we'd end up with duplicate headings.
@@ -313,7 +343,7 @@ export default Component.extend(PropTypeMixin, {
       if (bunsenId) {
         this.onChange(bunsenId, null)
       } else {
-        const cell = this.get('mergedConfig')
+        const cell = this.get('cellConfig')
         this._clearChildren(cell)
       }
     }

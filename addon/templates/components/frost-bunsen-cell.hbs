@@ -1,19 +1,19 @@
 {{#if showSection}}
   {{#frost-bunsen-section
     clearable=clearable
-    collapsible=mergedConfig.collapsible
-    description=mergedConfig.description
+    collapsible=cellConfig.collapsible
+    description=cellConfig.description
     onClear=(action 'clear')
     required=isRequired
-    title=mergedConfig.label
+    title=cellConfig.label
   }}
-    {{#if mergedConfig.model}}
+    {{#if cellConfig.model}}
       {{#if isSubModelObject}}
         {{frost-bunsen-cell
           bunsenId=renderId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
+          cellConfig=cellConfig
           errors=errors
           formDisabled=formDisabled
           formHook=formHook
@@ -23,7 +23,9 @@
           registerForFormValueChanges=registerForFormValueChanges
           renderers=renderers
           showAllErrors=showAllErrors
-          value=value
+          unregisterForFormValueChanges=unregisterForFormValueChanges
+          value=propagatedValue
+          valueChangeSet=propagatedValueChangeSet
         }}
       {{else if isSubModelArray}}
         {{#if isArrayItem}}
@@ -31,7 +33,7 @@
             bunsenId=nonIndexId
             bunsenModel=subModel
             bunsenView=bunsenView
-            cellConfig=mergedConfig
+            cellConfig=cellConfig
             errors=errors
             formDisabled=formDisabled
             formHook=formHook
@@ -44,14 +46,16 @@
             showAllErrors=showAllErrors
             showRemoveButton=false
             sortable=false
-            value=value
+            unregisterForFormValueChanges=unregisterForFormValueChanges
+            value=propagatedValue
+            valueChangeSet=propagatedValueChangeSet
           }}
         {{else}}
           {{frost-bunsen-array-container
             bunsenId=renderId
             bunsenModel=subModel
             bunsenView=bunsenView
-            cellConfig=mergedConfig
+            cellConfig=cellConfig
             errors=errors
             formDisabled=formDisabled
             formHook=formHook
@@ -62,7 +66,9 @@
             renderers=renderers
             required=required
             showAllErrors=showAllErrors
-            value=value
+            unregisterForFormValueChanges=unregisterForFormValueChanges
+            value=propagatedValue
+            valueChangeSet=propagatedValueChangeSet
           }}
         {{/if}}
       {{else}}
@@ -70,10 +76,11 @@
           bunsenId=renderId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
+          cellConfig=cellConfig
           errorMessage=errorMessage
           formDisabled=formDisabled
           formHook=formHook
+          isDependencyMet=isDependencyMet
           onChange=onChange
           onError=onError
           readOnly=readOnly
@@ -81,12 +88,12 @@
           renderers=renderers
           required=required
           showAllErrors=showAllErrors
-          isDependencyMet=isDependencyMet
+          unregisterForFormValueChanges=unregisterForFormValueChanges
           value=renderValue
         }}
       {{/if}}
     {{/if}}
-    {{#each mergedConfig.children as |child index|}}
+    {{#each cellConfig.children as |child index|}}
       {{frost-bunsen-cell
         bunsenId=bunsenId
         bunsenModel=bunsenModel
@@ -101,18 +108,20 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
-        value=value
+        unregisterForFormValueChanges=unregisterForFormValueChanges
+        value=propagatedValue
+        valueChangeSet=propagatedValueChangeSet
       }}
     {{/each}}
   {{/frost-bunsen-section}}
 {{else}}
-  {{#if mergedConfig.model}}
+  {{#if cellConfig.model}}
     {{#if isSubModelObject}}
       {{frost-bunsen-cell
         bunsenId=renderId
         bunsenModel=subModel
         bunsenView=bunsenView
-        cellConfig=mergedConfig
+        cellConfig=cellConfig
         errors=errors
         formDisabled=formDisabled
         formHook=formHook
@@ -122,7 +131,9 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
-        value=value
+        unregisterForFormValueChanges=unregisterForFormValueChanges
+        value=propagatedValue
+        valueChangeSet=propagatedValueChangeSet
       }}
     {{else if isSubModelArray}}
       {{#if isArrayItem}}
@@ -130,7 +141,7 @@
           bunsenId=nonIndexId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
+          cellConfig=cellConfig
           errors=errors
           formDisabled=formDisabled
           formHook=formHook
@@ -143,14 +154,16 @@
           showAllErrors=showAllErrors
           showRemoveButton=false
           sortable=false
-          value=value
+          unregisterForFormValueChanges=unregisterForFormValueChanges
+          value=propagatedValue
+          valueChangeSet=propagatedValueChangeSet
         }}
       {{else}}
         {{frost-bunsen-array-container
           bunsenId=renderId
           bunsenModel=subModel
           bunsenView=bunsenView
-          cellConfig=mergedConfig
+          cellConfig=cellConfig
           errors=errors
           formDisabled=formDisabled
           formHook=formHook
@@ -161,7 +174,9 @@
           renderers=renderers
           required=required
           showAllErrors=showAllErrors
-          value=value
+          unregisterForFormValueChanges=unregisterForFormValueChanges
+          value=propagatedValue
+          valueChangeSet=propagatedValueChangeSet
         }}
       {{/if}}
     {{else}}
@@ -169,10 +184,11 @@
         bunsenId=renderId
         bunsenModel=subModel
         bunsenView=bunsenView
-        cellConfig=mergedConfig
+        cellConfig=cellConfig
         errorMessage=errorMessage
         formDisabled=formDisabled
         formHook=formHook
+        isDependencyMet=isDependencyMet
         onChange=onChange
         onError=onError
         readOnly=readOnly
@@ -180,12 +196,13 @@
         renderers=renderers
         required=required
         showAllErrors=showAllErrors
-        isDependencyMet=isDependencyMet
+        unregisterForFormValueChanges=unregisterForFormValueChanges
         value=renderValue
+        valueChangeSet=propagatedValueChangeSet
       }}
     {{/if}}
   {{/if}}
-  {{#each mergedConfig.children as |child index|}}
+  {{#each cellConfig.children as |child index|}}
     {{frost-bunsen-cell
       bunsenId=bunsenId
       bunsenModel=bunsenModel
@@ -200,7 +217,9 @@
       registerForFormValueChanges=registerForFormValueChanges
       renderers=renderers
       showAllErrors=showAllErrors
-      value=value
+      unregisterForFormValueChanges=unregisterForFormValueChanges
+      value=propagatedValue
+      valueChangeSet=propagatedValueChangeSet
     }}
   {{/each}}
 {{/if}}

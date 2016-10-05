@@ -5,7 +5,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {deprecate, inject} = Ember
 import utils from 'bunsen-core/utils'
-import computed, {readOnly} from 'ember-computed-decorators'
+import computed from 'ember-computed-decorators'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
 import AbstractInput from './abstract-input'
@@ -30,7 +30,8 @@ export default AbstractInput.extend({
   getDefaultProps () {
     return {
       options: Ember.A([]),
-      initialized: false
+      optionsInitialized: false,
+      queryDisabled: false
     }
   },
 
@@ -38,19 +39,22 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
-  @readOnly
-  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'formValue')
-  disabled (bunsenId, cellConfig, bunsenModel, formDisabled, value) {
-    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel) {
+  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'queryDisabled')
+  disabled (bunsenId, cellConfig, bunsenModel, formDisabled, queryDisabled) {
+    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || queryDisabled) {
       return true
     }
 
-    const query = bunsenModel.query || _.get(cellConfig, 'renderer.options.query')
-
-    return !utils.hasValidQueryValues(value, query, bunsenId)
+    return false
   },
 
   // == Functions ==============================================================
+
+  isQueryDisabled (formValue) {
+    const bunsenId = this.get('bunsenId')
+    const modelDef = this._getModelDef()
+    return modelDef.query !== undefined && !utils.hasValidQueryValues(formValue, modelDef.query, bunsenId)
+  },
 
   _getModelDef () {
     const cellConfig = this.get('cellConfig')
@@ -72,32 +76,58 @@ export default AbstractInput.extend({
 
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
-
     this.set('formValue', newValue)
 
     if (!modelDef) {
       return
     }
 
-    if (this.hasQueryChanged(oldValue, newValue, modelDef.query)) {
+    const isQueryDisabled = this.isQueryDisabled(newValue)
+
+    if (this.get('queryDisabled') !== isQueryDisabled) {
+      this.set('queryDisabled', isQueryDisabled)
+    }
+
+    if (!isQueryDisabled && this.hasQueryChanged(oldValue, newValue, modelDef.query) || this.needsInitialOptions()) {
       // setting required variables once above condition is true
       const store = this.get('store')
       const bunsenId = this.get('bunsenId')
-      if (utils.hasValidQueryValues(newValue, modelDef.query, bunsenId)) {
-        listUtils.getOptions(newValue, modelDef, bunsenId, store)
-          .then((opts) => {
-            this.set('options', opts)
-          })
-          .catch((err) => {
-            this.onError(bunsenId, [{
-              path: bunsenId,
-              message: getErrorMessage(err)
-            }])
-          })
-      }
+      // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
+      this.set('optionsInitialized', true)
+      listUtils.getOptions(newValue, modelDef, bunsenId, store)
+        .then((opts) => {
+          this.set('options', opts)
+        })
+        .catch((err) => {
+          this.onError(bunsenId, [{
+            path: bunsenId,
+            message: getErrorMessage(err)
+          }])
+        })
     }
   },
-  /* eslint-enable complexity */
+
+  hasQueryParams (query) {
+    if (!query || _.isEmpty(query)) {
+      return false
+    }
+
+    const queryString = JSON.stringify(query)
+    const parts = queryString.split('${')
+
+    if (parts.length < 2) {
+      return false
+    }
+
+    return true
+  },
+
+  needsInitialOptions () {
+    const modelDef = this._getModelDef()
+    const optionsInitialized = this.get('optionsInitialized')
+    return !optionsInitialized &&
+      (('enum' in modelDef) || !this.hasQueryParams(modelDef.query))
+  },
 
   /* eslint-disable complexity */
   /**
@@ -108,31 +138,13 @@ export default AbstractInput.extend({
    * @returns {Boolean} true if query has been changed
    */
   hasQueryChanged (oldValue, newValue, query) {
-    // allow models that don't have query defined to pass as well as
-    // allow the options to get initially populated
-    if (!query || !this.get('initialized')) {
-      return true
-    }
-
-    var queryHasProperty = false
-
-    for (var prop in query) {
-      if (prop) {
-        queryHasProperty = true
-      }
-    }
-
-    if (!queryHasProperty || !this.get('initialized')) {
+    if (!this.hasQueryParams(query)) {
       return false
     }
 
     const bunsenId = this.get('bunsenId')
     const queryString = JSON.stringify(query)
     const parts = queryString.split('${')
-
-    if (parts.length < 2) {
-      return false
-    }
 
     const valueVariable = parts[1].split('}')[0]
 
@@ -156,12 +168,14 @@ export default AbstractInput.extend({
       } catch (e) {
         newQuery = {}
       }
-             // returns false when every top level key/value pair are equal
+      // returns false when every top level key/value pair are equal
       return !Object.keys(query)
         .every((key) => {
           return newQuery[key] === oldQuery[key]
         })
     }
+
+    return false
   },
   /* eslint-enable complexity */
 
@@ -208,9 +222,12 @@ export default AbstractInput.extend({
     this.registerForFormValueChanges(this)
   },
 
+  willDestroyElement () {
+    this.unregisterForFormValueChanges(this)
+  },
+
   didReceiveAttrs ({oldAttrs, newAttrs}) {
     this._super(...arguments)
-    this.set('initialized', true)
   },
 
   // == Actions ================================================================

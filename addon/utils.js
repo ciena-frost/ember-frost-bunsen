@@ -123,6 +123,32 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
   return mergedConfig
 }
 
+/**
+ * Merges the cellConfig recursively
+ * @param {BunsenCell} cellConfig - top-level cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} merged cell definition
+ */
+export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
+  const mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
+
+  // recursive object case
+  if (mergedConfig.children) {
+    const mergedChildConfigs = []
+    mergedConfig.children.forEach((childConfig) => {
+      mergedChildConfigs.push(getMergedConfigRecursive(childConfig, cellDefinitions))
+    })
+    mergedConfig.children = mergedChildConfigs
+  }
+
+  // recursive array case
+  if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
+    mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+  }
+
+  return mergedConfig
+}
+
 export function getRendererComponentName (rendererName) {
   return builtInRenderers[rendererName] || rendererName
 }

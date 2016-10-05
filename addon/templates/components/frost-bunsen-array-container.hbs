@@ -30,7 +30,9 @@
             renderers=renderers
             showAllErrors=showAllErrors
             sortable=true
+            unregisterForFormValueChanges=unregisterForFormValueChanges
             value=value
+            valueChangeSet=valueChangeSet
           }}
         {{/sortable-item}}
       {{/each}}
@@ -52,7 +54,9 @@
         renderers=renderers
         showAllErrors=showAllErrors
         sortable=false
+        unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
+        valueChangeSet=valueChangeSet
       }}
     {{/each}}
   {{/if}}
@@ -73,6 +77,7 @@
         onRemove=(action 'removeItem')
         renderers=renderers
         showAllErrors=showAllErrors
+        valueChangeSet=valueChangeSet
       }}
     {{/each}}
     <li role='presentation'>
@@ -101,7 +106,9 @@
         registerForFormValueChanges=registerForFormValueChanges
         renderers=renderers
         showAllErrors=showAllErrors
+        unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
+        valueChangeSet=valueChangeSet
       }}
     {{/each}}
   </div>

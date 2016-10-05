@@ -28,13 +28,15 @@
               registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
               renderers=renderers
               showAllErrors=showAllErrors
+              unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
               value=renderValue
+              valueChangeSet=valueChangeSet
             }}
           {{/frost-tab}}
         {{/each}}
       {{/frost-tabs}}
     {{else}}
-      {{#each renderView.cells as |cell|}}
+      {{#each precomputedCellConfig as |cell|}}
         {{frost-bunsen-cell
           bunsenModel=renderModel
           bunsenView=renderView
@@ -48,7 +50,9 @@
           registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
           renderers=renderers
           showAllErrors=showAllErrors
+          unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
           value=renderValue
+          valueChangeSet=valueChangeSet
         }}
       {{/each}}
     {{/if}}

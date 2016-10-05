@@ -2,13 +2,17 @@ import _ from 'lodash'
 import Ember from 'ember'
 import {expect} from 'chai'
 import {it} from 'mocha'
+import {initialize} from 'ember-hook'
 
 export function integrationTestContext (name) {
   return [
     name,
     `Integration: ${Ember.String.classify(name)}Component`,
     {
-      integration: true
+      integration: true,
+      beforeSetup () {
+        initialize()
+      }
     }
   ]
 }
