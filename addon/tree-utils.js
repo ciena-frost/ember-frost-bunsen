@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+/* eslint-disable complexity */
 /**
  * Determines if aId or bId is a common ancestor of each other
  * @param {String} dependencyId - precomputed path id
@@ -82,6 +83,7 @@ export function findCommonAncestor (ids) {
 
   return commonAncestorPath.join('.')
 }
+/* eslint-enable complexity */
 
 /**
  * Convert bunsenIds to usable ids against the precomputed values.

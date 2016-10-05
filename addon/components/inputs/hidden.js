@@ -10,6 +10,7 @@ export default AbstractInput.extend({
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   formValueChanged (newFormValue) {
     if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
@@ -36,6 +37,7 @@ export default AbstractInput.extend({
       })
     }
   },
+  /* eslint-enable complexity */
 
   // == Events ================================================================
 
