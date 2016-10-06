@@ -79,9 +79,18 @@ export function generateFacetCell (facet) {
     cell.renderer = facet.renderer
   }
 
+  const renderersToHideClearButtonFor = [
+    'multi-select'
+  ]
+
+  const clearable = (
+    !facet.renderer ||
+    renderersToHideClearButtonFor.indexOf(facet.renderer.name) === -1
+  )
+
   return {
     children: [cell],
-    clearable: true,
+    clearable,
     collapsible: true,
     label: facet.label || generateLabelFromModel(facet.model)
   }
