@@ -1,12 +1,13 @@
 import 'bunsen-core/typedefs'
 
+import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
+import normalizeView from 'bunsen-core/conversion/normalize-view'
+import reducer from 'bunsen-core/reducer'
 import redux from 'npm:redux'
 const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-import reducer from 'bunsen-core/reducer'
-import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
 
 import _ from 'lodash'
 import Ember from 'ember'
@@ -142,14 +143,14 @@ export default Component.extend(PropTypeMixin, {
     }
 
     if (bunsenView.version === '1.0') {
-      return v2View(bunsenView)
+      bunsenView = v2View(bunsenView)
+    } else if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
+      bunsenView = v2View(deemberify(bunsenView))
+    } else {
+      bunsenView = _.cloneDeep(bunsenView)
     }
 
-    if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      return v2View(deemberify(bunsenView))
-    }
-
-    return _.cloneDeep(bunsenView)
+    return normalizeView(bunsenView)
   },
 
   /**

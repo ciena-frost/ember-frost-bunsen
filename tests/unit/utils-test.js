@@ -38,7 +38,7 @@ describe('bunsen-utils', function () {
                 }
               }
             ],
-            clearable: true,
+            clearable: false,
             collapsible: true,
             label: 'Bar'
           })
@@ -57,7 +57,7 @@ describe('bunsen-utils', function () {
                 }
               }
             ],
-            clearable: true,
+            clearable: false,
             collapsible: true,
             label: 'Foo'
           })
@@ -117,7 +117,10 @@ describe('bunsen-utils', function () {
           model: 'bar'
         },
         {
-          model: 'foo.bar.baz'
+          model: 'foo.bar.baz',
+          renderer: {
+            name: 'multi-select'
+          }
         }
       ]
     })
@@ -151,10 +154,13 @@ describe('bunsen-utils', function () {
               {
                 children: [
                   {
-                    model: 'foo.bar.baz'
+                    model: 'foo.bar.baz',
+                    renderer: {
+                      name: 'multi-select'
+                    }
                   }
                 ],
-                clearable: true,
+                clearable: false,
                 collapsible: true,
                 label: 'Baz'
               }
