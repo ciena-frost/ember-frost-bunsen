@@ -1,3 +1,10 @@
+# 9.5.2
+
+* **Added** support for array index references in bunsen views for model property.
+* **Removed** clear button from multi-select facets.
+
+
+
 # 9.5.1
 
 * Fixes the blueprints so it installs v0.9.1 of ember-bunsen-core
