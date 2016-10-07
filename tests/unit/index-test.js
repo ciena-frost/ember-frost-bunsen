@@ -25,6 +25,7 @@ import {default as ArrayTabNav} from 'ember-frost-bunsen/components/array-tab-na
 import {default as BooleanInput} from 'ember-frost-bunsen/components/inputs/boolean'
 import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/inputs/button-group'
 import {default as Cell} from 'ember-frost-bunsen/components/cell'
+import {default as CheckboxArrayInput} from 'ember-frost-bunsen/components/inputs/checkbox-array'
 import {default as Detail} from 'ember-frost-bunsen/components/detail'
 import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
@@ -73,6 +74,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('imports Cell', function () {
     expect(Cell).to.equal(_Cell)
+  })
+
+  it('imports CheckboxArrayInput', function () {
+    expect(CheckboxArrayInput).to.equal(Inputs.CheckboxArray)
   })
 
   it('exports Detail', function () {

@@ -1,5 +1,6 @@
 import boolean from './boolean'
 import buttonGroup from './button-group'
+import checkboxArray from './checkbox-array'
 import link from './link'
 import multiSelect from './multi-select'
 import number from './number'
@@ -13,6 +14,7 @@ import url from './url'
 export default {
   boolean,
   'button-group': buttonGroup,
+  'checkbox-array': checkboxArray,
   link,
   'multi-select': multiSelect,
   number,

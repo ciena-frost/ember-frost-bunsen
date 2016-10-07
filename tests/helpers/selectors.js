@@ -12,6 +12,7 @@ export default {
     renderer: {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',
+      checkboxArray: '.frost-bunsen-input-checkbox-array',
       multiSelect: '.frost-bunsen-input-multi-select',
       number: '.frost-bunsen-input-number',
       password: '.frost-bunsen-input-password',

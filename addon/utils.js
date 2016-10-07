@@ -15,6 +15,7 @@ const assign = Ember.assign || Object.assign || Ember.merge
 export const builtInRenderers = {
   boolean: 'frost-bunsen-input-boolean',
   'button-group': 'frost-bunsen-input-button-group',
+  'checkbox-array': 'frost-bunsen-input-checkbox-array',
   hidden: 'frost-bunsen-input-hidden',
   integer: 'frost-bunsen-input-number',
   link: 'frost-bunsen-input-link',
