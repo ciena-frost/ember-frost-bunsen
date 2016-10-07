@@ -1,3 +1,8 @@
+# 9.5.3
+
+* **Fixed** issues with required label showing up on cells under scenarios where it shouldn't.
+
+
 # 9.5.2
 
 * **Added** support for array index references in bunsen views for model property.
