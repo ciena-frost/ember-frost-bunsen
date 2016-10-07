@@ -163,6 +163,36 @@ export function getRendererComponentName (rendererName) {
 }
 
 /**
+ * Determine if an input is required to submit form
+ * @param {String} path - path to property in bunsen model
+ * @param {BunsemModel} bunsenModel - bunsen model
+ * @param {Object} value - form value
+ * @returns {Boolean} whether or not last path is required
+ */
+export function isChildRequiredToSubmitForm (path, bunsenModel, value) {
+  const relativePaths = []
+  const segments = path.split('.')
+
+  while (segments.length !== 0) {
+    relativePaths.push(segments.join('.'))
+    segments.pop()
+  }
+
+  // If property and all ancestors are required then child is required to submit form
+  if (relativePaths.every((relativePath) => isLastSegmentRequired(relativePath, bunsenModel))) {
+    return true
+  }
+
+  const childIsRequiredByParent = isLastSegmentRequired(path, bunsenModel)
+  const parentPathSegments = path.split('.')
+  parentPathSegments.pop()
+  const parentPath = parentPathSegments.join('.')
+  const isParentPresent = Boolean(value && _.get(value, parentPath))
+
+  return childIsRequiredByParent && isParentPresent
+}
+
+/**
  * Determine if last segment of a bunsen model path is required
  * @param {String} path - path to property in bunsen model
  * @param {BunsemModel} bunsenModel - bunsen model
@@ -178,7 +208,7 @@ export function isLastSegmentRequired (path, bunsenModel) {
   }
 
   // Determine if last segment is marked as required by it's parent in the bunsen model
-  return bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1
+  return Boolean(bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1)
 }
 
 /**
@@ -186,14 +216,15 @@ export function isLastSegmentRequired (path, bunsenModel) {
  * @param {BunsenCell} cell - bunsen view cell
  * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
  * @param {BunsenModel} bunsenModel - bunsen model
+ * @param {Object} value - form value
  * @returns {Boolean} whether or not cell contains required inputs
  */
-export function isRequired (cell, cellDefinitions, bunsenModel) {
+export function isRequired (cell, cellDefinitions, bunsenModel, value) {
   cell = getMergedConfig(cell, cellDefinitions)
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
-    return isLastSegmentRequired(cell.model, bunsenModel)
+    return isChildRequiredToSubmitForm(cell.model, bunsenModel, value)
   }
 
   // If the cell has a model defined, that model is applied to all children cells and thus we need to get
@@ -209,7 +240,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel) {
 
   // If any child view cell is required then the parent cell should be labeled as required in the UI
   return cell.children
-    .some((child) => isRequired(child, cellDefinitions, bunsenModel))
+    .some((child) => isRequired(child, cellDefinitions, bunsenModel, value))
 }
 
 export function validateRenderer (owner, rendererName) {

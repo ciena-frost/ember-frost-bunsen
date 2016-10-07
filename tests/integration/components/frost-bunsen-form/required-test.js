@@ -46,7 +46,8 @@ describeComponent(
           version: '2.0'
         },
         onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        onValidation: sandbox.spy(),
+        value: undefined
       }
 
       this.setProperties(props)
@@ -56,6 +57,7 @@ describeComponent(
         bunsenView=bunsenView
         onChange=onChange
         onValidation=onValidation
+        value=value
       }}`)
     })
 
@@ -238,7 +240,7 @@ describeComponent(
           props.onValidation.callCount,
           'informs consumer of validation results'
         )
-          .to.equal(1)
+          .to.equal(2)
 
         const validationResult = props.onValidation.lastCall.args[0]
 
@@ -246,7 +248,7 @@ describeComponent(
           validationResult.errors.length,
           'informs consumer there are no errors'
         )
-          .to.equal(0)
+          .to.equal(1)
 
         expect(
           validationResult.warnings.length,
@@ -372,91 +374,185 @@ describeComponent(
               type: 'object'
             }
           },
-          required: ['foo'],
           type: 'object'
         })
       })
 
-      it('renders as expected', function () {
-        const $headings = this.$(selectors.bunsen.section.heading)
+      describe('when childs parent is present', function () {
+        beforeEach(function () {
+          // NOTE: w/o baz here bunsen-core would strip the value out
+          this.set('value', {foo: {baz: 'test'}})
+        })
 
-        expect(
-          $headings,
-          'renders a cell heading'
-        )
-          .to.have.length(1)
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
 
-        const headingText = $headings
-          .clone().children().remove().end() // Remove required DOM to get just the heading
-          .text().trim()
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
 
-        expect(
-          headingText,
-          'renders expected heading text'
-        )
-          .to.equal('Foo')
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
 
-        expect(
-          this.$(selectors.bunsen.section.required),
-          'does not render required text in heading'
-        )
-          .to.have.length(0)
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Foo')
 
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'renders required text in heading'
+          )
+            .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
+          expect(
+            this.$(selectors.bunsen.renderer.text),
+            'renders a bunsen text input'
+          )
+            .to.have.length(1)
 
-        expect(
-          $input,
-          'renders an enabled text input'
-        )
-          .to.have.length(1)
+          const $input = this.$(selectors.frost.text.input.enabled)
 
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+          expect(
+            $input,
+            'renders an enabled text input'
+          )
+            .to.have.length(1)
 
-        const label = this.$(selectors.bunsen.label)
-          .clone().children().remove().end() // Remove required DOM to get just the heading
-          .text().trim()
+          expect(
+            $input.prop('placeholder'),
+            'does not have placeholder text'
+          )
+            .to.equal('')
 
-        expect(
-          label,
-          'renders expected label text'
-        )
-          .to.equal('Bar')
+          const label = this.$(selectors.bunsen.label)
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
 
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+          expect(
+            label,
+            'renders expected label text'
+          )
+            .to.equal('Bar')
 
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(2)
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(3)
 
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(1)
+          const validationResult = props.onValidation.lastCall.args[0]
 
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(1)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when childs parent is not present', function () {
+        beforeEach(function () {
+          this.set('value', {})
+        })
+
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
+
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
+
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Foo')
+
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'does not render required text in heading'
+          )
+            .to.have.length(0)
+
+          expect(
+            this.$(selectors.bunsen.renderer.text),
+            'renders a bunsen text input'
+          )
+            .to.have.length(1)
+
+          const $input = this.$(selectors.frost.text.input.enabled)
+
+          expect(
+            $input,
+            'renders an enabled text input'
+          )
+            .to.have.length(1)
+
+          expect(
+            $input.prop('placeholder'),
+            'does not have placeholder text'
+          )
+            .to.equal('')
+
+          const label = this.$(selectors.bunsen.label)
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            label,
+            'renders expected label text'
+          )
+            .to.equal('Bar')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
       })
     })
   }
