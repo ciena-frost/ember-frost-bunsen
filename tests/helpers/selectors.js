@@ -27,7 +27,8 @@ export default {
     },
     section: {
       clearableButton: '.heading h3 + button',
-      heading: '.heading h3'
+      heading: '.heading h3',
+      required: '.heading .required'
     },
     validationErrors: {
       error: '.frost-bunsen-error',

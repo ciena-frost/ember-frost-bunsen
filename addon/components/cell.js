@@ -108,16 +108,17 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig')
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig', 'value')
   /**
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
    * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
    * @param {BunsenCell} mergedConfig - bunsen view cell
+   * @param {Object} value - form value
    * @returns {Boolean} whether or not cell contains required inputs
    */
-  isRequired (bunsenModel, cellDefinitions, mergedConfig) {
-    return isRequired(mergedConfig, cellDefinitions, bunsenModel)
+  isRequired (bunsenModel, cellDefinitions, mergedConfig, value) {
+    return isRequired(mergedConfig, cellDefinitions, bunsenModel, value)
   },
 
   @readOnly
