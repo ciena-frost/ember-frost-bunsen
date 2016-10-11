@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {run} = Ember
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -42,14 +44,17 @@ describeComponent(
 
       this.setProperties(props)
 
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-        showAllErrors=showAllErrors
-      }}`)
+      this.render(hbs`
+        {{from-elsewhere name='frost-select'}}
+        {{frost-bunsen-form
+          bunsenModel=bunsenModel
+          bunsenView=bunsenView
+          disabled=disabled
+          onChange=onChange
+          onValidation=onValidation
+          showAllErrors=showAllErrors
+        }}
+      `)
     })
 
     afterEach(function () {
@@ -117,8 +122,11 @@ describeComponent(
     })
 
     describe('when expanded/opened', function () {
-      beforeEach(function () {
-        this.$(selectors.bunsen.renderer.select.arrow).click()
+      beforeEach(function (done) {
+        this.$(selectors.bunsen.renderer.select.arrow).click().trigger('input')
+        run.later(() => {
+          done()
+        }, 1000)
       })
 
       it('renders as expected', function () {

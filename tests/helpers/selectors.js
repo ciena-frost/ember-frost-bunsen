@@ -19,7 +19,7 @@ export default {
       select: {
         arrow: '.frost-bunsen-input-select .down-arrow',
         input: '.frost-bunsen-input-select',
-        items: '.frost-bunsen-input-select .list-container li'
+        items: '.frost-select-dropdown li'
       },
       text: '.frost-bunsen-input-text',
       textarea: '.frost-bunsen-input-textarea',
