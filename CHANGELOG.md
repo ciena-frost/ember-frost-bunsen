@@ -1,3 +1,7 @@
+# 9.6.0
+
+* **Added** an enum driven checkbox-array renderer to provide a flat checkbox facet selection group with the ability to select multiple options.
+
 # 9.5.3
 
 * **Fixed** issues with required label showing up on cells under scenarios where it shouldn't.
