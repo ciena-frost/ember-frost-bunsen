@@ -187,6 +187,12 @@ $left-input-width: 250px;
   }
 }
 
+.frost-bunsen-input-checkbox-array {
+  .frost-checkbox {
+    display: block;
+  }
+}
+
 .frost-bunsen-section {
   padding-top: 30px;
   border-top: 1px solid $frost-color-lgrey-1;

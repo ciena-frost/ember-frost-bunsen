@@ -13,6 +13,7 @@ export {default as ValidationResult} from './components/validation-result'
 
 import {default as Boolean} from './components/inputs/boolean'
 import {default as ButtonGroup} from './components/inputs/button-group'
+import {default as CheckboxArray} from './components/inputs/checkbox-array'
 import {default as Link} from './components/inputs/link'
 import {default as MultiSelect} from './components/inputs/multi-select'
 import {default as Number} from './components/inputs/number'
@@ -27,6 +28,7 @@ import {default as Url} from './components/inputs/url'
 export const Inputs = {
   Boolean,
   ButtonGroup,
+  CheckboxArray,
   Link,
   MultiSelect,
   Number,

@@ -1,6 +1,7 @@
 export default {
   boolean: {},
   'button-group': {},
+  'checkbox-array': {},
   link: {
     foo: 'http://ciena.com'
   },

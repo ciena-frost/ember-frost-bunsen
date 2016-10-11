@@ -1,0 +1,22 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{#each options as |option|}}
+    {{frost-checkbox
+      disabled=disabled
+      onInput=(action 'handleChange')
+      size=size
+      value=option.value
+      label=option.value
+    }}
+  {{/each}}
+</div>
+{{#if renderErrorMessage}}
+  <div class='error'>
+    {{renderErrorMessage}}
+  </div>
+{{/if}}
