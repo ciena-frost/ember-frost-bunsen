@@ -45,7 +45,7 @@ describeComponent(
       this.setProperties(props)
 
       this.render(hbs`
-        {{from-elsewhere name='frost-select'}}
+        {{frost-select-outlet}}
         {{frost-bunsen-form
           bunsenModel=bunsenModel
           bunsenView=bunsenView
