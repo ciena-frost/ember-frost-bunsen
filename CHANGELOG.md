@@ -1,3 +1,15 @@
+# 10.0.0
+
+## Breaking
+
+* **Removed** deprecated methods and properties.
+* **Removed** support for `Ember` version `2.2` as [ember-frost-core](https://github.com/ciena-frost/ember-frost-core) no longer works with that version due to the introduction of [ember-elsewhere](https://github.com/ef4/ember-elsewhere).
+* **Upgraded** dependencies to latest versions. Now you must add `{{frost-select-outlet}}` in your application template where you want the select drop-down to render. This is because now the dropdown renders elsewhere in the DOM using to mitigate issues with selects rendered within confined containers. For more information on this read the [documentation](http://ciena-frost.github.io/ember-frost-core/#/select).
+
+## Non-Breaking
+
+* **Fixed** false positive required prop-type warning regarding a property named `value` on cells which shouldn't actually be required.
+
 # 9.6.0
 
 * **Added** an enum driven checkbox-array renderer to provide a flat checkbox facet selection group with the ability to select multiple options.
