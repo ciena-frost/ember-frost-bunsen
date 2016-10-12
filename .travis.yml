@@ -18,7 +18,7 @@ cache:
     - node_modules
 env:
   matrix:
-    - EMBER_TRY_SCENARIO=ember-2-2
+    - EMBER_TRY_SCENARIO=ember-2-3
     - EMBER_TRY_SCENARIO=default
     - EMBER_TRY_SCENARIO=ember-release
   global:
