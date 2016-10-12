@@ -1,3 +1,9 @@
+# 10.0.1
+
+* **Fixed** select inputs in dummy/demo app.
+
+
+
 # 10.0.0
 
 ## Breaking
