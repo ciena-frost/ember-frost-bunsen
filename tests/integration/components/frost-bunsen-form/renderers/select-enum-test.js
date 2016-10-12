@@ -1,13 +1,11 @@
 import {expect} from 'chai'
-import Ember from 'ember'
-const {run} = Ember
+import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
-import {initialize} from 'ember-hook'
 
 describeComponent(
   'frost-bunsen-form',
@@ -37,6 +35,7 @@ describeComponent(
         },
         bunsenView: undefined,
         disabled: undefined,
+        hook: 'my-form',
         onChange: sandbox.spy(),
         onValidation: sandbox.spy(),
         showAllErrors: undefined
@@ -50,6 +49,7 @@ describeComponent(
           bunsenModel=bunsenModel
           bunsenView=bunsenView
           disabled=disabled
+          hook=hook
           onChange=onChange
           onValidation=onValidation
           showAllErrors=showAllErrors
@@ -122,15 +122,15 @@ describeComponent(
     })
 
     describe('when expanded/opened', function () {
-      beforeEach(function (done) {
-        this.$(selectors.bunsen.renderer.select.arrow).click().trigger('input')
-        run.later(() => {
-          done()
-        }, 1000)
+      beforeEach(function () {
+        // Make sure select dropdown is open
+        if ($hook('my-form-foo-list').length === 0) {
+          return $hook('my-form-foo').find('.down-arrow').click()
+        }
       })
 
       it('renders as expected', function () {
-        const $items = this.$(selectors.bunsen.renderer.select.items)
+        const $items = $hook('my-form-foo-list').find('li')
 
         expect(
           $items,
@@ -664,7 +664,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectBunsenInputToHaveError('foo', 'Field is required.')
+          expectBunsenInputToHaveError('foo', 'Field is required.', 'my-form')
 
           expect(
             props.onValidation.callCount,
