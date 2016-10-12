@@ -3,7 +3,7 @@
  */
 import _ from 'lodash'
 import Ember from 'ember'
-const {deprecate, inject} = Ember
+const {inject} = Ember
 import utils from 'bunsen-core/utils'
 import computed from 'ember-computed-decorators'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
@@ -215,10 +215,6 @@ export default AbstractInput.extend({
 
   init () {
     this._super(...arguments)
-
-    // maintain the deprecated dbStore property (at least for a little while, 2016-09-30)
-    this.set('dbStore', this.get('store'))
-
     this.registerForFormValueChanges(this)
   },
 
@@ -253,12 +249,6 @@ export default AbstractInput.extend({
             message: getErrorMessage(err)
           }])
         })
-    },
-
-    // Deprecated passthrough
-    onInput (filter) {
-      deprecate('The "onInput" action is deprecated. Use "filterOptions" instead')
-      this.send('filterOptions', filter)
     }
   }
 })

@@ -63,7 +63,7 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object
   },
 
   getDefaultProps () {

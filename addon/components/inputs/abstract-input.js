@@ -2,7 +2,7 @@ import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, Logger, deprecate} = Ember
+const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {getLabel, parseVariables} from 'bunsen-core/utils'
@@ -263,24 +263,6 @@ export default Component.extend(PropTypeMixin, {
       if (this.get('showErrorMessage')) {
         this.set('showErrorMessage', false)
       }
-    },
-
-    // Deprecated passthrough
-    onChange (e) {
-      deprecate('The "onChange" action is deprecated, use "handleChange" instead')
-      this.send('handleChange', e)
-    },
-
-    // Deprecated passthrough
-    onFocusIn () {
-      deprecate('The "onFocusIn" action is deprecated, use "hideErrorMessage" instead')
-      this.send('hideErrorMessage')
-    },
-
-    // Deprecated passthrough
-    onFocusOut () {
-      deprecate('The "onFocusOut" action is deprecated, use "showErrorMessage" instead')
-      this.send('showErrorMessage')
     },
 
     /**

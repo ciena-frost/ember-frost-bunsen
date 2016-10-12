@@ -1,11 +1,11 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP, run} = Ember
+import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {initialize} from 'ember-hook'
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 
@@ -47,7 +47,7 @@ describeComponent(
         },
         bunsenView: undefined,
         disabled: undefined,
-        hook: 'bunsenForm',
+        hook: 'my-form',
         onChange: sandbox.spy(),
         onError: sandbox.spy(),
         onValidation: sandbox.spy(),
@@ -57,6 +57,7 @@ describeComponent(
       this.setProperties(props)
 
       this.render(hbs`
+        {{frost-select-outlet}}
         {{frost-bunsen-form
           bunsenModel=bunsenModel
           bunsenView=bunsenView
@@ -152,11 +153,14 @@ describeComponent(
 
       describe('when expanded/opened', function () {
         beforeEach(function () {
-          this.$(selectors.bunsen.renderer.select.arrow).click()
+          // Make sure select dropdown is open
+          if ($hook('my-form-foo-list').length === 0) {
+            return $hook('my-form-foo').find('.down-arrow').click()
+          }
         })
 
         it('renders as expected', function () {
-          const $items = this.$(selectors.bunsen.renderer.select.items)
+          const $items = $hook('my-form-foo-list').find('li')
 
           expect(
             $items,
@@ -690,7 +694,7 @@ describeComponent(
             )
               .to.have.length(1)
 
-            expectBunsenInputToHaveError('foo', 'Field is required.')
+            expectBunsenInputToHaveError('foo', 'Field is required.', 'my-form')
 
             expect(
               props.onValidation.callCount,
