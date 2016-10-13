@@ -27,6 +27,8 @@ export default function (format, invalidValues, validValues, focus = false) {
     function () {
       let sandbox
 
+      this.timeout(3000) // Sometimes 2 seconds isn't enoguh for the CI
+
       beforeEach(function () {
         initialize()
         sandbox = sinon.sandbox.create()
