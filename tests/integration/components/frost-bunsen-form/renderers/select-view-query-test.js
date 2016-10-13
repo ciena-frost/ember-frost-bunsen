@@ -52,7 +52,7 @@ describeComponent(
               renderer: {
                 name: 'select',
                 options: {
-                  modelType: 'bar',
+                  modelType: 'node',
                   query: {
                     baz: 'alpha'
                   }

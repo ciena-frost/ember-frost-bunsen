@@ -36,7 +36,7 @@ describeComponent(
         bunsenModel: {
           properties: {
             foo: {
-              modelType: 'bar',
+              modelType: 'node',
               query: {
                 baz: 'alpha'
               },

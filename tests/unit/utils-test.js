@@ -4,6 +4,7 @@ import {
   generateFacetCell,
   generateFacetView,
   generateLabelFromModel,
+  isRegisteredEmberDataModel,
   isRequired
 } from 'ember-frost-bunsen/utils'
 
@@ -192,6 +193,32 @@ describe('bunsen-utils', function () {
     it('returns expected label when model is camelCase and nested property', function () {
       const actual = generateLabelFromModel('foo.barBaz')
       expect(actual).to.equal('Bar baz')
+    })
+  })
+
+  describe('isRegisteredEmberDataModel()', function () {
+    let owner
+
+    beforeEach(function () {
+      owner = {}
+    })
+
+    it('returns true when modelType is registered with Ember Data', function () {
+      ;[
+        'country',
+        'model',
+        'node',
+        'resource',
+        'value',
+        'view'
+      ]
+        .forEach((modelType) => {
+          expect(isRegisteredEmberDataModel(owner, modelType)).to.equal(true)
+        })
+    })
+
+    it('returns false when modelType is not registered with Ember Data', function () {
+      expect(isRegisteredEmberDataModel(owner, 'foo-bar')).to.equal(false)
     })
   })
 
