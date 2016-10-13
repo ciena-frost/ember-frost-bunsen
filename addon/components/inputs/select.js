@@ -49,9 +49,10 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('bunsenModel', 'cellConfig.renderer.options')
-  listData (bunsenModel, renderOptions) {
+  @computed('bunsenModel', 'cellConfig')
+  listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
+    const renderOptions = _.get(cellConfig, 'renderer.options')
     const hasOverrides = !_.isEmpty(_.get(renderOptions, 'data'))
     const hasNoneOption = _.get(renderOptions, 'none.present')
 
@@ -78,9 +79,9 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('cellConfig.renderer.options.localFiltering')
-  isFilteringLocally (localFiltering = false) {
-    return localFiltering
+  @computed('cellConfig')
+  isFilteringLocally (cellConfig) {
+    return _.get(cellConfig, 'renderer.options.localFiltering') || false
   },
 
   // == Functions ==============================================================
