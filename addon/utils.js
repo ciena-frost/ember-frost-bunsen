@@ -166,7 +166,9 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
  * @returns {Boolean} whether or not model is registered with Ember Data
  */
 export function isRegisteredEmberDataModel (owner, modelName) {
-  const appName = owner.application.name
+  // Note: in test environment application is not defined
+  const appName = get(owner, 'application.name') || 'dummy'
+
   return Object.keys(require._eak_seen)
     .filter((module) => module.indexOf(`${appName}/models/`) === 0)
     .map((module) => module.replace(`${appName}/models/`, ''))
