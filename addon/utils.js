@@ -159,6 +159,20 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
   return mergedConfig
 }
 
+/**
+ * Determine if model is registered with Ember Data
+ * @param {Object} owner - Ember owner
+ * @param {String} modelName - name of model to check Ember Data registry for
+ * @returns {Boolean} whether or not model is registered with Ember Data
+ */
+export function isRegisteredEmberDataModel (owner, modelName) {
+  const appName = owner.application.name
+  return Object.keys(require._eak_seen)
+    .filter((module) => module.indexOf(`${appName}/models/`) === 0)
+    .map((module) => module.replace(`${appName}/models/`, ''))
+    .indexOf(modelName) !== -1
+}
+
 export function getRendererComponentName (rendererName) {
   return builtInRenderers[rendererName] || rendererName
 }

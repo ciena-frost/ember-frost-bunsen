@@ -21,7 +21,13 @@ import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
-import {deemberify, validateRenderer, getMergedConfigRecursive} from '../utils'
+import {
+  deemberify,
+  getMergedConfigRecursive,
+  isRegisteredEmberDataModel,
+  validateRenderer
+} from '../utils'
+
 import {traverseCellBreadthFirst, findCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 
 function getAlias (cell) {
@@ -390,7 +396,8 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn)
+      const validateModelFn = isRegisteredEmberDataModel.bind(null, getOwner(this))
+      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, validateModelFn)
     }
 
     this.set('propValidationResult', result)
