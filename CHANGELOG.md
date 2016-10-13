@@ -1,3 +1,8 @@
+# 10.0.3
+
+* **Fixed** `isRegisteredEmberDataModel` method to work in a consuming apps tests.
+
+
 # 10.0.2
 
 * **Added** empty message to detail view array with no items.
