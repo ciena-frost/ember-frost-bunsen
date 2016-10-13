@@ -1,3 +1,8 @@
+# 10.1.1
+
+* **Fixed** list utility methods not to be less brittle and not throw an error when query isn't present.
+
+
 # 10.1.0
 
 * **Added** the option to specify static options for the `select` input
