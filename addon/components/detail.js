@@ -389,15 +389,15 @@ export default Component.extend(PropTypeMixin, {
    */
   validateProps (bunsenModel) {
     const renderers = this.get('renderers')
+    const validateModelTypeFn = isRegisteredEmberDataModel.bind(null, getOwner(this))
 
-    let result = validateModel(bunsenModel)
+    let result = validateModel(bunsenModel, validateModelTypeFn)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      const validateModelFn = isRegisteredEmberDataModel.bind(null, getOwner(this))
-      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, validateModelFn)
+      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, validateModelTypeFn)
     }
 
     this.set('propValidationResult', result)
