@@ -197,12 +197,6 @@ describe('bunsen-utils', function () {
   })
 
   describe('isRegisteredEmberDataModel()', function () {
-    let owner
-
-    beforeEach(function () {
-      owner = {}
-    })
-
     it('returns true when modelType is registered with Ember Data', function () {
       ;[
         'country',
@@ -213,12 +207,12 @@ describe('bunsen-utils', function () {
         'view'
       ]
         .forEach((modelType) => {
-          expect(isRegisteredEmberDataModel(owner, modelType)).to.equal(true)
+          expect(isRegisteredEmberDataModel(modelType)).to.equal(true)
         })
     })
 
     it('returns false when modelType is not registered with Ember Data', function () {
-      expect(isRegisteredEmberDataModel(owner, 'foo-bar')).to.equal(false)
+      expect(isRegisteredEmberDataModel('foo-bar')).to.equal(false)
     })
   })
 
