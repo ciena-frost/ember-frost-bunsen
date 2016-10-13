@@ -383,7 +383,11 @@ export default Component.extend(PropTypeMixin, {
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
-   validateProps (bunsenModel) {
+  /**
+   * Validate properties
+   * @param {Object} bunsenModel - a deemberified bunsenModel
+   */
+  validateProps (bunsenModel) {
     const renderers = this.get('renderers')
 
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
