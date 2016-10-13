@@ -16,7 +16,7 @@ const bunsenView = {
   },
   cells: [
     {label: 'One', extends: 'one'},
-    {model: 'two'}
+    {model: 'baz'}
   ],
   type: 'form',
   version: '2.0'
@@ -63,7 +63,7 @@ function tests (ctx) {
         $tabButtons.last().find('.text').text(),
         'renders correct text for second tab'
       )
-        .to.equal('Two')
+        .to.equal('Baz')
     })
 
     it('does not mutate bunsenView', function () {

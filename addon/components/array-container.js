@@ -34,7 +34,7 @@ export default Component.extend(PropTypeMixin, {
     ]),
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object
   },
 
   getDefaultProps () {
