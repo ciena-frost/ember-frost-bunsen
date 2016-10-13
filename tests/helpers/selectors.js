@@ -1,6 +1,7 @@
 export default {
   bunsen: {
     array: {
+      emptyMsg: '.frost-bunsen-array-container > .empty-msg',
       sort: {
         handle: '.handle'
       }
@@ -22,6 +23,7 @@ export default {
         input: '.frost-bunsen-input-select',
         items: '.frost-select-dropdown li'
       },
+      static: '.frost-bunsen-input-static',
       text: '.frost-bunsen-input-text',
       textarea: '.frost-bunsen-input-textarea',
       url: '.frost-bunsen-input-url'
