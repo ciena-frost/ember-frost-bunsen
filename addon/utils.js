@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {get, typeOf} = Ember
+import config from 'ember-get-config'
 import {getModelPath} from 'bunsen-core/utils'
 
 const assign = Ember.assign || Object.assign || Ember.merge
@@ -161,17 +162,22 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
 
 /**
  * Determine if model is registered with Ember Data
- * @param {Object} owner - Ember owner
  * @param {String} modelName - name of model to check Ember Data registry for
  * @returns {Boolean} whether or not model is registered with Ember Data
  */
-export function isRegisteredEmberDataModel (owner, modelName) {
-  // Note: in test environment application is not defined
-  const appName = get(owner, 'application.name') || 'dummy'
-
+export function isRegisteredEmberDataModel (modelName) {
   return Object.keys(require._eak_seen)
-    .filter((module) => module.indexOf(`${appName}/models/`) === 0)
-    .map((module) => module.replace(`${appName}/models/`, ''))
+    .filter((module) => {
+      return (
+        module.indexOf(`${config.modulePrefix}/models/`) === 0 ||
+        module.indexOf(`${config.podModulePrefix}/models/`) === 0
+      )
+    })
+    .map((module) => {
+      return module
+        .replace(`${config.modulePrefix}/models/`, '')
+        .replace(`${config.podModulePrefix}/models/`, '')
+    })
     .indexOf(modelName) !== -1
 }
 
