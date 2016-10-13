@@ -59,14 +59,7 @@ export function getEnumValues (values = [], filter = '') {
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
 export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filter) {
-  let query
-
-  try {
-    query = utils.populateQuery(value, modelDef.query, bunsenId)
-  } catch (e) {
-    return RSVP.reject(e)
-  }
-
+  const query = utils.populateQuery(value, modelDef.query, bunsenId)
   const labelAttr = modelDef.labelAttribute || 'label'
   const valueAttr = modelDef.valueAttribute || 'id'
 

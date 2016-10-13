@@ -55,6 +55,7 @@ describe('Unit: list-utils', function () {
 
   describe('getAsyncDataValues()', function () {
     let sandbox, value, modelDef, bunsenId, store, filter, data
+
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
       value = {universe: 'DC'}
@@ -80,6 +81,7 @@ describe('Unit: list-utils', function () {
 
     describe('with no filter', function () {
       let options, error
+
       beforeEach(function (done) {
         store.query.returns(RSVP.resolve(heroes))
 
@@ -116,6 +118,7 @@ describe('Unit: list-utils', function () {
 
     describe('with filter', function () {
       let options, error
+
       beforeEach(function (done) {
         modelDef.query.text = '$filter'
         store.query.returns(RSVP.resolve(heroes))
@@ -153,6 +156,7 @@ describe('Unit: list-utils', function () {
 
     describe('when data is populated', function () {
       let options
+
       beforeEach(function (done) {
         data = [
           {
@@ -185,6 +189,7 @@ describe('Unit: list-utils', function () {
 
     describe('when query fails', function () {
       let options, error
+
       beforeEach(function (done) {
         modelDef.modelType = 'busted'
         store.query.withArgs('busted', {universe: 'DC'}).returns(RSVP.reject('Uh oh'))
@@ -211,6 +216,44 @@ describe('Unit: list-utils', function () {
 
       it('should log the error', function () {
         expect(Logger.log.lastCall.args).to.eql(['Error fetching busted', 'Uh oh'])
+      })
+    })
+
+    describe('when query not present', function () {
+      let options, error
+
+      beforeEach(function (done) {
+        delete modelDef.query
+        store.query.returns(RSVP.resolve(heroes))
+
+        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+          .then((items) => {
+            options = items
+          })
+          .catch((err) => {
+            error = err
+          })
+          .finally(() => {
+            done()
+          })
+      })
+
+      it('should make the appropriate query', function () {
+        expect(store.query.lastCall.args).to.eql(['hero', {}])
+      })
+
+      it('should not trigger the catch', function () {
+        expect(error).to.equal(undefined)
+      })
+
+      it('should return the proper options', function () {
+        expect(options).to.eql([
+          {value: 'Bruce Wayne', label: 'Batman'},
+          {value: 'Clark Kent', label: 'Superman'},
+          {value: 'Hal Jordan', label: 'Green Lantern'},
+          {value: 'Barry Allen', label: 'Flash'},
+          {value: 'Oliver Queen', label: 'Green Arrow'}
+        ])
       })
     })
   })

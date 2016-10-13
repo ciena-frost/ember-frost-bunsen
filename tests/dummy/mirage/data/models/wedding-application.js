@@ -5,7 +5,6 @@ export default {
         countryOfBirth: {
           labelAttribute: 'name',
           modelType: 'country',
-          query: {},
           type: 'string',
           valueAttribute: 'id'
         },
@@ -28,14 +27,12 @@ export default {
         country: {
           labelAttribute: 'name',
           modelType: 'country',
-          query: {},
           type: 'string',
           valueAttribute: 'id'
         },
         countryOfBirth: {
           labelAttribute: 'name',
           modelType: 'country',
-          query: {},
           type: 'string',
           valueAttribute: 'id'
         },
