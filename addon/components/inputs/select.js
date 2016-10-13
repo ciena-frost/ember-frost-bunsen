@@ -190,21 +190,10 @@ export default AbstractInput.extend({
     let oldValueResult = utils.findValue(oldValue, valueVariable, bunsenId)
 
     if (newValueResult || oldValueResult) {
-      let oldQuery
-      let newQuery
-
       // parse old and new query before look for differences
-      try {
-        oldQuery = utils.populateQuery(oldValue, query, bunsenId)
-      } catch (e) {
-        oldQuery = {}
-      }
+      const oldQuery = utils.populateQuery(oldValue, query, bunsenId)
+      const newQuery = utils.populateQuery(newValue, query, bunsenId)
 
-      try {
-        newQuery = utils.populateQuery(newValue, query, bunsenId)
-      } catch (e) {
-        newQuery = {}
-      }
       // returns false when every top level key/value pair are equal
       return !Object.keys(query)
         .every((key) => {

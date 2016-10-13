@@ -105,8 +105,7 @@ export default {
         modelType: 'node',
         labelAttribute: 'name',
         valueAttribute: 'id',
-        editable: false,
-        query: {}
+        editable: false
       },
       role: {
         title: 'Role',
