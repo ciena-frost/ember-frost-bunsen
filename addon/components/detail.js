@@ -383,21 +383,16 @@ export default Component.extend(PropTypeMixin, {
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
-  /**
-   * Validate properties
-   * @param {Object} bunsenModel - a deemberified bunsenModel
-   */
-  validateProps (bunsenModel) {
+   validateProps (bunsenModel) {
     const renderers = this.get('renderers')
-    const validateModelTypeFn = isRegisteredEmberDataModel.bind(null, getOwner(this))
 
-    let result = validateModel(bunsenModel, validateModelTypeFn)
+    let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, validateModelTypeFn)
+      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, isRegisteredEmberDataModel)
     }
 
     this.set('propValidationResult', result)
