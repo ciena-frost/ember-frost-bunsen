@@ -5,7 +5,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {inject} = Ember
 import utils from 'bunsen-core/utils'
-import computed from 'ember-computed-decorators'
+import computed, {readOnly} from 'ember-computed-decorators'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
 import AbstractInput from './abstract-input'
@@ -48,6 +48,41 @@ export default AbstractInput.extend({
     return false
   },
 
+  @readOnly
+  @computed('bunsenModel', 'cellConfig.renderer.options')
+  listData (bunsenModel, renderOptions) {
+    const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
+    const hasOverrides = !_.isEmpty(_.get(renderOptions, 'data'))
+    const hasNoneOption = _.get(renderOptions, 'none.present')
+
+    let data = []
+
+    if (enumDef && !hasOverrides) {
+      data = listUtils.getEnumValues(enumDef)
+    } else if (hasOverrides) {
+      data = _.cloneDeep(renderOptions.data)
+    }
+
+    if (hasNoneOption) {
+      const none = _.defaults({
+        label: renderOptions.none.label,
+        value: renderOptions.none.value
+      }, {
+        label: 'None',
+        value: ''
+      })
+      data = [none].concat(data)
+    }
+
+    return data
+  },
+
+  @readOnly
+  @computed('cellConfig.renderer.options.localFiltering')
+  isFilteringLocally (localFiltering = false) {
+    return localFiltering
+  },
+
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
@@ -62,7 +97,7 @@ export default AbstractInput.extend({
     const options = _.get(cellConfig, 'renderer.options')
 
     if (options) {
-      return _.assign(options, modelDef)
+      return _.assign({}, options, modelDef)
     }
 
     return modelDef
@@ -92,9 +127,10 @@ export default AbstractInput.extend({
       // setting required variables once above condition is true
       const store = this.get('store')
       const bunsenId = this.get('bunsenId')
+      const listData = this.get('listData')
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
       this.set('optionsInitialized', true)
-      listUtils.getOptions(newValue, modelDef, bunsenId, store)
+      listUtils.getOptions(newValue, modelDef, listData, bunsenId, store)
         .then((opts) => {
           this.set('options', opts)
         })
@@ -126,7 +162,7 @@ export default AbstractInput.extend({
     const modelDef = this._getModelDef()
     const optionsInitialized = this.get('optionsInitialized')
     return !optionsInitialized &&
-      (('enum' in modelDef) || !this.hasQueryParams(modelDef.query))
+      (!_.isEmpty(this.get('listData')) || !this.hasQueryParams(modelDef.query))
   },
 
   /* eslint-disable complexity */
@@ -237,9 +273,10 @@ export default AbstractInput.extend({
     filterOptions (filter) {
       const modelDef = this._getModelDef()
       const bunsenId = this.get('bunsenId')
-      const dbStore = this.get('dbStore')
+      const store = this.get('store')
       const value = this.get('formValue')
-      listUtils.getOptions(value, modelDef, bunsenId, dbStore, filter)
+      const listData = this.get('listData')
+      listUtils.getOptions(value, modelDef, listData, bunsenId, store, filter)
         .then((opts) => {
           this.set('options', opts)
         })

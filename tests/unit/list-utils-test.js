@@ -7,7 +7,7 @@ const {Logger, RSVP} = Ember
 import {expect} from 'chai'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {getEnumValues, getAsyncDataValues} from 'ember-frost-bunsen/list-utils'
+import {getEnumValues, getAsyncDataValues, getOptions} from 'ember-frost-bunsen/list-utils'
 
 const heroes = Ember.A([
   Ember.Object.create({
@@ -54,7 +54,7 @@ describe('Unit: list-utils', function () {
   })
 
   describe('getAsyncDataValues()', function () {
-    let sandbox, value, modelDef, bunsenId, store, filter
+    let sandbox, value, modelDef, bunsenId, store, filter, data
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
       value = {universe: 'DC'}
@@ -66,6 +66,7 @@ describe('Unit: list-utils', function () {
           universe: '${../universe}'
         }
       }
+      data = []
       bunsenId = 'heroSecret'
       store = {
         query: sandbox.stub()
@@ -82,7 +83,7 @@ describe('Unit: list-utils', function () {
       beforeEach(function (done) {
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -119,7 +120,7 @@ describe('Unit: list-utils', function () {
         modelDef.query.text = '$filter'
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -150,13 +151,45 @@ describe('Unit: list-utils', function () {
       })
     })
 
+    describe('when data is populated', function () {
+      let options
+      beforeEach(function (done) {
+        data = [
+          {
+            label: 'Custom',
+            value: 'Custom'
+          }
+        ]
+        store.query.returns(RSVP.resolve(heroes))
+
+        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+          .then((items) => {
+            options = items
+          })
+          .finally(() => {
+            done()
+          })
+      })
+
+      it('should return the proper options', function () {
+        expect(options).to.eql([
+          {value: 'Custom', label: 'Custom'},
+          {value: 'Bruce Wayne', label: 'Batman'},
+          {value: 'Clark Kent', label: 'Superman'},
+          {value: 'Hal Jordan', label: 'Green Lantern'},
+          {value: 'Barry Allen', label: 'Flash'},
+          {value: 'Oliver Queen', label: 'Green Arrow'}
+        ])
+      })
+    })
+
     describe('when query fails', function () {
       let options, error
       beforeEach(function (done) {
         modelDef.modelType = 'busted'
         store.query.withArgs('busted', {universe: 'DC'}).returns(RSVP.reject('Uh oh'))
         sandbox.stub(Logger, 'log')
-        getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -178,6 +211,56 @@ describe('Unit: list-utils', function () {
 
       it('should log the error', function () {
         expect(Logger.log.lastCall.args).to.eql(['Error fetching busted', 'Uh oh'])
+      })
+    })
+  })
+
+  describe('getOptions', function () {
+    let data, modelDef, options
+    beforeEach(function () {
+      data = [
+        {
+          label: 'Custom1',
+          value: 'Custom1'
+        },
+        {
+          label: 'Custom2',
+          value: 'Custom2'
+        }
+      ]
+      modelDef = {
+        query: null
+      }
+    })
+
+    describe('when filter is not provided', function () {
+      beforeEach(function (done) {
+        getOptions({}, modelDef, data, '', {}).then((data) => {
+          options = data
+          done()
+        })
+      })
+
+      it('resolves with the data', function () {
+        expect(options).to.eql(data)
+      })
+    })
+
+    describe('when filter is provided', function () {
+      beforeEach(function (done) {
+        getOptions({}, modelDef, data, '', {}, 'Custom2').then((data) => {
+          options = data
+          done()
+        })
+      })
+
+      it('resolves with the filtered data', function () {
+        expect(options).to.eql([
+          {
+            label: 'Custom2',
+            value: 'Custom2'
+          }
+        ])
       })
     })
   })

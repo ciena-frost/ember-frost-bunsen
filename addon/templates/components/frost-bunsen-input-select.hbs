@@ -5,17 +5,31 @@
   {{/if}}
 </label>
 <div class={{inputWrapperClassName}}>
-  {{frost-select
-    class=valueClassName
-    data=options
-    disabled=disabled
-    hook=hook
-    onChange=(action 'handleChange')
-    onFocusOut=(action 'showErrorMessage')
-    onInput=(action 'filterOptions')
-    placeholder=cellConfig.placeholder
-    selectedValue=value
-  }}
+  {{#if isFilteringLocally}}
+    {{frost-select
+      class=valueClassName
+      data=options
+      disabled=disabled
+      hook=hook
+      onChange=(action 'handleChange')
+      onFocusOut=(action 'showErrorMessage')
+      placeholder=cellConfig.placeholder
+      selectedValue=value
+    }}
+  {{else}}
+    {{frost-select
+      class=valueClassName
+      data=options
+      disabled=disabled
+      hook=hook
+      onChange=(action 'handleChange')
+      onFocusOut=(action 'showErrorMessage')
+      onInput=(action 'filterOptions')
+      placeholder=cellConfig.placeholder
+      selectedValue=value
+    }}
+  {{/if}}
+
 </div>
 {{#if renderErrorMessage}}
   <div class='error'>

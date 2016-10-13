@@ -12,20 +12,24 @@ import * as utils from 'bunsen-core/utils'
  * set a list's available options
  * @param  {Object} value the current value object for the form instance
  * @param  {Object} modelDef the bunsen model definition
+ * @param  {Object[]} data initializes the list with this
  * @param  {String} bunsenId the bunsen id for this property
  * @param  {Object} store the ember-data store
  * @param  {String} filter the optional string to filter on
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions (value, modelDef, bunsenId, store, filter = '') {
-  const enumDef = modelDef.items ? modelDef.items.enum : modelDef.enum
+export function getOptions (value, modelDef, data, bunsenId, store, filter = '') {
   const queryDef = modelDef.query
-  if (enumDef) {
-    return RSVP.resolve(getEnumValues(enumDef, filter))
-  } else if (queryDef) {
-    return getAsyncDataValues(value, modelDef, bunsenId, store, filter)
+  const filteredData = data.filter((item) => {
+    const filterRegex = new RegExp(filter, 'i')
+    return filterRegex.test(item.label)
+  })
+
+  if (queryDef) {
+    return getAsyncDataValues(value, modelDef, filteredData, bunsenId, store, filter)
   }
-  return RSVP.resolve([])
+
+  return RSVP.resolve(filteredData)
 }
 
 /**
@@ -48,12 +52,13 @@ export function getEnumValues (values = [], filter = '') {
  * Fetch the list of network functions from the backend and set them
  * @param  {Object} value the bunsen value for this form
  * @param  {Object} modelDef the full bunsen model def for this property
+ * @param  {Object[]} data initializes the list with this
  * @param  {Object} bunsenId the bunsenId for this form
  * @param  {Object} store the ember-data store
  * @param  {String} filter the partial match query filter to populate
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getAsyncDataValues (value, modelDef, bunsenId, store, filter) {
+export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filter) {
   let query
 
   try {
@@ -81,7 +86,8 @@ export function getAsyncDataValues (value, modelDef, bunsenId, store, filter) {
           value
         }
       })
-      return items
+
+      return data.concat(items)
     }).catch((err) => {
       Logger.log(`Error fetching ${modelType}`, err)
       throw err
