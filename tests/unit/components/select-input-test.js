@@ -92,6 +92,21 @@ describeComponent(...unitTest('frost-bunsen-input-select'), function () {
         })
         expect(component.needsInitialOptions()).to.equal(true)
       })
+
+      it('returns true when list data is provided', function () {
+        component.set('cellConfig', {
+          renderer: {
+            options: {
+              data: [{
+                label: 'Custom',
+                value: 'Custom'
+              }]
+            }
+          }
+        })
+
+        expect(component.needsInitialOptions()).to.equal(true)
+      })
     })
 
     describe('when options is initialized', function () {
@@ -113,6 +128,155 @@ describeComponent(...unitTest('frost-bunsen-input-select'), function () {
         })
         expect(component.needsInitialOptions()).to.equal(false)
       })
+
+      it('returns false when list data is provided', function () {
+        component.set('cellConfig', {
+          renderer: {
+            options: {
+              data: [{
+                label: 'Custom',
+                value: 'Custom'
+              }]
+            }
+          }
+        })
+
+        expect(component.needsInitialOptions()).to.equal(false)
+      })
+    })
+  })
+
+  describe('listData', function () {
+    let cellConfig, bunsenModel
+    beforeEach(function () {
+      bunsenModel = {
+        enum: ['enum_value']
+      }
+
+      cellConfig = {
+        renderer: {
+          options: {
+            data: [{
+              label: 'Custom',
+              value: 'custom'
+            }],
+            none: {
+              label: 'None',
+              present: false,
+              value: ''
+            }
+          }
+        }
+      }
+    })
+    it('returns enums when custom data is not present', function () {
+      component.setProperties({
+        bunsenModel
+      })
+
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'enum_value',
+          value: 'enum_value'
+        }
+      ])
+    })
+
+    it('returns the only custom data when it is present and enums is present', function () {
+      component.setProperties({
+        bunsenModel,
+        cellConfig
+      })
+
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'Custom',
+          value: 'custom'
+        }
+      ])
+    })
+
+    it('returns custom data when it is present', function () {
+      component.setProperties({
+        cellConfig
+      })
+
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'Custom',
+          value: 'custom'
+        }
+      ])
+    })
+
+    it('returns an empty list when enum and custom data is not present', function () {
+      expect(component.get('listData')).to.eql([])
+    })
+
+    it('prepends the enums with the `none` option when present', function () {
+      cellConfig.renderer.options.none.present = true
+      delete cellConfig.renderer.options.data
+      component.setProperties({
+        bunsenModel,
+        cellConfig
+      })
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'None',
+          value: ''
+        },
+        {
+          label: 'enum_value',
+          value: 'enum_value'
+        }
+      ])
+    })
+
+    it('prepends the custom data with the `none` option when present', function () {
+      cellConfig.renderer.options.none.present = true
+      component.setProperties({
+        cellConfig
+      })
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'None',
+          value: ''
+        },
+        {
+          label: 'Custom',
+          value: 'custom'
+        }
+      ])
+    })
+
+    it('only returns the `none` options when no enum and no custom data is present', function () {
+      cellConfig.renderer.options.none.present = true
+      delete cellConfig.renderer.options.data
+      component.setProperties({
+        cellConfig
+      })
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'None',
+          value: ''
+        }
+      ])
+    })
+
+    it('defaults none.label and none.value', function () {
+      cellConfig.renderer.options.none = {
+        present: true
+      }
+      delete cellConfig.renderer.options.data
+      component.setProperties({
+        cellConfig
+      })
+      expect(component.get('listData')).to.eql([
+        {
+          label: 'None',
+          value: ''
+        }
+      ])
     })
   })
 })

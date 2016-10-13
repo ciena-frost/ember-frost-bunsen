@@ -12,7 +12,7 @@
     hook=hook
     onChange=(action 'handleChange')
     onFocusOut=(action 'showErrorMessage')
-    onInput=(action 'filterOptions')
+    onInput=(if isFilteringLocally undefined (action 'filterOptions'))
     placeholder=cellConfig.placeholder
     selectedValue=value
   }}
