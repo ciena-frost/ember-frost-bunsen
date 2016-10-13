@@ -1,3 +1,10 @@
+# 10.0.2
+
+* **Added** empty message to detail view array with no items.
+* **Removed** add/remove buttons from detail view arrays.
+
+
+
 # 10.0.1
 
 * **Fixed** select inputs in dummy/demo app.
