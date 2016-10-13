@@ -47,6 +47,7 @@
         errors=errors
         formDisabled=formDisabled
         index=index
+        onError=onError
         onChange=(action 'handleChange')
         onRemove=(action 'removeItem')
         readOnly=readOnly
@@ -80,16 +81,18 @@
         valueChangeSet=valueChangeSet
       }}
     {{/each}}
-    <li role='presentation'>
-      {{frost-button
-        disabled=disabled
-        icon='round-add'
-        onClick=(action 'addItem')
-        priority='tertiary'
-        size='medium'
-        text=addLabel
-      }}
-    </li>
+    {{#unless readOnly}}
+      <li role='presentation'>
+        {{frost-button
+          disabled=disabled
+          icon='round-add'
+          onClick=(action 'addItem')
+          priority='tertiary'
+          size='medium'
+          text=addLabel
+        }}
+      </li>
+    {{/unless}}
   </ul>
   <div class='tab-content'>
     {{#each items key='@index' as |item index|}}
@@ -101,6 +104,7 @@
         errors=errors
         formDisabled=formDisabled
         index=index
+        onError=onError
         onChange=(action 'handleChange')
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
@@ -113,7 +117,12 @@
     {{/each}}
   </div>
 {{/if}}
-{{#if showAddButton}}
+{{#if (and (not items) readOnly)}}
+  <span class="empty-msg">
+    List is currently empty.
+  </span>
+{{/if}}
+{{#if (and showAddButton (not readOnly))}}
   {{frost-button
     disabled=disabled
     icon='round-add'
