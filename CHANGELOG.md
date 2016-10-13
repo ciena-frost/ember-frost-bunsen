@@ -1,3 +1,9 @@
+# 10.1.0
+
+* **Added** the option to specify static options for the `select` input
+* **Added** the option to enable local filtering for the `select` input
+
+
 # 10.0.3
 
 * **Fixed** `isRegisteredEmberDataModel` method to work in a consuming apps tests.
