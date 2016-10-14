@@ -297,6 +297,10 @@ $left-input-width: 250px;
   .left-input {
     width: $left-input-width;
   }
+
+  .left-input + .error {
+    padding-top: 3px;
+  }
 }
 
 .no-left-margin {
