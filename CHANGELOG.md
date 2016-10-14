@@ -1,3 +1,9 @@
+# 10.1.6
+
+* **Fixed** styling of empty array message.
+
+
+
 # 10.1.5
 
 * **Fixed** width of various input types so that they align.
