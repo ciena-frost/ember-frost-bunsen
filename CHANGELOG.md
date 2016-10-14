@@ -1,3 +1,9 @@
+# 10.1.5
+
+* **Fixed** width of various input types so that they align.
+
+
+
 # 10.1.4
 
 * **Fixed** issue with `hasQueryChanged` returning false when form values actually differed when the old value had missing dependencies.
