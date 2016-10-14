@@ -51,6 +51,11 @@ body {
 }
 .demo-container {
   margin: 0 30px;
+
+  > .frost-select {
+    width: 200px;
+    display: inline-block;
+  }
 }
 
 .demo-header {
