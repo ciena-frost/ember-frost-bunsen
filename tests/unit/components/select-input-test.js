@@ -61,13 +61,44 @@ describeComponent(...unitTest('frost-bunsen-input-select'), function () {
       })
     })
 
-    describe('when queries has dependencies', function () {
+    describe('when queries have dependencies', function () {
       it('returns false when queries are equal', function () {
         expect(component.hasQueryChanged(oldFormValue, oldFormValue, modelQuery)).to.be.equal(false)
       })
 
       it('returns true when queries mismatch', function () {
         expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+      })
+    })
+
+    describe('when queries have dependencies but either one is missing', function () {
+      describe('when oldFormValue is missing dependencies', function () {
+        beforeEach(function () {
+          delete oldFormValue.bar
+        })
+
+        it('returns false when formValue is also missing dependencies', function () {
+          delete formValue.bar
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(false)
+        })
+        it('returns true when formValue is not missing dependencies', function () {
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+        })
+      })
+
+      describe('when formValue is missing dependencies', function () {
+        beforeEach(function () {
+          delete formValue.bar
+        })
+
+        it('returns false when oldFormValue is also missing dependencies', function () {
+          delete oldFormValue.bar
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(false)
+        })
+
+        it('returns true when oldFormValue is not missing dependencies', function () {
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+        })
       })
     })
   })
