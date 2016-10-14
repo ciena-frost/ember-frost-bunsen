@@ -1,3 +1,8 @@
+# 10.1.4
+
+* **Fixed** issue with `hasQueryChanged` returning false when form values actually differed when the old value had missing dependencies.
+
+
 # 10.1.3
 
 * **Fixed** issue where the `select` input's `query` isn't specified and we should have been looking at `modelType` to fetch from the store.
