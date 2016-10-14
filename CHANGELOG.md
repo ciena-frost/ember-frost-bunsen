@@ -1,3 +1,8 @@
+# 10.1.3
+
+* **Fixed** issue where the `select` input's `query` isn't specified and we should have been looking at `modelType` to fetch from the store.
+
+
 # 10.1.2
 
 * **Fixed** `populateQuery()` to not throw error.
