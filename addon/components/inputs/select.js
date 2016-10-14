@@ -191,12 +191,8 @@ export default AbstractInput.extend({
 
     if (newValueResult || oldValueResult) {
       // parse old and new query before look for differences
-      const oldQuery = utils.populateQuery(oldValue, query, bunsenId)
-      const newQuery = utils.populateQuery(newValue, query, bunsenId)
-
-      if (!oldQuery || !newQuery) {
-        return false
-      }
+      const oldQuery = utils.populateQuery(oldValue, query, bunsenId) || {}
+      const newQuery = utils.populateQuery(newValue, query, bunsenId) || {}
 
       // returns false when every top level key/value pair are equal
       return !Object.keys(query)
