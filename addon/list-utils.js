@@ -19,13 +19,12 @@ import * as utils from 'bunsen-core/utils'
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
 export function getOptions (value, modelDef, data, bunsenId, store, filter = '') {
-  const queryDef = modelDef.query
   const filteredData = data.filter((item) => {
     const filterRegex = new RegExp(filter, 'i')
     return filterRegex.test(item.label)
   })
 
-  if (queryDef) {
+  if (modelDef.modelType) {
     return getAsyncDataValues(value, modelDef, filteredData, bunsenId, store, filter)
   }
 

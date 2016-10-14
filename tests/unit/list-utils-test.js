@@ -306,5 +306,34 @@ describe('Unit: list-utils', function () {
         ])
       })
     })
+
+    describe('when model contains modelType', function () {
+      let store
+      beforeEach(function () {
+        store = {
+          query: sinon.stub().returns(RSVP.resolve([]))
+        }
+        modelDef.modelType = 'resource'
+      })
+
+      it('calls store.query with empty query when no query is provided', function (done) {
+        getOptions({}, modelDef, data, '', store).then((data) => {
+          options = data
+          done()
+        })
+        expect(store.query.calledWith('resource', {}))
+      })
+
+      it('calls story.query with supplied query when query is provided', function (done) {
+        modelDef.query = {
+          label: 'labelName'
+        }
+        getOptions({}, modelDef, data, '', store).then((data) => {
+          options = data
+          done()
+        })
+        expect(store.query.calledWith('resource', {label: 'labelName'}))
+      })
+    })
   })
 })
