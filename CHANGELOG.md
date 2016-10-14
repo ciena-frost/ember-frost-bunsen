@@ -1,3 +1,9 @@
+# 10.1.7
+
+* **Fixed** width of password and text inputs in facets.
+
+
+
 # 10.1.6
 
 * **Fixed** styling of empty array message.
