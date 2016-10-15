@@ -1,3 +1,9 @@
+# 10.1.9
+
+* Updated bunsen-core
+
+
+
 # 10.1.8
 
 * **Fixed** input position shifting down 3 pixels when field goes into error state.
