@@ -1,3 +1,9 @@
+# 10.1.8
+
+* **Fixed** input position shifting down 3 pixels when field goes into error state.
+
+
+
 # 10.1.7
 
 * **Fixed** width of password and text inputs in facets.
