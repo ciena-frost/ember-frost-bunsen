@@ -14,6 +14,8 @@ import {
   expectBunsenInputToHaveError
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
+import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 export default function (format, invalidValues, validValues, focus = false) {
@@ -186,11 +188,10 @@ export default function (format, invalidValues, validValues, focus = false) {
             )
               .to.eql([])
 
-            expect(
-              this.$(selectors.frost.text.input.enabled).val(),
-              'input maintains user input value'
-            )
-              .to.equal(input)
+            expectTextInputWithState('bunsenForm-foo-input', {
+              placeholder: '',
+              value: input
+            })
           })
 
           describe('when user removes focus from input', function () {
@@ -199,11 +200,10 @@ export default function (format, invalidValues, validValues, focus = false) {
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.frost.text.input.enabled).val(),
-                'input maintains user input value'
-              )
-                .to.equal(input)
+              expectTextInputWithState('bunsenForm-foo-input', {
+                placeholder: '',
+                value: input
+              })
 
               expectBunsenInputNotToHaveError('foo')
             })

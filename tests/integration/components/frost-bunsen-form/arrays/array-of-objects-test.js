@@ -1407,7 +1407,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectTextInputWithState($textInput, {
+          expectTextInputWithState('bunsenForm-bar-input', {
             value: 'test'
           })
 

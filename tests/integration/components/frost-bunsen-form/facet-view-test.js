@@ -120,7 +120,7 @@ describeComponent(
       )
         .to.have.length(1)
 
-      expectTextInputWithState($textInput, {
+      expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
         value: ''
       })
@@ -224,7 +224,7 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expectTextInputWithState($textInput, {
+        expectTextInputWithState('bunsenForm-foo-input', {
           placeholder: '',
           value: input
         })
@@ -340,7 +340,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectTextInputWithState($textInput, {
+          expectTextInputWithState('bunsenForm-foo-input', {
             placeholder: '',
             value: ''
           })
