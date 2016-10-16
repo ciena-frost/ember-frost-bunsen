@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {typeOf} = Ember
+const {$, typeOf} = Ember
 import {$hook} from 'ember-hook'
 
 const assign = Object.assign || Ember.assign || Ember.merge
@@ -20,6 +20,7 @@ const assign = Object.assign || Ember.assign || Ember.merge
  * @property {Boolean} [error=false] - whether or not input is in error state
  * @property {String} [placeholder] - placeholder text
  * @property {Number} [tabIndex=0] - tab index
+ * @property {String} [type='text'] - input type
  * @property {String} [value] - value of input
  */
 
@@ -89,7 +90,8 @@ export function expectTextInputWithState (input, state) {
     align: 'left',
     disabled: false,
     error: false,
-    tabIndex: 0
+    tabIndex: 0,
+    type: 'text'
   }
 
   const $input = typeOf(input) === 'string' ? $hook(input) : input
@@ -109,19 +111,20 @@ export function expectTextInputWithState (input, state) {
   )
     .to.equal(state.error)
 
-  if (state.placeholder) {
-    expect(
-      $input.prop('placeholder'),
-      'input has expected placeholder text'
-    )
-      .to.equal(state.placeholder)
-  }
-
-  expect(
-    $input.prop('tabIndex'),
-    'input has expected tab index'
-  )
-    .to.equal(state.tabIndex)
+  ;[
+    'placeholder',
+    'tabIndex',
+    'type'
+  ]
+    .forEach((key) => {
+      if (state[key]) {
+        expect(
+          $input.prop(key),
+          `input as expected ${key}`
+        )
+          .to.equal(state[key])
+      }
+    })
 
   if (state.value) {
     expect(
@@ -143,6 +146,22 @@ export function fillIn (element, value) {
 }
 
 /**
+ * Get list of buttons
+ * @returns {jQuery} buttons
+ */
+export function findButtons () {
+  return $('.frost-button')
+}
+
+/**
+ * Get list of text inputs
+ * @returns {jQuery} text inputs
+ */
+export function findTextInputs () {
+  return $('.frost-text')
+}
+
+/**
  * Remove focus from element
  * @param {jQuery|String} element - name of Ember hook or jQuery instance
  */
@@ -152,8 +171,11 @@ export function focusout (element) {
 }
 
 export default {
+  click,
   expectButtonWithState,
   expectTextInputWithState,
   fillIn,
+  findButtons,
+  findTextInputs,
   focusout
 }

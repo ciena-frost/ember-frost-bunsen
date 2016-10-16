@@ -4,7 +4,11 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
+import {
+  expectTextInputWithState,
+  findTextInputs
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -115,10 +119,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -210,10 +212,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -306,10 +306,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -411,10 +409,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)
@@ -497,10 +493,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)

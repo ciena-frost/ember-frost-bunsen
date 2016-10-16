@@ -5,7 +5,13 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
-import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
+
+import {
+  expectTextInputWithState,
+  fillIn,
+  findTextInputs
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -65,10 +71,8 @@ describeComponent(
       )
         .to.have.length(1)
 
-      const $input = this.$(selectors.frost.text.input.enabled)
-
       expect(
-        $input,
+        findTextInputs(),
         'renders one text input'
       )
         .to.have.length(1)
@@ -137,10 +141,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -210,10 +212,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -283,10 +283,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -350,10 +348,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -414,19 +410,19 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.type.date.input.enabled)
-
         expect(
-          $input,
-          'renders an enabled date input'
+          findTextInputs(),
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+        const $input = this.$(selectors.frost.text.type.date.input.enabled)
+
+        // TODO: figure out why hook doesn't work when type isn't text
+        expectTextInputWithState($input, {
+          placeholder: '',
+          type: 'date'
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -469,7 +465,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs(),
           'renders an enabled text input'
         )
           .to.have.length(1)
@@ -489,7 +485,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.frost.text.input.disabled),
+          findTextInputs(),
           'renders a disabled text input'
         )
           .to.have.length(1)
@@ -518,7 +514,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs(),
           'renders an enabled text input'
         )
           .to.have.length(1)
@@ -547,10 +543,14 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.frost.text.input.disabled),
-          'renders a disabled text input'
+          findTextInputs(),
+          'renders one text input'
         )
           .to.have.length(1)
+
+        expectTextInputWithState('bunsenForm-foo-input', {
+          disabled: true
+        })
 
         expect(
           this.$(selectors.error),
@@ -566,10 +566,7 @@ describeComponent(
       beforeEach(function () {
         props.onValidation = sandbox.spy()
         this.set('onValidation', props.onValidation)
-
-        this.$(selectors.frost.text.input.enabled)
-          .val(input)
-          .trigger('input')
+        fillIn('bunsenForm-foo-input', input)
       })
 
       it('functions as expected', function () {
@@ -579,10 +576,8 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.text.input.enabled)
-
         expect(
-          $input,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -654,7 +649,7 @@ describeComponent(
           .to.have.length(1)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs(),
           'renders an enabled text input'
         )
           .to.have.length(1)
@@ -704,7 +699,7 @@ describeComponent(
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'renders an enabled text input'
           )
             .to.have.length(1)
@@ -741,7 +736,7 @@ describeComponent(
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'renders an enabled text input'
           )
             .to.have.length(1)
@@ -800,10 +795,7 @@ describeComponent(
         beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
-
-          this.$(selectors.frost.text.input.enabled)
-            .val(input)
-            .trigger('input')
+          fillIn('bunsenForm-foo-input', input)
         })
 
         it('functions as expected', function () {
@@ -813,10 +805,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)
@@ -868,10 +858,7 @@ describeComponent(
         beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
-
-          this.$(selectors.frost.text.input.enabled)
-            .val(input)
-            .trigger('input')
+          fillIn('bunsenForm-foo-input', input)
         })
 
         it('functions as expected', function () {
@@ -881,10 +868,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)
@@ -934,10 +919,7 @@ describeComponent(
         beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
-
-          this.$(selectors.frost.text.input.enabled)
-            .val('Johnathan')
-            .trigger('input')
+          fillIn('bunsenForm-foo-input', 'Johnathan')
         })
 
         it('functions as expected', function () {
@@ -947,10 +929,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)
@@ -1000,10 +980,7 @@ describeComponent(
         beforeEach(function () {
           props.onValidation = sandbox.spy()
           this.set('onValidation', props.onValidation)
-
-          this.$(selectors.frost.text.input.enabled)
-            .val('Alexander')
-            .trigger('input')
+          fillIn('bunsenForm-foo-input', 'Alexander')
         })
 
         it('functions as expected', function () {
@@ -1013,10 +990,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $input = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $input,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)

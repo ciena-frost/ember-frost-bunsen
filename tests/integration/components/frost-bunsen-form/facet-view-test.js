@@ -5,7 +5,12 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
+import {
+  expectTextInputWithState,
+  fillIn,
+  findTextInputs
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -111,11 +116,10 @@ describeComponent(
       )
         .to.have.length(1)
 
-      const $textInput = this.$(selectors.frost.text.input.enabled)
       const $selectInput = this.$(selectors.frost.select.input.enabled)
 
       expect(
-        $textInput,
+        findTextInputs(),
         'renders one text input'
       )
         .to.have.length(1)
@@ -164,10 +168,7 @@ describeComponent(
       beforeEach(function () {
         props.onChange.reset()
         props.onValidation.reset()
-
-        this.$(selectors.frost.text.input.enabled)
-          .val(input)
-          .trigger('input')
+        fillIn('bunsenForm-foo-input', input)
       })
 
       it('renders as expected', function () {
@@ -215,11 +216,10 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $textInput = this.$(selectors.frost.text.input.enabled)
         const $selectInput = this.$(selectors.frost.select.input.enabled)
 
         expect(
-          $textInput,
+          findTextInputs(),
           'renders one text input'
         )
           .to.have.length(1)
@@ -331,11 +331,10 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $textInput = this.$(selectors.frost.text.input.enabled)
           const $selectInput = this.$(selectors.frost.select.input.enabled)
 
           expect(
-            $textInput,
+            findTextInputs(),
             'renders one text input'
           )
             .to.have.length(1)

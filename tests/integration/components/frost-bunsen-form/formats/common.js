@@ -16,6 +16,8 @@ import {
 
 import {
   expectTextInputWithState,
+  fillIn,
+  findTextInputs,
   focusout
 } from 'dummy/tests/helpers/ember-frost-core'
 
@@ -64,7 +66,7 @@ export default function (format, invalidValues, validValues, focus = false) {
       })
 
       it('renders as expected', function () {
-        expect(this.$(selectors.frost.text.input.enabled))
+        expect(findTextInputs())
           .msg('renders a text input')
           .to.have.length(1)
 
@@ -88,10 +90,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               }
             })
 
-            this.$(selectors.frost.text.input.enabled)
-              .focus()
-              .val(input)
-              .trigger('input')
+            fillIn('bunsenForm-foo-input', input)
           })
 
           it('functions as expected', function () {
@@ -158,10 +157,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               }
             })
 
-            this.$(selectors.frost.text.input.enabled)
-              .focus()
-              .val(input)
-              .trigger('input')
+            fillIn('bunsenForm-foo-input', input)
           })
 
           it('functions as expected', function () {
