@@ -3,7 +3,9 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
+import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -67,15 +69,13 @@ describeComponent(
 
       expect(
         $input,
-        'renders an enabled text input'
+        'renders one text input'
       )
         .to.have.length(1)
 
-      expect(
-        $input.prop('placeholder'),
-        'does not have placeholder text'
-      )
-        .to.equal('')
+      expectTextInputWithState($input, {
+        placeholder: ''
+      })
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -141,15 +141,13 @@ describeComponent(
 
         expect(
           $input,
-          'renders an enabled text input'
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+        expectTextInputWithState($input, {
+          placeholder: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -216,15 +214,13 @@ describeComponent(
 
         expect(
           $input,
-          'renders an enabled text input'
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+        expectTextInputWithState($input, {
+          placeholder: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -291,15 +287,13 @@ describeComponent(
 
         expect(
           $input,
-          'renders an enabled text input'
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+        expectTextInputWithState($input, {
+          placeholder: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -360,15 +354,13 @@ describeComponent(
 
         expect(
           $input,
-          'renders an enabled text input'
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          $input.prop('placeholder'),
-          'has expected placeholder text'
-        )
-          .to.equal('Foo bar')
+        expectTextInputWithState($input, {
+          placeholder: 'Foo bar'
+        })
 
         expect(
           this.$(selectors.error),
@@ -587,17 +579,18 @@ describeComponent(
         )
           .to.have.length(1)
 
+        const $input = this.$(selectors.frost.text.input.enabled)
+
         expect(
-          this.$(selectors.frost.text.input.enabled),
-          'renders an enabled text input'
+          $input,
+          'renders one text input'
         )
           .to.have.length(1)
 
-        expect(
-          this.$(selectors.frost.text.input.enabled).val(),
-          'input maintains user input value'
-        )
-          .to.equal(`${input}`)
+        expectTextInputWithState($input, {
+          placeholder: '',
+          value: `${input}`
+        })
 
         expect(
           this.$(selectors.error),
@@ -820,17 +813,18 @@ describeComponent(
           )
             .to.have.length(1)
 
+          const $input = this.$(selectors.frost.text.input.enabled)
+
           expect(
-            this.$(selectors.frost.text.input.enabled),
-            'renders an enabled text input'
+            $input,
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            this.$(selectors.frost.text.input.enabled).val(),
-            'renders transformed value in text input'
-          )
-            .to.equal('Matthew')
+          expectTextInputWithState($input, {
+            placeholder: '',
+            value: 'Matthew'
+          })
 
           expect(
             this.$(selectors.error),
@@ -887,17 +881,18 @@ describeComponent(
           )
             .to.have.length(1)
 
+          const $input = this.$(selectors.frost.text.input.enabled)
+
           expect(
-            this.$(selectors.frost.text.input.enabled),
-            'renders an enabled text input'
+            $input,
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            this.$(selectors.frost.text.input.enabled).val(),
-            'renders transformed value in text input'
-          )
-            .to.equal('Christopher')
+          expectTextInputWithState($input, {
+            placeholder: '',
+            value: 'Christopher'
+          })
 
           expect(
             this.$(selectors.error),
@@ -952,17 +947,18 @@ describeComponent(
           )
             .to.have.length(1)
 
+          const $input = this.$(selectors.frost.text.input.enabled)
+
           expect(
-            this.$(selectors.frost.text.input.enabled),
-            'renders an enabled text input'
+            $input,
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            this.$(selectors.frost.text.input.enabled).val(),
-            'renders transformed value in text input'
-          )
-            .to.equal('John')
+          expectTextInputWithState($input, {
+            placeholder: '',
+            value: 'John'
+          })
 
           expect(
             this.$(selectors.error),
@@ -1017,17 +1013,18 @@ describeComponent(
           )
             .to.have.length(1)
 
+          const $input = this.$(selectors.frost.text.input.enabled)
+
           expect(
-            this.$(selectors.frost.text.input.enabled),
-            'renders an enabled text input'
+            $input,
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            this.$(selectors.frost.text.input.enabled).val(),
-            'renders transformed value in text input'
-          )
-            .to.equal('Alex')
+          expectTextInputWithState($input, {
+            placeholder: '',
+            value: 'Alex'
+          })
 
           expect(
             this.$(selectors.error),

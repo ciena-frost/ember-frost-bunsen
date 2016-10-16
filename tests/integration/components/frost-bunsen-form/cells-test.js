@@ -3,6 +3,8 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, it} from 'mocha'
 import sinon from 'sinon'
+
+import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 [
@@ -135,15 +137,13 @@ import selectors from 'dummy/tests/helpers/selectors'
 
           expect(
             $input,
-            'renders an enabled text input'
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            $input.prop('placeholder'),
-            'does not have placeholder text'
-          )
-            .to.equal('')
+          expectTextInputWithState($input, {
+            placeholder: ''
+          })
 
           expect(
             this.$(selectors.bunsen.label).text().trim(),

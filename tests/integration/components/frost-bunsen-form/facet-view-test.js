@@ -4,6 +4,8 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {expectTextInputWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -114,27 +116,20 @@ describeComponent(
 
       expect(
         $textInput,
-        'renders an enabled text input'
+        'renders one text input'
       )
         .to.have.length(1)
+
+      expectTextInputWithState($textInput, {
+        placeholder: '',
+        value: ''
+      })
 
       expect(
         $selectInput,
         'renders an enabled select input'
       )
         .to.have.length(1)
-
-      expect(
-        $textInput.prop('placeholder'),
-        'text input does not have placeholder text'
-      )
-        .to.equal('')
-
-      expect(
-        $textInput.val(),
-        'text input has correct value'
-      )
-        .to.equal('')
 
       expect(
         this.$(selectors.error),
@@ -225,27 +220,20 @@ describeComponent(
 
         expect(
           $textInput,
-          'renders an enabled text input'
+          'renders one text input'
         )
           .to.have.length(1)
+
+        expectTextInputWithState($textInput, {
+          placeholder: '',
+          value: input
+        })
 
         expect(
           $selectInput,
           'renders an enabled select input'
         )
           .to.have.length(1)
-
-        expect(
-          $textInput.prop('placeholder'),
-          'text input does not have placeholder text'
-        )
-          .to.equal('')
-
-        expect(
-          $textInput.val(),
-          'text input has correct value'
-        )
-          .to.equal(input)
 
         expect(
           this.$(selectors.error),
@@ -348,27 +336,20 @@ describeComponent(
 
           expect(
             $textInput,
-            'renders an enabled text input'
+            'renders one text input'
           )
             .to.have.length(1)
+
+          expectTextInputWithState($textInput, {
+            placeholder: '',
+            value: ''
+          })
 
           expect(
             $selectInput,
             'renders an enabled select input'
           )
             .to.have.length(1)
-
-          expect(
-            $textInput.prop('placeholder'),
-            'text input does not have placeholder text'
-          )
-            .to.equal('')
-
-          expect(
-            $textInput.val(),
-            'text input has correct value'
-          )
-            .to.equal('')
 
           expect(
             this.$(selectors.error),

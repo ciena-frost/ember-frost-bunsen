@@ -5,7 +5,11 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {initialize} from 'ember-hook'
 
-import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
+import {
+  expectButtonWithState,
+  expectTextInputWithState
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -1399,15 +1403,13 @@ describeComponent(
 
           expect(
             $textInput,
-            'renders an enabled text input for item'
+            'renders one text input'
           )
             .to.have.length(1)
 
-          expect(
-            $textInput.val(),
-            'renders default value for text input'
-          )
-            .to.equal('test')
+          expectTextInputWithState($textInput, {
+            value: 'test'
+          })
 
           const $numberInput = this.$(selectors.frost.number.input.enabled)
 
