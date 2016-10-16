@@ -4,6 +4,7 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
+import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -79,23 +80,10 @@ describeComponent(
 
         const $button = this.$(selectors.frost.button.input.enabled)
 
-        expect(
-          $button,
-          'has an enabled button'
-        )
-          .to.have.length(1)
-
-        expect(
-          $button.find('.frost-icon-frost-round-add'),
-          'button has add icon'
-        )
-          .to.have.length(1)
-
-        expect(
-          $button.text().trim(),
-          'button has correct text'
-        )
-          .to.equal('Add foo')
+        expectButtonWithState($button, {
+          icon: 'round-add',
+          text: 'Add foo'
+        })
 
         expect(
           this.$(selectors.error),
@@ -156,23 +144,10 @@ describeComponent(
 
           const $button = this.$(selectors.frost.button.input.enabled)
 
-          expect(
-            $button,
-            'has an enabled button'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.find('.frost-icon-frost-round-add'),
-            'button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.text().trim(),
-            'button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($button, {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -234,23 +209,11 @@ describeComponent(
 
           const $button = this.$(selectors.frost.button.input.disabled)
 
-          expect(
-            $button,
-            'has a disabled button'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.find('.frost-icon-frost-round-add'),
-            'button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.text().trim(),
-            'button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($button, {
+            disabled: true,
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -321,17 +284,10 @@ describeComponent(
 
           const $button = this.$(selectors.frost.button.input.enabled)
 
-          expect(
-            $button,
-            'has an enabled button for adding an item'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.text().trim(),
-            'add button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($button, {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -399,21 +355,14 @@ describeComponent(
             )
               .to.have.length(2)
 
-            const $removeItemButton = $buttons.eq(0)
+            expectButtonWithState($buttons.first(), {
+              text: 'Remove'
+            })
 
-            expect(
-              $removeItemButton.text().trim(),
-              'remove item button has correct text'
-            )
-              .to.equal('Remove')
-
-            const $addButton = $buttons.eq(1)
-
-            expect(
-              $addButton.text().trim(),
-              'add button has correct text'
-            )
-              .to.equal('Add foo')
+            expectButtonWithState($buttons.last(), {
+              icon: 'round-add',
+              text: 'Add foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -475,17 +424,10 @@ describeComponent(
 
               const $button = this.$(selectors.frost.button.input.enabled)
 
-              expect(
-                $button,
-                'has an enabled button for adding an item'
-              )
-                .to.have.length(1)
-
-              expect(
-                $button.text().trim(),
-                'add button has correct text'
-              )
-                .to.equal('Add foo')
+              expectButtonWithState($button, {
+                icon: 'round-add',
+                text: 'Add foo'
+              })
 
               expect(
                 this.$(selectors.error),
@@ -554,23 +496,10 @@ describeComponent(
 
           const $button = this.$(selectors.frost.button.input.enabled)
 
-          expect(
-            $button,
-            'has an enabled button'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.find('.frost-icon-frost-round-add'),
-            'button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.text().trim(),
-            'button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($button, {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -631,8 +560,6 @@ describeComponent(
               .to.have.length(0)
 
             const $buttons = this.$(selectors.frost.button.input.enabled)
-            const $removeButton = $buttons.first()
-            const $addButton = $buttons.last()
 
             expect(
               $buttons,
@@ -640,17 +567,14 @@ describeComponent(
             )
               .to.have.length(2)
 
-            expect(
-              $removeButton.text().trim(),
-              'remove item button has correct text'
-            )
-              .to.equal('Remove')
+            expectButtonWithState($buttons.first(), {
+              text: 'Remove'
+            })
 
-            expect(
-              $addButton.text().trim(),
-              'add item button has correct text'
-            )
-              .to.equal('Add foo')
+            expectButtonWithState($buttons.last(), {
+              icon: 'round-add',
+              text: 'Add foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -679,7 +603,7 @@ describeComponent(
               .to.equal(0)
           })
 
-          describe('when user removes add', function () {
+          describe('when user removes item', function () {
             beforeEach(function () {
               this.$(selectors.frost.button.input.enabled)
                 .first()
@@ -713,23 +637,10 @@ describeComponent(
 
               const $button = this.$(selectors.frost.button.input.enabled)
 
-              expect(
-                $button,
-                'has an enabled button'
-              )
-                .to.have.length(1)
-
-              expect(
-                $button.find('.frost-icon-frost-round-add'),
-                'button has add icon'
-              )
-                .to.have.length(1)
-
-              expect(
-                $button.text().trim(),
-                'button has correct text'
-              )
-                .to.equal('Add foo')
+              expectButtonWithState($button, {
+                icon: 'round-add',
+                text: 'Add foo'
+              })
 
               expect(
                 this.$(selectors.error),
@@ -793,8 +704,6 @@ describeComponent(
             .to.have.length(0)
 
           const $buttons = this.$(selectors.frost.button.input.enabled)
-          const $removeButton = $buttons.first()
-          const $addButton = $buttons.last()
 
           expect(
             $buttons,
@@ -802,17 +711,14 @@ describeComponent(
           )
             .to.have.length(2)
 
-          expect(
-            $removeButton.text().trim(),
-            'remove item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.first(), {
+            text: 'Remove'
+          })
 
-          expect(
-            $addButton.text().trim(),
-            'add item button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($buttons.last(), {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -841,7 +747,7 @@ describeComponent(
             .to.equal(0)
         })
 
-        describe('when user removes add', function () {
+        describe('when user removes item', function () {
           beforeEach(function () {
             this.$(selectors.frost.button.input.enabled)
               .first()
@@ -875,23 +781,10 @@ describeComponent(
 
             const $button = this.$(selectors.frost.button.input.enabled)
 
-            expect(
-              $button,
-              'has an enabled button'
-            )
-              .to.have.length(1)
-
-            expect(
-              $button.find('.frost-icon-frost-round-add'),
-              'button has add icon'
-            )
-              .to.have.length(1)
-
-            expect(
-              $button.text().trim(),
-              'button has correct text'
-            )
-              .to.equal('Add foo')
+            expectButtonWithState($button, {
+              icon: 'round-add',
+              text: 'Add foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -965,17 +858,9 @@ describeComponent(
 
           const $button = this.$(selectors.frost.button.input.enabled)
 
-          expect(
-            $button,
-            'has an enabled button for removing auto added item'
-          )
-            .to.have.length(1)
-
-          expect(
-            $button.text().trim(),
-            'remove first item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($button, {
+            text: 'Remove'
+          })
 
           expect(
             this.$(selectors.error),
@@ -1043,21 +928,13 @@ describeComponent(
             )
               .to.have.length(2)
 
-            const $removeItem1Button = $buttons.eq(0)
+            expectButtonWithState($buttons.eq(0), {
+              text: 'Remove'
+            })
 
-            expect(
-              $removeItem1Button.text().trim(),
-              'remove first item button has correct text'
-            )
-              .to.equal('Remove')
-
-            const $removeItem2Button = $buttons.eq(0)
-
-            expect(
-              $removeItem2Button.text().trim(),
-              'remove second item button has correct text'
-            )
-              .to.equal('Remove')
+            expectButtonWithState($buttons.eq(1), {
+              text: 'Remove'
+            })
 
             expect(
               this.$(selectors.error),
@@ -1157,43 +1034,26 @@ describeComponent(
         )
           .to.have.length(0)
 
-        const $button = this.$(selectors.frost.button.input.enabled)
+        const $buttons = this.$(selectors.frost.button.input.enabled)
 
         expect(
-          $button,
+          $buttons,
           'has three enabled buttons (1 for adding and 2 for removing)'
         )
           .to.have.length(3)
 
-        const $removeItem1Button = $button.eq(0)
+        expectButtonWithState($buttons.eq(0), {
+          text: 'Remove'
+        })
 
-        expect(
-          $removeItem1Button.text().trim(),
-          'remove first item button has correct text'
-        )
-          .to.equal('Remove')
+        expectButtonWithState($buttons.eq(1), {
+          text: 'Remove'
+        })
 
-        const $removeItem2Button = $button.eq(1)
-
-        expect(
-          $removeItem2Button.text().trim(),
-          'remove second item button has correct text'
-        )
-          .to.equal('Remove')
-
-        const $addButton = $button.eq(2)
-
-        expect(
-          $addButton.find('.frost-icon-frost-round-add'),
-          'add button has add icon'
-        )
-          .to.have.length(1)
-
-        expect(
-          $addButton.text().trim(),
-          'add button has correct text'
-        )
-          .to.equal('Add foo')
+        expectButtonWithState($buttons.eq(2), {
+          icon: 'round-add',
+          text: 'Add foo'
+        })
 
         expect(
           this.$(selectors.error),
@@ -1252,43 +1112,26 @@ describeComponent(
           )
             .to.have.length(0)
 
-          const $button = this.$(selectors.frost.button.input.enabled)
+          const $buttons = this.$(selectors.frost.button.input.enabled)
 
           expect(
-            $button,
+            $buttons,
             'has three enabled buttons (1 for adding and 2 for removing)'
           )
             .to.have.length(3)
 
-          const $removeItem1Button = $button.eq(0)
+          expectButtonWithState($buttons.eq(0), {
+            text: 'Remove'
+          })
 
-          expect(
-            $removeItem1Button.text().trim(),
-            'remove first item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.eq(1), {
+            text: 'Remove'
+          })
 
-          const $removeItem2Button = $button.eq(1)
-
-          expect(
-            $removeItem2Button.text().trim(),
-            'remove second item button has correct text'
-          )
-            .to.equal('Remove')
-
-          const $addButton = $button.eq(2)
-
-          expect(
-            $addButton.find('.frost-icon-frost-round-add'),
-            'add button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $addButton.text().trim(),
-            'add button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($buttons.eq(2), {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -1348,43 +1191,29 @@ describeComponent(
           )
             .to.have.length(0)
 
-          const $button = this.$(selectors.frost.button.input.disabled)
+          const $buttons = this.$(selectors.frost.button.input.disabled)
 
           expect(
-            $button,
+            $buttons,
             'has three disabled buttons (1 for adding and 2 for removing)'
           )
             .to.have.length(3)
 
-          const $removeItem1Button = $button.eq(0)
+          expectButtonWithState($buttons.eq(0), {
+            disabled: true,
+            text: 'Remove'
+          })
 
-          expect(
-            $removeItem1Button.text().trim(),
-            'remove first item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.eq(1), {
+            disabled: true,
+            text: 'Remove'
+          })
 
-          const $removeItem2Button = $button.eq(1)
-
-          expect(
-            $removeItem2Button.text().trim(),
-            'remove second item button has correct text'
-          )
-            .to.equal('Remove')
-
-          const $addButton = $button.eq(2)
-
-          expect(
-            $addButton.find('.frost-icon-frost-round-add'),
-            'add button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $addButton.text().trim(),
-            'add button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($buttons.eq(2), {
+            disabled: true,
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -1456,43 +1285,29 @@ describeComponent(
 
             // TODO: add test that ensures sort handles appear disabled
 
-            const $button = this.$(selectors.frost.button.input.disabled)
+            const $buttons = this.$(selectors.frost.button.input.disabled)
 
             expect(
-              $button,
-              'has three enabled buttons (1 for adding and 2 for removing)'
+              $buttons,
+              'has three disabled buttons (1 for adding and 2 for removing)'
             )
               .to.have.length(3)
 
-            const $removeItem1Button = $button.eq(0)
+            expectButtonWithState($buttons.eq(0), {
+              disabled: true,
+              text: 'Remove'
+            })
 
-            expect(
-              $removeItem1Button.text().trim(),
-              'remove first item button has correct text'
-            )
-              .to.equal('Remove')
+            expectButtonWithState($buttons.eq(1), {
+              disabled: true,
+              text: 'Remove'
+            })
 
-            const $removeItem2Button = $button.eq(1)
-
-            expect(
-              $removeItem2Button.text().trim(),
-              'remove second item button has correct text'
-            )
-              .to.equal('Remove')
-
-            const $addButton = $button.eq(2)
-
-            expect(
-              $addButton.find('.frost-icon-frost-round-add'),
-              'add button has add icon'
-            )
-              .to.have.length(1)
-
-            expect(
-              $addButton.text().trim(),
-              'add button has correct text'
-            )
-              .to.equal('Add foo')
+            expectButtonWithState($buttons.eq(2), {
+              disabled: true,
+              icon: 'round-add',
+              text: 'Add foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -1564,37 +1379,25 @@ describeComponent(
           )
             .to.have.length(0)
 
-          const $button = this.$(selectors.frost.button.input.enabled)
+          const $buttons = this.$(selectors.frost.button.input.enabled)
 
           expect(
-            $button,
+            $buttons,
             'has three enabled buttons for removing items'
           )
             .to.have.length(3)
 
-          const $removeItem1Button = $button.eq(0)
+          expectButtonWithState($buttons.eq(0), {
+            text: 'Remove'
+          })
 
-          expect(
-            $removeItem1Button.text().trim(),
-            'remove first item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.eq(1), {
+            text: 'Remove'
+          })
 
-          const $removeItem2Button = $button.eq(1)
-
-          expect(
-            $removeItem2Button.text().trim(),
-            'remove second item button has correct text'
-          )
-            .to.equal('Remove')
-
-          const $removeItem3Button = $button.eq(2)
-
-          expect(
-            $removeItem3Button.text().trim(),
-            'remove third item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.eq(2), {
+            text: 'Remove'
+          })
 
           expect(
             this.$(selectors.error),
@@ -1665,43 +1468,26 @@ describeComponent(
           )
             .to.have.length(2)
 
-          const $button = this.$(selectors.frost.button.input.enabled)
+          const $buttons = this.$(selectors.frost.button.input.enabled)
 
           expect(
-            $button,
+            $buttons,
             'has three enabled buttons (1 for adding and 2 for removing)'
           )
             .to.have.length(3)
 
-          const $removeItem1Button = $button.eq(0)
+          expectButtonWithState($buttons.eq(0), {
+            text: 'Remove'
+          })
 
-          expect(
-            $removeItem1Button.text().trim(),
-            'remove first item button has correct text'
-          )
-            .to.equal('Remove')
+          expectButtonWithState($buttons.eq(1), {
+            text: 'Remove'
+          })
 
-          const $removeItem2Button = $button.eq(1)
-
-          expect(
-            $removeItem2Button.text().trim(),
-            'remove second item button has correct text'
-          )
-            .to.equal('Remove')
-
-          const $addButton = $button.eq(2)
-
-          expect(
-            $addButton.find('.frost-icon-frost-round-add'),
-            'add button has add icon'
-          )
-            .to.have.length(1)
-
-          expect(
-            $addButton.text().trim(),
-            'add button has correct text'
-          )
-            .to.equal('Add foo')
+          expectButtonWithState($buttons.eq(2), {
+            icon: 'round-add',
+            text: 'Add foo'
+          })
 
           expect(
             this.$(selectors.error),
