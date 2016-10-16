@@ -4,7 +4,11 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
+import {
+  expectButtonWithState,
+  fillIn
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -893,9 +897,7 @@ describeComponent(
 
         describe('when user inputs value', function () {
           beforeEach(function () {
-            this.$(selectors.frost.text.input.enabled)
-              .val('bar')
-              .trigger('input')
+            fillIn('bunsenForm-foo.0-input', 'bar')
           })
 
           it('renders as expected', function () {
@@ -968,9 +970,7 @@ describeComponent(
 
           describe('when user clears input', function () {
             beforeEach(function () {
-              this.$(selectors.frost.text.input.enabled).first()
-                .val('')
-                .trigger('input')
+              fillIn('bunsenForm-foo.0-input', '')
             })
 
             it('renders as expected', function () {

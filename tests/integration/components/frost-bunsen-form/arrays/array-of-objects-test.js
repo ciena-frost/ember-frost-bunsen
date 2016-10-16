@@ -7,7 +7,8 @@ import {initialize} from 'ember-hook'
 
 import {
   expectButtonWithState,
-  expectTextInputWithState
+  expectTextInputWithState,
+  fillIn
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
@@ -399,9 +400,7 @@ describeComponent(
 
         describe('when user inputs value', function () {
           beforeEach(function () {
-            this.$(selectors.frost.text.input.enabled)
-              .val('bar')
-              .trigger('input')
+            fillIn('bunsenForm-foo.0.bar-input', 'bar')
           })
 
           it('renders as expected', function () {
@@ -486,9 +485,7 @@ describeComponent(
 
           describe('when user clears input', function () {
             beforeEach(function () {
-              this.$(selectors.frost.text.input.enabled).first()
-                .val('')
-                .trigger('input')
+              fillIn('bunsenForm-foo.0.bar-input', '')
             })
 
             it('renders as expected', function () {
@@ -1407,7 +1404,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectTextInputWithState('bunsenForm-bar-input', {
+          expectTextInputWithState('bunsenForm-foo.0.bar-input', {
             value: 'test'
           })
 

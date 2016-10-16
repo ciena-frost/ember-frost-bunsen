@@ -123,7 +123,7 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expectTextInputWithState('bunsenForm-bar-input', {
+        expectTextInputWithState('bunsenForm-foo.bar-input', {
           placeholder: ''
         })
 
@@ -218,7 +218,7 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expectTextInputWithState('bunsenForm-bar-input', {
+        expectTextInputWithState('bunsenForm-foo.bar-input', {
           placeholder: ''
         })
 
@@ -314,7 +314,7 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expectTextInputWithState('bunsenForm-bar-input', {
+        expectTextInputWithState('bunsenForm-foo.bar-input', {
           placeholder: ''
         })
 
@@ -419,7 +419,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectTextInputWithState('bunsenForm-bar-input', {
+          expectTextInputWithState('bunsenForm-foo.bar-input', {
             placeholder: ''
           })
 
@@ -505,7 +505,7 @@ describeComponent(
           )
             .to.have.length(1)
 
-          expectTextInputWithState('bunsenForm-bar-input', {
+          expectTextInputWithState('bunsenForm-foo.bar-input', {
             placeholder: ''
           })
 

@@ -38,6 +38,15 @@ function expectDisabledState ($element, disabled, type = 'element') {
 }
 
 /**
+ * Click on element
+ * @param {jQuery|String} element - name of Ember hook or jQuery instance
+ */
+export function click (element) {
+  const $element = typeOf(element) === 'string' ? $hook(element) : element
+  $element.click()
+}
+
+/**
  * Verify button exists with expected state
  * @param {jQuery|String} button - name of Ember hook or jQuery instance
  * @param {FrostButtonState} state - expected button state
@@ -123,7 +132,28 @@ export function expectTextInputWithState (input, state) {
   }
 }
 
+/**
+ * Fill in an element
+ * @param {jQuery|String} element - name of Ember hook or jQuery instance
+ * @param {String} value - value to fill in
+ */
+export function fillIn (element, value) {
+  const $element = typeOf(element) === 'string' ? $hook(element) : element
+  $element.val(value).trigger('input')
+}
+
+/**
+ * Remove focus from element
+ * @param {jQuery|String} element - name of Ember hook or jQuery instance
+ */
+export function focusout (element) {
+  const $element = typeOf(element) === 'string' ? $hook(element) : element
+  $element.focusout()
+}
+
 export default {
   expectButtonWithState,
-  expectTextInputWithState
+  expectTextInputWithState,
+  fillIn,
+  focusout
 }

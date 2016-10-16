@@ -221,7 +221,7 @@ import selectors from 'dummy/tests/helpers/selectors'
           )
             .to.have.length(1)
 
-          expectTextInputWithState('bunsenForm-bar-input', {
+          expectTextInputWithState('bunsenForm-foo.0.bar-input', {
             placeholder: ''
           })
 
