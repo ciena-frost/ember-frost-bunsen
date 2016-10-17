@@ -8,7 +8,8 @@ import {initialize} from 'ember-hook'
 import {
   expectButtonWithState,
   expectTextInputWithState,
-  fillIn
+  fillIn,
+  findTextInputs
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
@@ -91,13 +92,13 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs({type: 'text'}),
           'does not render any text inputs'
         )
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.number.input.enabled),
+          findTextInputs({type: 'number'}),
           'does not render any number inputs'
         )
           .to.have.length(0)
@@ -167,13 +168,13 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({type: 'text'}),
             'does not render any text inputs'
           )
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({type: 'number'}),
             'does not render any number inputs'
           )
             .to.have.length(0)
@@ -244,13 +245,13 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({type: 'text'}),
             'does not render any text inputs'
           )
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({type: 'number'}),
             'does not render any number inputs'
           )
             .to.have.length(0)
@@ -348,13 +349,19 @@ describeComponent(
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'text'
+            }),
             'renders an enabled text input for auto added item'
           )
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'number'
+            }),
             'renders an enabled number input for auto added item'
           )
             .to.have.length(1)
@@ -423,13 +430,19 @@ describeComponent(
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
+              findTextInputs({
+                disabled: false,
+                type: 'text'
+              }),
               'renders an enabled text input for item plus one'
             )
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.number.input.enabled),
+              findTextInputs({
+                disabled: false,
+                type: 'number'
+              }),
               'renders an enabled number input for item plus one'
             )
               .to.have.length(2)
@@ -508,13 +521,19 @@ describeComponent(
                 .to.have.length(1)
 
               expect(
-                this.$(selectors.frost.text.input.enabled),
+                findTextInputs({
+                  disabled: false,
+                  type: 'text'
+                }),
                 'renders an enabled text input for auto added item'
               )
                 .to.have.length(1)
 
               expect(
-                this.$(selectors.frost.number.input.enabled),
+                findTextInputs({
+                  disabled: false,
+                  type: 'number'
+                }),
                 'renders an enabled number input for auto added item'
               )
                 .to.have.length(1)
@@ -645,13 +664,19 @@ describeComponent(
           .to.have.length(2)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs({
+            disabled: false,
+            type: 'text'
+          }),
           'renders an enabled text input for each array item'
         )
           .to.have.length(2)
 
         expect(
-          this.$(selectors.frost.number.input.enabled),
+          findTextInputs({
+            disabled: false,
+            type: 'number'
+          }),
           'renders an enabled number input for each array item'
         )
           .to.have.length(2)
@@ -735,13 +760,19 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'text'
+            }),
             'renders an enabled text input for each array item'
           )
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'number'
+            }),
             'renders an enabled number input for each array item'
           )
             .to.have.length(2)
@@ -826,13 +857,19 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.disabled),
+            findTextInputs({
+              disabled: true,
+              type: 'text'
+            }),
             'renders a disabled text input for each array item'
           )
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.number.input.disabled),
+            findTextInputs({
+              disabled: true,
+              type: 'number'
+            }),
             'renders a disabled number input for each array item'
           )
             .to.have.length(2)
@@ -945,13 +982,19 @@ describeComponent(
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.text.input.disabled),
+              findTextInputs({
+                disabled: true,
+                type: 'text'
+              }),
               'renders a disabled text input for each array item'
             )
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.number.input.disabled),
+              findTextInputs({
+                disabled: true,
+                type: 'number'
+              }),
               'renders a disabled number input for each array item'
             )
               .to.have.length(2)
@@ -1068,13 +1111,19 @@ describeComponent(
             .to.have.length(3)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'text'
+            }),
             'renders an enabled text input for each array item plus one'
           )
             .to.have.length(3)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'number'
+            }),
             'renders an enabled number input for each array item plus one'
           )
             .to.have.length(3)
@@ -1184,13 +1233,19 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'text'
+            }),
             'renders an enabled text input for each array item'
           )
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.number.input.enabled),
+            findTextInputs({
+              disabled: false,
+              type: 'number'
+            }),
             'renders an enabled number input for each array item'
           )
             .to.have.length(2)
@@ -1320,13 +1375,13 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs({type: 'text'}),
           'does not render any text inputs'
         )
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.number.input.enabled),
+          findTextInputs({type: 'number'}),
           'does not render any number inputs'
         )
           .to.have.length(0)
@@ -1396,10 +1451,8 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $textInput = this.$(selectors.frost.text.input.enabled)
-
           expect(
-            $textInput,
+            findTextInputs({type: 'text'}),
             'renders one text input'
           )
             .to.have.length(1)
@@ -1411,7 +1464,7 @@ describeComponent(
           const $numberInput = this.$(selectors.frost.number.input.enabled)
 
           expect(
-            $numberInput,
+            findTextInputs({type: 'number'}),
             'renders an enabled number input for item'
           )
             .to.have.length(1)
@@ -1499,7 +1552,7 @@ describeComponent(
               .to.have.length(0)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
+              findTextInputs(),
               'does not render any text inputs'
             )
               .to.have.length(0)

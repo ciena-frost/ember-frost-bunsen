@@ -13,8 +13,9 @@ describeComponent(...unitTest('frost-bunsen-input-boolean'), function () {
       bunsenId: 'enabled',
       bunsenModel: {},
       bunsenView: {},
-      cellConfig: Ember.Object.create({}),
+      cellConfig: {},
       onChange () {},
+      onError () {},
       state: Ember.Object.create({value: true})
     })
     ctx.component = component

@@ -13,8 +13,9 @@ describeComponent(...unitTest('frost-bunsen-input-number'), function () {
       bunsenId: 'name',
       bunsenModel: {},
       bunsenView: {},
-      cellConfig: Ember.Object.create({}),
+      cellConfig: {},
       onChange () {},
+      onError () {},
       state: Ember.Object.create({})
     })
     ctx.component = component

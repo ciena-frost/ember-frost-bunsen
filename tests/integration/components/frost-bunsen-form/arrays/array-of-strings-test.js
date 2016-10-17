@@ -6,7 +6,8 @@ import sinon from 'sinon'
 
 import {
   expectButtonWithState,
-  fillIn
+  fillIn,
+  findTextInputs
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
@@ -71,7 +72,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs(),
           'does not render any text inputs'
         )
           .to.have.length(0)
@@ -135,7 +136,7 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'does not render any text inputs'
           )
             .to.have.length(0)
@@ -200,7 +201,7 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'does not render any text inputs'
           )
             .to.have.length(0)
@@ -275,7 +276,7 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'does not render an enabled text input'
           )
             .to.have.length(0)
@@ -340,7 +341,9 @@ describeComponent(
               .to.have.length(1)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
+              findTextInputs({
+                disabled: false
+              }),
               'renders an enabled text input for item'
             )
               .to.have.length(1)
@@ -415,7 +418,7 @@ describeComponent(
                 .to.have.length(0)
 
               expect(
-                this.$(selectors.frost.text.input.enabled),
+                findTextInputs(),
                 'does not render an enabled text input'
               )
                 .to.have.length(0)
@@ -487,7 +490,7 @@ describeComponent(
             .to.have.length(0)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs(),
             'does not render any text inputs'
           )
             .to.have.length(0)
@@ -552,8 +555,10 @@ describeComponent(
               .to.have.length(1)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
-              'renders an enabled checkbox input'
+              findTextInputs({
+                disabled: false
+              }),
+              'renders an enabled text input'
             )
               .to.have.length(1)
 
@@ -628,8 +633,8 @@ describeComponent(
                 .to.have.length(0)
 
               expect(
-                this.$(selectors.frost.text.input.enabled),
-                'does not render any checkbox inputs'
+                findTextInputs(),
+                'does not render any text inputs'
               )
                 .to.have.length(0)
 
@@ -696,8 +701,10 @@ describeComponent(
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
-            'renders an enabled checkbox input'
+            findTextInputs({
+              disabled: false
+            }),
+            'renders an enabled text input'
           )
             .to.have.length(1)
 
@@ -774,7 +781,7 @@ describeComponent(
               .to.have.length(0)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
+              findTextInputs(),
               'does not render any checkbox inputs'
             )
               .to.have.length(0)
@@ -851,7 +858,9 @@ describeComponent(
             .to.have.length(1)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false
+            }),
             'renders an enabled text input for auto added item'
           )
             .to.have.length(1)
@@ -914,7 +923,9 @@ describeComponent(
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.text.input.enabled),
+              findTextInputs({
+                disabled: false
+              }),
               'renders an enabled text input for item plus one'
             )
               .to.have.length(2)
@@ -987,7 +998,9 @@ describeComponent(
                 .to.have.length(1)
 
               expect(
-                this.$(selectors.frost.text.input.enabled),
+                findTextInputs({
+                  disabled: false
+                }),
                 'renders an enabled text input for auto added item'
               )
                 .to.have.length(1)
@@ -1097,7 +1110,9 @@ describeComponent(
           .to.have.length(2)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs({
+            disabled: false
+          }),
           'renders an enabled text input for each array item'
         )
           .to.have.length(2)
@@ -1175,7 +1190,9 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false
+            }),
             'renders an enabled text input for each array item'
           )
             .to.have.length(2)
@@ -1254,7 +1271,9 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.disabled),
+            findTextInputs({
+              disabled: true
+            }),
             'renders a disabled text input for each array item'
           )
             .to.have.length(2)
@@ -1346,7 +1365,9 @@ describeComponent(
               .to.have.length(2)
 
             expect(
-              this.$(selectors.frost.text.input.disabled),
+              findTextInputs({
+                disabled: true
+              }),
               'renders a disabled text input for each array item'
             )
               .to.have.length(2)
@@ -1442,7 +1463,9 @@ describeComponent(
             .to.have.length(3)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false
+            }),
             'renders an enabled text input for each array item plus one'
           )
             .to.have.length(3)
@@ -1531,7 +1554,9 @@ describeComponent(
             .to.have.length(2)
 
           expect(
-            this.$(selectors.frost.text.input.enabled),
+            findTextInputs({
+              disabled: false
+            }),
             'renders an enabled text input for each array item'
           )
             .to.have.length(2)

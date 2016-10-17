@@ -15,6 +15,7 @@ describeComponent(...unitTest('frost-bunsen-input-select'), function () {
       bunsenView: {},
       cellConfig: {},
       onChange () {},
+      onError () {},
       registerForFormValueChanges () {},
       state: Ember.Object.create({})
     })

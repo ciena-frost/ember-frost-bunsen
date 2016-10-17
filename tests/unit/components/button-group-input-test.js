@@ -17,13 +17,14 @@ describeComponent(...unitTest('frost-bunsen-input-button-group'), function () {
         type: 'boolean'
       },
       bunsenView: {},
-      cellConfig: Ember.Object.create({
+      cellConfig: {
         model: 'foo',
         renderer: {
           name: 'button-group'
         }
-      }),
+      },
       onChange () {},
+      onError () {},
       state: Ember.Object.create({})
     })
     ctx.component = component

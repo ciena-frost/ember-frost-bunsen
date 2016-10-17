@@ -32,6 +32,7 @@ describeComponent(...unitTest('frost-bunsen-cell'), function () {
         },
         errors: {},
         onChange: onChangeSpy,
+        onError () {},
         value: {}
       })
     })

@@ -156,9 +156,25 @@ export function findButtons () {
 /**
  * Get list of text inputs
  * @returns {jQuery} text inputs
+ * @param {FrostTextState} state - find inputs with state
  */
-export function findTextInputs () {
-  return $('.frost-text')
+export function findTextInputs (state) {
+  let $inputs = $('.frost-text input')
+
+  if (typeOf(state) !== 'object') {
+    return $inputs
+  }
+
+  return $inputs.filter((index, input) => {
+    if (
+      ('disabled' in state && input.disabled !== state.disabled) ||
+      ('type' in state && input.type !== state.type)
+    ) {
+      return false
+    }
+
+    return true
+  })
 }
 
 /**
