@@ -82,7 +82,6 @@ export default {
     },
     text: {
       input: {
-        disabled: '.frost-text input[type="text"]:disabled',
         enabled: '.frost-text input[type="text"]:not(:disabled)'
       },
       type: {

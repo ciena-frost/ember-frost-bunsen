@@ -12,8 +12,9 @@ describeComponent(...unitTest('frost-bunsen-input-static'), function () {
       bunsenId: 'name',
       bunsenModel: {},
       bunsenView: {},
-      cellConfig: Ember.Object.create({}),
+      cellConfig: {},
       onChange () {},
+      onError () {},
       state: Ember.Object.create({})
     })
   })

@@ -4,6 +4,13 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {
+  expectTextInputWithState,
+  fillIn,
+  findTextInputs
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -109,32 +116,24 @@ describeComponent(
       )
         .to.have.length(1)
 
-      const $textInput = this.$(selectors.frost.text.input.enabled)
       const $selectInput = this.$(selectors.frost.select.input.enabled)
 
       expect(
-        $textInput,
-        'renders an enabled text input'
+        findTextInputs(),
+        'renders one text input'
       )
         .to.have.length(1)
+
+      expectTextInputWithState('bunsenForm-foo-input', {
+        placeholder: '',
+        value: ''
+      })
 
       expect(
         $selectInput,
         'renders an enabled select input'
       )
         .to.have.length(1)
-
-      expect(
-        $textInput.prop('placeholder'),
-        'text input does not have placeholder text'
-      )
-        .to.equal('')
-
-      expect(
-        $textInput.val(),
-        'text input has correct value'
-      )
-        .to.equal('')
 
       expect(
         this.$(selectors.error),
@@ -169,10 +168,7 @@ describeComponent(
       beforeEach(function () {
         props.onChange.reset()
         props.onValidation.reset()
-
-        this.$(selectors.frost.text.input.enabled)
-          .val(input)
-          .trigger('input')
+        fillIn('bunsenForm-foo-input', input)
       })
 
       it('renders as expected', function () {
@@ -220,32 +216,24 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $textInput = this.$(selectors.frost.text.input.enabled)
         const $selectInput = this.$(selectors.frost.select.input.enabled)
 
         expect(
-          $textInput,
-          'renders an enabled text input'
+          findTextInputs(),
+          'renders one text input'
         )
           .to.have.length(1)
+
+        expectTextInputWithState('bunsenForm-foo-input', {
+          placeholder: '',
+          value: input
+        })
 
         expect(
           $selectInput,
           'renders an enabled select input'
         )
           .to.have.length(1)
-
-        expect(
-          $textInput.prop('placeholder'),
-          'text input does not have placeholder text'
-        )
-          .to.equal('')
-
-        expect(
-          $textInput.val(),
-          'text input has correct value'
-        )
-          .to.equal(input)
 
         expect(
           this.$(selectors.error),
@@ -343,32 +331,24 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $textInput = this.$(selectors.frost.text.input.enabled)
           const $selectInput = this.$(selectors.frost.select.input.enabled)
 
           expect(
-            $textInput,
-            'renders an enabled text input'
+            findTextInputs(),
+            'renders one text input'
           )
             .to.have.length(1)
+
+          expectTextInputWithState('bunsenForm-foo-input', {
+            placeholder: '',
+            value: ''
+          })
 
           expect(
             $selectInput,
             'renders an enabled select input'
           )
             .to.have.length(1)
-
-          expect(
-            $textInput.prop('placeholder'),
-            'text input does not have placeholder text'
-          )
-            .to.equal('')
-
-          expect(
-            $textInput.val(),
-            'text input has correct value'
-          )
-            .to.equal('')
 
           expect(
             this.$(selectors.error),

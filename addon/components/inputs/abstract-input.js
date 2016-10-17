@@ -224,11 +224,11 @@ export default Component.extend(PropTypeMixin, {
 
   init () {
     this._super(...arguments)
-    try {
-      this.set('hook', this.get('formHook') + '-' + this.get('bunsenId').split('.').slice(-1)[0])
-    } catch (err) {
-      Logger.debug(err)
-    }
+
+    const bunsenId = this.get('bunsenId')
+    const formHook = this.get('formHook') || ''
+
+    this.set('hook', `${formHook}-${bunsenId}`)
   },
 
   didRender () {

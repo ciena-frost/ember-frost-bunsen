@@ -14,6 +14,13 @@ import {
   expectBunsenInputToHaveError
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
+import {
+  expectTextInputWithState,
+  fillIn,
+  findTextInputs,
+  focusout
+} from 'dummy/tests/helpers/ember-frost-core'
+
 import selectors from 'dummy/tests/helpers/selectors'
 
 export default function (format, invalidValues, validValues, focus = false) {
@@ -59,7 +66,7 @@ export default function (format, invalidValues, validValues, focus = false) {
       })
 
       it('renders as expected', function () {
-        expect(this.$(selectors.frost.text.input.enabled))
+        expect(findTextInputs())
           .msg('renders a text input')
           .to.have.length(1)
 
@@ -83,10 +90,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               }
             })
 
-            this.$(selectors.frost.text.input.enabled)
-              .focus()
-              .val(input)
-              .trigger('input')
+            fillIn('bunsenForm-foo-input', input)
           })
 
           it('functions as expected', function () {
@@ -121,7 +125,7 @@ export default function (format, invalidValues, validValues, focus = false) {
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$(selectors.frost.text.input.enabled).focusout()
+              focusout('bunsenForm-foo-input')
             })
 
             it('renders as expected', function () {
@@ -153,10 +157,7 @@ export default function (format, invalidValues, validValues, focus = false) {
               }
             })
 
-            this.$(selectors.frost.text.input.enabled)
-              .focus()
-              .val(input)
-              .trigger('input')
+            fillIn('bunsenForm-foo-input', input)
           })
 
           it('functions as expected', function () {
@@ -186,24 +187,22 @@ export default function (format, invalidValues, validValues, focus = false) {
             )
               .to.eql([])
 
-            expect(
-              this.$(selectors.frost.text.input.enabled).val(),
-              'input maintains user input value'
-            )
-              .to.equal(input)
+            expectTextInputWithState('bunsenForm-foo-input', {
+              placeholder: '',
+              value: input
+            })
           })
 
           describe('when user removes focus from input', function () {
             beforeEach(function () {
-              this.$(selectors.frost.text.input.enabled).focusout()
+              focusout('bunsenForm-foo-input')
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.frost.text.input.enabled).val(),
-                'input maintains user input value'
-              )
-                .to.equal(input)
+              expectTextInputWithState('bunsenForm-foo-input', {
+                placeholder: '',
+                value: input
+              })
 
               expectBunsenInputNotToHaveError('foo')
             })

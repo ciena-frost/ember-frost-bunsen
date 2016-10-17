@@ -4,6 +4,7 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
+import {findTextInputs} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -60,7 +61,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.frost.text.input.enabled),
+          findTextInputs(),
           'does not render any text inputs'
         )
           .to.have.length(0)
