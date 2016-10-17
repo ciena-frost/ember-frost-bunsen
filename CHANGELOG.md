@@ -1,3 +1,9 @@
+# 11.0.2
+
+* **Fixed** bug where view generator would overwrite `cellDefinitions` by not first checking if a name was already taken.
+* **Fixed** validation bug where cell wasn't being validated against proper model.
+
+
 # 11.0.1
 
 * **Fixed** minor CSS issues with inputs.
