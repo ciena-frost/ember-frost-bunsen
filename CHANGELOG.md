@@ -1,3 +1,8 @@
+# 11.0.1
+
+* **Fixed** minor CSS issues with inputs.
+
+
 # 11.0.0
 
 * **Changed** hooks to include full bunsen ID instead of just last segment. For example given the following bunsen mode:
