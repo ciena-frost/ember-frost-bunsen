@@ -73,6 +73,12 @@ $left-input-width: 250px;
     }
   }
 
+  .frost-textarea {
+    textarea {
+      width: 100%;
+    }
+  }
+
   .frost-tabs {
     margin-bottom: 15px;
 
