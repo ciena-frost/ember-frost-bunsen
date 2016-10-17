@@ -1,3 +1,27 @@
+# 11.0.0
+
+* **Changed** hooks to include full bunsen ID instead of just last segment. For example given the following bunsen mode:
+
+   ```json
+    {
+      "properties": {
+        "foo": {
+          "properties": {
+            "bar": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    }
+   ```
+
+  Previously you would target the input for `bar` via `$hook('bunsenForm-bar-input')` whereas now you'd target it with `$hook('bunsenForm-foo.bar-input')`.
+
+* **Cleaned** up some tests by using new test helpers in `ember-frost-core`.
+
 # 10.1.9
 
 * Updated bunsen-core
