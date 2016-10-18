@@ -170,6 +170,7 @@ export default AbstractInput.extend({
   needsInitialOptions () {
     const modelDef = this._getModelDef()
     const optionsInitialized = this.get('optionsInitialized')
+
     return !optionsInitialized &&
       (!_.isEmpty(this.get('listData')) || !this.hasQueryParams(modelDef.query))
   },
@@ -254,10 +255,6 @@ export default AbstractInput.extend({
 
   willDestroyElement () {
     this.unregisterForFormValueChanges(this)
-  },
-
-  didReceiveAttrs ({oldAttrs, newAttrs}) {
-    this._super(...arguments)
   },
 
   // == Actions ================================================================

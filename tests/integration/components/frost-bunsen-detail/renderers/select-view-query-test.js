@@ -123,7 +123,7 @@ describeComponent(
 
           expect(
             this.$(selectors.bunsen.value).text().trim(),
-            'renders placeholder value'
+            'renders expected value'
           )
             .to.equal('—')
         })
@@ -172,7 +172,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -222,7 +222,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -272,7 +272,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -313,7 +313,7 @@ describeComponent(
 
           expect(
             this.$(selectors.bunsen.value).text().trim(),
-            'renders placeholder value'
+            'renders expected value'
           )
             .to.equal('—')
 
@@ -371,7 +371,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -421,7 +421,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -471,7 +471,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('—')
           })
@@ -523,7 +523,7 @@ describeComponent(
 
           expect(
             this.$(selectors.bunsen.value).text().trim(),
-            'renders placeholder value'
+            'renders expected value'
           )
             .to.equal('Barbeque')
         })
@@ -572,7 +572,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('Barbeque')
           })
@@ -622,7 +622,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('Barbeque')
           })
@@ -672,7 +672,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('Barbeque')
           })
@@ -713,7 +713,7 @@ describeComponent(
 
           expect(
             this.$(selectors.bunsen.value).text().trim(),
-            'renders placeholder value'
+            'renders expected value'
           )
             .to.equal('bar')
 
@@ -771,7 +771,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('bar')
           })
@@ -821,7 +821,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('bar')
           })
@@ -871,7 +871,7 @@ describeComponent(
 
             expect(
               this.$(selectors.bunsen.value).text().trim(),
-              'renders placeholder value'
+              'renders expected value'
             )
               .to.equal('bar')
           })
