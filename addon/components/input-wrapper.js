@@ -89,12 +89,15 @@ export default Component.extend(PropTypeMixin, {
       return this.getComponentName(renderer, renderers)
     }
 
-    if (readOnly || editable === false) {
-      return 'frost-bunsen-input-static'
-    }
-
+    // NOTE: this must go before the readOnly check because the select will
+    // automatically render the static input when the form is readOnly but will
+    // show the user friendly label from an API lookup rather than the raw value
     if (enumList || modelType) {
       return 'frost-bunsen-input-select'
+    }
+
+    if (readOnly || editable === false) {
+      return 'frost-bunsen-input-static'
     }
 
     return this.getComponentName(type, renderers)

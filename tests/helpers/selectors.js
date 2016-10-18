@@ -36,7 +36,8 @@ export default {
     validationErrors: {
       error: '.frost-bunsen-error',
       heading: '.frost-bunsen-validation-result h4'
-    }
+    },
+    value: '.left-input'
   },
   error: '.error',
   frost: {
