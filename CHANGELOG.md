@@ -1,3 +1,8 @@
+# 11.1.0
+
+* **Added** readonly version of `select` renderer which is used by `frost-bunsen-detail`.
+
+
 # 11.0.3
 
 * **Fixed** `list-utils` module to no longer assume that all query params are string values. We were blindly calling `.replace()` to swap out `$filter` if present. Now, we make sure it's actually a string before trying to replace something in it. 
