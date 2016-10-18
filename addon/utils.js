@@ -25,6 +25,7 @@ export const builtInRenderers = {
   password: 'frost-bunsen-input-password',
   'property-chooser': 'frost-bunsen-input-property-chooser',
   select: 'frost-bunsen-input-select',
+  static: 'frost-bunsen-input-static',
   string: 'frost-bunsen-input-text',
   textarea: 'frost-bunsen-input-textarea',
   url: 'frost-bunsen-input-url'
