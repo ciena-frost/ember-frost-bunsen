@@ -84,6 +84,14 @@ export default AbstractInput.extend({
     return _.get(cellConfig, 'renderer.options.localFiltering') || false
   },
 
+  @readOnly
+  @computed('options', 'value')
+  selectedOptionLabel (options, value) {
+    options = options || []
+    const selectedOption = options.find((option) => option.value === value)
+    return selectedOption ? selectedOption.label : value
+  },
+
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
@@ -255,7 +263,6 @@ export default AbstractInput.extend({
   // == Actions ================================================================
 
   actions: {
-
     /**
      * perform a filter on the widget
      * @param  {String} filter the filter text

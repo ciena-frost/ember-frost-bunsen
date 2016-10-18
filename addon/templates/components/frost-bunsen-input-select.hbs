@@ -1,24 +1,45 @@
-<label class={{labelWrapperClassName}}>
-  {{renderLabel}}
-  {{#if required}}
-    <div class='required'>Required</div>
-  {{/if}}
-</label>
-<div class={{inputWrapperClassName}}>
-  {{frost-select
-    class=valueClassName
-    data=options
-    disabled=disabled
-    hook=hook
-    onChange=(action 'handleChange')
-    onFocusOut=(action 'showErrorMessage')
-    onInput=(if isFilteringLocally undefined (action 'filterOptions'))
-    placeholder=cellConfig.placeholder
-    selectedValue=value
+{{#if readOnly}}
+  {{frost-bunsen-input-static
+    bunsenId=bunsenId
+    bunsenModel=bunsenModel
+    bunsenView=bunsenView
+    cellConfig=cellConfig
+    errorMessage=errorMessage
+    formDisabled=formDisabled
+    formHook=formHook
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    required=required
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=selectedOptionLabel
   }}
-</div>
-{{#if renderErrorMessage}}
-  <div class='error'>
-    {{renderErrorMessage}}
+{{else}}
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+    {{#if required}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </label>
+  <div class={{inputWrapperClassName}}>
+    {{frost-select
+      class=valueClassName
+      data=options
+      disabled=disabled
+      hook=hook
+      onChange=(action 'handleChange')
+      onFocusOut=(action 'showErrorMessage')
+      onInput=(if isFilteringLocally undefined (action 'filterOptions'))
+      placeholder=cellConfig.placeholder
+      selectedValue=value
+    }}
   </div>
+  {{#if renderErrorMessage}}
+    <div class='error'>
+      {{renderErrorMessage}}
+    </div>
+  {{/if}}
 {{/if}}
