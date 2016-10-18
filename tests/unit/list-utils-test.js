@@ -64,6 +64,7 @@ describe('Unit: list-utils', function () {
         labelAttribute: 'name',
         valueAttribute: 'secret',
         query: {
+          booleanFlag: true,
           universe: '${../universe}'
         }
       }
@@ -77,6 +78,10 @@ describe('Unit: list-utils', function () {
 
     afterEach(function () {
       sandbox.restore()
+    })
+
+    it('should include a boolean query param to ensure that we do not assume a string', function () {
+      expect(modelDef.query.booleanFlag).to.equal(true)
     })
 
     describe('with no filter', function () {
@@ -98,7 +103,7 @@ describe('Unit: list-utils', function () {
       })
 
       it('should make the appropriate query', function () {
-        expect(store.query.lastCall.args).to.eql(['hero', {universe: 'DC'}])
+        expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC'}])
       })
 
       it('should not trigger the catch', function () {
@@ -136,7 +141,7 @@ describe('Unit: list-utils', function () {
       })
 
       it('should make the appropriate query', function () {
-        expect(store.query.lastCall.args).to.eql(['hero', {universe: 'DC', text: 'ark'}])
+        expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC', text: 'ark'}])
       })
 
       it('should not trigger the catch', function () {
@@ -192,7 +197,7 @@ describe('Unit: list-utils', function () {
 
       beforeEach(function (done) {
         modelDef.modelType = 'busted'
-        store.query.withArgs('busted', {universe: 'DC'}).returns(RSVP.reject('Uh oh'))
+        store.query.withArgs('busted', {booleanFlag: true, universe: 'DC'}).returns(RSVP.reject('Uh oh'))
         sandbox.stub(Logger, 'log')
         getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {

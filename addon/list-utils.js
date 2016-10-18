@@ -64,7 +64,9 @@ export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filt
 
   // replace the special $filter placeholder with the filter value (if it exists)
   _.forIn(query, (value, key) => {
-    query[key] = value.replace('$filter', filter)
+    if (_.isString(value)) {
+      query[key] = value.replace('$filter', filter)
+    }
   })
 
   const modelType = modelDef.modelType || 'resources'
