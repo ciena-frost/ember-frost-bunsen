@@ -10,12 +10,12 @@ import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
   'frost-bunsen-detail',
-  'Integration: Component | frost-bunsen-detail | renderer | select model query',
+  'Integration: Component - frost-bunsen-detail - renderer - select model query',
   {
     integration: true
   },
   function () {
-    let props, resolver, sandbox
+    let props, resolver, sandbox, promise
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
@@ -23,12 +23,14 @@ describeComponent(
       resolver = {}
       sandbox.stub(Logger, 'log')
 
+      promise = new RSVP.Promise((resolve, reject) => {
+        resolver.resolve = resolve
+        resolver.reject = reject
+      })
+
       this.register('service:store', Ember.Service.extend({
         query () {
-          return new RSVP.Promise((resolve, reject) => {
-            resolver.resolve = resolve
-            resolver.reject = reject
-          })
+          return promise
         }
       }))
 
@@ -462,7 +464,7 @@ describeComponent(
         })
 
         describe('when label defined in view', function () {
-          beforeEach(function () {
+          beforeEach(function (done) {
             this.set('bunsenView', {
               cells: [
                 {
@@ -472,6 +474,9 @@ describeComponent(
               ],
               type: 'form',
               version: '2.0'
+            })
+            promise.then(() => {
+              done()
             })
           })
 
