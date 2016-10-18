@@ -15,7 +15,7 @@ describeComponent(
     integration: true
   },
   function () {
-    let props, resolver, sandbox, promise
+    let promise, props, resolver, sandbox
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
@@ -464,7 +464,7 @@ describeComponent(
         })
 
         describe('when label defined in view', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             this.set('bunsenView', {
               cells: [
                 {
@@ -475,9 +475,8 @@ describeComponent(
               type: 'form',
               version: '2.0'
             })
-            promise.then(() => {
-              done()
-            })
+
+            return promise
           })
 
           it('renders as expected', function () {

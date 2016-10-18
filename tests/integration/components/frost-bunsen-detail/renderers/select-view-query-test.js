@@ -15,7 +15,7 @@ describeComponent(
     integration: true
   },
   function () {
-    let props, resolver, sandbox
+    let promise, props, resolver, sandbox
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
@@ -23,12 +23,14 @@ describeComponent(
       resolver = {}
       sandbox.stub(Logger, 'log')
 
+      promise = new RSVP.Promise((resolve, reject) => {
+        resolver.resolve = resolve
+        resolver.reject = reject
+      })
+
       this.register('service:store', Ember.Service.extend({
         query () {
-          return new RSVP.Promise((resolve, reject) => {
-            resolver.resolve = resolve
-            resolver.reject = reject
-          })
+          return promise
         }
       }))
 
@@ -549,6 +551,8 @@ describeComponent(
               type: 'form',
               version: '2.0'
             })
+
+            return promise
           })
 
           it('renders as expected', function () {
