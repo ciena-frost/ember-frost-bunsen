@@ -1,3 +1,7 @@
+# 11.0.3
+
+* **Fixed** `list-utils` module to no longer assume that all query params are string values. We were blindly calling `.replace()` to swap out `$filter` if present. Now, we make sure it's actually a string before trying to replace something in it. 
+
 # 11.0.2
 
 * **Fixed** bug where view generator would overwrite `cellDefinitions` by not first checking if a name was already taken.
