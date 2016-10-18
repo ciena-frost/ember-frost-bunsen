@@ -84,6 +84,14 @@ export default AbstractInput.extend({
     return _.get(cellConfig, 'renderer.options.localFiltering') || false
   },
 
+  @readOnly
+  @computed('options', 'value')
+  selectedOptionLabel (options, value) {
+    options = options || []
+    const selectedOption = options.find((option) => option.value === value)
+    return selectedOption ? selectedOption.label : value
+  },
+
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
@@ -162,6 +170,7 @@ export default AbstractInput.extend({
   needsInitialOptions () {
     const modelDef = this._getModelDef()
     const optionsInitialized = this.get('optionsInitialized')
+
     return !optionsInitialized &&
       (!_.isEmpty(this.get('listData')) || !this.hasQueryParams(modelDef.query))
   },
@@ -248,14 +257,9 @@ export default AbstractInput.extend({
     this.unregisterForFormValueChanges(this)
   },
 
-  didReceiveAttrs ({oldAttrs, newAttrs}) {
-    this._super(...arguments)
-  },
-
   // == Actions ================================================================
 
   actions: {
-
     /**
      * perform a filter on the widget
      * @param  {String} filter the filter text
