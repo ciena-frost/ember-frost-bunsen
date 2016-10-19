@@ -509,7 +509,7 @@ export default Component.extend(PropTypeMixin, {
     registerComponentForFormValueChanges (component) {
       // Make sure when component is destroyed it unregisters for changes
       component.on('willDestroyElement', () => {
-        this.unregisterComponentForFormValueChanges(component)
+        component.unregisterForFormValueChanges(component)
       })
 
       // Make sure we inform component of formValue immediately
