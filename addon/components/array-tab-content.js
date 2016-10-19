@@ -31,6 +31,7 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.object.isRequired
   },
 

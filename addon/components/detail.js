@@ -507,7 +507,14 @@ export default Component.extend(PropTypeMixin, {
      * @param {Ember.Component} component - the component being registered
      */
     registerComponentForFormValueChanges (component) {
+      // Make sure when component is destroyed it unregisters for changes
+      component.on('willDestroyElement', () => {
+        this.unregisterComponentForFormValueChanges(component)
+      })
+
+      // Make sure we inform component of formValue immediately
       component.formValueChanged(this.get('renderValue') || {})
+
       this.get('registeredComponents').push(component)
     },
 
@@ -519,7 +526,7 @@ export default Component.extend(PropTypeMixin, {
       const registeredComponents = this.get('registeredComponents')
       const index = registeredComponents.indexOf(component)
 
-      if (index !== 1) {
+      if (index !== -1) {
         registeredComponents.splice(index, 1)
       }
     }
