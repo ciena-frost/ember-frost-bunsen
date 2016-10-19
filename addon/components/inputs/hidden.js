@@ -44,9 +44,5 @@ export default AbstractInput.extend({
   init () {
     this._super(...arguments)
     this.registerForFormValueChanges(this)
-  },
-
-  willDestroyElement () {
-    this.unregisterForFormValueChanges(this)
   }
 })

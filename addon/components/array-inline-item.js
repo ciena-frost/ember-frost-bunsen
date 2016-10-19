@@ -35,6 +35,7 @@ export default Component.extend(PropTypeMixin, {
     showAllErrors: PropTypes.bool,
     showRemoveButton: PropTypes.bool,
     sortable: PropTypes.bool.isRequired,
+    unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.object.isRequired
   },
 

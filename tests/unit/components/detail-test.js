@@ -403,7 +403,8 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       let subComponent
       beforeEach(function () {
         subComponent = {
-          formValueChanged: sandbox.stub()
+          formValueChanged: sandbox.stub(),
+          on () {}
         }
         component.set('renderValue', {foo: 'bar'})
         component.send('registerComponentForFormValueChanges', subComponent)

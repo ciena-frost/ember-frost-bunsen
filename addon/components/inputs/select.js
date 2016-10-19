@@ -253,10 +253,6 @@ export default AbstractInput.extend({
     this.registerForFormValueChanges(this)
   },
 
-  willDestroyElement () {
-    this.unregisterForFormValueChanges(this)
-  },
-
   // == Actions ================================================================
 
   actions: {
