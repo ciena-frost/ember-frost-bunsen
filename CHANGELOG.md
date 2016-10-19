@@ -1,3 +1,7 @@
+# 11.1.1
+
+* Automatically unregsiterForFormValueChanges when renderer is being destroyed.
+
 # 11.1.0
 
 * **Added** readonly version of `select` renderer which is used by `frost-bunsen-detail`.
