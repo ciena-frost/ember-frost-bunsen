@@ -1,3 +1,9 @@
+# 11.3.1
+
+* **Added** `includePolyfill` flag for babel in order to make demo more browser friendly.
+
+
+
 # 11.3.0
 
 * Improved validation errors to indicate whether errors are for model schema or view schema.
