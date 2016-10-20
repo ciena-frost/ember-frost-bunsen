@@ -83,11 +83,11 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
   it('displays an error message if the bunsenModel is not valid', function () {
     this.set('bunsenModel', {type: 'invalid'})
-    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
-    expect(errorMessage).to.equal('There seems to be something wrong with your schema')
+    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+    expect(errorMessage).to.equal('There seems to be something wrong with your model schema')
   })
 
-  it('displays an error message if the model is not valid', function () {
+  it('displays an error message if the model property in the view is not valid', function () {
     const invalidView = {
       cellDefinitions: {
         main: {
@@ -102,7 +102,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
     }
     this.set('bunsenView', invalidView)
 
-    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text()
-    expect(errorMessage).to.equal('There seems to be something wrong with your schema')
+    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+    expect(errorMessage).to.equal('There seems to be something wrong with your view schema')
   })
 })

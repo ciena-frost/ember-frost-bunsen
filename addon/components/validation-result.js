@@ -15,6 +15,7 @@ export default Component.extend(PropTypeMixin, {
     model: PropTypes.shape({
       errors: PropTypes.array,
       warnings: PropTypes.array
-    }).isRequired
+    }).isRequired,
+    type: PropTypes.string.isRequired
   }
 })
