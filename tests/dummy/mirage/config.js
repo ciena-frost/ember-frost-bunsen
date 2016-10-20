@@ -7,9 +7,6 @@ export default function () {
     this.namespace = config.mirageNamespace
   }
 
-  // Make sure acceptance tests work with mocks and code coverage
-  this.passthrough('/write-coverage')
-
   this.get('/countries', function ({db}, request) {
     let search = request.queryParams.p
     search = search ? search.replace('name:', '') : null
@@ -96,4 +93,6 @@ export default function () {
       }
     })
   })
+
+  this.passthrough()
 }
