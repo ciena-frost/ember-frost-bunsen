@@ -1,3 +1,8 @@
+# 11.1.2
+
+Partially fixed problem for array of array field case.
+
+
 # 11.1.1
 
 * Automatically unregsiterForFormValueChanges when renderer is being destroyed.
