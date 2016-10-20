@@ -1,3 +1,9 @@
+# 11.2.0
+
+* Improved validation messages to distinguish warnings from errors.
+
+
+
 # 11.1.3
 
 * **Added** more tests around enum driven select to make sure it plays nice with initial values and default values.
