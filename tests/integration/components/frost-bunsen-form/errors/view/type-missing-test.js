@@ -64,7 +64,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'validation error has correct text'
       )
-        .to.equal('#/type Field is required.')
+        .to.equal('ERROR: #/type Field is required.')
     })
   }
 )

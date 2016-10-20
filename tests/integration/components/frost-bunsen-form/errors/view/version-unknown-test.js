@@ -65,7 +65,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'validation error has correct text'
       )
-        .to.equal('#/version No enum match for: 2.1')
+        .to.equal('ERROR: #/version No enum match for: 2.1')
     })
   }
 )

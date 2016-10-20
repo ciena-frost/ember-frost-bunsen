@@ -65,7 +65,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'validation error has correct text'
       )
-        .to.equal('#/type No enum match for: foo')
+        .to.equal('ERROR: #/type No enum match for: foo')
     })
   }
 )

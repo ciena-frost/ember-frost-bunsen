@@ -70,7 +70,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'first validation error has correct text'
       )
-        .to.equal('#/cells Array is too short (0), minimum 1')
+        .to.equal('ERROR: #/cells Array is too short (0), minimum 1')
     })
   }
 )
