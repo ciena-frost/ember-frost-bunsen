@@ -1,3 +1,8 @@
+# 11.1.3
+
+* **Added** more tests around enum driven select to make sure it plays nice with initial values and default values.
+
+
 # 11.1.2
 
 Partially fixed problem for array of array field case.
