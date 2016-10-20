@@ -1,3 +1,8 @@
+# 11.3.2
+
+* Let more stuff pass through Mirage in hopes of fixing dummy app for IE.
+
+
 # 11.3.1
 
 * **Added** `includePolyfill` flag for babel in order to make demo more browser friendly.
