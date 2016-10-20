@@ -68,7 +68,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'first validation error has correct text'
       )
-        .to.equal('# Invalid JSON')
+        .to.equal('ERROR: # Invalid JSON')
 
       expect(
         Logger.warn.lastCall.args,

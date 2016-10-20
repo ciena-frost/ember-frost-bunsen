@@ -65,13 +65,13 @@ describeComponent(
         $errors.eq(0).text().trim().replace(/\s+/g, ' '),
         'first validation error has correct text'
       )
-        .to.equal('#/version Expected type string but found type integer')
+        .to.equal('ERROR: #/version Expected type string but found type integer')
 
       expect(
         $errors.eq(1).text().trim().replace(/\s+/g, ' '),
         'second validation error has correct text'
       )
-        .to.equal('#/version No enum match for: 2')
+        .to.equal('ERROR: #/version No enum match for: 2')
     })
   }
 )

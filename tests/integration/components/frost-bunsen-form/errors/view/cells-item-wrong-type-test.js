@@ -70,7 +70,7 @@ describeComponent(
         $error.text().trim().replace(/\s+/g, ' '),
         'first validation error has correct text'
       )
-        .to.equal('#/cells/0 Expected type object but found type string')
+        .to.equal('ERROR: #/cells/0 Expected type object but found type string')
     })
   }
 )
