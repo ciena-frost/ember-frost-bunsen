@@ -1,3 +1,9 @@
+# 11.3.0
+
+* Improved validation errors to indicate whether errors are for model schema or view schema.
+
+
+
 # 11.2.0
 
 * Improved validation messages to distinguish warnings from errors.
