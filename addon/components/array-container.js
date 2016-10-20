@@ -169,7 +169,12 @@ export default Component.extend(PropTypeMixin, {
   /* eslint-enable complexity */
 
   _handleArrayChange (bunsenId, value, autoAdd) {
-    // TODO: implement functionality
+    const clearingValue = [undefined, null, ''].indexOf(value) !== -1
+    if (autoAdd && clearingValue) {
+      return
+      // TODO: implement functionality
+    }
+    this.onChange(bunsenId, value)
   },
 
   /* eslint-disable complexity */
