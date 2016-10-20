@@ -8,6 +8,14 @@ $left-input-width: 250px;
 
 .frost-bunsen-detail,
 .frost-bunsen-form {
+  .alert-danger {
+    color: $frost-color-danger;
+  }
+
+  .alert-warning {
+    color: $frost-color-neutral;
+  }
+
   .frost-bunsen-cell {
     &.one-fourth {
       width: 25%;
