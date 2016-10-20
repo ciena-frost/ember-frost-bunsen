@@ -388,6 +388,7 @@ export default Component.extend(PropTypeMixin, {
    * @param {Object} bunsenModel - a deemberified bunsenModel
    */
   validateProps (bunsenModel) {
+    let invalidSchemaType = 'model'
     const renderers = this.get('renderers')
 
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
@@ -396,10 +397,14 @@ export default Component.extend(PropTypeMixin, {
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
+      invalidSchemaType = 'view'
       result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, isRegisteredEmberDataModel)
     }
 
-    this.set('propValidationResult', result)
+    this.setProperties({
+      invalidSchemaType,
+      propValidationResult: result
+    })
   },
 
   /* eslint-disable complexity */

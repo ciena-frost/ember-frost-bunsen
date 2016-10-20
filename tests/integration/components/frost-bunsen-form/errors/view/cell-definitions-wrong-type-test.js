@@ -54,7 +54,7 @@ describeComponent(
         $heading.text().trim(),
         'validation errors heading has expected text'
       )
-        .to.equal('There seems to be something wrong with your schema')
+        .to.equal('There seems to be something wrong with your view schema')
 
       expect(
         $error,
