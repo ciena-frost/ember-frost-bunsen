@@ -5,6 +5,7 @@ module.exports = function (defaults) {
   var app = new EmberAddon(defaults, {
 
     babel: {
+      includePolyfill: true,
       optional: ['es7.decorators']
     },
     codemirror: {
