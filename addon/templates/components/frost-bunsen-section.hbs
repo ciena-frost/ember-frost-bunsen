@@ -1,10 +1,15 @@
 <div class='heading'>
   {{#if collapsible}}
-    <button onclick={{action (action 'toggle')}}>
+    <span
+      data-test={{hook (concat formHook '-toggle')}}
+      onkeypress={{action 'handleToggleKeyPress'}}
+      onclick={{action (action 'toggle')}}
+      tabindex="0"
+    >
       {{frost-icon
         icon='expand-collapse'
       }}
-    </button>
+    </span>
   {{/if}}
   <h3>
     {{title}}
