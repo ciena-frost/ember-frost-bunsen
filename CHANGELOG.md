@@ -1,3 +1,9 @@
+# 11.3.3
+
+* **Fixed** issues with collapsible toggle button swallowing enter keypresses on the form.
+
+
+
 # 11.3.2
 
 * Let more stuff pass through Mirage in hopes of fixing dummy app for IE.
