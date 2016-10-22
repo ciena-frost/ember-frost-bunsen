@@ -679,6 +679,208 @@ describeComponent(
                 .to.have.length(0)
             })
           })
+
+          describe('when button selected', function () {
+            beforeEach(function () {
+              props.onChange.reset()
+              props.onValidation.reset()
+
+              this.$(selectors.bunsen.renderer.buttonGroup)
+                .find('button:first')
+                .click()
+            })
+
+            it('renders as expected', function () {
+              expect(
+                this.$(selectors.bunsen.collapsible.handle),
+                'does not render collapsible handle'
+              )
+                .to.have.length(0)
+
+              expect(
+                this.$(selectors.bunsen.renderer.buttonGroup),
+                'renders a bunsen button-group input'
+              )
+                .to.have.length(1)
+
+              const $buttons = this.$(selectors.frost.button.input.enabled)
+
+              expect(
+                $buttons,
+                'renders enabled buttons'
+              )
+                .to.have.length(2)
+
+              const $firstButton = $buttons.eq(0)
+
+              expect(
+                $firstButton.text().trim(),
+                'first button has expected text'
+              )
+                .to.equal(buttonLabels[0])
+
+              expect(
+                $firstButton.hasClass(selectors.frost.button.size.medium),
+                'first button is correct size'
+              )
+                .to.be.equal(true)
+
+              const $secondButton = $buttons.eq(1)
+
+              expect(
+                $secondButton.text().trim(),
+                'second button has expected text'
+              )
+                .to.equal(buttonLabels[1])
+
+              expect(
+                $secondButton.hasClass(selectors.frost.button.size.medium),
+                'first button is correct size'
+              )
+                .to.be.equal(true)
+
+              expect(
+                this.$(selectors.bunsen.label).text().trim(),
+                'renders expected label text'
+              )
+                .to.equal('Foo')
+
+              const foo = 'enum' in fooModel ? fooModel.enum[0] : true
+
+              expect(
+                props.onChange.lastCall.args[0],
+                'provides consumer expected form value'
+              )
+                .to.eql({
+                  foo
+                })
+
+              expect(
+                this.$(selectors.error),
+                'does not have any validation errors'
+              )
+                .to.have.length(0)
+
+              expect(
+                props.onValidation.callCount,
+                'informs consumer of validation results'
+              )
+                .to.equal(1)
+
+              const validationResult = props.onValidation.lastCall.args[0]
+
+              expect(
+                validationResult.errors.length,
+                'informs consumer there are no errors'
+              )
+                .to.equal(0)
+
+              expect(
+                validationResult.warnings.length,
+                'informs consumer there are no warnings'
+              )
+                .to.equal(0)
+            })
+
+            describe('when button deselected', function () {
+              beforeEach(function () {
+                props.onChange.reset()
+                props.onValidation.reset()
+
+                this.$(selectors.bunsen.renderer.buttonGroup)
+                  .find('button:first')
+                  .click()
+              })
+
+              it('renders as expected', function () {
+                expect(
+                  this.$(selectors.bunsen.collapsible.handle),
+                  'does not render collapsible handle'
+                )
+                  .to.have.length(0)
+
+                expect(
+                  this.$(selectors.bunsen.renderer.buttonGroup),
+                  'renders a bunsen button-group input'
+                )
+                  .to.have.length(1)
+
+                const $buttons = this.$(selectors.frost.button.input.enabled)
+
+                expect(
+                  $buttons,
+                  'renders enabled buttons'
+                )
+                  .to.have.length(2)
+
+                const $firstButton = $buttons.eq(0)
+
+                expect(
+                  $firstButton.text().trim(),
+                  'first button has expected text'
+                )
+                  .to.equal(buttonLabels[0])
+
+                expect(
+                  $firstButton.hasClass(selectors.frost.button.size.medium),
+                  'first button is correct size'
+                )
+                  .to.be.equal(true)
+
+                const $secondButton = $buttons.eq(1)
+
+                expect(
+                  $secondButton.text().trim(),
+                  'second button has expected text'
+                )
+                  .to.equal(buttonLabels[1])
+
+                expect(
+                  $secondButton.hasClass(selectors.frost.button.size.medium),
+                  'first button is correct size'
+                )
+                  .to.be.equal(true)
+
+                expect(
+                  this.$(selectors.bunsen.label).text().trim(),
+                  'renders expected label text'
+                )
+                  .to.equal('Foo')
+
+                expect(
+                  props.onChange.lastCall.args[0],
+                  'provides consumer expected form value'
+                )
+                  .to.eql({})
+
+                expect(
+                  this.$(selectors.error),
+                  'does not have any validation errors'
+                )
+                  .to.have.length(0)
+
+                expect(
+                  props.onValidation.callCount,
+                  'informs consumer of validation results'
+                )
+                  .to.equal(1)
+
+                const validationResult = props.onValidation.lastCall.args[0]
+
+                expect(
+                  validationResult.errors.length,
+                  'informs consumer there are no errors'
+                )
+                  .to.equal(0)
+
+                expect(
+                  validationResult.warnings.length,
+                  'informs consumer there are no warnings'
+                )
+                  .to.equal(0)
+              })
+            })
+          })
         })
       })
   }

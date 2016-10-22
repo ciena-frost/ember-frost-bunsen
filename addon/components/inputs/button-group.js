@@ -77,5 +77,27 @@ export default AbstractInput.extend({
     }
 
     return values[selectedIndex]
+  },
+
+  // == Actions ================================================================
+
+  actions: {
+    /**
+     * Handle user updating value
+     * @param {Event} e - event data
+     */
+    handleChange (e) {
+      const bunsenId = this.get('bunsenId')
+      const newValue = this.parseValue(e)
+
+      this.getTemplateVariables(newValue)
+
+      const transforms = this.get('cellConfig.transforms.write')
+      const transformedNewValue = this.applyTransforms(newValue, transforms)
+      const oldValue = this.get('value')
+      const updatedValue = _.isEqual(transformedNewValue, oldValue) ? null : transformedNewValue
+
+      this.onChange(bunsenId, updatedValue)
+    }
   }
 })
