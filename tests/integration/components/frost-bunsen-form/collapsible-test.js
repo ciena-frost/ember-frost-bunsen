@@ -160,7 +160,63 @@ describeComponent(
       })
     })
 
-    describe('press enter key', function () {
+    describe('press enter key while focused on input', function () {
+      beforeEach(function () {
+        $hook('bunsenForm-foo-input')
+          .focus()
+          .trigger(
+            $.Event('keypress', {
+              keyCode: KEY_CODES.ENTER
+            })
+          )
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'renders one collapsible handle'
+        )
+          .to.have.length(1)
+
+        const $headings = this.$(selectors.bunsen.section.heading)
+
+        expect(
+          $headings,
+          'renders correct number of headings'
+        )
+          .to.have.length(1)
+
+        expect(
+          $headings.first().text().trim(),
+          'renders correct heading text for first input'
+        )
+          .to.equal('Bar')
+
+        expect(
+          this.$(selectors.bunsen.renderer.text),
+          'renders two bunsen text inputs'
+        )
+          .to.have.length(2)
+
+        expect(
+          findTextInputs(),
+          'renders two text inputs'
+        )
+          .to.have.length(2)
+
+        expectTextInputWithState('bunsenForm-foo-input', {
+          placeholder: '',
+          value: ''
+        })
+
+        expectTextInputWithState('bunsenForm-bar-input', {
+          placeholder: '',
+          value: ''
+        })
+      })
+    })
+
+    describe('press enter key while focused on toggle', function () {
       beforeEach(function () {
         $hook('bunsenForm-toggle')
           .focus()
@@ -211,7 +267,7 @@ describeComponent(
       })
     })
 
-    describe('press space key', function () {
+    describe('press space key while focused on toggle', function () {
       beforeEach(function () {
         $hook('bunsenForm-toggle')
           .focus()
@@ -262,7 +318,7 @@ describeComponent(
       })
     })
 
-    describe('press other key', function () {
+    describe('press other key while focused on toggle', function () {
       beforeEach(function () {
         $hook('bunsenForm-toggle')
           .focus()
