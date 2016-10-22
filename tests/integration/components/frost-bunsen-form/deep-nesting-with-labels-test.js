@@ -81,7 +81,7 @@ describeComponent(
         .to.equal('Main')
 
       expect(
-        $headings.first().text().trim(),
+        $headings.last().text().trim(),
         'renders expected section heading'
       )
         .to.equal('Foo')
