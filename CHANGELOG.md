@@ -1,3 +1,9 @@
+# 11.3.4
+
+* **Added** tests for static input renderer in a form.
+* **Fixed** `button-group` renderer to support being unset by clicking on the selected button to deselect it.
+
+
 # 11.3.3
 
 * **Fixed** issues with collapsible toggle button swallowing enter keypresses on the form.
