@@ -1,6 +1,8 @@
 export default {
   properties: {
-    foo: {type: 'string'}
+    foo: {type: 'string'},
+    label: {type: 'string'},
+    tutorial: {type: 'string'}
   },
   type: 'object'
 }

@@ -3,7 +3,9 @@ export default {
   'button-group': {},
   'checkbox-array': {},
   link: {
-    foo: 'http://ciena.com'
+    foo: 'http://ciena.com',
+    label: 'Ciena',
+    tutorial: 'models'
   },
   'multi-select': {},
   number: {},

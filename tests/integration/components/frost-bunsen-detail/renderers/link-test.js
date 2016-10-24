@@ -7,8 +7,8 @@ import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | renderer | link',
+  'frost-bunsen-detail',
+  'Integration: Component | frost-bunsen-detail | renderer | link',
   {
     integration: true
   },
@@ -58,7 +58,7 @@ describeComponent(
 
       this.setProperties(props)
 
-      this.render(hbs`{{frost-bunsen-form
+      this.render(hbs`{{frost-bunsen-detail
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         value=value
