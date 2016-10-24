@@ -15,10 +15,21 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
-  // We totally don't care about this cause it's view schema
   @readOnly
   @computed('cellConfig', 'value')
   linkLabel (cellConfig, value) {
     return _.get(cellConfig, 'renderer.label') || value
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  route (cellConfig) {
+    return _.get(cellConfig, 'renderer.route')
+  },
+
+  @readOnly
+  @computed('cellConfig', 'value')
+  url (cellConfig, value) {
+    return _.get(cellConfig, 'renderer.url') || value
   }
 })
