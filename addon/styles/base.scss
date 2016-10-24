@@ -317,6 +317,10 @@ $left-input-width: 250px;
   }
 }
 
+.frost-bunsen-toggle-handle {
+  line-height: 1px; // Prevent toggle handle from being taller than icon
+}
+
 .no-left-margin {
   margin-left: 0;
 }

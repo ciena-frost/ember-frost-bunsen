@@ -189,6 +189,10 @@ export default Component.extend(PropTypeMixin, {
     const subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
 
     if (!subModel) {
+      // When working with properties within arrays we only care about the path relative to the array
+      // item definition in the model (ie convert "foo.0.bar.1.baz" to "baz")
+      nonIndexId = nonIndexId.replace(/^.+\.\d+\./g, '')
+
       return getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
@@ -204,7 +208,11 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} bunsen ID of input
    */
   renderId (bunsenId, model) {
-    return bunsenId ? `${bunsenId}.${model}` : model
+    if (bunsenId && model) {
+      return `${bunsenId}.${model}`
+    }
+
+    return bunsenId || model || ''
   },
 
   @readOnly
@@ -291,17 +299,20 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('isSubModelObject', 'cellConfig')
-  showSection (isSubModelObject, mergedConfig) {
-    // If sub model is object we end up running through another cell and thus if
-    // this method were to return true we'd end up with duplicate headings.
-    if (mergedConfig.model && isSubModelObject) {
-      return false
-    }
-
+  @computed('cellConfig')
+  showSection (mergedConfig) {
     return (
       mergedConfig.collapsible ||
       (mergedConfig.label && mergedConfig.children)
+    )
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  isLeafNode (cellConfig) {
+    return (
+      cellConfig.model &&
+      (!cellConfig.children || cellConfig.children.length === 0)
     )
   },
 
