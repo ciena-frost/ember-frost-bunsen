@@ -29,6 +29,9 @@ describeComponent(
       props = {
         bunsenModel: {
           properties: {
+            bar: {
+              type: 'string'
+            },
             foo: {
               type: 'string'
             }
@@ -48,6 +51,7 @@ describeComponent(
           version: '2.0'
         },
         value: {
+          bar: 'ciena',
           foo: 'http://ciena.com/'
         }
       }
@@ -319,6 +323,140 @@ describeComponent(
       })
     })
 
+    describe('when label option set with reference to another property', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenView: {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  label: '${./bar}',
+                  name: 'link'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('ciena')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
+    describe('when label option set with reference to another property (deep)', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenModel: {
+            properties: {
+              parent: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  },
+                  foo: {
+                    type: 'string'
+                  }
+                },
+                type: 'object'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: {
+            cells: [
+              {
+                model: 'parent.foo',
+                renderer: {
+                  label: '${./bar}',
+                  name: 'link'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {
+            parent: {
+              bar: 'ciena',
+              foo: 'http://ciena.com/'
+            }
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('ciena')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
     describe('when route option set', function () {
       beforeEach(function () {
         this.setProperties({
@@ -428,6 +566,144 @@ describeComponent(
           'link has expected text'
         )
           .to.equal('blueplanet')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
+    describe('when url option set with reference to another property', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenView: {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  name: 'link',
+                  url: 'http://${./bar}.com/'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {
+            bar: 'ciena',
+            foo: 'Ciena Corporation'
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('Ciena Corporation')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
+    describe('when url option set with reference to another property (deep)', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenModel: {
+            properties: {
+              parent: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  },
+                  foo: {
+                    type: 'string'
+                  }
+                },
+                type: 'object'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: {
+            cells: [
+              {
+                model: 'parent.foo',
+                renderer: {
+                  name: 'link',
+                  url: 'http://${./bar}.com/'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {
+            parent: {
+              bar: 'ciena',
+              foo: 'Ciena Corporation'
+            }
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('Ciena Corporation')
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),

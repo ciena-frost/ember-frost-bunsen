@@ -31,6 +31,37 @@ the form will be used.
 }
 ```
 
+You can also generate a label that contains information from other form property
+values by using the template string format. For example given the following
+model:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "foo": {
+      "type": "object",
+      "properties": {
+        "bar": {"type": "string"},
+        "title": {"type": "string"}
+      }
+    }
+  }
+}
+```
+
+You could do:
+
+```json
+{
+  "model": "foo.bar",
+  "renderer": {
+    "label": "${./title}",
+    "name": "link"
+  }
+}
+```
+
 #### renderer.route
 
 If the value of the property in the form is an identifier for a resource that
@@ -63,6 +94,37 @@ in the form to drive the label.
   "renderer": {
     "name": "link",
     "url": "http://ciena.com"
+  }
+}
+```
+
+You can also generate a URL that contains information from other form property
+values by using the template string format. For example given the following
+model:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "foo": {
+      "type": "object",
+      "properties": {
+        "bar": {"type": "string"},
+        "protocol": {"type": "string"}
+      }
+    }
+  }
+}
+```
+
+You could do:
+
+```json
+{
+  "model": "foo.bar",
+  "renderer": {
+    "name": "link",
+    "url": "${./protocol}://ciena.com"
   }
 }
 ```
