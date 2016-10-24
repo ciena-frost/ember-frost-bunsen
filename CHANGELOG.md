@@ -1,3 +1,10 @@
+# 11.3.5
+
+* **Fixed** issue with duplicate section headings rendering under certain scenarios.
+* **Fixed** validation bug where cell's `model` wasn't being applied to it's `children`.
+* **Fixed** small visual regression with positioning of collapsible toggle handle.
+
+
 # 11.3.4
 
 * **Added** tests for static input renderer in a form.
