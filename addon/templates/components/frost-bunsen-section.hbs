@@ -1,6 +1,7 @@
 <div class='heading'>
   {{#if collapsible}}
     <span
+      class="frost-bunsen-toggle-handle"
       data-test={{hook (concat formHook '-toggle')}}
       onkeypress={{action 'handleToggleKeyPress'}}
       onclick={{action (action 'toggle')}}
