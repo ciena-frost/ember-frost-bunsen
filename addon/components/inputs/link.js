@@ -6,14 +6,30 @@ import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-link'
 
-function getOption (attrs, optionName, formValue) {
+function getAttr (attrs, name) {
   if (!attrs) {
     return undefined
   }
 
-  const bunsenId = get(attrs, 'bunsenId.value')
-  const configOption = get(attrs, `cellConfig.value.renderer.${optionName}`)
-  const value = get(attrs, 'value.value')
+  if (name.indexOf('.') === -1) {
+    return get(attrs, `${name}.value`)
+  }
+
+  const segments = name.split('.')
+  const firstSegment = segments.splice(0, 1)
+  const remainingPath = segments.join('.')
+
+  return get(attrs, `${firstSegment}.value.${remainingPath}`)
+}
+
+function getOption (attrs, optionName, formValue, fallback = '') {
+  if (!attrs) {
+    return undefined
+  }
+
+  const bunsenId = getAttr(attrs, 'bunsenId')
+  const configOption = getAttr(attrs, `cellConfig.renderer.${optionName}`)
+  const value = getAttr(attrs, 'value')
 
   if (!configOption) {
     return value
@@ -21,7 +37,7 @@ function getOption (attrs, optionName, formValue) {
 
   const mutableFormValue = formValue ? formValue.asMutable({deep: true}) : {}
 
-  return parseVariables(mutableFormValue, configOption, bunsenId, true)
+  return parseVariables(mutableFormValue, configOption, bunsenId, true) || fallback
 }
 
 export default AbstractInput.extend({
@@ -71,13 +87,15 @@ export default AbstractInput.extend({
   didReceiveAttrs ({newAttrs, oldAttrs}) {
     const formValue = this.get('formValue')
     const props = {}
-    const newLabel = getOption(newAttrs, 'label', formValue)
+    const newDefaultLabel = getAttr(newAttrs, 'cellConfig.renderer.defaultLabel')
+    const newLabel = getOption(newAttrs, 'label', formValue, newDefaultLabel)
     const newUrl = getOption(newAttrs, 'url', formValue)
-    const oldLabel = getOption(oldAttrs, 'label', formValue)
+    const oldDefaultLael = getAttr(oldAttrs, 'cellConfig.renderer.defaultLabel')
+    const oldLabel = getOption(oldAttrs, 'label', formValue, oldDefaultLael)
     const oldUrl = getOption(oldAttrs, 'url', formValue)
 
     if (newLabel !== oldLabel) {
-      props.linkLabel = newLabel
+      props.linkLabel = newLabel || 'Link'
     }
 
     if (newUrl !== oldUrl) {
@@ -98,5 +116,4 @@ export default AbstractInput.extend({
       e.stopPropagation()
     }
   }
-
 })

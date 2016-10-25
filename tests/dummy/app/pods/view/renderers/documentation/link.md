@@ -16,6 +16,25 @@ This renderer provides an anchor tag/link for a given address.
 }
 ```
 
+
+#### renderer.defaultLabel
+
+When using a label that references another property in the form sometimes that
+value is not defined. In this scenario the link will automatically fall back to
+the text **Link** which is often not desirable. In this scenario you can set the
+*defaultLabel* option for a better fallback.
+
+```json
+{
+  "model": "foo",
+  "renderer": {
+    "defaultLabel": "More…",
+    "label": "${./label}",
+    "name": "link"
+  }
+}
+```
+
 #### renderer.label
 
 Change what text is shown for the link. By default the value of the property in

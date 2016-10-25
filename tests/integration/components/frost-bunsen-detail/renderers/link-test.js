@@ -379,6 +379,125 @@ describeComponent(
       })
     })
 
+    describe('when label option set with reference to property that is not present', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenView: {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  label: '${./bar}',
+                  name: 'link'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {
+            foo: 'http://ciena.com/'
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('Link')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
+    describe('when label and defaultLabel options set with reference to property that is not present', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenView: {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  defaultLabel: 'Classic',
+                  label: '${./bar}',
+                  name: 'link'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {
+            foo: 'http://ciena.com/'
+          }
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        const $links = this.$(selectors.bunsen.renderer.link)
+
+        expect(
+          $links,
+          'renders a bunsen link input'
+        )
+          .to.have.length(1)
+
+        const $a = $links.first().find('a')
+
+        expect(
+          $a.prop('href'),
+          'link has expected URL'
+        )
+          .to.equal('http://ciena.com/')
+
+        expect(
+          $a.text().trim(),
+          'link has expected text'
+        )
+          .to.equal('Classic')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+    })
+
     describe('when label option set with reference to another property (deep)', function () {
       beforeEach(function () {
         this.setProperties({
