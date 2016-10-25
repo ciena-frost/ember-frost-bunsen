@@ -126,6 +126,18 @@ export default Component.extend(PropTypeMixin, {
     return this.applyTransforms(value, _.get(cellConfig, 'transforms.read'))
   },
 
+  @readOnly
+  @computed('required', 'value')
+  showRequiredLabel (required, value) {
+    const valueEmpty = (
+      value === undefined ||
+      value === null ||
+      value === ''
+    )
+
+    return required && valueEmpty
+  },
+
   // == Functions ==============================================================
 
   /**
