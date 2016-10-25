@@ -1,3 +1,9 @@
+# 11.5.1
+
+* **Fixed** bug with array referencing.
+
+
+
 # 11.5.0
 
 * **Changed** input renderers to only show required label when inputs are empty.
