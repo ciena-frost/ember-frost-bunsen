@@ -65,7 +65,13 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} input class name
    */
   valueClassName (errorMessage) {
-    return errorMessage ? 'error' : ''
+    const classNames = ['frost-link']
+
+    if (errorMessage) {
+      classNames.push('error')
+    }
+
+    return classNames.join(' ')
   },
 
   @readOnly

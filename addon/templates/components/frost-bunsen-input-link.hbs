@@ -6,9 +6,9 @@
 </label>
 <div class={{inputWrapperClassName}}>
   {{#if route}}
-    {{#link-to route value}}
+    {{#frost-link route value design='inline'}}
       {{linkLabel}}
-    {{/link-to}}
+    {{/frost-link}}
   {{else}}
     <a
       class={{valueClassName}}
