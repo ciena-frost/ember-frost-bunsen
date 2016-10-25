@@ -6,16 +6,17 @@
 </label>
 <div class={{inputWrapperClassName}}>
   {{#if route}}
-    {{#frost-link route value design='inline'}}
+    {{#frost-link route value
+      design='inline'
+      onClick=(action 'handleClick')
+    }}
       {{linkLabel}}
     {{/frost-link}}
   {{else}}
     <a
       class={{valueClassName}}
       href={{url}}
-      onFocusIn={{action (action 'hideErrorMessage')}}
-      onFocusOut={{action (action 'showErrorMessage')}}
-      onInput={{action (action 'handleChange')}}
+      onclick={{action 'handleClick'}}
     >
       {{linkLabel}}
     </a>

@@ -87,5 +87,16 @@ export default AbstractInput.extend({
     if (Object.keys(props) !== 0) {
       this.setProperties(props)
     }
+  },
+
+  // == Actions ===============================================================
+
+  actions: {
+    handleClick (e) {
+      // Prevent link click event from bubbling which causes problems when it is
+      // rendered in certain parent components such as a frost-list
+      e.stopPropagation()
+    }
   }
+
 })
