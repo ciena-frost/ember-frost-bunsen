@@ -186,14 +186,18 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
-    const subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
+    let subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
+
+    if (!subModel) {
+      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
+    }
 
     if (!subModel) {
       // When working with properties within arrays we only care about the path relative to the array
       // item definition in the model (ie convert "foo.0.bar.1.baz" to "baz")
       nonIndexId = nonIndexId.replace(/^.+\.\d+\./g, '')
 
-      return getSubModel(bunsenModel, nonIndexId, dependsOn)
+      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
     return subModel
