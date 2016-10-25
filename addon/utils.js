@@ -248,7 +248,10 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value) {
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
-    return isChildRequiredToSubmitForm(cell.model, bunsenModel, value)
+    return (
+      isChildRequiredToSubmitForm(cell.model, bunsenModel, value) &&
+      !_.get(value, cell.model)
+    )
   }
 
   // If the cell has a model defined, that model is applied to all children cells and thus we need to get
@@ -260,6 +263,8 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value) {
     // FIXME: We should figure out why we sometimes feed the frost-bunsen-cell instance a scoped model and other times not
     // and clean it up to always pass in the unscoped model. At which point this or condition can and should be removed.
     bunsenModel = get(bunsenModel, modelPath) || bunsenModel
+
+    value = _.get(value, cell.model)
   }
 
   // If any child view cell is required then the parent cell should be labeled as required in the UI

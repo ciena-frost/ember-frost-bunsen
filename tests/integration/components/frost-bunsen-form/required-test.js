@@ -541,5 +541,187 @@ describeComponent(
         })
       })
     })
+
+    describe('complex case', function () {
+      beforeEach(function () {
+        this.setProperties({
+          bunsenModel: {
+            properties: {
+              foo: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  },
+                  baz: {
+                    type: 'string'
+                  }
+                },
+                required: ['bar'],
+                type: 'object'
+              }
+            },
+            required: ['foo'],
+            type: 'object'
+          },
+          bunsenView: {
+            cells: [
+              {
+                label: 'Test',
+                model: 'foo',
+                children: [
+                  {
+                    model: 'bar'
+                  },
+                  {
+                    model: 'baz'
+                  }
+                ]
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          },
+          value: {}
+        })
+      })
+
+      describe('when parent is not present', function () {
+        beforeEach(function () {
+          this.set('value', {})
+        })
+
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
+
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
+
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Test')
+
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'renders required text in heading'
+          )
+            .to.have.length(1)
+        })
+      })
+
+      describe('when parent is present', function () {
+        beforeEach(function () {
+          this.set('value', {
+            foo: {}
+          })
+        })
+
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
+
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
+
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Test')
+
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'renders required text in heading'
+          )
+            .to.have.length(1)
+        })
+      })
+
+      describe('when required child is present', function () {
+        beforeEach(function () {
+          this.set('value', {
+            foo: {
+              bar: 'test'
+            }
+          })
+        })
+
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
+
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
+
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Test')
+
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'does not render required text in heading'
+          )
+            .to.have.length(0)
+        })
+      })
+
+      describe('when non-required child is present', function () {
+        beforeEach(function () {
+          this.set('value', {
+            foo: {
+              baz: 'test'
+            }
+          })
+        })
+
+        it('renders as expected', function () {
+          const $headings = this.$(selectors.bunsen.section.heading)
+
+          expect(
+            $headings,
+            'renders a cell heading'
+          )
+            .to.have.length(1)
+
+          const headingText = $headings
+            .clone().children().remove().end() // Remove required DOM to get just the heading
+            .text().trim()
+
+          expect(
+            headingText,
+            'renders expected heading text'
+          )
+            .to.equal('Test')
+
+          expect(
+            this.$(selectors.bunsen.section.required),
+            'renders required text in heading'
+          )
+            .to.have.length(1)
+        })
+      })
+    })
   }
 )
