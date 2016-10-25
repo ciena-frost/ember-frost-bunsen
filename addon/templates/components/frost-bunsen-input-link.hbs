@@ -1,21 +1,22 @@
 <label class={{labelWrapperClassName}}>
   {{renderLabel}}
-  {{#if required}}
+  {{#if showRequiredLabel}}
     <div class='required'>Required</div>
   {{/if}}
 </label>
 <div class={{inputWrapperClassName}}>
   {{#if route}}
-    {{#link-to route value}}
+    {{#frost-link route value
+      design='inline'
+      onClick=(action 'handleClick')
+    }}
       {{linkLabel}}
-    {{/link-to}}
+    {{/frost-link}}
   {{else}}
     <a
       class={{valueClassName}}
       href={{url}}
-      onFocusIn={{action (action 'hideErrorMessage')}}
-      onFocusOut={{action (action 'showErrorMessage')}}
-      onInput={{action (action 'handleChange')}}
+      onclick={{action 'handleClick'}}
     >
       {{linkLabel}}
     </a>

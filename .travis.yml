@@ -1,5 +1,6 @@
+sudo: required
+dist: trusty
 language: node_js
-sudo: false
 node_js:
   - '5.0'
   - 'stable'

@@ -65,7 +65,13 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} input class name
    */
   valueClassName (errorMessage) {
-    return errorMessage ? 'error' : ''
+    const classNames = ['frost-link']
+
+    if (errorMessage) {
+      classNames.push('error')
+    }
+
+    return classNames.join(' ')
   },
 
   @readOnly
@@ -124,6 +130,18 @@ export default Component.extend(PropTypeMixin, {
     }
 
     return this.applyTransforms(value, _.get(cellConfig, 'transforms.read'))
+  },
+
+  @readOnly
+  @computed('required', 'value')
+  showRequiredLabel (required, value) {
+    const valueEmpty = (
+      value === undefined ||
+      value === null ||
+      value === ''
+    )
+
+    return required && valueEmpty
   },
 
   // == Functions ==============================================================
