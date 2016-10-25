@@ -1,3 +1,12 @@
+# 11.5.0
+
+* **Changed** input renderers to only show required label when inputs are empty.
+* **Changed** sections to only show required label when any required child inputs is empty.
+* **Fixed** link input renderer to only re-render when DOM will change.
+* **Fixed** link input renderer to have correct UX by having it use `frost-link` under the hood.
+* **Fixed** link input renderer to prevent bubbling of click event which keeps link from functioning when used within certain components such as a `frost-list`.
+
+
 # 11.4.0
 * **Added**`route` and `url` options to `link` renderer.
 
