@@ -1,3 +1,7 @@
+# 11.4.0
+* **Added**`route` and `url` options to `link` renderer.
+
+
 # 11.3.5
 
 * **Fixed** issue with duplicate section headings rendering under certain scenarios.
