@@ -1,3 +1,8 @@
+# 11.5.3
+
+* **Fixed** issue where duplicate headers render for array cells when they set the label or collapsible property.
+
+
 # 11.5.2
 
 * **Fixed** `link` renderer to better handle empty labels.
