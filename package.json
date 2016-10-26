@@ -39,9 +39,9 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "bunsen-core": "0.16.7",
+    "bunsen-core": "0.16.8",
     "ember-browserify": "1.1.13",
-    "ember-bunsen-core": "0.10.7",
+    "ember-bunsen-core": "0.10.8",
     "ember-cli": "^2.7.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-code-coverage": "0.3.4",
