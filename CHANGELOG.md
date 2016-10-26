@@ -1,3 +1,8 @@
+# 11.5.2
+
+* **Fixed** `link` renderer to better handle empty labels.
+
+
 # 11.5.1
 
 * **Fixed** bug with array referencing.
