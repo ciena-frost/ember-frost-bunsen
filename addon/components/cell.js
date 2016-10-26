@@ -1,16 +1,17 @@
-import _ from 'lodash'
-import Ember from 'ember'
-const {Component} = Ember
-import computed, {readOnly} from 'ember-computed-decorators'
-import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
-import {isRequired} from 'ember-frost-bunsen/utils'
-import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
-
 import {
+  getLabel,
   getSubModel,
   getModelPath
 } from 'bunsen-core/utils'
+
+import Ember from 'ember'
+const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
+import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
+import {isRequired} from 'ember-frost-bunsen/utils'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import _ from 'lodash'
 
 /**
  * Return path without an index at the end
@@ -307,7 +308,8 @@ export default Component.extend(PropTypeMixin, {
   showSection (mergedConfig) {
     return (
       mergedConfig.collapsible ||
-      (mergedConfig.label && mergedConfig.children)
+      (mergedConfig.label && mergedConfig.children) ||
+      mergedConfig.arrayOptions
     )
   },
 
@@ -318,6 +320,13 @@ export default Component.extend(PropTypeMixin, {
       cellConfig.model &&
       (!cellConfig.children || cellConfig.children.length === 0)
     )
+  },
+
+  @readOnly
+  @computed('cellConfig', 'nonIndexId', 'subModel')
+  renderLabel (cellConfig, nonIndexId, subModel) {
+    const label = _.get(cellConfig, 'label')
+    return getLabel(label, subModel, nonIndexId)
   },
 
   // == Functions ==============================================================
