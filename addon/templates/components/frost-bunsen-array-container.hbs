@@ -1,15 +1,4 @@
-<div class='heading'>
-  <h3>{{renderLabel}}</h3>
-  {{#if required}}
-    <div class='required'>Required</div>
-  {{/if}}
-</div>
-{{#if description}}
-  <div class='description'>
-    {{description}}
-  </div>
-{{/if}}
-{{#if inline }}
+{{#if inline}}
   {{#if sortable}}
     {{#sortable-group onChange=(action 'reorderItems') as |group|}}
       {{#each items key='@index' as |item index|}}

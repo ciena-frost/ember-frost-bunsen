@@ -48,8 +48,17 @@ export default Component.extend(PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('renderLabel')
-  addLabel (renderLabel) {
+  @computed('bunsenId', 'cellConfig', 'bunsenModel')
+  /**
+   * Get label for cell
+   * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
+   * @param {Object} cellConfig - cell config
+   * @param {BunsenModel} bunsenModel - bunsen model
+   * @returns {String} label
+   */
+  addLabel (bunsenId, cellConfig, bunsenModel) {
+    const label = _.get(cellConfig, 'label')
+    const renderLabel = getLabel(label, bunsenModel, bunsenId)
     return `Add ${Ember.String.singularize(renderLabel).toLowerCase()}`
   },
 
@@ -82,31 +91,6 @@ export default Component.extend(PropTypeMixin, {
   inline (cellConfig) {
     const inline = _.get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
-  },
-
-  @readOnly
-  @computed('currentCell')
-  /**
-   * Get description text for current cell
-   * @param {BunsenCell} cell - current cell
-   * @returns {String} description text
-   */
-  description (cell) {
-    return cell ? cell.description : null
-  },
-
-  @readOnly
-  @computed('bunsenId', 'cellConfig', 'bunsenModel')
-  /**
-   * Get label for cell
-   * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
-   * @param {Object} cellConfig - cell config
-   * @param {BunsenModel} bunsenModel - bunsen model
-   * @returns {String} label
-   */
-  renderLabel (bunsenId, cellConfig, bunsenModel) {
-    const label = _.get(cellConfig, 'label')
-    return getLabel(label, bunsenModel, bunsenId)
   },
 
   @readOnly
