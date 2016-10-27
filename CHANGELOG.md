@@ -1,3 +1,9 @@
+# 11.6.0
+
+* **Added** `hideLabel` option to cell for hiding the auto-generated label when `model` is present.
+
+
+
 # 11.5.4
 
 * **Fixed** password renderer to render as readonly on a detail view.
