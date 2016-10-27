@@ -1,3 +1,8 @@
+# 11.5.4
+
+* **Fixed** password renderer to render as readonly on a detail view.
+
+
 # 11.5.3
 
 * **Fixed** issue where duplicate headers render for array cells when they set the label or collapsible property.
