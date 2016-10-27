@@ -205,7 +205,8 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('cellTabs', 'selectedTabIndex')
   tabSelection (cellTabs, selectedTabIndex) {
-    return selectedTabIndex || cellTabs.get('0.id')
+    const selectedTab = cellTabs.findBy('id', selectedTabIndex)
+    return selectedTab ? selectedTabIndex : cellTabs.get('0.id')
   },
 
   @readOnly
