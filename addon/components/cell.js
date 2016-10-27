@@ -309,7 +309,7 @@ export default Component.extend(PropTypeMixin, {
     return (
       mergedConfig.collapsible ||
       (mergedConfig.label && mergedConfig.children) ||
-      mergedConfig.arrayOptions
+      (mergedConfig.arrayOptions && !mergedConfig.hideLabel)
     )
   },
 
@@ -325,6 +325,10 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('cellConfig', 'nonIndexId', 'subModel')
   renderLabel (cellConfig, nonIndexId, subModel) {
+    if (cellConfig.hideLabel) {
+      return null
+    }
+
     const label = _.get(cellConfig, 'label')
     return getLabel(label, subModel, nonIndexId)
   },
