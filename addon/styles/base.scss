@@ -212,15 +212,24 @@ $left-input-width: 250px;
     flex-basis: auto;
     padding-bottom: 0;
   }
+
+  > .left-input {
+    display: flex;
+    align-items: center;
+  }
 }
 
-.frost-bunsen-input-password-password-reveal {
+.frost-bunsen-input-password-reveal {
   margin-left: 6px;
 
   svg {
     width: 24px;
     height: 24px;
   }
+}
+
+.frost-bunsen-input-password-text {
+  line-height: 24px;
 }
 
 .frost-bunsen-section {
