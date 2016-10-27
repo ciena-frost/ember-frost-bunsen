@@ -1,3 +1,8 @@
+# 12.0.1
+
+* **Fixed** bug where tabs would all become unselected when entire bunsen state changed.
+
+
 # 12.0.0
 
 ## Breaking
