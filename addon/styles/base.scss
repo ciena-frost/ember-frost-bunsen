@@ -207,6 +207,31 @@ $left-input-width: 250px;
   }
 }
 
+.frost-bunsen-input-password {
+  > .frost-bunsen-input-static {
+    flex-basis: auto;
+    padding-bottom: 0;
+  }
+
+  > .left-input {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.frost-bunsen-input-password-reveal {
+  margin-left: 6px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.frost-bunsen-input-password-text {
+  line-height: 24px;
+}
+
 .frost-bunsen-section {
   padding-top: 30px;
   border-top: 1px solid $frost-color-lgrey-1;
