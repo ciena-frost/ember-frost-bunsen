@@ -1,3 +1,9 @@
+# 12.0.0
+
+## Breaking
+
+* **Upgraded** to version `3.x` of [ember-frost-tabs](https://github.com/ciena-frost/ember-frost-tabs) which has a new API.
+
 # 11.6.0
 
 * **Added** `hideLabel` option to cell for hiding the auto-generated label when `model` is present.
