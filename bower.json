@@ -9,7 +9,8 @@
     "pretender": "1.1.0",
     "prism": "1.5.1",
     "showdown": "1.4.2",
-    "sinonjs": "1.17.1"
+    "sinonjs": "1.17.1",
+    "node-uuid": "1.4.7"
   },
   "devDependencies": {
     "ember-mocha": "0.8.11"

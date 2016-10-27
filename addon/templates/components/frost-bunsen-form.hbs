@@ -7,16 +7,15 @@
   <form class='form'>
     {{#if cellTabs.length}}
       {{#frost-tabs
+        hook=hook
         onChange=(action 'handleTabChange')
-        selection=tabSelection
+        selectedTab=tabSelection
+        as |controls|
       }}
         {{#each cellTabs key='@index' as |tab|}}
-          {{#frost-tab
-            alias=tab.alias
-            id=tab.id
-            tabClassNames=tab.classNames
-          }}
-            {{frost-bunsen-cell
+          {{controls.tab
+            class=tab.classNames
+            content=(component 'frost-bunsen-cell'
               bunsenModel=renderModel
               bunsenView=renderView
               cellConfig=tab.cell
@@ -31,8 +30,10 @@
               unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
               value=renderValue
               valueChangeSet=valueChangeSet
-            }}
-          {{/frost-tab}}
+            )
+            id=tab.id
+            text=tab.alias
+          }}
         {{/each}}
       {{/frost-tabs}}
     {{else}}
