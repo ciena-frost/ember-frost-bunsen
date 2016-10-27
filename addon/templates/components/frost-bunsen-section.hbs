@@ -12,9 +12,11 @@
       }}
     </span>
   {{/if}}
-  <h3>
-    {{title}}
-  </h3>
+  {{#if title}}
+    <h3>
+      {{title}}
+    </h3>
+  {{/if}}
   {{#if required}}
     <div class='required'>Required</div>
   {{/if}}
