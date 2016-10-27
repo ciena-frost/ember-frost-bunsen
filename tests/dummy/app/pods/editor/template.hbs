@@ -42,10 +42,18 @@
     </div>
   </div>
   <h3 class=demo-heading">Demo</h3>
-  {{frost-bunsen-form
-    bunsenModel=bunsenModel
-    bunsenView=bunsenView
-    onChange=(action "formChange")
-    value=bunsenValue
-  }}
+  {{#if (eq bunsenView.type 'form')}}
+    {{frost-bunsen-form
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      onChange=(action "formChange")
+      value=bunsenValue
+    }}
+  {{else}}
+    {{frost-bunsen-detail
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      value=bunsenValue
+    }}
+  {{/if}}
 </div>
