@@ -13,7 +13,7 @@
     onInput=onInput
     onChange=(action 'handleChange')
     placeholder=cellConfig.placeholder
-    selectedValue=value
+    selectedValue=(readonly value)
   }}
 </div>
 {{#if renderErrorMessage}}
