@@ -14,7 +14,7 @@
       }}
         {{#each cellTabs key='@index' as |tab|}}
           {{controls.tab
-            class=tab.classNames
+            contentClass=tab.classNames
             content=(component 'frost-bunsen-cell'
               bunsenModel=renderModel
               bunsenView=renderView
