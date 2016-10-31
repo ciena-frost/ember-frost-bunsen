@@ -1,3 +1,9 @@
+# 12.0.2
+
+- Re-added class names to tab content element.
+
+
+
 # 12.0.1
 
 * **Fixed** bug where tabs would all become unselected when entire bunsen state changed.
