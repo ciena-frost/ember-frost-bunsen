@@ -1,8 +1,10 @@
 import {expect} from 'chai'
+import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -15,6 +17,7 @@ describeComponent(
     let props, sandbox
 
     beforeEach(function () {
+      initialize()
       sandbox = sinon.sandbox.create()
 
       props = {
@@ -94,6 +97,7 @@ describeComponent(
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         disabled=disabled
+        hook='my-form'
         onChange=onChange
         onValidation=onValidation
       }}`)
@@ -116,11 +120,9 @@ describeComponent(
       )
         .to.have.length(1)
 
-      expect(
-        this.$(selectors.frost.select.input.enabled),
-        'renders an enabled select input'
-      )
-        .to.have.length(1)
+      expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+        text: ''
+      })
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -192,11 +194,9 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expect(
-          this.$(selectors.frost.select.input.enabled),
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -269,11 +269,9 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expect(
-          this.$(selectors.frost.select.input.enabled),
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -346,11 +344,9 @@ describeComponent(
         )
           .to.have.length(1)
 
-        expect(
-          this.$(selectors.frost.select.input.enabled),
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -417,19 +413,9 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $input = this.$(selectors.frost.select.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
-
-        expect(
-          $input.prop('placeholder'),
-          'has expected placeholder text'
-        )
-          .to.equal('Foo bar')
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: 'Foo bar'
+        })
 
         expect(
           this.$(selectors.error),
@@ -465,19 +451,9 @@ describeComponent(
       })
 
       it('renders as expected', function () {
-        const $input = this.$(selectors.frost.select.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
-
-        expect(
-          $input.prop('placeholder'),
-          'does not have placeholder text'
-        )
-          .to.equal('')
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.error),
@@ -493,11 +469,10 @@ describeComponent(
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.select.input.disabled),
-          'renders a disabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          disabled: true,
+          text: ''
+        })
 
         expect(
           this.$(selectors.error),
@@ -552,11 +527,9 @@ describeComponent(
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.select.input.enabled),
-          'renders an enabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.error),
@@ -611,11 +584,10 @@ describeComponent(
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.select.input.disabled),
-          'renders a disabled select input'
-        )
-          .to.have.length(1)
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          disabled: true,
+          text: ''
+        })
 
         expect(
           this.$(selectors.error),

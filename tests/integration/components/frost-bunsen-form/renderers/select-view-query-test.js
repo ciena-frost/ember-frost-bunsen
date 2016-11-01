@@ -6,6 +6,7 @@ import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describeComponent(
@@ -103,19 +104,9 @@ describeComponent(
       )
         .to.have.length(1)
 
-      const $input = this.$(selectors.frost.select.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled select input'
-      )
-        .to.have.length(1)
-
-      expect(
-        $input.prop('placeholder'),
-        'does not have placeholder text'
-      )
-        .to.equal('')
+      expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+        text: ''
+      })
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -152,10 +143,7 @@ describeComponent(
 
     describe('when expanded/opened', function () {
       beforeEach(function () {
-        // Make sure select dropdown is open
-        if ($hook('my-form-foo-list').length === 0) {
-          return $hook('my-form-foo').find('.down-arrow').click()
-        }
+        return $hook('my-form-foo').find('.frost-select').click()
       })
 
       it('renders as expected', function () {
