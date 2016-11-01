@@ -1,3 +1,8 @@
+# 12.1.0
+
+* **Upgraded** `ember-frost-core` to the latest version to get the redesigned `frost-select` which is much more keyboard friendly and now includes the filter text input inside the dropdown.
+
+
 # 12.0.2
 
 - Re-added class names to tab content element.
