@@ -58,12 +58,6 @@ export default {
         enabled: '.frost-checkbox input[type="checkbox"]:not(:disabled)'
       }
     },
-    multiSelect: {
-      input: {
-        disabled: '.frost-select.multi input.trigger:disabled',
-        enabled: '.frost-select.multi input.trigger:not(:disabled)'
-      }
-    },
     number: {
       input: {
         disabled: '.frost-text input[type="number"]:disabled',
@@ -74,12 +68,6 @@ export default {
       input: {
         disabled: '.frost-password input:disabled',
         enabled: '.frost-password input:not(:disabled)'
-      }
-    },
-    select: {
-      input: {
-        disabled: '.frost-select input:disabled',
-        enabled: '.frost-select input:not(:disabled)'
       }
     },
     text: {

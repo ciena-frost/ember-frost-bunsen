@@ -1,11 +1,15 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {$} = Ember
 import {generateFacetView} from 'ember-frost-bunsen/utils'
+import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import {
+  expectSelectWithState,
   expectTextInputWithState,
   fillIn,
   findTextInputs
@@ -23,6 +27,7 @@ describeComponent(
     let props, sandbox
 
     beforeEach(function () {
+      initialize()
       sandbox = sinon.sandbox.create()
 
       const bunsenModel = {
@@ -116,8 +121,6 @@ describeComponent(
       )
         .to.have.length(1)
 
-      const $selectInput = this.$(selectors.frost.select.input.enabled)
-
       expect(
         findTextInputs(),
         'renders one text input'
@@ -130,10 +133,14 @@ describeComponent(
       })
 
       expect(
-        $selectInput,
-        'renders an enabled select input'
+        $('.frost-select'),
+        'renders one select input'
       )
         .to.have.length(1)
+
+      expectSelectWithState($hook('bunsenForm-bar').find('.frost-select'), {
+        text: ''
+      })
 
       expect(
         this.$(selectors.error),
@@ -216,8 +223,6 @@ describeComponent(
         )
           .to.have.length(1)
 
-        const $selectInput = this.$(selectors.frost.select.input.enabled)
-
         expect(
           findTextInputs(),
           'renders one text input'
@@ -230,10 +235,14 @@ describeComponent(
         })
 
         expect(
-          $selectInput,
-          'renders an enabled select input'
+          $('.frost-select'),
+          'renders one select input'
         )
           .to.have.length(1)
+
+        expectSelectWithState($hook('bunsenForm-bar').find('.frost-select'), {
+          text: ''
+        })
 
         expect(
           this.$(selectors.error),
@@ -331,8 +340,6 @@ describeComponent(
           )
             .to.have.length(1)
 
-          const $selectInput = this.$(selectors.frost.select.input.enabled)
-
           expect(
             findTextInputs(),
             'renders one text input'
@@ -345,10 +352,14 @@ describeComponent(
           })
 
           expect(
-            $selectInput,
-            'renders an enabled select input'
+            $('.frost-select'),
+            'renders one select input'
           )
             .to.have.length(1)
+
+          expectSelectWithState($hook('bunsenForm-bar').find('.frost-select'), {
+            text: ''
+          })
 
           expect(
             this.$(selectors.error),
