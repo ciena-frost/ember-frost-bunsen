@@ -34,7 +34,7 @@
       onFocusOut=(action 'showErrorMessage')
       onInput=(if isFilteringLocally undefined (action 'filterOptions'))
       placeholder=cellConfig.placeholder
-      selectedValue=(readonly value)
+      selectedValue=value
     }}
   </div>
   {{#if renderErrorMessage}}
