@@ -58,6 +58,29 @@ export default DetailComponent.extend({
 
   // == Functions ==============================================================
 
+  _onVisiblityChange (e) {
+    // Nothing to do when page/tab loses visiblity
+    if (e.target.hidden) {
+      return
+    }
+
+    const model = this.get('renderModel')
+    const reduxStore = this.get('reduxStore')
+    const validators = this.get('validators')
+    const value = this.get('renderValue')
+
+    reduxStore.dispatch(
+      validate(null, value, model, validators, RSVP.all, true)
+    )
+  },
+
+  // == Events =================================================================
+
+  didInsertElement () {
+    this._visibilityChangeHandler = this._onVisiblityChange.bind(this)
+    document.addEventListener('visibilitychange', this._visibilityChangeHandler, false)
+  },
+
   /**
    * After render select first input unless something else already has focus on page
    */
@@ -73,6 +96,10 @@ export default DetailComponent.extend({
 
     // Focus on first input in busen form
     this.$(':input:enabled:visible:first').focus()
+  },
+
+  willDestroyElement () {
+    document.removeEventListener('visibilitychange', this._visibilityChangeHandler)
   },
 
   // == Actions ================================================================
