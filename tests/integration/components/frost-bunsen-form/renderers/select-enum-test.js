@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'

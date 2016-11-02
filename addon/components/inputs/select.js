@@ -84,7 +84,7 @@ export default AbstractInput.extend({
    * Determine whether or not filtering should be done within frost-select.
    * NOTE: If select is enum driven frost-select will do the filtering unless
    * otherwise specified.
-   * @property {Object} cellConfig - cell configuration
+   * @param {Object} cellConfig - cell configuration
    * @returns {Boolean} whether or not filtering is to be done within frost-select
    */
   isFilteringLocally (cellConfig) {
