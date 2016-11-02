@@ -1,3 +1,8 @@
+# 12.1.1
+
+* **Fixed** enum driven select to show selected value when filter typed into dropdown.
+
+
 # 12.1.0
 
 * **Upgraded** `ember-frost-core` to the latest version to get the redesigned `frost-select` which is much more keyboard friendly and now includes the filter text input inside the dropdown.
