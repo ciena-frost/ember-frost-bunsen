@@ -44,7 +44,8 @@ describeComponent(
             foo: {
               enum: [
                 'bar',
-                'baz'
+                'baz',
+                'spam'
               ],
               type: 'string'
             }
@@ -128,36 +129,29 @@ describeComponent(
         })
 
         it('renders as expected', function () {
-          const $items = $hook('my-form-foo-list').find('li')
-
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['bar', 'baz'],
+            items: ['bar', 'baz', 'spam'],
             opened: true,
             text: ''
           })
+        })
 
-          expect(
-            $items,
-            'has correct number of options'
-          )
-            .to.have.length(2)
+        describe('when filtered', function () {
+          beforeEach(function () {
+            $('.frost-select-dropdown .frost-text-input')
+              .val('sp')
+              .trigger('input')
+          })
 
-          const $firstItem = $items.eq(0)
-
-          expect(
-            $firstItem.text().trim(),
-            'first item has expected text'
-          )
-            .to.equal('bar')
-
-          const $secondItem = $items.eq(1)
-
-          expect(
-            $secondItem.text().trim(),
-            'second item has expected text'
-          )
-            .to.equal('baz')
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              // focused: true, // Not staying focused in test for some reason
+              items: ['spam'],
+              opened: true,
+              text: ''
+            })
+          })
         })
       })
 
@@ -710,36 +704,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
-          const $items = $hook('my-form-foo-list').find('li')
-
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['bar', 'baz'],
+            items: ['bar', 'baz', 'spam'],
             opened: true,
             text: 'bar'
           })
-
-          expect(
-            $items,
-            'has correct number of options'
-          )
-            .to.have.length(2)
-
-          const $firstItem = $items.eq(0)
-
-          expect(
-            $firstItem.text().trim(),
-            'first item has expected text'
-          )
-            .to.equal('bar')
-
-          const $secondItem = $items.eq(1)
-
-          expect(
-            $secondItem.text().trim(),
-            'second item has expected text'
-          )
-            .to.equal('baz')
 
           const formValue = props.onChange.lastCall.args[0]
 
@@ -750,6 +720,23 @@ describeComponent(
             .to.eql({
               foo: 'bar'
             })
+        })
+
+        describe('when filtered', function () {
+          beforeEach(function () {
+            $('.frost-select-dropdown .frost-text-input')
+              .val('sp')
+              .trigger('input')
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              // focused: true, // Not staying focused in test for some reason
+              items: ['spam'],
+              opened: true,
+              text: 'bar'
+            })
+          })
         })
       })
 
@@ -1415,36 +1402,12 @@ describeComponent(
         })
 
         it('renders as expected', function () {
-          const $items = $hook('my-form-foo-list').find('li')
-
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['bar', 'baz'],
+            items: ['bar', 'baz', 'spam'],
             opened: true,
             text: 'bar'
           })
-
-          expect(
-            $items,
-            'has correct number of options'
-          )
-            .to.have.length(2)
-
-          const $firstItem = $items.eq(0)
-
-          expect(
-            $firstItem.text().trim(),
-            'first item has expected text'
-          )
-            .to.equal('bar')
-
-          const $secondItem = $items.eq(1)
-
-          expect(
-            $secondItem.text().trim(),
-            'second item has expected text'
-          )
-            .to.equal('baz')
 
           const formValue = props.onChange.lastCall.args[0]
 
@@ -1455,6 +1418,23 @@ describeComponent(
             .to.eql({
               foo: 'bar'
             })
+        })
+
+        describe('when filtered', function () {
+          beforeEach(function () {
+            $('.frost-select-dropdown .frost-text-input')
+              .val('sp')
+              .trigger('input')
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              // focused: true, // Not staying focused in test for some reason
+              items: ['spam'],
+              opened: true,
+              text: 'bar'
+            })
+          })
         })
       })
 

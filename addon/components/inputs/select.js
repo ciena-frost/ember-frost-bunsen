@@ -80,8 +80,16 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('cellConfig')
+  /**
+   * Determine whether or not filtering should be done within frost-select.
+   * NOTE: If select is enum driven frost-select will do the filtering unless
+   * otherwise specified.
+   * @property {Object} cellConfig - cell configuration
+   * @returns {Boolean} whether or not filtering is to be done within frost-select
+   */
   isFilteringLocally (cellConfig) {
-    return _.get(cellConfig, 'renderer.options.localFiltering') || false
+    const modelDef = this._getModelDef()
+    return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelName
   },
 
   @readOnly
