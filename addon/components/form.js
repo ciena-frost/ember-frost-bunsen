@@ -70,7 +70,7 @@ export default DetailComponent.extend({
     const value = this.get('renderValue')
 
     reduxStore.dispatch(
-      validate(null, value, model, validators, RSVP.all)
+      validate(null, value, model, validators, RSVP.all, true)
     )
   },
 
