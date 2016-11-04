@@ -3,11 +3,12 @@ import AbstractInput from './abstract-input'
 import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-checkbox-array'
 import Ember from 'ember'
-const {get} = Ember
+const {get, isEmpty} = Ember
+
 
 export const helpers = {
   validateChoices (choices, meta) {
-    if (!Ember.isEmpty(choices) && !Ember.isEmpty(meta)) {
+    if (!isEmpty(choices) && !isEmpty(meta)) {
       throw new Error('Use either choices for enum driven or meta for data driven, not both')
     }
   }
@@ -38,8 +39,8 @@ export default AbstractInput.extend({
   @computed('bunsenModel', 'cellConfig')
   options (bunsenModel, cellConfig) {
     const items = get(bunsenModel, 'items.enum') || []
-    const choices = _.get(cellConfig, 'renderer.choices') || []
-    const meta = _.get(cellConfig, 'renderer.meta') || []
+    const choices = get(cellConfig, 'renderer.choices') || []
+    const meta = get(cellConfig, 'renderer.meta') || []
 
     helpers.validateChoices(choices, meta)
 
