@@ -5,6 +5,14 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-c
 import Ember from 'ember'
 const {get} = Ember
 
+export const helpers = {
+  validateChoices (choices, meta) {
+    if (!Ember.isEmpty(choices) && !Ember.isEmpty(meta)) {
+      throw new Error('Use either choices for enum driven or meta for data driven, not both')
+    }
+  }
+}
+
 export default AbstractInput.extend({
   // == Component Properties ===================================================
 
@@ -17,7 +25,7 @@ export default AbstractInput.extend({
 
   // == State Properties =======================================================
 
-  selected: [],
+  selected: {},
 
   // == Computed Properties ====================================================
   @readOnly
@@ -27,13 +35,36 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('bunsenModel')
-  options (bunsenModel) {
+  @computed('bunsenModel', 'cellConfig')
+  options (bunsenModel, cellConfig) {
     const items = get(bunsenModel, 'items.enum') || []
+    const choices = _.get(cellConfig, 'renderer.choices') || []
+    const meta = _.get(cellConfig, 'renderer.meta') || []
 
-    return items.map((value) => {
-      return { value }
-    })
+    helpers.validateChoices(choices, meta)
+
+    // Initialize selected for each model property
+    this.get('selected')[this.get('bunsenId')] = []
+
+    if (Ember.isEmpty(meta)) {
+      return items.map((item) => {
+        for (var i = 0; i < choices.length; i++) {
+          if (choices[i].label === item) {
+            return { label: item, value: choices[i].value }
+          }
+        }
+        return { label: item, value: item }
+      })
+    } else {
+      return items.map((item) => {
+        for (var i = 0; i < meta.length; i++) {
+          if (meta[i].datum === item) {
+            return { label: meta[i].label, value: meta[i].value }
+          }
+        }
+        return { label: item, value: item }
+      })
+    }
   },
 
   // == Functions ==============================================================
@@ -43,7 +74,9 @@ export default AbstractInput.extend({
    * @returns {any} parsed value
    */
   parseValue (data) {
-    var selected = this.get('selected')
+    // Get the selection for the correct model property
+    var selected = this.get('selected')[this.get('bunsenId')]
+
     if (data.value) {
       selected.push(data.id)
     } else {
