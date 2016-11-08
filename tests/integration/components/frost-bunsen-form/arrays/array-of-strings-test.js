@@ -554,10 +554,12 @@ describeComponent(
             )
               .to.have.length(1)
 
+            const $textInputs = findTextInputs({
+              disabled: false
+            })
+
             expect(
-              findTextInputs({
-                disabled: false
-              }),
+              $textInputs,
               'renders an enabled text input'
             )
               .to.have.length(1)
@@ -576,7 +578,9 @@ describeComponent(
             )
               .to.have.length(2)
 
-            expectButtonWithState($buttons.first(), {
+            const $removeButton = $buttons.first()
+
+            expectButtonWithState($removeButton, {
               text: 'Remove'
             })
 
@@ -584,6 +588,27 @@ describeComponent(
               icon: 'round-add',
               text: 'Add foo'
             })
+
+            const removeButtonOffset = $removeButton.offset()
+            const $textInput = $textInputs.first()
+            const textInputOffset = $textInput.offset()
+
+            expect(
+              removeButtonOffset.left,
+              'renders remove button to right of text input'
+            )
+              .to.be.at.least(
+                textInputOffset.left + $textInput.width()
+              )
+
+            expect(
+              removeButtonOffset.top,
+              'renders remove button inline with text input'
+            )
+              .to.be.within(
+                textInputOffset.top,
+                textInputOffset.top + $textInput.height()
+              )
 
             expect(
               this.$(selectors.error),
