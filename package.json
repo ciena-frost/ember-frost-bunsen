@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "test": "npm run lint && npm run test",
+    "test": "npm run lint && ember test",
     "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
     "lint-js": "eslint *.js addon app blueprints config tests --fix",
     "lint-md": "remark *.md",
@@ -63,7 +63,7 @@
     "ember-export-application-global": "^1.1.1",
     "ember-frost-core": "ciena-frost/ember-frost-core#1.0-beta",
     "ember-frost-demo-components": "1.0.0",
-    "ember-frost-fields": "^2.0.0",
+    "ember-frost-fields": "^3.0.0",
     "ember-frost-popover": "^3.0.0",
     "ember-frost-tabs": "^4.0.0",
     "ember-getowner-polyfill": "1.0.1",

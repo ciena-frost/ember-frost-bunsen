@@ -420,8 +420,8 @@ describeComponent(
 
         // TODO: figure out why hook doesn't work when type isn't text
         expectTextInputWithState($input, {
-          placeholder: ''
-          // type: 'date' // TODO: figure out why this fails
+          placeholder: '',
+          type: 'date'
         })
 
         expect(
