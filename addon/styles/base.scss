@@ -158,11 +158,8 @@ $left-input-width: 250px;
 }
 
 .frost-bunsen-form {
-  .item-wrapper {
-    flex-basis: 100%;
-    border: 1px solid $frost-color-lgrey-1;
-
-    &.compact {
+  .compact {
+    .item-wrapper {
       display: flex;
       align-items: center;
 
@@ -174,6 +171,11 @@ $left-input-width: 250px;
         float: none;
       }
     }
+  }
+
+  .item-wrapper {
+    flex-basis: 100%;
+    border: 1px solid $frost-color-lgrey-1;
   }
 
   .remove-btn-container {

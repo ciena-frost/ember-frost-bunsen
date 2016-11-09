@@ -43,7 +43,11 @@ export function iterateMap (iterator, iteratee) {
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: ['computedClassName'],
+  classNameBindings: [
+    'compact:compact',
+    'computedClassName'
+  ],
+
   layout,
 
   // == State Properties =======================================================
@@ -115,12 +119,12 @@ export default Component.extend(PropTypeMixin, {
    * Determine whether or not cell contains required inputs
    * @param {BunsenModel} bunsenModel - bunsen model for form
    * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
-   * @param {BunsenCell} mergedConfig - bunsen view cell
+   * @param {BunsenCell} cellConfig - bunsen view cell
    * @param {Object} value - form value
    * @returns {Boolean} whether or not cell contains required inputs
    */
-  isRequired (bunsenModel, cellDefinitions, mergedConfig, value) {
-    return isRequired(mergedConfig, cellDefinitions, bunsenModel, value)
+  isRequired (bunsenModel, cellDefinitions, cellConfig, value) {
+    return isRequired(cellConfig, cellDefinitions, bunsenModel, value)
   },
 
   @readOnly
@@ -299,17 +303,23 @@ export default Component.extend(PropTypeMixin, {
 
   @readOnly
   @computed('cellConfig')
-  clearable (mergedConfig) {
-    return mergedConfig.clearable || false
+  clearable (cellConfig) {
+    return cellConfig.clearable || false
   },
 
   @readOnly
   @computed('cellConfig')
-  showSection (mergedConfig) {
+  compact (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.compact') === true
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  showSection (cellConfig) {
     return (
-      mergedConfig.collapsible ||
-      (mergedConfig.label && mergedConfig.children) ||
-      (mergedConfig.arrayOptions && !mergedConfig.hideLabel)
+      cellConfig.collapsible ||
+      (cellConfig.label && cellConfig.children) ||
+      (cellConfig.arrayOptions && !cellConfig.hideLabel)
     )
   },
 

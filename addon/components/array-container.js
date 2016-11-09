@@ -21,6 +21,7 @@ export default Component.extend(PropTypeMixin, {
     bunsenModel: PropTypes.object.isRequired,
     bunsenView: PropTypes.object.isRequired,
     cellConfig: PropTypes.object.isRequired,
+    compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
     formValue: PropTypes.EmberObject,
@@ -40,6 +41,7 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
+      compact: false,
       formValue: Ember.Object.create({}),
       readOnly: false
     }
