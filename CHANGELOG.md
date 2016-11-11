@@ -1,3 +1,9 @@
+# 12.2.2
+
+* **Fixed** typo that broke select filtering via API.
+
+
+
 # 12.2.1
 
 * **Fixed** array option `compact` to function again.
