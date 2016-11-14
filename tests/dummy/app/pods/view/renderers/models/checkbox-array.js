@@ -9,14 +9,13 @@ export default {
     },
     serviceAffecting: {
       items: {
-        enum: ['Yes', 'No', 'Unknown'],
         type: 'string'
       },
       type: 'array'
     },
     deviceType: {
       items: {
-        enum: ['CN6500', 'NUAGE', 'OPENSTACK'],
+        enum: ['6500', 'Nuage'],
         type: 'string'
       },
       type: 'array'

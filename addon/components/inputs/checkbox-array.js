@@ -6,15 +6,6 @@ import Ember from 'ember'
 const {get, isEmpty} = Ember
 const assign = Object.assign || Ember.assign || Ember.merge
 
-
-export const helpers = {
-  validateChoices (choices, meta) {
-    if (!isEmpty(choices) && !isEmpty(meta)) {
-      throw new Error('Use either choices for enum driven or meta for data driven, not both')
-    }
-  }
-}
-
 export default AbstractInput.extend({
   // == Component Properties ===================================================
 
@@ -45,30 +36,22 @@ export default AbstractInput.extend({
   @computed('bunsenModel', 'cellConfig')
   options (bunsenModel, cellConfig) {
     const items = get(bunsenModel, 'items.enum') || []
-    const choices = get(cellConfig, 'renderer.choices') || []
-    const meta = get(cellConfig, 'renderer.meta') || []
+    const selectedValues = get(cellConfig, 'renderer.selectedValues') || []
+    this.set('selected', selectedValues)
+    const data = get(cellConfig, 'renderer.data') || []
 
-    helpers.validateChoices(choices, meta)
+    var options = {}
 
-    if (Ember.isEmpty(meta)) {
-      return items.map((item) => {
-        for (var i = 0; i < choices.length; i++) {
-          if (choices[i].label === item) {
-            return { label: item, value: choices[i].value }
-          }
-        }
-        return { label: item, value: item }
+    if (isEmpty(data)) {
+      options = items.map((item) => {
+        return { value: item, label: item, checked: selectedValues.indexOf(item) > -1 }
       })
     } else {
-      return items.map((item) => {
-        for (var i = 0; i < meta.length; i++) {
-          if (meta[i].datum === item) {
-            return { label: meta[i].label, value: meta[i].value }
-          }
-        }
-        return { label: item, value: item }
+      options = data.map((item) => {
+        return { value: item.value, label: item.label || item.value, checked: selectedValues.indexOf(item.value) > -1 }
       })
     }
+    return options
   },
 
   // == Functions ==============================================================
@@ -78,13 +61,11 @@ export default AbstractInput.extend({
    * @returns {any} parsed value
    */
   parseValue (data) {
-    // Get the selection for the correct model property
     var selected = this.get('selected')
-
     if (data.value) {
       selected.push(data.id)
     } else {
-      var index = selected.indexOf(data.value)
+      var index = selected.indexOf(data.id)
       selected.splice(index, 1)
     }
     return selected

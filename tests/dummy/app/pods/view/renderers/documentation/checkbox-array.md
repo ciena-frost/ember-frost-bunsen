@@ -30,43 +30,35 @@ Change what size checkboxes are used. See [ember-frost-core](http://ciena-frost.
 }
 ```
 
-#### renderer.choices
+#### renderer.data
 
-Change the checbkox value to be separate from the label. Use this for a static enum driven checkbox array.
-Note: Do not use choices and meta simultaneously for the same view model.
+Overrides the enum in the model to use specified label and value.
 
 ```json
 {
   "model": "foo",
   "renderer": {
     "name": "checkbox-array",
-    "choices": [
+    "data": [
       {
-        "label": "Should match the corresponding enum item",
-        "value": "The new value for the checkbox"
+        "label": "The label for the checkbox",
+        "value": "The value for the checkbox"
       }
     ]
   }
 }
 ```
 
-#### renderer.meta
+#### renderer.selectedValues
 
-Set the checkbox label and value based on the data driven enum. Use this for a data driven driven checkbox array.
-Note: Do not use choices and meta simultaneously for the same view model.
+Allows checkboxes to be pre-checked. E.g. for retaining checks from query params upon refresh.
 
 ```json
 {
   "model": "foo",
   "renderer": {
     "name": "checkbox-array",
-    "meta": [
-      {
-        "datum": "Should match the data representation fed into the enum",
-        "label": "The label to appear for the checkbox",
-        "value": "The new value for the checkbox"
-      }
-    ]
+    "selectedValues": ["values", "of", "selected", "checkboxes"]
   }
 }
 ```

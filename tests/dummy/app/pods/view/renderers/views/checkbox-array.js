@@ -19,7 +19,8 @@ export default {
             {
               model: 'serviceAffecting',
               renderer: {
-                choices: [
+                name: 'checkbox-array',
+                data: [
                   {
                     label: 'Yes',
                     value: 'SERVICE_AFFECTING'
@@ -28,8 +29,7 @@ export default {
                     label: 'No',
                     value: 'NON_SERVICE_AFFECTING'
                   }
-                ],
-                name: 'checkbox-array'
+                ]
               }
             }
           ],
@@ -41,19 +41,8 @@ export default {
             {
               model: 'deviceType',
               renderer: {
-                meta: [
-                  {
-                    datum: 'CN6500',
-                    label: '6500',
-                    value: 'CN6500'
-                  },
-                  {
-                    datum: 'NUAGE',
-                    label: 'Nuage',
-                    value: 'nuage'
-                  }
-                ],
-                name: 'checkbox-array'
+                name: 'checkbox-array',
+                selectedValues: ['6500']
               }
             }
           ],
