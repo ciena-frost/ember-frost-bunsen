@@ -130,12 +130,6 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('reduxModel')
-  renderModel (model) {
-    return dereference(model || {}).schema
-  },
-
-  @readOnly
   @computed('renderModel', 'bunsenView')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
@@ -337,8 +331,8 @@ export default Component.extend(PropTypeMixin, {
       newProps.errors = errors
     }
 
-    if (!_.isEqual(this.get('reduxModel'), state.model)) {
-      newProps.reduxModel = state.model
+    if (!_.isEqual(this.get('renderModel'), state.model)) {
+      newProps.renderModel = state.model
     }
 
     // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
@@ -380,7 +374,7 @@ export default Component.extend(PropTypeMixin, {
     })
 
     this.set('reduxStore', reduxStore)
-    this.set('reduxModel', reduxStore.getState().model)
+    this.set('renderModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
