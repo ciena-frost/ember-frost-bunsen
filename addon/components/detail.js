@@ -15,7 +15,6 @@ const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
