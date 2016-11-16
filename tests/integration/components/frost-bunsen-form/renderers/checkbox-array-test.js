@@ -252,6 +252,136 @@ describeComponent(
       })
     })
 
+    describe('when selectedValues is set to pre-check a checkbox', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              disabled: false,
+              model: 'foo',
+              renderer: {
+                name: 'checkbox-array',
+                selectedValues: ['bar']
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'renders an enabled checkbox-array input'
+        )
+          .to.have.length(2)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.frost.checkbox.input.checked),
+          'renders an checked checkbox'
+        )
+          .to.have.length(1)
+      })
+    })
+
+    describe('when data is set to override the model enum', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              disabled: false,
+              model: 'foo',
+              renderer: {
+                name: 'checkbox-array',
+                data: [
+                  {
+                    label: 'baz',
+                    value: 'BAZ'
+                  },
+                  {
+                    label: 'bar',
+                    value: 'BAR'
+                  }
+                ]
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'renders an enabled checkbox-array input'
+        )
+          .to.have.length(2)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+      })
+    })
+
+    describe('when both data and selectedValues are used', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              disabled: false,
+              model: 'foo',
+              renderer: {
+                name: 'checkbox-array',
+                selectedValues: ['BAR'],
+                data: [
+                  {
+                    label: 'baz',
+                    value: 'BAZ'
+                  },
+                  {
+                    label: 'bar',
+                    value: 'BAR'
+                  }
+                ]
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'renders an enabled checkbox-array input'
+        )
+          .to.have.length(2)
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.frost.checkbox.input.checked),
+          'renders an checked checkbox'
+        )
+          .to.have.length(1)
+      })
+    })
+
     describe('when form explicitly enabled', function () {
       beforeEach(function () {
         this.set('disabled', false)
