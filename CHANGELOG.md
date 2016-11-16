@@ -1,3 +1,20 @@
+# 12.2.3
+
+* **Fixed** a bug where conditions evaluated on the default value don't trigger the `renderModel` CP. The CP was unnecessary and removing it fixed the issue.
+
+
+
+# 12.2.2
+
+* **Fixed** typo that broke select filtering via API.
+
+
+
+# 12.2.1
+
+* **Fixed** array option `compact` to function again.
+
+
 # 12.2.0
 
 * **Added** a new feature where when a user leaves the browser window/tab with a form on it then comes back later, validation will re-fire. This will be useful for cases where validation involves API checks such as validating an email or username doesn't already exist in the backend's database.

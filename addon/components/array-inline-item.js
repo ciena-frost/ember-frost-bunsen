@@ -9,7 +9,6 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-i
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: ['compact:compact'],
   classNames: ['item-wrapper'],
   layout,
 
@@ -20,6 +19,7 @@ export default Component.extend(PropTypeMixin, {
     bunsenModel: PropTypes.object.isRequired,
     bunsenView: PropTypes.object.isRequired,
     cellConfig: PropTypes.object.isRequired,
+    compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
     index: PropTypes.number.isRequired,
@@ -41,17 +41,12 @@ export default Component.extend(PropTypeMixin, {
 
   getDefaultProps () {
     return {
+      compact: false,
       showRemoveButton: true
     }
   },
 
   // == Computed Properties ====================================================
-
-  @readOnly
-  @computed('cellConfig')
-  compact (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.compact') === true
-  },
 
   @readOnly
   @computed('cellConfig', 'renderers')
