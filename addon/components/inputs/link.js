@@ -90,9 +90,6 @@ export default AbstractInput.extend({
     const newDefaultLabel = getAttr(newAttrs, 'cellConfig.renderer.defaultLabel')
     const newLabel = getOption(newAttrs, 'label', formValue, newDefaultLabel)
     const newUrl = getOption(newAttrs, 'url', formValue)
-    const oldDefaultLabel = getAttr(oldAttrs, 'cellConfig.renderer.defaultLabel')
-    const oldLabel = getOption(oldAttrs, 'label', formValue, oldDefaultLabel)
-    const oldUrl = getOption(oldAttrs, 'url', formValue)
     const newLinkLabel = newLabel || 'Link'
 
     if (this.get('linkLabel') !== newLinkLabel) {
