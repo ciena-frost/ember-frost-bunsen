@@ -60,7 +60,6 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   formValueChanged (newValue) {
-    console.info('what')
     if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
     }
