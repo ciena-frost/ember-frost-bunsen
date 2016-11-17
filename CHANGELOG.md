@@ -1,3 +1,9 @@
+# 12.2.4
+
+* **Fixed** link to handle incoming changes and rerender properly.
+
+
+
 # 12.2.3
 
 * **Fixed** a bug where conditions evaluated on the default value don't trigger the `renderModel` CP. The CP was unnecessary and removing it fixed the issue.
