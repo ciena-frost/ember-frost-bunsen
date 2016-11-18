@@ -528,7 +528,7 @@ describeComponent(
       })
     })
 
-    describe('when given value', function () {
+    describe('when value is set', function () {
       beforeEach(function () {
         this.set('value', {foo: ['bar', 'baz']})
         return wait()
@@ -539,13 +539,13 @@ describeComponent(
       })
 
       // Note: this breaks if the value passed to frost-multi-select is immutable
-      describe('when given another value', function () {
+      describe('when value is set to another array with the same values', function () {
         beforeEach(function () {
           this.set('value', {foo: ['baz', 'bar']})
           return wait()
         })
 
-        it('should display new value', function () {
+        it('should still display the old values', function () {
           expect(this.$('.frost-select-text').text().trim()).to.equal('bar, baz')
         })
       })
