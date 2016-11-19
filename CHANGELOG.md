@@ -1,3 +1,7 @@
+# 12.2.5
+
+* **Fixed** a bug in multi-select renderer that occurred when the value was set to an array the same length as the existing value
+
 # 12.2.4
 
 * **Fixed** link to handle incoming changes and rerender properly.
