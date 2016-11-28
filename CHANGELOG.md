@@ -1,3 +1,31 @@
+# 12.2.6
+
+* **Updated** bunsen-core
+
+
+
+# 12.2.5
+
+* **Fixed** a bug in multi-select renderer that occurred when the value was set to an array the same length as the existing value
+
+# 12.2.4
+
+* **Fixed** link to handle incoming changes and rerender properly.
+
+
+
+# 12.2.3
+
+* **Fixed** a bug where conditions evaluated on the default value don't trigger the `renderModel` CP. The CP was unnecessary and removing it fixed the issue.
+
+
+
+# 12.2.2
+
+* **Fixed** typo that broke select filtering via API.
+
+
+
 # 12.2.1
 
 * **Fixed** array option `compact` to function again.

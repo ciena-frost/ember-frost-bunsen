@@ -89,7 +89,7 @@ export default AbstractInput.extend({
    */
   isFilteringLocally (cellConfig) {
     const modelDef = this._getModelDef()
-    return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelName
+    return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelType
   },
 
   @readOnly

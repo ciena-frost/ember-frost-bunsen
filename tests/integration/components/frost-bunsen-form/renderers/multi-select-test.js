@@ -1,9 +1,11 @@
 import {expect} from 'chai'
 import {$hook, initialize} from 'ember-hook'
 import {describeComponent} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
@@ -62,6 +64,7 @@ describeComponent(
         onChange=onChange
         onValidation=onValidation
         showAllErrors=showAllErrors
+        value=value
       }}`)
     })
 
@@ -521,6 +524,29 @@ describeComponent(
             'does not inform consumer of validation results'
           )
             .to.equal(0)
+        })
+      })
+    })
+
+    describe('when value is set', function () {
+      beforeEach(function () {
+        this.set('value', {foo: ['bar', 'baz']})
+        return wait()
+      })
+
+      it('should display those values', function () {
+        expect(this.$('.frost-select-text').text().trim()).to.equal('bar, baz')
+      })
+
+      // Note: this breaks if the value passed to frost-multi-select is immutable
+      describe('when value is set to another array with the same values', function () {
+        beforeEach(function () {
+          this.set('value', {foo: ['baz', 'bar']})
+          return wait()
+        })
+
+        it('should still display the old values', function () {
+          expect(this.$('.frost-select-text').text().trim()).to.equal('bar, baz')
         })
       })
     })

@@ -600,7 +600,7 @@ describeComponent(
           props.onValidation.callCount,
           'informs consumer of validation results'
         )
-          .to.equal(1)
+          .to.equal(2)
 
         const validationResult = props.onValidation.lastCall.args[0]
 

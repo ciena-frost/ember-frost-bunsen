@@ -15,7 +15,6 @@ const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {dereference} from 'bunsen-core/dereference'
 import {getDefaultView} from 'bunsen-core/generator'
 import validateView, {validateModel} from 'bunsen-core/validator'
 import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
@@ -127,12 +126,6 @@ export default Component.extend(PropTypeMixin, {
   @computed('errors')
   renderErrors (errors) {
     return errors || {}
-  },
-
-  @readOnly
-  @computed('reduxModel')
-  renderModel (model) {
-    return dereference(model || {}).schema
   },
 
   @readOnly
@@ -337,8 +330,8 @@ export default Component.extend(PropTypeMixin, {
       newProps.errors = errors
     }
 
-    if (!_.isEqual(this.get('reduxModel'), state.model)) {
-      newProps.reduxModel = state.model
+    if (!_.isEqual(this.get('renderModel'), state.model)) {
+      newProps.renderModel = state.model
     }
 
     // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
@@ -380,7 +373,7 @@ export default Component.extend(PropTypeMixin, {
     })
 
     this.set('reduxStore', reduxStore)
-    this.set('reduxModel', reduxStore.getState().model)
+    this.set('renderModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
