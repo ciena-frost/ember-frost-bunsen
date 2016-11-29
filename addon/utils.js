@@ -194,7 +194,6 @@ export function getRendererComponentName (rendererName) {
  * @returns {Boolean} whether or not last path is required
  */
 export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentRequired) {
-  // console.info(path, bunsenModel)
   const isChildMissing = !_.get(value, path)
 
   let isParentPresent, lastSegment
@@ -217,7 +216,11 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
         bunsenModel.required.indexOf(segment) !== -1
       )
 
-      bunsenModel = bunsenModel.properties[segment]
+      if (/^\d+$/.test(segment)) {
+        bunsenModel = bunsenModel.items
+      } else {
+        bunsenModel = bunsenModel.properties[segment]
+      }
     }
   }
 
@@ -261,14 +264,15 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
         bunsenModel.required.indexOf(segment) !== -1
       )
 
-      // console.info('huh', bunsenModel, segment)
-      bunsenModel = bunsenModel.properties[segment]
+      if (/^\d+$/.test(segment)) {
+        bunsenModel = bunsenModel.items
+      } else {
+        bunsenModel = bunsenModel.properties[segment]
+      }
     }
 
     value = _.get(value, cell.model)
   }
-
-  console.info('well', cell.model, bunsenModel)
 
   // If any child view cell is required then the parent cell should be labeled as required in the UI
   return cell.children
