@@ -205,7 +205,7 @@ export default Component.extend(PropTypeMixin, {
       subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
-    return subModel
+    return subModel || bunsenModel
   },
 
   @readOnly
