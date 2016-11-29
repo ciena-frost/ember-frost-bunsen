@@ -326,10 +326,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   isLeafNode (cellConfig) {
-    return (
-      cellConfig.model &&
-      (!cellConfig.children || cellConfig.children.length === 0)
-    )
+    return cellConfig.model && !cellConfig.children
   },
 
   @readOnly
