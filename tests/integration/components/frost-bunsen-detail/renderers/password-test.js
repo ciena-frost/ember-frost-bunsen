@@ -57,10 +57,16 @@ describeComponent(
         .to.have.length(0)
 
       expect(
-        this.$(selectors.bunsen.renderer.password),
+        this.$(selectors.bunsen.renderer.password.input),
         'renders a bunsen password input'
       )
         .to.have.length(1)
+
+      expect(
+        this.$(selectors.bunsen.renderer.password.text).text().trim(),
+        'does not reveal password'
+      )
+        .to.equal('************')
 
       expect(
         this.$(selectors.bunsen.label).text().trim(),
@@ -94,10 +100,16 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.password.text).text().trim(),
+          'does not reveal password'
+        )
+          .to.equal('************')
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -132,10 +144,16 @@ describeComponent(
           .to.have.length(1)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.password.text).text().trim(),
+          'does not reveal password'
+        )
+          .to.equal('************')
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
@@ -170,16 +188,86 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.password.text).text().trim(),
+          'does not reveal password'
+        )
+          .to.equal('************')
 
         expect(
           this.$(selectors.bunsen.label).text().trim(),
           'renders expected label text'
         )
           .to.equal('Foo')
+      })
+    })
+
+    describe('user presses reveal icon', function () {
+      beforeEach(function () {
+        this.$(selectors.bunsen.renderer.password.reveal).click()
+      })
+
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.password.input),
+          'renders a bunsen password input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.renderer.password.text).text().trim(),
+          'reveals password'
+        )
+          .to.equal('Baz')
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+      })
+
+      describe('user presses reveal icon again', function () {
+        beforeEach(function () {
+          this.$(selectors.bunsen.renderer.password.reveal).click()
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
+          expect(
+            this.$(selectors.bunsen.renderer.password.input),
+            'renders a bunsen password input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.renderer.password.text).text().trim(),
+            'does not reveal password'
+          )
+            .to.equal('************')
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('Foo')
+        })
       })
     })
   }
