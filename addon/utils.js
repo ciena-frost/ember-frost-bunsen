@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import Ember from 'ember'
-const {get, typeOf} = Ember
+const {typeOf} = Ember
 import config from 'ember-get-config'
-import {getModelPath} from 'bunsen-core/utils'
 
 const assign = Ember.assign || Object.assign || Ember.merge
 
@@ -191,48 +190,47 @@ export function getRendererComponentName (rendererName) {
  * @param {String} path - path to property in bunsen model
  * @param {BunsemModel} bunsenModel - bunsen model
  * @param {Object} value - form value
+ * @param {Boolean} parentRequired - whether or not parent model is required
  * @returns {Boolean} whether or not last path is required
  */
-export function isChildRequiredToSubmitForm (path, bunsenModel, value) {
-  const relativePaths = []
-  const segments = path.split('.')
+export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentRequired) {
+  const isChildMissing = !_.get(value, path)
 
-  while (segments.length !== 0) {
-    relativePaths.push(segments.join('.'))
-    segments.pop()
+  let isParentPresent, lastSegment
+
+  if (path.indexOf('.') === -1) {
+    isParentPresent = Boolean(value)
+    lastSegment = path
+  } else {
+    const segments = path.split('.')
+    lastSegment = segments.pop()
+    const relativePath = segments.join('.')
+    isParentPresent = Boolean(_.get(value, relativePath))
+
+    while (segments.length !== 0) {
+      const segment = segments.splice(0, 1)[0]
+
+      parentRequired = Boolean(
+        parentRequired &&
+        bunsenModel.required &&
+        bunsenModel.required.indexOf(segment) !== -1
+      )
+
+      if (/^\d+$/.test(segment)) {
+        bunsenModel = bunsenModel.items
+      } else {
+        bunsenModel = bunsenModel.properties[segment]
+      }
+    }
   }
 
-  // If property and all ancestors are required then child is required to submit form
-  if (relativePaths.every((relativePath) => isLastSegmentRequired(relativePath, bunsenModel))) {
-    return true
-  }
+  const childIsRequiredByParent = bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1
 
-  const childIsRequiredByParent = isLastSegmentRequired(path, bunsenModel)
-  const parentPathSegments = path.split('.')
-  parentPathSegments.pop()
-  const parentPath = parentPathSegments.join('.')
-  const isParentPresent = Boolean(value && _.get(value, parentPath))
-
-  return childIsRequiredByParent && isParentPresent
-}
-
-/**
- * Determine if last segment of a bunsen model path is required
- * @param {String} path - path to property in bunsen model
- * @param {BunsemModel} bunsenModel - bunsen model
- * @returns {Boolean} whether or not last path is required
- */
-export function isLastSegmentRequired (path, bunsenModel) {
-  const segments = path.split('.')
-  const lastSegment = segments.pop()
-
-  // Make sure we get the correct bunsen model for nested properties
-  if (segments.length !== 0) {
-    bunsenModel = get(bunsenModel, getModelPath(segments.join('.'))) || bunsenModel
-  }
-
-  // Determine if last segment is marked as required by it's parent in the bunsen model
-  return Boolean(bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1)
+  return (
+    childIsRequiredByParent &&
+    (isParentPresent || parentRequired) &&
+    isChildMissing
+  )
 }
 
 /**
@@ -241,35 +239,44 @@ export function isLastSegmentRequired (path, bunsenModel) {
  * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
  * @param {BunsenModel} bunsenModel - bunsen model
  * @param {Object} value - form value
+ * @param {Boolean} parentRequired - whether or not parent model is required
  * @returns {Boolean} whether or not cell contains required inputs
  */
-export function isRequired (cell, cellDefinitions, bunsenModel, value) {
+export function isRequired (cell, cellDefinitions, bunsenModel, value, parentRequired = true) {
   cell = getMergedConfig(cell, cellDefinitions)
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
-    return (
-      isChildRequiredToSubmitForm(cell.model, bunsenModel, value) &&
-      !_.get(value, cell.model)
-    )
+    return isChildRequiredToSubmitForm(cell.model, bunsenModel, value, parentRequired)
   }
 
   // If the cell has a model defined, that model is applied to all children cells and thus we need to get
   // the sub-model of the current bunsenModel that represents this scoped/nested model
   if (cell.model) {
-    const modelPath = getModelPath(cell.model)
+    const modelSegments = cell.model.split('.')
 
-    // NOTE: Under some scenarios the bunsen  model is already scoped hence the or condition below.
-    // FIXME: We should figure out why we sometimes feed the frost-bunsen-cell instance a scoped model and other times not
-    // and clean it up to always pass in the unscoped model. At which point this or condition can and should be removed.
-    bunsenModel = get(bunsenModel, modelPath) || bunsenModel
+    while (modelSegments.length !== 0) {
+      const segment = modelSegments.splice(0, 1)[0]
+
+      parentRequired = Boolean(
+        parentRequired &&
+        bunsenModel.required &&
+        bunsenModel.required.indexOf(segment) !== -1
+      )
+
+      if (/^\d+$/.test(segment)) {
+        bunsenModel = bunsenModel.items
+      } else {
+        bunsenModel = bunsenModel.properties[segment]
+      }
+    }
 
     value = _.get(value, cell.model)
   }
 
   // If any child view cell is required then the parent cell should be labeled as required in the UI
   return cell.children
-    .some((child) => isRequired(child, cellDefinitions, bunsenModel, value))
+    .some((child) => isRequired(child, cellDefinitions, bunsenModel, value, parentRequired))
 }
 
 export function validateRenderer (owner, rendererName) {

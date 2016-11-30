@@ -69,7 +69,7 @@ describeComponent(
         .to.have.length(0)
 
       expect(
-        this.$(selectors.bunsen.renderer.password),
+        this.$(selectors.bunsen.renderer.password.input),
         'renders a bunsen password input'
       )
         .to.have.length(1)
@@ -146,7 +146,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -224,7 +224,7 @@ describeComponent(
           .to.have.length(1)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -302,7 +302,7 @@ describeComponent(
           .to.have.length(0)
 
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -374,7 +374,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -539,7 +539,7 @@ describeComponent(
 
       it('functions as expected', function () {
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -612,7 +612,7 @@ describeComponent(
 
       it('renders as expected', function () {
         expect(
-          this.$(selectors.bunsen.renderer.password),
+          this.$(selectors.bunsen.renderer.password.input),
           'renders a bunsen password input'
         )
           .to.have.length(1)
@@ -662,7 +662,7 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)
@@ -699,7 +699,7 @@ describeComponent(
 
         it('renders as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)
@@ -775,7 +775,7 @@ describeComponent(
 
         it('functions as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)
@@ -842,7 +842,7 @@ describeComponent(
 
         it('functions as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)
@@ -907,7 +907,7 @@ describeComponent(
 
         it('functions as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)
@@ -972,7 +972,7 @@ describeComponent(
 
         it('functions as expected', function () {
           expect(
-            this.$(selectors.bunsen.renderer.password),
+            this.$(selectors.bunsen.renderer.password.input),
             'renders a bunsen password input'
           )
             .to.have.length(1)

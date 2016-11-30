@@ -1,3 +1,14 @@
+# 12.2.8
+
+* **Added** missing tests for password renderer to reach full coverage of renderer.
+* **Fixed** bug where sections were sometimes showing required label when they shouldn't.
+
+
+# 12.2.7
+
+* Updates `bunsen-core`
+
+
 # 12.2.6
 
 * **Updated** bunsen-core

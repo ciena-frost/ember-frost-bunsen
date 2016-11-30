@@ -299,7 +299,7 @@ describe('bunsen-utils', function () {
               {model: 'baz'}
             ]
           }
-          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
         })
 
         it('and child is not required leaf property', function () {

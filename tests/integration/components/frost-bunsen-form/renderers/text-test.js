@@ -418,7 +418,7 @@ describeComponent(
 
         const $input = this.$(selectors.frost.text.type.date.input.enabled)
 
-        // TODO: figure out why hook doesn't work when type isn't text
+        // TODO: figure out why this fails in Firefox
         expectTextInputWithState($input, {
           placeholder: '',
           type: 'date'

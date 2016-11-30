@@ -17,7 +17,11 @@ export default {
       link: '.frost-bunsen-input-link',
       multiSelect: '.frost-bunsen-input-multi-select',
       number: '.frost-bunsen-input-number',
-      password: '.frost-bunsen-input-password',
+      password: {
+        input: '.frost-bunsen-input-password',
+        reveal: '.frost-bunsen-input-password-reveal',
+        text: '.frost-bunsen-input-password-text'
+      },
       propertyChooser: '.frost-bunsen-input-property-chooser',
       select: {
         arrow: '.frost-bunsen-input-select .down-arrow',
