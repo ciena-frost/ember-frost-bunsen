@@ -1,0 +1,24 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if showRequiredLabel}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-text
+    class=valueClassName
+    disabled=disabled
+    hook=hook
+    onFocusIn=(action 'hideErrorMessage')
+    onFocusOut=(action 'showErrorMessage')
+    onInput=(action 'handleChange')
+    placeholder=cellConfig.placeholder
+    type='number'
+    value=(readonly renderValue)
+  }}
+</div>
+{{#if renderErrorMessage}}
+  <div class='error'>
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

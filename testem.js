@@ -7,5 +7,5 @@ module.exports = {
   launch_in_dev: [
     'Chrome'
   ],
-  test_page: 'tests/index.html?hidepassed&coverage'
+  test_page: 'tests/index.html?hidepassed'
 }

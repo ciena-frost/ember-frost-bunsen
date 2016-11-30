@@ -1,0 +1,60 @@
+{{#if isInvalid}}
+  {{frost-bunsen-validation-result
+    model=propValidationResult
+    type=invalidSchemaType
+  }}
+{{else}}
+  <form class='form'>
+    {{#if cellTabs.length}}
+      {{#frost-tabs
+        hook=hook
+        onChange=(action 'handleTabChange')
+        selectedTab=tabSelection
+        as |controls|
+      }}
+        {{#each cellTabs key='@index' as |tab|}}
+          {{controls.tab
+            contentClass=tab.classNames
+            content=(component 'frost-bunsen-cell'
+              bunsenModel=renderModel
+              bunsenView=renderView
+              cellConfig=tab.cell
+              errors=renderErrors
+              formDisabled=disabled
+              formHook=hook
+              onChange=(action 'handleChange')
+              onError=(action 'handleError')
+              registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+              renderers=renderers
+              showAllErrors=showAllErrors
+              unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
+              value=renderValue
+              valueChangeSet=valueChangeSet
+            )
+            id=tab.id
+            text=tab.alias
+          }}
+        {{/each}}
+      {{/frost-tabs}}
+    {{else}}
+      {{#each precomputedCellConfig as |cell|}}
+        {{frost-bunsen-cell
+          bunsenModel=renderModel
+          bunsenView=renderView
+          cellConfig=cell
+          errors=renderErrors
+          formDisabled=disabled
+          formHook=hook
+          onChange=(action 'handleChange')
+          onError=(action 'handleError')
+          registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+          renderers=renderers
+          showAllErrors=showAllErrors
+          unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
+          value=renderValue
+          valueChangeSet=valueChangeSet
+        }}
+      {{/each}}
+    {{/if}}
+  </form>
+{{/if}}

@@ -1,6 +1,18 @@
 # ember-frost-bunsen
 
-[![Travis][ci-img]][ci-url] [![Coveralls][cov-img]][cov-url] [![NPM][npm-img]][npm-url]
+###### Dependencies
+
+![Ember][ember-img]
+[![NPM][npm-img]][npm-url]
+
+###### Health
+
+[![Travis][ci-img]][ci-url]
+[![Coveralls][cov-img]][cov-url]
+
+###### Security
+
+[![bitHound][bithound-img]][bithound-url]
 
 * [Tutorial](#Tutorial)
 * [Installation](#installation)
@@ -26,6 +38,7 @@ ember install ember-frost-bunsen
 | ------------- | -------------------------- | -------- | ---------------------------------------- |
 | `bunsenModel` | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`  | `Ember.Object` or `object` | No       | View definition                          |
+| `onError`     | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `renderers`   | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `value`       | `Ember.Object` or `object` | No       | Data to render                           |
 
@@ -38,20 +51,55 @@ ember install ember-frost-bunsen
 | `autofocus`     | `boolean`                  | No       | Whether or not to focus on first input   |
 | `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
-| `cancelLabel`   | `string`                   | No       | Text for cancel button                   |
 | `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
-| `inline`        | `boolean`                  | No       | Whether or not to render form inline     |
-| `onCancel`      | `Function`                 | No       | Callback for when form is cancelled      |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
-| `onSubmit`      | `Function`                 | No       | Callback for when form is submitted      |
+| `onError`       | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
 | `renderers`     | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `showAllErrors` | `boolean`                  | No       | Whether or not to show error messages before user interaction occurs |
-| `submitLabel`   | `string`                   | No       | Text for submit button                   |
 | `validators`    | `Array<Function>`          | No       | List of custom validation functions      |
 | `value`         | `Ember.Object` or `object` | No       | Value to initialize form with            |
 
 <!--lint enable table-pipe-alignment-->
+
+### Callback signatures
+#### `onChange`
+```js
+/**
+ * Called whenever the value of the form changes (usually based on user interaction)
+ * @param {Object} value - the new value of the form
+ */
+function onChange (value) {
+  // handle the new value
+}
+```
+
+#### `onError`
+```js
+/**
+ * Called whenever a select renderer encounters an API error or a custom-renderer calls onError
+ * @param {String} bunsenId - the bunsenId of the input where the error originated
+ * @param {BunsenValidationError[]} errors - an array of errors, they aren't actually validation
+ *   errors per-se, but a BunsenValidationError is a convenient format for reporting them
+ *   see: https://github.com/ciena-blueplanet/bunsen-core/blob/master/src/typedefs.js#L75-L80
+ */
+function onError (bunsenId, errors) {
+  // Present the errors to the user
+}
+```
+
+#### `onValidation`
+```js
+/**
+ * Called whenever validation completes after a form value changes, since validation is async,
+ * this could be a while after the onChange is called.
+ * @param {BunsenValidationResult} result - the result of the validation
+ *   see: https://github.com/ciena-blueplanet/bunsen-core/blob/master/src/typedefs.js#L82-L86
+ */
+function onValidation (result) {
+  // Present the errors to the user
+}
+```
 
 ## Examples
 
@@ -84,7 +132,7 @@ ember install ember-frost-bunsen
 }}
 ```
 
-> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-frost/ember-frost-bunsen/blob/master/addon/components/validator/view-schema.js). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
+> Note: ALL values, models, and views MUST be valid [JSON](http://www.json.org/). Values are simply the data being represented in the UI which usually come directly from an API response. Models must be valid [JSON Schema](http://json-schema.org/) and views must be valid [view schema](https://github.com/ciena-blueplanet/bunsen-core/tree/master/src/validator/view-schemas). Below we will provide examples of values, models, and views to give you a better idea of how this stuff works.
 
 ### Minimal Example
 
@@ -113,23 +161,20 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
-  "type": "form",
-  "rootContainers": {
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "firstName"},
+        {"model": "lastName"}
+      ]
+    }
+  },
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "firstName"},
-          {"model": "lastName"},
-        ]
-      ]
-    }
-  ]
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -167,23 +212,20 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
-  "type": "form",
-  "rootContainers": {
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "name.first"},
+        {"model": "name.last"}
+      ]
+    }
+  },
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "name.first"},
-          {"model": "name.last"},
-        ]
-      ]
-    }
-  ]
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -227,32 +269,29 @@ ember install ember-frost-bunsen
 
 ```json
 {
-  "version": "1.0",
-  "type": "form",
-  "rootContainers": {
+  "cellDefinitions": {
+    "main": {
+      "children": [
+        {"model": "name"},
+        {"model": "age"},
+        {"model": "married"},
+        {
+          "label": "Spouse's Name",
+          "model": "spouse.name"
+        },
+        {
+          "label": "Spouse's Age",
+          "model": "spouse.age"
+        }
+      ]
+    }
+  },
+  "cells": {
     "label": "Main",
     "id": "main"
   },
-  "containers": [
-    {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "name"},
-          {"model": "age"},
-          {"model": "married"},
-          {
-            "label": "Spouse's Name",
-            "model": "spouse.name"
-          },
-          {
-            "label": "Spouse's Age",
-            "model": "spouse.age"
-          }
-        ]
-      ]
-    }
-  ]
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -314,22 +353,13 @@ message:
 
 ```json
 {
-  "version": "1.0",
-  "type": "form",
-  "rootContainers": {
-    "label": "Main",
-    "id": "main"
-  },
-  "containers": [
+  "cells": [
     {
-      "id": "main",
-      "rows": [
-        [
-          {"model": "palindrome"},
-        ]
-      ]
+      "model": "palindrome"
     }
-  ]
+  ],
+  "type": "form",
+  "version": "2.0"
 }
 ```
 
@@ -422,9 +452,16 @@ visit the app at [http://localhost:4200](http://localhost:4200).
 Run `npm test` from the root of the project to run linting checks as well as execute the test suite
 and output code coverage.
 
+[bithound-img]: https://www.bithound.io/github/ciena-frost/ember-frost-bunsen/badges/score.svg "bitHound"
+[bithound-url]: https://www.bithound.io/github/ciena-frost/ember-frost-bunsen
+
 [ci-img]: https://img.shields.io/travis/ciena-frost/ember-frost-bunsen.svg "Travis CI Build Status"
 [ci-url]: https://travis-ci.org/ciena-frost/ember-frost-bunsen
+
 [cov-img]: https://img.shields.io/coveralls/ciena-frost/ember-frost-bunsen.svg "Coveralls Code Coverage"
 [cov-url]: https://coveralls.io/github/ciena-frost/ember-frost-bunsen
+
+[ember-img]: https://img.shields.io/badge/ember-2.3+-green.svg "Ember 2.3+"
+
 [npm-img]: https://img.shields.io/npm/v/ember-frost-bunsen.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/ember-frost-bunsen

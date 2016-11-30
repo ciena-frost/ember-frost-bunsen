@@ -1,16 +1,44 @@
-import 'ember-frost-bunsen/typedefs'
-
 import _ from 'lodash'
 import Ember from 'ember'
-const {A} = Ember
+const {get, typeOf} = Ember
+import config from 'ember-get-config'
+import {getModelPath} from 'bunsen-core/utils'
 
+const assign = Ember.assign || Object.assign || Ember.merge
+
+/**
+ * @typedef {Object} Facet
+ * @property {String} label - label to use for facet
+ * @property {String} model - model property to generate facet for
+ * @property {BunsenRenderer} [renderer] - renderer to use for facet
+ */
+
+export const builtInRenderers = {
+  boolean: 'frost-bunsen-input-boolean',
+  'button-group': 'frost-bunsen-input-button-group',
+  'checkbox-array': 'frost-bunsen-input-checkbox-array',
+  hidden: 'frost-bunsen-input-hidden',
+  integer: 'frost-bunsen-input-number',
+  link: 'frost-bunsen-input-link',
+  'multi-select': 'frost-bunsen-input-multi-select',
+  number: 'frost-bunsen-input-number',
+  password: 'frost-bunsen-input-password',
+  'property-chooser': 'frost-bunsen-input-property-chooser',
+  select: 'frost-bunsen-input-select',
+  static: 'frost-bunsen-input-static',
+  string: 'frost-bunsen-input-text',
+  textarea: 'frost-bunsen-input-textarea',
+  url: 'frost-bunsen-input-url'
+}
+
+/* eslint-disable complexity */
 export function deemberify (emberObject) {
   if (emberObject === null || emberObject === undefined) {
     return emberObject
   }
 
-  if (_.isFunction(emberObject.serialize)) {
-    return emberObject.serialize()
+  if (typeOf(emberObject.serialize) === 'function') {
+    return emberObject.serialize({includeId: true})
   }
 
   if (emberObject.content) {
@@ -27,206 +55,247 @@ export function deemberify (emberObject) {
 
   return JSON.parse(JSON.stringify(emberObject))
 }
+/* eslint-enable complexity */
 
-export function doesModelContainRequiredField (model) {
-  if (_.isArray(model)) {
-    for (var i = 0, len = model.length; i < len; i++) {
-      if (doesModelContainRequiredField(model[i])) {
-        return true
+/**
+ * Generate label from bunsen model
+ * @param {String} model - bunsen model/property path
+ * @returns {String} model converted to label
+ */
+export function generateLabelFromModel (model) {
+  const property = model.split('.').pop()
+  const dasherizedName = Ember.String.dasherize(property).replace('-', ' ')
+  return Ember.String.capitalize(dasherizedName)
+}
+
+/**
+ * Generate cell for a facet
+ * @param {Facet} facet - facet to generate cell for
+ * @returns {BunsenCell} bunsen cell for facet
+ */
+export function generateFacetCell (facet) {
+  const cell = {
+    model: facet.model
+  }
+
+  if (facet.renderer) {
+    cell.renderer = facet.renderer
+  }
+
+  const renderersToHideClearButtonFor = [
+    'multi-select'
+  ]
+
+  const clearable = (
+    !facet.renderer ||
+    renderersToHideClearButtonFor.indexOf(facet.renderer.name) === -1
+  )
+
+  return {
+    children: [cell],
+    clearable,
+    collapsible: true,
+    label: facet.label || generateLabelFromModel(facet.model)
+  }
+}
+
+/**
+ * Generate bunsen view for facets
+ * @param {Facet[]} facets - facets to generate view for
+ * @returns {BunsenView} bunsen view for facets
+ */
+export function generateFacetView (facets) {
+  return {
+    cells: [
+      {
+        children: facets.map(generateFacetCell)
       }
-    }
-
-    return false
-  }
-
-  if (!_.isPlainObject(model)) {
-    return false
-  }
-
-  if (!_.isEmpty(model.required)) {
-    return true
-  }
-
-  for (let key in model) {
-    if (doesModelContainRequiredField(model[key])) {
-      return true
-    }
+    ],
+    type: 'form',
+    version: '2.0'
   }
 }
 
 /**
- * Get the user-visible label from the model instance
- * @param {String} label - the label override from the view
- * @param {BunsenModel} model - the model (to get title from if present)
- * @param {String} id - the dotted refeference to this object
- * @returns {String} the user-visible label
+ * Get merged definition for current cell
+ * @param {BunsenCell} cellConfig - current cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} current merged cell definition
  */
-export function getLabel (label, model, id) {
-  const title = model ? model.title : null
-  let idLabel = (id) ? _.startCase(id.split('.').slice(-1)[0]) : ''
-  idLabel = _.capitalize(idLabel.toLowerCase())
-  return `${label || title || idLabel}`
+export function getMergedConfig (cellConfig, cellDefinitions) {
+  if (!cellConfig.extends) {
+    return _.cloneDeep(cellConfig)
+  }
+
+  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
+  const mergedConfig = assign(superCell, cellConfig)
+
+  delete mergedConfig.extends
+
+  return mergedConfig
 }
 
 /**
- * Convert a model reference to a proper path in the model schema
- *
- * hero.firstName => hero.attributes.firstName
- * foo.bar.baz => foo.attributes.bar.attributes.baz
- *
- * Leading or trailing '.' mess up our trivial split().join() and aren't valid anyway, so we
- * handle them specially, undefined being passed into _.get() will yield undefined, and display
- * the error we want to display when the model reference is invalid, so we return undefined
- *
- * hero. => undefined
- * .hero => undefined
- *
- * @param {String} reference - the dotted reference to the model
- * @param {String} [dependencyReference] - the dotted reference to the model dependency
- * @returns {String} the proper dotted path in the model schema (or undefined if it's a bad path)
+ * Merges the cellConfig recursively
+ * @param {BunsenCell} cellConfig - top-level cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @returns {BunsenCell} merged cell definition
  */
-export function getModelPath (reference, dependencyReference) {
-  const pattern = /^[^\.](.*[^\.])?$/
-  let path = pattern.test(reference) ? `properties.${reference.split('.').join('.properties.')}` : undefined
+export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
+  const mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
 
-  if (_.isString(path)) {
-    path = path.replace(/\.properties\.(\d+)\./g, '.items.') // Replace array index with "items"
-  }
-
-  if (dependencyReference) {
-    const dependencyName = dependencyReference.split('.').pop()
-    const pathArr = path.split('.')
-    pathArr.splice(-2, 0, 'dependencies', dependencyName)
-    path = pathArr.join('.')
-  }
-
-  return path
-}
-
-/**
- * Get the sub-model for a given dotted reference
- * @param {BunsenModel} model - the starting model
- * @param {String} reference - the reference to fetch
- * @param {String} [dependencyReference] - the dotted reference to the model dependency (if any)
- * @returns {BunsenModel} the sub-model
- */
-export function getSubModel (model, reference, dependencyReference) {
-  const path = getModelPath(reference, dependencyReference)
-  return _.get(model, path)
-}
-
-/**
- * Figure out an initial value based on existing value, initialValue, and model
- * @param {String} id - the dotted path to this value in the formValue
- * @param {Object} formValue - the existing value of the whole form
- * @param {*} initialValue - the initialValue passed in to the component
- * @param {Object} model - the model to check for a default value in
- * @param {*} defaultValue - the default value to use if no other defaults are found
- * @returns {*} the initial value
- */
-export function getInitialValue (id, formValue, initialValue, model, defaultValue = '') {
-  const values = [_.get(formValue, id), initialValue, model['default']]
-  const value = _.find(values, (value) => value !== undefined)
-
-  if (value !== undefined) {
-    return value
-  }
-
-  return defaultValue
-}
-
-export function recursiveObjectCreate (object) {
-  if (_.isPlainObject(object)) {
-    let newObj = {}
-    _.each(object, function (value, key) {
-      newObj[key] = recursiveObjectCreate(value)
+  // recursive object case
+  if (mergedConfig.children) {
+    const mergedChildConfigs = []
+    mergedConfig.children.forEach((childConfig) => {
+      mergedChildConfigs.push(getMergedConfigRecursive(childConfig, cellDefinitions))
     })
+    mergedConfig.children = mergedChildConfigs
+  }
 
-    return Ember.Object.create(newObj)
-  } else if (_.isArray(object)) {
-    let newArray = []
-    _.each(object, function (value) {
-      newArray.push(recursiveObjectCreate(value))
+  // recursive array case
+  if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
+    mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+  }
+
+  return mergedConfig
+}
+
+/**
+ * Determine if model is registered with Ember Data
+ * @param {String} modelName - name of model to check Ember Data registry for
+ * @returns {Boolean} whether or not model is registered with Ember Data
+ */
+export function isRegisteredEmberDataModel (modelName) {
+  return Object.keys(require._eak_seen)
+    .filter((module) => {
+      return (
+        module.indexOf(`${config.modulePrefix}/models/`) === 0 ||
+        module.indexOf(`${config.podModulePrefix}/models/`) === 0
+      )
     })
+    .map((module) => {
+      return module
+        .replace(`${config.modulePrefix}/models/`, '')
+        .replace(`${config.podModulePrefix}/models/`, '')
+    })
+    .indexOf(modelName) !== -1
+}
 
-    return A(newArray) // eslint-disable-line new-cap
-  }
-
-  return object
+export function getRendererComponentName (rendererName) {
+  return builtInRenderers[rendererName] || rendererName
 }
 
 /**
- * mine an object for a value
- * @param {Object} obj the object to mine
- * @param {String} valuePath the path to the value in the object
- * @param {String} startPath - start path
- * @returns {String} the value
- */
-export function findValue (obj, valuePath, startPath = '') {
-  const depths = startPath.split('.')
-  const valueLevels = valuePath.split('./')
-  const parentLevels = valueLevels.filter((element) => element === '.')
-  const valueKey = valueLevels.pop()
-  const absValuePath = _.without(depths.slice(0, depths.length - parentLevels.length - 1), '', '.').join('.')
-  const absValueKey = [absValuePath, valueKey].join('.')
-  return _.get(obj, absValueKey)
-}
-
-/**
- * finds variables in orch-style queryParam values
- * @param {Object} valueObj - the value object to mine for query values
- * @param {String} queryJSON - the stringified filter object to parse
- * @param {String} startPath - start path
- * @param {Boolean} allowEmpty - allow empty values to be represented by ''
- * @returns {String} the populated filter
- * @throws Will throw when any value at the resolved path is empty
- */
-export function parseVariables (valueObj, queryJSON, startPath = '', allowEmpty = false) {
-  if (queryJSON.indexOf('${') !== -1) {
-    const valueVariable = queryJSON.split('${')[1].split('}')[0]
-    let result = findValue(valueObj, valueVariable, startPath)
-
-    if (result === undefined || String(result) === '') {
-      if (allowEmpty) {
-        result = ''
-      } else {
-        throw new Error(`value at ${valueVariable} is empty`)
-      }
-    }
-
-    const newQueryJson = queryJSON.split('${' + valueVariable + '}').join(result)
-    return parseVariables(valueObj, newQueryJson, startPath, allowEmpty)
-  }
-  return queryJSON
-}
-
-/**
- * grooms the query for variables using a ${variableName} syntax and populates the values
- * @param {Object} valueObj - the value object to mine for values
- * @param {Object} query - the definition from the model schema
- * @param {String} startPath - start path
- * @returns {Object} the populated query
- */
-export function populateQuery (valueObj, query, startPath = '') {
-  return JSON.parse(parseVariables(valueObj, JSON.stringify(query), startPath))
-}
-
-/**
- * Checks if the query object has valid values
+ * Determine if an input is required to submit form
+ * @param {String} path - path to property in bunsen model
+ * @param {BunsemModel} bunsenModel - bunsen model
  * @param {Object} value - form value
- * @param {Object} queryDef - query definition
- * @param {String} startPath - starting path
- * @returns {Boolean} true if valid
+ * @returns {Boolean} whether or not last path is required
  */
-export function hasValidQueryValues (value, queryDef, startPath) {
-  if (!queryDef) {
+export function isChildRequiredToSubmitForm (path, bunsenModel, value) {
+  const relativePaths = []
+  const segments = path.split('.')
+
+  while (segments.length !== 0) {
+    relativePaths.push(segments.join('.'))
+    segments.pop()
+  }
+
+  // If property and all ancestors are required then child is required to submit form
+  if (relativePaths.every((relativePath) => isLastSegmentRequired(relativePath, bunsenModel))) {
     return true
   }
 
-  try {
-    const query = populateQuery(value, queryDef, startPath)
-    return Object.keys(query).every((key) => String(query[key]) !== '')
-  } catch (e) {
-    return false
+  const childIsRequiredByParent = isLastSegmentRequired(path, bunsenModel)
+  const parentPathSegments = path.split('.')
+  parentPathSegments.pop()
+  const parentPath = parentPathSegments.join('.')
+  const isParentPresent = Boolean(value && _.get(value, parentPath))
+
+  return childIsRequiredByParent && isParentPresent
+}
+
+/**
+ * Determine if last segment of a bunsen model path is required
+ * @param {String} path - path to property in bunsen model
+ * @param {BunsemModel} bunsenModel - bunsen model
+ * @returns {Boolean} whether or not last path is required
+ */
+export function isLastSegmentRequired (path, bunsenModel) {
+  const segments = path.split('.')
+  const lastSegment = segments.pop()
+
+  // Make sure we get the correct bunsen model for nested properties
+  if (segments.length !== 0) {
+    bunsenModel = get(bunsenModel, getModelPath(segments.join('.'))) || bunsenModel
   }
+
+  // Determine if last segment is marked as required by it's parent in the bunsen model
+  return Boolean(bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1)
+}
+
+/**
+ * Determine whether or not cell contains required inputs
+ * @param {BunsenCell} cell - bunsen view cell
+ * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+ * @param {BunsenModel} bunsenModel - bunsen model
+ * @param {Object} value - form value
+ * @returns {Boolean} whether or not cell contains required inputs
+ */
+export function isRequired (cell, cellDefinitions, bunsenModel, value) {
+  cell = getMergedConfig(cell, cellDefinitions)
+
+  // If the view cell doesn't contain children we can just determine if the model property is required
+  if (!cell.children) {
+    return (
+      isChildRequiredToSubmitForm(cell.model, bunsenModel, value) &&
+      !_.get(value, cell.model)
+    )
+  }
+
+  // If the cell has a model defined, that model is applied to all children cells and thus we need to get
+  // the sub-model of the current bunsenModel that represents this scoped/nested model
+  if (cell.model) {
+    const modelPath = getModelPath(cell.model)
+
+    // NOTE: Under some scenarios the bunsen  model is already scoped hence the or condition below.
+    // FIXME: We should figure out why we sometimes feed the frost-bunsen-cell instance a scoped model and other times not
+    // and clean it up to always pass in the unscoped model. At which point this or condition can and should be removed.
+    bunsenModel = get(bunsenModel, modelPath) || bunsenModel
+
+    value = _.get(value, cell.model)
+  }
+
+  // If any child view cell is required then the parent cell should be labeled as required in the UI
+  return cell.children
+    .some((child) => isRequired(child, cellDefinitions, bunsenModel, value))
+}
+
+export function validateRenderer (owner, rendererName) {
+  return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
+}
+
+/**
+ * Get an error message from an error Object
+ * @param {Object} error - may be an Error, an API response, or anything else (maybe?)
+ * @returns {String} the message for the error
+ */
+export function getErrorMessage (error) {
+  let message = 'Unable to parse error object'
+
+  // most common case will be a JSON-API error response from ember-data
+  message = _.get(error, 'responseJSON.errors[0].detail')
+
+  if (!message) {
+    // next common is maybe an Error Object
+    message = _.get(error, 'message')
+  }
+
+  if (!message && error.toString) {
+    // next option is anything else with a .toString() method
+    message = error.toString()
+  }
+
+  return message
 }

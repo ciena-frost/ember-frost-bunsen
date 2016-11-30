@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/number-input'
+export {default} from 'ember-frost-bunsen/components/inputs/number'

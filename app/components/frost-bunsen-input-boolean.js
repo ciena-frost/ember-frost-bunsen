@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/boolean-input'
+export {default} from 'ember-frost-bunsen/components/inputs/boolean'

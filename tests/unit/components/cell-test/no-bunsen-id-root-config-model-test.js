@@ -1,15 +1,12 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import sinon from 'sinon'
+import {unitTest} from 'dummy/tests/helpers/template'
+import {addChangeSet} from './changeset-helper'
 
-describeComponent(
-  'frost-bunsen-cell',
-  'FrostBunsenCellComponent with no bunsenId and root config model',
-  {
-    unit: true
-  },
-  function () {
+describeComponent(...unitTest('frost-bunsen-cell'), function () {
+  describe('with no bunsenId and root config model', function () {
     let component, onChangeSpy, sandbox
 
     beforeEach(function () {
@@ -24,16 +21,13 @@ describeComponent(
           },
           type: 'object'
         },
-        bunsenStore: Ember.Object.create({
-          formValue: {},
-          renderers: builtInRenderers,
-          view: {}
-        }),
-        config: Ember.Object.create({
+        bunsenView: {},
+        cellConfig: {
           model: 'foo'
-        }),
+        },
         errors: {},
         onChange: onChangeSpy,
+        onError () {},
         value: {}
       })
     })
@@ -44,7 +38,7 @@ describeComponent(
 
     it('errorMessage returns null when no erorrs', function () {
       component.set('errors', {})
-      expect(component.get('errorMessage')).to.be.null
+      expect(component.get('errorMessage')).to.be.equal(null)
     })
 
     it('errorMessage returns signle error', function () {
@@ -61,15 +55,15 @@ describeComponent(
     })
 
     it('isArrayItem() returns false', function () {
-      expect(component.get('isArrayItem')).to.be.false
+      expect(component.get('isArrayItem')).to.be.equal(false)
     })
 
     it('isSubModelArray returns false', function () {
-      expect(component.get('isSubModelArray')).to.be.false
+      expect(component.get('isSubModelArray')).to.be.equal(false)
     })
 
     it('isSubModelObject returns false', function () {
-      expect(component.get('isSubModelObject')).to.be.false
+      expect(component.get('isSubModelObject')).to.be.equal(false)
     })
 
     it('nonIndexId returns expected value', function () {
@@ -77,7 +71,7 @@ describeComponent(
     })
 
     it('readOnly defaults to false', function () {
-      expect(component.get('readOnly')).to.be.false
+      expect(component.get('readOnly')).to.be.equal(false)
     })
 
     it('renderId returns ${bunsenId}.${model}', function () {
@@ -95,6 +89,10 @@ describeComponent(
             bar: 'baz'
           }
         })
+        addChangeSet(component)
+        component.didReceiveAttrs({
+          oldAttrs: {}
+        })
       })
 
       it('renderValue returns value for config model', function () {
@@ -110,8 +108,8 @@ describeComponent(
       })
 
       it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.be.undefined
+        expect(component.get('renderValue')).to.be.equal(undefined)
       })
     })
-  }
-)
+  })
+})

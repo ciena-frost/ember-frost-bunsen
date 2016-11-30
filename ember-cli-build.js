@@ -5,6 +5,7 @@ module.exports = function (defaults) {
   var app = new EmberAddon(defaults, {
 
     babel: {
+      includePolyfill: true,
       optional: ['es7.decorators']
     },
     codemirror: {
@@ -23,12 +24,6 @@ module.exports = function (defaults) {
       ]
     }
   })
-
-  switch (app.env) {
-    case 'test':
-      app.import('bower_components/ember-template-compiler/index.js')
-      break
-  }
 
   app.import('bower_components/sinonjs/sinon.js')
 

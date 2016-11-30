@@ -1,3 +1,526 @@
+# 12.2.7
+
+* Updates `bunsen-core`
+
+
+# 12.2.6
+
+* **Updated** bunsen-core
+
+
+
+# 12.2.5
+
+* **Fixed** a bug in multi-select renderer that occurred when the value was set to an array the same length as the existing value
+
+# 12.2.4
+
+* **Fixed** link to handle incoming changes and rerender properly.
+
+
+
+# 12.2.3
+
+* **Fixed** a bug where conditions evaluated on the default value don't trigger the `renderModel` CP. The CP was unnecessary and removing it fixed the issue.
+
+
+
+# 12.2.2
+
+* **Fixed** typo that broke select filtering via API.
+
+
+
+# 12.2.1
+
+* **Fixed** array option `compact` to function again.
+
+
+# 12.2.0
+
+* **Added** a new feature where when a user leaves the browser window/tab with a form on it then comes back later, validation will re-fire. This will be useful for cases where validation involves API checks such as validating an email or username doesn't already exist in the backend's database.
+
+# 12.1.1
+
+* **Fixed** enum driven select to show selected value when filter typed into dropdown.
+
+
+# 12.1.0
+
+* **Upgraded** `ember-frost-core` to the latest version to get the redesigned `frost-select` which is much more keyboard friendly and now includes the filter text input inside the dropdown.
+
+
+# 12.0.2
+
+- Re-added class names to tab content element.
+
+
+
+# 12.0.1
+
+* **Fixed** bug where tabs would all become unselected when entire bunsen state changed.
+
+
+# 12.0.0
+
+## Breaking
+
+* **Upgraded** to version `3.x` of [ember-frost-tabs](https://github.com/ciena-frost/ember-frost-tabs) which has a new API.
+
+# 11.6.0
+
+* **Added** `hideLabel` option to cell for hiding the auto-generated label when `model` is present.
+
+
+
+# 11.5.4
+
+* **Fixed** password renderer to render as readonly on a detail view.
+
+
+# 11.5.3
+
+* **Fixed** issue where duplicate headers render for array cells when they set the label or collapsible property.
+
+
+# 11.5.2
+
+* **Fixed** `link` renderer to better handle empty labels.
+
+
+# 11.5.1
+
+* **Fixed** bug with array referencing.
+
+
+
+# 11.5.0
+
+* **Changed** input renderers to only show required label when inputs are empty.
+* **Changed** sections to only show required label when any required child inputs is empty.
+* **Fixed** link input renderer to only re-render when DOM will change.
+* **Fixed** link input renderer to have correct UX by having it use `frost-link` under the hood.
+* **Fixed** link input renderer to prevent bubbling of click event which keeps link from functioning when used within certain components such as a `frost-list`.
+
+
+# 11.4.0
+* **Added**`route` and `url` options to `link` renderer.
+
+
+# 11.3.5
+
+* **Fixed** issue with duplicate section headings rendering under certain scenarios.
+* **Fixed** validation bug where cell's `model` wasn't being applied to it's `children`.
+* **Fixed** small visual regression with positioning of collapsible toggle handle.
+
+
+# 11.3.4
+
+* **Added** tests for static input renderer in a form.
+* **Fixed** `button-group` renderer to support being unset by clicking on the selected button to deselect it.
+
+
+# 11.3.3
+
+* **Fixed** issues with collapsible toggle button swallowing enter keypresses on the form.
+
+
+
+# 11.3.2
+
+* Let more stuff pass through Mirage in hopes of fixing dummy app for IE.
+
+
+# 11.3.1
+
+* **Added** `includePolyfill` flag for babel in order to make demo more browser friendly.
+
+
+
+# 11.3.0
+
+* Improved validation errors to indicate whether errors are for model schema or view schema.
+
+
+
+# 11.2.0
+
+* Improved validation messages to distinguish warnings from errors.
+
+
+
+# 11.1.3
+
+* **Added** more tests around enum driven select to make sure it plays nice with initial values and default values.
+
+
+# 11.1.2
+
+Partially fixed problem for array of array field case.
+
+
+# 11.1.1
+
+* Automatically unregsiterForFormValueChanges when renderer is being destroyed.
+
+# 11.1.0
+
+* **Added** readonly version of `select` renderer which is used by `frost-bunsen-detail`.
+
+
+# 11.0.3
+
+* **Fixed** `list-utils` module to no longer assume that all query params are string values. We were blindly calling `.replace()` to swap out `$filter` if present. Now, we make sure it's actually a string before trying to replace something in it. 
+
+# 11.0.2
+
+* **Fixed** bug where view generator would overwrite `cellDefinitions` by not first checking if a name was already taken.
+* **Fixed** validation bug where cell wasn't being validated against proper model.
+
+
+# 11.0.1
+
+* **Fixed** minor CSS issues with inputs.
+
+
+# 11.0.0
+
+* **Changed** hooks to include full bunsen ID instead of just last segment. For example given the following bunsen mode:
+
+   ```json
+    {
+      "properties": {
+        "foo": {
+          "properties": {
+            "bar": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    }
+   ```
+
+  Previously you would target the input for `bar` via `$hook('bunsenForm-bar-input')` whereas now you'd target it with `$hook('bunsenForm-foo.bar-input')`.
+
+* **Cleaned** up some tests by using new test helpers in `ember-frost-core`.
+
+# 10.1.9
+
+* Updated bunsen-core
+
+
+
+# 10.1.8
+
+* **Fixed** input position shifting down 3 pixels when field goes into error state.
+
+
+
+# 10.1.7
+
+* **Fixed** width of password and text inputs in facets.
+
+
+
+# 10.1.6
+
+* **Fixed** styling of empty array message.
+
+
+
+# 10.1.5
+
+* **Fixed** width of various input types so that they align.
+
+
+
+# 10.1.4
+
+* **Fixed** issue with `hasQueryChanged` returning false when form values actually differed when the old value had missing dependencies.
+
+
+# 10.1.3
+
+* **Fixed** issue where the `select` input's `query` isn't specified and we should have been looking at `modelType` to fetch from the store.
+
+
+# 10.1.2
+
+* **Fixed** `populateQuery()` to not throw error.
+
+
+
+# 10.1.1
+
+* **Fixed** list utility methods not to be less brittle and not throw an error when query isn't present.
+
+
+# 10.1.0
+
+* **Added** the option to specify static options for the `select` input
+* **Added** the option to enable local filtering for the `select` input
+
+
+# 10.0.3
+
+* **Fixed** `isRegisteredEmberDataModel` method to work in a consuming apps tests.
+
+
+# 10.0.2
+
+* **Added** empty message to detail view array with no items.
+* **Removed** add/remove buttons from detail view arrays.
+
+
+
+# 10.0.1
+
+* **Fixed** select inputs in dummy/demo app.
+
+
+
+# 10.0.0
+
+## Breaking
+
+* **Removed** deprecated methods and properties.
+* **Removed** support for `Ember` version `2.2` as [ember-frost-core](https://github.com/ciena-frost/ember-frost-core) no longer works with that version due to the introduction of [ember-elsewhere](https://github.com/ef4/ember-elsewhere).
+* **Upgraded** dependencies to latest versions. Now you must add `{{frost-select-outlet}}` in your application template where you want the select drop-down to render. This is because now the dropdown renders elsewhere in the DOM using to mitigate issues with selects rendered within confined containers. For more information on this read the [documentation](http://ciena-frost.github.io/ember-frost-core/#/select).
+
+## Non-Breaking
+
+* **Fixed** false positive required prop-type warning regarding a property named `value` on cells which shouldn't actually be required.
+
+# 9.6.0
+
+* **Added** an enum driven checkbox-array renderer to provide a flat checkbox facet selection group with the ability to select multiple options.
+
+# 9.5.3
+
+* **Fixed** issues with required label showing up on cells under scenarios where it shouldn't.
+
+
+# 9.5.2
+
+* **Added** support for array index references in bunsen views for model property.
+* **Removed** clear button from multi-select facets.
+
+
+
+# 9.5.1
+
+* Fixes the blueprints so it installs v0.9.1 of ember-bunsen-core
+
+
+
+# 9.5.0
+
+* Added change-set processing to the view cells so they only propagate the form value when it has child cells that need updating.
+
+
+# 9.4.0
+
+* **Added** clear button to facets.
+
+
+# 9.3.2
+
+* **Fixed** bug introduced by latest `bunsen-core` update.
+
+
+
+# 9.3.1
+
+* **Fixed** bug where array items wouldn't render if they had the `compact` array option enabled.
+* **Upgraded** dependencies to latest versions.
+
+# 9.3.0
+
+## Additional Features
+* **Added** a new *optional* `onError` property to `frost-bunsen-form` and `frost-bunsen-detail` The `onError` callback will be called whenever an API error occurs in the select renderer, or whenever a custom renderer invokes their own `onError` callback. 
+This passes out errors that might occur when the select renderer queries for options
+
+## Deprecations
+ * **Deprecated** the `onChange` action in `AbstractInput` in favor of one named `handleChange`
+ * **Deprecated** the `onFocusIn` action in `AbstractInput` in favor of one named `hideErrorMessage`
+ * **Deprecated** the `onFocusOut` action in `AbstractInput` in favor of one named `showErrorMessage`
+
+# 9.2.4
+
+* **Fixed** issue where first item added to an object array wasn't getting defaults applied.
+
+
+# 9.2.3
+
+* **Fixed** bug where `bunsenView` was being mutated by the codebase and causing labels to disappear from tabs when used in an [ember-frost-modal](https://github.com/ciena-frost/ember-frost-modal) that was closed and re-opened.
+
+
+
+# 9.2.2
+
+* **Fixed** bug to allow more than one bunsen instance with tabs on the page.
+
+
+
+# 9.2.1
+
+* **Fixed** serialization of Ember Data objects to keep `id` in object so it can be referenced in a bunsen model.
+
+
+
+# 9.2.0
+
+* **Added** new test helpers: `expectBunsenInputNotToHaveError()`, `expectBunsenInputToHaveError()`, and `fillInBunsenInput()`.
+
+
+# 9.1.0
+* Detail and form tab content areas will now have css classes based on their button label.
+
+
+
+# 9.0.0
+
+## Breaking changes
+ * **Stopped** automatically creating `p=label:foo` query param in select-renderer when user types `foo` This was useful for a particular API we were interfacing with early on, but never should have been in the open-source version of this component.
+
+## Non-breaking changes
+ * **Added** support for defining `$filter` in your definition of `query` within the bunsen model for a `select` input, which lets you specify what the query looks like to do text matching in query-driven select renderers. 
+ * **Added** a new `eslint` rule in `tests/.eslintrc` to stop us using `expect(foo).to.be.true` or other dangling property matchers from `chai` b/c they are dangerous. For more information about why that is, ask @job13er. 
+
+
+# 8.0.0
+
+## Breaking changes
+ * **Removed** - `bunsenStore` from properties passed to a custom renderer. Some of the properties that used to be provided in `bunsenStore` are not provided individually (see below)
+ * **Added** - `bunsenView` to properties passed to a custom renderer
+ * **Added** - `formDisabled` to properties passed to a custom renderer
+ * **Added** - `showAllErrors` to properties passed to a custom renderer
+ * **Added** - `registerForFormValueChanges` to properties passed to a custom renderer, if a custom renderer wants to know about changes to `formValue` it must now call the passed in `registerForFormValueChanges` inside `init()` and pass itself into said function `this.registerForFormValueChanges(this)`, the custom renderer must also provide a `formValueChanged` function on the component which will be called by the parent `frost-bunsen-form` or `frost-bunsen-detail` component whenever the `formValue` changes. The only parameter to the `formValueChanged` function is the new `formValue`. 
+
+## Non-breaking changes
+ * **Added** ability for the demo app to store currently selected view/model/value in the URL
+ * **Added** the `hidden` renderer which allows setting a value in the form without displaying anything to the user. The value can come from the `default` in the bunsen model, or be copied from the value of some other portion of the `formValue` via the `valueRef` property. For instance ,if I want the `label` attribute to be set to what the user entered in `name`, I could specify a `valueRef` of `name`. The `valueRef` is the dotted path from the root of `formValue` to where the value should come from (not relative to the value being set). 
+
+# 7.3.1
+
+ * **Replaced** `ember-cli-blanket` with `ember-cli-code-coverage` (the `addon-spike` branch since it hasn't been merged yet). 
+
+
+# 7.3.0
+
+* **Added** ability to specific select options in view instead of model.
+
+
+# 7.2.5
+
+* Fixing CSS class `one-third`.
+
+
+# 7.2.4
+
+* Consuming latest `ember-frost-fields` because the previous version was overriding the default application template in consuming apps.
+
+
+
+# 7.2.3
+
+* Consuming latest `ember-frost-fields` because the previous version was overriding the default application template in consuming apps.
+
+
+
+# 7.2.2
+
+* **Fixed** bug where under certain scenarios parent view cells were showing as required when they shouldn't have been.
+
+
+# 7.2.1
+
+* Cleaned up dependencies and almost got functioning with Ember version `2.1`. There are still two failing tests when run against Ember `2.1`.
+
+
+# 7.2.0
+
+* **Fixed** addon so it works with older versions of Ember all the way back to Ember `2.2`. Note: this means consumers now need `ember-getowner-polyfill` which they will get if they rerun the blueprints upon updating.
+
+
+# 7.1.1
+
+* **Fixed** bug where certain view schemas would render with a duplicate section heading. See issue #165 for more.
+
+
+# 7.1.0
+
+* **Added** the following utility methods for easily generating bunsen views for [ember-frost-object-browser](https://github.com/ciena-frost/ember-frost-object-browser) facets: `generateFacetCell`, `generateFacetView`, and `generateLabelFromModel`.
+
+# 7.0.0
+
+## Breaking
+
+* **Moved** non-Ember specific code to [bunsen-core](https://github.com/ciena-blueplanet/bunsen-core) and started consuming via [ember-bunsen-core](https://github.com/ciena-blueplanet/ember-bunsen-core).
+* **Removed** following properties from `frost-bunsen-form` component: `cancelLabel`, `inline`, `onCancel`, `onSubmit`, and `submitLabel`.
+* **Removed** `z-schema` bower dependency in favor of using [ember-z-schema](https://github.com/ciena-blueplanet/ember-z-schema).
+* **Removed** `frost-bunsen-container`, `frost-bunsen-model-container`, and `frost-bunsen-row` components as they are no longer necessary to support schema.
+* **Updated** CSS to no longer provide `.inline` and `.not-inline` classes for forms and just made previous `.inline` styles the default without the extra `.inline` class name.
+* **Updated** dependencies to latest versions.
+* **Updated** internal components to work with view schema version 2.
+* **Updated** internal store to use immutable for the forms value. See [seamless-immutable](https://github.com/rtfeldman/seamless-immutable) for more.
+* Simplified the DOM being rendered by the components to reduce the DOM footprint and make the styles less complex.
+
+## Non-Breaking
+
+* **Added** a new `url` renderer.
+* **Added** a ton of integration tests to help prevent any future regressions.
+* **Fixed** `button-group` renderer to support disabled state.
+* **Fixed** CI build for `EMBER_TRY_SCENARIO=ember-beta`.
+* **Fixed** false positive `ember-prop-type` warnings by using [hasRegistration()](http://emberjs.com/api/classes/RegistryProxyMixin.html#method_hasRegistration) instead of [lookup()](https://guides.emberjs.com/v2.6.0/applications/dependency-injection/#toc_factory-instance-lookups).
+* **Fixed** `multi-select` renderer documentation to provide working example.
+* **Fixed** array add and remove buttons to become disabled when appropriate.
+* **Fixed** issue with changing model not revalidating.
+* **Fixed** array `autoAdd` feature to work with non-object arrays.
+* **Fixed** `property-chooser` and `multi-select` renderers to implement `placeholder` view property.
+* **Fixed** `property-chooser` to properly implement `label` property.
+* Drastically improved demo.
+
+# 6.6.13
+ * **Fixed** issue where `onValidation` was only called if validation result changed. It is now called whenever the value of the form changes. This fix requires a bit of explanation. If consumers want to use a `frost-bunsen-form` to update a remote resource whenever something changes (i.e. no `Submit` button), due to the async aspect of validation, one is forced to use `onValidation` to trigger a save of the last observed value from an `onChange` call. However, if the previous value was  valid, no subsequent `onValidation` was previously made when a new value was delivered with `onChange`. This effectively meant that the only way a user could actually update the remote resource would be to first enter an invalid value, then a valid one. Not exactly the best user experience, especially in the case of free text fields where no validation exists ;)
+
+# 6.6.12
+No CHANGELOG section found in Pull Request description.
+Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+
+# 6.6.11
+
+* **Fixed** bugs coming from select input.
+
+# 6.6.10
+No CHANGELOG section found in Pull Request description.
+Use a `# CHANGELOG` section in your Pull Request description to auto-populate the `CHANGELOG.md`
+
+# 6.6.9
+
+* **Upgraded** from `lodash` 3.x to 4.x while maintaining functionality against 3.x so consumers aren't forced to upgrade.
+
+# 6.6.8
+
+* Addressed more things blocking the upgrade to lodash 4.
+
+# 6.6.7
+
+* **Replace** more `_.pluck()` with `_.map()`.
+
+# 6.6.6
+
+* **Replaced** `_.pluck()` with `_.map()` in preparation for lodash 4.
+
+# 6.6.5
+
+* I did performance enhancement for select-input component
+* I have modified 'didrecieveAttrs' & 'hasQueryChanged' method for select-input component 
+* I improved performance by 50% depending on length of bunsen form
+
 # 6.6.4
 
 **fixes** Fixes false validation warnings on the model due to dirty `value`

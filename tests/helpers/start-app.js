@@ -1,7 +1,9 @@
 import Ember from 'ember'
-const {assign, run} = Ember
+const {run} = Ember
 import Application from '../../app'
 import config from '../../config/environment'
+
+const assign = Ember.assign || Object.assign || Ember.merge
 
 export default function startApp (attrs) {
   let application

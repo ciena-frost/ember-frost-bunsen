@@ -1,100 +1,317 @@
 import {expect} from 'chai'
-import {describe, it} from 'mocha'
-import * as utils from 'ember-frost-bunsen/utils'
 
-describe('utils', () => {
-  describe('getModelPath()', () => {
-    it('handles top-level properties', () => {
-      expect(utils.getModelPath('fooBar')).to.equal('properties.fooBar')
+import {
+  generateFacetCell,
+  generateFacetView,
+  generateLabelFromModel,
+  isRegisteredEmberDataModel,
+  isRequired
+} from 'ember-frost-bunsen/utils'
+
+import {beforeEach, describe, it} from 'mocha'
+
+describe('bunsen-utils', function () {
+  describe('generateFacetCell()', function () {
+    let facet
+
+    beforeEach(function () {
+      facet = {model: 'foo'}
     })
 
-    it('handles nested properties', () => {
-      expect(utils.getModelPath('foo.bar.baz')).to.equal('properties.foo.properties.bar.properties.baz')
+    describe('when renderer defined', function () {
+      beforeEach(function () {
+        facet.renderer = {name: 'multi-select'}
+      })
+
+      describe('when label defined', function () {
+        beforeEach(function () {
+          facet.label = 'Bar'
+        })
+
+        it('returns expected cell', function () {
+          const actual = generateFacetCell(facet)
+          expect(actual).to.eql({
+            children: [
+              {
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
+              }
+            ],
+            clearable: false,
+            collapsible: true,
+            label: 'Bar'
+          })
+        })
+      })
+
+      describe('when label not defined', function () {
+        it('returns expected cell', function () {
+          const actual = generateFacetCell(facet)
+          expect(actual).to.eql({
+            children: [
+              {
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
+              }
+            ],
+            clearable: false,
+            collapsible: true,
+            label: 'Foo'
+          })
+        })
+      })
     })
 
-    it('handles invalid trailing dot reference', () => {
-      expect(utils.getModelPath('foo.bar.')).to.equal(undefined)
-    })
+    describe('when renderer not defined', function () {
+      describe('when label defined', function () {
+        beforeEach(function () {
+          facet.label = 'Bar'
+        })
 
-    it('handles invalid leading dot reference', () => {
-      expect(utils.getModelPath('.foo.bar')).to.equal(undefined)
-    })
+        it('returns expected cell', function () {
+          const actual = generateFacetCell(facet)
+          expect(actual).to.eql({
+            children: [
+              {
+                model: 'foo'
+              }
+            ],
+            clearable: true,
+            collapsible: true,
+            label: 'Bar'
+          })
+        })
+      })
 
-    it('handles model with dependency', () => {
-      const expected = 'dependencies.useEft.properties.routingNumber'
-      expect(utils.getModelPath('routingNumber', 'useEft')).to.equal(expected)
-    })
-
-    it('handles model with dependency', () => {
-      const expected = 'properties.paymentInfo.dependencies.useEft.properties.routingNumber'
-      expect(utils.getModelPath('paymentInfo.routingNumber', 'paymentInfo.useEft')).to.equal(expected)
-    })
-
-    it('handles properties on array items', () => {
-      expect(utils.getModelPath('foo.bar.0.baz')).to.equal('properties.foo.properties.bar.items.properties.baz')
+      describe('when label not defined', function () {
+        it('returns expected cell', function () {
+          const actual = generateFacetCell(facet)
+          expect(actual).to.eql({
+            children: [
+              {
+                model: 'foo'
+              }
+            ],
+            clearable: true,
+            collapsible: true,
+            label: 'Foo'
+          })
+        })
+      })
     })
   })
 
-  describe('orch filter processing', () => {
-    const objToMine = {
-      foo: 'bar',
-      fizz: {
-        foo: 'bar',
-        futz: [
+  describe('generateFacetView()', function () {
+    let facets
+
+    beforeEach(function () {
+      facets = [
+        {
+          model: 'foo'
+        },
+        {
+          label: 'Bar baz',
+          model: 'bar'
+        },
+        {
+          model: 'foo.bar.baz',
+          renderer: {
+            name: 'multi-select'
+          }
+        }
+      ]
+    })
+
+    it('returns expected bunsen view', function () {
+      const actual = generateFacetView(facets)
+      expect(actual).to.eql({
+        cells: [
           {
-            foo: 'bar'
-          },
-          {
-            fizz: 'buzz',
-            farz: 'barz'
+            children: [
+              {
+                children: [
+                  {
+                    model: 'foo'
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Foo'
+              },
+              {
+                children: [
+                  {
+                    model: 'bar'
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Bar baz'
+              },
+              {
+                children: [
+                  {
+                    model: 'foo.bar.baz',
+                    renderer: {
+                      name: 'multi-select'
+                    }
+                  }
+                ],
+                clearable: false,
+                collapsible: true,
+                label: 'Baz'
+              }
+            ]
           }
         ],
-        fatz: 'batz'
+        type: 'form',
+        version: '2.0'
+      })
+    })
+  })
+
+  describe('generateLabelFromModel()', function () {
+    it('returns expected label when model is single word and root level property', function () {
+      const actual = generateLabelFromModel('foo')
+      expect(actual).to.equal('Foo')
+    })
+
+    it('returns expected label when model is single word and nested property', function () {
+      const actual = generateLabelFromModel('foo.bar')
+      expect(actual).to.equal('Bar')
+    })
+
+    it('returns expected label when model is camelCase and root level property', function () {
+      const actual = generateLabelFromModel('fooBar')
+      expect(actual).to.equal('Foo bar')
+    })
+
+    it('returns expected label when model is camelCase and nested property', function () {
+      const actual = generateLabelFromModel('foo.barBaz')
+      expect(actual).to.equal('Bar baz')
+    })
+  })
+
+  describe('isRegisteredEmberDataModel()', function () {
+    it('returns true when modelType is registered with Ember Data', function () {
+      ;[
+        'country',
+        'model',
+        'node',
+        'resource',
+        'value',
+        'view'
+      ]
+        .forEach((modelType) => {
+          expect(isRegisteredEmberDataModel(modelType)).to.equal(true)
+        })
+    })
+
+    it('returns false when modelType is not registered with Ember Data', function () {
+      expect(isRegisteredEmberDataModel('foo-bar')).to.equal(false)
+    })
+  })
+
+  describe('isRequired()', function () {
+    let bunsenModel
+
+    beforeEach(function () {
+      bunsenModel = {
+        properties: {
+          alpha: {type: 'string'},
+          bravo: {type: 'string'},
+          charlie: {
+            properties: {
+              foo: {type: 'string'},
+              bar: {type: 'string'}
+            },
+            required: ['foo'],
+            type: 'object'
+          },
+          delta: {
+            properties: {
+              baz: {type: 'string'},
+              spam: {type: 'string'}
+            },
+            required: ['baz'],
+            type: 'object'
+          }
+        },
+        required: ['alpha', 'charlie'],
+        type: 'object'
       }
-    }
-
-    it('finds absolute paths in a value object', () => {
-      const expected = 'bar'
-      expect(utils.findValue(objToMine, 'fizz.futz.[0].foo')).to.equal(expected)
     })
 
-    it('finds parent paths in the object', () => {
-      const startPath = 'fizz.futz.[1].fizz'
-      let valuePath = '../../fatz'
-      let expected = 'batz'
-      expect(utils.findValue(objToMine, valuePath, startPath)).to.equal(expected)
-      valuePath = '../[0].foo'
-      expected = 'bar'
-      expect(utils.findValue(objToMine, valuePath, startPath)).to.equal(expected)
+    describe('when children not present in view cell', function () {
+      it('returns true when model is required root leaf property', function () {
+        const cell = {model: 'alpha'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
+      })
+
+      it('returns false when model is not required root leaf property', function () {
+        const cell = {model: 'bravo'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
+      })
+
+      it('returns true when model is required root non-leaf property', function () {
+        const cell = {model: 'charlie'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
+      })
+
+      it('returns false when model is not required root non-leaf property', function () {
+        const cell = {model: 'delta'}
+        expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
+      })
     })
 
-    it('finds sibling paths in the object', () => {
-      const startPath = 'fizz.futz.[1].fizz'
-      const valuePath = './farz'
-      const expected = 'barz'
-      expect(utils.findValue(objToMine, valuePath, startPath)).to.equal(expected)
-    })
+    describe('when children present in view cell', function () {
+      describe('when model is required root property', function () {
+        it('and child is required leaf-property', function () {
+          const cell = {
+            model: 'charlie',
+            children: [
+              {model: 'foo'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
+        })
 
-    it('populates variables in orch-style query params ', () => {
-      let query = {something: '${fizz.futz[0].foo}'}
-      const expected = '{"something":"bar"}'
-      expect(utils.parseVariables(objToMine, JSON.stringify(query))).to.equal(expected)
-    })
+        it('and child is not required leaf property', function () {
+          const cell = {
+            model: 'charlie',
+            children: [
+              {model: 'bar'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
+        })
+      })
 
-    it('properly configures an Orchestrate query object', () => {
-      let startPath = 'fizz.futz.[0].foo'
-      let query = {
-        resourceType: 'something.this.that',
-        q: 'label:thing,someId:${../[1].fizz}',
-        p: 'orchState:ac,someOtherId:${foo}'
-      }
-      let expected = {
-        resourceType: 'something.this.that',
-        q: 'label:thing,someId:buzz',
-        p: 'orchState:ac,someOtherId:bar'
-      }
-      let actual = utils.populateQuery(objToMine, query, startPath)
-      expect(JSON.stringify(actual)).to.equal(JSON.stringify(expected))
+      describe('when model is not required root property', function () {
+        it('and child is required leaf-property', function () {
+          const cell = {
+            model: 'delta',
+            children: [
+              {model: 'baz'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(true)
+        })
+
+        it('and child is not required leaf property', function () {
+          const cell = {
+            model: 'delta',
+            children: [
+              {model: 'spam'}
+            ]
+          }
+          expect(isRequired(cell, {}, bunsenModel)).to.be.equal(false)
+        })
+      })
     })
   })
 })

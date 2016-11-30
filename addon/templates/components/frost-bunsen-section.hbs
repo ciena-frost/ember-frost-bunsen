@@ -1,0 +1,41 @@
+<div class='heading'>
+  {{#if collapsible}}
+    <span
+      class="frost-bunsen-toggle-handle"
+      data-test={{hook (concat formHook '-toggle')}}
+      onkeypress={{action 'handleToggleKeyPress'}}
+      onclick={{action (action 'toggle')}}
+      tabindex="0"
+    >
+      {{frost-icon
+        icon='expand-collapse'
+      }}
+    </span>
+  {{/if}}
+  {{#if title}}
+    <h3>
+      {{title}}
+    </h3>
+  {{/if}}
+  {{#if required}}
+    <div class='required'>Required</div>
+  {{/if}}
+  {{#if clearable}}
+    {{frost-button
+      onClick=onClear
+      priority='tertiary'
+      size='small'
+      text='Clear'
+    }}
+  {{/if}}
+</div>
+<div class='body'>
+  {{#if showContent}}
+    {{#if description}}
+      <div class='description'>
+        {{description}}
+      </div>
+    {{/if}}
+    {{yield}}
+  {{/if}}
+</div>

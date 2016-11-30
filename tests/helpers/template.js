@@ -1,62 +1,20 @@
-import {expect} from 'chai'
-const {HTMLBars} = Ember
 import _ from 'lodash'
 import Ember from 'ember'
-import {describeComponent} from 'ember-mocha'
-import {beforeEach, it} from 'mocha'
-
-export function buildRenderfunction (template) {
-  return function (renderer, props) {
-    renderer.setProperties(props)
-
-    renderer.render(template)
-  }
-}
-
-export function renderWithProps (renderer, componentName, props, more) {
-  // Make sure not to set property "view" as it causes following error:
-  // Using `{{view}}` or any path based on it (L1:C32) has been removed in Ember 2.0
-  if ('view' in props) {
-    props._view = props.view
-    delete props.view
-  }
-
-  renderer.setProperties(props)
-
-  const templateOptions = Object.keys(props).map((key) => {
-    return `${key}=${key}`
-  }).join(' ')
-
-  const template = `{{${componentName} ${templateOptions} ${more || ''}}}`
-  const compiledTemplate = HTMLBars.compile(template)
-
-  renderer.render(compiledTemplate)
-
-  return renderer.$('> *')
-}
+import {expect} from 'chai'
+import {it} from 'mocha'
+import {initialize} from 'ember-hook'
 
 export function integrationTestContext (name) {
   return [
     name,
     `Integration: ${Ember.String.classify(name)}Component`,
     {
-      integration: true
+      integration: true,
+      beforeSetup () {
+        initialize()
+      }
     }
   ]
-}
-
-export function setupComponentTest (name, props, tests) {
-  describeComponent(...integrationTestContext(name),
-    function () {
-      let ctx = {}
-
-      beforeEach(function () {
-        ctx.rootNode = renderWithProps(this, name, props)
-      })
-
-      tests(ctx)
-    }
-  )
 }
 
 export function validatePropTypes (expectedPropTypes) {
@@ -107,4 +65,39 @@ export function validatePropTypes (expectedPropTypes) {
 
     expect(messages).to.have.length(0, messages.join('\n'))
   })
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+function testCtx (name, options = {}) {
+  const testType = (options.unit) ? 'Unit' : 'Integration'
+  return [
+    name,
+    `${testType}: ${Ember.String.classify(name)}Component`,
+    options
+  ]
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set (alongside unit: true)
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+export function unitTest (name, options = {}) {
+  return testCtx(name, _.assign(options, {unit: true}))
+}
+
+/**
+ * A shortcut for filling in the text context in a describeComponent
+ * @param {String} name - the name of the component
+ * @param {Object} options - any additional options to set (alongside integration: true)
+ * @returns {Object[]} an array of items that need to be passed in to describeComponent
+ */
+export function integrationTest (name, options = {}) {
+  return testCtx(name, _.assign(options, {integration: true}))
 }

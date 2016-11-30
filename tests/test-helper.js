@@ -1,8 +1,10 @@
+/* global chai */
 import resolver from './helpers/resolver'
 import {setResolver} from 'ember-mocha'
 
 const flag = chai.util.flag
 
+/* eslint-disable complexity */
 // Taken from chai-subset
 function compare (expected, actual) {
   if (typeof (actual) !== typeof (expected)) {
@@ -40,6 +42,7 @@ function compare (expected, actual) {
     return ao === eo
   })
 }
+/* eslint-enable complexity */
 
 // Taken from chai-subset
 chai.Assertion.addMethod('containSubset', function (expected) {
@@ -93,5 +96,10 @@ chai.Assertion.overwriteChainableMethod('contain',
     }
   }
 )
+
+// FIXME: move this to ember-test-utils maybe? (ARM 2016-09-07)
+chai.Assertion.addMethod('msg', function (msg) {
+  flag(this, 'message', msg)
+})
 
 setResolver(resolver)

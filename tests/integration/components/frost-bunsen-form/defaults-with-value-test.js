@@ -1,7 +1,8 @@
 import {expect} from 'chai'
-import {it} from 'ember-mocha'
-import {describe} from 'mocha'
-import {setupComponentTest} from 'dummy/tests/helpers/template'
+import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import {beforeEach, describe} from 'mocha'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenModel: {
@@ -39,7 +40,7 @@ function tests (ctx) {
     })
 
     it('renders a checkbox for baz with the user provided value', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.false
+      expect(ctx.rootNode.find('.frost-bunsen-input-boolean input').is(':checked')).to.be.equal(false)
     })
 
     it('renders an input for foo with the user provided value', function () {
@@ -48,4 +49,19 @@ function tests (ctx) {
   })
 }
 
-setupComponentTest('frost-bunsen-form', props, tests)
+describeComponent(...integrationTestContext('frost-bunsen-form'),
+  function () {
+    let ctx = {}
+
+    beforeEach(function () {
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-form
+        bunsenModel=bunsenModel
+        value=value
+      }}`)
+      ctx.rootNode = this.$('> *')
+    })
+
+    tests(ctx)
+  }
+)

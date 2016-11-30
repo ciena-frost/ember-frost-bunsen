@@ -1,0 +1,15 @@
+<h4>
+  There seems to be something wrong with your <strong>{{type}}</strong> schema
+</h4>
+<ul>
+  {{#each model.warnings as |warning|}}
+    <li>
+      {{frost-bunsen-error data=warning warning=true}}
+    </li>
+  {{/each}}
+  {{#each model.errors as |error|}}
+    <li>
+      {{frost-bunsen-error data=error}}
+    </li>
+  {{/each}}
+</ul>

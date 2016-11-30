@@ -1,1 +1,1 @@
-export {default} from 'ember-frost-bunsen/components/select-input'
+export {default} from 'ember-frost-bunsen/components/inputs/select'

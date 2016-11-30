@@ -3,44 +3,50 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from '../utils'
+import {getLabel} from 'bunsen-core/utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-content'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-tab-content'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
     index: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOny: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.object.isRequired
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('cellConfig.item.renderer', 'bunsenStore.renderers')
+  @computed('cellConfig', 'renderers')
   /**
    * Get name of component for custom renderer
-   * @param {String} renderer - custom renderer to use
+   * @param {Object} cellConfig - cell config
    * @returns {String} name of custom renderer component
    */
-  customRenderer (renderer) {
-    return this.get(`bunsenStore.renderers.${renderer}`)
+  customRenderer (cellConfig) {
+    const renderer = _.get(cellConfig, 'arrayOptions.itemCell.renderer.name')
+    return this.get(`renderers.${renderer}`)
   },
 
   @readOnly
@@ -64,32 +70,29 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.item.{container,label}', 'index', 'bunsenModel', 'bunsenStore.view.containers')
+  @computed(
+    'cellConfig', 'index', 'bunsenModel', 'bunsenView.cellDefinitions'
+  )
   /**
    * Get label text for item
-   * @param {String} containerId - ID of container
-   * @param {String} label - label
+   * @param {Object} cellConfig - cell config
    * @param {Number} index - index of item in array
    * @param {BunsenModel} bunsenModel - bunsen model for entire form
-   * @param {BunsenContainer[]} containers - view containers
+   * @param {BunsenCell[]} cellDefinitions - view cells
    * @returns {String} label
    */
-  label (containerId, label, index, bunsenModel, containers) {
-    const itemContainerConfig = containerId ? _.find(containers, {id: containerId}) : null
-    const itemId = itemContainerConfig ? itemContainerConfig.get('id') : ''
+  label (cellConfig, index, bunsenModel, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
+    const itemCellConfig = cellId ? cellDefinitions[cellId] : null
+    const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
     return itemLabel ? `${itemLabel} ${index + 1}` : null
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  itemCell (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.itemCell') || {}
   }
-
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

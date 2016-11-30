@@ -1,0 +1,14 @@
+<a>
+  <span>
+    {{title}}
+    {{#unless readOnly}}
+      {{frost-button
+        disabled=disabled
+        onClick=(action 'remove')
+        priority='tertiary'
+        size='medium'
+        text='Remove'
+      }}
+    {{/unless}}
+  </span>
+</a>

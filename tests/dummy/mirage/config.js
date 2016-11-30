@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import Ember from 'ember'
 import config from '../config/environment'
 
 export default function () {
@@ -44,6 +45,13 @@ export default function () {
     }
   })
 
+  this.get('/nodes', function ({db}, request) {
+    const nodes = db.nodes
+    return {
+      nodes
+    }
+  })
+
   ;[
     'models',
     'values',
@@ -64,7 +72,7 @@ export default function () {
 
       if ('p' in request.queryParams) {
         const pQueries = request.queryParams.p.split(',')
-        _.each(pQueries, (query) => {
+        _.forEach(pQueries, (query) => {
           let [attr, value] = query.split(':')
           items = items.filter((item) => {
             return item[attr] ? item[attr].toLowerCase().indexOf(value.toLowerCase()) !== -1 : false
@@ -85,4 +93,6 @@ export default function () {
       }
     })
   })
+
+  this.passthrough()
 }

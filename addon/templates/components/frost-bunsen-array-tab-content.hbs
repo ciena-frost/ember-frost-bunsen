@@ -1,0 +1,75 @@
+{{#if itemCell.renderer}}
+  {{component customRenderer
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenView=bunsenView
+    cellConfig=cellConfig
+    formDisabled=formDisabled
+    label=label
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+  }}
+{{else if (eq bunsenModel.items.type "array")}}
+  {{frost-bunsen-array-container
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenView=bunsenView
+    cellConfig=itemCell
+    errors=errors
+    formDisabled=formDisabled
+    formHook=formHook
+    label=label
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=value
+    valueChangeSet=valueChangeSet
+  }}
+{{else if (eq bunsenModel.items.type "object")}}
+  {{frost-bunsen-cell
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenView=bunsenView
+    cellConfig=itemCell
+    errors=errors
+    formDisabled=formDisabled
+    formHook=formHook
+    label=label
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=value
+    valueChangeSet=valueChangeSet
+  }}
+{{else}}
+  {{frost-bunsen-input-wrapper
+    bunsenId=(concat bunsenId '.' index)
+    bunsenModel=bunsenModel.items
+    bunsenView=bunsenView
+    cellConfig=itemCell
+    errorMessage=errorMessage
+    formDisabled=formDisabled
+    label=label
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=value
+  }}
+{{/if}}

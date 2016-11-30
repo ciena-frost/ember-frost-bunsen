@@ -1,0 +1,29 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if showRequiredLabel}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{#if route}}
+    {{#frost-link route value
+      design='inline'
+      onClick=(action 'handleClick')
+    }}
+      {{linkLabel}}
+    {{/frost-link}}
+  {{else}}
+    <a
+      class={{valueClassName}}
+      href={{url}}
+      onclick={{action 'handleClick'}}
+    >
+      {{linkLabel}}
+    </a>
+  {{/if}}
+</div>
+{{#if renderErrorMessage}}
+  <div class='error'>
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

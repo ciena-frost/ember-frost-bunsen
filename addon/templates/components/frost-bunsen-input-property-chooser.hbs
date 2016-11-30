@@ -1,0 +1,17 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if showRequiredLabel}}
+    <div class='required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-select
+    class=valueClassName
+    data=data
+    disabled=(readonly disabled)
+    hook=receivedHook
+    onChange=(action 'handleChange')
+    placeholder=cellConfig.placeholder
+    selectedValue=useKey
+  }}
+</div>

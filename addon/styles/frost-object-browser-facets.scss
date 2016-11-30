@@ -1,0 +1,56 @@
+.frost-object-browser-facets {
+  .frost-bunsen-form {
+    .collapsed {
+      > .body {
+        display: none;
+      }
+    }
+
+    .frost-bunsen-section {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .frost-field {
+      width: 158px; // FIXME: somehow .frost-text started overflowing the facets, should be fixed better
+
+      > div {
+        display: block;
+      }
+    }
+
+    .heading {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding-right: 0;
+      text-align: left;
+
+      h3 {
+        margin-left: 10px;
+        color: $frost-color-night-1;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      h3 + button {
+        margin-left: auto;
+      }
+    }
+
+    .left-input {
+      width: 100%;
+    }
+
+    .left-label {
+      display: none;
+    }
+  }
+
+  .frost-password,
+  .frost-text,
+  .frost-select {
+    min-width: 100px;
+  }
+}

@@ -1,54 +1,61 @@
-import {describeComponent} from 'ember-mocha'
-import {PropTypes} from 'ember-prop-types'
-import {beforeEach} from 'mocha'
-import {validatePropTypes} from 'dummy/tests/helpers/template'
-import {disabledTests, renderErrorMessageTests} from 'dummy/tests/helpers/abstract-input'
+import {expect} from 'chai'
+import Ember from 'ember'
+import {describeComponent, it} from 'ember-mocha'
+import {beforeEach, describe} from 'mocha'
+import Immutable from 'seamless-immutable'
 
-describeComponent(
-  'frost-bunsen-input-multi-select',
-  'FrostBunsenInputMultiSelectComponent',
-  {
-    unit: true
-  },
-  function () {
-    const ctx = {}
-    let component
+import {unitTest} from 'dummy/tests/helpers/template'
 
-    beforeEach(function () {
-      component = this.subject({
-        bunsenId: 'name',
-        bunsenModel: {},
-        bunsenStore: Ember.Object.create({}),
-        cellConfig: Ember.Object.create({}),
-        onChange () {},
-        state: Ember.Object.create({})
+describeComponent(...unitTest('frost-bunsen-input-multi-select'), function () {
+  let component
+
+  beforeEach(function () {
+    component = this.subject({
+      bunsenId: 'name',
+      bunsenModel: {},
+      bunsenView: {},
+      cellConfig: {},
+      onChange () {},
+      onError () {},
+      registerForFormValueChanges () {},
+      state: Ember.Object.create({})
+    })
+  })
+  describe('Computed properties', function () {
+    describe('mutableValue', function () {
+      describe('when value is undefined', function () {
+        beforeEach(function () {
+          component.set('value', undefined)
+        })
+
+        it('should be undefined', function () {
+          expect(component.get('mutableValue')).to.equal(undefined)
+        })
       })
-      ctx.component = component
-    })
 
-    validatePropTypes({
-      bunsenId: PropTypes.string.isRequired,
-      bunsenModel: PropTypes.object.isRequired,
-      bunsenStore: PropTypes.EmberObject.isRequired,
-      cellConfig: PropTypes.EmberObject.isRequired,
-      errorMessage: PropTypes.oneOfType([
-        PropTypes.null,
-        PropTypes.string
-      ]),
-      label: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-      required: PropTypes.bool,
-      value: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.bool,
-        PropTypes.null,
-        PropTypes.number,
-        PropTypes.object,
-        PropTypes.string
-      ])
-    })
+      describe('when value is already mutable', function () {
+        let value
+        beforeEach(function () {
+          value = [1, 2, 3]
+          component.set('value', value)
+        })
 
-    disabledTests(ctx)
-    renderErrorMessageTests(ctx)
-  }
-)
+        it('should return value', function () {
+          expect(component.get('mutableValue')).to.eql(value)
+        })
+      })
+
+      describe('when value is immutable', function () {
+        let value
+        beforeEach(function () {
+          value = Immutable([1, 2, 3])
+          component.set('value', value)
+        })
+
+        it('should return value asMutable', function () {
+          expect(component.get('mutableValue')).to.eql(value.asMutable())
+        })
+      })
+    })
+  })
+})

@@ -1,15 +1,12 @@
 import {expect} from 'chai'
 import {describeComponent} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
-import {builtInRenderers} from 'ember-frost-bunsen/validator/index'
+import sinon from 'sinon'
+import {unitTest} from 'dummy/tests/helpers/template'
+import {addChangeSet} from './changeset-helper'
 
-describeComponent(
-  'frost-bunsen-cell',
-  'FrostBunsenCellComponent when array item with bunsenId',
-  {
-    unit: true
-  },
-  function () {
+describeComponent(...unitTest('frost-bunsen-cell'), function () {
+  describe('when array item with bunsenId', function () {
     let component, onChangeSpy, sandbox
 
     beforeEach(function () {
@@ -37,16 +34,13 @@ describeComponent(
           },
           type: 'object'
         },
-        bunsenStore: Ember.Object.create({
-          formValue: {},
-          renderers: builtInRenderers,
-          view: {}
-        }),
-        config: Ember.Object.create({
+        bunsenView: {},
+        cellConfig: {
           model: 'bar.0'
-        }),
+        },
         errors: {},
         onChange: onChangeSpy,
+        onError () {},
         value: {}
       })
     })
@@ -60,15 +54,15 @@ describeComponent(
     })
 
     it('isArrayItem() returns true', function () {
-      expect(component.get('isArrayItem')).to.be.true
+      expect(component.get('isArrayItem')).to.be.equal(true)
     })
 
     it('isSubModelArray returns true', function () {
-      expect(component.get('isSubModelArray')).to.be.true
+      expect(component.get('isSubModelArray')).to.be.equal(true)
     })
 
     it('isSubModelObject returns false', function () {
-      expect(component.get('isSubModelObject')).to.be.false
+      expect(component.get('isSubModelObject')).to.be.equal(false)
     })
 
     it('nonIndexId returns expected value', function () {
@@ -76,7 +70,7 @@ describeComponent(
     })
 
     it('readOnly defaults to false', function () {
-      expect(component.get('readOnly')).to.be.false
+      expect(component.get('readOnly')).to.be.equal(false)
     })
 
     it('renderId returns ${bunsenId}.${model}', function () {
@@ -97,12 +91,18 @@ describeComponent(
 
     describe('when value is present', function () {
       beforeEach(function () {
-        component.set('value', {
-          foo: {
-            bar: [
-              {baz: 'spam'}
-            ]
+        component.setProperties({
+          value: {
+            foo: {
+              bar: [
+                {baz: 'spam'}
+              ]
+            }
           }
+        })
+        addChangeSet(component)
+        component.didReceiveAttrs({
+          oldAttrs: {}
         })
       })
 
@@ -119,8 +119,8 @@ describeComponent(
       })
 
       it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.be.undefined
+        expect(component.get('renderValue')).to.be.equal(undefined)
       })
     })
-  }
-)
+  })
+})

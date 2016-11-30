@@ -1,7 +1,26 @@
 import {expect} from 'chai'
-import {it} from 'ember-mocha'
-import {describe} from 'mocha'
-import {setupComponentTest} from 'dummy/tests/helpers/template'
+import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import _ from 'lodash'
+import {beforeEach, describe} from 'mocha'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
+
+const bunsenView = {
+  cellDefinitions: {
+    one: {
+      children: [
+        {model: 'foo'},
+        {model: 'bar'}
+      ]
+    }
+  },
+  cells: [
+    {label: 'One', extends: 'one'},
+    {model: 'baz'}
+  ],
+  type: 'form',
+  version: '2.0'
+}
 
 const props = {
   bunsenModel: {
@@ -12,47 +31,60 @@ const props = {
     },
     type: 'object'
   },
-  bunsenView: {
-    containers: [
-      {
-        id: 'one',
-        rows: [
-          [{model: 'foo'}],
-          [{model: 'bar'}]
-        ]
-      },
-      {
-        id: 'two',
-        rows: [
-          [{model: 'baz'}]
-        ]
-      }
-    ],
-    rootContainers: [
-      {label: 'One', container: 'one'},
-      {label: 'Two', container: 'two'}
-    ],
-    type: 'form',
-    version: '1.0'
-  }
+  bunsenView: _.cloneDeep(bunsenView)
 }
 
 function tests (ctx) {
-  describe('multiple root containers', function () {
-    it('renders frost-tabs', function () {
-      expect(ctx.rootNode.find('.frost-tabs').length).to.equal(1)
+  describe('multiple root cells', function () {
+    it('renders as expected', function () {
+      const $tabs = ctx.rootNode.find('.frost-tabs')
+
+      expect(
+        $tabs.length,
+        'renders frost-tabs'
+      )
+        .to.equal(1)
+
+      const $tabButtons = $tabs.find('.frost-button')
+
+      expect(
+        $tabButtons.length,
+        'renders tab for each root cell'
+      )
+        .to.equal(2)
+
+      expect(
+        $tabButtons.first().find('.text').text(),
+        'renders correct text for first tab'
+      )
+        .to.equal('One')
+
+      expect(
+        $tabButtons.last().find('.text').text(),
+        'renders correct text for second tab'
+      )
+        .to.equal('Baz')
     })
 
-    it('renders tab for each root container', function () {
-      expect(ctx.rootNode.find('.frost-tabs .frost-button').length).to.equal(2)
-    })
-
-    it('renders correct text for tab titles', function () {
-      const $tabs = ctx.rootNode.find('.frost-tabs .frost-button')
-      expect($tabs.first().find('.text').text()).to.equal('One')
-      expect($tabs.last().find('.text').text()).to.equal('Two')
+    it('does not mutate bunsenView', function () {
+      expect(props.bunsenView).to.eql(bunsenView)
     })
   })
 }
 
-setupComponentTest('frost-bunsen-form', props, tests)
+describeComponent(...integrationTestContext('frost-bunsen-form'),
+  function () {
+    let ctx = {}
+
+    beforeEach(function () {
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-form
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+      }}`)
+      ctx.rootNode = this.$('> *')
+    })
+
+    tests(ctx)
+  }
+)

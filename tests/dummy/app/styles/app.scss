@@ -1,8 +1,61 @@
+@import 'node_modules/ember-frost-core/addon/styles/addon';
+
+$app-bar-height: 60px;
+$frost-button-medium-height: 40px;
+$spacing: 10px;
+$title-height: 40px;
+
+body {
+  background: $frost-color-lgrey-4;
+}
+
+.demo-markdown {
+  padding: 0 $spacing;
+}
+
+.demo-next-button {
+  right: $spacing;
+  bottom: $spacing;
+  position: absolute;
+}
+
+.demo-previous-button {
+  left: $spacing;
+  bottom: $spacing;
+  position: absolute;
+}
+
+.demo-step-title {
+  position: absolute;
+  height: $title-height;
+  line-height: $title-height;
+  margin: 0;
+  padding: 0;
+  top: $app-bar-height;
+  right: $spacing;
+  left: $spacing;
+}
+
+.demo-step-content {
+  background: $frost-color-white;
+  border: 1px solid $frost-color-lgrey-5;
+  position: absolute;
+  top: $app-bar-height + $spacing + $title-height;
+  right: $spacing;
+  bottom: $frost-button-medium-height + $spacing + $spacing;
+  left: $spacing;
+}
+
 .dummy-body{
   margin-left: 20px;
 }
 .demo-container {
   margin: 0 30px;
+
+  > .frost-select {
+    width: 200px;
+    display: inline-block;
+  }
 }
 
 .demo-header {
@@ -16,6 +69,15 @@
 .demo-code-block {
   flex-grow: 1;
   padding: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 100;
+}
+
+.demo-heading {
+  margin-bottom: 6px;
+  font-size: 24px;
 }
 
 .double-bunsen {
@@ -40,4 +102,12 @@ pre.value-code-block {
 
 .one-third {
   width: percentage(1 / 3);
+}
+
+.fullscreen .demo-showcase .demo-editor .ribbon .tabs.bunsen-editor {
+  transform: rotate(-90deg) translateX(-312px);
+}
+
+.top-right-select {
+  float: right;
 }

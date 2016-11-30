@@ -1,7 +1,8 @@
 import {expect} from 'chai'
-import {it} from 'ember-mocha'
-import {describe} from 'mocha'
-import {setupComponentTest} from 'dummy/tests/helpers/template'
+import {describeComponent, it} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import {beforeEach, describe} from 'mocha'
+import {integrationTestContext} from 'dummy/tests/helpers/template'
 
 const props = {
   bunsenModel: {
@@ -13,28 +14,42 @@ const props = {
     type: 'object'
   },
   bunsenView: {
-    containers: [
-      {
-        id: 'main',
-        rows: [
-          [{model: 'foo'}],
-          [{model: 'bar'}],
-          [{model: 'baz'}]
+    cellDefinitions: {
+      main: {
+        children: [
+          {model: 'foo'},
+          {model: 'bar'},
+          {model: 'baz'}
         ]
       }
-    ],
-    rootContainers: [{label: 'Main', container: 'main'}],
+    },
+    cells: [{extends: 'main'}],
     type: 'form',
-    version: '1.0'
+    version: '2.0'
   }
 }
 
 function tests (ctx) {
-  describe('one root container', function () {
+  describe('one root cell', function () {
     it('does not render frost-tabs', function () {
       expect(ctx.rootNode.find('.frost-tabs').length).to.equal(0)
     })
   })
 }
 
-setupComponentTest('frost-bunsen-form', props, tests)
+describeComponent(...integrationTestContext('frost-bunsen-form'),
+  function () {
+    let ctx = {}
+
+    beforeEach(function () {
+      this.setProperties(props)
+      this.render(hbs`{{frost-bunsen-form
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+      }}`)
+      ctx.rootNode = this.$('> *')
+    })
+
+    tests(ctx)
+  }
+)

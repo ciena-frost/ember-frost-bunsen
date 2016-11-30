@@ -1,5 +1,3 @@
-var routingConfig = require('./routing')
-
 module.exports = function (environment) {
   var ENV = {
     modulePrefix: 'dummy',
@@ -17,7 +15,6 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      routingConfig: routingConfig
     }
   }
 
@@ -37,6 +34,9 @@ module.exports = function (environment) {
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false
     ENV.APP.LOG_VIEW_LOOKUPS = false
+
+    // Don't log multiline stack-traces for deprecation warnings
+    ENV.EmberENV.LOG_STACKTRACE_ON_DEPRECATION = false
 
     ENV.APP.rootElement = '#ember-testing'
   }

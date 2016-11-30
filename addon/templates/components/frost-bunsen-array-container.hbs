@@ -1,0 +1,128 @@
+{{#if inline}}
+  {{#if sortable}}
+    {{#sortable-group onChange=(action 'reorderItems') as |group|}}
+      {{#each items key='@index' as |item index|}}
+        {{#sortable-item group=group handle='.handle' model=item}}
+          {{frost-bunsen-array-inline-item
+            bunsenId=bunsenId
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            cellConfig=cellConfig
+            compact=compact
+            errors=errors
+            formDisabled=formDisabled
+            formHook=formHook
+            index=index
+            onChange=(action 'handleChange')
+            onError=onError
+            onRemove=(action 'removeItem')
+            readOnly=readOnly
+            registerForFormValueChanges=registerForFormValueChanges
+            renderers=renderers
+            showAllErrors=showAllErrors
+            sortable=true
+            unregisterForFormValueChanges=unregisterForFormValueChanges
+            value=value
+            valueChangeSet=valueChangeSet
+          }}
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
+  {{else}}
+    {{#each items key='@index' as |item index|}}
+      {{frost-bunsen-array-inline-item
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+        cellConfig=cellConfig
+        compact=compact
+        errors=errors
+        formDisabled=formDisabled
+        formHook=formHook
+        index=index
+        onError=onError
+        onChange=(action 'handleChange')
+        onRemove=(action 'removeItem')
+        readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
+        sortable=false
+        unregisterForFormValueChanges=unregisterForFormValueChanges
+        value=value
+        valueChangeSet=valueChangeSet
+      }}
+    {{/each}}
+  {{/if}}
+{{else}}
+  {{#if description}}
+    <div class='description'>
+      {{description}}
+    </div>
+  {{/if}}
+  <ul class='nav nav-tabs'>
+    {{#each items key='@index' as |item index|}}
+      {{frost-bunsen-array-tab-nav
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+        cellConfig=cellConfig
+        formDisabled=formDisabled
+        index=index
+        onRemove=(action 'removeItem')
+        renderers=renderers
+        showAllErrors=showAllErrors
+        valueChangeSet=valueChangeSet
+      }}
+    {{/each}}
+    {{#unless readOnly}}
+      <li role='presentation'>
+        {{frost-button
+          disabled=disabled
+          icon='round-add'
+          onClick=(action 'addItem')
+          priority='tertiary'
+          size='medium'
+          text=addLabel
+        }}
+      </li>
+    {{/unless}}
+  </ul>
+  <div class='tab-content'>
+    {{#each items key='@index' as |item index|}}
+      {{frost-bunsen-array-tab-content
+        bunsenId=bunsenId
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+        cellConfig=cellConfig
+        errors=errors
+        formDisabled=formDisabled
+        formHook=formHook
+        index=index
+        onError=onError
+        onChange=(action 'handleChange')
+        readOnly=readOnly
+        registerForFormValueChanges=registerForFormValueChanges
+        renderers=renderers
+        showAllErrors=showAllErrors
+        unregisterForFormValueChanges=unregisterForFormValueChanges
+        value=value
+        valueChangeSet=valueChangeSet
+      }}
+    {{/each}}
+  </div>
+{{/if}}
+{{#if (and (not items) readOnly)}}
+  <span class="empty-msg">
+    List is currently empty.
+  </span>
+{{/if}}
+{{#if (and showAddButton (not readOnly))}}
+  {{frost-button
+    disabled=disabled
+    icon='round-add'
+    onClick=(action 'addItem')
+    priority='tertiary'
+    size='medium'
+    text=addLabel
+  }}
+{{/if}}

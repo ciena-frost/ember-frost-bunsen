@@ -13,8 +13,10 @@
 /connect.lock
 /coverage/*
 /libpeerconnection.log
+coverage.json
 npm-debug.log
 testem.log
 .idea
 ge.json
 .DS_Store
+jsconfig.json

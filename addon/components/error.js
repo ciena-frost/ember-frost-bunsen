@@ -1,18 +1,17 @@
 import Ember from 'ember'
 const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-error'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNameBindings: ['warning:alert-warning:alert-danger'],
   classNames: ['frost-bunsen-error'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     data: PropTypes.object.isRequired,
@@ -23,21 +22,11 @@ export default Component.extend(PropTypeMixin, {
     return {
       warning: false
     }
+  },
+
+  @readOnly
+  @computed('warning')
+  errorType (warning) {
+    return warning ? 'WARNING' : 'ERROR'
   }
-
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
-
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })

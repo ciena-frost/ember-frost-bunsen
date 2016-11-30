@@ -1,319 +1,348 @@
-import 'ember-frost-bunsen/typedefs'
+import 'bunsen-core/typedefs'
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {A, Component} = Ember
+const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {deemberify, getLabel} from '../utils'
+import {getLabel} from 'bunsen-core/utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
-
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-container', 'frost-bunsen-section'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string.isRequired,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    cellConfig: PropTypes.EmberObject.isRequired,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
+    compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
+    formValue: PropTypes.EmberObject,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     required: PropTypes.bool,
-    value: PropTypes.object.isRequired
+    showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
+    value: PropTypes.object
   },
 
   getDefaultProps () {
     return {
+      compact: false,
+      formValue: Ember.Object.create({}),
       readOnly: false
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('renderLabel')
-  addLabel (renderLabel) {
+  @computed('bunsenId', 'cellConfig', 'bunsenModel')
+  /**
+   * Get label for cell
+   * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
+   * @param {Object} cellConfig - cell config
+   * @param {BunsenModel} bunsenModel - bunsen model
+   * @returns {String} label
+   */
+  addLabel (bunsenId, cellConfig, bunsenModel) {
+    const label = _.get(cellConfig, 'label')
+    const renderLabel = getLabel(label, bunsenModel, bunsenId)
     return `Add ${Ember.String.singularize(renderLabel).toLowerCase()}`
   },
 
   @readOnly
-  @computed('cellConfig.item.container', 'bunsenStore.view.containers')
+  @computed('cellConfig', 'bunsenView.cellDefinitions')
   /**
-   * Get definition for current container
-   * @param {String} containerId - ID of current container
-   * @param {BunsenContainer[]} containers - list of container definitions
-   * @returns {BunsenContainer} current container definition
+   * Get definition for current cell
+   * @param {Object} cellConfig - cell config
+   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
+   * @returns {BunsenCell} current cell definition
    */
-  currentContainer (containerId, containers) {
-    if (!containerId) {
-      return null
+  currentCell (cellConfig, cellDefinitions) {
+    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+
+    if (!cellId) {
+      return this.get('cellConfig')
     }
 
-    containers = containers.filterBy('id', containerId)
-
-    if (containers.length === 0) {
-      return null
-    }
-
-    return containers[0]
+    return cellDefinitions[cellId] || null
   },
 
   @readOnly
-  @computed('cellConfig.item.inline')
-  inline (inline) {
+  @computed('formDisabled', 'cellConfig')
+  disabled (formDisabled, cellConfig) {
+    return formDisabled || _.get(cellConfig, 'disabled')
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  inline (cellConfig) {
+    const inline = _.get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
   },
 
   @readOnly
-  @computed('currentContainer')
-  /**
-   * Get instructions text for current container
-   * @param {BunsenContainer} container - current container
-   * @returns {String} instructions text
-   */
-  instructions (container) {
-    return container ? container.instructions : null
+  @computed('inline', 'cellConfig')
+  showAddButton (inline, cellConfig) {
+    return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.label', 'bunsenModel')
-  /**
-   * Get label for container
-   * @param {String} bunsenId - bunsen ID for array (represents path in bunsenModel)
-   * @param {String} label - label
-   * @param {BunsenModel} bunsenModel - bunsen model
-   * @returns {String} label
-   */
-  renderLabel (bunsenId, label, bunsenModel) {
-    return getLabel(label, bunsenModel, bunsenId)
-  },
-
-  @readOnly
-  @computed('inline', 'cellConfig.item.autoAdd')
-  showAddButton (inline, autoAdd) {
-    return inline && !autoAdd
-  },
-
-  @readOnly
-  @computed('cellConfig.item.sortable')
+  @computed('cellConfig')
   /**
    * Whether or not array items can be sorted by user
-   * @param {Boolean} enabled - whether or not sorting should be enabled
+   * @param {Object} cellConfig - cell config
    * @returns {Boolean} whether or not sorting is enabled
    */
-  sortable (enabled) {
-    return enabled === true
+  sortable (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.sortable') === true
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  @readOnly
+  @computed('bunsenId', 'value')
+  items (bunsenId, value) {
+    if (typeOf(value) === 'object' && 'asMutable' in value) {
+      value = value.asMutable({deep: true})
+    }
 
-  /**
-   * Handle new values coming in as props (either during initial render or during update)
-   */
-  handleNewValues () {
-    const newValue = this.get(`value.${this.get('bunsenId')}`) || []
-    const oldValue = this.get('items')
+    const items = _.get(value, bunsenId) || []
 
-    if (!_.isEqual(newValue, oldValue)) {
-      this.set('items', A(newValue))
+    if (this.get('cellConfig.arrayOptions.autoAdd') === true) {
+      items.push(this._getEmptyItem())
+    }
+
+    return A(items)
+  },
+
+  // == Functions ==============================================================
+
+  /* eslint-disable complexity */
+  _getEmptyItem () {
+    const type = this.get('bunsenModel.items.type')
+
+    switch (type) {
+      case 'array':
+        return []
+
+      case 'boolean':
+        return false
+
+      case 'integer':
+      case 'number':
+        return NaN
+
+      case 'object':
+        return {}
+
+      case 'string':
+        return ''
     }
   },
+  /* eslint-enable complexity */
+
+  _handleArrayChange (bunsenId, value, autoAdd) {
+    const clearingValue = [undefined, null, ''].indexOf(value) !== -1
+    if (autoAdd && clearingValue) {
+      return
+      // TODO: implement functionality
+    }
+    this.onChange(bunsenId, value)
+  },
+
+  /* eslint-disable complexity */
+  _handleObjectChange (bunsenId, value, autoAdd) {
+    const clearingValue = [undefined, null, ''].indexOf(value) !== -1
+
+    if (autoAdd && clearingValue) {
+      const arrayPath = this.get('bunsenId')
+      const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
+      const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
+      const itemPath = `${arrayPath}.${itemIndex}`
+      const item = this.get(`formValue.${itemPath}`)
+      const itemCopy = _.cloneDeep(item)
+
+      let key = itemPathBits.pop()
+
+      // If property is not not nested go ahead and clear it
+      if (itemPathBits.length === 0) {
+        delete itemCopy[key]
+        bunsenId = bunsenId.replace(`.${key}`, '')
+
+      // If property is nested further down clear it and remove any empty parent items
+      } else {
+        let relativeObject = _.get(itemCopy, itemPathBits)
+        delete relativeObject[key]
+        bunsenId = bunsenId.replace(`.${key}`, '')
+
+        while (itemPathBits.length > 0) {
+          key = itemPathBits.pop()
+          relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
+          const parentObject = relativeObject[key]
+
+          if (Object.keys(parentObject).length === 0) {
+            delete relativeObject[key]
+            bunsenId = bunsenId.replace(`.${key}`, '')
+          }
+        }
+      }
+
+      if (Object.keys(itemCopy).length === 0) {
+        this.send('removeItem', itemIndex)
+        return
+      }
+
+      const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
+      value = _.get(itemCopy, relativePath, itemCopy)
+    }
+
+    this.onChange(bunsenId, value)
+  },
+  /* eslint-enable complexity */
+
+  _handlePrimitiveChange (bunsenId, value, autoAdd) {
+    if (this._isItemEmpty(value)) {
+      const arrayPath = this.get('bunsenId')
+      const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
+      const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
+
+      if (itemIndex !== 0 || !autoAdd) {
+        this.send('removeItem', itemIndex)
+        return
+      }
+    }
+
+    this.onChange(bunsenId, value)
+  },
+
+  /* eslint-disable complexity */
+  _isItemEmpty (item) {
+    const type = this.get('bunsenModel.items.type')
+
+    switch (type) {
+      case 'array':
+        return item.length !== 0
+
+      case 'boolean':
+        return [undefined, null].indexOf(item) !== -1
+
+      case 'integer':
+      case 'number':
+        return isNaN(item) || item === null
+
+      case 'object':
+        return [undefined, null].indexOf(item) !== -1 || Object.keys(item).length === 0
+
+      case 'string':
+        return [undefined, null, ''].indexOf(item) !== -1
+    }
+  },
+  /* eslint-enable complexity */
 
   /**
-   * Initialze state of container
+   * Initialze state of cell
    */
   init () {
-    this._super()
-    this.handleNewValues()
-  },
-
-  didReceiveAttrs ({newAttrs, oldAttrs}) {
     this._super(...arguments)
-    const value = _.get(this.get('value'), this.get('bunsenId'))
-    const items = this.get('items')
-    const newAutoAddValue = _.get(newAttrs, 'cellConfig.value.item.autoAdd')
-    const oldAutoAddValue = _.get(oldAttrs, 'cellConfig.value.item.autoAdd')
-
-    // If autoAdd is being enabled add empty item to end of array
-    if (newAutoAddValue === true && oldAutoAddValue !== true) {
-      items.pushObject({})
-    // If autoAdd is being disabled remove empty object from end of array
-    } else if (newAutoAddValue !== true && oldAutoAddValue === true) {
-      items.popObject()
-    }
-
-    if (!value) {
-      return
-    }
-
-    if (value.length < items.length) {
-      items.removeAt(value.length, items.length - value.length)
-    }
-
-    items.forEach((item, index) => {
-      const incomingItem = value[index]
-      const stateItem = deemberify(item)
-
-      if (!_.isEqual(stateItem, incomingItem)) {
-        _.assign(item, incomingItem)
-      }
-    })
-
-    if (value.length > items.length) {
-      const itemsToAdd = value.slice(items.length)
-      items.pushObjects(itemsToAdd)
-    }
-
-    // After syncing items array with value array make sure empty item is at the
-    // end when autoAdd is enabled
-    if (
-      newAutoAddValue &&
-      (items.length === 0 || Object.keys(items.objectAt(items.length - 1)).length !== 0)
-    ) {
-      items.pushObject({})
-    }
+    this.registerForFormValueChanges(this)
   },
 
   /**
-   * Fire an initial BunsenChangeEvent to let parent know that a new item was added to the array
-   * @param {Object} item - the item being added
-   * @param {Number} index - the index of the item
+   * Method called by parent when formValue changes
+   * @param {Object} newValue - the new formValue
    */
-  notifyParentOfNewItem (item, index) {
-    const onChange = this.get('onChange')
-
-    if (!onChange) {
+  formValueChanged (newValue) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
       return
     }
 
-    onChange(`${this.get('bunsenId')}.${index}`, item)
+    const bunsenId = this.get('bunsenId')
+    const newItems = _.get(newValue, bunsenId)
+    const oldItems = _.get(this.get('value'), bunsenId)
+
+    if (!_.isEqual(oldItems, newItems)) {
+      this.notifyPropertyChange('value')
+    }
+
+    this.set('formValue', newValue)
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**
      * Add an empty item then focus on it after it's been rendererd
      */
-    onAddItem () {
-      const newItem = this.get('bunsenModel').items.type === 'object' ? {} : ''
-      const items = this.get('items')
+    addItem () {
+      const bunsenId = this.get('bunsenId')
+      const newItem = this._getEmptyItem()
+      const value = this.get('value')
+      const items = _.get(value, bunsenId) || []
       const index = items.length
 
-      items.pushObject(newItem)
-      this.notifyParentOfNewItem(newItem, index)
+      this.onChange(`${bunsenId}.${index}`, newItem)
     },
 
-    onChange (bunsenId, value) {
-      const autoAdd = this.get('cellConfig.item.autoAdd')
-      const clearingValue = [undefined, null, ''].indexOf(value) !== -1
-      const onChange = this.get('onChange')
+    /* eslint-disable complexity */
+    handleChange (bunsenId, value) {
+      const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
+      const type = this.get('bunsenModel.items.type')
 
-      if (autoAdd && clearingValue) {
-        const arrayPath = this.get('bunsenId')
-        const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
-        const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
-        const itemPath = `${arrayPath}.${itemIndex}`
-        const item = this.get(`bunsenStore.formValue.${itemPath}`)
-        const itemCopy = _.cloneDeep(item)
+      switch (type) {
+        case 'array':
+          this._handleArrayChange(bunsenId, value, autoAdd)
+          break
 
-        let key = itemPathBits.pop()
+        case 'boolean':
+        case 'integer':
+        case 'number':
+        case 'string':
+          this._handlePrimitiveChange(bunsenId, value, autoAdd)
+          break
 
-        // If property is not not nested go ahead and clear it
-        if (itemPathBits.length === 0) {
-          delete itemCopy[key]
-          bunsenId = bunsenId.replace(`.${key}`, '')
-
-        // If property is nested further down clear it and remove any empty parent items
-        } else {
-          let relativeObject = _.get(itemCopy, itemPathBits)
-          delete relativeObject[key]
-          bunsenId = bunsenId.replace(`.${key}`, '')
-
-          while (itemPathBits.length > 0) {
-            key = itemPathBits.pop()
-            relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
-            const parentObject = relativeObject[key]
-
-            if (Object.keys(parentObject).length === 0) {
-              delete relativeObject[key]
-              bunsenId = bunsenId.replace(`.${key}`, '')
-            }
-          }
-        }
-
-        if (Object.keys(itemCopy).length === 0) {
-          this.actions.onRemoveItem.call(this, itemIndex)
-          return
-        }
-
-        const relativePath = bunsenId.replace(itemPath, '')
-        value = _.get(itemCopy, relativePath, itemCopy)
-      }
-
-      if (onChange) {
-        onChange(bunsenId, value)
+        case 'object':
+          this._handleObjectChange(bunsenId, value, autoAdd)
+          break
       }
     },
+    /* eslint-enable complexity */
 
     /**
      * Remove an item
      * @param {Number} index - index of item to remove
      */
-    onRemoveItem (index) {
-      const autoAdd = this.get('cellConfig.item.autoAdd')
-      const items = this.get('items')
-      const itemToRemove = items.objectAt(index)
-      const lastItemIndex = Math.max(0, items.length - 1)
-
-      if (autoAdd && index === lastItemIndex) {
-        return
-      }
-
-      items.removeObject(itemToRemove)
-
-      const onChange = this.get('onChange')
-
-      if (!onChange) {
-        return
-      }
+    removeItem (index) {
+      const bunsenId = this.get('bunsenId')
+      const value = this.get('value')
+      const items = _.get(value, bunsenId) || []
+      const newValue = items.slice(0, index).concat(items.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things
       // we basically need to re-set the whole array
-      onChange(this.get('bunsenId'), items)
+      this.onChange(bunsenId, newValue)
     },
 
     /**
      * Reorder items in array
      * @param {Array} reorderedItems - reordered items
      */
-    onReorderItems (reorderedItems) {
+    reorderItems (reorderedItems) {
       const bunsenId = this.get('bunsenId')
-      const onChange = this.get('onChange')
 
-      this.set('items', Ember.A(reorderedItems))
-
-      if (onChange) {
-        onChange(bunsenId, reorderedItems)
-      }
+      this.onChange(bunsenId, reorderedItems)
     }
   }
 })

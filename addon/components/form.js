@@ -1,24 +1,17 @@
-/* global $ */
-import 'ember-frost-bunsen/typedefs'
+import Ember from 'ember'
+const {$, RSVP} = Ember
+import {validate} from 'bunsen-core/actions'
 
-import {validate} from '../actions'
-
-import _ from 'lodash'
-import computed, {readOnly} from 'ember-computed-decorators'
 import {PropTypes} from 'ember-prop-types'
 import DetailComponent from './detail'
-import {getButtonLabelDefaults} from '../validator/defaults'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-form'
 
 export default DetailComponent.extend({
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Component Properties ===================================================
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  layout,
 
-  classNameBindings: ['inline:inline:not-inline'],
+  // == State Properties =======================================================
 
   propTypes: {
     autofocus: PropTypes.bool,
@@ -30,19 +23,17 @@ export default DetailComponent.extend({
       PropTypes.EmberObject,
       PropTypes.object
     ]),
-    cancelLabel: PropTypes.string,
     disabled: PropTypes.bool,
-    inline: PropTypes.bool,
-    onCancel: PropTypes.func,
+    hook: PropTypes.string,
     onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onError: PropTypes.func,
     onValidation: PropTypes.func,
+    registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
-    submitLabel: PropTypes.string,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -56,39 +47,39 @@ export default DetailComponent.extend({
       autofocus: true,
       classNames: ['frost-bunsen-form'],
       disabled: false,
+      hook: 'bunsenForm',
       renderers: {},
+      registeredComponents: [],
       showAllErrors: false,
       validators: [],
       value: null
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  // == Functions ==============================================================
 
-  @readOnly
-  @computed('onCancel', 'onSumbit')
-  hasButtons (onCancel, onSubmit) {
-    return !_.isEmpty(onCancel) || !_.isEmpty(onSubmit)
-  },
+  _onVisiblityChange (e) {
+    // Nothing to do when page/tab loses visiblity
+    if (e.target.hidden) {
+      return
+    }
 
-  @readOnly
-  @computed('cancelLabel', 'renderView', 'submitLabel')
-  buttonLabels (cancelLabel, view, submitLabel) {
-    return _.defaults(
-      {
-        cancel: cancelLabel,
-        submit: submitLabel
-      },
-      view.buttonLabels,
-      getButtonLabelDefaults()
+    const model = this.get('renderModel')
+    const reduxStore = this.get('reduxStore')
+    const validators = this.get('validators')
+    const value = this.get('renderValue')
+
+    reduxStore.dispatch(
+      validate(null, value, model, validators, RSVP.all, true)
     )
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  // == Events =================================================================
+
+  didInsertElement () {
+    this._visibilityChangeHandler = this._onVisiblityChange.bind(this)
+    document.addEventListener('visibilitychange', this._visibilityChangeHandler, false)
+  },
 
   /**
    * After render select first input unless something else already has focus on page
@@ -107,13 +98,11 @@ export default DetailComponent.extend({
     this.$(':input:enabled:visible:first').focus()
   },
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
+  willDestroyElement () {
+    document.removeEventListener('visibilitychange', this._visibilityChangeHandler)
+  },
 
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
+  // == Actions ================================================================
 
   actions: {
     /**
@@ -121,27 +110,12 @@ export default DetailComponent.extend({
      * @param {String} bunsenId - ID of input that changed
      * @param {Object} inputValue - new value for input that changed
      */
-    onChange (bunsenId, inputValue) {
+    handleChange (bunsenId, inputValue) {
       const reduxStore = this.get('reduxStore')
 
       reduxStore.dispatch(
-        validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'))
+        validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'), RSVP.all)
       )
-    },
-
-    /**
-     * Handle when user submits form
-     * @param {Event} e - event
-     */
-    onSubmit (e) {
-      e.preventDefault()
-
-      const onSubmit = this.get('onSubmit')
-      const renderValue = this.get('renderValue')
-
-      if (onSubmit) {
-        onSubmit(renderValue)
-      }
     }
   }
 })

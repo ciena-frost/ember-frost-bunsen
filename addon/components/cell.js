@@ -1,9 +1,17 @@
-import _ from 'lodash'
+import {
+  getLabel,
+  getSubModel,
+  getModelPath
+} from 'bunsen-core/utils'
+
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
+import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
+import {isRequired} from 'ember-frost-bunsen/utils'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getSubModel, getModelPath} from '../utils'
+import _ from 'lodash'
 
 /**
  * Return path without an index at the end
@@ -12,60 +20,129 @@ import {getSubModel, getModelPath} from '../utils'
  * @returns {String} path without index
  */
 export function removeIndex (path) {
-  const parts = path.split('.')
-  const last = parts.pop()
-  return /^\d+$/.test(last) ? parts.join('.') : path
+  const parts = (path || '').split('.')
+  const last = parts.length !== 0 ? parts.pop() : ''
+  return /^\d+$/.test(last) ? parts.join('.') : path || ''
+}
+
+/**
+ * Iterates through each entry in a map
+ * @param {Iterator} iterator - map iterator
+ * @param {Function} iteratee - callback that is involed on every etry
+ */
+export function iterateMap (iterator, iteratee) {
+  let current
+  while (true) {
+    current = iterator.next()
+    if (current.done || iteratee(current.value) === false) {
+      break
+    }
+  }
 }
 
 export default Component.extend(PropTypeMixin, {
-  // ==========================================================================
-  // Dependencies
-  // ==========================================================================
+  // == Component Properties ===================================================
 
-  // ==========================================================================
-  // Properties
-  // ==========================================================================
+  classNameBindings: [
+    'compact:compact',
+    'computedClassName'
+  ],
 
-  classNameBindings: ['computedClassName'],
+  layout,
+
+  // == State Properties =======================================================
 
   propTypes: {
     bunsenId: PropTypes.string,
     bunsenModel: PropTypes.object.isRequired,
-    bunsenStore: PropTypes.EmberObject.isRequired,
-    config: PropTypes.EmberObject.isRequired,
-    defaultClassName: PropTypes.string,
+    bunsenView: PropTypes.object.isRequired,
+    cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    formDisabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
-    value: PropTypes.object.isRequired
+    registerForFormValueChanges: PropTypes.func,
+    renderers: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    showAllErrors: PropTypes.bool,
+    unregisterForFormValueChanges: PropTypes.func,
+    value: PropTypes.object
   },
 
   getDefaultProps () {
     return {
-      readOnly: false
+      readOnly: false,
+      propagatedValue: {},
+      propagatedValueChangeSet: null
     }
   },
 
-  // ==========================================================================
-  // Computed Properties
-  // ==========================================================================
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
+    const valueChangeSet = this.get('valueChangeSet')
+    const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
+    const newCellConfig = this.get('cellConfig')
+
+    let isDirty = false
+
+    if (valueChangeSet) {
+      iterateMap(valueChangeSet.keys(), (bunsenId) => {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
+          isDirty = true
+          return false
+        }
+      })
+    }
+
+    if (isDirty || !_.isEqual(oldCellConfig, newCellConfig)) {
+      this.setProperties({
+        'propagatedValue': this.get('value'),
+        'propagatedValueChangeSet': this.get('valueChangeSet')
+      })
+    }
+  },
+
+  // == Computed Properties ====================================================
 
   @readOnly
-  @computed('classNames', 'defaultClassName')
+  @computed('propagatedValue')
+  renderValue (value) {
+    const bunsenId = this.get('renderId')
+    return _.get(value, bunsenId)
+  },
+
+  @readOnly
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig', 'value')
+  /**
+   * Determine whether or not cell contains required inputs
+   * @param {BunsenModel} bunsenModel - bunsen model for form
+   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
+   * @param {BunsenCell} cellConfig - bunsen view cell
+   * @param {Object} value - form value
+   * @returns {Boolean} whether or not cell contains required inputs
+   */
+  isRequired (bunsenModel, cellDefinitions, cellConfig, value) {
+    return isRequired(cellConfig, cellDefinitions, bunsenModel, value)
+  },
+
+  @readOnly
+  @computed('classNames')
   /**
    * Get class name for cell
    * @param {String} classNames - class names
-   * @param {String} defaultClassName - default class name
    * @returns {String} cell's class name
    */
-  computedClassName (classNames, defaultClassName) {
+  computedClassName (classNames) {
+    const viewDefinedClass = this.get('cellConfig.classNames.cell')
     const classes = classNames.toString().split(' ')
 
-    if (classes.length <= 1) { // "ember-view" is always present
-      classes.push(defaultClassName)
-    }
-
     classes.push('frost-bunsen-cell')
+
+    if (viewDefinedClass) {
+      classes.push(viewDefinedClass)
+    }
 
     return classes.join(' ')
   },
@@ -84,14 +161,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('value')
-  renderValue (value) {
-    const bunsenId = this.get('renderId')
-    return _.get(value, bunsenId)
-  },
-
-  @readOnly
-  @computed('config.{dependsOn,model}')
+  @computed('cellConfig.{dependsOn,model}')
   /**
    * Whether or not cell is required
    * @param {String} dependsOn - model cell depends on
@@ -101,12 +171,17 @@ export default Component.extend(PropTypeMixin, {
   required (dependsOn, model) {
     model = removeIndex(model)
     const parentModel = this.getParentModel(model, dependsOn)
+
+    if (!parentModel) {
+      return false
+    }
+
     const propertyName = model.split('.').pop()
     return _.includes(parentModel.required, propertyName)
   },
 
   @readOnly
-  @computed('config.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
+  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
   /**
    * Get sub model
    * @param {String} dependsOn - model cell depends on
@@ -116,17 +191,25 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
-    const subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
+    let subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
 
     if (!subModel) {
-      return getSubModel(bunsenModel, nonIndexId, dependsOn)
+      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
+    }
+
+    if (!subModel) {
+      // When working with properties within arrays we only care about the path relative to the array
+      // item definition in the model (ie convert "foo.0.bar.1.baz" to "baz")
+      nonIndexId = nonIndexId.replace(/^.+\.\d+\./g, '')
+
+      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
     return subModel
   },
 
   @readOnly
-  @computed('bunsenId', 'config.model')
+  @computed('bunsenId', 'cellConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
@@ -134,7 +217,11 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} bunsen ID of input
    */
   renderId (bunsenId, model) {
-    return bunsenId ? `${bunsenId}.${model}` : model
+    if (bunsenId && model) {
+      return `${bunsenId}.${model}`
+    }
+
+    return bunsenId || model || ''
   },
 
   @readOnly
@@ -171,7 +258,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -183,7 +270,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'subModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -195,7 +282,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('config', 'renderId', 'value')
+  @computed('cellConfig', 'renderId', 'propagatedValue')
   /**
    * Whether or not input's dependency is met
    * @param {BunsenCell} cellConfig - cell configuration for input
@@ -214,9 +301,65 @@ export default Component.extend(PropTypeMixin, {
     return dependencyValue !== undefined
   },
 
-  // ==========================================================================
-  // Functions
-  // ==========================================================================
+  @readOnly
+  @computed('cellConfig')
+  clearable (cellConfig) {
+    return cellConfig.clearable || false
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  compact (cellConfig) {
+    return _.get(cellConfig, 'arrayOptions.compact') === true
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  showSection (cellConfig) {
+    return (
+      cellConfig.collapsible ||
+      (cellConfig.label && cellConfig.children) ||
+      (cellConfig.arrayOptions && !cellConfig.hideLabel)
+    )
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  isLeafNode (cellConfig) {
+    return (
+      cellConfig.model &&
+      (!cellConfig.children || cellConfig.children.length === 0)
+    )
+  },
+
+  @readOnly
+  @computed('cellConfig', 'nonIndexId', 'subModel')
+  renderLabel (cellConfig, nonIndexId, subModel) {
+    if (cellConfig.hideLabel) {
+      return null
+    }
+
+    const label = _.get(cellConfig, 'label')
+    return getLabel(label, subModel, nonIndexId)
+  },
+
+  // == Functions ==============================================================
+
+  _clearChildren (cell) {
+    if (!cell.children) {
+      return
+    }
+
+    cell.children
+      .forEach((child) => {
+        if (child.model) {
+          this.onChange(child.model, null)
+          return
+        }
+
+        this._clearChildren(child)
+      })
+  },
 
   /**
    * Get parent's model
@@ -229,13 +372,20 @@ export default Component.extend(PropTypeMixin, {
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
     return (parentPath) ? _.get(model, parentPath) : model
+  },
+
+  // == Actions ================================================================
+
+  actions: {
+    clear () {
+      const bunsenId = this.get('bunsenId')
+
+      if (bunsenId) {
+        this.onChange(bunsenId, null)
+      } else {
+        const cell = this.get('cellConfig')
+        this._clearChildren(cell)
+      }
+    }
   }
-
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
 })
