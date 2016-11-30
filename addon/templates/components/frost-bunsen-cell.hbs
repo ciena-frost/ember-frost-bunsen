@@ -99,7 +99,7 @@
     {{#each cellConfig.children as |child index|}}
       {{frost-bunsen-cell
         bunsenId=renderId
-        bunsenModel=bunsenModel
+        bunsenModel=subModel
         bunsenView=bunsenView
         cellConfig=child
         errors=errors
@@ -210,7 +210,7 @@
   {{#each cellConfig.children as |child index|}}
     {{frost-bunsen-cell
       bunsenId=renderId
-      bunsenModel=bunsenModel
+      bunsenModel=subModel
       bunsenView=bunsenView
       cellConfig=child
       errors=errors

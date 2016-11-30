@@ -191,9 +191,15 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
+    if (!configModel) {
+      return bunsenModel
+    }
+
+    // Look for sub model using model property of cell config
     let subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
 
     if (!subModel) {
+      // Look for sub model using model property of cell config prepended with bunsen ID
       subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
@@ -326,10 +332,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   isLeafNode (cellConfig) {
-    return (
-      cellConfig.model &&
-      (!cellConfig.children || cellConfig.children.length === 0)
-    )
+    return cellConfig.model && !cellConfig.children
   },
 
   @readOnly
