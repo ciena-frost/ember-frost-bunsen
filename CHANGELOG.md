@@ -1,3 +1,8 @@
+# 12.2.7
+
+* Updates `bunsen-core`
+
+
 # 12.2.6
 
 * **Updated** bunsen-core

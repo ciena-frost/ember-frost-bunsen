@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "12.2.6",
+  "version": "12.2.7",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -39,9 +39,9 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "bunsen-core": "0.18.2",
+    "bunsen-core": "0.18.3",
     "ember-browserify": "1.1.13",
-    "ember-bunsen-core": "0.12.2",
+    "ember-bunsen-core": "0.12.3",
     "ember-cli": "^2.7.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-code-coverage": "0.3.4",
