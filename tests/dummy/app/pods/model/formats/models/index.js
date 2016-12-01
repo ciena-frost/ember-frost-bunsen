@@ -10,6 +10,9 @@ import ipv4Address from './ipv4-address'
 import ipv4Interface from './ipv4-interface'
 import ipv4Prefix from './ipv4-prefix'
 import ipv6Address from './ipv6-address'
+import ipv6Interface from './ipv6-interface'
+import ipv6Multicast from './ipv6-multicast'
+import ipv6Prefix from './ipv6-prefix'
 import netmask from './netmask'
 import portNumber from './port-number'
 import time from './time'
@@ -32,6 +35,9 @@ export default {
   'ipv4-interface': ipv4Interface,
   'ipv4-prefix': ipv4Prefix,
   'ipv6-address': ipv6Address,
+  'ipv6-interface': ipv6Interface,
+  'ipv6-multicast': ipv6Multicast,
+  'ipv6-prefix': ipv6Prefix,
   netmask,
   'port-number': portNumber,
   time,
