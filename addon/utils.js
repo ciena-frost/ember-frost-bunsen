@@ -18,6 +18,7 @@ export const builtInRenderers = {
   'checkbox-array': 'frost-bunsen-input-checkbox-array',
   hidden: 'frost-bunsen-input-hidden',
   integer: 'frost-bunsen-input-number',
+  json: 'frost-bunsen-input-json',
   link: 'frost-bunsen-input-link',
   'multi-select': 'frost-bunsen-input-multi-select',
   number: 'frost-bunsen-input-number',

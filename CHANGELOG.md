@@ -1,3 +1,10 @@
+# 12.4.0
+
+* **Added** new `json` renderer.
+* **Upgraded** dependencies which includes a fix for the `ipv6-interface` format.
+
+
+
 # 12.3.0
 
 * **Added** new model formats: `ipv6-interface`, `ipv6-multicast`, and `ipv6-prefix`.

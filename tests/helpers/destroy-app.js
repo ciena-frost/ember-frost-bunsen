@@ -1,4 +1,4 @@
-/* globals server */
+/* global server */
 import Ember from 'ember'
 const {run} = Ember
 
