@@ -1,3 +1,9 @@
+# 12.3.0
+
+* **Added** new model formats: `ipv6-interface`, `ipv6-multicast`, and `ipv6-prefix`.
+
+
+
 # 12.2.8
 
 * **Added** missing tests for password renderer to reach full coverage of renderer.
