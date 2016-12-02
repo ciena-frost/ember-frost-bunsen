@@ -1,11 +1,11 @@
 module.exports = {
-  disable_watching: true,
-  framework: 'mocha',
-  launch_in_ci: [
-    'Firefox'
-  ],
-  launch_in_dev: [
+  'framework': 'mocha',
+  'test_page': 'tests/index.html?hidepassed',
+  'disable_watching': true,
+  'launch_in_ci': [
     'Chrome'
   ],
-  test_page: 'tests/index.html?hidepassed'
+  'launch_in_dev': [
+    'Chrome'
+  ]
 }
