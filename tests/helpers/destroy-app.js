@@ -3,4 +3,5 @@ const {run} = Ember
 
 export default function destroyApp (application) {
   run(application, 'destroy')
+  server.shutdown()
 }
