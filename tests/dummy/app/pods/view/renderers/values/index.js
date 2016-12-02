@@ -3,9 +3,11 @@ export default {
   'button-group': {},
   'checkbox-array': {},
   json: {
-    alpha: 'foo',
-    bravo: 1,
-    charlie: true
+    foo: {
+      alpha: 'test',
+      bravo: 1,
+      charlie: true
+    }
   },
   link: {
     foo: 'http://ciena.com',
