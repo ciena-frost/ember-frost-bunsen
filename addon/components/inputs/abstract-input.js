@@ -51,6 +51,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   // == Computed Properties ====================================================
+
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
