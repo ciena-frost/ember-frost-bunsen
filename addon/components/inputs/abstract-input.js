@@ -1,12 +1,10 @@
-import 'bunsen-core/typedefs'
-
-import _ from 'lodash'
+import {getCellDefaults, utils} from 'bunsen-core'
+const {getLabel, parseVariables} = utils
 import Ember from 'ember'
 const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel, parseVariables} from 'bunsen-core/utils'
-import {getCellDefaults} from 'bunsen-core/validator/defaults'
+import _ from 'lodash'
 
 export const defaultClassNames = {
   inputWrapper: 'left-input',

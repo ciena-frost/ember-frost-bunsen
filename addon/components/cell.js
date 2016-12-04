@@ -1,8 +1,9 @@
-import {
+import {utils} from 'bunsen-core'
+const {
   getLabel,
   getSubModel,
   getModelPath
-} from 'bunsen-core/utils'
+} = utils
 
 import Ember from 'ember'
 const {Component} = Ember
