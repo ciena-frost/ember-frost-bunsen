@@ -20,6 +20,12 @@ module.exports = {
           ]
         })
       })
+      .then(() => {
+        this.insertIntoFile(
+          'app/styles/addon.sass',
+          "@import './ember-frost-bunsen';"
+        )
+      })
   },
 
   normalizeEntityName: function () {
