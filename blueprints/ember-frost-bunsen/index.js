@@ -21,8 +21,11 @@ module.exports = {
         })
       })
       .then(() => {
+        const isAddon = this.project.isEmberCLIAddon()
+        const pathPrefix = isAddon ? 'tests/dummy/' : ''
+
         return this.insertIntoFile(
-          'app/styles/app.scss',
+          `${pathPrefix}app/styles/app.scss`,
           "@import './ember-frost-bunsen';"
         )
       })
