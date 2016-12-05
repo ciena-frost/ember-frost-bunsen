@@ -21,7 +21,7 @@ module.exports = {
         })
       })
       .then(() => {
-        this.insertIntoFile(
+        return this.insertIntoFile(
           'app/styles/addon.sass',
           "@import './ember-frost-bunsen';"
         )
