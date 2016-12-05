@@ -10,7 +10,7 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-i
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNames: ['item-wrapper'],
+  classNames: ['frost-bunsen-item-wrapper'],
   layout,
 
   // == State Properties =======================================================

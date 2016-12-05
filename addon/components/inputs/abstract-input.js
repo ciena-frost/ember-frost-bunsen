@@ -7,8 +7,8 @@ import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
 export const defaultClassNames = {
-  inputWrapper: 'left-input',
-  labelWrapper: 'left-label'
+  inputWrapper: 'frost-bunsen-left-input',
+  labelWrapper: 'frost-bunsen-left-label'
 }
 
 export default Component.extend(PropTypeMixin, {

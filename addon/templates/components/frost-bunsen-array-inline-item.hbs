@@ -1,5 +1,5 @@
 {{#if (and (not compact) showRemoveButton (not readOnly))}}
-  <div class='remove-btn-container'>
+  <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
       onClick=(action 'remove')
@@ -10,9 +10,9 @@
   </div>
 {{/if}}
 {{#if sortable}}
-  {{frost-icon class='handle' icon='menu'}}
+  {{frost-icon class='frost-bunsen-handle' icon='menu'}}
 {{/if}}
-<div class='item-input'>
+<div class='frost-bunsen-item-input'>
   {{#if itemCell.renderer}}
     {{component customRenderer
       bunsenId=(concat bunsenId '.' index)
@@ -94,7 +94,7 @@
   {{/if}}
 </div>
 {{#if (and compact showRemoveButton (not readOnly))}}
-  <div class='remove-btn-container'>
+  <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
       onClick=(action 'remove')

@@ -1,4 +1,4 @@
-<div class='heading'>
+<div class='frost-bunsen-heading'>
   {{#if collapsible}}
     <span
       class="frost-bunsen-toggle-handle"
@@ -18,7 +18,7 @@
     </h3>
   {{/if}}
   {{#if required}}
-    <div class='required'>Required</div>
+    <div class='frost-bunsen-required'>Required</div>
   {{/if}}
   {{#if clearable}}
     {{frost-button
@@ -29,10 +29,10 @@
     }}
   {{/if}}
 </div>
-<div class='body'>
+<div class='frost-bunsen-body'>
   {{#if showContent}}
     {{#if description}}
-      <div class='description'>
+      <div class='frost-bunsen-description'>
         {{description}}
       </div>
     {{/if}}

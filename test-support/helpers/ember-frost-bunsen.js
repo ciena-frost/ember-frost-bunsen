@@ -13,13 +13,13 @@ export function expectBunsenInputNotToHaveError (bunsenId, hook = 'bunsenForm') 
   const $container = $hook(hookName).first()
 
   expect(
-    $container.find('.left-input .error'),
+    $container.find('.frost-bunsen-left-input .error'),
     'input does not have error class'
   )
     .to.have.length(0)
 
   expect(
-    $container.find('.left-input + .error'),
+    $container.find('.frost-bunsen-left-input + .error'),
     'error message container is not present'
   )
     .to.have.length(0)
@@ -34,9 +34,9 @@ export function expectBunsenInputNotToHaveError (bunsenId, hook = 'bunsenForm') 
 export function expectBunsenInputToHaveError (bunsenId, errorMessage, hook = 'bunsenForm') {
   const hookName = `${hook}-${bunsenId}`
   const $container = $hook(hookName).first()
-  const $errorMessage = $container.find('.left-input + .error')
+  const $errorMessage = $container.find('.frost-bunsen-left-input + .frost-bunsen-error')
   expect(
-    $container.find('.left-input .error'),
+    $container.find('.frost-bunsen-left-input .error'),
     'input has error class'
   )
     .not.to.have.length(0)

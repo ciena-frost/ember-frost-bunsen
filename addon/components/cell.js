@@ -45,7 +45,7 @@ export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNameBindings: [
-    'compact:compact',
+    'compact:frost-bunsen-compact',
     'computedClassName'
   ],
 

@@ -51,7 +51,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
     })
 
     it('has correct classes', function () {
-      expect(panelHeaderNode).to.have.class('heading')
+      expect(panelHeaderNode).to.have.class('frost-bunsen-heading')
     })
 
     describe('title', function () {
@@ -91,7 +91,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
       })
 
       it('has correct classes', function () {
-        expect(panelBodyNode).to.have.class('body')
+        expect(panelBodyNode).to.have.class('frost-bunsen-body')
       })
     })
 
@@ -116,7 +116,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
       })
 
       it('has correct classes', function () {
-        expect(panelBodyNode).to.have.class('body')
+        expect(panelBodyNode).to.have.class('frost-bunsen-body')
       })
     })
   })
