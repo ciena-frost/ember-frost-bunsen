@@ -48,6 +48,7 @@ export default DetailComponent.extend({
       classNames: ['frost-bunsen-form'],
       disabled: false,
       hook: 'bunsenForm',
+      inputValidators: [],
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
@@ -58,20 +59,24 @@ export default DetailComponent.extend({
 
   // == Functions ==============================================================
 
+  triggerValidation () {
+    const model = this.get('renderModel')
+    const reduxStore = this.get('reduxStore')
+    const validators = this.getAllValidators()
+    const value = this.get('renderValue')
+
+    reduxStore.dispatch(
+      validate(null, value, model, validators, RSVP.all, true)
+    )
+  },
+
   _onVisiblityChange (e) {
     // Nothing to do when page/tab loses visiblity
     if (e.target.hidden) {
       return
     }
 
-    const model = this.get('renderModel')
-    const reduxStore = this.get('reduxStore')
-    const validators = this.get('validators')
-    const value = this.get('renderValue')
-
-    reduxStore.dispatch(
-      validate(null, value, model, validators, RSVP.all, true)
-    )
+    this.triggerValidation()
   },
 
   // == Events =================================================================
@@ -114,7 +119,7 @@ export default DetailComponent.extend({
       const reduxStore = this.get('reduxStore')
 
       reduxStore.dispatch(
-        validate(bunsenId, inputValue, this.get('renderModel'), this.get('validators'), RSVP.all)
+        validate(bunsenId, inputValue, this.get('renderModel'), this.getAllValidators(), RSVP.all)
       )
     }
   }

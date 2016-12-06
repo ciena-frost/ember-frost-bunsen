@@ -28,8 +28,10 @@ export default Component.extend(PropTypeMixin, {
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     registerForFormValueChanges: PropTypes.func,
+    registerValidator: PropTypes.func,
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
+    triggerValidator: PropTypes.func,
     unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.array,
