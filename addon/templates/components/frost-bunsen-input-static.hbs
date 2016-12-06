@@ -1,5 +1,8 @@
 <div class={{labelWrapperClassName}}>
   {{renderLabel}}
+  {{#if cellConfig.description}}
+    {{frost-bunsen-description-bubble description=cellConfig.description}}
+  {{/if}}
 </div>
 <div class={{inputWrapperClassName}}>
   <p>{{renderValue}}</p>

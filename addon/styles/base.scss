@@ -6,6 +6,16 @@ $left-input-width: 250px;
   flex: 1 1 auto;
 }
 
+.frost-bunsen-description-bubble {
+  display: inline-flex;
+  margin-left: 6px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 .frost-bunsen-detail,
 .frost-bunsen-form {
   .alert-danger {
@@ -336,7 +346,9 @@ $left-input-width: 250px;
   }
 
   .left-input {
-    width: $left-input-width;
+    display: flex;
+    align-items: center;
+    width: $frost-bunsen-left-input-width;
   }
 
   .left-input + .error {
