@@ -1,3 +1,8 @@
+# 12.5.0
+
+* **Added** `registerValidator` which gets passed down to custom renderers
+* **Added** `triggerValidation` which also gets passed down to custom renderers
+
 # 12.4.0
 
 * **Added** new `json` renderer.
