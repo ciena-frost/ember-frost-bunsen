@@ -1,4 +1,5 @@
-import {parseVariables} from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
+const {parseVariables} = utils
 import Ember from 'ember'
 const {get} = Ember
 import computed from 'ember-computed-decorators'

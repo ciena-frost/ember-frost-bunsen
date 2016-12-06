@@ -1,8 +1,19 @@
-import 'bunsen-core/typedefs'
+import {
+  actions,
+  generateView,
+  normalizeView,
+  reducer,
+  validateModel,
+  validateView,
+  viewV1ToV2
+} from 'bunsen-core'
 
-import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
-import normalizeView from 'bunsen-core/conversion/normalize-view'
-import reducer from 'bunsen-core/reducer'
+const {
+  changeModel,
+  CHANGE_VALUE,
+  validate
+} = actions
+
 import redux from 'npm:redux'
 const {createStore, applyMiddleware} = redux
 import thunk from 'npm:redux-thunk'
@@ -15,9 +26,6 @@ const {Component, RSVP, typeOf, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getDefaultView} from 'bunsen-core/generator'
-import validateView, {validateModel} from 'bunsen-core/validator'
-import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 
 import {
@@ -138,7 +146,7 @@ export default Component.extend(PropTypeMixin, {
    */
   renderView (model, bunsenView) {
     if (_.isEmpty(bunsenView)) {
-      return getDefaultView(model)
+      return generateView(model)
     }
 
     if (bunsenView.version === '1.0') {

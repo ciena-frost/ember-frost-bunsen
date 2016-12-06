@@ -1,11 +1,10 @@
-import 'bunsen-core/typedefs'
-
 import _ from 'lodash'
 import Ember from 'ember'
 const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
+const {getLabel} = utils
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
 export default Component.extend(PropTypeMixin, {

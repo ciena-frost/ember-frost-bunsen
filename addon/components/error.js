@@ -7,7 +7,7 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-error'
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: ['warning:alert-warning:alert-danger'],
+  classNameBindings: ['warning:frost-bunsen-alert-warning:frost-bunsen-alert-danger'],
   classNames: ['frost-bunsen-error'],
   layout,
 

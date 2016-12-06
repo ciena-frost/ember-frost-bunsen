@@ -49,7 +49,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
   })
 
   it('displays initial value', function () {
-    const $values = this.$('.left-input p')
+    const $values = this.$('.frost-bunsen-left-input p')
     const displayValue = {
       firstName: $values.eq(0).text(),
       lastName: $values.eq(1).text(),
@@ -71,7 +71,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
     this.set('value', newValue)
 
-    const $values = this.$('.left-input p')
+    const $values = this.$('.frost-bunsen-left-input p')
     const firstName = $values.eq(0).text()
     const lastName = $values.eq(1).text()
     const alias = $values.eq(2).text()

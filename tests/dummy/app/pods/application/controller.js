@@ -8,7 +8,6 @@ export default Controller.extend({
       title: 'Getting Started'
     },
     {
-      route: 'component',
       title: 'Components',
       links: [
         {
@@ -22,7 +21,6 @@ export default Controller.extend({
       ]
     },
     {
-      route: 'model',
       title: 'Model',
       links: [
         {
@@ -32,7 +30,6 @@ export default Controller.extend({
       ]
     },
     {
-      route: 'view',
       title: 'View',
       links: [
         {
