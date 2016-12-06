@@ -31,7 +31,7 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-release
 before_install:
   - npm config set spin false
-  - npm install -g coveralls pr-bumper
+  - npm install -g bower coveralls pr-bumper
   - pr-bumper check
 install:
   - npm install
