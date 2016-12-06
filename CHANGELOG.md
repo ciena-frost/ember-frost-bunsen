@@ -1,3 +1,8 @@
+# 13.1.0
+
+* Bringing in input validator support from 12.x
+
+
 # 13.0.0
 
 * **Upgraded** all dependencies to the latest.
