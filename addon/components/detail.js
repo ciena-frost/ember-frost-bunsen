@@ -11,7 +11,7 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf, run} = Ember
+const {Component, RSVP, typeOf, run, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -112,6 +112,7 @@ export default Component.extend(PropTypeMixin, {
       classNames: ['frost-bunsen-detail'],
       disabled: false,
       hook: 'bunsenDetail',
+      inputValidators: [],
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
@@ -423,6 +424,46 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
+   * Get form and input validators
+   * @returns {Function[]} list of validators
+   **/
+  getAllValidators () {
+    const formValidators = this.get('validators')
+    const inputValidators = this.get('inputValidators')
+
+    return formValidators.concat(inputValidators)
+  },
+
+  /**
+   * Registers a component validator
+   * @param {Ember.Component} component - the component that contains the validate method
+   */
+  registerValidator (component) {
+    if ('validate' in component) {
+      const validator = component.validate.bind(component)
+      component.on('willDestroyElement', () => {
+        this.unregisterValidator(validator)
+      })
+
+      this.get('inputValidators').push(validator)
+    } else {
+      Logger.warn('registerValidator requires the component to implement validate()')
+    }
+  },
+
+  /**
+   * Unregisters a component validator
+   * @param {Function} validator - the validator function used when registering
+   */
+  unregisterValidator (validator) {
+    const inputValidators = this.get('inputValidators')
+    const index = inputValidators.indexOf(validator)
+    if (index >= 0) {
+      inputValidators.splice(index, 1)
+    }
+  },
+
+  /**
    * Keep value in sync with store and validate properties
    */
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -439,6 +480,7 @@ export default Component.extend(PropTypeMixin, {
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {newSchema: newBunsenModel, hasChanged: hasModelChanged} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
+    const allValidators = this.getAllValidators()
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -455,12 +497,12 @@ export default Component.extend(PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
+        validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all)
       )
     } else {
       if (hasModelChanged) {
         reduxStore.dispatch(
-          validate(null, value, newBunsenModel, this.get('validators'), RSVP.all)
+          validate(null, value, newBunsenModel, allValidators, RSVP.all)
         )
       }
     }
