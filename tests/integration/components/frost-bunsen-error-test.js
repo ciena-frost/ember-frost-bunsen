@@ -29,7 +29,7 @@ describeComponent(
 
       it('has correct classes', function () {
         expect(rootNode).to.have.class('frost-bunsen-error')
-        expect(rootNode).to.have.class('alert-warning')
+        expect(rootNode).to.have.class('frost-bunsen-alert-warning')
       })
 
       it('displays data path', function () {

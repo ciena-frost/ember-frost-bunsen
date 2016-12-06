@@ -1,7 +1,7 @@
 .frost-object-browser-facets {
   .frost-bunsen-form {
-    .collapsed {
-      > .body {
+    .frost-bunsen-collapsed {
+      > .frost-bunsen-body {
         display: none;
       }
     }
@@ -19,7 +19,7 @@
       }
     }
 
-    .heading {
+    .frost-bunsen-heading {
       display: flex;
       align-items: center;
       margin-top: 5px;
@@ -39,11 +39,11 @@
       }
     }
 
-    .left-input {
+    .frost-bunsen-left-input {
       width: 100%;
     }
 
-    .left-label {
+    .frost-bunsen-left-label {
       display: none;
     }
   }

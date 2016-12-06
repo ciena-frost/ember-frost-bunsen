@@ -3,7 +3,8 @@ import {describeComponent} from 'ember-mocha'
 import {beforeEach, afterEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
-import {getChangeSet} from 'bunsen-core/change-utils'
+import {changeUtils} from 'bunsen-core'
+const {getChangeSet} = changeUtils
 import treeUtils from 'ember-frost-bunsen/tree-utils'
 import _ from 'lodash'
 

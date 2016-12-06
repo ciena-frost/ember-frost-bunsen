@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '5.0'
+  - '6.9'
   - 'stable'
 branches:
   except:
@@ -42,7 +42,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 script:
   - npm run lint
-  - ember try:one $EMBER_TRY_SCENARIO --- ember test -r 'dot'
+  - ember try:one $EMBER_TRY_SCENARIO --- ember test
 after_success:
   - .travis/publish-coverage.sh
 before_deploy:

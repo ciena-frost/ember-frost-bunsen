@@ -1,7 +1,7 @@
+import {actions} from 'bunsen-core'
+const {validate} = actions
 import Ember from 'ember'
 const {$, RSVP} = Ember
-import {validate} from 'bunsen-core/actions'
-
 import {PropTypes} from 'ember-prop-types'
 import DetailComponent from './detail'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-form'

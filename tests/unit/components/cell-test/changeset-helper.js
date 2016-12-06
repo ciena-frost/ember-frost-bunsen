@@ -1,4 +1,5 @@
-import {getChangeSet} from 'bunsen-core/change-utils'
+import {changeUtils} from 'bunsen-core'
+const {getChangeSet} = changeUtils
 
 export function addChangeSet (component) {
   const value = component.get('value')

@@ -12,7 +12,7 @@ const KEY_CODES = {
 export default Component.extend(PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: ['state.expanded:expanded:collapsed'],
+  classNameBindings: ['state.expanded:frost-bunsen-expanded:frost-bunsen-collapsed'],
   classNames: ['frost-bunsen-section'],
   layout,
 

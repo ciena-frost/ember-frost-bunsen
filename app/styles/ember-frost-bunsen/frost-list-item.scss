@@ -8,7 +8,7 @@
   }
 
   .frost-bunsen-cell {
-    &.description {
+    &.frost-bunsen-description {
       display: block;
     }
   }
@@ -29,8 +29,8 @@
 
         .frost-bunsen-cell,
         .frost-field,
-        .item-input,
-        .item-wrapper {
+        .frost-bunsen-item-input,
+        .frost-bunsen-item-wrapper {
           display: flex;
           justify-content: flex-end;
           width: 100%;

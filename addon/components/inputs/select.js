@@ -4,7 +4,7 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {inject} = Ember
-import utils from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
 import computed, {readOnly} from 'ember-computed-decorators'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
