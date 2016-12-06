@@ -1,3 +1,9 @@
+# 13.0.0
+
+* **Upgraded** all dependencies to the latest.
+
+
+
 # 12.4.0
 
 * **Added** new `json` renderer.
