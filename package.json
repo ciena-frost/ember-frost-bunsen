@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
+    "ci-test": "ember try:one $EMBER_TRY_SCENARIO --- ember test -r 'dot'",
     "coverage": "COVERAGE=true ember test -r 'dot'",
     "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
     "lint-js": "eslint *.js addon app blueprints config tests",
