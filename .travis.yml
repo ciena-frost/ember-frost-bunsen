@@ -31,18 +31,18 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-release
 before_install:
   - npm config set spin false
-  - npm install -g bower coveralls pr-bumper
+  - npm install -g coveralls pr-bumper
   - pr-bumper check
 install:
   - npm install
-  - bower install
+  - ./node_modules/.bin/bower install
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
   - npm run lint
-  - ember try:one $EMBER_TRY_SCENARIO --- ember test -r 'dot'
+  - npm run ci-test
 after_success:
   - .travis/publish-coverage.sh
 before_deploy:
