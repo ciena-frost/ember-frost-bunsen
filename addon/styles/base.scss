@@ -3,16 +3,26 @@ $left-label-width: 140px;
 $left-input-width: 250px;
 
 .frost-bunsen-cell {
+  position: relative;
   flex: 1 1 auto;
 }
 
 .frost-bunsen-description-bubble {
   display: inline-flex;
+  position: relative;
   margin-left: 6px;
 
   svg {
     width: 24px;
     height: 24px;
+  }
+}
+
+.frost-bunsen-description-icon {
+  padding-top: 5px;
+
+  .tooltip-frost-popover {
+    z-index: 100;
   }
 }
 
