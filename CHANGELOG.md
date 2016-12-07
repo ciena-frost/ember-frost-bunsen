@@ -1,3 +1,8 @@
+# 12.6.0
+
+* **Added** support for descriptions on input cells via `description` property.
+
+
 # 12.5.0
 
 * **Added** `registerValidator` which gets passed down to custom renderers
