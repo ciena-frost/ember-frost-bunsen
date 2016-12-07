@@ -1,3 +1,8 @@
+# 13.2.2
+
+* **Fixes** ugly table formatting of the `abstract-input` api docs.
+
+
 # 13.2.1
 
 * **Updates** the demo to include documentation on `abstract-input` and simple example for creating a custom renderer with validation.
