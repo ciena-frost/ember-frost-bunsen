@@ -1,16 +1,14 @@
-import 'bunsen-core/typedefs'
-
-import _ from 'lodash'
+import {getCellDefaults, utils} from 'bunsen-core'
+const {getLabel, parseVariables} = utils
 import Ember from 'ember'
 const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel, parseVariables} from 'bunsen-core/utils'
-import {getCellDefaults} from 'bunsen-core/validator/defaults'
+import _ from 'lodash'
 
 export const defaultClassNames = {
-  inputWrapper: 'left-input',
-  labelWrapper: 'left-label'
+  inputWrapper: 'frost-bunsen-left-input',
+  labelWrapper: 'frost-bunsen-left-label'
 }
 
 export default Component.extend(PropTypeMixin, {
@@ -30,8 +28,10 @@ export default Component.extend(PropTypeMixin, {
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     registerForFormValueChanges: PropTypes.func,
+    registerValidator: PropTypes.func,
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
+    triggerValidator: PropTypes.func,
     unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.array,
@@ -51,6 +51,7 @@ export default Component.extend(PropTypeMixin, {
   },
 
   // == Computed Properties ====================================================
+
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {

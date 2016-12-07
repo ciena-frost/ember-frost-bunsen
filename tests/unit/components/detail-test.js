@@ -3,7 +3,8 @@ import {describeComponent} from 'ember-mocha'
 import {beforeEach, afterEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import {unitTest} from 'dummy/tests/helpers/template'
-import {getChangeSet} from 'bunsen-core/change-utils'
+import {changeUtils} from 'bunsen-core'
+const {getChangeSet} = changeUtils
 import treeUtils from 'ember-frost-bunsen/tree-utils'
 import _ from 'lodash'
 
@@ -416,6 +417,50 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
 
       it('should save the new comopnent in registeredComponents', function () {
         expect(component.get('registeredComponents')).to.contain(subComponent)
+      })
+    })
+
+    describe('.registerValidator', function () {
+      let subComponent, willDestroyElement
+      beforeEach(function () {
+        subComponent = {
+          validate () {},
+          formValueChanged: sandbox.stub(),
+          on: sandbox.spy(function (hook, hookFn) {
+            willDestroyElement = hookFn
+          })
+        }
+        component.registerValidator(subComponent)
+        sandbox.stub(component, 'unregisterValidator')
+      })
+
+      it('should add the validator to the list of input validators', function () {
+        expect(component.inputValidators.length).to.equal(1)
+      })
+
+      it('should not add the validtor when the component does not define a validate method', function () {
+        delete subComponent.validate
+        component.inputValidators = []
+        component.registerValidator(subComponent)
+        expect(component.inputValidators.length).to.equal(0)
+      })
+
+      it('call .unregisterValidator() on willDestroyElement', function () {
+        willDestroyElement()
+        expect(component.unregisterValidator.called).to.equal(true)
+      })
+    })
+
+    describe('.unregisterValidator', function () {
+      let inputValidator
+      beforeEach(function () {
+        inputValidator = function () {}
+        component.inputValidators = [inputValidator]
+        component.unregisterValidator(inputValidator)
+      })
+
+      it('removes the validator reference', function () {
+        expect(component.inputValidators.length).to.equal(0)
       })
     })
 

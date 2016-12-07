@@ -2,7 +2,7 @@
   {{#if sortable}}
     {{#sortable-group onChange=(action 'reorderItems') as |group|}}
       {{#each items key='@index' as |item index|}}
-        {{#sortable-item group=group handle='.handle' model=item}}
+        {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
           {{frost-bunsen-array-inline-item
             bunsenId=bunsenId
             bunsenModel=bunsenModel
@@ -18,9 +18,11 @@
             onRemove=(action 'removeItem')
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
+            registerValidator=registerValidator
             renderers=renderers
             showAllErrors=showAllErrors
             sortable=true
+            triggerValidation=triggerValidation
             unregisterForFormValueChanges=unregisterForFormValueChanges
             value=value
             valueChangeSet=valueChangeSet
@@ -45,9 +47,11 @@
         onRemove=(action 'removeItem')
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
+        registerValidator=registerValidator
         renderers=renderers
         showAllErrors=showAllErrors
         sortable=false
+        triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
         valueChangeSet=valueChangeSet
@@ -56,11 +60,11 @@
   {{/if}}
 {{else}}
   {{#if description}}
-    <div class='description'>
+    <div class='frost-bunsen-description'>
       {{description}}
     </div>
   {{/if}}
-  <ul class='nav nav-tabs'>
+  <ul class='frost-bunsen-nav frost-bunsen-nav-tabs'>
     {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-nav
         bunsenModel=bunsenModel
@@ -87,7 +91,7 @@
       </li>
     {{/unless}}
   </ul>
-  <div class='tab-content'>
+  <div class='frost-bunsen-tab-content'>
     {{#each items key='@index' as |item index|}}
       {{frost-bunsen-array-tab-content
         bunsenId=bunsenId
@@ -102,8 +106,10 @@
         onChange=(action 'handleChange')
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
+        registerValidator=registerValidator
         renderers=renderers
         showAllErrors=showAllErrors
+        triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
         value=value
         valueChangeSet=valueChangeSet
@@ -112,7 +118,7 @@
   </div>
 {{/if}}
 {{#if (and (not items) readOnly)}}
-  <span class="empty-msg">
+  <span class="frost-bunsen-empty-msg">
     List is currently empty.
   </span>
 {{/if}}

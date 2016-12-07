@@ -2,7 +2,8 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
+const {getLabel} = utils
 import _ from 'lodash'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-nav'
 

@@ -1,3 +1,38 @@
+# 13.2.0
+
+* **Added** support for descriptions on input cells via `description` property.
+
+
+# 13.1.0
+
+* Bringing in input validator support from 12.x
+
+
+# 13.0.0
+
+* **Upgraded** all dependencies to the latest.
+
+
+
+# 12.4.0
+
+* **Added** new `json` renderer.
+* **Upgraded** dependencies which includes a fix for the `ipv6-interface` format.
+
+
+
+# 12.3.0
+
+* **Added** new model formats: `ipv6-interface`, `ipv6-multicast`, and `ipv6-prefix`.
+
+
+
+# 12.2.8
+
+* **Added** missing tests for password renderer to reach full coverage of renderer.
+* **Fixed** bug where sections were sometimes showing required label when they shouldn't.
+
+
 # 12.2.7
 
 * Updates `bunsen-core`
