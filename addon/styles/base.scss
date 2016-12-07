@@ -357,7 +357,7 @@ $left-input-width: 250px;
   .left-input {
     display: flex;
     align-items: center;
-    width: $frost-bunsen-left-input-width;
+    width: $left-input-width;
   }
 
   .left-input + .error {
