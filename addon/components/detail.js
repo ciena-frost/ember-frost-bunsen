@@ -374,7 +374,6 @@ export default Component.extend(PropTypeMixin, {
    */
   init () {
     this._super(...arguments)
-    console.log('>>>>>>>>>>>  inside init   ')
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStore = createStoreWithMiddleware(reducer, {
@@ -390,11 +389,9 @@ export default Component.extend(PropTypeMixin, {
      * when tabName is send while calling component
      */
     let tabName = this.get('tabName')
-    console.log('>>>>>>>>>>>  tabName   ' + tabName)
     if (tabName !== undefined) {
       const selectedTab = this.get('cellTabs').findBy('alias', tabName)
       if (selectedTab !== undefined) {
-        console.log('>>>>>>>>>>>  tabName   ' + tabName + '  , ' + selectedTab.id)
         this.set('selectedTabIndex', selectedTab.id)
       }
     }
