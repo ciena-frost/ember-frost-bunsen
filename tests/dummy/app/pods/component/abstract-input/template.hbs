@@ -1,0 +1,20 @@
+<div class='demo-container fullscreen'>
+  <div class='demo-banner'>
+    <h1>AbstractInput</h1>
+    <p>Base component for creating custom renderers</p>
+  </div>
+  <div class='demo-showcase'>
+    {{frost-demo-editor path='component/abstract-input'}}
+    <div class='demo-view'>
+      {{frost-bunsen-form
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+        onChange=(action 'onFormChange')
+        onValidation=(action 'onValidation')
+        value=bunsenValue
+        renderers=renderers
+        showAllErrors=true
+      }}
+    </div>
+  </div>
+</div>

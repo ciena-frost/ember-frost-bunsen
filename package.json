@@ -52,7 +52,6 @@
     "ember-cli-mirage": "0.2.1",
     "ember-cli-mocha": "0.13.0",
     "ember-cli-moment-shim": "2.2.1",
-    "ember-cli-notifications": "^4.0.4",
     "ember-cli-sass": "^5.2.0",
     "ember-cli-showdown": "^2.5.0",
     "ember-cli-test-loader": "1.1.0",
