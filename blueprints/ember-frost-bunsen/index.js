@@ -11,6 +11,7 @@ module.exports = {
             {name: 'ember-bunsen-core', target: '0.15.0'},
             {name: 'ember-frost-core', target: '^1.1.3'},
             {name: 'ember-frost-fields', target: '^4.0.0'},
+            {name: 'ember-frost-popover', target: '^4.0.1'},
             {name: 'ember-frost-tabs', target: '^5.0.0'},
             {name: 'ember-getowner-polyfill', target: '^1.0.1'},
             {name: 'ember-lodash-shim', target: '^1.0.0'},
