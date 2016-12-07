@@ -101,6 +101,7 @@ export default Component.extend(PropTypeMixin, {
     ]),
     hook: PropTypes.string,
     onChange: PropTypes.func,
+    tabName: PropTypes.string,
     onError: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
@@ -373,7 +374,7 @@ export default Component.extend(PropTypeMixin, {
    */
   init () {
     this._super(...arguments)
-
+    console.log('>>>>>>>>>>>  inside init   ')
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStore = createStoreWithMiddleware(reducer, {
@@ -384,6 +385,19 @@ export default Component.extend(PropTypeMixin, {
     this.set('reduxStore', reduxStore)
     this.set('renderModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
+
+    /**
+     * when tabName is send while calling component
+     */
+    let tabName = this.get('tabName')
+    console.log('>>>>>>>>>>>  tabName   ' + tabName)
+    if (tabName !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', tabName)
+      if (selectedTab !== undefined) {
+        console.log('>>>>>>>>>>>  tabName   ' + tabName + '  , ' + selectedTab.id)
+        this.set('selectedTabIndex', selectedTab.id)
+      }
+    }
   },
 
   /**
