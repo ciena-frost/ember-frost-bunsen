@@ -1,3 +1,8 @@
+# 13.2.0
+
+* **Added** support for descriptions on input cells via `description` property.
+
+
 # 13.1.0
 
 * Bringing in input validator support from 12.x
