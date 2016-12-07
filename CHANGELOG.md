@@ -1,3 +1,7 @@
+# 13.2.1
+
+* **Updates** the demo to include documentation on `abstract-input` and simple example for creating a custom renderer with validation.
+
 # 13.2.0
 
 * **Added** support for descriptions on input cells via `description` property.
