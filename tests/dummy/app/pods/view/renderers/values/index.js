@@ -2,6 +2,7 @@ export default {
   boolean: {},
   'button-group': {},
   'checkbox-array': {},
+  geolocation: {},
   json: {
     foo: {
       alpha: 'test',

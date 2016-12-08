@@ -222,6 +222,20 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+.frost-bunsen-input-geolocation {
+  .frost-button {
+    margin-left: $frost-bunsen-left-label-width;
+  }
+
+  > .frost-loading {
+    svg {
+      width: 30px;
+      height: 30px;
+      margin: 2px 0 0 6px;
+    }
+  }
+}
+
 .frost-bunsen-input-password {
   > .frost-bunsen-input-static {
     flex-basis: auto;

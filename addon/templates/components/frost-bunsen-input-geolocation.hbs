@@ -1,0 +1,17 @@
+{{frost-bunsen-form
+  bunsenModel=subFormModel
+  bunsenView=subFormView
+  disabled=isLoading
+  onChange=(action 'handleSubFormChange')
+  value=subFormValue
+}}
+{{frost-button
+  disabled=isLoading
+  onClick=(action 'useCurrentLocation')
+  priority='secondary'
+  size='small'
+  text='Use current location'
+}}
+{{#if isLoading}}
+  {{frost-loading}}
+{{/if}}
