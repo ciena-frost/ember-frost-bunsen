@@ -32,20 +32,44 @@ const areaHandlers = {
   },
 
   country (value) {
-    const country = countries.find((country) => {
-      return country.code === value
-    })
-
-    if (!country) {
-      return
-    }
-
-    this._updateProperty('country', country.name)
+    this._updateProperty('country', value)
   },
 
   state (value) {
     this._updateProperty('state', value)
   }
+}
+
+/**
+ * Convert country code to name
+ * Note: If code is missing in countries list just return code
+ * @param {String} code - country code
+ * @returns {String} country name
+ */
+function countryCodeToName (code) {
+  const country = countries.find((country) => country.code === code)
+
+  if (!country) {
+    return code
+  }
+
+  return country.name
+}
+
+/**
+ * Convert country name to code
+ * Note: If name is missing in countries list just return name
+ * @param {String} name - country name
+ * @returns {String} country code
+ */
+function countryNameToCode (name) {
+  const country = countries.find((country) => country.name === name)
+
+  if (!country) {
+    return name
+  }
+
+  return country.code
 }
 
 export default AbstractInput.extend({
@@ -102,6 +126,10 @@ export default AbstractInput.extend({
 
           formValue[key] = internalFormValue[key]
         })
+
+      if (formValue.country) {
+        formValue.country = countryCodeToName(formValue.country)
+      }
 
       return formValue
     } catch (e) {
@@ -255,8 +283,6 @@ export default AbstractInput.extend({
           this._updateProperty(normalizedKey, location[key])
         }
       })
-
-    Logger.info('Reverse lookup response', resp)
   },
 
   /**
@@ -321,6 +347,11 @@ export default AbstractInput.extend({
   actions: {
     handleSubFormChange (formValue) {
       const oldFormValue = this.get('internalFormValue')
+
+      if (formValue.country) {
+        const countryCode = countryNameToCode(formValue.country)
+        formValue = formValue.set('country', countryCode)
+      }
 
       Object.keys(subFormValueShape)
         .forEach((key) => {

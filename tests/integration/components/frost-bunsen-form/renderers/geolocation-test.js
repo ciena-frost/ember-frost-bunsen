@@ -1,3 +1,5 @@
+import {expect} from 'chai'
+
 import {
   expectBunsenGeolocationRendererWithState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
@@ -117,6 +119,7 @@ describeComponent(
 
     it('renders as expected', function () {
       expectBunsenGeolocationRendererWithState('address', {})
+      expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
     })
 
     describe('press use current location button', function () {
@@ -141,6 +144,8 @@ describeComponent(
           expectBunsenGeolocationRendererWithState('address', {
             errorMessage: 'Location lookup is currently disabled in your browser.'
           })
+
+          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
@@ -165,6 +170,8 @@ describeComponent(
           expectBunsenGeolocationRendererWithState('address', {
             errorMessage: 'Location information is unavailable.'
           })
+
+          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
@@ -189,6 +196,8 @@ describeComponent(
           expectBunsenGeolocationRendererWithState('address', {
             errorMessage: 'The request to get your location timed out.'
           })
+
+          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
@@ -221,6 +230,17 @@ describeComponent(
               latitude: '37.4274795',
               longitude: '-122.152378'
             })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  latitude: '37.4274795',
+                  longitude: '-122.152378'
+                }
+              })
           })
         })
 
@@ -265,6 +285,22 @@ describeComponent(
               postalCode: '94305-7100',
               state: 'CA'
             })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  latitude: '37.4274795',
+                  longitude: '-122.152378',
+                  country: 'US',
+                  state: 'CA',
+                  city: 'Stanford',
+                  postalCode: '94305-7100',
+                  address: '99 Abrams Ct'
+                }
+              })
           })
         })
       })
@@ -305,6 +341,20 @@ describeComponent(
             postalCode: '94305-7100',
             state: 'CA'
           })
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'calls onChange with expected value'
+          )
+            .to.eql({
+              address: {
+                address: '99 Abrams Ct',
+                city: 'Stanford',
+                country: 'US',
+                postalCode: '94305-7100',
+                state: 'CA'
+              }
+            })
         })
       })
 
@@ -347,6 +397,22 @@ describeComponent(
             postalCode: '94305-7100',
             state: 'CA'
           })
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'calls onChange with expected value'
+          )
+            .to.eql({
+              address: {
+                address: '99 Abrams Ct',
+                city: 'Stanford',
+                country: 'US',
+                postalCode: '94305-7100',
+                state: 'CA',
+                latitude: '37.4274795',
+                longitude: '-122.152378'
+              }
+            })
         })
       })
     })
@@ -380,6 +446,17 @@ describeComponent(
             latitude: '37.4274795',
             longitude: '-122.152378'
           })
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'calls onChange with expected value'
+          )
+            .to.eql({
+              address: {
+                latitude: '37.4274795',
+                longitude: '-122.152378'
+              }
+            })
         })
       })
 
@@ -426,6 +503,22 @@ describeComponent(
             postalCode: '94305-7100',
             state: 'CA'
           })
+
+          expect(
+            props.onChange.lastCall.args[0],
+            'calls onChange with expected value'
+          )
+            .to.eql({
+              address: {
+                latitude: '37.4274795',
+                longitude: '-122.152378',
+                country: 'US',
+                state: 'CA',
+                city: 'Stanford',
+                postalCode: '94305-7100',
+                address: '99 Abrams Ct'
+              }
+            })
         })
       })
     })
