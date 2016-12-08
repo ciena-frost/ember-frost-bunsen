@@ -1,16 +1,20 @@
 import {utils} from 'bunsen-core'
 const {parseVariables} = utils
 import Ember from 'ember'
-const {get, inject, Logger} = Ember
+const {get, inject, Logger, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import countries from 'ember-frost-bunsen/fixtures/countries'
 import subFormModel from 'ember-frost-bunsen/fixtures/geolocation-model'
-import subFormView from 'ember-frost-bunsen/fixtures/geolocation-view'
+import addressView from 'ember-frost-bunsen/fixtures/geolocation-address-view'
+import locationView from 'ember-frost-bunsen/fixtures/geolocation-location-view'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-geolocation'
+import config from 'ember-get-config'
 import {PropTypes} from 'ember-prop-types'
 import AbstractInput from './abstract-input'
 
-const REVERSE_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/reverse'
+const MAPQUEST_API_KEY = get(config, 'ember-frost-bunsen.MAPQUEST_API_KEY')
+const LOOKUP_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/address'
+const REVERSE_LOOKUP_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/reverse'
 
 const subFormValueShape = {
   address: PropTypes.string,
@@ -62,18 +66,21 @@ export default AbstractInput.extend({
 
   propTypes: {
     // private
+    addressView: PropTypes.object,
     internalFormValue: PropTypes.shape(subFormValueShape),
     isLoading: PropTypes.bool,
-    subFormModel: PropTypes.object,
-    subFormView: PropTypes.object
+    isLoadingUserLocation: PropTypes.bool,
+    locationView: PropTypes.object,
+    subFormModel: PropTypes.object
   },
 
   getDefaultProps () {
     return {
+      addressView,
       internalFormValue: {},
       isLoading: false,
-      subFormModel,
-      subFormView
+      locationView,
+      subFormModel
     }
   },
 
@@ -103,6 +110,24 @@ export default AbstractInput.extend({
   },
 
   // == Functions ==============================================================
+
+  /**
+   * Get location in format necessary for API request
+   * @param {Object} value - current address information
+   * @returns {String} normalized location string for API
+   */
+  _getNormalizedLocation (value) {
+    const {address, city, country, postalCode, state} = value
+
+    return [
+      address,
+      city && state ? `${city} ${state}` : city || state || '',
+      postalCode,
+      country
+    ]
+      .filter((segment) => typeOf(segment) === 'string' && segment.length !== 0)
+      .join(',')
+  },
 
   /**
    * Convert bunsen model property reference to bunsen ID
@@ -142,6 +167,29 @@ export default AbstractInput.extend({
     this._updateProperty('latitude', coords.latitude)
     this._updateProperty('longitude', coords.longitude)
     this._performReverseLookup(coords.latitude, coords.longitude)
+  },
+
+  /**
+   * Handle error from lookup API
+   * @param {Error} e - error
+   */
+  _onLookupError (e) {
+    Logger.error('Failed to perform lookup', e)
+  },
+
+  /**
+   * Handle success from lookup API
+   * @param {Object} resp - lookup response
+   */
+  _onLookupSuccess (resp) {
+    const location = get(resp, 'results.0.locations.0.latLng') || {}
+
+    if (!location) {
+      return
+    }
+
+    this._updateProperty('latitude', location.lat)
+    this._updateProperty('longitude', location.lng)
   },
 
   /**
@@ -188,20 +236,13 @@ export default AbstractInput.extend({
   },
 
   /**
-   * Lookup location information from street address
-   */
-  _performLookup () {
-    // TODO: implement functionality
-  },
-
-  /**
    * Lookup street address information from location
    * @param {String} latitude - latitude
    * @param {String} longitude - longitude
    */
   _performReverseLookup (latitude, longitude) {
-    const key = this.get('cellConfig.renderer.apiKey')
-    let url = `${REVERSE_ENDPOINT}?location=${latitude},${longitude}`
+    const key = this.get('cellConfig.renderer.apiKey') || MAPQUEST_API_KEY
+    let url = `${REVERSE_LOOKUP_ENDPOINT}?location=${latitude},${longitude}`
 
     if (key) {
       url += `&key=${key}`
@@ -217,9 +258,13 @@ export default AbstractInput.extend({
 
   /**
    * Update UI to reflect lookup is occurring
+   * @param {Boolean} userLocation - are we looking up user's location
    */
-  _startLoading () {
-    this.set('isLoading', true)
+  _startLoading (userLocation) {
+    this.setProperties({
+      isLoading: true,
+      isLoadingUserLocation: userLocation
+    })
   },
 
   /**
@@ -265,11 +310,44 @@ export default AbstractInput.extend({
         })
 
       this.set('internalFormValue', formValue)
-      this._performLookup()
+    },
+
+    /**
+     * Lookup street address from lat/lon
+     */
+    lookupAddress () {
+      this._startLoading(false)
+
+      const latitude = this.get('internalFormValue.latitude')
+      const longitude = this.get('internalFormValue.longitude')
+
+      this._performReverseLookup(latitude, longitude)
+    },
+
+    /**
+     * Lookup lat/lon from street address
+     */
+    lookupLocation () {
+      const key = this.get('cellConfig.renderer.apiKey') || MAPQUEST_API_KEY
+      const formValue = this.get('internalFormValue')
+      const location = this._getNormalizedLocation(formValue)
+
+      let url = `${LOOKUP_ENDPOINT}?location=${location}`
+
+      if (key) {
+        url += `&key=${key}`
+      }
+
+      this.get('ajax').request(url)
+        .then(this._onLookupSuccess.bind(this))
+        .catch(this._onLookupError.bind(this))
+        .finally(() => {
+          this._stopLoading()
+        })
     },
 
     useCurrentLocation () {
-      this._startLoading()
+      this._startLoading(true)
 
       navigator.geolocation.getCurrentPosition(
         this._onGetCurrentPositionSuccess.bind(this),

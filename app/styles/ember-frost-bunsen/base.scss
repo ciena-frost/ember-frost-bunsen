@@ -196,6 +196,10 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+.frost-bunsen-icon-faded {
+  opacity: .3;
+}
+
 .frost-bunsen-input-button-group {
   .frost-button {
     border-radius: 0;
@@ -223,7 +227,15 @@ $frost-bunsen-left-input-width: 250px;
 }
 
 .frost-bunsen-input-geolocation {
-  .frost-button {
+  .frost-bunsen-input-geolocation-action-bar {
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+
+    .frost-loading {
+      display: inline-block;
+    }
+  }
+
+  > .frost-button {
     margin-left: $frost-bunsen-left-label-width;
   }
 

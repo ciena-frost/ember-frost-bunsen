@@ -1,6 +1,37 @@
 {{frost-bunsen-form
   bunsenModel=subFormModel
-  bunsenView=subFormView
+  bunsenView=addressView
+  disabled=isLoading
+  onChange=(action 'handleSubFormChange')
+  value=subFormValue
+}}
+<div class="frost-bunsen-input-geolocation-action-bar">
+  {{frost-button
+    disabled=isLoading
+    icon='expand-collapse'
+    onClick=(action 'lookupLocation')
+    priority='tertiary'
+    size='small'
+  }}
+  {{#if (and isLoading (not isLoadingUserLocation))}}
+    {{frost-loading}}
+  {{else}}
+    {{frost-icon
+      class=(if isLoading 'frost-bunsen-icon-faded')
+      icon='loading-ripple'
+    }}
+  {{/if}}
+  {{frost-button
+    disabled=isLoading
+    icon='expand-collapse'
+    onClick=(action 'lookupAddress')
+    priority='tertiary'
+    size='small'
+  }}
+</div>
+{{frost-bunsen-form
+  bunsenModel=subFormModel
+  bunsenView=locationView
   disabled=isLoading
   onChange=(action 'handleSubFormChange')
   value=subFormValue
@@ -12,6 +43,6 @@
   size='small'
   text='Use current location'
 }}
-{{#if isLoading}}
+{{#if (and isLoading isLoadingUserLocation)}}
   {{frost-loading}}
 {{/if}}
