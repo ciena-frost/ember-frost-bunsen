@@ -27,15 +27,27 @@ const subFormValueShape = {
 }
 
 const areaHandlers = {
-  city (value) {
+  city (value, overwrite) {
+    if (!overwrite && this.get('internalFormValue.city')) {
+      return
+    }
+
     this._updateProperty('city', value)
   },
 
-  country (value) {
+  country (value, overwrite) {
+    if (!overwrite && this.get('internalFormValue.country')) {
+      return
+    }
+
     this._updateProperty('country', value)
   },
 
-  state (value) {
+  state (value, overwrite) {
+    if (!overwrite && this.get('internalFormValue.state')) {
+      return
+    }
+
     this._updateProperty('state', value)
   }
 }
@@ -234,14 +246,40 @@ export default AbstractInput.extend({
    * @param {Object} resp - lookup response
    */
   _onLookupSuccess (resp) {
-    const location = get(resp, 'results.0.locations.0.latLng') || {}
+    const location = get(resp, 'results.0.locations.0') || {}
 
-    if (!location) {
-      return
+    for (let i = 1; i < 7; i++) {
+      let type = location[`adminArea${i}Type`]
+
+      if (!type) {
+        continue
+      }
+
+      type = type.toLowerCase()
+
+      if (type in areaHandlers) {
+        areaHandlers[type].call(this, location[`adminArea${i}`], false)
+      }
     }
 
-    this._updateProperty('latitude', location.lat)
-    this._updateProperty('longitude', location.lng)
+    ;[
+      'postalCode',
+      'street'
+    ]
+      .forEach((key) => {
+        if (location[key]) {
+          const normalizedKey = this._normalizeKey(key)
+
+          if (this.get(`internalFormValue.${normalizedKey}`)) {
+            return
+          }
+
+          this._updateProperty(normalizedKey, location[key])
+        }
+      })
+
+    this._updateProperty('latitude', get(location, 'latLng.lat'))
+    this._updateProperty('longitude', get(location, 'latLng.lng'))
   },
 
   /**
@@ -269,7 +307,7 @@ export default AbstractInput.extend({
       type = type.toLowerCase()
 
       if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`])
+        areaHandlers[type].call(this, location[`adminArea${i}`], true)
       }
     }
 
