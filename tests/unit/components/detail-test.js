@@ -464,58 +464,6 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
     })
 
-    describe('open specific tab', function () {
-      beforeEach(function () {
-        component.setProperties({
-          tabName: 'baz',
-          value: {
-            bar: 'bar',
-            baz: 100
-          },
-          bunsenView: {
-            version: '2.0',
-            type: 'form',
-            cells: [
-              {
-                extends: 'main',
-                label: 'bar'
-              },
-              {
-                extends: 'main1',
-                label: 'baz'
-              }
-            ],
-            cellDefinitions: {
-              'main': {
-                children: [
-                  {
-                    label: 'bar',
-                    model: 'attributes.properties.bar'
-                  }
-                ]
-              },
-
-              'main1': {
-                children: [
-                  {
-                    label: 'baz',
-                    model: 'attributes.properties.baz'
-                  }
-                ]
-              }
-            }
-          }
-        })
-        sandbox.stub(component, 'setProperties')
-        component.init()
-      })
-
-      it('check if selectedTabIndex start with 1', function () {
-        const selectedTabIndex = component.get('selectedTabIndex')
-        expect(selectedTabIndex.substr(0, selectedTabIndex.indexOf('-'))).to.equal('1')
-      })
-    })
-
     // FIXME: add test for handleError action ARM IS HERE
   })
 })

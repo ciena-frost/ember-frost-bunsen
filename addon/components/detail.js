@@ -101,7 +101,6 @@ export default Component.extend(PropTypeMixin, {
     ]),
     hook: PropTypes.string,
     onChange: PropTypes.func,
-    tabName: PropTypes.string,
     onError: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
@@ -109,6 +108,7 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    selectedTabLabel: PropTypes.string,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
@@ -384,17 +384,6 @@ export default Component.extend(PropTypeMixin, {
     this.set('reduxStore', reduxStore)
     this.set('renderModel', reduxStore.getState().model)
     reduxStore.subscribe(this.storeUpdated.bind(this))
-
-    /**
-     * when tabName is send while calling component
-     */
-    let tabName = this.get('tabName')
-    if (tabName !== undefined) {
-      const selectedTab = this.get('cellTabs').findBy('alias', tabName)
-      if (selectedTab !== undefined) {
-        this.set('selectedTabIndex', selectedTab.id)
-      }
-    }
   },
 
   /**
@@ -528,6 +517,14 @@ export default Component.extend(PropTypeMixin, {
 
     if (hasModelChanged || hasViewChanged) {
       this.validateProps(newBunsenModel)
+    }
+
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+      if (selectedTab !== undefined) {
+        this.set('selectedTabIndex', selectedTab.id)
+      }
     }
   },
   /* eslint-enable complexity */
