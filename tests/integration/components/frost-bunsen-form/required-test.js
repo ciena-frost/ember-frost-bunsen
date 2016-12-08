@@ -244,7 +244,7 @@ describeComponent(
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(3)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -342,7 +342,7 @@ describeComponent(
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(3)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -926,7 +926,7 @@ describeComponent(
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(3)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -1024,7 +1024,7 @@ describeComponent(
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(3)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
