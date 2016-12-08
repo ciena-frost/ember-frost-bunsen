@@ -1,3 +1,8 @@
+# 13.2.3
+
+**Updated** bunsen-core to allow for empty required objects and arrays.
+
+
 # 13.2.2
 
 * **Fixes** ugly table formatting of the `abstract-input` api docs.
