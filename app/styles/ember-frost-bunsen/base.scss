@@ -196,6 +196,10 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+.frost-bunsen-icon-faded {
+  opacity: .3;
+}
+
 .frost-bunsen-input-button-group {
   .frost-button {
     border-radius: 0;
@@ -219,6 +223,38 @@ $frost-bunsen-left-input-width: 250px;
 .frost-bunsen-input-checkbox-array {
   .frost-checkbox {
     display: block;
+  }
+}
+
+.frost-bunsen-input-geolocation {
+  .frost-bunsen-input-geolocation-action-bar {
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+
+    .frost-loading {
+      display: inline-block;
+    }
+
+    .frost-button {
+      &:last-child {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  > .frost-button {
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+  }
+
+  > .frost-bunsen-error {
+    margin-bottom: 10px;
+  }
+
+  > .frost-loading {
+    svg {
+      width: 30px;
+      height: 30px;
+      margin: 0 0 6px 6px;
+    }
   }
 }
 

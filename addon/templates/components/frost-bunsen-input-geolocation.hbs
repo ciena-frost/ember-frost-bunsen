@@ -1,0 +1,57 @@
+{{log formHook}}
+{{frost-bunsen-form
+  bunsenModel=subFormModel
+  bunsenView=addressView
+  disabled=isLoading
+  hook=hook
+  onChange=(action 'handleSubFormChange')
+  value=subFormValue
+}}
+<div class="frost-bunsen-input-geolocation-action-bar">
+  {{frost-button
+    disabled=isLoading
+    icon='expand-collapse'
+    onClick=(action 'lookupLocation')
+    priority='tertiary'
+    size='small'
+  }}
+  {{#if (and isLoading (not isLoadingUserLocation))}}
+    {{frost-loading}}
+  {{else}}
+    {{frost-icon
+      class=(if isLoading 'frost-bunsen-icon-faded')
+      icon='location'
+      pack='frost-bunsen'
+    }}
+  {{/if}}
+  {{frost-button
+    disabled=isLoading
+    icon='expand-collapse'
+    onClick=(action 'lookupAddress')
+    priority='tertiary'
+    size='small'
+  }}
+</div>
+{{frost-bunsen-form
+  bunsenModel=subFormModel
+  bunsenView=locationView
+  disabled=isLoading
+  hook=hook
+  onChange=(action 'handleSubFormChange')
+  value=subFormValue
+}}
+{{frost-button
+  disabled=isLoading
+  onClick=(action 'useCurrentLocation')
+  priority='secondary'
+  size='small'
+  text='Use current location'
+}}
+{{#if (and isLoading isLoadingUserLocation)}}
+  {{frost-loading}}
+{{/if}}
+{{#if getUserLocationErrorMessage}}
+  <div class="frost-bunsen-error">
+    {{getUserLocationErrorMessage}}
+  </div>
+{{/if}}
