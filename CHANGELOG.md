@@ -1,3 +1,6 @@
+# 12.6.2
+**Fixed** a bug introduced by a recursive check for required object and array properties.
+
 # 12.6.1
 
 **Update** to `bunsen-core` that allows for empty required objects/arrays.
