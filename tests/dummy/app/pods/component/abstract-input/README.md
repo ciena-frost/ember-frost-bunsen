@@ -1,5 +1,6 @@
 #### Properties
 
+---------------
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | `bunsenId` | `String` | The path to the model |
@@ -14,19 +15,55 @@
 
 #### Methods
 
-| Name | Parameters | Description |
-| ---- | ---------- | ----------- |
-| `parseValue` | | Used to parse the user-supplied value of the component |
-||`data` | The event passed to the default `handleChange` action |
+------------
+
+#### parseValue
+
+Used to parse the user-supplied value of the component
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+|`data` | `Event` | The event passed to the default `handleChange` action |
 
 #### Callbacks
 
-| Name | Parameters | Description |
-| ---- | ---------- | ----------- |
-| `onChange` || Inform the consumer that the value has changed |
-|| `bunsenId` | The path to the model being changed |
-|| `value` | The new value |
-| `registerForFormValueChanges` || Used to listen to changes to the entire form | |      | || `component` | The component being registered |
-|| `registerValidator` || Enable hooks into the validator system |
-|| `component` | The component being registered |
-| `triggerValidation` | | Invoke this callback to trigger validation |
+--------------
+
+#### onChange
+
+*Inform the consumer that the value has changed*
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `bunsenId` | `String` | The path to the model being changed |
+| `value` | `any` | The new value |
+
+<br />
+#### registerForFormValueChanges
+
+*Used to listen to changes to the entire form*
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `component` | `Ember.Component` | The component being registered |
+
+<br />
+#### registerValidator
+
+*Enable hooks into the validator system*
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+|`component` | `Ember.Component` | The component being registered |
+
+<br />
+#### triggerValidation
+
+*Invoke this callback to trigger validation*
