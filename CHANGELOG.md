@@ -1,3 +1,8 @@
+# 12.6.1
+
+**Update** to `bunsen-core` that allows for empty required objects/arrays.
+
+
 # 12.6.0
 
 * **Added** support for descriptions on input cells via `description` property.
