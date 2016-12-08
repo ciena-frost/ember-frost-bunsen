@@ -1,7 +1,9 @@
+{{log formHook}}
 {{frost-bunsen-form
   bunsenModel=subFormModel
   bunsenView=addressView
   disabled=isLoading
+  hook=hook
   onChange=(action 'handleSubFormChange')
   value=subFormValue
 }}
@@ -18,7 +20,8 @@
   {{else}}
     {{frost-icon
       class=(if isLoading 'frost-bunsen-icon-faded')
-      icon='loading-ripple'
+      icon='location'
+      pack='frost-bunsen'
     }}
   {{/if}}
   {{frost-button
@@ -33,6 +36,7 @@
   bunsenModel=subFormModel
   bunsenView=locationView
   disabled=isLoading
+  hook=hook
   onChange=(action 'handleSubFormChange')
   value=subFormValue
 }}
