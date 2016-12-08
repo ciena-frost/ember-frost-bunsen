@@ -233,17 +233,27 @@ $frost-bunsen-left-input-width: 250px;
     .frost-loading {
       display: inline-block;
     }
+
+    .frost-button {
+      &:last-child {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   > .frost-button {
-    margin-left: $frost-bunsen-left-label-width;
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+  }
+
+  > .frost-bunsen-error {
+    margin-bottom: 10px;
   }
 
   > .frost-loading {
     svg {
       width: 30px;
       height: 30px;
-      margin: 2px 0 0 6px;
+      margin: 0 0 6px 6px;
     }
   }
 }

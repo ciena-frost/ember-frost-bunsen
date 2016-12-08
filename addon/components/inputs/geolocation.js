@@ -154,10 +154,34 @@ export default AbstractInput.extend({
 
   /**
    * Handle error from browsers geolocation lookup API
+   * @param {Error} e - error
    */
-  _onGetCurrentPositionError () {
-    Logger.error('Failed to get users location', arguments)
-    this.stopLoading()
+  _onGetCurrentPositionError (e) {
+    let msg
+
+    switch (e.code) {
+      case e.PERMISSION_DENIED:
+        msg = 'Location lookup is currently disabled in your browser.'
+        break
+
+      case e.POSITION_UNAVAILABLE:
+        msg = 'Location information is unavailable.'
+        break
+
+      case e.TIMEOUT:
+        msg = 'The request to get your location timed out.'
+        break
+
+      default:
+        Logger.error('Failed to get users location', e)
+        break
+    }
+
+    if (msg) {
+      this.set('getUserLocationErrorMessage', msg)
+    }
+
+    this._stopLoading()
   },
 
   /**
@@ -263,7 +287,8 @@ export default AbstractInput.extend({
   _startLoading (userLocation) {
     this.setProperties({
       isLoading: true,
-      isLoadingUserLocation: userLocation
+      isLoadingUserLocation: userLocation,
+      getUserLocationErrorMessage: null
     })
   },
 
