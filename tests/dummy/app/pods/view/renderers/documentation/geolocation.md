@@ -51,4 +51,28 @@ directly in your view with this property.
 
 #### renderer.refs
 
-Documentation coming soon…
+This property block lets you map the inputs in this custom renderer to
+properties in your bunsen model. The idea is that you point the custom renderer
+to an object in your bunsen model that contains sub-properties for whatever
+address fields you care about. Below is an example of all inputs being mapped
+but you are free to map a subset of these as well as name your mapped properties
+whatever you want. The mapped properties that you can use different names for
+are the the values in the value, i.e. `${./address}` could be `${./street}`.
+
+```json
+{
+  "model": "address",
+  "renderer": {
+    "name": "geolocation",
+    "refs": {
+      "address": "${./address}",
+      "city": "${./city}",
+      "country": "${./country}",
+      "latitude": "${./latitude}",
+      "longitude": "${./longitude}",
+      "postalCode": "${./postalCode}",
+      "state": "${./state}"
+    }
+  }
+}
+```
