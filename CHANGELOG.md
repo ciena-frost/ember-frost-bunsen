@@ -1,3 +1,8 @@
+# 13.3.0
+
+* **Added** new `geolocation` renderer for improved UX around address fields.
+
+
 # 13.2.3
 
 **Updated** bunsen-core to allow for empty required objects and arrays.

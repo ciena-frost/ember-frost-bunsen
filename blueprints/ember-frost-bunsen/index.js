@@ -7,6 +7,7 @@ module.exports = {
       .then(() => {
         return this.addAddonsToProject({
           packages: [
+            {name: 'ember-ajax', target: '^2.5.2'},
             {name: 'ember-browserify', target: '^1.1.12'},
             {name: 'ember-bunsen-core', target: '0.15.0'},
             {name: 'ember-frost-core', target: '^1.1.3'},

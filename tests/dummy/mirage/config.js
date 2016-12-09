@@ -95,4 +95,5 @@ export default function () {
   })
 
   this.passthrough()
+  this.passthrough('http://www.mapquestapi.com/**')
 }

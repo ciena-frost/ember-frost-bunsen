@@ -15,6 +15,10 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    'ember-frost-bunsen': {
+      MAPQUEST_API_KEY: process.env.MAPQUEST_API_KEY
     }
   }
 
