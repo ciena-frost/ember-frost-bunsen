@@ -1,5 +1,5 @@
 import {utils} from 'bunsen-core'
-const {parseVariables} = utils
+const {getSubModel, parseVariables} = utils
 import Ember from 'ember'
 const {get, inject, Logger, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -53,6 +53,16 @@ const areaHandlers = {
 }
 
 /**
+ * Get bunsen path from a reference
+ * i.e. convert '${./foo/bar}' to 'foo.bar'
+ * @param {String} ref - reference
+ * @returns {String} bunsen path
+ */
+function bunsenPathFromRef (ref) {
+  return ref.replace(/^\$\{\.\/(.+)}/g, '.$1').replace(/\//g, '.')
+}
+
+/**
  * Convert country code to name
  * Note: If code is missing in countries list just return code
  * @param {String} code - country code
@@ -82,6 +92,40 @@ function countryNameToCode (name) {
   }
 
   return country.code
+}
+
+function deserializeProperty (key, value, bunsenModel) {
+  const reference = bunsenPathFromRef(key)
+  const subModel = getSubModel(bunsenModel, reference)
+
+  switch (subModel.type) {
+    case 'integer':
+      return parseInt(value)
+
+    case 'number':
+      return parseFloat(value)
+
+    default:
+      return value
+  }
+}
+
+/**
+ * Serialize form value to be in correct format for sub-forms
+ * @param {Object} formValue - unserialized form value
+ */
+function serializeFormValue (formValue) {
+  if (formValue.country) {
+    formValue.country = countryCodeToName(formValue.country)
+  }
+
+  if (typeOf(formValue.latitude) === 'number') {
+    formValue.latitude = `${formValue.latitude}`
+  }
+
+  if (typeOf(formValue.longitude) === 'number') {
+    formValue.longitude = `${formValue.longitude}`
+  }
 }
 
 export default AbstractInput.extend({
@@ -139,9 +183,7 @@ export default AbstractInput.extend({
           formValue[key] = internalFormValue[key]
         })
 
-      if (formValue.country) {
-        formValue.country = countryCodeToName(formValue.country)
-      }
+      serializeFormValue(formValue)
 
       return formValue
     } catch (e) {
@@ -176,7 +218,7 @@ export default AbstractInput.extend({
    */
   _getRefBunsenId (ref) {
     const bunsenId = this.get('bunsenId')
-    return bunsenId + ref.replace(/^\$\{\.\/(.+)}/g, '.$1').replace(/\//g, '.')
+    return bunsenId + bunsenPathFromRef(ref)
   },
 
   /**
@@ -384,6 +426,7 @@ export default AbstractInput.extend({
 
   actions: {
     handleSubFormChange (formValue) {
+      const bunsenModel = this.get('bunsenModel')
       const oldFormValue = this.get('internalFormValue')
 
       if (formValue.country) {
@@ -398,7 +441,9 @@ export default AbstractInput.extend({
 
             if (ref) {
               const bunsenId = this._getRefBunsenId(ref)
-              this.get('onChange')(bunsenId, formValue[key])
+              const value = deserializeProperty(key, formValue[key], bunsenModel)
+
+              this.get('onChange')(bunsenId, value)
             }
           }
         })
