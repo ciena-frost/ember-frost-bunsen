@@ -12,6 +12,6 @@ export default Component.extend(PropTypesMixin, {
   // == State Properties =======================================================
 
   propTypes: {
-    description: PropTypes.string.isRequired
+    description: PropTypes.string
   }
 })
