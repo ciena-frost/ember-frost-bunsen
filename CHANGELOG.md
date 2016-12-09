@@ -1,3 +1,7 @@
+# 13.3.1
+Fixed a bug introduced by a recursive check for required object and array properties.
+
+
 # 13.3.0
 
 * **Added** new `geolocation` renderer for improved UX around address fields.
