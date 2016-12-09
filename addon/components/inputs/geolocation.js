@@ -94,6 +94,13 @@ function countryNameToCode (name) {
   return country.code
 }
 
+/**
+ * Deserialize property value to format consumer expects
+ * @param {String} key - property key
+ * @param {String} value - property value
+ * @param {Object} bunsenModel - bunsen model
+ * @returns {String|Number} deserialized value
+ */
 function deserializeProperty (key, value, bunsenModel) {
   const reference = bunsenPathFromRef(key)
   const subModel = getSubModel(bunsenModel, reference)
