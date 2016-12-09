@@ -522,5 +522,433 @@ describeComponent(
         })
       })
     })
+
+    describe('when latitude and longitude are number type', function () {
+      beforeEach(function () {
+        this.set('bunsenModel', {
+          properties: {
+            address: {
+              properties: {
+                address: {type: 'string'},
+                city: {type: 'string'},
+                country: {type: 'string'},
+                latitude: {type: 'number'},
+                longitude: {type: 'number'},
+                postalCode: {type: 'string'},
+                state: {type: 'string'}
+              },
+              type: 'object'
+            }
+          },
+          type: 'object'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectBunsenGeolocationRendererWithState('address', {})
+        expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+      })
+
+      describe('press use current location button', function () {
+        describe('when user has blocked geolocation', function () {
+          beforeEach(function (done) {
+            stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+              errorCallback(
+                assign(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
+                })
+              )
+
+              wait().then(() => {
+                done()
+              })
+            })
+
+            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              errorMessage: 'Location lookup is currently disabled in your browser.'
+            })
+
+            expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          })
+        })
+
+        describe('when geolocation lookup fails', function () {
+          beforeEach(function (done) {
+            stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+              errorCallback(
+                assign(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
+                })
+              )
+
+              wait().then(() => {
+                done()
+              })
+            })
+
+            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              errorMessage: 'Location information is unavailable.'
+            })
+
+            expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          })
+        })
+
+        describe('when geolocation lookup times out', function () {
+          beforeEach(function (done) {
+            stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+              errorCallback(
+                assign(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
+                })
+              )
+
+              wait().then(() => {
+                done()
+              })
+            })
+
+            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              errorMessage: 'The request to get your location timed out.'
+            })
+
+            expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          })
+        })
+
+        describe('when geolocation lookup succeeds', function () {
+          beforeEach(function () {
+            stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+              successCallback({
+                coords: {
+                  latitude: '37.4274795',
+                  longitude: '-122.152378'
+                }
+              })
+            })
+          })
+
+          describe('when reverse lookup fails', function () {
+            beforeEach(function () {
+              server.get(
+                'http://www.mapquestapi.com/geocoding/v1/reverse',
+                json(400, {}, 10)
+              )
+
+              this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+
+              return wait()
+            })
+
+            it('renders as expected', function () {
+              expectBunsenGeolocationRendererWithState('address', {
+                latitude: '37.4274795',
+                longitude: '-122.152378'
+              })
+
+              expect(
+                props.onChange.lastCall.args[0],
+                'calls onChange with expected value'
+              )
+                .to.eql({
+                  address: {
+                    latitude: 37.4274795,
+                    longitude: -122.152378
+                  }
+                })
+            })
+          })
+
+          describe('when reverse lookup succeeds', function () {
+            beforeEach(function () {
+              const payload = {
+                results: [
+                  {
+                    locations: [
+                      {
+                        adminArea1: 'US',
+                        adminArea1Type: 'Country',
+                        adminArea3: 'CA',
+                        adminArea3Type: 'State',
+                        adminArea5: 'Stanford',
+                        adminArea5Type: 'City',
+                        postalCode: '94305-7100',
+                        street: '99 Abrams Ct'
+                      }
+                    ]
+                  }
+                ]
+              }
+
+              server.get(
+                'http://www.mapquestapi.com/geocoding/v1/reverse',
+                json(200, payload, 10)
+              )
+
+              this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+
+              return wait()
+            })
+
+            it('renders as expected', function () {
+              expectBunsenGeolocationRendererWithState('address', {
+                address: '99 Abrams Ct',
+                city: 'Stanford',
+                country: 'United States of America',
+                latitude: '37.4274795',
+                longitude: '-122.152378',
+                postalCode: '94305-7100',
+                state: 'CA'
+              })
+
+              expect(
+                props.onChange.lastCall.args[0],
+                'calls onChange with expected value'
+              )
+                .to.eql({
+                  address: {
+                    latitude: 37.4274795,
+                    longitude: -122.152378,
+                    country: 'US',
+                    state: 'CA',
+                    city: 'Stanford',
+                    postalCode: '94305-7100',
+                    address: '99 Abrams Ct'
+                  }
+                })
+            })
+          })
+        })
+      })
+
+      describe('press lookup button', function () {
+        beforeEach(function () {
+          this.set('value', {
+            address: {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'United States of America',
+              postalCode: '94305-7100',
+              state: 'CA'
+            }
+          })
+        })
+
+        describe('when lookup fails', function () {
+          beforeEach(function () {
+            server.get(
+              'http://www.mapquestapi.com/geocoding/v1/address',
+              json(400, {}, 10)
+            )
+
+            this.$(
+              '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
+            ).click()
+
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'United States of America',
+              postalCode: '94305-7100',
+              state: 'CA'
+            })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  address: '99 Abrams Ct',
+                  city: 'Stanford',
+                  country: 'US',
+                  postalCode: '94305-7100',
+                  state: 'CA'
+                }
+              })
+          })
+        })
+
+        describe('when lookup succeeds', function () {
+          beforeEach(function () {
+            const payload = {
+              results: [
+                {
+                  locations: [
+                    {
+                      latLng: {
+                        lat: '37.4274795',
+                        lng: '-122.152378'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+
+            server.get(
+              'http://www.mapquestapi.com/geocoding/v1/address',
+              json(200, payload, 10)
+            )
+
+            this.$(
+              '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
+            ).click()
+
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'United States of America',
+              latitude: '37.4274795',
+              longitude: '-122.152378',
+              postalCode: '94305-7100',
+              state: 'CA'
+            })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  address: '99 Abrams Ct',
+                  city: 'Stanford',
+                  country: 'US',
+                  postalCode: '94305-7100',
+                  state: 'CA',
+                  latitude: 37.4274795,
+                  longitude: -122.152378
+                }
+              })
+          })
+        })
+      })
+
+      describe('press reverse lookup button', function () {
+        beforeEach(function () {
+          this.set('value', {
+            address: {
+              latitude: 37.4274795,
+              longitude: -122.152378
+            }
+          })
+        })
+
+        describe('when reverse lookup fails', function () {
+          beforeEach(function () {
+            server.get(
+              'http://www.mapquestapi.com/geocoding/v1/reverse',
+              json(400, {}, 10)
+            )
+
+            this.$(
+              '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
+            ).click()
+
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              latitude: '37.4274795',
+              longitude: '-122.152378'
+            })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  latitude: 37.4274795,
+                  longitude: -122.152378
+                }
+              })
+          })
+        })
+
+        describe('when reverse lookup succeeds', function () {
+          beforeEach(function () {
+            const payload = {
+              results: [
+                {
+                  locations: [
+                    {
+                      adminArea1: 'US',
+                      adminArea1Type: 'Country',
+                      adminArea3: 'CA',
+                      adminArea3Type: 'State',
+                      adminArea5: 'Stanford',
+                      adminArea5Type: 'City',
+                      postalCode: '94305-7100',
+                      street: '99 Abrams Ct'
+                    }
+                  ]
+                }
+              ]
+            }
+
+            server.get(
+              'http://www.mapquestapi.com/geocoding/v1/reverse',
+              json(200, payload, 10)
+            )
+
+            this.$(
+              '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
+            ).click()
+
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectBunsenGeolocationRendererWithState('address', {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'United States of America',
+              latitude: '37.4274795',
+              longitude: '-122.152378',
+              postalCode: '94305-7100',
+              state: 'CA'
+            })
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'calls onChange with expected value'
+            )
+              .to.eql({
+                address: {
+                  latitude: 37.4274795,
+                  longitude: -122.152378,
+                  country: 'US',
+                  state: 'CA',
+                  city: 'Stanford',
+                  postalCode: '94305-7100',
+                  address: '99 Abrams Ct'
+                }
+              })
+          })
+        })
+      })
+    })
   }
 )

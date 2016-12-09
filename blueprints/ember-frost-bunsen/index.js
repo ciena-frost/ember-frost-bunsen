@@ -18,6 +18,7 @@ module.exports = {
             {name: 'ember-lodash-shim', target: '^1.0.0'},
             {name: 'ember-prop-types', target: '^3.0.2'},
             {name: 'ember-redux', target: '^1.0.0'},
+            {name: 'ember-spread', target: '0.0.7'},
             {name: 'ember-sortable', target: '^1.8.1'}
           ]
         })

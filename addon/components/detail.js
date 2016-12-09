@@ -20,13 +20,14 @@ import thunk from 'npm:redux-thunk'
 const thunkMiddleware = thunk.default
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component, RSVP, typeOf, run, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 import getOwner from 'ember-getowner-polyfill'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
+import SpreadMixin from 'ember-spread'
+import _ from 'lodash'
 
 import {
   deemberify,
@@ -83,7 +84,7 @@ function v2View (bunsenView) {
   return bunsenView
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(SpreadMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   layout,
@@ -330,6 +331,10 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value, valueChangeSet, lastAction} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
