@@ -4,7 +4,7 @@
     type=invalidSchemaType
   }}
 {{else}}
-  <form class='form'>
+  <form class='form' onsubmit='return false'>
     {{#if cellTabs.length}}
       {{#frost-tabs
         hook=hook
