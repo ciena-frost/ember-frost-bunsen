@@ -201,6 +201,27 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   /**
+   * Get error message for user location lookup error
+   * @param {Error} e - error
+   * @returns {String} error message
+   */
+  _getErrorMessage (e) {
+    switch (e.code) {
+      case e.PERMISSION_DENIED:
+        return 'Location lookup is currently disabled in your browser.'
+
+      case e.POSITION_UNAVAILABLE:
+        return 'Location information is unavailable.'
+
+      case e.TIMEOUT:
+        return 'The request to get your location timed out.'
+
+      default:
+        return null
+    }
+  },
+
+  /**
    * Get location in format necessary for API request
    * @param {Object} value - current address information
    * @returns {String} normalized location string for API
@@ -250,28 +271,12 @@ export default AbstractInput.extend({
       return
     }
 
-    let msg
-
-    switch (e.code) {
-      case e.PERMISSION_DENIED:
-        msg = 'Location lookup is currently disabled in your browser.'
-        break
-
-      case e.POSITION_UNAVAILABLE:
-        msg = 'Location information is unavailable.'
-        break
-
-      case e.TIMEOUT:
-        msg = 'The request to get your location timed out.'
-        break
-
-      default:
-        Logger.error('Failed to get users location', e)
-        break
-    }
+    let msg = this._getErrorMessage(e)
 
     if (msg) {
       this.set('getUserLocationErrorMessage', msg)
+    } else {
+      Logger.error('Failed to get users location', e)
     }
 
     this._stopLoading()
@@ -313,19 +318,7 @@ export default AbstractInput.extend({
 
     const location = get(resp, 'results.0.locations.0') || {}
 
-    for (let i = 1; i < 7; i++) {
-      let type = location[`adminArea${i}Type`]
-
-      if (!type) {
-        continue
-      }
-
-      type = type.toLowerCase()
-
-      if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`], false)
-      }
-    }
+    this._updateAdminAreaProperties(location, false)
 
     ;[
       'postalCode',
@@ -370,19 +363,7 @@ export default AbstractInput.extend({
 
     const location = get(resp, 'results.0.locations.0') || {}
 
-    for (let i = 1; i < 7; i++) {
-      let type = location[`adminArea${i}Type`]
-
-      if (!type) {
-        continue
-      }
-
-      type = type.toLowerCase()
-
-      if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`], true)
-      }
-    }
+    this._updateAdminAreaProperties(location, true)
 
     ;[
       'postalCode',
@@ -438,6 +419,22 @@ export default AbstractInput.extend({
     }
 
     this.set('isLoading', false)
+  },
+
+  _updateAdminAreaProperties (location, overwrite) {
+    for (let i = 1; i < 7; i++) {
+      let type = location[`adminArea${i}Type`]
+
+      if (!type) {
+        continue
+      }
+
+      type = type.toLowerCase()
+
+      if (type in areaHandlers) {
+        areaHandlers[type].call(this, location[`adminArea${i}`], overwrite)
+      }
+    }
   },
 
   /**
