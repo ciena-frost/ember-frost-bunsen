@@ -102,7 +102,7 @@ function countryNameToCode (name) {
  * @returns {String|Number} deserialized value
  */
 function deserializeProperty (key, value, bunsenModel) {
-  const reference = bunsenPathFromRef(key)
+  const reference = bunsenPathFromRef(key).slice(1)
   const subModel = getSubModel(bunsenModel, reference)
 
   switch (subModel.type) {
@@ -246,6 +246,10 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onGetCurrentPositionError (e) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     let msg
 
     switch (e.code) {
@@ -277,6 +281,10 @@ export default AbstractInput.extend({
    * Handle success from browsers geolocation lookup API
    */
   _onGetCurrentPositionSuccess ({coords}) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     this._updateProperty('latitude', coords.latitude)
     this._updateProperty('longitude', coords.longitude)
     this._performReverseLookup(coords.latitude, coords.longitude)
@@ -287,6 +295,10 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onLookupError (e) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     Logger.error('Failed to perform lookup', e)
   },
 
@@ -295,6 +307,10 @@ export default AbstractInput.extend({
    * @param {Object} resp - lookup response
    */
   _onLookupSuccess (resp) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const location = get(resp, 'results.0.locations.0') || {}
 
     for (let i = 1; i < 7; i++) {
@@ -336,6 +352,10 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onReverseLookupError (e) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     Logger.error('Failed to perform reverse lookup', e)
   },
 
@@ -344,6 +364,10 @@ export default AbstractInput.extend({
    * @param {Object} resp - reverse lookup response
    */
   _onReverseLookupSuccess (resp) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const location = get(resp, 'results.0.locations.0') || {}
 
     for (let i = 1; i < 7; i++) {
@@ -409,6 +433,10 @@ export default AbstractInput.extend({
    * Update UI to reflect that lookup has completed
    */
   _stopLoading () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     this.set('isLoading', false)
   },
 
@@ -448,7 +476,7 @@ export default AbstractInput.extend({
 
             if (ref) {
               const bunsenId = this._getRefBunsenId(ref)
-              const value = deserializeProperty(key, formValue[key], bunsenModel)
+              const value = deserializeProperty(ref, formValue[key], bunsenModel)
 
               this.get('onChange')(bunsenId, value)
             }
