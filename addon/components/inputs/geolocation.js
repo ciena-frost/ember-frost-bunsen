@@ -102,7 +102,7 @@ function countryNameToCode (name) {
  * @returns {String|Number} deserialized value
  */
 function deserializeProperty (key, value, bunsenModel) {
-  const reference = bunsenPathFromRef(key)
+  const reference = bunsenPathFromRef(key).slice(1)
   const subModel = getSubModel(bunsenModel, reference)
 
   switch (subModel.type) {
@@ -201,6 +201,27 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   /**
+   * Get error message for user location lookup error
+   * @param {Error} e - error
+   * @returns {String} error message
+   */
+  _getErrorMessage (e) {
+    switch (e.code) {
+      case e.PERMISSION_DENIED:
+        return 'Location lookup is currently disabled in your browser.'
+
+      case e.POSITION_UNAVAILABLE:
+        return 'Location information is unavailable.'
+
+      case e.TIMEOUT:
+        return 'The request to get your location timed out.'
+
+      default:
+        return null
+    }
+  },
+
+  /**
    * Get location in format necessary for API request
    * @param {Object} value - current address information
    * @returns {String} normalized location string for API
@@ -246,28 +267,16 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onGetCurrentPositionError (e) {
-    let msg
-
-    switch (e.code) {
-      case e.PERMISSION_DENIED:
-        msg = 'Location lookup is currently disabled in your browser.'
-        break
-
-      case e.POSITION_UNAVAILABLE:
-        msg = 'Location information is unavailable.'
-        break
-
-      case e.TIMEOUT:
-        msg = 'The request to get your location timed out.'
-        break
-
-      default:
-        Logger.error('Failed to get users location', e)
-        break
+    if (this.isDestroyed || this.isDestroying) {
+      return
     }
+
+    let msg = this._getErrorMessage(e)
 
     if (msg) {
       this.set('getUserLocationErrorMessage', msg)
+    } else {
+      Logger.error('Failed to get users location', e)
     }
 
     this._stopLoading()
@@ -277,6 +286,10 @@ export default AbstractInput.extend({
    * Handle success from browsers geolocation lookup API
    */
   _onGetCurrentPositionSuccess ({coords}) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     this._updateProperty('latitude', coords.latitude)
     this._updateProperty('longitude', coords.longitude)
     this._performReverseLookup(coords.latitude, coords.longitude)
@@ -287,6 +300,10 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onLookupError (e) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     Logger.error('Failed to perform lookup', e)
   },
 
@@ -295,21 +312,13 @@ export default AbstractInput.extend({
    * @param {Object} resp - lookup response
    */
   _onLookupSuccess (resp) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const location = get(resp, 'results.0.locations.0') || {}
 
-    for (let i = 1; i < 7; i++) {
-      let type = location[`adminArea${i}Type`]
-
-      if (!type) {
-        continue
-      }
-
-      type = type.toLowerCase()
-
-      if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`], false)
-      }
-    }
+    this._updateAdminAreaProperties(location, false)
 
     ;[
       'postalCode',
@@ -336,6 +345,10 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onReverseLookupError (e) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     Logger.error('Failed to perform reverse lookup', e)
   },
 
@@ -344,21 +357,13 @@ export default AbstractInput.extend({
    * @param {Object} resp - reverse lookup response
    */
   _onReverseLookupSuccess (resp) {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const location = get(resp, 'results.0.locations.0') || {}
 
-    for (let i = 1; i < 7; i++) {
-      let type = location[`adminArea${i}Type`]
-
-      if (!type) {
-        continue
-      }
-
-      type = type.toLowerCase()
-
-      if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`], true)
-      }
-    }
+    this._updateAdminAreaProperties(location, true)
 
     ;[
       'postalCode',
@@ -409,7 +414,27 @@ export default AbstractInput.extend({
    * Update UI to reflect that lookup has completed
    */
   _stopLoading () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     this.set('isLoading', false)
+  },
+
+  _updateAdminAreaProperties (location, overwrite) {
+    for (let i = 1; i < 7; i++) {
+      let type = location[`adminArea${i}Type`]
+
+      if (!type) {
+        continue
+      }
+
+      type = type.toLowerCase()
+
+      if (type in areaHandlers) {
+        areaHandlers[type].call(this, location[`adminArea${i}`], overwrite)
+      }
+    }
   },
 
   /**
@@ -448,7 +473,7 @@ export default AbstractInput.extend({
 
             if (ref) {
               const bunsenId = this._getRefBunsenId(ref)
-              const value = deserializeProperty(key, formValue[key], bunsenModel)
+              const value = deserializeProperty(ref, formValue[key], bunsenModel)
 
               this.get('onChange')(bunsenId, value)
             }
