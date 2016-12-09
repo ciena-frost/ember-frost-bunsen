@@ -1,3 +1,13 @@
+# 13.4.0
+
+* **Added** new component `frost-bunsen` which is designed to be a single entry point for rendering both forms and detail views, as well as any future view types.
+* **Added** [spread](https://github.com/ciena-blueplanet/ember-spread) operator to existing `frost-bunsen-detail` and `frost-bunsen-form` components.
+* **Fixed** `geolocation` renderer to work when consumer latitude and/or longitude properties expect the format to be a number instead of a string.
+* **Fixed** description bubble property validations to not require `description` property as it was causing undesired `ember-prop-type` warnings in the console.
+* **Fixed** issue where enter key would sometimes submit form by setting `onsubmit='return false'` on the form element itself.
+* **Fixed** issue where `frost-bunsen-form` and `frost-bunsen-detail` would try to update state after the component had been destroyed when getting an update from the redux store.
+
+
 # 13.3.1
 Fixed a bug introduced by a recursive check for required object and array properties.
 
