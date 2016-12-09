@@ -26,9 +26,9 @@ const props = {
 }
 
 function tests (ctx) {
-  describe('spread', function () {
+  describe('form direct properties', function () {
     it('renders input', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input-static').length).to.equal(1)
+      expect(ctx.rootNode.find('.frost-text').length).to.equal(1)
     })
   })
 }

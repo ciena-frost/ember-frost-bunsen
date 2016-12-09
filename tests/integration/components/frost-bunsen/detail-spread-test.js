@@ -28,7 +28,7 @@ const props = {
 }
 
 function tests (ctx) {
-  describe('spread', function () {
+  describe('detail spread', function () {
     it('renders input', function () {
       expect(ctx.rootNode.find('.frost-bunsen-input-static').length).to.equal(1)
     })
