@@ -1,3 +1,9 @@
+# 13.4.1
+
+* **Fixed** bug where `geolocation` renderer wasn't working with consumer properties that didn't match internal properties.
+* **Fixed** bug where `geolocation` renderer wasn't checking if it was destroyed or being destroyed before setting properties.
+
+
 # 13.4.0
 
 * **Added** new component `frost-bunsen` which is designed to be a single entry point for rendering both forms and detail views, as well as any future view types.
