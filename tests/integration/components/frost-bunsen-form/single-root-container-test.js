@@ -1,8 +1,7 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {beforeEach, describe, it} from 'mocha'
 
 const props = {
   bunsenModel: {
@@ -29,27 +28,25 @@ const props = {
   }
 }
 
-function tests (ctx) {
+describe('Integration: frost-bunsen-form', function () {
+  setupComponentTest('frost-bunsen-form', {
+    integration: true
+  })
+
+  let rootNode
+
+  beforeEach(function () {
+    this.setProperties(props)
+    this.render(hbs`{{frost-bunsen-form
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+    }}`)
+    rootNode = this.$('> *')
+  })
+
   describe('one root cell', function () {
     it('does not render frost-tabs', function () {
-      expect(ctx.rootNode.find('.frost-tabs').length).to.equal(0)
+      expect(rootNode.find('.frost-tabs').length).to.equal(0)
     })
   })
-}
-
-describeComponent(...integrationTestContext('frost-bunsen-form'),
-  function () {
-    let ctx = {}
-
-    beforeEach(function () {
-      this.setProperties(props)
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-      }}`)
-      ctx.rootNode = this.$('> *')
-    })
-
-    tests(ctx)
-  }
-)
+})

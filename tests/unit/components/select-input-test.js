@@ -1,10 +1,13 @@
 import Ember from 'ember'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import {expect} from 'chai'
 import {describe, beforeEach, it} from 'mocha'
-import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(...unitTest('frost-bunsen-input-select'), function () {
+describe('Unit: frost-bunsen-input-select', function () {
+  setupComponentTest('frost-bunsen-input-select', {
+    unit: true
+  })
+
   const ctx = {}
   let component
 

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -20,76 +20,672 @@ function getButtonLabels (bunsenModel) {
     .map((option) => Ember.String.capitalize(`${option}`))
 }
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | renderer | button-group',
-  {
+describe('Integration: Component | frost-bunsen-form | renderer | button-group', function () {
+  setupComponentTest('frost-bunsen-form', {
     integration: true
-  },
-  function () {
-    ;[
-      {
-        type: 'boolean'
-      },
-      {
-        enum: [0, 1],
-        type: 'integer'
-      },
-      {
-        enum: [0.5, 1.5],
-        type: 'number'
-      },
-      {
-        enum: ['bar', 'baz'],
-        type: 'string'
-      }
-    ]
-      .forEach((fooModel) => {
-        describe(`when property type is ${fooModel.type}`, function () {
-          let props, sandbox
+  })
 
-          const buttonLabels = getButtonLabels(fooModel)
+  ;[
+    {
+      type: 'boolean'
+    },
+    {
+      enum: [0, 1],
+      type: 'integer'
+    },
+    {
+      enum: [0.5, 1.5],
+      type: 'number'
+    },
+    {
+      enum: ['bar', 'baz'],
+      type: 'string'
+    }
+  ]
+    .forEach((fooModel) => {
+      describe(`when property type is ${fooModel.type}`, function () {
+        let props, sandbox
 
-          beforeEach(function () {
-            sandbox = sinon.sandbox.create()
+        const buttonLabels = getButtonLabels(fooModel)
 
-            props = {
-              bunsenModel: {
-                properties: {
-                  foo: fooModel
-                },
-                type: 'object'
+        beforeEach(function () {
+          sandbox = sinon.sandbox.create()
+
+          props = {
+            bunsenModel: {
+              properties: {
+                foo: fooModel
               },
-              bunsenView: {
-                cells: [
-                  {
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
+              type: 'object'
+            },
+            bunsenView: {
+              cells: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
                   }
-                ],
-                type: 'form',
-                version: '2.0'
-              },
-              disabled: undefined,
-              onChange: sandbox.spy(),
-              onValidation: sandbox.spy()
-            }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            },
+            disabled: undefined,
+            onChange: sandbox.spy(),
+            onValidation: sandbox.spy()
+          }
 
-            this.setProperties(props)
+          this.setProperties(props)
 
-            this.render(hbs`{{frost-bunsen-form
-              bunsenModel=bunsenModel
-              bunsenView=bunsenView
-              disabled=disabled
-              onChange=onChange
-              onValidation=onValidation
-            }}`)
+          this.render(hbs`{{frost-bunsen-form
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            disabled=disabled
+            onChange=onChange
+            onValidation=onValidation
+          }}`)
+        })
+
+        afterEach(function () {
+          sandbox.restore()
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'does not render collapsible handle'
+          )
+            .to.have.length(0)
+
+          expect(
+            this.$(selectors.bunsen.renderer.buttonGroup),
+            'renders a bunsen button-group input'
+          )
+            .to.have.length(1)
+
+          const $buttons = this.$(selectors.frost.button.input.enabled)
+
+          expect(
+            $buttons,
+            'renders enabled buttons'
+          )
+            .to.have.length(2)
+
+          const $firstButton = $buttons.eq(0)
+
+          expect(
+            $firstButton.text().trim(),
+            'first button has expected text'
+          )
+            .to.equal(buttonLabels[0])
+
+          expect(
+            $firstButton.hasClass(selectors.frost.button.size.medium),
+            'first button is correct size'
+          )
+            .to.be.equal(true)
+
+          const $secondButton = $buttons.eq(1)
+
+          expect(
+            $secondButton.text().trim(),
+            'second button has expected text'
+          )
+            .to.equal(buttonLabels[1])
+
+          expect(
+            $secondButton.hasClass(selectors.frost.button.size.medium),
+            'first button is correct size'
+          )
+            .to.be.equal(true)
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('Foo')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when label defined in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  label: 'FooBar Baz',
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
           })
 
-          afterEach(function () {
-            sandbox.restore()
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.collapsible.handle),
+              'does not render collapsible handle'
+            )
+              .to.have.length(0)
+
+            expect(
+              this.$(selectors.bunsen.renderer.buttonGroup),
+              'renders a bunsen button-group input'
+            )
+              .to.have.length(1)
+
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.bunsen.label).text().trim(),
+              'renders expected label text'
+            )
+              .to.equal('FooBar Baz')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+
+        describe('when collapsible set to true in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  collapsible: true,
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.collapsible.handle),
+              'renders collapsible handle'
+            )
+              .to.have.length(1)
+
+            expect(
+              this.$(selectors.bunsen.renderer.buttonGroup),
+              'renders a bunsen button-group input'
+            )
+              .to.have.length(1)
+
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.bunsen.label).text().trim(),
+              'renders expected label text'
+            )
+              .to.equal('Foo')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+
+        describe('when collapsible set to false in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  collapsible: false,
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.collapsible.handle),
+              'does not render collapsible handle'
+            )
+              .to.have.length(0)
+
+            expect(
+              this.$(selectors.bunsen.renderer.buttonGroup),
+              'renders a bunsen button-group input'
+            )
+              .to.have.length(1)
+
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.bunsen.label).text().trim(),
+              'renders expected label text'
+            )
+              .to.equal('Foo')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+
+        describe('when size defined in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group',
+                    size: 'small'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.buttonGroup),
+              'renders a bunsen button-group input'
+            )
+              .to.have.length(1)
+
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            const $firstButton = $buttons.eq(0)
+
+            expect(
+              $firstButton.text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $firstButton.hasClass(selectors.frost.button.size.small),
+              'first button is correct size'
+            )
+              .to.be.equal(true)
+
+            const $secondButton = $buttons.eq(1)
+
+            expect(
+              $secondButton.text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              $secondButton.hasClass(selectors.frost.button.size.small),
+              'first button is correct size'
+            )
+              .to.be.equal(true)
+
+            expect(
+              this.$(selectors.bunsen.label).text().trim(),
+              'renders expected label text'
+            )
+              .to.equal('Foo')
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(1)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+
+        describe('when form explicitly enabled', function () {
+          beforeEach(function () {
+            this.set('disabled', false)
+          })
+
+          it('renders as expected', function () {
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+          })
+        })
+
+        describe('when form disabled', function () {
+          beforeEach(function () {
+            this.set('disabled', true)
+          })
+
+          it('renders as expected', function () {
+            const $buttons = this.$(selectors.frost.button.input.disabled)
+
+            expect(
+              $buttons,
+              'renders disabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+          })
+        })
+
+        describe('when property explicitly enabled in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  disabled: false,
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            const $buttons = this.$(selectors.frost.button.input.enabled)
+
+            expect(
+              $buttons,
+              'renders enabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+          })
+        })
+
+        describe('when property disabled in view', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  disabled: true,
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group'
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            const $buttons = this.$(selectors.frost.button.input.disabled)
+
+            expect(
+              $buttons,
+              'renders disabled buttons'
+            )
+              .to.have.length(2)
+
+            expect(
+              $buttons.eq(0).text().trim(),
+              'first button has expected text'
+            )
+              .to.equal(buttonLabels[0])
+
+            expect(
+              $buttons.eq(1).text().trim(),
+              'second button has expected text'
+            )
+              .to.equal(buttonLabels[1])
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+          })
+        })
+
+        describe('when button selected', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+
+            this.$(selectors.bunsen.renderer.buttonGroup)
+              .find('button:first')
+              .click()
           })
 
           it('renders as expected', function () {
@@ -147,6 +743,16 @@ describeComponent(
             )
               .to.equal('Foo')
 
+            const foo = 'enum' in fooModel ? fooModel.enum[0] : true
+
+            expect(
+              props.onChange.lastCall.args[0],
+              'provides consumer expected form value'
+            )
+              .to.eql({
+                foo
+              })
+
             expect(
               this.$(selectors.error),
               'does not have any validation errors'
@@ -174,513 +780,7 @@ describeComponent(
               .to.equal(0)
           })
 
-          describe('when label defined in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    label: 'FooBar Baz',
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.collapsible.handle),
-                'does not render collapsible handle'
-              )
-                .to.have.length(0)
-
-              expect(
-                this.$(selectors.bunsen.renderer.buttonGroup),
-                'renders a bunsen button-group input'
-              )
-                .to.have.length(1)
-
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.bunsen.label).text().trim(),
-                'renders expected label text'
-              )
-                .to.equal('FooBar Baz')
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-
-              expect(
-                props.onValidation.callCount,
-                'informs consumer of validation results'
-              )
-                .to.equal(1)
-
-              const validationResult = props.onValidation.lastCall.args[0]
-
-              expect(
-                validationResult.errors.length,
-                'informs consumer there are no errors'
-              )
-                .to.equal(0)
-
-              expect(
-                validationResult.warnings.length,
-                'informs consumer there are no warnings'
-              )
-                .to.equal(0)
-            })
-          })
-
-          describe('when collapsible set to true in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    collapsible: true,
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.collapsible.handle),
-                'renders collapsible handle'
-              )
-                .to.have.length(1)
-
-              expect(
-                this.$(selectors.bunsen.renderer.buttonGroup),
-                'renders a bunsen button-group input'
-              )
-                .to.have.length(1)
-
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.bunsen.label).text().trim(),
-                'renders expected label text'
-              )
-                .to.equal('Foo')
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-
-              expect(
-                props.onValidation.callCount,
-                'informs consumer of validation results'
-              )
-                .to.equal(1)
-
-              const validationResult = props.onValidation.lastCall.args[0]
-
-              expect(
-                validationResult.errors.length,
-                'informs consumer there are no errors'
-              )
-                .to.equal(0)
-
-              expect(
-                validationResult.warnings.length,
-                'informs consumer there are no warnings'
-              )
-                .to.equal(0)
-            })
-          })
-
-          describe('when collapsible set to false in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    collapsible: false,
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.collapsible.handle),
-                'does not render collapsible handle'
-              )
-                .to.have.length(0)
-
-              expect(
-                this.$(selectors.bunsen.renderer.buttonGroup),
-                'renders a bunsen button-group input'
-              )
-                .to.have.length(1)
-
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.bunsen.label).text().trim(),
-                'renders expected label text'
-              )
-                .to.equal('Foo')
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-
-              expect(
-                props.onValidation.callCount,
-                'informs consumer of validation results'
-              )
-                .to.equal(1)
-
-              const validationResult = props.onValidation.lastCall.args[0]
-
-              expect(
-                validationResult.errors.length,
-                'informs consumer there are no errors'
-              )
-                .to.equal(0)
-
-              expect(
-                validationResult.warnings.length,
-                'informs consumer there are no warnings'
-              )
-                .to.equal(0)
-            })
-          })
-
-          describe('when size defined in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group',
-                      size: 'small'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.renderer.buttonGroup),
-                'renders a bunsen button-group input'
-              )
-                .to.have.length(1)
-
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              const $firstButton = $buttons.eq(0)
-
-              expect(
-                $firstButton.text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $firstButton.hasClass(selectors.frost.button.size.small),
-                'first button is correct size'
-              )
-                .to.be.equal(true)
-
-              const $secondButton = $buttons.eq(1)
-
-              expect(
-                $secondButton.text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                $secondButton.hasClass(selectors.frost.button.size.small),
-                'first button is correct size'
-              )
-                .to.be.equal(true)
-
-              expect(
-                this.$(selectors.bunsen.label).text().trim(),
-                'renders expected label text'
-              )
-                .to.equal('Foo')
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-
-              expect(
-                props.onValidation.callCount,
-                'informs consumer of validation results'
-              )
-                .to.equal(1)
-
-              const validationResult = props.onValidation.lastCall.args[0]
-
-              expect(
-                validationResult.errors.length,
-                'informs consumer there are no errors'
-              )
-                .to.equal(0)
-
-              expect(
-                validationResult.warnings.length,
-                'informs consumer there are no warnings'
-              )
-                .to.equal(0)
-            })
-          })
-
-          describe('when form explicitly enabled', function () {
-            beforeEach(function () {
-              this.set('disabled', false)
-            })
-
-            it('renders as expected', function () {
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-            })
-          })
-
-          describe('when form disabled', function () {
-            beforeEach(function () {
-              this.set('disabled', true)
-            })
-
-            it('renders as expected', function () {
-              const $buttons = this.$(selectors.frost.button.input.disabled)
-
-              expect(
-                $buttons,
-                'renders disabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-            })
-          })
-
-          describe('when property explicitly enabled in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    disabled: false,
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              const $buttons = this.$(selectors.frost.button.input.enabled)
-
-              expect(
-                $buttons,
-                'renders enabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-            })
-          })
-
-          describe('when property disabled in view', function () {
-            beforeEach(function () {
-              this.set('bunsenView', {
-                cells: [
-                  {
-                    disabled: true,
-                    model: 'foo',
-                    renderer: {
-                      name: 'button-group'
-                    }
-                  }
-                ],
-                type: 'form',
-                version: '2.0'
-              })
-            })
-
-            it('renders as expected', function () {
-              const $buttons = this.$(selectors.frost.button.input.disabled)
-
-              expect(
-                $buttons,
-                'renders disabled buttons'
-              )
-                .to.have.length(2)
-
-              expect(
-                $buttons.eq(0).text().trim(),
-                'first button has expected text'
-              )
-                .to.equal(buttonLabels[0])
-
-              expect(
-                $buttons.eq(1).text().trim(),
-                'second button has expected text'
-              )
-                .to.equal(buttonLabels[1])
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-            })
-          })
-
-          describe('when button selected', function () {
+          describe('when button deselected', function () {
             beforeEach(function () {
               props.onChange.reset()
               props.onValidation.reset()
@@ -745,15 +845,11 @@ describeComponent(
               )
                 .to.equal('Foo')
 
-              const foo = 'enum' in fooModel ? fooModel.enum[0] : true
-
               expect(
                 props.onChange.lastCall.args[0],
                 'provides consumer expected form value'
               )
-                .to.eql({
-                  foo
-                })
+                .to.eql({})
 
               expect(
                 this.$(selectors.error),
@@ -781,107 +877,8 @@ describeComponent(
               )
                 .to.equal(0)
             })
-
-            describe('when button deselected', function () {
-              beforeEach(function () {
-                props.onChange.reset()
-                props.onValidation.reset()
-
-                this.$(selectors.bunsen.renderer.buttonGroup)
-                  .find('button:first')
-                  .click()
-              })
-
-              it('renders as expected', function () {
-                expect(
-                  this.$(selectors.bunsen.collapsible.handle),
-                  'does not render collapsible handle'
-                )
-                  .to.have.length(0)
-
-                expect(
-                  this.$(selectors.bunsen.renderer.buttonGroup),
-                  'renders a bunsen button-group input'
-                )
-                  .to.have.length(1)
-
-                const $buttons = this.$(selectors.frost.button.input.enabled)
-
-                expect(
-                  $buttons,
-                  'renders enabled buttons'
-                )
-                  .to.have.length(2)
-
-                const $firstButton = $buttons.eq(0)
-
-                expect(
-                  $firstButton.text().trim(),
-                  'first button has expected text'
-                )
-                  .to.equal(buttonLabels[0])
-
-                expect(
-                  $firstButton.hasClass(selectors.frost.button.size.medium),
-                  'first button is correct size'
-                )
-                  .to.be.equal(true)
-
-                const $secondButton = $buttons.eq(1)
-
-                expect(
-                  $secondButton.text().trim(),
-                  'second button has expected text'
-                )
-                  .to.equal(buttonLabels[1])
-
-                expect(
-                  $secondButton.hasClass(selectors.frost.button.size.medium),
-                  'first button is correct size'
-                )
-                  .to.be.equal(true)
-
-                expect(
-                  this.$(selectors.bunsen.label).text().trim(),
-                  'renders expected label text'
-                )
-                  .to.equal('Foo')
-
-                expect(
-                  props.onChange.lastCall.args[0],
-                  'provides consumer expected form value'
-                )
-                  .to.eql({})
-
-                expect(
-                  this.$(selectors.error),
-                  'does not have any validation errors'
-                )
-                  .to.have.length(0)
-
-                expect(
-                  props.onValidation.callCount,
-                  'informs consumer of validation results'
-                )
-                  .to.equal(1)
-
-                const validationResult = props.onValidation.lastCall.args[0]
-
-                expect(
-                  validationResult.errors.length,
-                  'informs consumer there are no errors'
-                )
-                  .to.equal(0)
-
-                expect(
-                  validationResult.warnings.length,
-                  'informs consumer there are no warnings'
-                )
-                  .to.equal(0)
-              })
-            })
           })
         })
       })
-  }
-)
+    })
+})

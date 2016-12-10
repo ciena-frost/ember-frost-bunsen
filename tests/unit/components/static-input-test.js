@@ -1,10 +1,13 @@
 import Ember from 'ember'
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import {beforeEach, describe, it} from 'mocha'
-import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(...unitTest('frost-bunsen-input-static'), function () {
+describe('Unit: frost-bunsen-input-static', function () {
+  setupComponentTest('frost-bunsen-input-static', {
+    unit: true
+  })
+
   let component
 
   beforeEach(function () {

@@ -1,10 +1,13 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {beforeEach, describe, it} from 'mocha'
 
-describeComponent(...integrationTestContext('frost-bunsen-section'), function () {
+describe('Integration: frost-bunsen-section', function () {
+  setupComponentTest('frost-bunsen-section', {
+    integration: true
+  })
+
   describe('component', function () {
     let rootNode
 
