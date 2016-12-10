@@ -1,8 +1,7 @@
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import {beforeEach, afterEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {unitTest} from 'dummy/tests/helpers/template'
 import {changeUtils} from 'bunsen-core'
 const {getChangeSet} = changeUtils
 import treeUtils from 'ember-frost-bunsen/tree-utils'
@@ -40,7 +39,11 @@ const testCellConfig = {
   ]
 }
 
-describeComponent(...unitTest('frost-bunsen-detail'), function () {
+describe('Unit: frost-bunsen-detail', function () {
+  setupComponentTest('frost-bunsen-detail', {
+    unit: true
+  })
+
   let component, bunsenModel, value, sandbox
 
   beforeEach(function () {

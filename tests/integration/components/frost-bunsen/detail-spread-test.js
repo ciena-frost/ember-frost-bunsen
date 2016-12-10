@@ -1,8 +1,7 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {beforeEach, describe, it} from 'mocha'
 
 const props = {
   options: {
@@ -27,25 +26,24 @@ const props = {
   }
 }
 
-function tests (ctx) {
+describe('Integration: frost-bunsen', function () {
+  setupComponentTest('frost-bunsen', {
+    integration: true
+  })
+
+  let rootNode
+
+  beforeEach(function () {
+    this.setProperties(props)
+    this.render(hbs`{{frost-bunsen
+      options=options
+    }}`)
+    rootNode = this.$('> *')
+  })
+
   describe('detail spread', function () {
     it('renders input', function () {
-      expect(ctx.rootNode.find('.frost-bunsen-input-static').length).to.equal(1)
+      expect(rootNode.find('.frost-bunsen-input-static').length).to.equal(1)
     })
   })
-}
-
-describeComponent(...integrationTestContext('frost-bunsen'),
-  function () {
-    let ctx = {}
-    beforeEach(function () {
-      this.setProperties(props)
-      this.render(hbs`{{frost-bunsen
-        options=options
-      }}`)
-      ctx.rootNode = this.$('> *')
-    })
-
-    tests(ctx)
-  }
-)
+})

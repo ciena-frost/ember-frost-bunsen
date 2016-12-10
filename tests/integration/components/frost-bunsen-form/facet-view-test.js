@@ -3,7 +3,7 @@ import Ember from 'ember'
 const {$} = Ember
 import {generateFacetView} from 'ember-frost-bunsen/utils'
 import {$hook, initialize} from 'ember-hook'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -17,63 +17,163 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | facet view',
-  {
+describe('Integration: Component | frost-bunsen-form | facet view', function () {
+  setupComponentTest('frost-bunsen-form', {
     integration: true
-  },
-  function () {
-    let props, sandbox
+  })
 
-    beforeEach(function () {
-      initialize()
-      sandbox = sinon.sandbox.create()
+  let props, sandbox
 
-      const bunsenModel = {
-        properties: {
-          bar: {
-            enum: ['alpha', 'bravo', 'charlie'],
-            type: 'string'
-          },
-          foo: {
-            type: 'string'
-          }
+  beforeEach(function () {
+    initialize()
+    sandbox = sinon.sandbox.create()
+
+    const bunsenModel = {
+      properties: {
+        bar: {
+          enum: ['alpha', 'bravo', 'charlie'],
+          type: 'string'
         },
-        type: 'object'
-      }
-
-      const facetDef = [
-        {
-          model: 'foo'
-        },
-        {
-          label: 'Baz',
-          model: 'bar'
+        foo: {
+          type: 'string'
         }
-      ]
+      },
+      type: 'object'
+    }
 
-      const bunsenView = generateFacetView(facetDef)
-
-      props = {
-        bunsenModel,
-        bunsenView,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+    const facetDef = [
+      {
+        model: 'foo'
+      },
+      {
+        label: 'Baz',
+        model: 'bar'
       }
+    ]
 
-      this.setProperties(props)
+    const bunsenView = generateFacetView(facetDef)
 
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
+    props = {
+      bunsenModel,
+      bunsenView,
+      onChange: sandbox.spy(),
+      onValidation: sandbox.spy()
+    }
+
+    this.setProperties(props)
+
+    this.render(hbs`{{frost-bunsen-form
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      onChange=onChange
+      onValidation=onValidation
+    }}`)
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
+
+  it('renders as expected', function () {
+    expect(
+      this.$(selectors.bunsen.collapsible.handle),
+      'renders collapsible handle for each input'
+    )
+      .to.have.length(2)
+
+    expect(
+      this.$(selectors.bunsen.section.clearableButton),
+      'renders clearable button for each input'
+    )
+      .to.have.length(2)
+
+    const $headings = this.$(selectors.bunsen.section.heading)
+
+    expect(
+      $headings,
+      'renders correct number of headings'
+    )
+      .to.have.length(2)
+
+    expect(
+      $headings.first().text().trim(),
+      'renders correct heading text for first input'
+    )
+      .to.equal('Foo')
+
+    expect(
+      $headings.last().text().trim(),
+      'renders correct heading text for second input'
+    )
+      .to.equal('Baz')
+
+    expect(
+      this.$(selectors.bunsen.renderer.text),
+      'renders a bunsen text input'
+    )
+      .to.have.length(1)
+
+    expect(
+      this.$(selectors.bunsen.renderer.select),
+      'renders a bunsen select input'
+    )
+      .to.have.length(1)
+
+    expect(
+      findTextInputs(),
+      'renders one text input'
+    )
+      .to.have.length(1)
+
+    expectTextInputWithState('bunsenForm-foo-input', {
+      placeholder: '',
+      value: ''
     })
 
-    afterEach(function () {
-      sandbox.restore()
+    expect(
+      $('.frost-select'),
+      'renders one select input'
+    )
+      .to.have.length(1)
+
+    expectSelectWithState($hook('bunsenForm-bar').find('.frost-select'), {
+      text: ''
+    })
+
+    expect(
+      this.$(selectors.error),
+      'does not have any validation errors'
+    )
+      .to.have.length(0)
+
+    expect(
+      props.onValidation.callCount,
+      'informs consumer of validation results'
+    )
+      .to.equal(1)
+
+    const validationResult = props.onValidation.lastCall.args[0]
+
+    expect(
+      validationResult.errors.length,
+      'informs consumer there are no errors'
+    )
+      .to.equal(0)
+
+    expect(
+      validationResult.warnings.length,
+      'informs consumer there are no warnings'
+    )
+      .to.equal(0)
+  })
+
+  describe('when user inputs value', function () {
+    const input = 'spam'
+
+    beforeEach(function () {
+      props.onChange.reset()
+      props.onValidation.reset()
+      fillIn('bunsenForm-foo-input', input)
     })
 
     it('renders as expected', function () {
@@ -129,7 +229,7 @@ describeComponent(
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
-        value: ''
+        value: input
       })
 
       expect(
@@ -147,6 +247,20 @@ describeComponent(
         'does not have any validation errors'
       )
         .to.have.length(0)
+
+      expect(
+        props.onChange.callCount,
+        'only informs consumer of one change'
+      )
+        .to.equal(1)
+
+      expect(
+        props.onChange.lastCall.args[0],
+        'informs consumer of change'
+      )
+        .to.eql({
+          foo: input
+        })
 
       expect(
         props.onValidation.callCount,
@@ -169,13 +283,14 @@ describeComponent(
         .to.equal(0)
     })
 
-    describe('when user inputs value', function () {
-      const input = 'spam'
-
+    describe('user presses clear button', function () {
       beforeEach(function () {
         props.onChange.reset()
         props.onValidation.reset()
-        fillIn('bunsenForm-foo-input', input)
+
+        this.$(selectors.bunsen.section.clearableButton)
+          .first()
+          .click()
       })
 
       it('renders as expected', function () {
@@ -231,7 +346,7 @@ describeComponent(
 
         expectTextInputWithState('bunsenForm-foo-input', {
           placeholder: '',
-          value: input
+          value: ''
         })
 
         expect(
@@ -260,9 +375,7 @@ describeComponent(
           props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
-          .to.eql({
-            foo: input
-          })
+          .to.eql({})
 
         expect(
           props.onValidation.callCount,
@@ -284,122 +397,6 @@ describeComponent(
         )
           .to.equal(0)
       })
-
-      describe('user presses clear button', function () {
-        beforeEach(function () {
-          props.onChange.reset()
-          props.onValidation.reset()
-
-          this.$(selectors.bunsen.section.clearableButton)
-            .first()
-            .click()
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'renders collapsible handle for each input'
-          )
-            .to.have.length(2)
-
-          expect(
-            this.$(selectors.bunsen.section.clearableButton),
-            'renders clearable button for each input'
-          )
-            .to.have.length(2)
-
-          const $headings = this.$(selectors.bunsen.section.heading)
-
-          expect(
-            $headings,
-            'renders correct number of headings'
-          )
-            .to.have.length(2)
-
-          expect(
-            $headings.first().text().trim(),
-            'renders correct heading text for first input'
-          )
-            .to.equal('Foo')
-
-          expect(
-            $headings.last().text().trim(),
-            'renders correct heading text for second input'
-          )
-            .to.equal('Baz')
-
-          expect(
-            this.$(selectors.bunsen.renderer.text),
-            'renders a bunsen text input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.renderer.select),
-            'renders a bunsen select input'
-          )
-            .to.have.length(1)
-
-          expect(
-            findTextInputs(),
-            'renders one text input'
-          )
-            .to.have.length(1)
-
-          expectTextInputWithState('bunsenForm-foo-input', {
-            placeholder: '',
-            value: ''
-          })
-
-          expect(
-            $('.frost-select'),
-            'renders one select input'
-          )
-            .to.have.length(1)
-
-          expectSelectWithState($hook('bunsenForm-bar').find('.frost-select'), {
-            text: ''
-          })
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            props.onChange.callCount,
-            'only informs consumer of one change'
-          )
-            .to.equal(1)
-
-          expect(
-            props.onChange.lastCall.args[0],
-            'informs consumer of change'
-          )
-            .to.eql({})
-
-          expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
-        })
-      })
     })
-  }
-)
+  })
+})
