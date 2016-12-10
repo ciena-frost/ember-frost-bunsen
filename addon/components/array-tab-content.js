@@ -2,12 +2,13 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-content'
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-tab-content'],

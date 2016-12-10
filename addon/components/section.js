@@ -1,6 +1,7 @@
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-section'
 
@@ -9,7 +10,7 @@ const KEY_CODES = {
   SPACE: 32
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNameBindings: ['state.expanded:frost-bunsen-expanded:frost-bunsen-collapsed'],

@@ -5,7 +5,6 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import Ember from 'ember'
-import {initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
@@ -44,7 +43,6 @@ describe('Integration: Component | frost-bunsen-form | renderer | geolocation', 
 
   beforeEach(function () {
     server = new Pretender()
-    initialize()
     sandbox = sinon.sandbox.create()
 
     props = {

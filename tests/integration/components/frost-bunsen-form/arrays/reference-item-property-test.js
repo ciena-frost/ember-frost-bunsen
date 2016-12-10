@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import {initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -20,7 +19,6 @@ describe('Integration: Component | frost-bunsen-form | array reference item prop
   let props, sandbox
 
   beforeEach(function () {
-    initialize()
     sandbox = sinon.sandbox.create()
 
     props = {
