@@ -87,3 +87,33 @@ export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filt
       throw err
     })
 }
+
+export function getDisplayValue (value, modelDef, bunsenId, store) {
+  const labelAttr = modelDef.labelAttribute || 'label'
+  const valueAttr = modelDef.valueAttribute || 'id'
+
+  if (labelAttr === valueAttr) {
+    return Ember.RSVP.resolve(value)
+  }
+
+  const extractDisplayValue = (record) => {
+    return record.get(labelAttr)
+  }
+
+  const modelType = modelDef.modelType || 'resources'
+  if (valueAttr === 'id') {
+    return store.findRecord(modelType, value)
+      .then(extractDisplayValue)
+  }
+
+  const query = utils.populateQuery(value, modelDef.query, bunsenId)
+  // Unset filter since we don't need it
+  _.forIn(query, (value, key) => {
+    if (_.isString(value) && value.contains('$filter')) {
+      delete query[key]
+    }
+  })
+
+  return store.queryRecord(modelType, query)
+    .then(extractDisplayValue)
+}
