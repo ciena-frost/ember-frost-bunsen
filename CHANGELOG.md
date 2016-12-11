@@ -1,3 +1,8 @@
+# 13.4.3
+
+* **Updated** components to explicitly include `HookMixin` from `ember-hook` so integration tests no longer need to initialize `ember-hook`.
+
+
 # 13.4.2
 
 * **Updated** dependencies.
