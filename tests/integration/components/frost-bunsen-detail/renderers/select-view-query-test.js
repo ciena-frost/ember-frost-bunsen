@@ -1,7 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger, RSVP, run} = Ember
-import {initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -17,7 +16,6 @@ describe('Integration: Component | frost-bunsen-detail | renderer | select view 
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
-    initialize()
     resolver = {}
     sandbox.stub(Logger, 'log')
 

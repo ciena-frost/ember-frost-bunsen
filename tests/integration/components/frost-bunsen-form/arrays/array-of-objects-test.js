@@ -3,7 +3,6 @@ import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {initialize} from 'ember-hook'
 
 import {
   expectButtonWithState,
@@ -17,10 +16,6 @@ import selectors from 'dummy/tests/helpers/selectors'
 describe('Integration: Component | frost-bunsen-form | array of objects', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
-  })
-
-  beforeEach(function () {
-    initialize()
   })
 
   describe('without initial value', function () {

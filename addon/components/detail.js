@@ -25,6 +25,7 @@ const {Component, RSVP, typeOf, run, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 import getOwner from 'ember-getowner-polyfill'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import SpreadMixin from 'ember-spread'
 import _ from 'lodash'
@@ -84,7 +85,7 @@ function v2View (bunsenView) {
   return bunsenView
 }
 
-export default Component.extend(SpreadMixin, PropTypeMixin, {
+export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   layout,

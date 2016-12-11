@@ -11,6 +11,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 import {isRequired} from 'ember-frost-bunsen/utils'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
@@ -41,7 +42,7 @@ export function iterateMap (iterator, iteratee) {
   }
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNameBindings: [

@@ -7,7 +7,6 @@ import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {initialize} from 'ember-hook'
 
 import {
   expectBunsenInputNotToHaveError,
@@ -36,7 +35,6 @@ export default function (format, invalidValues, validValues, focus = false) {
     beforeEach(function () {
       this.timeout(3000) // Sometimes 2 seconds isn't enoguh for the CI
 
-      initialize()
       sandbox = sinon.sandbox.create()
 
       this.setProperties({
