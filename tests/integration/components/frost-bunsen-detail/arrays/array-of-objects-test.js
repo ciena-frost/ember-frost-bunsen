@@ -109,7 +109,13 @@ describe('Integration: Component | frost-bunsen-detail | array of objects', func
           cells: [
             {
               arrayOptions: {
-                autoAdd: true
+                autoAdd: true,
+                itemCell: {
+                  children: [
+                    {model: 'bar'},
+                    {model: 'baz'}
+                  ]
+                }
               },
               model: 'foo'
             }
@@ -267,7 +273,13 @@ describe('Integration: Component | frost-bunsen-detail | array of objects', func
           cells: [
             {
               arrayOptions: {
-                sortable: true
+                sortable: true,
+                itemCell: {
+                  children: [
+                    {model: 'bar'},
+                    {model: 'baz'}
+                  ]
+                }
               },
               model: 'foo'
             }
@@ -326,7 +338,13 @@ describe('Integration: Component | frost-bunsen-detail | array of objects', func
           cells: [
             {
               arrayOptions: {
-                autoAdd: true
+                autoAdd: true,
+                itemCell: {
+                  children: [
+                    {model: 'bar'},
+                    {model: 'baz'}
+                  ]
+                }
               },
               model: 'foo'
             }
