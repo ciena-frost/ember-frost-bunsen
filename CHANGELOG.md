@@ -1,3 +1,15 @@
+# 13.4.3
+
+* **Updated** components to explicitly include `HookMixin` from `ember-hook` so integration tests no longer need to initialize `ember-hook`.
+
+
+# 13.4.2
+
+* **Updated** dependencies.
+* **Updated** tests to use latest test helpers and remove deprecation warnings.
+
+
+
 # 13.4.1
 
 * **Fixed** bug where `geolocation` renderer wasn't working with consumer properties that didn't match internal properties.
