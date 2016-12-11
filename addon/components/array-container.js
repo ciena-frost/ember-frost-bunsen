@@ -102,26 +102,33 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
+  @computed('cellConfig', 'readOnly')
   /**
    * Whether or not array items can be sorted by user
    * @param {Object} cellConfig - cell config
+   * @param {Boolean} readOnly - whether or not form is read only
    * @returns {Boolean} whether or not sorting is enabled
    */
-  sortable (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.sortable') === true
+  sortable (cellConfig, readOnly) {
+    return (
+      readOnly !== true &&
+      _.get(cellConfig, 'arrayOptions.sortable') === true
+    )
   },
 
   @readOnly
-  @computed('bunsenId', 'value')
-  items (bunsenId, value) {
+  @computed('bunsenId', 'readOnly', 'value')
+  items (bunsenId, readOnly, value) {
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
 
     const items = _.get(value, bunsenId) || []
 
-    if (this.get('cellConfig.arrayOptions.autoAdd') === true) {
+    if (
+      readOnly !== true &&
+      this.get('cellConfig.arrayOptions.autoAdd') === true
+    ) {
       items.push(this._getEmptyItem())
     }
 
