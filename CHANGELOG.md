@@ -1,3 +1,8 @@
+# 13.4.5
+
+* **Updated** `password` renderer to use button instead of icon for reveal action in detail views.
+
+
 # 13.4.4
 
 * **Fixed** detail views to stop applying `autoAdd` and `sortable` array options.
