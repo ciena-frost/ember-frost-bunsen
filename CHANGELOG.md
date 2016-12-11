@@ -1,3 +1,10 @@
+# 13.4.2
+
+* **Updated** dependencies.
+* **Updated** tests to use latest test helpers and remove deprecation warnings.
+
+
+
 # 13.4.1
 
 * **Fixed** bug where `geolocation` renderer wasn't working with consumer properties that didn't match internal properties.
