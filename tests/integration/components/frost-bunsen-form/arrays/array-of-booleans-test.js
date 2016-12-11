@@ -1,54 +1,23 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
-
 import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | array of booleans', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
+describe('Integration: Component / frost-bunsen-form / array of booleans', function () {
   describe('without initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                type: 'boolean'
-              },
-              type: 'array'
-            }
-          },
-          type: 'object'
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              type: 'boolean'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined,
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        type: 'object'
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -90,12 +59,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -154,12 +123,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -220,12 +189,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -294,12 +263,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -369,12 +338,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(2)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -433,7 +402,7 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             )
               .to.have.length(0)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -506,12 +475,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -581,12 +550,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(2)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -647,12 +616,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(3)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -725,12 +694,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(2)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -791,12 +760,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(3)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -867,12 +836,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -941,12 +910,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(2)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -965,46 +934,21 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
   })
 
   describe('with initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                type: 'boolean'
-              },
-              type: 'array'
-            }
-          },
-          type: 'object'
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              type: 'boolean'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined,
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy(),
-        value: {
-          foo: [true, false]
-        }
+        type: 'object'
+      },
+      value: {
+        foo: [true, false]
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-        value=value
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -1060,12 +1004,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -1138,12 +1082,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1220,12 +1164,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1314,12 +1258,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(1)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -1404,12 +1348,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1494,12 +1438,12 @@ describe('Integration: Component | frost-bunsen-form | array of booleans', funct
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,

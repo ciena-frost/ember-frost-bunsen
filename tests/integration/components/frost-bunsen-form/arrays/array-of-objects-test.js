@@ -1,8 +1,6 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
 import {
   expectButtonWithState,
@@ -13,56 +11,28 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-form | array of objects', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
+describe('Integration: Component / frost-bunsen-form / array of objects', function () {
   describe('without initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                properties: {
-                  bar: {
-                    type: 'string'
-                  },
-                  baz: {
-                    type: 'number'
-                  }
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              properties: {
+                bar: {
+                  type: 'string'
                 },
-                type: 'object'
+                baz: {
+                  type: 'number'
+                }
               },
-              type: 'array'
-            }
-          },
-          type: 'object'
+              type: 'object'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined,
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        type: 'object'
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -116,12 +86,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -192,12 +162,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -270,12 +240,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -378,12 +348,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -469,12 +439,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(2)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -549,7 +519,7 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
             )
               .to.have.length(0)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             /* FIXME: getting the following error when we expect no errors (MRD - 2016-07-24)
              *
@@ -580,61 +550,36 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
   })
 
   describe('with initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                properties: {
-                  bar: {
-                    type: 'string'
-                  },
-                  baz: {
-                    type: 'number'
-                  }
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              properties: {
+                bar: {
+                  type: 'string'
                 },
-                type: 'object'
+                baz: {
+                  type: 'number'
+                }
               },
-              type: 'array'
-            }
-          },
-          type: 'object'
-        },
-        bunsenView: undefined,
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy(),
-        value: {
-          foo: [
-            {
-              bar: 'bar'
+              type: 'object'
             },
-            {
-              baz: 1
-            }
-          ]
-        }
+            type: 'array'
+          }
+        },
+        type: 'object'
+      },
+      value: {
+        foo: [
+          {
+            bar: 'bar'
+          },
+          {
+            baz: 1
+          }
+        ]
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-        value=value
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -708,12 +653,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -804,12 +749,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -904,12 +849,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1031,12 +976,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(1)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -1154,12 +1099,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1277,12 +1222,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1300,52 +1245,28 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
   })
 
   describe('with defaults', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                properties: {
-                  bar: {
-                    default: 'test',
-                    type: 'string'
-                  },
-                  baz: {
-                    default: 1.5,
-                    type: 'number'
-                  }
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              properties: {
+                bar: {
+                  default: 'test',
+                  type: 'string'
                 },
-                type: 'object'
+                baz: {
+                  default: 1.5,
+                  type: 'number'
+                }
               },
-              type: 'array'
-            }
-          },
-          type: 'object'
+              type: 'object'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined,
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
+        type: 'object'
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -1399,12 +1320,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -1498,12 +1419,12 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(2)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors.length,
@@ -1575,7 +1496,7 @@ describe('Integration: Component | frost-bunsen-form | array of objects', functi
           )
             .to.have.length(0)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           /* FIXME: getting the following error when we expect no errors (MRD - 2016-07-24)
            *

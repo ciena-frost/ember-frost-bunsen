@@ -1,41 +1,9 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | ensure no section heading', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  beforeEach(function () {
-    this.set('bunsenModel', {
-      properties: {
-        foo: {
-          properties: {
-            bar: {
-              type: 'string'
-            },
-            baz: {
-              items: {
-                properties: {
-                  spam: {
-                    type: 'string'
-                  }
-                },
-                type: 'object'
-              },
-              type: 'array'
-            }
-          },
-          type: 'object'
-        }
-      },
-      type: 'object'
-    })
-  })
-
+describe('Integration: Component / frost-bunsen-form / ensure no section heading', function () {
   ;[
     {
       cells: [
@@ -75,13 +43,32 @@ describe('Integration: Component | frost-bunsen-form | ensure no section heading
   ]
     .forEach((bunsenView, index) => {
       describe(`view ${index}`, function () {
-        beforeEach(function () {
-          this.set('bunsenView', bunsenView)
-
-          this.render(hbs`{{frost-bunsen-form
-            bunsenModel=bunsenModel
-            bunsenView=bunsenView
-          }}`)
+        setupFormComponentTest({
+          bunsenModel: {
+            properties: {
+              foo: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  },
+                  baz: {
+                    items: {
+                      properties: {
+                        spam: {
+                          type: 'string'
+                        }
+                      },
+                      type: 'object'
+                    },
+                    type: 'array'
+                  }
+                },
+                type: 'object'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView
         })
 
         it('renders as expected', function () {

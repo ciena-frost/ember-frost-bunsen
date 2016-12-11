@@ -3,10 +3,8 @@
  * NOTE: These specs have lots of expect() calls in a single it() for performance reasons
  */
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {before, beforeEach, describe, it} from 'mocha'
 
 import {
   expectBunsenInputNotToHaveError,
@@ -25,41 +23,21 @@ import selectors from 'dummy/tests/helpers/selectors'
 export default function (format, invalidValues, validValues, focus = false) {
   const describeFunc = focus ? describe.only : describe
 
-  describeFunc(`Integration: Component | frost-bunsen-form | format | ${format}`, function () {
-    setupComponentTest('frost-bunsen-form', {
-      integration: true
-    })
-
-    let sandbox
-
-    beforeEach(function () {
+  describeFunc(`Integration: Component / frost-bunsen-form / format | ${format}`, function () {
+    before(function () {
       this.timeout(3000) // Sometimes 2 seconds isn't enoguh for the CI
-
-      sandbox = sinon.sandbox.create()
-
-      this.setProperties({
-        bunsenModel: {
-          properties: {
-            foo: {
-              format: format,
-              type: 'string'
-            }
-          },
-          type: 'object'
-        },
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
-      })
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
     })
 
-    afterEach(function () {
-      sandbox.restore()
+    setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            format: format,
+            type: 'string'
+          }
+        },
+        type: 'object'
+      }
     })
 
     it('renders as expected', function () {

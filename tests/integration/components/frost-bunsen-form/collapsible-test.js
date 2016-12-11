@@ -1,4 +1,10 @@
 import {expect} from 'chai'
+import {
+  expectTextInputWithState,
+  findTextInputs
+} from 'dummy/tests/helpers/ember-frost-core'
+
+import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
@@ -6,20 +12,13 @@ import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
-import {
-  expectTextInputWithState,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
-
-import selectors from 'dummy/tests/helpers/selectors'
-
 const KEY_CODES = {
   ENTER: 13,
   SPACE: 32,
   TAB: 9
 }
 
-describe('Integration: Component | frost-bunsen-form | collapsible', function () {
+describe('Integration: Component / frost-bunsen-form / collapsible', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })

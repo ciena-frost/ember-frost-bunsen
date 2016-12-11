@@ -1,46 +1,30 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | renderer | static', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props
-
-  beforeEach(function () {
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'string'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / renderer / static', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'string'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'static'
-            }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'static'
           }
-        ],
-        type: 'form',
-        version: '2.0'
-      }
+        }
+      ],
+      type: 'form',
+      version: '2.0'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-    }}`)
   })
 
   it('renders as expected', function () {

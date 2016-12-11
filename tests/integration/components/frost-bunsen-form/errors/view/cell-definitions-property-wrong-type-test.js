@@ -1,45 +1,32 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
-
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
-const description = 'Integration: Component | frost-bunsen-form | errors | view | cellDefinitions property wrong type'
+const description = 'Integration: Component / frost-bunsen-form / errors / view / cellDefinitions property wrong type'
 
 describe(description, function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  beforeEach(function () {
-    this.setProperties({
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'boolean'
-          }
-        },
-        type: 'object'
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'boolean'
+        }
       },
-      bunsenView: {
-        cellDefinitions: {
-          main: 'foo'
-        },
-        cells: [
-          {
-            extends: 'main'
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      }
-    })
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-    }}`)
+      type: 'object'
+    },
+    bunsenView: {
+      cellDefinitions: {
+        main: 'foo'
+      },
+      cells: [
+        {
+          extends: 'main'
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    }
   })
 
   it('renders as expected', function () {

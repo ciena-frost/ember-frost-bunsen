@@ -1,50 +1,33 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-detail | renderer | password', function () {
-  setupComponentTest('frost-bunsen-detail', {
-    integration: true
-  })
-
-  let props
-
-  beforeEach(function () {
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'string'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-detail / renderer | password', function () {
+  setupDetailComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'string'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'password'
-            }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'password'
           }
-        ],
-        type: 'detail',
-        version: '2.0'
-      },
-      value: {
-        foo: 'Baz'
-      }
+        }
+      ],
+      type: 'detail',
+      version: '2.0'
+    },
+    value: {
+      foo: 'Baz'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-detail
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      value=value
-    }}`)
   })
 
   it('renders as expected', function () {

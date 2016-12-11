@@ -1,43 +1,30 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger} = Ember
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {after, before, describe, it} from 'mocha'
+import sinon from 'sinon'
 
-describe('Integration: Component | frost-bunsen-form | errors | view | wrong type', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
+describe('Integration: Component / frost-bunsen-form / errors / view / wrong type', function () {
+  before(function () {
+    sinon.spy(Logger, 'warn')
   })
 
-  let sandbox
+  after(function () {
+    Logger.warn.restore()
+  })
 
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-    sandbox.stub(Logger, 'warn')
-
-    this.setProperties({
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'boolean'
-          }
-        },
-        type: 'object'
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'boolean'
+        }
       },
-      bunsenView: 'foo'
-    })
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
+      type: 'object'
+    },
+    bunsenView: 'foo'
   })
 
   it('renders as expected', function () {

@@ -17,7 +17,7 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-form | facet view', function () {
+describe('Integration: Component / frost-bunsen-form / facet view', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
