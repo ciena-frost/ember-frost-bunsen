@@ -1,3 +1,8 @@
+# 13.4.4
+
+* **Fixed** detail views to stop applying `autoAdd` and `sortable` array options.
+
+
 # 13.4.3
 
 * **Updated** components to explicitly include `HookMixin` from `ember-hook` so integration tests no longer need to initialize `ember-hook`.
