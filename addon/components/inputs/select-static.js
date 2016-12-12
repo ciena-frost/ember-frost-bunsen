@@ -4,11 +4,11 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {inject} = Ember
-import utils from 'bunsen-core/utils'
-import computed, {readOnly} from 'ember-computed-decorators'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-static'
+
+const PLACEHOLDER = '—'
 
 const IMPORTANT_ATTRS = [
   'cellConfig',
@@ -16,7 +16,7 @@ const IMPORTANT_ATTRS = [
   'bunsenId'
 ]
 
-function changedAttrs(newAttrs, oldAttrs, attrName) {
+function changedAttrs (newAttrs, oldAttrs, attrName) {
   if (oldAttrs === undefined) {
     return true
   }
@@ -33,18 +33,25 @@ export default AbstractInput.extend({
 
   store: inject.service(),
 
-  // == Component Properties ==================================================
+  // == Component Properties ===================================================
   layout,
 
-  didReceiveAttrs({oldAttrs, newAttrs}) {
-    const hasChanged =_.partial(changedAttrs, newAttrs, oldAttrs)
+  classNames: [
+    'frost-bunsen-input-static',
+    'frost-field'
+  ],
+
+  // == Functions ==============================================================
+  didReceiveAttrs ({oldAttrs, newAttrs}) {
+    const hasChanged = _.partial(changedAttrs, newAttrs, oldAttrs)
 
     if (_.some(IMPORTANT_ATTRS, hasChanged)) {
       const cellConfig = this.get('cellConfig')
       const value = this.get('value')
       const bunsenId = this.get('bunsenId')
       const modelDef = this._getModelDef()
-      listUtils.getDisplayValue().then(val => {
+      const store = this.get('store')
+      listUtils.getDisplayValue(value, modelDef, bunsenId, store).then(val => {
         if (_.isBoolean(val)) {
           return val ? 'true' : 'false'
         }
@@ -53,7 +60,7 @@ export default AbstractInput.extend({
           return _.get(cellConfig, 'placeholder') || PLACEHOLDER
         }
         return val
-      }).then (renderValue => {
+      }).then(renderValue => {
         this.set('renderValue', renderValue)
       })
     }

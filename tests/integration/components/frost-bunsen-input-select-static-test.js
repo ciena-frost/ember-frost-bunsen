@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
-import {afterEach, beforeEach, describe} from 'mocha'
+import {afterEach, beforeEach} from 'mocha'
 import hbs from 'htmlbars-inline-precompile'
 import Ember from 'ember'
 const {RSVP} = Ember

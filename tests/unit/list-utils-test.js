@@ -351,10 +351,21 @@ describe('Unit: list-utils', function () {
         findRecord: sinon.stub()
       }
     })
+
     it('resolves to the value if label and value attributes are equal', function () {
       const model = {
         labelAttribute: 'id',
         valueAttribute: 'id'
+      }
+      const value = 'Test value'
+      return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
+        expect(result).to.equal(value)
+      })
+    })
+
+    it('resolves to the value if the property is an enum', function () {
+      const model = {
+        enum: ['Test value', 'Other test value']
       }
       const value = 'Test value'
       return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
@@ -370,10 +381,7 @@ describe('Unit: list-utils', function () {
       const value = 'value'
       const expectedDisplay = 'Some foo-y value'
       fakeStore.findRecord.returns(Ember.RSVP.resolve({
-        get (key) {
-          expect(key).to.eql(labelAttribute)
-          return expectedDisplay
-        }
+        foo: expectedDisplay
       }))
 
       return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
@@ -389,10 +397,7 @@ describe('Unit: list-utils', function () {
       const value = 'value'
       const expectedDisplay = 'Some foo-y value'
       fakeStore.queryRecord.returns(Ember.RSVP.resolve({
-        get (key) {
-          expect(key).to.eql('label')
-          return expectedDisplay
-        }
+        label: expectedDisplay
       }))
 
       return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {

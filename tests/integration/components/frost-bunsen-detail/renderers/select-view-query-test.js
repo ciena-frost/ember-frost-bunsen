@@ -29,6 +29,8 @@ describeComponent(
       })
 
       this.register('service:store', Ember.Service.extend({
+        queryRecord: sinon.stub().returns(promise),
+        findRecord: sinon.stub().returns(promise),
         query () {
           return promise
         }
@@ -91,16 +93,10 @@ describeComponent(
       describe('when query succeeds', function () {
         beforeEach(function () {
           run(() => {
-            resolver.resolve([
-              Ember.Object.create({
-                id: 'bar',
-                label: 'Barbeque'
-              }),
-              Ember.Object.create({
-                id: 'baz',
-                label: 'Bazzle dazzle'
-              })
-            ])
+            resolver.resolve(Ember.Object.create({
+              id: 'bar',
+              label: 'Barbeque'
+            }))
           })
         })
 
@@ -491,16 +487,10 @@ describeComponent(
       describe('when query succeeds', function () {
         beforeEach(function () {
           run(() => {
-            resolver.resolve([
-              Ember.Object.create({
-                id: 'bar',
-                label: 'Barbeque'
-              }),
-              Ember.Object.create({
-                id: 'baz',
-                label: 'Bazzle dazzle'
-              })
-            ])
+            resolver.resolve(Ember.Object.create({
+              id: 'bar',
+              label: 'Barbeque'
+            }))
           })
         })
 
