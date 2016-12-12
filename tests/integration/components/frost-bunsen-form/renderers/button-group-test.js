@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectBunsenButtonGroupRendererWithState} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import Ember from 'ember'
@@ -68,53 +69,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           )
             .to.have.length(0)
 
-          expect(
-            this.$(selectors.bunsen.renderer.buttonGroup),
-            'renders a bunsen button-group input'
-          )
-            .to.have.length(1)
-
-          const $buttons = this.$(selectors.frost.button.input.enabled)
-
-          expect(
-            $buttons,
-            'renders enabled buttons'
-          )
-            .to.have.length(2)
-
-          const $firstButton = $buttons.eq(0)
-
-          expect(
-            $firstButton.text().trim(),
-            'first button has expected text'
-          )
-            .to.equal(buttonLabels[0])
-
-          expect(
-            $firstButton.hasClass(selectors.frost.button.size.medium),
-            'first button is correct size'
-          )
-            .to.be.equal(true)
-
-          const $secondButton = $buttons.eq(1)
-
-          expect(
-            $secondButton.text().trim(),
-            'second button has expected text'
-          )
-            .to.equal(buttonLabels[1])
-
-          expect(
-            $secondButton.hasClass(selectors.frost.button.size.medium),
-            'first button is correct size'
-          )
-            .to.be.equal(true)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
+          expectBunsenButtonGroupRendererWithState('foo', {
+            buttons: buttonLabels,
+            label: 'Foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -167,37 +125,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             )
               .to.have.length(0)
 
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('FooBar Baz')
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'FooBar Baz'
+            })
 
             expect(
               this.$(selectors.error),
@@ -251,37 +182,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             )
               .to.have.length(1)
 
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -335,37 +239,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             )
               .to.have.length(0)
 
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -413,53 +290,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            const $firstButton = $buttons.eq(0)
-
-            expect(
-              $firstButton.text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $firstButton.hasClass(selectors.frost.button.size.small),
-              'first button is correct size'
-            )
-              .to.be.equal(true)
-
-            const $secondButton = $buttons.eq(1)
-
-            expect(
-              $secondButton.text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              $secondButton.hasClass(selectors.frost.button.size.small),
-              'first button is correct size'
-            )
-              .to.be.equal(true)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo',
+              size: 'small'
+            })
 
             expect(
               this.$(selectors.error),

@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
+import {expectBunsenBooleanRendererWithState} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
@@ -23,29 +23,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     )
       .to.have.length(0)
 
-    expect(
-      this.$(selectors.bunsen.renderer.boolean),
-      'renders a bunsen boolean input'
-    )
-      .to.have.length(1)
-
-    expect(
-      this.$(selectors.frost.checkbox.input.enabled),
-      'renders an enabled checkbox input'
-    )
-      .to.have.length(1)
-
-    expect(
-      this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-      'checkbox is unchecked'
-    )
-      .to.be.equal(false)
-
-    expect(
-      this.$(selectors.bunsen.label).text().trim(),
-      'renders expected label text'
-    )
-      .to.equal('Foo')
+    expectBunsenBooleanRendererWithState('foo', {
+      label: 'Foo'
+    })
 
     expect(
       this.$(selectors.error),
@@ -95,29 +75,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       )
         .to.have.length(0)
 
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('FooBar Baz')
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'FooBar Baz'
+      })
 
       expect(
         this.$(selectors.error),
@@ -168,29 +128,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       )
         .to.have.length(1)
 
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -241,29 +181,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       )
         .to.have.length(0)
 
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -299,11 +219,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -319,11 +237,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox input'
-      )
-        .to.have.length(1)
+      expectBunsenBooleanRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -348,11 +265,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -377,11 +292,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox input'
-      )
-        .to.have.length(1)
+      expectBunsenBooleanRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -400,23 +314,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('functions as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is checked'
-      )
-        .to.be.equal(true)
+      expectBunsenBooleanRendererWithState('foo', {
+        checked: true,
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -462,23 +363,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
+        expectBunsenBooleanRendererWithState('foo', {
+          label: 'Foo'
+        })
 
         expect(
           this.$(selectors.error),
@@ -533,23 +420,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
+      expectBunsenBooleanRendererWithState('foo', {
+        label: 'Foo'
+      })
 
       expect(
         this.$(selectors.error),
@@ -587,23 +460,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is checked'
-        )
-          .to.be.equal(true)
+        expectBunsenBooleanRendererWithState('foo', {
+          checked: true,
+          label: 'Foo'
+        })
 
         expect(
           this.$(selectors.error),
@@ -643,23 +503,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is unchecked'
-          )
-            .to.be.equal(false)
+          expectBunsenBooleanRendererWithState('foo', {
+            label: 'Foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -705,23 +551,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
+        expectBunsenBooleanRendererWithState('foo', {
+          label: 'Foo'
+        })
 
         expect(
           this.$(selectors.error),
@@ -745,23 +577,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is checked'
-          )
-            .to.be.equal(true)
+          expectBunsenBooleanRendererWithState('foo', {
+            checked: true,
+            label: 'Foo'
+          })
 
           expect(
             this.$(selectors.error),
@@ -801,23 +620,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           })
 
           it('functions as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.boolean),
-              'renders a bunsen boolean input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled),
-              'renders an enabled checkbox input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-              'checkbox is unchecked'
-            )
-              .to.be.equal(false)
+            expectBunsenBooleanRendererWithState('foo', {
+              label: 'Foo'
+            })
 
             expect(
               this.$(selectors.error),
@@ -864,25 +669,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
-
-        expectBunsenInputToHaveError('foo', 'Field is required.')
+        expectBunsenBooleanRendererWithState('foo', {
+          error: 'Field is required.',
+          label: 'Foo'
+        })
 
         expect(
           ctx.props.onValidation.callCount,
@@ -900,29 +690,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is checked'
-          )
-            .to.be.equal(true)
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
+          expectBunsenBooleanRendererWithState('foo', {
+            checked: true,
+            label: 'Foo'
+          })
 
           expect(
             ctx.props.onChange.lastCall.args[0],
@@ -956,23 +727,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           })
 
           it('functions as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.boolean),
-              'renders a bunsen boolean input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled),
-              'renders an enabled checkbox input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-              'checkbox is unchecked'
-            )
-              .to.be.equal(false)
+            expectBunsenBooleanRendererWithState('foo', {
+              label: 'Foo'
+            })
 
             expect(
               this.$(selectors.error),
