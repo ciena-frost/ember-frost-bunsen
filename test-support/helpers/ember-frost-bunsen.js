@@ -1,3 +1,8 @@
+import {expect} from 'chai'
+import Ember from 'ember'
+
+const assign = Object.assign || Ember.assign || Ember.merge
+
 export {
   expectBunsenInputNotToHaveError,
   expectBunsenInputToHaveError,
@@ -67,3 +72,31 @@ export {
 export {
   expectWithState as expectBunsenUrlRendererWithState
 } from './ember-frost-bunsen/renderers/url'
+
+export function expectOnValidationState (spy, state) {
+  const defaults = {
+    count: 0,
+    errors: [],
+    warnings: []
+  }
+
+  state = assign(defaults, state)
+
+  expect(spy.callCount, 'called expected number of times').to.equal(state.count)
+
+  if (state.count !== 0) {
+    const validationResult = spy.lastCall.args[0]
+
+    expect(
+      JSON.stringify(validationResult.errors),
+      'informs consumer of expected errors'
+    )
+      .to.eql(JSON.stringify(state.errors))
+
+    expect(
+      JSON.stringify(validationResult.warnings),
+      'informs consumer of expected warnings'
+    )
+      .to.eql(JSON.stringify(state.warnings))
+  }
+}
