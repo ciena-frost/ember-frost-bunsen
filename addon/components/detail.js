@@ -322,6 +322,10 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value, valueChangeSet, lastAction} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false

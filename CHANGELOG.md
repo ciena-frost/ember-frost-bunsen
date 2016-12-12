@@ -1,3 +1,11 @@
+# 12.6.3
+
+* **Fixed** description bubble property validations to not require `description` property as it was causing undesired `ember-prop-type` warnings in the console.
+* **Fixed** issue where enter key would sometimes submit form by setting `onsubmit='return false'` on the form element itself.
+* **Fixed** issue where `frost-bunsen-form` and `frost-bunsen-detail` would try to update state after the component had been destroyed when getting an update from the redux store.
+
+
+
 # 12.6.2
 **Fixed** a bug introduced by a recursive check for required object and array properties.
 
