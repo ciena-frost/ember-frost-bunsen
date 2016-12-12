@@ -1,5 +1,10 @@
 import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
+
+import {
+  expectBunsenInputToHaveError,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
@@ -79,25 +84,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
     )
       .to.have.length(0)
 
-    expect(
-      ctx.props.onValidation.callCount,
-      'informs consumer of validation results'
-    )
-      .to.equal(1)
-
-    const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-    expect(
-      validationResult.errors.length,
-      'informs consumer there are no errors'
-    )
-      .to.equal(0)
-
-    expect(
-      validationResult.warnings.length,
-      'informs consumer there are no warnings'
-    )
-      .to.equal(0)
+    expectOnValidationState(ctx.props.onValidation, {count: 1})
   })
 
   describe('when rows defined in view', function () {
@@ -168,25 +155,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -246,25 +215,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -324,25 +275,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -402,25 +335,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -468,25 +383,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -552,25 +449,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -722,25 +601,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
           foo: input
         })
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors,
-        'has no validation errors'
-      )
-        .to.eql([])
-
-      expect(
-        validationResult.warnings,
-        'has no validation warnings'
-      )
-        .to.eql([])
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
   })
 
@@ -778,25 +639,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there is one error'
-      )
-        .to.equal(1)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {
+        count: 1,
+        errors: [
+          {
+            code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+            params: ['foo'],
+            message: 'Field is required.',
+            path: '#/foo',
+            isRequiredError: true
+          }
+        ]
+      })
     })
 
     describe('when showAllErrors is false', function () {
@@ -824,11 +678,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 0})
       })
     })
 
@@ -853,11 +703,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
 
         expectBunsenInputToHaveError('foo', 'Field is required.')
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 0})
       })
     })
   })
@@ -946,25 +792,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
             foo: input
           })
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -1012,25 +840,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
             foo: input
           })
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -1076,25 +886,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
             foo: 'John'
           })
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -1140,25 +932,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
             foo: 'Alex'
           })
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
   })

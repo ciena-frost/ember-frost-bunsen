@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
@@ -58,25 +59,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -122,25 +105,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -188,25 +153,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -262,25 +209,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
 
       describe('when user adds item', function () {
@@ -337,25 +266,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx.props.onValidation, {count: 2})
         })
 
         describe('when user removes item', function () {
@@ -474,25 +385,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
 
       describe('when users adds item', function () {
@@ -549,25 +442,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx.props.onValidation, {count: 2})
         })
 
         describe('when user removes item', function () {
@@ -615,25 +490,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
             )
               .to.have.length(0)
 
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(3)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectOnValidationState(ctx.props.onValidation, {count: 3})
           })
         })
       })
@@ -693,25 +550,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(2)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 2})
       })
 
       describe('when user removes item', function () {
@@ -759,25 +598,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(3)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx.props.onValidation, {count: 3})
         })
       })
     })
@@ -835,25 +656,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
 
       describe('when user checks checkbox', function () {
@@ -909,25 +712,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx.props.onValidation, {count: 2})
         })
       })
     })
@@ -1003,25 +788,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -1081,25 +848,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -1163,25 +912,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
 
       describe('when sortable enabled', function () {
@@ -1257,25 +988,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx.props.onValidation, {count: 1})
         })
       })
     })
@@ -1347,25 +1060,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
 
@@ -1437,25 +1132,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
   })

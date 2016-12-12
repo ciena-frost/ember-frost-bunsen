@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
   expectTextInputWithState,
@@ -126,25 +127,7 @@ import {describe, it} from 'mocha'
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx.props.onValidation, {count: 1})
       })
     })
   })
