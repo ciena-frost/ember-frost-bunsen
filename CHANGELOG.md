@@ -1,3 +1,10 @@
+# 13.4.6
+
+* **Fixed** `frost-bunsen-detail` and `frost-bunsen-form` components to work when passed in `validators` and `renderers` properties are `undefined`.
+* **Refactored** tests to use common utility methods for setting up tests to reduce boilerplate.
+
+
+
 # 13.4.5
 
 * **Updated** `password` renderer to use button instead of icon for reveal action in detail views.
