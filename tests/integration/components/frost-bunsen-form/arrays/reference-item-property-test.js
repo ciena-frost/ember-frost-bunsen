@@ -1,8 +1,6 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
 import {
   expectTextInputWithState,
@@ -11,73 +9,51 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-form | array reference item property', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                settings: {
-                  type: 'object',
-                  properties: {
-                    moo: {type: 'string'},
-                    boo: {type: 'string'}
-                  }
+describe('Integration: Component / frost-bunsen-form / array reference item property', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              settings: {
+                type: 'object',
+                properties: {
+                  moo: {type: 'string'},
+                  boo: {type: 'string'}
                 }
               }
             }
           }
-        },
-        type: 'object'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            children: [
-              {model: 'boo'},
-              {model: 'moo'}
-            ],
-            model: 'foo.0.settings'
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          children: [
+            {model: 'boo'},
+            {model: 'moo'}
+          ],
+          model: 'foo.0.settings'
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    },
+    value: {
+      foo: [
+        {
+          settings: {
+            boo: 'test1',
+            moo: 'test2'
           }
-        ],
-        type: 'form',
-        version: '2.0'
-      },
-      value: {
-        foo: [
-          {
-            settings: {
-              boo: 'test1',
-              moo: 'test2'
-            }
-          }
-        ]
-      }
+        }
+      ]
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      value=value
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
   })
 
   it('renders as expected', function () {

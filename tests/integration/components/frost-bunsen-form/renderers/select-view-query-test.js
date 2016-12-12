@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
+import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 const {RSVP} = Ember
 import {$hook, initialize} from 'ember-hook'
@@ -6,10 +8,8 @@ import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
-import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-form | renderer | select view query', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / select view query', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })

@@ -1,10 +1,8 @@
 import {expect} from 'chai'
-import Ember from 'ember'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import Ember from 'ember'
+import {beforeEach, describe, it} from 'mocha'
 
 /**
  * Get button labels for bunsenModel's enum options
@@ -20,11 +18,7 @@ function getButtonLabels (bunsenModel) {
     .map((option) => Ember.String.capitalize(`${option}`))
 }
 
-describe('Integration: Component | frost-bunsen-form | renderer | button-group', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
+describe('Integration: Component / frost-bunsen-form / renderer / button-group', function () {
   ;[
     {
       type: 'boolean'
@@ -44,51 +38,28 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
   ]
     .forEach((fooModel) => {
       describe(`when property type is ${fooModel.type}`, function () {
-        let props, sandbox
+        const ctx = setupFormComponentTest({
+          bunsenModel: {
+            properties: {
+              foo: fooModel
+            },
+            type: 'object'
+          },
+          bunsenView: {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  name: 'button-group'
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          }
+        })
 
         const buttonLabels = getButtonLabels(fooModel)
-
-        beforeEach(function () {
-          sandbox = sinon.sandbox.create()
-
-          props = {
-            bunsenModel: {
-              properties: {
-                foo: fooModel
-              },
-              type: 'object'
-            },
-            bunsenView: {
-              cells: [
-                {
-                  model: 'foo',
-                  renderer: {
-                    name: 'button-group'
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            },
-            disabled: undefined,
-            onChange: sandbox.spy(),
-            onValidation: sandbox.spy()
-          }
-
-          this.setProperties(props)
-
-          this.render(hbs`{{frost-bunsen-form
-            bunsenModel=bunsenModel
-            bunsenView=bunsenView
-            disabled=disabled
-            onChange=onChange
-            onValidation=onValidation
-          }}`)
-        })
-
-        afterEach(function () {
-          sandbox.restore()
-        })
 
         it('renders as expected', function () {
           expect(
@@ -152,12 +123,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
             .to.have.length(0)
 
           expect(
-            props.onValidation.callCount,
+            ctx.props.onValidation.callCount,
             'informs consumer of validation results'
           )
             .to.equal(1)
 
-          const validationResult = props.onValidation.lastCall.args[0]
+          const validationResult = ctx.props.onValidation.lastCall.args[0]
 
           expect(
             validationResult.errors.length,
@@ -235,12 +206,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(1)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -319,12 +290,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(1)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -403,12 +374,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(1)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -497,12 +468,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(1)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -680,8 +651,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
 
         describe('when button selected', function () {
           beforeEach(function () {
-            props.onChange.reset()
-            props.onValidation.reset()
+            ctx.props.onChange.reset()
+            ctx.props.onValidation.reset()
 
             this.$(selectors.bunsen.renderer.buttonGroup)
               .find('button:first')
@@ -746,7 +717,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
             const foo = 'enum' in fooModel ? fooModel.enum[0] : true
 
             expect(
-              props.onChange.lastCall.args[0],
+              ctx.props.onChange.lastCall.args[0],
               'provides consumer expected form value'
             )
               .to.eql({
@@ -760,12 +731,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
               .to.have.length(0)
 
             expect(
-              props.onValidation.callCount,
+              ctx.props.onValidation.callCount,
               'informs consumer of validation results'
             )
               .to.equal(1)
 
-            const validationResult = props.onValidation.lastCall.args[0]
+            const validationResult = ctx.props.onValidation.lastCall.args[0]
 
             expect(
               validationResult.errors.length,
@@ -782,8 +753,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
 
           describe('when button deselected', function () {
             beforeEach(function () {
-              props.onChange.reset()
-              props.onValidation.reset()
+              ctx.props.onChange.reset()
+              ctx.props.onValidation.reset()
 
               this.$(selectors.bunsen.renderer.buttonGroup)
                 .find('button:first')
@@ -846,7 +817,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
                 .to.equal('Foo')
 
               expect(
-                props.onChange.lastCall.args[0],
+                ctx.props.onChange.lastCall.args[0],
                 'provides consumer expected form value'
               )
                 .to.eql({})
@@ -858,12 +829,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | button-group',
                 .to.have.length(0)
 
               expect(
-                props.onValidation.callCount,
+                ctx.props.onValidation.callCount,
                 'informs consumer of validation results'
               )
                 .to.equal(1)
 
-              const validationResult = props.onValidation.lastCall.args[0]
+              const validationResult = ctx.props.onValidation.lastCall.args[0]
 
               expect(
                 validationResult.errors.length,

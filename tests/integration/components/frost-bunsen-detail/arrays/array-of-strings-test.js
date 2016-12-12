@@ -1,48 +1,23 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
-
 import {findTextInputs} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-detail | array of strings', function () {
-  setupComponentTest('frost-bunsen-detail', {
-    integration: true
-  })
-
+describe('Integration: Component / frost-bunsen-detail / array of strings', function () {
   describe('without initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                type: 'string'
-              },
-              type: 'array'
-            }
-          },
-          type: 'object'
+    setupDetailComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              type: 'string'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined
+        type: 'object'
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-detail
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {
@@ -172,40 +147,21 @@ describe('Integration: Component | frost-bunsen-detail | array of strings', func
   })
 
   describe('with initial value', function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                type: 'string'
-              },
-              type: 'array'
-            }
-          },
-          type: 'object'
+    setupDetailComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              type: 'string'
+            },
+            type: 'array'
+          }
         },
-        bunsenView: undefined,
-        value: {
-          foo: ['bar', 'baz']
-        }
+        type: 'object'
+      },
+      value: {
+        foo: ['bar', 'baz']
       }
-
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-detail
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        value=value
-      }}`)
-    })
-
-    afterEach(function () {
-      sandbox.restore()
     })
 
     it('renders as expected', function () {

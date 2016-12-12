@@ -7,7 +7,7 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-detail | renderer | select view query', function () {
+describe('Integration: Component / frost-bunsen-detail / renderer | select view query', function () {
   setupComponentTest('frost-bunsen-detail', {
     integration: true
   })

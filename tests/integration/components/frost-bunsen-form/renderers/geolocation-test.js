@@ -34,7 +34,7 @@ function stubGetCurrentPosition (sandbox, stub) {
   sandbox.stub(window.navigator.geolocation, 'getCurrentPosition', stub)
 }
 
-describe('Integration: Component | frost-bunsen-form | renderer | geolocation', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / geolocation', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })

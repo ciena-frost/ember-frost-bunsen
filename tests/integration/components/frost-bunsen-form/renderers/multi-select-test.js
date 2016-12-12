@@ -1,73 +1,39 @@
 import {expect} from 'chai'
-import {$hook, initialize} from 'ember-hook'
-import {setupComponentTest} from 'ember-mocha'
-import wait from 'ember-test-helpers/wait'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
-
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | renderer | multi-select', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    initialize()
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            items: {
-              enum: ['bar', 'baz'],
-              type: 'string'
-            },
-            type: 'array'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / renderer / multi-select', function () {
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          items: {
+            enum: ['bar', 'baz'],
+            type: 'string'
+          },
+          type: 'array'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'multi-select'
-            }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'multi-select'
           }
-        ],
-        type: 'form',
-        version: '2.0'
-      },
-      disabled: undefined,
-      onChange: sandbox.spy(),
-      onValidation: sandbox.spy(),
-      showAllErrors: undefined
-    }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      disabled=disabled
-      hook='my-form'
-      onChange=onChange
-      onValidation=onValidation
-      showAllErrors=showAllErrors
-      value=value
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    },
+    hook: 'my-form'
   })
 
   it('renders as expected', function () {
@@ -279,12 +245,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -400,23 +366,20 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
 
   describe('when field is required', function () {
     beforeEach(function () {
-      props.onValidation = sandbox.spy()
+      ctx.props.onValidation.reset()
 
-      this.setProperties({
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                enum: ['bar', 'baz'],
-                type: 'string'
-              },
-              type: 'array'
-            }
-          },
-          required: ['foo'],
-          type: 'object'
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar', 'baz'],
+              type: 'string'
+            },
+            type: 'array'
+          }
         },
-        onValidation: props.onValidation
+        required: ['foo'],
+        type: 'object'
       })
     })
 
@@ -438,12 +401,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -460,12 +423,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
 
     describe('when showAllErrors is false', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-
-        this.setProperties({
-          onValidation: props.onValidation,
-          showAllErrors: false
-        })
+        ctx.props.onValidation.reset()
+        this.set('showAllErrors', false)
       })
 
       it('renders as expected', function () {
@@ -486,7 +445,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)
@@ -495,12 +454,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
 
     describe('when showAllErrors is true', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-
-        this.setProperties({
-          onValidation: props.onValidation,
-          showAllErrors: true
-        })
+        ctx.props.onValidation.reset()
+        this.set('showAllErrors', true)
       })
 
       it('renders as expected', function () {
@@ -518,7 +473,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | multi-select',
         expectBunsenInputToHaveError('foo', 'Field is required.', 'my-form')
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)

@@ -1,12 +1,12 @@
 import {expect} from 'chai'
+import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component | frost-bunsen-form | renderer | link', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / link', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })

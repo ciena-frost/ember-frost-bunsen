@@ -1,66 +1,54 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | deep nesting with labels', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  beforeEach(function () {
-    this.setProperties({
-      bunsenModel: {
-        properties: {
-          nested: {
-            properties: {
-              foo: {
-                properties: {
-                  foosValue: {
-                    type: 'string'
-                  }
-                },
-                type: 'object'
-              }
-            },
-            type: 'object'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / deep nesting with labels', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        nested: {
+          properties: {
+            foo: {
+              properties: {
+                foosValue: {
+                  type: 'string'
+                }
+              },
+              type: 'object'
+            }
+          },
+          type: 'object'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    children: [
-                      {
-                        label: 'value',
-                        model: 'foosValue'
-                      }
-                    ],
-                    label: 'Foo',
-                    model: 'foo'
-                  }
-                ],
-                label: 'Main',
-                model: 'nested'
-              }
-            ]
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      }
-    })
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-    }}`)
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          children: [
+            {
+              children: [
+                {
+                  children: [
+                    {
+                      label: 'value',
+                      model: 'foosValue'
+                    }
+                  ],
+                  label: 'Foo',
+                  model: 'foo'
+                }
+              ],
+              label: 'Main',
+              model: 'nested'
+            }
+          ]
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    }
   })
 
   it('renders as expected', function () {

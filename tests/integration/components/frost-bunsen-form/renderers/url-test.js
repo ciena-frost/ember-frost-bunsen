@@ -1,62 +1,31 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | renderer | url', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'string'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / renderer / url', function () {
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'string'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'url'
-            }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'url'
           }
-        ],
-        type: 'form',
-        version: '2.0'
-      },
-      disabled: undefined,
-      onChange: sandbox.spy(),
-      onValidation: sandbox.spy(),
-      showAllErrors: undefined
+        }
+      ],
+      type: 'form',
+      version: '2.0'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      disabled=disabled
-      onChange=onChange
-      onValidation=onValidation
-      showAllErrors=showAllErrors
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
   })
 
   it('renders as expected', function () {
@@ -99,12 +68,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
       .to.have.length(0)
 
     expect(
-      props.onValidation.callCount,
+      ctx.props.onValidation.callCount,
       'informs consumer of validation results'
     )
       .to.equal(1)
 
-    const validationResult = props.onValidation.lastCall.args[0]
+    const validationResult = ctx.props.onValidation.lastCall.args[0]
 
     expect(
       validationResult.errors.length,
@@ -176,12 +145,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -254,12 +223,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -332,12 +301,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -398,12 +367,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -527,8 +496,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
     const input = 'bar'
 
     beforeEach(function () {
-      props.onValidation = sandbox.spy()
-      this.set('onValidation', props.onValidation)
+      ctx.props.onValidation = ctx.sandbox.spy()
+      this.set('onValidation', ctx.props.onValidation)
 
       this.$(selectors.frost.url.input.enabled)
         .val(input)
@@ -561,7 +530,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onChange.lastCall.args[0],
+        ctx.props.onChange.lastCall.args[0],
         'informs consumer of change'
       )
         .to.eql({
@@ -569,12 +538,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         })
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors,
@@ -592,7 +561,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
 
   describe('when field is required', function () {
     beforeEach(function () {
-      props.onValidation = sandbox.spy()
+      ctx.props.onValidation = ctx.sandbox.spy()
 
       this.setProperties({
         bunsenModel: {
@@ -604,7 +573,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           required: ['foo'],
           type: 'object'
         },
-        onValidation: props.onValidation
+        onValidation: ctx.props.onValidation
       })
     })
 
@@ -628,12 +597,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
-        .to.equal(2)
+        .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -650,10 +619,10 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
 
     describe('when showAllErrors is false', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
+        ctx.props.onValidation = ctx.sandbox.spy()
 
         this.setProperties({
-          onValidation: props.onValidation,
+          onValidation: ctx.props.onValidation,
           showAllErrors: false
         })
       })
@@ -678,7 +647,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)
@@ -687,10 +656,10 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
 
     describe('when showAllErrors is true', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
+        ctx.props.onValidation = ctx.sandbox.spy()
 
         this.setProperties({
-          onValidation: props.onValidation,
+          onValidation: ctx.props.onValidation,
           showAllErrors: true
         })
       })
@@ -711,7 +680,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
         expectBunsenInputToHaveError('foo', 'Field is required.')
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)
@@ -763,8 +732,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
       const input = 'Matt'
 
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation = ctx.sandbox.spy()
+        this.set('onValidation', ctx.props.onValidation)
 
         this.$(selectors.frost.url.input.enabled)
           .val(input)
@@ -797,7 +766,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -805,12 +774,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -830,8 +799,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
       const input = 'Chris'
 
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation = ctx.sandbox.spy()
+        this.set('onValidation', ctx.props.onValidation)
 
         this.$(selectors.frost.url.input.enabled)
           .val(input)
@@ -864,7 +833,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -872,12 +841,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -895,8 +864,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
 
     describe('applies literal string write transform', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation = ctx.sandbox.spy()
+        this.set('onValidation', ctx.props.onValidation)
 
         this.$(selectors.frost.url.input.enabled)
           .val('Johnathan')
@@ -929,7 +898,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -937,12 +906,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -960,8 +929,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
 
     describe('applies regex string write transform', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation = ctx.sandbox.spy()
+        this.set('onValidation', ctx.props.onValidation)
 
         this.$(selectors.frost.url.input.enabled)
           .val('Alexander')
@@ -994,7 +963,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -1002,12 +971,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | url', function
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,

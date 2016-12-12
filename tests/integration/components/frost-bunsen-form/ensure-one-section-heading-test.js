@@ -1,70 +1,47 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | ensure one section heading', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            properties: {
-              bar: {
-                type: 'string'
-              }
-            },
-            type: 'object'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / ensure one section heading', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          properties: {
+            bar: {
+              type: 'string'
+            }
+          },
+          type: 'object'
+        }
       },
-      bunsenView: {
-        cellDefinitions: {
-          main: {
-            label: 'Test',
-            children: [
-              {
-                model: 'bar'
-              }
-            ]
-          }
-        },
-        cells: [
-          {
-            children: [
-              {
-                extends: 'main',
-                model: 'foo'
-              }
-            ]
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      }
+      type: 'object'
+    },
+    bunsenView: {
+      cellDefinitions: {
+        main: {
+          label: 'Test',
+          children: [
+            {
+              model: 'bar'
+            }
+          ]
+        }
+      },
+      cells: [
+        {
+          children: [
+            {
+              extends: 'main',
+              model: 'foo'
+            }
+          ]
+        }
+      ],
+      type: 'form',
+      version: '2.0'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
   })
 
   it('renders as expected', function () {

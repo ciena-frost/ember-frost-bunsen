@@ -1,62 +1,31 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-form | renderer | textarea', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            type: 'string'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-form / renderer / textarea', function () {
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'string'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'textarea'
-            }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'textarea'
           }
-        ],
-        type: 'form',
-        version: '2.0'
-      },
-      disabled: undefined,
-      onChange: sandbox.spy(),
-      onValidation: sandbox.spy(),
-      showAllErrors: undefined
+        }
+      ],
+      type: 'form',
+      version: '2.0'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      disabled=disabled
-      onChange=onChange
-      onValidation=onValidation
-      showAllErrors=showAllErrors
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
   })
 
   it('renders as expected', function () {
@@ -111,12 +80,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
       .to.have.length(0)
 
     expect(
-      props.onValidation.callCount,
+      ctx.props.onValidation.callCount,
       'informs consumer of validation results'
     )
       .to.equal(1)
 
-    const validationResult = props.onValidation.lastCall.args[0]
+    const validationResult = ctx.props.onValidation.lastCall.args[0]
 
     expect(
       validationResult.errors.length,
@@ -200,12 +169,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -278,12 +247,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -356,12 +325,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -434,12 +403,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -500,12 +469,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -584,12 +553,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -713,8 +682,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
     const input = 'bar'
 
     beforeEach(function () {
-      props.onValidation = sandbox.spy()
-      this.set('onValidation', props.onValidation)
+      ctx.props.onValidation.reset()
 
       this.$(selectors.frost.textarea.input.enabled)
         .val(input)
@@ -747,7 +715,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onChange.lastCall.args[0],
+        ctx.props.onChange.lastCall.args[0],
         'informs consumer of change'
       )
         .to.eql({
@@ -755,12 +723,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         })
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
         .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors,
@@ -778,19 +746,16 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
 
   describe('when field is required', function () {
     beforeEach(function () {
-      props.onValidation = sandbox.spy()
+      ctx.props.onValidation.reset()
 
-      this.setProperties({
-        bunsenModel: {
-          properties: {
-            foo: {
-              type: 'string'
-            }
-          },
-          required: ['foo'],
-          type: 'object'
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            type: 'string'
+          }
         },
-        onValidation: props.onValidation
+        required: ['foo'],
+        type: 'object'
       })
     })
 
@@ -814,12 +779,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         .to.have.length(0)
 
       expect(
-        props.onValidation.callCount,
+        ctx.props.onValidation.callCount,
         'informs consumer of validation results'
       )
-        .to.equal(2)
+        .to.equal(1)
 
-      const validationResult = props.onValidation.lastCall.args[0]
+      const validationResult = ctx.props.onValidation.lastCall.args[0]
 
       expect(
         validationResult.errors.length,
@@ -836,12 +801,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
 
     describe('when showAllErrors is false', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-
-        this.setProperties({
-          onValidation: props.onValidation,
-          showAllErrors: false
-        })
+        ctx.props.onValidation.reset()
+        this.set('showAllErrors', false)
       })
 
       it('renders as expected', function () {
@@ -864,7 +825,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           .to.have.length(0)
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)
@@ -873,12 +834,8 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
 
     describe('when showAllErrors is true', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-
-        this.setProperties({
-          onValidation: props.onValidation,
-          showAllErrors: true
-        })
+        ctx.props.onValidation.reset()
+        this.set('showAllErrors', true)
       })
 
       it('renders as expected', function () {
@@ -897,7 +854,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
         expectBunsenInputToHaveError('foo', 'Field is required.')
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'does not inform consumer of validation results'
         )
           .to.equal(0)
@@ -949,8 +906,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
       const input = 'Matt'
 
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation.reset()
 
         this.$(selectors.frost.textarea.input.enabled)
           .val(input)
@@ -983,7 +939,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -991,12 +947,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -1016,8 +972,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
       const input = 'Chris'
 
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation.reset()
 
         this.$(selectors.frost.textarea.input.enabled)
           .val(input)
@@ -1050,7 +1005,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -1058,12 +1013,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -1081,8 +1036,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
 
     describe('applies literal string write transform', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation.reset()
 
         this.$(selectors.frost.textarea.input.enabled)
           .val('Johnathan')
@@ -1115,7 +1069,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -1123,12 +1077,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,
@@ -1146,8 +1100,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
 
     describe('applies regex string write transform', function () {
       beforeEach(function () {
-        props.onValidation = sandbox.spy()
-        this.set('onValidation', props.onValidation)
+        ctx.props.onValidation.reset()
 
         this.$(selectors.frost.textarea.input.enabled)
           .val('Alexander')
@@ -1180,7 +1133,7 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           .to.have.length(0)
 
         expect(
-          props.onChange.lastCall.args[0],
+          ctx.props.onChange.lastCall.args[0],
           'informs consumer of change'
         )
           .to.eql({
@@ -1188,12 +1141,12 @@ describe('Integration: Component | frost-bunsen-form | renderer | textarea', fun
           })
 
         expect(
-          props.onValidation.callCount,
+          ctx.props.onValidation.callCount,
           'informs consumer of validation results'
         )
           .to.equal(1)
 
-        const validationResult = props.onValidation.lastCall.args[0]
+        const validationResult = ctx.props.onValidation.lastCall.args[0]
 
         expect(
           validationResult.errors,

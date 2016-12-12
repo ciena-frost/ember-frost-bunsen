@@ -398,7 +398,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    */
   validateProps (bunsenModel) {
     let invalidSchemaType = 'model'
-    const renderers = this.get('renderers')
+    const renderers = this.get('renderers') || {}
 
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
@@ -442,7 +442,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Function[]} list of validators
    **/
   getAllValidators () {
-    const formValidators = this.get('validators')
+    const formValidators = this.get('validators') || []
     const inputValidators = this.get('inputValidators')
 
     return formValidators.concat(inputValidators)

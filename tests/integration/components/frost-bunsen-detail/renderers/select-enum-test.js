@@ -1,52 +1,23 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: Component | frost-bunsen-detail | renderer | select enum', function () {
-  setupComponentTest('frost-bunsen-detail', {
-    integration: true
-  })
-
-  let props, sandbox
-
-  beforeEach(function () {
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          foo: {
-            enum: [
-              'bar',
-              'baz'
-            ],
-            type: 'string'
-          }
-        },
-        type: 'object'
+describe('Integration: Component / frost-bunsen-detail / renderer | select enum', function () {
+  setupDetailComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          enum: [
+            'bar',
+            'baz'
+          ],
+          type: 'string'
+        }
       },
-      bunsenView: undefined,
-      hook: 'my-form',
-      value: undefined
-    }
-
-    this.setProperties(props)
-
-    this.render(hbs`
-      {{frost-bunsen-detail
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        hook=hook
-        value=value
-      }}
-    `)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
+      type: 'object'
+    },
+    hook: 'my-form'
   })
 
   describe('when no initial value', function () {
