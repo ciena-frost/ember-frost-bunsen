@@ -1,3 +1,20 @@
+# 14.0.0
+
+* **Cleaned** up a bunch of tests by replacing boilerplate with test helpers.
+
+  > Note: These test helpers will get wired into a consumers test suite but are still considered private API. If you choose to start using them know they may change in breaking ways before the next major on this project happens.
+
+* **Removed** `hide` and `show` icons which are no longer used. If you were using these icons in your app via something like below you'll no longer have access to them:
+
+  ```handlebars
+  {{frost-icon icon='show' pack='frost-bunsen'}}
+  ```
+
+* **Replaced** `ember-redux` with `ember-redux-shim` and `ember-redux-thunk`.
+
+  > NOTE: When upgrading you can remove `ember-browserify` and `ember-redux` from your `package.json` if you are not using them in your app and no other addons you consume require them.
+
+
 # 13.4.6
 
 * **Fixed** `frost-bunsen-detail` and `frost-bunsen-form` components to work when passed in `validators` and `renderers` properties are `undefined`.
