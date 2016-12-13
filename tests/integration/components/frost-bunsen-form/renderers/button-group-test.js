@@ -79,7 +79,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             label: 'Foo'
           })
 
-          expectOnValidationState(ctx.props.onValidation, {count: 1})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when label defined in view', function () {
@@ -111,7 +111,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'FooBar Baz'
             })
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -144,7 +144,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'Foo'
             })
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -177,7 +177,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'Foo'
             })
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -205,7 +205,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               size: 'small'
             })
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -450,7 +450,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             )
               .to.have.length(0)
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
 
           describe('when button deselected', function () {
@@ -530,7 +530,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               )
                 .to.have.length(0)
 
-              expectOnValidationState(ctx.props.onValidation, {count: 1})
+              expectOnValidationState(ctx, {count: 1})
             })
           })
         })

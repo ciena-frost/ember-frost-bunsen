@@ -381,7 +381,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 

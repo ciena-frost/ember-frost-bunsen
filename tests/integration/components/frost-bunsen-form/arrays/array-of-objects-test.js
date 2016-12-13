@@ -87,7 +87,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -141,7 +141,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -197,7 +197,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -283,7 +283,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when user inputs value', function () {
@@ -352,7 +352,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {count: 2})
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user clears input', function () {
@@ -540,7 +540,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -614,7 +614,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -692,7 +692,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when sortable enabled', function () {
@@ -797,7 +797,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {count: 1})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -898,7 +898,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -999,7 +999,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })
@@ -1075,7 +1075,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when user adds item', function () {
@@ -1152,7 +1152,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 2})
+        expectOnValidationState(ctx, {count: 2})
       })
 
       describe('when user clears input', function () {

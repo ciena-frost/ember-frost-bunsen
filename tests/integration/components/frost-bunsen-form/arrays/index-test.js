@@ -207,7 +207,7 @@ import {describe, it} from 'mocha'
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })

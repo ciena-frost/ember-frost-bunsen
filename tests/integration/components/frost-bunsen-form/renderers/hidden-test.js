@@ -37,7 +37,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
 
       expect(
         ctx.props.onChange.callCount,
@@ -93,7 +93,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
       )
         .to.have.length(0)
 
-      expectOnValidationState(ctx.props.onValidation, {count: 2})
+      expectOnValidationState(ctx, {count: 2})
 
       expect(
         ctx.props.onChange.callCount,

@@ -115,7 +115,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -190,7 +190,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {
+        expectOnValidationState(ctx, {
           count: 3,
           errors: [
             {
@@ -281,7 +281,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {
+        expectOnValidationState(ctx, {
           count: 3,
           errors: [
             {
@@ -377,7 +377,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {
+          expectOnValidationState(ctx, {
             count: 3,
             errors: [
               {
@@ -454,7 +454,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {count: 1})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -730,7 +730,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -805,7 +805,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {
+        expectOnValidationState(ctx, {
           count: 3,
           errors: [
             {
@@ -896,7 +896,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx.props.onValidation, {
+        expectOnValidationState(ctx, {
           count: 3,
           errors: [
             {
@@ -992,7 +992,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {
+          expectOnValidationState(ctx, {
             count: 3,
             errors: [
               {
@@ -1069,7 +1069,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx.props.onValidation, {count: 1})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })

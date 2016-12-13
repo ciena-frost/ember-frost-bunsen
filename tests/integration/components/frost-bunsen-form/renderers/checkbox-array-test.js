@@ -225,7 +225,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         label: 'Foo'
       })
 
-      expectOnValidationState(ctx.props.onValidation, {
+      expectOnValidationState(ctx, {
         count: 1,
         errors: [
           {

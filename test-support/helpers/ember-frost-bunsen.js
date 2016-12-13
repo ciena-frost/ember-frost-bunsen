@@ -85,7 +85,8 @@ export function expectCollapsibleHandles (count, hook) {
     .to.have.length(count)
 }
 
-export function expectOnChangeState (spy, expected) {
+export function expectOnChangeState (ctx, expected) {
+  const spy = ctx.props.onChange
   const actual = spy.lastCall.args[0]
 
   expect(
@@ -95,7 +96,8 @@ export function expectOnChangeState (spy, expected) {
     .to.eql(expected)
 }
 
-export function expectOnValidationState (spy, state) {
+export function expectOnValidationState (ctx, state) {
+  const spy = ctx.props.onValidation
   const defaults = {
     count: 0,
     errors: [],

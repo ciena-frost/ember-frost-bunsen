@@ -24,7 +24,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
   it('renders as expected', function () {
     expectCollapsibleHandles(0)
     expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-    expectOnValidationState(ctx.props.onValidation, {count: 1})
+    expectOnValidationState(ctx, {count: 1})
   })
 
   describe('when label defined in view', function () {
@@ -44,7 +44,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'FooBar Baz'})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -65,7 +65,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(1)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -86,7 +86,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -98,7 +98,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -113,7 +113,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         disabled: true,
         label: 'Foo'
       })
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -134,7 +134,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -158,7 +158,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         disabled: true,
         label: 'Foo'
       })
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -174,8 +174,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         checked: true,
         label: 'Foo'
       })
-      expectOnChangeState(ctx.props.onChange, {foo: true})
-      expectOnValidationState(ctx.props.onValidation, {count: 1})
+      expectOnChangeState(ctx, {foo: true})
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when user unchecks checkbox', function () {
@@ -189,8 +189,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         expectBunsenBooleanRendererWithState('foo', {
           label: 'Foo'
         })
-        expectOnChangeState(ctx.props.onChange, {foo: false})
-        expectOnValidationState(ctx.props.onValidation, {count: 1})
+        expectOnChangeState(ctx, {foo: false})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })
@@ -213,7 +213,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx.props.onValidation, {
+      expectOnValidationState(ctx, {
         count: 1,
         errors: [
           {
@@ -239,8 +239,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           checked: true,
           label: 'Foo'
         })
-        expectOnChangeState(ctx.props.onChange, {foo: true})
-        expectOnValidationState(ctx.props.onValidation, {count: 2})
+        expectOnChangeState(ctx, {foo: true})
+        expectOnValidationState(ctx, {count: 2})
       })
 
       describe('when user unchecks checkbox', function () {
@@ -252,8 +252,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
         it('functions as expected', function () {
           expectCollapsibleHandles(0)
           expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-          expectOnChangeState(ctx.props.onChange, {foo: false})
-          expectOnValidationState(ctx.props.onValidation, {count: 1})
+          expectOnChangeState(ctx, {foo: false})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -267,7 +267,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       it('renders as expected', function () {
         expectCollapsibleHandles(0)
         expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-        expectOnValidationState(ctx.props.onValidation, {count: 0})
+        expectOnValidationState(ctx, {count: 0})
       })
 
       describe('when user checks checkbox', function () {
@@ -282,8 +282,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
             checked: true,
             label: 'Foo'
           })
-          expectOnChangeState(ctx.props.onChange, {foo: true})
-          expectOnValidationState(ctx.props.onValidation, {count: 2})
+          expectOnChangeState(ctx, {foo: true})
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user unchecks checkbox', function () {
@@ -295,8 +295,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           it('functions as expected', function () {
             expectCollapsibleHandles(0)
             expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-            expectOnChangeState(ctx.props.onChange, {foo: false})
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnChangeState(ctx, {foo: false})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
       })
@@ -314,7 +314,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           error: 'Field is required.',
           label: 'Foo'
         })
-        expectOnValidationState(ctx.props.onValidation, {count: 0})
+        expectOnValidationState(ctx, {count: 0})
       })
 
       describe('when user checks checkbox', function () {
@@ -329,8 +329,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
             checked: true,
             label: 'Foo'
           })
-          expectOnChangeState(ctx.props.onChange, {foo: true})
-          expectOnValidationState(ctx.props.onValidation, {count: 2})
+          expectOnChangeState(ctx, {foo: true})
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user unchecks checkbox', function () {
@@ -342,8 +342,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           it('functions as expected', function () {
             expectCollapsibleHandles(0)
             expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
-            expectOnChangeState(ctx.props.onChange, {foo: false})
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnChangeState(ctx, {foo: false})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
       })

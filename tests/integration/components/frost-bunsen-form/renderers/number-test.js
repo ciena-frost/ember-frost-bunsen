@@ -258,7 +258,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             )
               .to.have.length(0)
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -300,7 +300,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             )
               .to.have.length(0)
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -360,7 +360,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             )
               .to.have.length(0)
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -408,7 +408,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
                 foo: input
               })
 
-            expectOnValidationState(ctx.props.onValidation, {count: 1})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -446,7 +446,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             )
               .to.have.length(0)
 
-            expectOnValidationState(ctx.props.onValidation, {
+            expectOnValidationState(ctx, {
               count: 1,
               errors: [
                 {
@@ -485,7 +485,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
               )
                 .to.have.length(0)
 
-              expectOnValidationState(ctx.props.onValidation, {count: 0})
+              expectOnValidationState(ctx, {count: 0})
             })
           })
 
@@ -509,7 +509,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
                 .to.have.length(1)
 
               expectBunsenInputToHaveError('foo', 'Field is required.')
-              expectOnValidationState(ctx.props.onValidation, {count: 0})
+              expectOnValidationState(ctx, {count: 0})
             })
           })
         })
