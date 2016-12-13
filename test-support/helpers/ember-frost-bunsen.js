@@ -11,6 +11,7 @@ export {
 } from './ember-frost-bunsen/renderers/common'
 
 export {
+  click as clickBunsenBooleanRenderer,
   expectWithState as expectBunsenBooleanRendererWithState
 } from './ember-frost-bunsen/renderers/boolean'
 
@@ -84,6 +85,16 @@ export function expectCollapsibleHandles (count, hook) {
     .to.have.length(count)
 }
 
+export function expectOnChangeState (spy, expected) {
+  const actual = spy.lastCall.args[0]
+
+  expect(
+    actual,
+    'onChange informs consumer of expected form value'
+  )
+    .to.eql(expected)
+}
+
 export function expectOnValidationState (spy, state) {
   const defaults = {
     count: 0,
@@ -93,21 +104,27 @@ export function expectOnValidationState (spy, state) {
 
   state = assign(defaults, state)
 
-  expect(spy.callCount, 'called expected number of times').to.equal(state.count)
+  expect(
+    spy.callCount,
+    'onValidation called expected number of times'
+  )
+    .to.equal(state.count)
 
-  if (state.count !== 0) {
-    const validationResult = spy.lastCall.args[0]
-
-    expect(
-      JSON.stringify(validationResult.errors),
-      'informs consumer of expected errors'
-    )
-      .to.eql(JSON.stringify(state.errors))
-
-    expect(
-      JSON.stringify(validationResult.warnings),
-      'informs consumer of expected warnings'
-    )
-      .to.eql(JSON.stringify(state.warnings))
+  if (state.count === 0) {
+    return
   }
+
+  const validationResult = spy.lastCall.args[0]
+
+  expect(
+    JSON.stringify(validationResult.errors),
+    'onValidation informs consumer of expected errors'
+  )
+    .to.eql(JSON.stringify(state.errors))
+
+  expect(
+    JSON.stringify(validationResult.warnings),
+    'onValidation informs consumer of expected warnings'
+  )
+    .to.eql(JSON.stringify(state.warnings))
 }

@@ -17,6 +17,20 @@ const SELECTORS = {
 }
 
 /**
+ * Click on boolean renderer checkbox
+ * @param {String} bunsenId - bunsen ID for property rendered as boolean
+ * @param {String} hook - form's hook
+ */
+export function click (bunsenId, hook) {
+  hook = hook || 'bunsenForm'
+
+  const hookName = `${hook}-${bunsenId}`
+  const $renderer = $hook(hookName).first()
+
+  $renderer.find('input["checkbox"]').click()
+}
+
+/**
  * Check whether or not checkbox is checked/unchecked as expected
  * @param {jQuery} $renderer - jQuery instance of renderer DOM (wrapper tag)
  * @param {Boolean} checked - whether or not checkbox should be checked
