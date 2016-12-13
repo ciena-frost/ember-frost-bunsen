@@ -1,16 +1,15 @@
 import {expect} from 'chai'
 
 import {
-  expectBunsenGeolocationRendererWithState
+  expectBunsenGeolocationRendererWithState,
+  expectOnChangeState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import Ember from 'ember'
-import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
+import {after, before, beforeEach, describe, it} from 'mocha'
 import Pretender from 'pretender'
-import sinon from 'sinon'
 
 const assign = Object.assign || Ember.assign || Ember.merge
 
@@ -35,93 +34,70 @@ function stubGetCurrentPosition (sandbox, stub) {
 }
 
 describe('Integration: Component / frost-bunsen-form / renderer / geolocation', function () {
-  setupComponentTest('frost-bunsen-form', {
-    integration: true
+  let server
+
+  before(function () {
+    server = new Pretender()
   })
 
-  let props, sandbox, server
+  after(function () {
+    server.shutdown()
+  })
 
-  beforeEach(function () {
-    server = new Pretender()
-    sandbox = sinon.sandbox.create()
-
-    props = {
-      bunsenModel: {
-        properties: {
-          address: {
-            properties: {
-              address: {type: 'string'},
-              city: {type: 'string'},
-              country: {type: 'string'},
-              latitude: {type: 'string'},
-              longitude: {type: 'string'},
-              postalCode: {type: 'string'},
-              state: {type: 'string'}
-            },
-            type: 'object'
-          }
-        },
-        type: 'object'
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        address: {
+          properties: {
+            address: {type: 'string'},
+            city: {type: 'string'},
+            country: {type: 'string'},
+            latitude: {type: 'string'},
+            longitude: {type: 'string'},
+            postalCode: {type: 'string'},
+            state: {type: 'string'}
+          },
+          type: 'object'
+        }
       },
-      bunsenView: {
-        cells: [
-          {
-            children: [
-              {
-                model: 'address',
-                renderer: {
-                  name: 'geolocation',
-                  refs: {
-                    address: '${./address}',
-                    city: '${./city}',
-                    country: '${./country}',
-                    latitude: '${./latitude}',
-                    longitude: '${./longitude}',
-                    postalCode: '${./postalCode}',
-                    state: '${./state}'
-                  }
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          children: [
+            {
+              model: 'address',
+              renderer: {
+                name: 'geolocation',
+                refs: {
+                  address: '${./address}',
+                  city: '${./city}',
+                  country: '${./country}',
+                  latitude: '${./latitude}',
+                  longitude: '${./longitude}',
+                  postalCode: '${./postalCode}',
+                  state: '${./state}'
                 }
               }
-            ]
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      },
-      disabled: undefined,
-      onChange: sandbox.spy(),
-      onValidation: sandbox.spy(),
-      showAllErrors: undefined,
-      value: {}
+            }
+          ]
+        }
+      ],
+      type: 'form',
+      version: '2.0'
     }
-
-    this.setProperties(props)
-
-    this.render(hbs`{{frost-bunsen-form
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      disabled=disabled
-      onChange=onChange
-      onValidation=onValidation
-      showAllErrors=showAllErrors
-      value=value
-    }}`)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
-    server.shutdown()
   })
 
   it('renders as expected', function () {
     expectBunsenGeolocationRendererWithState('address', {})
-    expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+    expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
   })
 
   describe('press use current location button', function () {
     describe('when user has blocked geolocation', function () {
       beforeEach(function (done) {
-        stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             assign(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
@@ -141,13 +117,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           errorMessage: 'Location lookup is currently disabled in your browser.'
         })
 
-        expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+        expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
       })
     })
 
     describe('when geolocation lookup fails', function () {
       beforeEach(function (done) {
-        stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             assign(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
@@ -167,13 +143,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           errorMessage: 'Location information is unavailable.'
         })
 
-        expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+        expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
       })
     })
 
     describe('when geolocation lookup times out', function () {
       beforeEach(function (done) {
-        stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             assign(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
@@ -193,13 +169,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           errorMessage: 'The request to get your location timed out.'
         })
 
-        expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+        expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
       })
     })
 
     describe('when geolocation lookup succeeds', function () {
       beforeEach(function () {
-        stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           successCallback({
             coords: {
               latitude: '37.4274795',
@@ -227,16 +203,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             longitude: '-122.152378'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                latitude: '37.4274795',
-                longitude: '-122.152378'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              latitude: '37.4274795',
+              longitude: '-122.152378'
+            }
+          })
         })
       })
 
@@ -282,21 +254,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                latitude: '37.4274795',
-                longitude: '-122.152378',
-                country: 'US',
-                state: 'CA',
-                city: 'Stanford',
-                postalCode: '94305-7100',
-                address: '99 Abrams Ct'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              latitude: '37.4274795',
+              longitude: '-122.152378',
+              country: 'US',
+              state: 'CA',
+              city: 'Stanford',
+              postalCode: '94305-7100',
+              address: '99 Abrams Ct'
+            }
+          })
         })
       })
     })
@@ -338,19 +306,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           state: 'CA'
         })
 
-        expect(
-          props.onChange.lastCall.args[0],
-          'calls onChange with expected value'
-        )
-          .to.eql({
-            address: {
-              address: '99 Abrams Ct',
-              city: 'Stanford',
-              country: 'US',
-              postalCode: '94305-7100',
-              state: 'CA'
-            }
-          })
+        expectOnChangeState(ctx, {
+          address: {
+            address: '99 Abrams Ct',
+            city: 'Stanford',
+            country: 'US',
+            postalCode: '94305-7100',
+            state: 'CA'
+          }
+        })
       })
     })
 
@@ -394,21 +358,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           state: 'CA'
         })
 
-        expect(
-          props.onChange.lastCall.args[0],
-          'calls onChange with expected value'
-        )
-          .to.eql({
-            address: {
-              address: '99 Abrams Ct',
-              city: 'Stanford',
-              country: 'US',
-              postalCode: '94305-7100',
-              state: 'CA',
-              latitude: '37.4274795',
-              longitude: '-122.152378'
-            }
-          })
+        expectOnChangeState(ctx, {
+          address: {
+            address: '99 Abrams Ct',
+            city: 'Stanford',
+            country: 'US',
+            postalCode: '94305-7100',
+            state: 'CA',
+            latitude: '37.4274795',
+            longitude: '-122.152378'
+          }
+        })
       })
     })
   })
@@ -443,16 +403,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           longitude: '-122.152378'
         })
 
-        expect(
-          props.onChange.lastCall.args[0],
-          'calls onChange with expected value'
-        )
-          .to.eql({
-            address: {
-              latitude: '37.4274795',
-              longitude: '-122.152378'
-            }
-          })
+        expectOnChangeState(ctx, {
+          address: {
+            latitude: '37.4274795',
+            longitude: '-122.152378'
+          }
+        })
       })
     })
 
@@ -500,21 +456,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           state: 'CA'
         })
 
-        expect(
-          props.onChange.lastCall.args[0],
-          'calls onChange with expected value'
-        )
-          .to.eql({
-            address: {
-              latitude: '37.4274795',
-              longitude: '-122.152378',
-              country: 'US',
-              state: 'CA',
-              city: 'Stanford',
-              postalCode: '94305-7100',
-              address: '99 Abrams Ct'
-            }
-          })
+        expectOnChangeState(ctx, {
+          address: {
+            latitude: '37.4274795',
+            longitude: '-122.152378',
+            country: 'US',
+            state: 'CA',
+            city: 'Stanford',
+            postalCode: '94305-7100',
+            address: '99 Abrams Ct'
+          }
+        })
       })
     })
   })
@@ -542,13 +494,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     it('renders as expected', function () {
       expectBunsenGeolocationRendererWithState('address', {})
-      expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+      expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
     })
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
@@ -568,13 +520,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'Location lookup is currently disabled in your browser.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup fails', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
@@ -594,13 +546,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'Location information is unavailable.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup times out', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
@@ -620,13 +572,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'The request to get your location timed out.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup succeeds', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             successCallback({
               coords: {
                 latitude: '37.4274795',
@@ -654,16 +606,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               longitude: '-122.152378'
             })
 
-            expect(
-              props.onChange.lastCall.args[0],
-              'calls onChange with expected value'
-            )
-              .to.eql({
-                address: {
-                  latitude: 37.4274795,
-                  longitude: -122.152378
-                }
-              })
+            expectOnChangeState(ctx, {
+              address: {
+                latitude: 37.4274795,
+                longitude: -122.152378
+              }
+            })
           })
         })
 
@@ -709,21 +657,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               state: 'CA'
             })
 
-            expect(
-              props.onChange.lastCall.args[0],
-              'calls onChange with expected value'
-            )
-              .to.eql({
-                address: {
-                  latitude: 37.4274795,
-                  longitude: -122.152378,
-                  country: 'US',
-                  state: 'CA',
-                  city: 'Stanford',
-                  postalCode: '94305-7100',
-                  address: '99 Abrams Ct'
-                }
-              })
+            expectOnChangeState(ctx, {
+              address: {
+                latitude: 37.4274795,
+                longitude: -122.152378,
+                country: 'US',
+                state: 'CA',
+                city: 'Stanford',
+                postalCode: '94305-7100',
+                address: '99 Abrams Ct'
+              }
+            })
           })
         })
       })
@@ -765,19 +709,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                address: '99 Abrams Ct',
-                city: 'Stanford',
-                country: 'US',
-                postalCode: '94305-7100',
-                state: 'CA'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'US',
+              postalCode: '94305-7100',
+              state: 'CA'
+            }
+          })
         })
       })
 
@@ -821,21 +761,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                address: '99 Abrams Ct',
-                city: 'Stanford',
-                country: 'US',
-                postalCode: '94305-7100',
-                state: 'CA',
-                latitude: 37.4274795,
-                longitude: -122.152378
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              address: '99 Abrams Ct',
+              city: 'Stanford',
+              country: 'US',
+              postalCode: '94305-7100',
+              state: 'CA',
+              latitude: 37.4274795,
+              longitude: -122.152378
+            }
+          })
         })
       })
     })
@@ -870,16 +806,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             longitude: '-122.152378'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                latitude: 37.4274795,
-                longitude: -122.152378
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              latitude: 37.4274795,
+              longitude: -122.152378
+            }
+          })
         })
       })
 
@@ -927,21 +859,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                latitude: 37.4274795,
-                longitude: -122.152378,
-                country: 'US',
-                state: 'CA',
-                city: 'Stanford',
-                postalCode: '94305-7100',
-                address: '99 Abrams Ct'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              latitude: 37.4274795,
+              longitude: -122.152378,
+              country: 'US',
+              state: 'CA',
+              city: 'Stanford',
+              postalCode: '94305-7100',
+              address: '99 Abrams Ct'
+            }
+          })
         })
       })
     })
@@ -997,13 +925,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     it('renders as expected', function () {
       expectBunsenGeolocationRendererWithState('address', {})
-      expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+      expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
     })
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
@@ -1023,13 +951,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'Location lookup is currently disabled in your browser.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup fails', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
@@ -1049,13 +977,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'Location information is unavailable.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup times out', function () {
         beforeEach(function (done) {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               assign(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
@@ -1075,13 +1003,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             errorMessage: 'The request to get your location timed out.'
           })
 
-          expect(props.onChange.callCount, 'does not trigger onChange').to.equal(0)
+          expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
         })
       })
 
       describe('when geolocation lookup succeeds', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(sandbox, (successCallback, errorCallback) => {
+          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             successCallback({
               coords: {
                 latitude: '37.4274795',
@@ -1109,16 +1037,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               longitude: '-122.152378'
             })
 
-            expect(
-              props.onChange.lastCall.args[0],
-              'calls onChange with expected value'
-            )
-              .to.eql({
-                address: {
-                  lat: '37.4274795',
-                  lon: '-122.152378'
-                }
-              })
+            expectOnChangeState(ctx, {
+              address: {
+                lat: '37.4274795',
+                lon: '-122.152378'
+              }
+            })
           })
         })
 
@@ -1164,21 +1088,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               state: 'CA'
             })
 
-            expect(
-              props.onChange.lastCall.args[0],
-              'calls onChange with expected value'
-            )
-              .to.eql({
-                address: {
-                  lat: '37.4274795',
-                  lon: '-122.152378',
-                  overlord: 'US',
-                  babysitter: 'CA',
-                  hometown: 'Stanford',
-                  zip: '94305-7100',
-                  street: '99 Abrams Ct'
-                }
-              })
+            expectOnChangeState(ctx, {
+              address: {
+                lat: '37.4274795',
+                lon: '-122.152378',
+                overlord: 'US',
+                babysitter: 'CA',
+                hometown: 'Stanford',
+                zip: '94305-7100',
+                street: '99 Abrams Ct'
+              }
+            })
           })
         })
       })
@@ -1220,19 +1140,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                street: '99 Abrams Ct',
-                hometown: 'Stanford',
-                overlord: 'US',
-                zip: '94305-7100',
-                babysitter: 'CA'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              street: '99 Abrams Ct',
+              hometown: 'Stanford',
+              overlord: 'US',
+              zip: '94305-7100',
+              babysitter: 'CA'
+            }
+          })
         })
       })
 
@@ -1276,21 +1192,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                street: '99 Abrams Ct',
-                hometown: 'Stanford',
-                overlord: 'US',
-                zip: '94305-7100',
-                babysitter: 'CA',
-                lat: '37.4274795',
-                lon: '-122.152378'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              street: '99 Abrams Ct',
+              hometown: 'Stanford',
+              overlord: 'US',
+              zip: '94305-7100',
+              babysitter: 'CA',
+              lat: '37.4274795',
+              lon: '-122.152378'
+            }
+          })
         })
       })
     })
@@ -1325,16 +1237,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             longitude: '-122.152378'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                lat: '37.4274795',
-                lon: '-122.152378'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              lat: '37.4274795',
+              lon: '-122.152378'
+            }
+          })
         })
       })
 
@@ -1382,21 +1290,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             state: 'CA'
           })
 
-          expect(
-            props.onChange.lastCall.args[0],
-            'calls onChange with expected value'
-          )
-            .to.eql({
-              address: {
-                lat: '37.4274795',
-                lon: '-122.152378',
-                overlord: 'US',
-                babysitter: 'CA',
-                hometown: 'Stanford',
-                zip: '94305-7100',
-                street: '99 Abrams Ct'
-              }
-            })
+          expectOnChangeState(ctx, {
+            address: {
+              lat: '37.4274795',
+              lon: '-122.152378',
+              overlord: 'US',
+              babysitter: 'CA',
+              hometown: 'Stanford',
+              zip: '94305-7100',
+              street: '99 Abrams Ct'
+            }
+          })
         })
       })
     })

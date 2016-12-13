@@ -1,6 +1,11 @@
-import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
-import selectors from 'dummy/tests/helpers/selectors'
+import {
+  expectBunsenNumberRendererWithState,
+  expectCollapsibleHandles,
+  expectOnChangeState,
+  expectOnValidationState,
+  fillInBunsenNumberRenderer
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -23,43 +28,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.number),
-            'renders a bunsen number input'
-          )
-            .to.have.length(1)
-
-          const $input = this.$(selectors.frost.number.input.enabled)
-
-          expect(
-            $input,
-            'renders an enabled number input'
-          )
-            .to.have.length(1)
-
-          expect(
-            $input.prop('placeholder'),
-            'does not have placeholder text'
-          )
-            .to.equal('')
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
+          expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when label defined in view', function () {
@@ -77,43 +48,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            const $input = this.$(selectors.frost.number.input.enabled)
-
-            expect(
-              $input,
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              $input.prop('placeholder'),
-              'does not have placeholder text'
-            )
-              .to.equal('')
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('FooBar Baz')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {label: 'FooBar Baz'})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -132,43 +69,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            const $input = this.$(selectors.frost.number.input.enabled)
-
-            expect(
-              $input,
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              $input.prop('placeholder'),
-              'does not have placeholder text'
-            )
-              .to.equal('')
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(1)
+            expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -187,43 +90,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            const $input = this.$(selectors.frost.number.input.enabled)
-
-            expect(
-              $input,
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              $input.prop('placeholder'),
-              'does not have placeholder text'
-            )
-              .to.equal('')
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -242,51 +111,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            const $input = this.$(selectors.frost.number.input.enabled)
-
-            expect(
-              $input,
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              $input.prop('placeholder'),
-              'has expected placeholder text'
-            )
-              .to.equal('Foo bar')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {
+              label: 'Foo',
+              placeholder: 'Foo bar'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -296,17 +126,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.frost.number.input.enabled),
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -316,37 +138,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.frost.number.input.disabled),
-              'renders a disabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {
+              disabled: true,
+              label: 'Foo'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -365,17 +162,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.frost.number.input.enabled),
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -394,37 +183,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.frost.number.input.disabled),
-              'renders a disabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {
+              disabled: true,
+              label: 'Foo'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -433,64 +197,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
 
           beforeEach(function () {
             ctx.props.onValidation.reset()
-
-            this.$(selectors.frost.number.input.enabled)
-              .val(`${input}`)
-              .trigger('input')
+            return fillInBunsenNumberRenderer('foo', `${input}`)
           })
 
           it('functions as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.number.input.enabled),
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.number.input.enabled).val(),
-              'input maintains user input value'
-            )
-              .to.equal(`${input}`)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onChange.lastCall.args[0],
-              'informs consumer of change'
-            )
-              .to.eql({
-                foo: input
-              })
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors,
-              'has no validation errors'
-            )
-              .to.eql([])
-
-            expect(
-              validationResult.warnings,
-              'has no validation warnings'
-            )
-              .to.eql([])
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {
+              label: 'Foo',
+              value: `${input}`
+            })
+            expectOnChangeState(ctx, {foo: input})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -510,43 +227,20 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.number),
-              'renders a bunsen number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.number.input.enabled),
-              'renders an enabled number input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there is one error'
-            )
-              .to.equal(1)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+            expectOnValidationState(ctx, {
+              count: 1,
+              errors: [
+                {
+                  code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+                  params: ['foo'],
+                  message: 'Field is required.',
+                  path: '#/foo',
+                  isRequiredError: true
+                }
+              ]
+            })
           })
 
           describe('when showAllErrors is false', function () {
@@ -556,29 +250,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.renderer.number),
-                'renders a bunsen number input'
-              )
-                .to.have.length(1)
-
-              expect(
-                this.$(selectors.frost.number.input.enabled),
-                'renders an enabled number input'
-              )
-                .to.have.length(1)
-
-              expect(
-                this.$(selectors.error),
-                'does not have any validation errors'
-              )
-                .to.have.length(0)
-
-              expect(
-                ctx.props.onValidation.callCount,
-                'does not inform consumer of validation results'
-              )
-                .to.equal(0)
+              expectCollapsibleHandles(0)
+              expectBunsenNumberRendererWithState('foo', {label: 'Foo'})
+              expectOnValidationState(ctx, {count: 0})
             })
           })
 
@@ -589,25 +263,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / number', funct
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.renderer.number),
-                'renders a bunsen number input'
-              )
-                .to.have.length(1)
-
-              expect(
-                this.$(selectors.frost.number.input.enabled),
-                'renders an enabled number input'
-              )
-                .to.have.length(1)
-
-              expectBunsenInputToHaveError('foo', 'Field is required.')
-
-              expect(
-                ctx.props.onValidation.callCount,
-                'does not inform consumer of validation results'
-              )
-                .to.equal(0)
+              expectCollapsibleHandles(0)
+              expectBunsenNumberRendererWithState('foo', {
+                error: 'Field is required.',
+                label: 'Foo'
+              })
+              expectOnValidationState(ctx, {count: 0})
             })
           })
         })

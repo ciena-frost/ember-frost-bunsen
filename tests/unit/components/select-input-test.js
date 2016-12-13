@@ -47,31 +47,31 @@ describe('Unit: frost-bunsen-input-select', function () {
 
     describe('when query is undefined', function () {
       it('returns false when queries are the same', function () {
-        expect(component.hasQueryChanged(formValue, formValue, undefined)).to.be.equal(false)
+        expect(component.hasQueryChanged(formValue, formValue, undefined)).to.equal(false)
       })
 
       it('returns false when queries are not the same', function () {
-        expect(component.hasQueryChanged(oldFormValue, formValue, undefined)).to.be.equal(false)
+        expect(component.hasQueryChanged(oldFormValue, formValue, undefined)).to.equal(false)
       })
     })
 
     describe('when query has no dependencies', function () {
       it('returns false when queries are the same', function () {
-        expect(component.hasQueryChanged(formValue, formValue, {name: '$filter'})).to.be.equal(false)
+        expect(component.hasQueryChanged(formValue, formValue, {name: '$filter'})).to.equal(false)
       })
 
       it('returns false when queries are not the same', function () {
-        expect(component.hasQueryChanged(oldFormValue, formValue, {name: '$filter'})).to.be.equal(false)
+        expect(component.hasQueryChanged(oldFormValue, formValue, {name: '$filter'})).to.equal(false)
       })
     })
 
     describe('when queries have dependencies', function () {
       it('returns false when queries are equal', function () {
-        expect(component.hasQueryChanged(oldFormValue, oldFormValue, modelQuery)).to.be.equal(false)
+        expect(component.hasQueryChanged(oldFormValue, oldFormValue, modelQuery)).to.equal(false)
       })
 
       it('returns true when queries mismatch', function () {
-        expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+        expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.equal(true)
       })
     })
 
@@ -83,10 +83,10 @@ describe('Unit: frost-bunsen-input-select', function () {
 
         it('returns false when formValue is also missing dependencies', function () {
           delete formValue.bar
-          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(false)
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.equal(false)
         })
         it('returns true when formValue is not missing dependencies', function () {
-          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.equal(true)
         })
       })
 
@@ -97,11 +97,11 @@ describe('Unit: frost-bunsen-input-select', function () {
 
         it('returns false when oldFormValue is also missing dependencies', function () {
           delete oldFormValue.bar
-          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(false)
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.equal(false)
         })
 
         it('returns true when oldFormValue is not missing dependencies', function () {
-          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.be.equal(true)
+          expect(component.hasQueryChanged(oldFormValue, formValue, modelQuery)).to.equal(true)
         })
       })
     })

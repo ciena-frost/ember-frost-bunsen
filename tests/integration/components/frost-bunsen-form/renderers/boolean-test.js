@@ -1,6 +1,11 @@
-import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
-import selectors from 'dummy/tests/helpers/selectors'
+import {
+  clickBunsenBooleanRenderer,
+  expectBunsenBooleanRendererWithState,
+  expectCollapsibleHandles,
+  expectOnChangeState,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -17,61 +22,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
-
-    expect(
-      this.$(selectors.bunsen.renderer.boolean),
-      'renders a bunsen boolean input'
-    )
-      .to.have.length(1)
-
-    expect(
-      this.$(selectors.frost.checkbox.input.enabled),
-      'renders an enabled checkbox input'
-    )
-      .to.have.length(1)
-
-    expect(
-      this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-      'checkbox is unchecked'
-    )
-      .to.be.equal(false)
-
-    expect(
-      this.$(selectors.bunsen.label).text().trim(),
-      'renders expected label text'
-    )
-      .to.equal('Foo')
-
-    expect(
-      this.$(selectors.error),
-      'does not have any validation errors'
-    )
-      .to.have.length(0)
-
-    expect(
-      ctx.props.onValidation.callCount,
-      'informs consumer of validation results'
-    )
-      .to.equal(1)
-
-    const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-    expect(
-      validationResult.errors.length,
-      'informs consumer there are no errors'
-    )
-      .to.equal(0)
-
-    expect(
-      validationResult.warnings.length,
-      'informs consumer there are no warnings'
-    )
-      .to.equal(0)
+    expectCollapsibleHandles(0)
+    expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+    expectOnValidationState(ctx, {count: 1})
   })
 
   describe('when label defined in view', function () {
@@ -89,61 +42,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('FooBar Baz')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {label: 'FooBar Baz'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -162,61 +63,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(1)
+      expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -235,61 +84,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -299,17 +96,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -319,17 +108,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -348,17 +132,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -377,142 +153,44 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
   describe('when user checks checkbox', function () {
     beforeEach(function () {
       ctx.props.onValidation.reset()
-
-      this.$(selectors.frost.checkbox.input.enabled)
-        .trigger('click')
+      return clickBunsenBooleanRenderer('foo')
     })
 
     it('functions as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is checked'
-      )
-        .to.be.equal(true)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onChange.lastCall.args[0],
-        'informs consumer of change'
-      )
-        .to.eql({
-          foo: true
-        })
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors,
-        'has no validation errors'
-      )
-        .to.eql([])
-
-      expect(
-        validationResult.warnings,
-        'has no validation warnings'
-      )
-        .to.eql([])
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {
+        checked: true,
+        label: 'Foo'
+      })
+      expectOnChangeState(ctx, {foo: true})
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when user unchecks checkbox', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.checkbox.input.enabled)
-          .trigger('click')
+        return clickBunsenBooleanRenderer('foo')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: false
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectCollapsibleHandles(0)
+        expectBunsenBooleanRendererWithState('foo', {
+          label: 'Foo'
+        })
+        expectOnChangeState(ctx, {foo: false})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })
@@ -533,167 +211,49 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.boolean),
-        'renders a bunsen boolean input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-        'checkbox is unchecked'
-      )
-        .to.be.equal(false)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there is one error'
-      )
-        .to.equal(1)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {
+        count: 1,
+        errors: [
+          {
+            code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+            params: ['foo'],
+            message: 'Field is required.',
+            path: '#/foo',
+            isRequiredError: true
+          }
+        ]
+      })
     })
 
     describe('when user checks checkbox', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.checkbox.input.enabled)
-          .trigger('click')
+        return clickBunsenBooleanRenderer('foo')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is checked'
-        )
-          .to.be.equal(true)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: true
-          })
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenBooleanRendererWithState('foo', {
+          checked: true,
+          label: 'Foo'
+        })
+        expectOnChangeState(ctx, {foo: true})
+        expectOnValidationState(ctx, {count: 2})
       })
 
       describe('when user unchecks checkbox', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-
-          this.$(selectors.frost.checkbox.input.enabled)
-            .trigger('click')
+          return clickBunsenBooleanRenderer('foo')
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is unchecked'
-          )
-            .to.be.equal(false)
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            ctx.props.onChange.lastCall.args[0],
-            'informs consumer of change'
-          )
-            .to.eql({
-              foo: false
-            })
-
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectCollapsibleHandles(0)
+          expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+          expectOnChangeState(ctx, {foo: false})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -705,153 +265,38 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+        expectOnValidationState(ctx, {count: 0})
       })
 
       describe('when user checks checkbox', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-
-          this.$(selectors.frost.checkbox.input.enabled)
-            .trigger('click')
+          return clickBunsenBooleanRenderer('foo')
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is checked'
-          )
-            .to.be.equal(true)
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            ctx.props.onChange.lastCall.args[0],
-            'informs consumer of change'
-          )
-            .to.eql({
-              foo: true
-            })
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectCollapsibleHandles(0)
+          expectBunsenBooleanRendererWithState('foo', {
+            checked: true,
+            label: 'Foo'
+          })
+          expectOnChangeState(ctx, {foo: true})
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user unchecks checkbox', function () {
           beforeEach(function () {
             ctx.props.onValidation.reset()
-
-            this.$(selectors.frost.checkbox.input.enabled)
-              .trigger('click')
+            return clickBunsenBooleanRenderer('foo')
           })
 
           it('functions as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.boolean),
-              'renders a bunsen boolean input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled),
-              'renders an enabled checkbox input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-              'checkbox is unchecked'
-            )
-              .to.be.equal(false)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onChange.lastCall.args[0],
-              'informs consumer of change'
-            )
-              .to.eql({
-                foo: false
-              })
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+            expectOnChangeState(ctx, {foo: false})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
       })
@@ -864,149 +309,41 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.boolean),
-          'renders a bunsen boolean input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-          'checkbox is unchecked'
-        )
-          .to.be.equal(false)
-
-        expectBunsenInputToHaveError('foo', 'Field is required.')
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenBooleanRendererWithState('foo', {
+          error: 'Field is required.',
+          label: 'Foo'
+        })
+        expectOnValidationState(ctx, {count: 0})
       })
 
       describe('when user checks checkbox', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-
-          this.$(selectors.frost.checkbox.input.enabled)
-            .trigger('click')
+          return clickBunsenBooleanRenderer('foo')
         })
 
         it('functions as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.boolean),
-            'renders a bunsen boolean input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled),
-            'renders an enabled checkbox input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-            'checkbox is checked'
-          )
-            .to.be.equal(true)
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            ctx.props.onChange.lastCall.args[0],
-            'informs consumer of change'
-          )
-            .to.eql({
-              foo: true
-            })
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectCollapsibleHandles(0)
+          expectBunsenBooleanRendererWithState('foo', {
+            checked: true,
+            label: 'Foo'
+          })
+          expectOnChangeState(ctx, {foo: true})
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user unchecks checkbox', function () {
           beforeEach(function () {
             ctx.props.onValidation.reset()
-
-            this.$(selectors.frost.checkbox.input.enabled)
-              .trigger('click')
+            return clickBunsenBooleanRenderer('foo')
           })
 
           it('functions as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.boolean),
-              'renders a bunsen boolean input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled),
-              'renders an enabled checkbox input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.frost.checkbox.input.enabled).prop('checked'),
-              'checkbox is unchecked'
-            )
-              .to.be.equal(false)
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onChange.lastCall.args[0],
-              'informs consumer of change'
-            )
-              .to.eql({
-                foo: false
-              })
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
+            expectOnChangeState(ctx, {foo: false})
+            expectOnValidationState(ctx, {count: 1})
           })
         })
       })

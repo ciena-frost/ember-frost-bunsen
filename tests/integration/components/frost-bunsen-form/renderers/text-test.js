@@ -1,13 +1,11 @@
-import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
-
 import {
-  expectTextInputWithState,
-  fillIn,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
+  expectBunsenTextRendererWithState,
+  expectCollapsibleHandles,
+  expectOnChangeState,
+  expectOnValidationState,
+  fillInBunsenTextRenderer
+} from 'dummy/tests/helpers/ember-frost-bunsen'
 
-import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -24,59 +22,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
-
-    expect(
-      this.$(selectors.bunsen.renderer.text),
-      'renders a bunsen text input'
-    )
-      .to.have.length(1)
-
-    expect(
-      findTextInputs(),
-      'renders one text input'
-    )
-      .to.have.length(1)
-
-    expectTextInputWithState('bunsenForm-foo-input', {
-      placeholder: ''
-    })
-
-    expect(
-      this.$(selectors.bunsen.label).text().trim(),
-      'renders expected label text'
-    )
-      .to.equal('Foo')
-
-    expect(
-      this.$(selectors.error),
-      'does not have any validation errors'
-    )
-      .to.have.length(0)
-
-    expect(
-      ctx.props.onValidation.callCount,
-      'informs consumer of validation results'
-    )
-      .to.equal(1)
-
-    const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-    expect(
-      validationResult.errors.length,
-      'informs consumer there are no errors'
-    )
-      .to.equal(0)
-
-    expect(
-      validationResult.warnings.length,
-      'informs consumer there are no warnings'
-    )
-      .to.equal(0)
+    expectCollapsibleHandles(0)
+    expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+    expectOnValidationState(ctx, {count: 1})
   })
 
   describe('when label defined in view', function () {
@@ -94,59 +42,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
-        placeholder: ''
-      })
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('FooBar Baz')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {label: 'FooBar Baz'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -165,59 +63,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
-        placeholder: ''
-      })
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(1)
+      expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -236,59 +84,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
-        placeholder: ''
-      })
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -307,47 +105,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {
+        label: 'Foo',
         placeholder: 'Foo bar'
       })
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -369,57 +132,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.text.type.date.input.enabled)
-
-      // TODO: figure out why hook doesn't work when type isn't text
-      expectTextInputWithState($input, {
-        placeholder: ''
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {
+        label: 'Foo'
         // type: 'date' // TODO: figure out why this fails
       })
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -429,17 +147,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        findTextInputs(),
-        'renders an enabled text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -449,17 +159,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        findTextInputs(),
-        'renders a disabled text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -478,17 +183,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        findTextInputs(),
-        'renders an enabled text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -507,21 +204,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
-        disabled: true
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
       })
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -530,60 +218,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
 
     beforeEach(function () {
       ctx.props.onValidation.reset()
-      fillIn('bunsenForm-foo-input', input)
+      return fillInBunsenTextRenderer('foo', input)
     })
 
     it('functions as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders one text input'
-      )
-        .to.have.length(1)
-
-      expectTextInputWithState('bunsenForm-foo-input', {
-        placeholder: '',
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {
+        label: 'Foo',
         value: `${input}`
       })
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onChange.lastCall.args[0],
-        'informs consumer of change'
-      )
-        .to.eql({
-          foo: input
-        })
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors,
-        'has no validation errors'
-      )
-        .to.eql([])
-
-      expect(
-        validationResult.warnings,
-        'has no validation warnings'
-      )
-        .to.eql([])
+      expectOnChangeState(ctx, {foo: input})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -603,43 +248,20 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders a bunsen text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        findTextInputs(),
-        'renders an enabled text input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there is one error'
-      )
-        .to.equal(1)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {
+        count: 1,
+        errors: [
+          {
+            code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+            params: ['foo'],
+            message: 'Field is required.',
+            path: '#/foo',
+            isRequiredError: true
+          }
+        ]
+      })
     })
 
     describe('when showAllErrors is false', function () {
@@ -649,29 +271,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders an enabled text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {label: 'Foo'})
+        expectOnValidationState(ctx, {count: 0})
       })
     })
 
@@ -682,25 +284,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders an enabled text input'
-        )
-          .to.have.length(1)
-
-        expectBunsenInputToHaveError('foo', 'Field is required.')
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {
+          error: 'Field is required.',
+          label: 'Foo'
+        })
+        expectOnValidationState(ctx, {count: 0})
       })
     })
   })
@@ -747,60 +336,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        fillIn('bunsenForm-foo-input', input)
+        return fillInBunsenTextRenderer('foo', input)
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders one text input'
-        )
-          .to.have.length(1)
-
-        expectTextInputWithState('bunsenForm-foo-input', {
-          placeholder: '',
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {
+          label: 'Foo',
           value: 'Matthew'
         })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: input
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnChangeState(ctx, {foo: input})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -809,180 +355,51 @@ describe('Integration: Component / frost-bunsen-form / renderer / text', functio
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        fillIn('bunsenForm-foo-input', input)
+        return fillInBunsenTextRenderer('foo', input)
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders one text input'
-        )
-          .to.have.length(1)
-
-        expectTextInputWithState('bunsenForm-foo-input', {
-          placeholder: '',
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {
+          label: 'Foo',
           value: 'Christopher'
         })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: input
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnChangeState(ctx, {foo: input})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
     describe('applies literal string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        fillIn('bunsenForm-foo-input', 'Johnathan')
+        return fillInBunsenTextRenderer('foo', 'Johnathan')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders one text input'
-        )
-          .to.have.length(1)
-
-        expectTextInputWithState('bunsenForm-foo-input', {
-          placeholder: '',
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {
+          label: 'Foo',
           value: 'John'
         })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: 'John'
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnChangeState(ctx, {foo: 'John'})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
     describe('applies regex string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        fillIn('bunsenForm-foo-input', 'Alexander')
+        return fillInBunsenTextRenderer('foo', 'Alexander')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.text),
-          'renders a bunsen text input'
-        )
-          .to.have.length(1)
-
-        expect(
-          findTextInputs(),
-          'renders one text input'
-        )
-          .to.have.length(1)
-
-        expectTextInputWithState('bunsenForm-foo-input', {
-          placeholder: '',
+        expectCollapsibleHandles(0)
+        expectBunsenTextRendererWithState('foo', {
+          label: 'Foo',
           value: 'Alex'
         })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: 'Alex'
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectOnChangeState(ctx, {foo: 'Alex'})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })

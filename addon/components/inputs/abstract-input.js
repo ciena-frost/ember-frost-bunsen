@@ -67,7 +67,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} input class name
    */
   valueClassName (errorMessage) {
-    const classNames = ['frost-link']
+    const classNames = []
 
     if (errorMessage) {
       classNames.push('error')

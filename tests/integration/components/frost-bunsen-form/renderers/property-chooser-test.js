@@ -1,4 +1,10 @@
 import {expect} from 'chai'
+
+import {
+  expectOnValidationState,
+  expectCollapsibleHandles
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
@@ -76,11 +82,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
+    expectCollapsibleHandles(0, 'my-form')
 
     expect(
       this.$(selectors.bunsen.renderer.propertyChooser),
@@ -150,11 +152,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.propertyChooser),
@@ -225,11 +223,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.propertyChooser),
@@ -300,11 +294,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.propertyChooser),
@@ -391,25 +381,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / property-choos
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 

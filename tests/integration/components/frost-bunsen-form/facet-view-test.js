@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import Ember from 'ember'
 const {$} = Ember
 import {generateFacetView} from 'ember-frost-bunsen/utils'
@@ -75,11 +76,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'renders collapsible handle for each input'
-    )
-      .to.have.length(2)
+    expectCollapsibleHandles(2)
 
     expect(
       this.$(selectors.bunsen.section.clearableButton),
@@ -177,11 +174,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle for each input'
-      )
-        .to.have.length(2)
+      expectCollapsibleHandles(2)
 
       expect(
         this.$(selectors.bunsen.section.clearableButton),
@@ -294,11 +287,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'renders collapsible handle for each input'
-        )
-          .to.have.length(2)
+        expectCollapsibleHandles(2)
 
         expect(
           this.$(selectors.bunsen.section.clearableButton),

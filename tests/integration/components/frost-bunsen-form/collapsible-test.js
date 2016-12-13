@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {
   expectTextInputWithState,
   findTextInputs
@@ -69,11 +71,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'renders one collapsible handle'
-    )
-      .to.have.length(1)
+    expectCollapsibleHandles(1)
 
     const $headings = this.$(selectors.bunsen.section.heading)
 
@@ -118,11 +116,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders one collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
 
@@ -169,11 +163,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders one collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
 
@@ -225,11 +215,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders one collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
 
@@ -276,11 +262,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders one collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
 
@@ -327,11 +309,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders one collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
 

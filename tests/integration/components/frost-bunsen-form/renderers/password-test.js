@@ -1,6 +1,11 @@
-import {expect} from 'chai'
-import {expectBunsenInputToHaveError} from 'dummy/tests/helpers/ember-frost-bunsen'
-import selectors from 'dummy/tests/helpers/selectors'
+import {
+  expectBunsenPasswordRendererWithState,
+  expectCollapsibleHandles,
+  expectOnChangeState,
+  expectOnValidationState,
+  fillInBunsenTextRenderer
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -29,63 +34,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
-
-    expect(
-      this.$(selectors.bunsen.renderer.password.input),
-      'renders a bunsen password input'
-    )
-      .to.have.length(1)
-
-    const $input = this.$(selectors.frost.password.input.enabled)
-
-    expect(
-      $input,
-      'renders an enabled password input'
-    )
-      .to.have.length(1)
-
-    expect(
-      $input.prop('placeholder'),
-      'does not have placeholder text'
-    )
-      .to.equal('')
-
-    expect(
-      this.$(selectors.bunsen.label).text().trim(),
-      'renders expected label text'
-    )
-      .to.equal('Foo')
-
-    expect(
-      this.$(selectors.error),
-      'does not have any validation errors'
-    )
-      .to.have.length(0)
-
-    expect(
-      ctx.props.onValidation.callCount,
-      'informs consumer of validation results'
-    )
-      .to.equal(1)
-
-    const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-    expect(
-      validationResult.errors.length,
-      'informs consumer there are no errors'
-    )
-      .to.equal(0)
-
-    expect(
-      validationResult.warnings.length,
-      'informs consumer there are no warnings'
-    )
-      .to.equal(0)
+    expectCollapsibleHandles(0)
+    expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+    expectOnValidationState(ctx, {count: 1})
   })
 
   describe('when label defined in view', function () {
@@ -106,63 +57,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.password.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        $input.prop('placeholder'),
-        'does not have placeholder text'
-      )
-        .to.equal('')
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('FooBar Baz')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'FooBar Baz'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -184,63 +81,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.password.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        $input.prop('placeholder'),
-        'does not have placeholder text'
-      )
-        .to.equal('')
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(1)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -262,63 +105,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.password.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        $input.prop('placeholder'),
-        'does not have placeholder text'
-      )
-        .to.equal('')
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -340,51 +129,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.password.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        $input.prop('placeholder'),
-        'has expected placeholder text'
-      )
-        .to.equal('Foo bar')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {
+        label: 'Foo',
+        placeholder: 'Foo bar'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -394,17 +144,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.password.input.enabled),
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -414,17 +156,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.password.input.disabled),
-        'renders a disabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -446,17 +183,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.password.input.enabled),
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -478,17 +207,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.password.input.disabled),
-        'renders a disabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {
+        disabled: true,
+        label: 'Foo'
+      })
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -497,64 +221,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
 
     beforeEach(function () {
       ctx.props.onValidation.reset()
-
-      this.$(selectors.frost.password.input.enabled)
-        .val(input)
-        .trigger('input')
+      return fillInBunsenTextRenderer('foo', input)
     })
 
     it('functions as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.password.input.enabled),
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.password.input.enabled).val(),
-        'input maintains user input value'
-      )
-        .to.equal(`${input}`)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onChange.lastCall.args[0],
-        'informs consumer of change'
-      )
-        .to.eql({
-          foo: input
-        })
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors,
-        'has no validation errors'
-      )
-        .to.eql([])
-
-      expect(
-        validationResult.warnings,
-        'has no validation warnings'
-      )
-        .to.eql([])
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {
+        label: 'Foo',
+        value: `${input}`
+      })
+      expectOnChangeState(ctx, {foo: input})
+      expectOnValidationState(ctx, {count: 1})
     })
   })
 
@@ -574,43 +251,20 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.password.input),
-        'renders a bunsen password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.password.input.enabled),
-        'renders an enabled password input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there is one error'
-      )
-        .to.equal(1)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {
+        count: 1,
+        errors: [
+          {
+            code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+            params: ['foo'],
+            message: 'Field is required.',
+            path: '#/foo',
+            isRequiredError: true
+          }
+        ]
+      })
     })
 
     describe('when showAllErrors is false', function () {
@@ -620,29 +274,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+        expectOnValidationState(ctx, {count: 0})
       })
     })
 
@@ -653,25 +287,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expectBunsenInputToHaveError('foo', 'Field is required.')
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'does not inform consumer of validation results'
-        )
-          .to.equal(0)
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {
+          error: 'Field is required.',
+          label: 'Foo'
+        })
+        expectOnValidationState(ctx, {count: 0})
       })
     })
   })
@@ -721,64 +342,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.password.input.enabled)
-          .val(input)
-          .trigger('input')
+        return fillInBunsenTextRenderer('foo', input)
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled).val(),
-          'renders transformed value in password input'
-        )
-          .to.equal('Matthew')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: input
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {
+          label: 'Foo',
+          value: 'Matthew'
+        })
+        expectOnChangeState(ctx, {foo: input})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -787,192 +361,51 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.password.input.enabled)
-          .val(input)
-          .trigger('input')
+        return fillInBunsenTextRenderer('foo', input)
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled).val(),
-          'renders transformed value in password input'
-        )
-          .to.equal('Christopher')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: input
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {
+          label: 'Foo',
+          value: 'Christopher'
+        })
+        expectOnChangeState(ctx, {foo: input})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
     describe('applies literal string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.password.input.enabled)
-          .val('Johnathan')
-          .trigger('input')
+        return fillInBunsenTextRenderer('foo', 'Johnathan')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled).val(),
-          'renders transformed value in password input'
-        )
-          .to.equal('John')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: 'John'
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {
+          label: 'Foo',
+          value: 'John'
+        })
+        expectOnChangeState(ctx, {foo: 'John'})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
     describe('applies regex string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-
-        this.$(selectors.frost.password.input.enabled)
-          .val('Alexander')
-          .trigger('input')
+        return fillInBunsenTextRenderer('foo', 'Alexander')
       })
 
       it('functions as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.password.input),
-          'renders a bunsen password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled),
-          'renders an enabled password input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.password.input.enabled).val(),
-          'renders transformed value in password input'
-        )
-          .to.equal('Alex')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          ctx.props.onChange.lastCall.args[0],
-          'informs consumer of change'
-        )
-          .to.eql({
-            foo: 'Alex'
-          })
-
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors,
-          'has no validation errors'
-        )
-          .to.eql([])
-
-        expect(
-          validationResult.warnings,
-          'has no validation warnings'
-        )
-          .to.eql([])
+        expectCollapsibleHandles(0)
+        expectBunsenPasswordRendererWithState('foo', {
+          label: 'Foo',
+          value: 'Alex'
+        })
+        expectOnChangeState(ctx, {foo: 'Alex'})
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })

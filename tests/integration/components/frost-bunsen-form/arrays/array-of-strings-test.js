@@ -1,4 +1,10 @@
 import {expect} from 'chai'
+
+import {
+  expectCollapsibleHandles,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -27,11 +33,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -64,25 +66,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -91,11 +75,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -128,25 +108,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -156,11 +118,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -194,25 +152,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -231,11 +171,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'renders collapsible handle'
-        )
-          .to.have.length(1)
+        expectCollapsibleHandles(1)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -268,25 +204,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when user adds item', function () {
@@ -296,11 +214,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'renders collapsible handle'
-          )
-            .to.have.length(1)
+          expectCollapsibleHandles(1)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -345,25 +259,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user removes item', function () {
@@ -373,11 +269,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
+            expectCollapsibleHandles(1)
 
             expect(
               this.$(selectors.bunsen.renderer.text),
@@ -445,11 +337,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -482,25 +370,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when users adds item', function () {
@@ -510,11 +380,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -584,25 +450,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user removes item', function () {
@@ -613,11 +461,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
 
             expect(
               this.$(selectors.bunsen.renderer.text),
@@ -650,25 +494,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
             )
               .to.have.length(0)
 
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(3)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectOnValidationState(ctx, {count: 3})
           })
         })
       })
@@ -681,11 +507,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -732,25 +554,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(2)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 2})
       })
 
       describe('when user removes item', function () {
@@ -761,11 +565,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -798,25 +598,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(3)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx, {count: 3})
         })
       })
     })
@@ -838,11 +620,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -876,25 +654,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when user inputs value', function () {
@@ -903,11 +663,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -951,25 +707,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(2)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx, {count: 2})
         })
 
         describe('when user clears input', function () {
@@ -978,11 +716,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
 
             expect(
               this.$(selectors.bunsen.renderer.text),
@@ -1065,11 +799,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -1118,25 +848,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       )
         .to.have.length(0)
 
-      expect(
-        ctx.props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState(ctx, {count: 1})
     })
 
     describe('when form explicitly enabled', function () {
@@ -1145,11 +857,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1198,25 +906,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -1226,11 +916,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1282,25 +968,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when sortable enabled', function () {
@@ -1320,11 +988,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -1378,25 +1042,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           )
             .to.have.length(0)
 
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -1418,11 +1064,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1470,25 +1112,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
     })
 
@@ -1509,11 +1133,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1562,25 +1182,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
         )
           .to.have.length(0)
 
-        expect(
-          ctx.props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+        expectOnValidationState(ctx, {count: 1})
       })
     })
   })

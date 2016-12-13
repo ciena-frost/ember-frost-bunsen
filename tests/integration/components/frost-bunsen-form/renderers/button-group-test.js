@@ -1,4 +1,11 @@
 import {expect} from 'chai'
+
+import {
+  expectBunsenButtonGroupRendererWithState,
+  expectCollapsibleHandles,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import Ember from 'ember'
@@ -62,85 +69,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
         const buttonLabels = getButtonLabels(fooModel)
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.buttonGroup),
-            'renders a bunsen button-group input'
-          )
-            .to.have.length(1)
-
-          const $buttons = this.$(selectors.frost.button.input.enabled)
-
-          expect(
-            $buttons,
-            'renders enabled buttons'
-          )
-            .to.have.length(2)
-
-          const $firstButton = $buttons.eq(0)
-
-          expect(
-            $firstButton.text().trim(),
-            'first button has expected text'
-          )
-            .to.equal(buttonLabels[0])
-
-          expect(
-            $firstButton.hasClass(selectors.frost.button.size.medium),
-            'first button is correct size'
-          )
-            .to.be.equal(true)
-
-          const $secondButton = $buttons.eq(1)
-
-          expect(
-            $secondButton.text().trim(),
-            'second button has expected text'
-          )
-            .to.equal(buttonLabels[1])
-
-          expect(
-            $secondButton.hasClass(selectors.frost.button.size.medium),
-            'first button is correct size'
-          )
-            .to.be.equal(true)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            ctx.props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
+          expectCollapsibleHandles(0)
+          expectBunsenButtonGroupRendererWithState('foo', {
+            buttons: buttonLabels,
+            label: 'Foo'
+          })
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when label defined in view', function () {
@@ -161,69 +95,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('FooBar Baz')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'FooBar Baz'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -245,69 +122,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(1)
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -329,69 +149,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
-
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            expect(
-              $buttons.eq(0).text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $buttons.eq(1).text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectCollapsibleHandles(0)
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo'
+            })
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -413,79 +176,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.renderer.buttonGroup),
-              'renders a bunsen button-group input'
-            )
-              .to.have.length(1)
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo',
+              size: 'small'
+            })
 
-            const $buttons = this.$(selectors.frost.button.input.enabled)
-
-            expect(
-              $buttons,
-              'renders enabled buttons'
-            )
-              .to.have.length(2)
-
-            const $firstButton = $buttons.eq(0)
-
-            expect(
-              $firstButton.text().trim(),
-              'first button has expected text'
-            )
-              .to.equal(buttonLabels[0])
-
-            expect(
-              $firstButton.hasClass(selectors.frost.button.size.small),
-              'first button is correct size'
-            )
-              .to.be.equal(true)
-
-            const $secondButton = $buttons.eq(1)
-
-            expect(
-              $secondButton.text().trim(),
-              'second button has expected text'
-            )
-              .to.equal(buttonLabels[1])
-
-            expect(
-              $secondButton.hasClass(selectors.frost.button.size.small),
-              'first button is correct size'
-            )
-              .to.be.equal(true)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectOnValidationState(ctx, {count: 1})
           })
         })
 
@@ -660,11 +357,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
 
             expect(
               this.$(selectors.bunsen.renderer.buttonGroup),
@@ -692,7 +385,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               $firstButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.equal(true)
+              .to.equal(true)
 
             const $secondButton = $buttons.eq(1)
 
@@ -706,7 +399,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               $secondButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.equal(true)
+              .to.equal(true)
 
             expect(
               this.$(selectors.bunsen.label).text().trim(),
@@ -730,25 +423,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             )
               .to.have.length(0)
 
-            expect(
-              ctx.props.onValidation.callCount,
-              'informs consumer of validation results'
-            )
-              .to.equal(1)
-
-            const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-            expect(
-              validationResult.errors.length,
-              'informs consumer there are no errors'
-            )
-              .to.equal(0)
-
-            expect(
-              validationResult.warnings.length,
-              'informs consumer there are no warnings'
-            )
-              .to.equal(0)
+            expectOnValidationState(ctx, {count: 1})
           })
 
           describe('when button deselected', function () {
@@ -762,11 +437,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.collapsible.handle),
-                'does not render collapsible handle'
-              )
-                .to.have.length(0)
+              expectCollapsibleHandles(0)
 
               expect(
                 this.$(selectors.bunsen.renderer.buttonGroup),
@@ -794,7 +465,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
                 $firstButton.hasClass(selectors.frost.button.size.medium),
                 'first button is correct size'
               )
-                .to.be.equal(true)
+                .to.equal(true)
 
               const $secondButton = $buttons.eq(1)
 
@@ -808,7 +479,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
                 $secondButton.hasClass(selectors.frost.button.size.medium),
                 'first button is correct size'
               )
-                .to.be.equal(true)
+                .to.equal(true)
 
               expect(
                 this.$(selectors.bunsen.label).text().trim(),
@@ -828,25 +499,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               )
                 .to.have.length(0)
 
-              expect(
-                ctx.props.onValidation.callCount,
-                'informs consumer of validation results'
-              )
-                .to.equal(1)
-
-              const validationResult = ctx.props.onValidation.lastCall.args[0]
-
-              expect(
-                validationResult.errors.length,
-                'informs consumer there are no errors'
-              )
-                .to.equal(0)
-
-              expect(
-                validationResult.warnings.length,
-                'informs consumer there are no warnings'
-              )
-                .to.equal(0)
+              expectOnValidationState(ctx, {count: 1})
             })
           })
         })

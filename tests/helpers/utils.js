@@ -68,7 +68,7 @@ export function renderFormComponent () {
 
 /**
  * Setup integration test for a particular ember-frost-bunsen component
- * @param {Object} defaults - default properties
+ * @param {Function} defaults - method to get default props
  * @param {String} name - name of component being tested
  * @param {Object} props - properties for test
  * @param {Function} renderer - method to render component
@@ -122,7 +122,7 @@ export function setupDetailComponentTest (props) {
 export function setupFormComponentTest (props) {
   return setupCommonComponentTest({
     defaults: getDefaultsForFormComponent,
-    name: 'frost-bunsen-detail',
+    name: 'frost-bunsen-form',
     props,
     renderer: renderFormComponent
   })

@@ -92,7 +92,7 @@ describe('Acceptance: Performance', function () {
     it('should have the full text', function () {
       andThen(() => {
         const value = getValue()
-        expect(value.lastName).to.be.equal('abcdef')
+        expect(value.lastName).to.equal('abcdef')
       })
     })
 
@@ -117,7 +117,7 @@ describe('Acceptance: Performance', function () {
     })
 
     it('should have the full text', function () {
-      expect($input.val()).to.be.equal('abcdef')
+      expect($input.val()).to.equal('abcdef')
     })
 
     it('should re-render fewer times than initial render', function () {

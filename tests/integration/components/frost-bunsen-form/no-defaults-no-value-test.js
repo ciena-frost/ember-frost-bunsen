@@ -24,7 +24,7 @@ describe('Integration: frost-bunsen-form', function () {
     })
 
     it('renders an unckecked checkbox for baz', function () {
-      expect(this.$('.frost-bunsen-input-boolean input').is(':checked')).to.be.equal(false)
+      expect(this.$('.frost-bunsen-input-boolean input').is(':checked')).to.equal(false)
     })
 
     it('renders an input for foo with no value', function () {
