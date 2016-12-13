@@ -4,7 +4,8 @@ import {$hook} from 'ember-hook'
 
 import {
   expectBunsenInputNotToHaveError,
-  expectBunsenInputToHaveError
+  expectBunsenInputToHaveError,
+  expectLabel
 } from './common'
 
 const assign = Object.assign || Ember.assign || Ember.merge
@@ -12,8 +13,7 @@ const assign = Object.assign || Ember.assign || Ember.merge
 const SELECTORS = {
   CHECKBOX: '.frost-checkbox input[type="checkbox"]',
   DISABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:disabled',
-  ENABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:not(:disabled)',
-  LABEL: '.frost-bunsen-left-label'
+  ENABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:not(:disabled)'
 }
 
 /**
@@ -74,15 +74,7 @@ export function expectWithState (bunsenId, state) {
   expectDisabledInput($renderer, state.disabled)
 
   if (state.label) {
-    const labelText = $renderer.find(SELECTORS.LABEL)
-      .clone().children().remove().end() // Remove required DOM to get just the heading
-      .text().trim() // Remove whitespace around label text (often newlines)
-
-    expect(
-      labelText,
-      'renders expected label text'
-    )
-      .to.equal(state.label)
+    expectLabel($renderer, state.label)
   }
 
   if (state.error) {

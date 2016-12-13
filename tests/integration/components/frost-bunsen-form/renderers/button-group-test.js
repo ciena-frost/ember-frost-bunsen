@@ -79,12 +79,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             label: 'Foo'
           })
 
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
           expectOnValidationState(ctx.props.onValidation, {count: 1})
         })
 
@@ -116,12 +110,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               buttons: buttonLabels,
               label: 'FooBar Baz'
             })
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
 
             expectOnValidationState(ctx.props.onValidation, {count: 1})
           })
@@ -156,12 +144,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'Foo'
             })
 
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
             expectOnValidationState(ctx.props.onValidation, {count: 1})
           })
         })
@@ -195,12 +177,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'Foo'
             })
 
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
-
             expectOnValidationState(ctx.props.onValidation, {count: 1})
           })
         })
@@ -228,12 +204,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               label: 'Foo',
               size: 'small'
             })
-
-            expect(
-              this.$(selectors.error),
-              'does not have any validation errors'
-            )
-              .to.have.length(0)
 
             expectOnValidationState(ctx.props.onValidation, {count: 1})
           })

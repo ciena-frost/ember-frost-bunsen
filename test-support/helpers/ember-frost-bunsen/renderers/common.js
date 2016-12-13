@@ -3,6 +3,10 @@
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
 
+const SELECTORS = {
+  LABEL: '.frost-bunsen-left-label'
+}
+
 /**
  * Verify bunsen input is not in error state
  * @param {String} bunsenId - identifier of bunsen property to verify
@@ -52,6 +56,18 @@ export function expectBunsenInputToHaveError (bunsenId, errorMessage, hook = 'bu
     'error message is as expected'
   )
     .to.equal(errorMessage)
+}
+
+export function expectLabel ($renderer, label) {
+  const labelText = $renderer.find(SELECTORS.LABEL)
+    .clone().children().remove().end() // Remove required DOM to get just the heading
+    .text().trim() // Remove whitespace around label text (often newlines)
+
+  expect(
+    labelText,
+    'renders expected label text'
+  )
+    .to.equal(label)
 }
 
 /**

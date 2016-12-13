@@ -2,11 +2,13 @@ import {expect} from 'chai'
 import Ember from 'ember'
 import {$hook} from 'ember-hook'
 
-const assign = Object.assign || Ember.assign || Ember.merge
+import {
+  expectBunsenInputNotToHaveError,
+  expectBunsenInputToHaveError,
+  expectLabel
+} from './common'
 
-const SELECTORS = {
-  LABEL: '.frost-bunsen-left-label'
-}
+const assign = Object.assign || Ember.assign || Ember.merge
 
 export function expectWithState (bunsenId, state) {
   const hook = state.hook || 'bunsenForm'
@@ -52,14 +54,12 @@ export function expectWithState (bunsenId, state) {
     })
 
   if (state.label) {
-    const labelText = $renderer.find(SELECTORS.LABEL)
-      .clone().children().remove().end() // Remove required DOM to get just the heading
-      .text().trim() // Remove whitespace around label text (often newlines)
+    expectLabel($renderer, state.label)
+  }
 
-    expect(
-      labelText,
-      'renders expected label text'
-    )
-      .to.equal(state.label)
+  if (state.error) {
+    expectBunsenInputToHaveError(bunsenId, state.error, hook)
+  } else {
+    expectBunsenInputNotToHaveError(bunsenId, hook)
   }
 }

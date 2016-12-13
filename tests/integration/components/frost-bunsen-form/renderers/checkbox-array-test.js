@@ -1,5 +1,10 @@
 import {expect} from 'chai'
-import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
+
+import {
+  expectBunsenCheckboxArrayRendererWithState,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
@@ -39,31 +44,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     )
       .to.have.length(0)
 
-    expect(
-      this.$(selectors.bunsen.renderer.checkboxArray),
-      'renders a bunsen checkbox-array input'
-    )
-      .to.have.length(1)
-
-    const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-    expect(
-      $input,
-      'renders an enabled checkbox-array input'
-    )
-      .to.have.length(2)
-
-    expect(
-      this.$(selectors.bunsen.label).text().trim(),
-      'renders expected label text'
-    )
-      .to.equal('Foo')
-
-    expect(
-      this.$(selectors.error),
-      'does not have any validation errors'
-    )
-      .to.have.length(0)
+    expectBunsenCheckboxArrayRendererWithState('foo', {
+      items: ['bar', 'baz'],
+      label: 'Foo'
+    })
   })
 
   describe('when label defined in view', function () {
@@ -90,31 +74,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       )
         .to.have.length(0)
 
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('FooBar Baz')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'FooBar Baz'
+      })
     })
   })
 
@@ -142,31 +105,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       )
         .to.have.length(1)
 
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -194,31 +136,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       )
         .to.have.length(0)
 
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -228,17 +149,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -248,17 +162,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        disabled: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -280,17 +188,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -312,17 +213,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.frost.checkbox.input.disabled),
-        'renders a disabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        disabled: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 
@@ -346,23 +241,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      expect(
-        this.$(selectors.frost.checkbox.input.enabled),
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
 
       expectOnValidationState(ctx.props.onValidation, {
         count: 1,
@@ -392,31 +274,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       )
         .to.have.length(0)
 
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
     })
   })
 })

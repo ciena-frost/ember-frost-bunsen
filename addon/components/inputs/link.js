@@ -2,7 +2,7 @@ import {utils} from 'bunsen-core'
 const {parseVariables} = utils
 import Ember from 'ember'
 const {get} = Ember
-import computed from 'ember-computed-decorators'
+import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-link'
@@ -56,6 +56,23 @@ export default AbstractInput.extend({
   @computed('cellConfig', 'value')
   route (cellConfig) {
     return _.get(cellConfig, 'renderer.route')
+  },
+
+  @readOnly
+  @computed('renderErrorMessage')
+  /**
+   * Get class name for input element
+   * @param {String} errorMessage - error message for input
+   * @returns {String} input class name
+   */
+  valueClassName (errorMessage) {
+    const classNames = ['frost-link']
+
+    if (errorMessage) {
+      classNames.push('error')
+    }
+
+    return classNames.join(' ')
   },
 
   // == Functions ==============================================================
