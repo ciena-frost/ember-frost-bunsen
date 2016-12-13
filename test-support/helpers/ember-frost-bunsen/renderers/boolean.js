@@ -27,7 +27,7 @@ export function click (bunsenId, hook) {
   const hookName = `${hook}-${bunsenId}`
   const $renderer = $hook(hookName).first()
 
-  $renderer.find('input["checkbox"]').click()
+  $renderer.find('input[type="checkbox"]').click()
 }
 
 /**
@@ -42,7 +42,7 @@ function expectCheckedInput ($renderer, checked) {
     $renderer.find(SELECTORS.CHECKBOX).prop('checked'),
     `checkbox is ${verb}`
   )
-    .to.be.equal(checked)
+    .to.equal(checked)
 }
 
 /**

@@ -56,15 +56,15 @@ describe('Unit: frost-bunsen-cell', function () {
     })
 
     it('isArrayItem() returns true', function () {
-      expect(component.get('isArrayItem')).to.be.equal(true)
+      expect(component.get('isArrayItem')).to.equal(true)
     })
 
     it('isSubModelArray returns true', function () {
-      expect(component.get('isSubModelArray')).to.be.equal(true)
+      expect(component.get('isSubModelArray')).to.equal(true)
     })
 
     it('isSubModelObject returns false', function () {
-      expect(component.get('isSubModelObject')).to.be.equal(false)
+      expect(component.get('isSubModelObject')).to.equal(false)
     })
 
     it('nonIndexId returns expected value', function () {
@@ -72,7 +72,7 @@ describe('Unit: frost-bunsen-cell', function () {
     })
 
     it('readOnly defaults to false', function () {
-      expect(component.get('readOnly')).to.be.equal(false)
+      expect(component.get('readOnly')).to.equal(false)
     })
 
     it('renderId returns ${bunsenId}.${model}', function () {
@@ -119,7 +119,7 @@ describe('Unit: frost-bunsen-cell', function () {
       })
 
       it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.be.equal(undefined)
+        expect(component.get('renderValue')).to.equal(undefined)
       })
     })
   })

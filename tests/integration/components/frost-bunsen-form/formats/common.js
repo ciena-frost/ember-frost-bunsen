@@ -148,7 +148,7 @@ export default function (format, invalidValues, validValues, focus = false) {
             validationResult,
             'provides consumer with validation results via onValidation() property'
           )
-            .not.to.be.equal(undefined)
+            .not.to.equal(undefined)
 
           expect(
             validationResult.errors,

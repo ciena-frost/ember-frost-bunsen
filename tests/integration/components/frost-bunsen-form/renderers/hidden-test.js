@@ -1,6 +1,8 @@
-import {expect} from 'chai'
-import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
-import selectors from 'dummy/tests/helpers/selectors'
+import {
+  expectOnChangeState,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {describe, it} from 'mocha'
 
@@ -31,27 +33,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
       expectOnValidationState(ctx, {count: 1})
-
-      expect(
-        ctx.props.onChange.callCount,
-        'informs consumer of change'
-      )
-        .to.equal(1)
-
-      expect(
-        ctx.props.onChange.lastCall.args[0],
-        'applies default value from bunsen model'
-      )
-        .to.eql({
-          foo: 'bar'
-        })
+      expectOnChangeState(ctx, {
+        foo: 'bar'
+      })
     })
   })
 
@@ -87,28 +72,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
-
       expectOnValidationState(ctx, {count: 2})
-
-      expect(
-        ctx.props.onChange.callCount,
-        'informs consumer of change'
-      )
-        .to.equal(2)
-
-      expect(
-        ctx.props.onChange.lastCall.args[0],
-        'applies valueRef to form value'
-      )
-        .to.eql({
-          baz: 'alpha',
-          foo: 'alpha'
-        })
+      expectOnChangeState(ctx, {
+        baz: 'alpha',
+        foo: 'alpha'
+      })
     })
   })
 })

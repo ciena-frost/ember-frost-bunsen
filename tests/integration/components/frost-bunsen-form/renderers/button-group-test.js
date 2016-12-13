@@ -2,6 +2,7 @@ import {expect} from 'chai'
 
 import {
   expectBunsenButtonGroupRendererWithState,
+  expectCollapsibleHandles,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
@@ -68,17 +69,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
         const buttonLabels = getButtonLabels(fooModel)
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
+          expectCollapsibleHandles(0)
           expectBunsenButtonGroupRendererWithState('foo', {
             buttons: buttonLabels,
             label: 'Foo'
           })
-
           expectOnValidationState(ctx, {count: 1})
         })
 
@@ -100,17 +95,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
+            expectCollapsibleHandles(0)
             expectBunsenButtonGroupRendererWithState('foo', {
               buttons: buttonLabels,
               label: 'FooBar Baz'
             })
-
             expectOnValidationState(ctx, {count: 1})
           })
         })
@@ -133,17 +122,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
-
+            expectCollapsibleHandles(1)
             expectBunsenButtonGroupRendererWithState('foo', {
               buttons: buttonLabels,
               label: 'Foo'
             })
-
             expectOnValidationState(ctx, {count: 1})
           })
         })
@@ -166,17 +149,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
+            expectCollapsibleHandles(0)
             expectBunsenButtonGroupRendererWithState('foo', {
               buttons: buttonLabels,
               label: 'Foo'
             })
-
             expectOnValidationState(ctx, {count: 1})
           })
         })
@@ -380,11 +357,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
 
             expect(
               this.$(selectors.bunsen.renderer.buttonGroup),
@@ -412,7 +385,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               $firstButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.equal(true)
+              .to.equal(true)
 
             const $secondButton = $buttons.eq(1)
 
@@ -426,7 +399,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               $secondButton.hasClass(selectors.frost.button.size.medium),
               'first button is correct size'
             )
-              .to.be.equal(true)
+              .to.equal(true)
 
             expect(
               this.$(selectors.bunsen.label).text().trim(),
@@ -464,11 +437,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             })
 
             it('renders as expected', function () {
-              expect(
-                this.$(selectors.bunsen.collapsible.handle),
-                'does not render collapsible handle'
-              )
-                .to.have.length(0)
+              expectCollapsibleHandles(0)
 
               expect(
                 this.$(selectors.bunsen.renderer.buttonGroup),
@@ -496,7 +465,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
                 $firstButton.hasClass(selectors.frost.button.size.medium),
                 'first button is correct size'
               )
-                .to.be.equal(true)
+                .to.equal(true)
 
               const $secondButton = $buttons.eq(1)
 
@@ -510,7 +479,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
                 $secondButton.hasClass(selectors.frost.button.size.medium),
                 'first button is correct size'
               )
-                .to.be.equal(true)
+                .to.equal(true)
 
               expect(
                 this.$(selectors.bunsen.label).text().trim(),

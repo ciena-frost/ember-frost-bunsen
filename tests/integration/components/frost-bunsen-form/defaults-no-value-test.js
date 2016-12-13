@@ -33,7 +33,7 @@ describe('Integration: frost-bunsen-form', function () {
     })
 
     it('renders a checkbox for baz with the default value', function () {
-      expect(this.$('.frost-bunsen-input-boolean input').is(':checked')).to.be.equal(true)
+      expect(this.$('.frost-bunsen-input-boolean input').is(':checked')).to.equal(true)
     })
 
     it('renders an input for foo with the default value', function () {

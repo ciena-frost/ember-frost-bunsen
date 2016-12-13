@@ -1,3 +1,10 @@
+// NOTE: While consumers have access to these helpers they are still considered
+// private API and subject to change without notice as the tests will continue
+// to be refactored until we are satisifed with the quality of the tests and
+// these helpers. When we are satisfied with these helpers we will document
+// them, making them public API, at which point consumers will be free to use
+// them without the worry of them changing on minor/patch upgrades.
+
 import {expect} from 'chai'
 import Ember from 'ember'
 import {$hook} from 'ember-hook'
@@ -44,10 +51,12 @@ export {
 } from './ember-frost-bunsen/renderers/multi-select'
 
 export {
+  fillIn as fillInBunsenNumberRenderer,
   expectWithState as expectBunsenNumberRendererWithState
 } from './ember-frost-bunsen/renderers/number'
 
 export {
+  fillIn as fillInBunsenPasswordRenderer,
   expectWithState as expectBunsenPasswordRendererWithState
 } from './ember-frost-bunsen/renderers/password'
 
@@ -64,14 +73,17 @@ export {
 } from './ember-frost-bunsen/renderers/static'
 
 export {
+  fillIn as fillInBunsenTextRenderer,
   expectWithState as expectBunsenTextRendererWithState
 } from './ember-frost-bunsen/renderers/text'
 
 export {
+  fillIn as fillInBunsenTextareaRenderer,
   expectWithState as expectBunsenTextareaRendererWithState
 } from './ember-frost-bunsen/renderers/textarea'
 
 export {
+  fillIn as fillInBunsenUrlRenderer,
   expectWithState as expectBunsenUrlRendererWithState
 } from './ember-frost-bunsen/renderers/url'
 
