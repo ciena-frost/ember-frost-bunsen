@@ -92,14 +92,6 @@ export default AbstractInput.extend({
     return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelType
   },
 
-  @readOnly
-  @computed('options', 'value')
-  selectedOptionLabel (options, value) {
-    options = options || []
-    const selectedOption = options.find((option) => option.value === value)
-    return selectedOption ? selectedOption.label : value
-  },
-
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
