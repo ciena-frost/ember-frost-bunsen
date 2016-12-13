@@ -5,8 +5,9 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {Logger, RSVP} = Ember
+import {getErrorMessage} from 'ember-frost-bunsen/utils'
 
-import * as utils from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
 
 /**
  * set a list's available options
@@ -96,7 +97,7 @@ function getWithDefault (obj, key, defaultVal) {
   return value
 }
 
-export function getDisplayValue (value, modelDef, bunsenId, store) {
+export function getDisplayValue (value, modelDef, bunsenId, store, onError) {
   const labelAttr = getWithDefault(modelDef, 'labelAttribute', 'label')
   const valueAttr = getWithDefault(modelDef, 'valueAttribute', 'id')
 
@@ -108,7 +109,11 @@ export function getDisplayValue (value, modelDef, bunsenId, store) {
     return Ember.get(record, labelAttr)
   }
 
-  const displayValueDirectly = () => {
+  const displayValueDirectly = (err) => {
+    onError(bunsenId, [{
+      path: bunsenId,
+      message: getErrorMessage(err)
+    }])
     return value
   }
 

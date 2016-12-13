@@ -15,7 +15,7 @@ describeComponent(
     integration: true
   },
   function () {
-    let promise, props, resolver, sandbox
+    let promise, props, resolver, sandbox, fakeStore
 
     beforeEach(function () {
       sandbox = sinon.sandbox.create()
@@ -28,13 +28,12 @@ describeComponent(
         resolver.reject = reject
       })
 
-      this.register('service:store', Ember.Service.extend({
+      fakeStore = {
         queryRecord: sinon.stub().returns(promise),
-        findRecord: sinon.stub().returns(promise),
-        query () {
-          return promise
-        }
-      }))
+        findRecord: sinon.stub().returns(promise)
+      }
+
+      this.register('service:store', Ember.Service.extend(fakeStore))
 
       props = {
         bunsenModel: {
@@ -89,14 +88,56 @@ describeComponent(
       beforeEach(function () {
         this.set('value', undefined)
       })
+      it('store is not queried', function () {
+        expect(fakeStore.queryRecord.called).to.equal(false)
+        expect(fakeStore.findRecord.called).to.equal(false)
+      })
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.collapsible.handle),
+          'does not render collapsible handle'
+        )
+          .to.have.length(0)
 
-      describe('when query succeeds', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.static),
+          'renders a bunsen static input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+
+        expect(
+          this.$(selectors.bunsen.value).text().trim(),
+          'renders expected value'
+        )
+          .to.equal('—')
+      })
+
+      describe('when label defined in view', function () {
         beforeEach(function () {
-          run(() => {
-            resolver.resolve(Ember.Object.create({
-              id: 'bar',
-              label: 'Barbeque'
-            }))
+          this.set('bunsenView', {
+            cells: [
+              {
+                label: 'FooBar Baz',
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    }
+                  }
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
           })
         })
 
@@ -117,176 +158,86 @@ describeComponent(
             this.$(selectors.bunsen.label).text().trim(),
             'renders expected label text'
           )
-            .to.equal('Foo')
+            .to.equal('FooBar Baz')
 
           expect(
             this.$(selectors.bunsen.value).text().trim(),
             'renders expected value'
           )
             .to.equal('—')
-        })
-
-        describe('when label defined in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  label: 'FooBar Baz',
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('FooBar Baz')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
-        })
-
-        describe('when collapsible is set to true in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  collapsible: true,
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
-        })
-
-        describe('when collapsible is set to false in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  collapsible: false,
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
         })
       })
 
-      describe('when query fails', function () {
+      describe('when collapsible is set to true in view', function () {
         beforeEach(function () {
-          run(() => {
-            resolver.reject({
-              responseJSON: {
-                errors: [{
-                  detail: 'It done broke, son.'
-                }]
+          this.set('bunsenView', {
+            cells: [
+              {
+                collapsible: true,
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    }
+                  }
+                }
               }
-            })
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.collapsible.handle),
+            'renders collapsible handle'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.renderer.static),
+            'renders a bunsen static input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('Foo')
+
+          expect(
+            this.$(selectors.bunsen.value).text().trim(),
+            'renders expected value'
+          )
+            .to.equal('—')
+        })
+      })
+
+      describe('when collapsible is set to false in view', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cells: [
+              {
+                collapsible: false,
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    }
+                  }
+                }
+              }
+            ],
+            type: 'form',
+            version: '2.0'
           })
         })
 
@@ -314,165 +265,6 @@ describeComponent(
             'renders expected value'
           )
             .to.equal('—')
-
-          expect(
-            this.get('onError').lastCall.args,
-            'calls onError'
-          )
-            .to.eql(['foo', [{
-              path: 'foo',
-              message: 'It done broke, son.'
-            }]])
-        })
-
-        describe('when label defined in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  label: 'FooBar Baz',
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('FooBar Baz')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
-        })
-
-        describe('when collapsible is set to true in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  collapsible: true,
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'renders collapsible handle'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
-        })
-
-        describe('when collapsible is set to false in view', function () {
-          beforeEach(function () {
-            this.set('bunsenView', {
-              cells: [
-                {
-                  collapsible: false,
-                  model: 'foo',
-                  renderer: {
-                    name: 'select',
-                    options: {
-                      modelType: 'node',
-                      query: {
-                        baz: 'alpha'
-                      }
-                    }
-                  }
-                }
-              ],
-              type: 'form',
-              version: '2.0'
-            })
-          })
-
-          it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
-
-            expect(
-              this.$(selectors.bunsen.renderer.static),
-              'renders a bunsen static input'
-            )
-              .to.have.length(1)
-
-            expect(
-              this.$(selectors.bunsen.label).text().trim(),
-              'renders expected label text'
-            )
-              .to.equal('Foo')
-
-            expect(
-              this.$(selectors.bunsen.value).text().trim(),
-              'renders expected value'
-            )
-              .to.equal('—')
-          })
         })
       })
     })

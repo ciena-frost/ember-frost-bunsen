@@ -41,10 +41,7 @@ describeComponent(
 
       fakeStore = {
         queryRecord: sinon.stub().returns(promise),
-        findRecord: sinon.stub().returns(promise),
-        query () {
-          return promise
-        }
+        findRecord: sinon.stub().returns(promise)
       }
 
       this.register('service:store', Ember.Service.extend(fakeStore))

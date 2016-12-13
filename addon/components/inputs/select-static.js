@@ -51,7 +51,8 @@ export default AbstractInput.extend({
       const bunsenId = this.get('bunsenId')
       const modelDef = this._getModelDef()
       const store = this.get('store')
-      listUtils.getDisplayValue(value, modelDef, bunsenId, store).then(val => {
+      const onError = this.onError || _.noop
+      listUtils.getDisplayValue(value, modelDef, bunsenId, store, onError.bind(this)).then(val => {
         if (_.isBoolean(val)) {
           return val ? 'true' : 'false'
         }

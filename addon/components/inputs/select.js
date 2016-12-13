@@ -147,6 +147,9 @@ export default AbstractInput.extend({
       const listData = this.get('listData')
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
       this.set('optionsInitialized', true)
+      if (this.get('readOnly')) {
+        return
+      }
       listUtils.getOptions(newValue, modelDef, listData, bunsenId, store)
         .then((opts) => {
           this.set('options', opts)
@@ -269,6 +272,9 @@ export default AbstractInput.extend({
      * @param  {String} filter the filter text
      */
     filterOptions (filter) {
+      if (this.get('readOnly')) {
+        return
+      }
       const modelDef = this._getModelDef()
       const bunsenId = this.get('bunsenId')
       const store = this.get('store')
