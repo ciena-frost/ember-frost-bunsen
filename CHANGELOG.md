@@ -1,3 +1,7 @@
+# 12.6.4
+**Changed** read-only version of select renderer to fetch individual records directly rather than fetching a list and searching through it.
+
+
 # 12.6.3
 
 * **Fixed** description bubble property validations to not require `description` property as it was causing undesired `ember-prop-type` warnings in the console.
