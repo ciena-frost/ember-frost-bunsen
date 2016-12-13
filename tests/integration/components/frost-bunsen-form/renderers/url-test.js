@@ -1,9 +1,9 @@
 import {
-  fillInBunsenUrlRenderer,
   expectBunsenUrlRendererWithState,
   expectCollapsibleHandles,
   expectOnChangeState,
-  expectOnValidationState
+  expectOnValidationState,
+  fillInBunsenUrlRenderer
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'

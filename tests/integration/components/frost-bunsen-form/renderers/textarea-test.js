@@ -1,9 +1,9 @@
 import {
-  fillInBunsenTextareaRenderer,
   expectBunsenTextareaRendererWithState,
   expectCollapsibleHandles,
   expectOnChangeState,
-  expectOnValidationState
+  expectOnValidationState,
+  fillInBunsenTextareaRenderer
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
