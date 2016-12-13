@@ -92,14 +92,6 @@ export default AbstractInput.extend({
     return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelType
   },
 
-  @readOnly
-  @computed('options', 'value')
-  selectedOptionLabel (options, value) {
-    options = options || []
-    const selectedOption = options.find((option) => option.value === value)
-    return selectedOption ? selectedOption.label : value
-  },
-
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
@@ -147,6 +139,9 @@ export default AbstractInput.extend({
       const listData = this.get('listData')
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
       this.set('optionsInitialized', true)
+      if (this.get('readOnly')) {
+        return
+      }
       listUtils.getOptions(newValue, modelDef, listData, bunsenId, store)
         .then((opts) => {
           this.set('options', opts)
@@ -269,6 +264,9 @@ export default AbstractInput.extend({
      * @param  {String} filter the filter text
      */
     filterOptions (filter) {
+      if (this.get('readOnly')) {
+        return
+      }
       const modelDef = this._getModelDef()
       const bunsenId = this.get('bunsenId')
       const store = this.get('store')

@@ -5,8 +5,9 @@
 import _ from 'lodash'
 import Ember from 'ember'
 const {Logger, RSVP} = Ember
+import {getErrorMessage} from 'ember-frost-bunsen/utils'
 
-import * as utils from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
 
 /**
  * set a list's available options
@@ -86,4 +87,50 @@ export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filt
       Logger.log(`Error fetching ${modelType}`, err)
       throw err
     })
+}
+
+function getWithDefault (obj, key, defaultVal) {
+  const value = Ember.get(obj, key)
+  if (value === undefined) {
+    return defaultVal
+  }
+  return value
+}
+
+export function getDisplayValue (value, modelDef, bunsenId, store, onError) {
+  const labelAttr = getWithDefault(modelDef, 'labelAttribute', 'label')
+  const valueAttr = getWithDefault(modelDef, 'valueAttribute', 'id')
+
+  if (labelAttr === valueAttr || modelDef.enum !== undefined || value === undefined) {
+    return Ember.RSVP.resolve(value)
+  }
+
+  const extractDisplayValue = (record) => {
+    return Ember.get(record, labelAttr)
+  }
+
+  const displayValueDirectly = (err) => {
+    onError(bunsenId, [{
+      path: bunsenId,
+      message: getErrorMessage(err)
+    }])
+    return value
+  }
+
+  const modelType = getWithDefault(modelDef, 'modelType', 'resources')
+  if (valueAttr === 'id') {
+    return store.findRecord(modelType, value)
+      .then(extractDisplayValue, displayValueDirectly)
+  }
+
+  const query = utils.populateQuery(value, modelDef.query, bunsenId)
+  // Unset filter since we don't need it
+  _.forIn(query, (value, key) => {
+    if (_.isString(value) && value.indexOf('$filter') > -1) {
+      delete query[key]
+    }
+  })
+
+  return store.queryRecord(modelType, query)
+    .then(extractDisplayValue, displayValueDirectly)
 }

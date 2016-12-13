@@ -7,7 +7,7 @@ const {Logger, RSVP} = Ember
 import {expect} from 'chai'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {getEnumValues, getAsyncDataValues, getOptions} from 'ember-frost-bunsen/list-utils'
+import {getEnumValues, getAsyncDataValues, getOptions, getDisplayValue} from 'ember-frost-bunsen/list-utils'
 
 const heroes = Ember.A([
   Ember.Object.create({
@@ -338,6 +338,70 @@ describe('Unit: list-utils', function () {
           done()
         })
         expect(store.query.calledWith('resource', {label: 'labelName'}))
+      })
+    })
+  })
+
+  describe('getDisplayValue', function () {
+    const bunsenId = 'some.bunsen.path'
+    let fakeStore
+    beforeEach(function () {
+      fakeStore = {
+        queryRecord: sinon.stub(),
+        findRecord: sinon.stub()
+      }
+    })
+
+    it('resolves to the value if label and value attributes are equal', function () {
+      const model = {
+        labelAttribute: 'id',
+        valueAttribute: 'id'
+      }
+      const value = 'Test value'
+      return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
+        expect(result).to.equal(value)
+      })
+    })
+
+    it('resolves to the value if the property is an enum', function () {
+      const model = {
+        enum: ['Test value', 'Other test value']
+      }
+      const value = 'Test value'
+      return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
+        expect(result).to.equal(value)
+      })
+    })
+
+    it('finds a record by id if the id is given', function () {
+      const labelAttribute = 'foo'
+      const model = {
+        labelAttribute
+      }
+      const value = 'value'
+      const expectedDisplay = 'Some foo-y value'
+      fakeStore.findRecord.returns(Ember.RSVP.resolve({
+        foo: expectedDisplay
+      }))
+
+      return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
+        expect(result).to.eql(expectedDisplay)
+      })
+    })
+
+    it('queries for a record if the value attribute is not an id', function () {
+      const valueAttribute = 'foo'
+      const model = {
+        valueAttribute
+      }
+      const value = 'value'
+      const expectedDisplay = 'Some foo-y value'
+      fakeStore.queryRecord.returns(Ember.RSVP.resolve({
+        label: expectedDisplay
+      }))
+
+      return getDisplayValue(value, model, bunsenId, fakeStore).then(result => {
+        expect(result).to.eql(expectedDisplay)
       })
     })
   })

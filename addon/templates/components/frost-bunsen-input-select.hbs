@@ -1,5 +1,5 @@
 {{#if readOnly}}
-  {{frost-bunsen-input-static
+  {{frost-bunsen-input-select-static
     bunsenId=bunsenId
     bunsenModel=bunsenModel
     bunsenView=bunsenView
@@ -15,7 +15,7 @@
     required=required
     showAllErrors=showAllErrors
     unregisterForFormValueChanges=unregisterForFormValueChanges
-    value=selectedOptionLabel
+    value=value
   }}
 {{else}}
   <label class={{labelWrapperClassName}}>
