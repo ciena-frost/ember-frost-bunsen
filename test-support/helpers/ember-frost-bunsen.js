@@ -35,22 +35,6 @@ export {
 } from './ember-frost-bunsen/renderers/geolocation'
 
 export {
-  expectWithState as expectBunsenHiddenRendererWithState
-} from './ember-frost-bunsen/renderers/hidden'
-
-export {
-  expectWithState as expectBunsenJsonRendererWithState
-} from './ember-frost-bunsen/renderers/json'
-
-export {
-  expectWithState as expectBunsenLinkRendererWithState
-} from './ember-frost-bunsen/renderers/link'
-
-export {
-  expectWithState as expectBunsenMultiSelectRendererWithState
-} from './ember-frost-bunsen/renderers/multi-select'
-
-export {
   fillIn as fillInBunsenNumberRenderer,
   expectWithState as expectBunsenNumberRendererWithState
 } from './ember-frost-bunsen/renderers/number'
@@ -59,18 +43,6 @@ export {
   fillIn as fillInBunsenPasswordRenderer,
   expectWithState as expectBunsenPasswordRendererWithState
 } from './ember-frost-bunsen/renderers/password'
-
-export {
-  expectWithState as expectBunsenPropertyChooserRendererWithState
-} from './ember-frost-bunsen/renderers/property-chooser'
-
-export {
-  expectWithState as expectBunsenSelectRendererWithState
-} from './ember-frost-bunsen/renderers/select'
-
-export {
-  expectWithState as expectBunsenStaticRendererWithState
-} from './ember-frost-bunsen/renderers/static'
 
 export {
   fillIn as fillInBunsenTextRenderer,
