@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import {findTextInputs} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
@@ -25,11 +26,7 @@ describe('Integration: Component / frost-bunsen-detail / array of objects', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'bunsenDetail')
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -101,11 +98,7 @@ describe('Integration: Component / frost-bunsen-detail / array of objects', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0, 'bunsenDetail')
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -182,11 +175,7 @@ describe('Integration: Component / frost-bunsen-detail / array of objects', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'bunsenDetail')
 
       const $static = this.$(selectors.bunsen.renderer.static)
 
@@ -246,11 +235,7 @@ describe('Integration: Component / frost-bunsen-detail / array of objects', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0, 'bunsenDetail')
 
         const $static = this.$(selectors.bunsen.renderer.static)
 
@@ -311,11 +296,7 @@ describe('Integration: Component / frost-bunsen-detail / array of objects', func
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0, 'bunsenDetail')
 
         const $static = this.$(selectors.bunsen.renderer.static)
 

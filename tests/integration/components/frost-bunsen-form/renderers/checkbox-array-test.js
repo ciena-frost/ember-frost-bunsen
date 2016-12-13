@@ -1,7 +1,6 @@
-import {expect} from 'chai'
-
 import {
   expectBunsenCheckboxArrayRendererWithState,
+  expectCollapsibleHandles,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
@@ -38,12 +37,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
-
+    expectCollapsibleHandles(0)
     expectBunsenCheckboxArrayRendererWithState('foo', {
       items: ['bar', 'baz'],
       label: 'Foo'
@@ -68,12 +62,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
+      expectCollapsibleHandles(0)
       expectBunsenCheckboxArrayRendererWithState('foo', {
         items: ['bar', 'baz'],
         label: 'FooBar Baz'
@@ -99,12 +88,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
-
+      expectCollapsibleHandles(1)
       expectBunsenCheckboxArrayRendererWithState('foo', {
         items: ['bar', 'baz'],
         label: 'Foo'
@@ -130,12 +114,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
+      expectCollapsibleHandles(0)
       expectBunsenCheckboxArrayRendererWithState('foo', {
         items: ['bar', 'baz'],
         label: 'Foo'
@@ -268,12 +247,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
+      expectCollapsibleHandles(0)
       expectBunsenCheckboxArrayRendererWithState('foo', {
         items: ['bar', 'baz'],
         label: 'Foo'

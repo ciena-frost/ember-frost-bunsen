@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
+import {$hook} from 'ember-hook'
 
 const assign = Object.assign || Ember.assign || Ember.merge
 
@@ -72,6 +73,16 @@ export {
 export {
   expectWithState as expectBunsenUrlRendererWithState
 } from './ember-frost-bunsen/renderers/url'
+
+export function expectCollapsibleHandles (count, hook) {
+  hook = hook || 'bunsenForm'
+
+  expect(
+    $hook(hook).find('.frost-icon-frost-expand-collapse'),
+    'renders expected number of collapsible handles'
+  )
+    .to.have.length(count)
+}
 
 export function expectOnValidationState (spy, state) {
   const defaults = {

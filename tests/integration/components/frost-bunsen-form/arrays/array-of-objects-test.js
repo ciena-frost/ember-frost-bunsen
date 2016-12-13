@@ -1,5 +1,10 @@
 import {expect} from 'chai'
-import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
+
+import {
+  expectCollapsibleHandles,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -37,11 +42,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -95,11 +96,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -154,11 +151,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -240,11 +233,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -303,11 +292,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -376,11 +361,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           })
 
           it('renders as expected', function () {
-            expect(
-              this.$(selectors.bunsen.collapsible.handle),
-              'does not render collapsible handle'
-            )
-              .to.have.length(0)
+            expectCollapsibleHandles(0)
 
             expect(
               this.$(selectors.bunsen.renderer.text),
@@ -494,11 +475,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -572,11 +549,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -651,11 +624,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -758,11 +727,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),
@@ -869,11 +834,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -973,11 +934,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1073,11 +1030,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.renderer.text),
@@ -1132,11 +1085,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       })
 
       it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.renderer.text),
@@ -1214,11 +1163,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
+          expectCollapsibleHandles(0)
 
           expect(
             this.$(selectors.bunsen.renderer.text),

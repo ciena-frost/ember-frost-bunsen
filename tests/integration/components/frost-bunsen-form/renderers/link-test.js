@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
@@ -68,11 +69,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
+    expectCollapsibleHandles(0)
 
     const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -121,11 +118,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -175,11 +168,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -229,11 +218,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -285,11 +270,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -341,11 +322,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -400,11 +377,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -460,11 +433,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -538,11 +507,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -597,11 +562,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -656,11 +617,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -716,11 +673,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 
@@ -794,11 +747,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / link', functio
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
 
       const $links = this.$(selectors.bunsen.renderer.link)
 

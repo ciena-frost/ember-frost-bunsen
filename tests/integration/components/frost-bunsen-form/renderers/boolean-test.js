@@ -2,6 +2,7 @@ import {expect} from 'chai'
 
 import {
   expectBunsenBooleanRendererWithState,
+  expectCollapsibleHandles,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
@@ -22,12 +23,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
-
+    expectCollapsibleHandles(0)
     expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
     expectOnValidationState(ctx.props.onValidation, {count: 1})
   })
@@ -47,12 +43,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
+      expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'FooBar Baz'})
       expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
@@ -73,12 +64,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
-
+      expectCollapsibleHandles(1)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
       expectOnValidationState(ctx.props.onValidation, {count: 1})
     })
@@ -99,12 +85,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
+      expectCollapsibleHandles(0)
       expectBunsenBooleanRendererWithState('foo', {label: 'Foo'})
       expectOnValidationState(ctx.props.onValidation, {count: 1})
     })

@@ -2,6 +2,7 @@ import {expect} from 'chai'
 
 import {
   expectBunsenInputToHaveError,
+  expectCollapsibleHandles,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
@@ -42,11 +43,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select',
   })
 
   it('renders as expected', function () {
-    expect(
-      this.$(selectors.bunsen.collapsible.handle),
-      'does not render collapsible handle'
-    )
-      .to.have.length(0)
+    expectCollapsibleHandles(0, 'my-form')
 
     expect(
       this.$(selectors.bunsen.renderer.multiSelect),
@@ -89,11 +86,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select',
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.multiSelect),
@@ -137,11 +130,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select',
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'renders collapsible handle'
-      )
-        .to.have.length(1)
+      expectCollapsibleHandles(1, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.multiSelect),
@@ -185,11 +174,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select',
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0, 'my-form')
 
       expect(
         this.$(selectors.bunsen.renderer.multiSelect),
