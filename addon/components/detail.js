@@ -100,6 +100,7 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    selectedTabLabel: PropTypes.string,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
@@ -513,6 +514,14 @@ export default Component.extend(PropTypeMixin, {
 
     if (hasModelChanged || hasViewChanged) {
       this.validateProps(newBunsenModel)
+    }
+
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+      if (selectedTab !== undefined) {
+        this.set('selectedTabIndex', selectedTab.id)
+      }
     }
   },
   /* eslint-enable complexity */
