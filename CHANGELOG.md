@@ -1,3 +1,8 @@
+# 12.6.5
+**Removed** an unnecessary and problematic form element from the detail view.
+
+
+
 # 12.6.4
 **Changed** read-only version of select renderer to fetch individual records directly rather than fetching a list and searching through it.
 
