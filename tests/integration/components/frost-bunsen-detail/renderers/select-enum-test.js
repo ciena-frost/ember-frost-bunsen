@@ -1,69 +1,106 @@
 import {expect} from 'chai'
-import {initialize} from 'ember-hook'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describeComponent(
-  'frost-bunsen-detail',
-  'Integration: Component | frost-bunsen-detail | renderer | select enum',
-  {
-    integration: true
-  },
-  function () {
-    let props, sandbox
+describe('Integration: Component / frost-bunsen-detail / renderer | select enum', function () {
+  setupDetailComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          enum: [
+            'bar',
+            'baz'
+          ],
+          type: 'string'
+        }
+      },
+      type: 'object'
+    },
+    hook: 'my-form'
+  })
 
+  describe('when no initial value', function () {
     beforeEach(function () {
-      initialize()
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              enum: [
-                'bar',
-                'baz'
-              ],
-              type: 'string'
-            }
-          },
-          type: 'object'
-        },
-        bunsenView: undefined,
-        hook: 'my-form',
-        value: undefined
-      }
-
-      this.setProperties(props)
-
-      this.render(hbs`
-        {{frost-bunsen-detail
-          bunsenModel=bunsenModel
-          bunsenView=bunsenView
-          hook=hook
-          value=value
-        }}
-      `)
+      this.set('value', undefined)
     })
 
-    afterEach(function () {
-      sandbox.restore()
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0, 'my-form')
+
+      expect(
+        this.$(selectors.bunsen.renderer.static),
+        'renders a bunsen static input'
+      )
+        .to.have.length(1)
+
+      expect(
+        this.$(selectors.bunsen.label).text().trim(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
+        this.$(selectors.bunsen.value).text().trim(),
+        'renders expected value'
+      )
+        .to.equal('—')
     })
 
-    describe('when no initial value', function () {
+    describe('when label defined in view', function () {
       beforeEach(function () {
-        this.set('value', undefined)
+        this.set('bunsenView', {
+          cells: [
+            {
+              label: 'FooBar Baz',
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
       })
 
       it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
         expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
+          this.$(selectors.bunsen.renderer.static),
+          'renders a bunsen static input'
         )
-          .to.have.length(0)
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.bunsen.value).text().trim(),
+          'renders expected value'
+        )
+          .to.equal('—')
+      })
+    })
+
+    describe('when collapsible is set to true in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: true,
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(1, 'my-form')
 
         expect(
           this.$(selectors.bunsen.renderer.static),
@@ -83,144 +120,128 @@ describeComponent(
         )
           .to.equal('—')
       })
-
-      describe('when label defined in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                label: 'FooBar Baz',
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('FooBar Baz')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('—')
-        })
-      })
-
-      describe('when collapsible is set to true in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                collapsible: true,
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'renders collapsible handle'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('—')
-        })
-      })
-
-      describe('when collapsible is set to false in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                collapsible: false,
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('—')
-        })
-      })
     })
 
-    describe('when initial value', function () {
+    describe('when collapsible is set to false in view', function () {
       beforeEach(function () {
-        this.set('value', {
-          foo: 'bar'
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: false,
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
         })
       })
 
       it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
         expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
+          this.$(selectors.bunsen.renderer.static),
+          'renders a bunsen static input'
         )
-          .to.have.length(0)
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
+
+        expect(
+          this.$(selectors.bunsen.value).text().trim(),
+          'renders expected value'
+        )
+          .to.equal('—')
+      })
+    })
+  })
+
+  describe('when initial value', function () {
+    beforeEach(function () {
+      this.set('value', {
+        foo: 'bar'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0, 'my-form')
+
+      expect(
+        this.$(selectors.bunsen.renderer.static),
+        'renders a bunsen static input'
+      )
+        .to.have.length(1)
+
+      expect(
+        this.$(selectors.bunsen.label).text().trim(),
+        'renders expected label text'
+      )
+        .to.equal('Foo')
+
+      expect(
+        this.$(selectors.bunsen.value).text().trim(),
+        'renders expected value'
+      )
+        .to.equal('bar')
+    })
+
+    describe('when label defined in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              label: 'FooBar Baz',
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
+        expect(
+          this.$(selectors.bunsen.renderer.static),
+          'renders a bunsen static input'
+        )
+          .to.have.length(1)
+
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('FooBar Baz')
+
+        expect(
+          this.$(selectors.bunsen.value).text().trim(),
+          'renders expected value'
+        )
+          .to.equal('bar')
+      })
+    })
+
+    describe('when collapsible is set to true in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: true,
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(1, 'my-form')
 
         expect(
           this.$(selectors.bunsen.renderer.static),
@@ -240,129 +261,43 @@ describeComponent(
         )
           .to.equal('bar')
       })
+    })
 
-      describe('when label defined in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                label: 'FooBar Baz',
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('FooBar Baz')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('bar')
+    describe('when collapsible is set to false in view', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: false,
+              model: 'foo'
+            }
+          ],
+          type: 'form',
+          version: '2.0'
         })
       })
 
-      describe('when collapsible is set to true in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                collapsible: true,
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
 
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'renders collapsible handle'
-          )
-            .to.have.length(1)
+        expect(
+          this.$(selectors.bunsen.renderer.static),
+          'renders a bunsen static input'
+        )
+          .to.have.length(1)
 
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
 
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('bar')
-        })
-      })
-
-      describe('when collapsible is set to false in view', function () {
-        beforeEach(function () {
-          this.set('bunsenView', {
-            cells: [
-              {
-                collapsible: false,
-                model: 'foo'
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.collapsible.handle),
-            'does not render collapsible handle'
-          )
-            .to.have.length(0)
-
-          expect(
-            this.$(selectors.bunsen.renderer.static),
-            'renders a bunsen static input'
-          )
-            .to.have.length(1)
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.bunsen.value).text().trim(),
-            'renders expected value'
-          )
-            .to.equal('bar')
-        })
+        expect(
+          this.$(selectors.bunsen.value).text().trim(),
+          'renders expected value'
+        )
+          .to.equal('bar')
       })
     })
-  }
-)
+  })
+})

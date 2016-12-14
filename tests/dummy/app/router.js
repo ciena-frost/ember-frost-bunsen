@@ -10,6 +10,7 @@ Router.map(function () {
   this.route('component', {path: '/components'}, function () {
     this.route('detail')
     this.route('form')
+    this.route('abstract-input')
   })
 
   this.route('editor')

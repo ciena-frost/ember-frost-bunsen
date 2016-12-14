@@ -3,6 +3,7 @@ const {getLabel, parseVariables} = utils
 import Ember from 'ember'
 const {Component, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
@@ -11,7 +12,7 @@ export const defaultClassNames = {
   labelWrapper: 'frost-bunsen-left-label'
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == State Properties =======================================================
 
   propTypes: {
@@ -66,7 +67,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {String} input class name
    */
   valueClassName (errorMessage) {
-    const classNames = ['frost-link']
+    const classNames = []
 
     if (errorMessage) {
       classNames.push('error')

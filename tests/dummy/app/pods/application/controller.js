@@ -17,6 +17,10 @@ export default Controller.extend({
         {
           route: 'component.form',
           title: 'frost-bunsen-form'
+        },
+        {
+          route: 'component.abstract-input',
+          title: 'abstract-input'
         }
       ]
     },

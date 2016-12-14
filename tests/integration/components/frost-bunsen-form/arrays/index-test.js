@@ -1,8 +1,5 @@
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
-import sinon from 'sinon'
+import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
   expectTextInputWithState,
@@ -10,6 +7,8 @@ import {
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
 [
   {
@@ -158,107 +157,57 @@ import selectors from 'dummy/tests/helpers/selectors'
   }
 ]
   .forEach((bunsenView) => {
-    describeComponent(
-      'frost-bunsen-form',
-      'Integration: Component | frost-bunsen-form | array index reference test',
-      {
-        integration: true
-      },
-      function () {
-        let props, sandbox
-
-        beforeEach(function () {
-          sandbox = sinon.sandbox.create()
-
-          props = {
-            bunsenModel: {
-              properties: {
-                foo: {
-                  items: {
-                    properties: {
-                      bar: {
-                        type: 'string'
-                      }
-                    },
-                    type: 'object'
-                  },
-                  type: 'array'
-                }
+    describe('Integration: Component / frost-bunsen-form / array index reference test', function () {
+      const ctx = setupFormComponentTest({
+        bunsenModel: {
+          properties: {
+            foo: {
+              items: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  }
+                },
+                type: 'object'
               },
-              type: 'object'
-            },
-            bunsenView,
-            disabled: undefined,
-            onChange: sandbox.spy(),
-            onValidation: sandbox.spy(),
-            showAllErrors: undefined
-          }
+              type: 'array'
+            }
+          },
+          type: 'object'
+        },
+        bunsenView
+      })
 
-          this.setProperties(props)
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.text),
+          'renders a bunsen text input'
+        )
+          .to.have.length(1)
 
-          this.render(hbs`{{frost-bunsen-form
-            bunsenModel=bunsenModel
-            bunsenView=bunsenView
-            disabled=disabled
-            onChange=onChange
-            onValidation=onValidation
-            showAllErrors=showAllErrors
-          }}`)
+        expect(
+          findTextInputs(),
+          'renders one text input'
+        )
+          .to.have.length(1)
+
+        expectTextInputWithState('bunsenForm-foo.0.bar-input', {
+          placeholder: ''
         })
 
-        afterEach(function () {
-          sandbox.restore()
-        })
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Bar')
 
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.text),
-            'renders a bunsen text input'
-          )
-            .to.have.length(1)
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
 
-          expect(
-            findTextInputs(),
-            'renders one text input'
-          )
-            .to.have.length(1)
-
-          expectTextInputWithState('bunsenForm-foo.0.bar-input', {
-            placeholder: ''
-          })
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Bar')
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
-        })
-      }
-    )
+        expectOnValidationState(ctx, {count: 1})
+      })
+    })
   })

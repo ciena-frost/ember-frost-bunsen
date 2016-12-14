@@ -1,11 +1,13 @@
 import Ember from 'ember'
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
-import {afterEach, beforeEach, describe} from 'mocha'
+import {setupComponentTest} from 'ember-mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {unitTest} from 'dummy/tests/helpers/template'
 
-describeComponent(...unitTest('frost-bunsen-input-button-group'), function () {
+describe('Unit: frost-bunsen-input-button-group', function () {
+  setupComponentTest('frost-bunsen-input-button-group', {
+    unit: true
+  })
   const ctx = {}
   let component, sandbox
 
@@ -50,11 +52,11 @@ describeComponent(...unitTest('frost-bunsen-input-button-group'), function () {
       })
 
       it('returns true when selected index is 0', function () {
-        expect(component.parseValue(0)).to.be.equal(true)
+        expect(component.parseValue(0)).to.equal(true)
       })
 
       it('returns false when selected index is 1', function () {
-        expect(component.parseValue(1)).to.be.equal(false)
+        expect(component.parseValue(1)).to.equal(false)
       })
     })
 

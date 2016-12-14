@@ -1,88 +1,62 @@
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | ensure one section heading',
-  {
-    integration: true
-  },
-  function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
+describe('Integration: Component / frost-bunsen-form / ensure one section heading', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
           properties: {
-            foo: {
-              properties: {
-                bar: {
-                  type: 'string'
-                }
-              },
-              type: 'object'
+            bar: {
+              type: 'string'
             }
           },
           type: 'object'
-        },
-        bunsenView: {
-          cellDefinitions: {
-            main: {
-              label: 'Test',
-              children: [
-                {
-                  model: 'bar'
-                }
-              ]
-            }
-          },
-          cells: [
-            {
-              children: [
-                {
-                  extends: 'main',
-                  model: 'foo'
-                }
-              ]
-            }
-          ],
-          type: 'form',
-          version: '2.0'
         }
-      }
+      },
+      type: 'object'
+    },
+    bunsenView: {
+      cellDefinitions: {
+        main: {
+          label: 'Test',
+          children: [
+            {
+              model: 'bar'
+            }
+          ]
+        }
+      },
+      cells: [
+        {
+          children: [
+            {
+              extends: 'main',
+              model: 'foo'
+            }
+          ]
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    }
+  })
 
-      this.setProperties(props)
+  it('renders as expected', function () {
+    const $headings = this.$(selectors.bunsen.section.heading)
 
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-      }}`)
-    })
+    expect(
+      $headings,
+      'only has one section heading'
+    )
+      .to.have.length(1)
 
-    afterEach(function () {
-      sandbox.restore()
-    })
-
-    it('renders as expected', function () {
-      const $headings = this.$(selectors.bunsen.section.heading)
-
-      expect(
-        $headings,
-        'only has one section heading'
-      )
-        .to.have.length(1)
-
-      expect(
-        $headings.eq(0).text().trim(),
-        'renders expected section heading'
-      )
-        .to.equal('Test')
-    })
-  }
-)
+    expect(
+      $headings.eq(0).text().trim(),
+      'renders expected section heading'
+    )
+      .to.equal('Test')
+  })
+})

@@ -1,3 +1,88 @@
+# 14.0.0
+
+* **Cleaned** up a bunch of tests by replacing boilerplate with test helpers.
+
+  > Note: These test helpers will get wired into a consumers test suite but are still considered private API. If you choose to start using them know they may change in breaking ways before the next major on this project happens.
+
+* **Removed** `hide` and `show` icons which are no longer used. If you were using these icons in your app via something like below you'll no longer have access to them:
+
+  ```handlebars
+  {{frost-icon icon='show' pack='frost-bunsen'}}
+  ```
+
+* **Replaced** `ember-redux` with `ember-redux-shim` and `ember-redux-thunk`.
+
+  > NOTE: When upgrading you can remove `ember-browserify` and `ember-redux` from your `package.json` if you are not using them in your app and no other addons you consume require them.
+
+
+# 13.4.6
+
+* **Fixed** `frost-bunsen-detail` and `frost-bunsen-form` components to work when passed in `validators` and `renderers` properties are `undefined`.
+* **Refactored** tests to use common utility methods for setting up tests to reduce boilerplate.
+
+
+
+# 13.4.5
+
+* **Updated** `password` renderer to use button instead of icon for reveal action in detail views.
+
+
+# 13.4.4
+
+* **Fixed** detail views to stop applying `autoAdd` and `sortable` array options.
+
+
+# 13.4.3
+
+* **Updated** components to explicitly include `HookMixin` from `ember-hook` so integration tests no longer need to initialize `ember-hook`.
+
+
+# 13.4.2
+
+* **Updated** dependencies.
+* **Updated** tests to use latest test helpers and remove deprecation warnings.
+
+
+
+# 13.4.1
+
+* **Fixed** bug where `geolocation` renderer wasn't working with consumer properties that didn't match internal properties.
+* **Fixed** bug where `geolocation` renderer wasn't checking if it was destroyed or being destroyed before setting properties.
+
+
+# 13.4.0
+
+* **Added** new component `frost-bunsen` which is designed to be a single entry point for rendering both forms and detail views, as well as any future view types.
+* **Added** [spread](https://github.com/ciena-blueplanet/ember-spread) operator to existing `frost-bunsen-detail` and `frost-bunsen-form` components.
+* **Fixed** `geolocation` renderer to work when consumer latitude and/or longitude properties expect the format to be a number instead of a string.
+* **Fixed** description bubble property validations to not require `description` property as it was causing undesired `ember-prop-type` warnings in the console.
+* **Fixed** issue where enter key would sometimes submit form by setting `onsubmit='return false'` on the form element itself.
+* **Fixed** issue where `frost-bunsen-form` and `frost-bunsen-detail` would try to update state after the component had been destroyed when getting an update from the redux store.
+
+
+# 13.3.1
+Fixed a bug introduced by a recursive check for required object and array properties.
+
+
+# 13.3.0
+
+* **Added** new `geolocation` renderer for improved UX around address fields.
+
+
+# 13.2.3
+
+**Updated** bunsen-core to allow for empty required objects and arrays.
+
+
+# 13.2.2
+
+* **Fixes** ugly table formatting of the `abstract-input` api docs.
+
+
+# 13.2.1
+
+* **Updates** the demo to include documentation on `abstract-input` and simple example for creating a custom renderer with validation.
+
 # 13.2.0
 
 * **Added** support for descriptions on input cells via `description` property.

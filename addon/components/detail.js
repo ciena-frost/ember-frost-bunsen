@@ -14,19 +14,19 @@ const {
   validate
 } = actions
 
-import redux from 'npm:redux'
-const {createStore, applyMiddleware} = redux
-import thunk from 'npm:redux-thunk'
-const thunkMiddleware = thunk.default
+import {createStore, applyMiddleware} from 'redux'
+import thunkMiddleware from 'redux-thunk'
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
-import _ from 'lodash'
 import Ember from 'ember'
 const {Component, RSVP, typeOf, run, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import getOwner from 'ember-getowner-polyfill'
-import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
+import getOwner from 'ember-getowner-polyfill'
+import {HookMixin} from 'ember-hook'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import SpreadMixin from 'ember-spread'
+import _ from 'lodash'
 
 import {
   deemberify,
@@ -83,7 +83,7 @@ function v2View (bunsenView) {
   return bunsenView
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   layout,
@@ -330,6 +330,10 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value, valueChangeSet, lastAction} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
@@ -392,7 +396,7 @@ export default Component.extend(PropTypeMixin, {
    */
   validateProps (bunsenModel) {
     let invalidSchemaType = 'model'
-    const renderers = this.get('renderers')
+    const renderers = this.get('renderers') || {}
 
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
@@ -436,7 +440,7 @@ export default Component.extend(PropTypeMixin, {
    * @returns {Function[]} list of validators
    **/
   getAllValidators () {
-    const formValidators = this.get('validators')
+    const formValidators = this.get('validators') || []
     const inputValidators = this.get('inputValidators')
 
     return formValidators.concat(inputValidators)

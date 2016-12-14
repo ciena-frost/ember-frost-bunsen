@@ -1,8 +1,5 @@
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
-import sinon from 'sinon'
+import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
   expectTextInputWithState,
@@ -10,6 +7,8 @@ import {
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
 [
   {
@@ -86,99 +85,49 @@ import selectors from 'dummy/tests/helpers/selectors'
   }
 ]
   .forEach((bunsenView) => {
-    describeComponent(
-      'frost-bunsen-form',
-      'Integration: Component | frost-bunsen-form | cells',
-      {
-        integration: true
-      },
-      function () {
-        let props, sandbox
+    describe('Integration: Component / frost-bunsen-form / cells', function () {
+      const ctx = setupFormComponentTest({
+        bunsenModel: {
+          properties: {
+            foo: {
+              type: 'string'
+            }
+          },
+          type: 'object'
+        },
+        bunsenView
+      })
 
-        beforeEach(function () {
-          sandbox = sinon.sandbox.create()
+      it('renders as expected', function () {
+        expect(
+          this.$(selectors.bunsen.renderer.text),
+          'renders a bunsen text input'
+        )
+          .to.have.length(1)
 
-          props = {
-            bunsenModel: {
-              properties: {
-                foo: {
-                  type: 'string'
-                }
-              },
-              type: 'object'
-            },
-            bunsenView,
-            disabled: undefined,
-            onChange: sandbox.spy(),
-            onValidation: sandbox.spy(),
-            showAllErrors: undefined
-          }
+        expect(
+          findTextInputs(),
+          'renders one text input'
+        )
+          .to.have.length(1)
 
-          this.setProperties(props)
-
-          this.render(hbs`{{frost-bunsen-form
-            bunsenModel=bunsenModel
-            bunsenView=bunsenView
-            disabled=disabled
-            onChange=onChange
-            onValidation=onValidation
-            showAllErrors=showAllErrors
-          }}`)
+        expectTextInputWithState('bunsenForm-foo-input', {
+          placeholder: ''
         })
 
-        afterEach(function () {
-          sandbox.restore()
-        })
+        expect(
+          this.$(selectors.bunsen.label).text().trim(),
+          'renders expected label text'
+        )
+          .to.equal('Foo')
 
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.text),
-            'renders a bunsen text input'
-          )
-            .to.have.length(1)
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
 
-          expect(
-            findTextInputs(),
-            'renders one text input'
-          )
-            .to.have.length(1)
-
-          expectTextInputWithState('bunsenForm-foo-input', {
-            placeholder: ''
-          })
-
-          expect(
-            this.$(selectors.bunsen.label).text().trim(),
-            'renders expected label text'
-          )
-            .to.equal('Foo')
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
-        })
-      }
-    )
+        expectOnValidationState(ctx, {count: 1})
+      })
+    })
   })

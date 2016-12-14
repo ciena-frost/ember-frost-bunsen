@@ -196,6 +196,10 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+.frost-bunsen-icon-faded {
+  opacity: .3;
+}
+
 .frost-bunsen-input-button-group {
   .frost-button {
     border-radius: 0;
@@ -222,6 +226,38 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+.frost-bunsen-input-geolocation {
+  .frost-bunsen-input-geolocation-action-bar {
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+
+    .frost-loading {
+      display: inline-block;
+    }
+
+    .frost-button {
+      &:last-child {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  > .frost-button {
+    margin: 0 0 10px $frost-bunsen-left-label-width;
+  }
+
+  > .frost-bunsen-error {
+    margin-bottom: 10px;
+  }
+
+  > .frost-loading {
+    svg {
+      width: 30px;
+      height: 30px;
+      margin: 0 0 6px 6px;
+    }
+  }
+}
+
 .frost-bunsen-input-password {
   > .frost-bunsen-input-static {
     flex-basis: auto;
@@ -235,12 +271,7 @@ $frost-bunsen-left-input-width: 250px;
 }
 
 .frost-bunsen-input-password-reveal {
-  margin-left: 6px;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+  margin-left: 10px;
 }
 
 .frost-bunsen-input-password-text {

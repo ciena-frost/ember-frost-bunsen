@@ -1,82 +1,67 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger} = Ember
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
-import sinon from 'sinon'
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {after, before, describe, it} from 'mocha'
+import sinon from 'sinon'
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | errors | view | wrong type',
-  {
-    integration: true
-  },
-  function () {
-    let sandbox
+describe('Integration: Component / frost-bunsen-form / errors / view / wrong type', function () {
+  before(function () {
+    sinon.spy(Logger, 'warn')
+  })
 
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-      sandbox.stub(Logger, 'warn')
+  after(function () {
+    Logger.warn.restore()
+  })
 
-      this.setProperties({
-        bunsenModel: {
-          properties: {
-            foo: {
-              type: 'boolean'
-            }
-          },
-          type: 'object'
-        },
-        bunsenView: 'foo'
-      })
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'boolean'
+        }
+      },
+      type: 'object'
+    },
+    bunsenView: 'foo'
+  })
 
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-      }}`)
-    })
+  it('renders as expected', function () {
+    const $heading = this.$(selectors.bunsen.validationErrors.heading)
+    const $error = this.$(selectors.bunsen.validationErrors.error)
 
-    afterEach(function () {
-      sandbox.restore()
-    })
+    expect(
+      $heading,
+      'has validation errors heading'
+    )
+      .to.have.length(1)
 
-    it('renders as expected', function () {
-      const $heading = this.$(selectors.bunsen.validationErrors.heading)
-      const $error = this.$(selectors.bunsen.validationErrors.error)
+    expect(
+      $heading.text().trim(),
+      'validation errors heading has expected text'
+    )
+      .to.equal('There seems to be something wrong with your view schema')
 
-      expect(
-        $heading,
-        'has validation errors heading'
-      )
-        .to.have.length(1)
+    expect(
+      $error,
+      'has one validation error'
+    )
+      .to.have.length(1)
 
-      expect(
-        $heading.text().trim(),
-        'validation errors heading has expected text'
-      )
-        .to.equal('There seems to be something wrong with your view schema')
+    expect(
+      $error.text().trim().replace(/\s+/g, ' '),
+      'first validation error has correct text'
+    )
+      .to.equal('ERROR: # Invalid JSON')
 
-      expect(
-        $error,
-        'has one validation error'
-      )
-        .to.have.length(1)
+    const actual = Logger.warn.lastCall.args[0]
+    const expected = 'Property bunsenView does not match expected types: EmberObject, object'
 
-      expect(
-        $error.text().trim().replace(/\s+/g, ' '),
-        'first validation error has correct text'
-      )
-        .to.equal('ERROR: # Invalid JSON')
-
-      expect(
-        Logger.warn.lastCall.args,
-        'logs expected warning'
-      )
-        .to.eql([
-          'Property bunsenView does not match expected types: EmberObject, object'
-        ])
-    })
-  }
-)
+    expect(
+      actual.indexOf(expected),
+      'logs expected warning'
+    )
+      .not.to.equal(-1)
+  })
+})

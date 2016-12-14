@@ -1,9 +1,6 @@
 import {expect} from 'chai'
-import {initialize} from 'ember-hook'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, it} from 'mocha'
-import sinon from 'sinon'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {describe, it} from 'mocha'
 
 import {
   expectTextInputWithState,
@@ -12,120 +9,94 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | array reference item property',
-  {
-    integration: true
-  },
-  function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      initialize()
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              type: 'array',
-              items: {
+describe('Integration: Component / frost-bunsen-form / array reference item property', function () {
+  setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              settings: {
                 type: 'object',
                 properties: {
-                  settings: {
-                    type: 'object',
-                    properties: {
-                      moo: {type: 'string'},
-                      boo: {type: 'string'}
-                    }
-                  }
+                  moo: {type: 'string'},
+                  boo: {type: 'string'}
                 }
               }
             }
-          },
-          type: 'object'
-        },
-        bunsenView: {
-          cells: [
-            {
-              children: [
-                {model: 'boo'},
-                {model: 'moo'}
-              ],
-              model: 'foo.0.settings'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        },
-        value: {
-          foo: [
-            {
-              settings: {
-                boo: 'test1',
-                moo: 'test2'
-              }
-            }
-          ]
+          }
         }
-      }
+      },
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          children: [
+            {model: 'boo'},
+            {model: 'moo'}
+          ],
+          model: 'foo.0.settings'
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    },
+    value: {
+      foo: [
+        {
+          settings: {
+            boo: 'test1',
+            moo: 'test2'
+          }
+        }
+      ]
+    }
+  })
 
-      this.setProperties(props)
+  it('renders as expected', function () {
+    expect(
+      this.$(selectors.bunsen.renderer.text),
+      'renders two bunsen text inputs'
+    )
+      .to.have.length(2)
 
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        value=value
-      }}`)
+    expect(
+      findTextInputs(),
+      'renders two text inputs'
+    )
+      .to.have.length(2)
+
+    expectTextInputWithState('bunsenForm-foo.0.settings.boo-input', {
+      placeholder: '',
+      value: 'test1'
     })
 
-    afterEach(function () {
-      sandbox.restore()
+    expectTextInputWithState('bunsenForm-foo.0.settings.moo-input', {
+      placeholder: '',
+      value: 'test2'
     })
 
-    it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.renderer.text),
-        'renders two bunsen text inputs'
-      )
-        .to.have.length(2)
+    const $labels = this.$(selectors.bunsen.label)
 
-      expect(
-        findTextInputs(),
-        'renders two text inputs'
-      )
-        .to.have.length(2)
+    expect(
+      $labels,
+      'renders two labels'
+    )
+      .to.have.length(2)
 
-      expectTextInputWithState('bunsenForm-foo.0.settings.boo-input', {
-        placeholder: '',
-        value: 'test1'
-      })
+    expect(
+      $labels.first().text().trim(),
+      'renders expected label text'
+    )
+      .to.equal('Boo')
 
-      expectTextInputWithState('bunsenForm-foo.0.settings.moo-input', {
-        placeholder: '',
-        value: 'test2'
-      })
-
-      const $labels = this.$(selectors.bunsen.label)
-
-      expect(
-        $labels,
-        'renders two labels'
-      )
-        .to.have.length(2)
-
-      expect(
-        $labels.first().text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Boo')
-
-      expect(
-        $labels.last().text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Moo')
-    })
-  }
-)
+    expect(
+      $labels.last().text().trim(),
+      'renders expected label text'
+    )
+      .to.equal('Moo')
+  })
+})

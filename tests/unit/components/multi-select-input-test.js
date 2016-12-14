@@ -1,12 +1,14 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-import {describeComponent, it} from 'ember-mocha'
-import {beforeEach, describe} from 'mocha'
+import {setupComponentTest} from 'ember-mocha'
+import {beforeEach, describe, it} from 'mocha'
 import Immutable from 'seamless-immutable'
 
-import {unitTest} from 'dummy/tests/helpers/template'
+describe('Unit: frost-bunsen-input-multi-select', function () {
+  setupComponentTest('frost-bunsen-input-multi-select', {
+    unit: true
+  })
 
-describeComponent(...unitTest('frost-bunsen-input-multi-select'), function () {
   let component
 
   beforeEach(function () {
