@@ -1,3 +1,8 @@
+# 14.0.1
+**Removed** problematic form element from detail view.
+
+
+
 # 14.0.0
 
 * **Cleaned** up a bunch of tests by replacing boilerplate with test helpers.
