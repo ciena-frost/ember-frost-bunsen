@@ -1,3 +1,9 @@
+# 12.6.7
+
+* **Fixed** list item CSS.
+
+
+
 # 12.6.6
 
 * **Fixed** bug where `frost-link` class was being applied to all inputs instead of just link input which was causing checkboxes to get an undesired left padding.
