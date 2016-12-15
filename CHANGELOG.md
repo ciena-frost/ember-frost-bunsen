@@ -1,3 +1,9 @@
+# 12.6.6
+
+* **Fixed** bug where `frost-link` class was being applied to all inputs instead of just link input which was causing checkboxes to get an undesired left padding.
+
+
+
 # 12.6.5
 **Removed** an unnecessary and problematic form element from the detail view.
 
