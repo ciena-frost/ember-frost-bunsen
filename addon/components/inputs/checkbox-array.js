@@ -4,7 +4,6 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-checkbox-array'
 import Ember from 'ember'
 const {get, isEmpty} = Ember
-const assign = Object.assign || Ember.assign || Ember.merge
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -19,10 +18,9 @@ export default AbstractInput.extend({
   // == State Properties =======================================================
 
   getDefaultProps () {
-    const defaults = this._super(...arguments)
-    return assign(defaults, {
+    return {
       selected: []
-    })
+    }
   },
 
   // == Computed Properties ====================================================

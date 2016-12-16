@@ -28,6 +28,7 @@ export function expectWithState (bunsenId, state) {
 
   const defaults = {
     disabled: false,
+    checked: false,
     items: []
   }
 
@@ -56,6 +57,12 @@ export function expectWithState (bunsenId, state) {
         `checkbox at index ${index} is disabled`
       )
         .to.equal(state.disabled)
+
+      expect(
+        $checkbox.find(SELECTORS.CHECKBOX_INPUT).is(':checked'),
+        `checkbox at index ${index} is checked`
+      )
+        .to.equal(state.checked)
 
       expect(
         $checkbox.text().trim(),

@@ -5,17 +5,19 @@
   {{/if}}
 </label>
 <div class={{inputWrapperClassName}}>
-  {{#each options as |option|}}
-    {{frost-checkbox
-      class=valueClassName
-      disabled=disabled
-      onInput=(action 'handleChange')
-      size=size
-      value=option.value
-      label=option.label
-      checked=option.checked
-    }}
-  {{/each}}
+  <div class=frost-bunsen-input-checkbox-array-checkbox-container>
+    {{#each options as |option|}}
+      {{frost-checkbox
+        class=valueClassName
+        disabled=disabled
+        onInput=(action 'handleChange')
+        size=size
+        value=option.value
+        label=option.label
+        checked=option.checked
+      }}
+    {{/each}}
+  </div>
 </div>
 {{#if renderErrorMessage}}
   <div class='frost-bunsen-error'>

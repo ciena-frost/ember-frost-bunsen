@@ -220,10 +220,9 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
-.frost-bunsen-input-checkbox-array {
-  .frost-checkbox {
-    display: block;
-  }
+.frost-bunsen-input-checkbox-array-checkbox-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .frost-bunsen-input-geolocation {
