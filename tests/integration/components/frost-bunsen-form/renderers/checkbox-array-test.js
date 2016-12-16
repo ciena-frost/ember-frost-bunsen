@@ -243,7 +243,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   describe('when user checks checkbox', function () {
     beforeEach(function () {
       this.$(selectors.frost.checkbox.input.enabled)
-        .trigger('click')
+        .eq(0).trigger('click')
+      this.$(selectors.frost.checkbox.input.enabled)
+        .eq(1).trigger('click')
     })
 
     it('renders as expected', function () {
@@ -256,21 +258,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
   })
 
-  describe('when selectedValues is set to pre-check checkboxes', function () {
+  describe('when value is set to pre-check checkboxes', function () {
     beforeEach(function () {
-      this.set('bunsenView', {
-        cells: [
-          {
-            disabled: false,
-            model: 'foo',
-            renderer: {
-              name: 'checkbox-array',
-              selectedValues: ['bar', 'baz']
-            }
-          }
-        ],
-        type: 'form',
-        version: '2.0'
+      this.set('value', {
+        foo: ['bar', 'baz']
       })
     })
 
@@ -283,7 +274,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
     })
   })
 
-  describe('when data is set to override the model enum', function () {
+  describe('when labels is set to override the model enum', function () {
     beforeEach(function () {
       this.set('bunsenView', {
         cells: [
@@ -292,16 +283,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
             model: 'foo',
             renderer: {
               name: 'checkbox-array',
-              data: [
-                {
-                  label: 'BAZ',
-                  value: 'BAZ'
-                },
-                {
-                  label: 'BAR',
-                  value: 'BAR'
-                }
-              ]
+              labels: {
+                bar: 'BAR',
+                baz: 'BAZ'
+              }
             }
           }
         ],
@@ -312,44 +297,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
 
     it('renders as expected', function () {
       expectBunsenCheckboxArrayRendererWithState('foo', {
-        items: ['BAZ', 'BAR'],
-        label: 'Foo'
-      })
-    })
-  })
-
-  describe('when both data and selectedValues are used', function () {
-    beforeEach(function () {
-      this.set('bunsenView', {
-        cells: [
-          {
-            disabled: false,
-            model: 'foo',
-            renderer: {
-              name: 'checkbox-array',
-              selectedValues: ['BAR', 'BAZ'],
-              data: [
-                {
-                  label: 'BAZ',
-                  value: 'BAZ'
-                },
-                {
-                  label: 'BAR',
-                  value: 'BAR'
-                }
-              ]
-            }
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      })
-    })
-
-    it('renders as expected', function () {
-      expectBunsenCheckboxArrayRendererWithState('foo', {
-        checked: true,
-        items: ['BAZ', 'BAR'],
+        items: ['BAR', 'BAZ'],
         label: 'Foo'
       })
     })

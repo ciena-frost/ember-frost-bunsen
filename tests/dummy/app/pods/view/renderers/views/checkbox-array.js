@@ -20,33 +20,14 @@ export default {
               model: 'serviceAffecting',
               renderer: {
                 name: 'checkbox-array',
-                data: [
-                  {
-                    label: 'Yes',
-                    value: 'SERVICE_AFFECTING'
-                  },
-                  {
-                    label: 'No',
-                    value: 'NON_SERVICE_AFFECTING'
-                  }
-                ]
+                labels: {
+                  'SERVICE_AFFECTING': 'Yes',
+                  'NON_SERVICE_AFFECTING': 'No'
+                }
               }
             }
           ],
           label: 'Service affecting',
-          collapsible: true
-        },
-        {
-          children: [
-            {
-              model: 'deviceType',
-              renderer: {
-                name: 'checkbox-array',
-                selectedValues: ['6500']
-              }
-            }
-          ],
-          label: 'Device type',
           collapsible: true
         }
       ],

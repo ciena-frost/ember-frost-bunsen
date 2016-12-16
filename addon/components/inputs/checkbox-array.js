@@ -31,22 +31,20 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('bunsenModel', 'cellConfig')
-  options (bunsenModel, cellConfig) {
+  @computed('bunsenModel', 'cellConfig', 'value')
+  options (bunsenModel, cellConfig, value) {
     const items = get(bunsenModel, 'items.enum') || []
-    const selectedValues = get(cellConfig, 'renderer.selectedValues') || []
-    this.set('selected', selectedValues)
-    const data = get(cellConfig, 'renderer.data') || []
-
+    const labels = get(cellConfig, 'renderer.labels') || []
+    value = value || []
     var options = {}
 
-    if (isEmpty(data)) {
+    if (isEmpty(labels)) {
       options = items.map((item) => {
-        return { value: item, label: item, checked: selectedValues.indexOf(item) > -1 }
+        return { value: item, label: item, checked: value.indexOf(item) > -1 }
       })
     } else {
-      options = data.map((item) => {
-        return { value: item.value, label: item.label || item.value, checked: selectedValues.indexOf(item.value) > -1 }
+      options = items.map((item) => {
+        return { value: item, label: labels[item] || item, checked: value.indexOf(item) > -1 }
       })
     }
     return options
