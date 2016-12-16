@@ -389,6 +389,8 @@ form > div > .frost-bunsen-section {
 // ember-frost-bunsen is on pre-1.x core and thus the change has been added here
 .frost-text-input {
   &[type='number'] {
-    border: 1px solid $frost-color-input-border;
+    &:read-only {
+      border: 1px solid $frost-color-input-border;
+    }
   }
 }
