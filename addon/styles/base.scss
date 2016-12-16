@@ -382,3 +382,13 @@ form > div > .frost-bunsen-section {
   padding-top: 0;
   border-top: 0;
 }
+
+// Note: without this Firefox ends up applying the read-only pseudo selector
+// to number inputs which causes them not to get a border. This change has been
+// directly applied in ember-frost-core version 1.3.3 but the 12.x branch of
+// ember-frost-bunsen is on pre-1.x core and thus the change has been added here
+.frost-text-input {
+  &[type='number'] {
+    border: 1px solid $frost-color-input-border;
+  }
+}
