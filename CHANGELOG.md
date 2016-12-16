@@ -1,3 +1,8 @@
+# 12.6.8
+
+* **Fixed** border on number inputs.
+
+
 # 12.6.7
 
 * **Fixed** list item CSS.
