@@ -1,3 +1,9 @@
+# 12.6.9
+
+* **Fixed** CSS fix from previous release to be more robust as it only worked when `ember-frost-core`'s SASS wasn't imported after `ember-frost-bunsen`'s SASS.
+
+
+
 # 12.6.8
 
 * **Fixed** border on number inputs.
