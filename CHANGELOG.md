@@ -1,3 +1,9 @@
+# 14.1.1
+
+* **Fixed** list item CSS.
+
+
+
 # 14.1.0
 
 BPSO-33985 be able to see the provisioning log when the Error Log link is clicked in the list view
