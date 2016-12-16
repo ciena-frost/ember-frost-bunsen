@@ -1,12 +1,13 @@
 <label class={{labelWrapperClassName}}>
   {{renderLabel}}
   {{#if showRequiredLabel}}
-    <div class='required'>Required</div>
+    <div class='frost-bunsen-required'>Required</div>
   {{/if}}
 </label>
 <div class={{inputWrapperClassName}}>
   {{#each options as |option|}}
     {{frost-checkbox
+      class=valueClassName
       disabled=disabled
       onInput=(action 'handleChange')
       size=size
@@ -17,7 +18,7 @@
   {{/each}}
 </div>
 {{#if renderErrorMessage}}
-  <div class='error'>
+  <div class='frost-bunsen-error'>
     {{renderErrorMessage}}
   </div>
 {{/if}}

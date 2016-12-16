@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Ember from 'ember'
 const {Logger, RSVP} = Ember
 
-import * as utils from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
 
 /**
  * set a list's available options

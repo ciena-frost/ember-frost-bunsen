@@ -1,15 +1,15 @@
 export default {
   bunsen: {
     array: {
-      emptyMsg: '.frost-bunsen-array-container > .empty-msg',
+      emptyMsg: '.frost-bunsen-array-container > .frost-bunsen-empty-msg',
       sort: {
-        handle: '.handle'
+        handle: '.frost-bunsen-handle'
       }
     },
     collapsible: {
       handle: '.frost-icon-frost-expand-collapse'
     },
-    label: '.left-label',
+    label: '.frost-bunsen-left-label',
     renderer: {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',
@@ -17,7 +17,11 @@ export default {
       link: '.frost-bunsen-input-link',
       multiSelect: '.frost-bunsen-input-multi-select',
       number: '.frost-bunsen-input-number',
-      password: '.frost-bunsen-input-password',
+      password: {
+        input: '.frost-bunsen-input-password',
+        reveal: '.frost-bunsen-input-password-reveal',
+        text: '.frost-bunsen-input-password-text'
+      },
       propertyChooser: '.frost-bunsen-input-property-chooser',
       select: {
         arrow: '.frost-bunsen-input-select .down-arrow',
@@ -30,17 +34,17 @@ export default {
       url: '.frost-bunsen-input-url'
     },
     section: {
-      clearableButton: '.heading h3 + button',
-      heading: '.heading h3',
-      required: '.heading .required'
+      clearableButton: '.frost-bunsen-heading h3 + button',
+      heading: '.frost-bunsen-heading h3',
+      required: '.frost-bunsen-heading .frost-bunsen-required'
     },
     validationErrors: {
       error: '.frost-bunsen-error',
       heading: '.frost-bunsen-validation-result h4'
     },
-    value: '.left-input'
+    value: '.frost-bunsen-left-input'
   },
-  error: '.error',
+  error: '.frost-bunsen-error',
   frost: {
     button: {
       input: {

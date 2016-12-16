@@ -1,9 +1,7 @@
 {
   "dependencies": {
     "mute": [
-      "ember-cli-mirage",
-      "ember-tooltips",
-      "validator"
+      "ember-cli-mirage"
     ]
   }
 }

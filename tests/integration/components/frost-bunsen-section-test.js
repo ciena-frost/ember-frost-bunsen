@@ -1,10 +1,13 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {beforeEach, describe, it} from 'mocha'
 
-describeComponent(...integrationTestContext('frost-bunsen-section'), function () {
+describe('Integration: frost-bunsen-section', function () {
+  setupComponentTest('frost-bunsen-section', {
+    integration: true
+  })
+
   describe('component', function () {
     let rootNode
 
@@ -51,7 +54,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
     })
 
     it('has correct classes', function () {
-      expect(panelHeaderNode).to.have.class('heading')
+      expect(panelHeaderNode).to.have.class('frost-bunsen-heading')
     })
 
     describe('title', function () {
@@ -91,7 +94,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
       })
 
       it('has correct classes', function () {
-        expect(panelBodyNode).to.have.class('body')
+        expect(panelBodyNode).to.have.class('frost-bunsen-body')
       })
     })
 
@@ -116,7 +119,7 @@ describeComponent(...integrationTestContext('frost-bunsen-section'), function ()
       })
 
       it('has correct classes', function () {
-        expect(panelBodyNode).to.have.class('body')
+        expect(panelBodyNode).to.have.class('frost-bunsen-body')
       })
     })
   })

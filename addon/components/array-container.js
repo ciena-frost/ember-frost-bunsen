@@ -1,14 +1,14 @@
-import 'bunsen-core/typedefs'
-
 import _ from 'lodash'
 import Ember from 'ember'
 const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getLabel} from 'bunsen-core/utils'
+import {utils} from 'bunsen-core'
+const {getLabel} = utils
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNames: ['frost-bunsen-array-container', 'frost-bunsen-section'],
@@ -102,26 +102,33 @@ export default Component.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
+  @computed('cellConfig', 'readOnly')
   /**
    * Whether or not array items can be sorted by user
    * @param {Object} cellConfig - cell config
+   * @param {Boolean} readOnly - whether or not form is read only
    * @returns {Boolean} whether or not sorting is enabled
    */
-  sortable (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.sortable') === true
+  sortable (cellConfig, readOnly) {
+    return (
+      readOnly !== true &&
+      _.get(cellConfig, 'arrayOptions.sortable') === true
+    )
   },
 
   @readOnly
-  @computed('bunsenId', 'value')
-  items (bunsenId, value) {
+  @computed('bunsenId', 'readOnly', 'value')
+  items (bunsenId, readOnly, value) {
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
 
     const items = _.get(value, bunsenId) || []
 
-    if (this.get('cellConfig.arrayOptions.autoAdd') === true) {
+    if (
+      readOnly !== true &&
+      this.get('cellConfig.arrayOptions.autoAdd') === true
+    ) {
       items.push(this._getEmptyItem())
     }
 

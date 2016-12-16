@@ -1,24 +1,32 @@
-import 'bunsen-core/typedefs'
+import {
+  actions,
+  generateView,
+  normalizeView,
+  reducer,
+  validateModel,
+  validateView,
+  viewV1ToV2
+} from 'bunsen-core'
 
-import {validate, changeModel, CHANGE_VALUE} from 'bunsen-core/actions'
-import normalizeView from 'bunsen-core/conversion/normalize-view'
-import reducer from 'bunsen-core/reducer'
-import redux from 'npm:redux'
-const {createStore, applyMiddleware} = redux
-import thunk from 'npm:redux-thunk'
-const thunkMiddleware = thunk.default
+const {
+  changeModel,
+  CHANGE_VALUE,
+  validate
+} = actions
+
+import {createStore, applyMiddleware} from 'redux'
+import thunkMiddleware from 'redux-thunk'
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
-import _ from 'lodash'
 import Ember from 'ember'
-const {Component, RSVP, typeOf, run} = Ember
+const {Component, RSVP, typeOf, run, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import getOwner from 'ember-getowner-polyfill'
-import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {getDefaultView} from 'bunsen-core/generator'
-import validateView, {validateModel} from 'bunsen-core/validator'
-import viewV1ToV2 from 'bunsen-core/conversion/view-v1-to-v2'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
+import getOwner from 'ember-getowner-polyfill'
+import {HookMixin} from 'ember-hook'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import SpreadMixin from 'ember-spread'
+import _ from 'lodash'
 
 import {
   deemberify,
@@ -75,7 +83,7 @@ function v2View (bunsenView) {
   return bunsenView
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   layout,
@@ -100,6 +108,7 @@ export default Component.extend(PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    selectedTabLabel: PropTypes.string,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
@@ -112,6 +121,7 @@ export default Component.extend(PropTypeMixin, {
       classNames: ['frost-bunsen-detail'],
       disabled: false,
       hook: 'bunsenDetail',
+      inputValidators: [],
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
@@ -138,7 +148,7 @@ export default Component.extend(PropTypeMixin, {
    */
   renderView (model, bunsenView) {
     if (_.isEmpty(bunsenView)) {
-      return getDefaultView(model)
+      return generateView(model)
     }
 
     if (bunsenView.version === '1.0') {
@@ -321,6 +331,10 @@ export default Component.extend(PropTypeMixin, {
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
+    if (this.isDestroyed || this.isDestroying) {
+      return
+    }
+
     const state = this.get('reduxStore').getState()
     const {errors, validationResult, value, valueChangeSet, lastAction} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
@@ -383,7 +397,7 @@ export default Component.extend(PropTypeMixin, {
    */
   validateProps (bunsenModel) {
     let invalidSchemaType = 'model'
-    const renderers = this.get('renderers')
+    const renderers = this.get('renderers') || {}
 
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
@@ -423,6 +437,46 @@ export default Component.extend(PropTypeMixin, {
   },
 
   /**
+   * Get form and input validators
+   * @returns {Function[]} list of validators
+   **/
+  getAllValidators () {
+    const formValidators = this.get('validators') || []
+    const inputValidators = this.get('inputValidators')
+
+    return formValidators.concat(inputValidators)
+  },
+
+  /**
+   * Registers a component validator
+   * @param {Ember.Component} component - the component that contains the validate method
+   */
+  registerValidator (component) {
+    if ('validate' in component) {
+      const validator = component.validate.bind(component)
+      component.on('willDestroyElement', () => {
+        this.unregisterValidator(validator)
+      })
+
+      this.get('inputValidators').push(validator)
+    } else {
+      Logger.warn('registerValidator requires the component to implement validate()')
+    }
+  },
+
+  /**
+   * Unregisters a component validator
+   * @param {Function} validator - the validator function used when registering
+   */
+  unregisterValidator (validator) {
+    const inputValidators = this.get('inputValidators')
+    const index = inputValidators.indexOf(validator)
+    if (index >= 0) {
+      inputValidators.splice(index, 1)
+    }
+  },
+
+  /**
    * Keep value in sync with store and validate properties
    */
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -439,6 +493,7 @@ export default Component.extend(PropTypeMixin, {
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {newSchema: newBunsenModel, hasChanged: hasModelChanged} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
+    const allValidators = this.getAllValidators()
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -455,18 +510,26 @@ export default Component.extend(PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), this.get('validators'), RSVP.all)
+        validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all)
       )
     } else {
       if (hasModelChanged) {
         reduxStore.dispatch(
-          validate(null, value, newBunsenModel, this.get('validators'), RSVP.all)
+          validate(null, value, newBunsenModel, allValidators, RSVP.all)
         )
       }
     }
 
     if (hasModelChanged || hasViewChanged) {
       this.validateProps(newBunsenModel)
+    }
+
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+      if (selectedTab !== undefined) {
+        this.set('selectedTabIndex', selectedTab.id)
+      }
     }
   },
   /* eslint-enable complexity */

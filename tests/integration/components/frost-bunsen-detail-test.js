@@ -1,10 +1,13 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
-import {beforeEach} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {setupComponentTest} from 'ember-mocha'
+import {beforeEach, describe, it} from 'mocha'
 import hbs from 'htmlbars-inline-precompile'
 
-describeComponent(...integrationTestContext('frost-bunsen-detail'), function () {
+describe('Integration: frost-bunsen-detail', function () {
+  setupComponentTest('frost-bunsen-detail', {
+    integration: true
+  })
+
   let rootNode
 
   beforeEach(function () {
@@ -49,7 +52,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
   })
 
   it('displays initial value', function () {
-    const $values = this.$('.left-input p')
+    const $values = this.$('.frost-bunsen-left-input p')
     const displayValue = {
       firstName: $values.eq(0).text(),
       lastName: $values.eq(1).text(),
@@ -71,7 +74,7 @@ describeComponent(...integrationTestContext('frost-bunsen-detail'), function () 
 
     this.set('value', newValue)
 
-    const $values = this.$('.left-input p')
+    const $values = this.$('.frost-bunsen-left-input p')
     const firstName = $values.eq(0).text()
     const lastName = $values.eq(1).text()
     const alias = $values.eq(2).text()

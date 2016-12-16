@@ -3,7 +3,7 @@ module.exports = function (environment) {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'hash',
     EmberENV: {
       FEATURES: {
@@ -15,6 +15,10 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    'ember-frost-bunsen': {
+      MAPQUEST_API_KEY: process.env.MAPQUEST_API_KEY
     }
   }
 
@@ -28,7 +32,7 @@ module.exports = function (environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.baseURL = '/'
+    ENV.rootURL = '/'
     ENV.locationType = 'none'
 
     // keep test console output quieter
@@ -42,7 +46,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/ember-frost-bunsen'
+    ENV.rootURL = '/ember-frost-bunsen'
     ENV.isDemo = true
     ENV.mirageNamespace = 'https://ciena-frost.github.io'
     ENV['ember-cli-mirage'] = {

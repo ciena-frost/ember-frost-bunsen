@@ -26,8 +26,8 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('revealed')
-  revealIcon (revealed) {
-    return revealed ? 'hide' : 'show'
+  revealText (revealed) {
+    return revealed ? 'Hide' : 'Show'
   },
 
   @readOnly

@@ -1,9 +1,9 @@
 import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
+import {setupComponentTest} from 'ember-mocha'
 import {beforeEach, afterEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {unitTest} from 'dummy/tests/helpers/template'
-import {getChangeSet} from 'bunsen-core/change-utils'
+import {changeUtils} from 'bunsen-core'
+const {getChangeSet} = changeUtils
 import treeUtils from 'ember-frost-bunsen/tree-utils'
 import _ from 'lodash'
 
@@ -39,7 +39,11 @@ const testCellConfig = {
   ]
 }
 
-describeComponent(...unitTest('frost-bunsen-detail'), function () {
+describe('Unit: frost-bunsen-detail', function () {
+  setupComponentTest('frost-bunsen-detail', {
+    unit: true
+  })
+
   let component, bunsenModel, value, sandbox
 
   beforeEach(function () {
@@ -128,19 +132,19 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should update renderValue in properties', function () {
-        expect(newProps.renderValue).to.be.eql(newValue)
+        expect(newProps.renderValue).to.eql(newValue)
       })
 
       it('should not update errors in properties', function () {
-        expect(newProps.errors).to.be.equal(undefined)
+        expect(newProps.errors).to.equal(undefined)
       })
 
       it('should fire onChange', function () {
-        expect(changeHandler.lastCall.args).to.be.eql([newValue])
+        expect(changeHandler.lastCall.args).to.eql([newValue])
       })
 
       it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.be.eql([{errors: []}])
+        expect(validationHandler.lastCall.args).to.eql([{errors: []}])
       })
     })
 
@@ -175,19 +179,19 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should update errors in properties', function () {
-        expect(newProps.errors).to.be.eql(newErrors)
+        expect(newProps.errors).to.eql(newErrors)
       })
 
       it('should not update renderValue in properties', function () {
-        expect(newProps.renderValue).to.be.equal(undefined)
+        expect(newProps.renderValue).to.equal(undefined)
       })
 
       it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.be.eql([{errors: newErrors}])
+        expect(validationHandler.lastCall.args).to.eql([{errors: newErrors}])
       })
 
       it('should not fire onChange', function () {
-        expect(changeHandler.called).not.to.be.equal(true)
+        expect(changeHandler.called).not.to.equal(true)
       })
     })
 
@@ -225,19 +229,19 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should update renderValue in properties', function () {
-        expect(newProps.renderValue).to.be.eql(newValue)
+        expect(newProps.renderValue).to.eql(newValue)
       })
 
       it('should update errors in properties', function () {
-        expect(newProps.errors).to.be.eql(newErrors)
+        expect(newProps.errors).to.eql(newErrors)
       })
 
       it('should fire onChange', function () {
-        expect(changeHandler.lastCall.args).to.be.eql([newValue])
+        expect(changeHandler.lastCall.args).to.eql([newValue])
       })
 
       it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.be.eql([{errors: newErrors}])
+        expect(validationHandler.lastCall.args).to.eql([{errors: newErrors}])
       })
     })
 
@@ -274,19 +278,19 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should update errors in properties', function () {
-        expect(newProps.errors).to.be.eql(newErrors)
+        expect(newProps.errors).to.eql(newErrors)
       })
 
       it('should not update renderValue in properties', function () {
-        expect(newProps.renderValue).to.be.equal(undefined)
+        expect(newProps.renderValue).to.equal(undefined)
       })
 
       it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.be.eql([{errors: newErrors}])
+        expect(validationHandler.lastCall.args).to.eql([{errors: newErrors}])
       })
 
       it('should not fire onChange', function () {
-        expect(changeHandler.called).not.to.be.equal(true)
+        expect(changeHandler.called).not.to.equal(true)
       })
     })
   })
@@ -394,7 +398,7 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
 
         it('should not blow up', function () {
           // If it tried to call undefined, the beforeEach would have failed
-          expect(true).to.be.equal(true)
+          expect(true).to.equal(true)
         })
       })
     })
@@ -411,11 +415,55 @@ describeComponent(...unitTest('frost-bunsen-detail'), function () {
       })
 
       it('should call formValueChanged on the component being registered', function () {
-        expect(subComponent.formValueChanged.lastCall.args).to.be.eql([{foo: 'bar'}])
+        expect(subComponent.formValueChanged.lastCall.args).to.eql([{foo: 'bar'}])
       })
 
       it('should save the new comopnent in registeredComponents', function () {
         expect(component.get('registeredComponents')).to.contain(subComponent)
+      })
+    })
+
+    describe('.registerValidator', function () {
+      let subComponent, willDestroyElement
+      beforeEach(function () {
+        subComponent = {
+          validate () {},
+          formValueChanged: sandbox.stub(),
+          on: sandbox.spy(function (hook, hookFn) {
+            willDestroyElement = hookFn
+          })
+        }
+        component.registerValidator(subComponent)
+        sandbox.stub(component, 'unregisterValidator')
+      })
+
+      it('should add the validator to the list of input validators', function () {
+        expect(component.inputValidators.length).to.equal(1)
+      })
+
+      it('should not add the validtor when the component does not define a validate method', function () {
+        delete subComponent.validate
+        component.inputValidators = []
+        component.registerValidator(subComponent)
+        expect(component.inputValidators.length).to.equal(0)
+      })
+
+      it('call .unregisterValidator() on willDestroyElement', function () {
+        willDestroyElement()
+        expect(component.unregisterValidator.called).to.equal(true)
+      })
+    })
+
+    describe('.unregisterValidator', function () {
+      let inputValidator
+      beforeEach(function () {
+        inputValidator = function () {}
+        component.inputValidators = [inputValidator]
+        component.unregisterValidator(inputValidator)
+      })
+
+      it('removes the validator reference', function () {
+        expect(component.inputValidators.length).to.equal(0)
       })
     })
 

@@ -1,593 +1,357 @@
-import {expect} from 'chai'
-import {describeComponent} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {
+  expectBunsenCheckboxArrayRendererWithState,
+  expectCollapsibleHandles,
+  expectOnValidationState
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {beforeEach, describe, it} from 'mocha'
 
-describeComponent(
-  'frost-bunsen-form',
-  'Integration: Component | frost-bunsen-form | renderer | checkbox-array',
-  {
-    integration: true
-  },
-  function () {
-    let props, sandbox
-
-    beforeEach(function () {
-      sandbox = sinon.sandbox.create()
-
-      props = {
-        bunsenModel: {
-          properties: {
-            foo: {
-              items: {
-                enum: ['bar', 'baz'],
-                type: 'string'
-              },
-              type: 'array'
-            }
+describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array', function () {
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        foo: {
+          items: {
+            enum: ['bar', 'baz'],
+            type: 'string'
           },
-          type: 'object'
-        },
-        bunsenView: {
-          cells: [
-            {
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        },
-        disabled: undefined,
-        onChange: sandbox.spy(),
-        onValidation: sandbox.spy()
-      }
+          type: 'array'
+        }
+      },
+      type: 'object'
+    },
+    bunsenView: {
+      cells: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'checkbox-array'
+          }
+        }
+      ],
+      type: 'form',
+      version: '2.0'
+    }
+  })
 
-      this.setProperties(props)
-
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-        disabled=disabled
-        onChange=onChange
-        onValidation=onValidation
-      }}`)
+  it('renders as expected', function () {
+    expectCollapsibleHandles(0)
+    expectBunsenCheckboxArrayRendererWithState('foo', {
+      items: ['bar', 'baz'],
+      label: 'Foo'
     })
+  })
 
-    afterEach(function () {
-      sandbox.restore()
+  describe('when label defined in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            label: 'FooBar Baz',
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
     })
 
     it('renders as expected', function () {
-      expect(
-        this.$(selectors.bunsen.collapsible.handle),
-        'does not render collapsible handle'
-      )
-        .to.have.length(0)
-
-      expect(
-        this.$(selectors.bunsen.renderer.checkboxArray),
-        'renders a bunsen checkbox-array input'
-      )
-        .to.have.length(1)
-
-      const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-      expect(
-        $input,
-        'renders an enabled checkbox-array input'
-      )
-        .to.have.length(2)
-
-      expect(
-        this.$(selectors.bunsen.label).text().trim(),
-        'renders expected label text'
-      )
-        .to.equal('Foo')
-
-      expect(
-        this.$(selectors.error),
-        'does not have any validation errors'
-      )
-        .to.have.length(0)
+      expectCollapsibleHandles(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'FooBar Baz'
+      })
     })
+  })
 
-    describe('when label defined in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              label: 'FooBar Baz',
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
+  describe('when collapsible set to true in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            collapsible: true,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array'
             }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
-
-        expect(
-          this.$(selectors.bunsen.renderer.checkboxArray),
-          'renders a bunsen checkbox-array input'
-        )
-          .to.have.length(1)
-
-        const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('FooBar Baz')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+          }
+        ],
+        type: 'form',
+        version: '2.0'
       })
     })
 
-    describe('when collapsible set to true in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              collapsible: true,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
+    it('renders as expected', function () {
+      expectCollapsibleHandles(1)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when collapsible set to false in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            collapsible: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array'
             }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'renders collapsible handle'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.bunsen.renderer.checkboxArray),
-          'renders a bunsen checkbox-array input'
-        )
-          .to.have.length(1)
-
-        const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('Foo')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+          }
+        ],
+        type: 'form',
+        version: '2.0'
       })
     })
 
-    describe('when collapsible set to false in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              collapsible: false,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when form explicitly enabled', function () {
+    beforeEach(function () {
+      this.set('disabled', false)
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when form disabled', function () {
+    beforeEach(function () {
+      this.set('disabled', true)
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        disabled: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when property explicitly enabled in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array'
             }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
-
-        expect(
-          this.$(selectors.bunsen.renderer.checkboxArray),
-          'renders a bunsen checkbox-array input'
-        )
-          .to.have.length(1)
-
-        const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('Foo')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+          }
+        ],
+        type: 'form',
+        version: '2.0'
       })
     })
 
-    describe('when selectedValues is set to pre-check a checkbox', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: false,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array',
-                selectedValues: ['bar']
-              }
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when property disabled in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: true,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array'
             }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.checked),
-          'renders an checked checkbox'
-        )
-          .to.have.length(1)
+          }
+        ],
+        type: 'form',
+        version: '2.0'
       })
     })
 
-    describe('when data is set to override the model enum', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: false,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array',
-                data: [
-                  {
-                    label: 'baz',
-                    value: 'BAZ'
-                  },
-                  {
-                    label: 'bar',
-                    value: 'BAR'
-                  }
-                ]
-              }
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        disabled: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
       })
     })
+  })
 
-    describe('when both data and selectedValues are used', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: false,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array',
-                selectedValues: ['BAR'],
-                data: [
-                  {
-                    label: 'baz',
-                    value: 'BAZ'
-                  },
-                  {
-                    label: 'bar',
-                    value: 'BAR'
-                  }
-                ]
-              }
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
+  describe('when field is required', function () {
+    beforeEach(function () {
+      ctx.props.onValidation.reset()
 
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.checked),
-          'renders an checked checkbox'
-        )
-          .to.have.length(1)
-      })
-    })
-
-    describe('when form explicitly enabled', function () {
-      beforeEach(function () {
-        this.set('disabled', false)
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when form disabled', function () {
-      beforeEach(function () {
-        this.set('disabled', true)
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.disabled),
-          'renders a disabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when property explicitly enabled in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: false,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when property disabled in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: true,
-              model: 'foo',
-              renderer: {
-                name: 'checkbox-array'
-              }
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.frost.checkbox.input.disabled),
-          'renders a disabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when field is required', function () {
-      beforeEach(function () {
-        props.onValidation = sandbox.spy()
-
-        this.setProperties({
-          bunsenModel: {
-            properties: {
-              foo: {
-                items: {
-                  enum: ['bar', 'baz'],
-                  type: 'string'
-                },
-                type: 'array'
-              }
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar', 'baz'],
+              type: 'string'
             },
-            required: ['foo'],
-            type: 'object'
-          },
-          onValidation: props.onValidation
-        })
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.checkboxArray),
-          'renders a bunsen checkbox-array input'
-        )
-          .to.have.length(1)
-
-        expect(
-          this.$(selectors.frost.checkbox.input.enabled),
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there is one error'
-        )
-          .to.equal(1)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
+            type: 'array'
+          }
+        },
+        required: ['foo'],
+        type: 'object'
       })
     })
 
-    describe('when user checks checkbox', function () {
-      beforeEach(function () {
-        this.$(selectors.frost.checkbox.input.enabled)
-          .trigger('click')
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz'],
+        label: 'Foo'
       })
 
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.collapsible.handle),
-          'does not render collapsible handle'
-        )
-          .to.have.length(0)
-
-        expect(
-          this.$(selectors.bunsen.renderer.checkboxArray),
-          'renders a bunsen checkbox-array input'
-        )
-          .to.have.length(1)
-
-        const $input = this.$(selectors.frost.checkbox.input.enabled)
-
-        expect(
-          $input,
-          'renders an enabled checkbox-array input'
-        )
-          .to.have.length(2)
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('Foo')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
+      expectOnValidationState(ctx, {
+        count: 1,
+        errors: [
+          {
+            code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
+            params: ['foo'],
+            message: 'Field is required.',
+            path: '#/foo',
+            isRequiredError: true
+          }
+        ]
       })
     })
-  }
-)
+  })
+
+  describe('when user checks checkbox', function () {
+    beforeEach(function () {
+      this.$(selectors.frost.checkbox.input.enabled)
+        .trigger('click')
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when selectedValues is set to pre-check checkboxes', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              selectedValues: ['bar', 'baz']
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when data is set to override the model enum', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              data: [
+                {
+                  label: 'BAZ',
+                  value: 'BAZ'
+                },
+                {
+                  label: 'BAR',
+                  value: 'BAR'
+                }
+              ]
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['BAZ', 'BAR'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when both data and selectedValues are used', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              selectedValues: ['BAR', 'BAZ'],
+              data: [
+                {
+                  label: 'BAZ',
+                  value: 'BAZ'
+                },
+                {
+                  label: 'BAR',
+                  value: 'BAR'
+                }
+              ]
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['BAZ', 'BAR'],
+        label: 'Foo'
+      })
+    })
+  })
+})

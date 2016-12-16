@@ -8,7 +8,6 @@ export default Controller.extend({
       title: 'Getting Started'
     },
     {
-      route: 'component',
       title: 'Components',
       links: [
         {
@@ -18,11 +17,14 @@ export default Controller.extend({
         {
           route: 'component.form',
           title: 'frost-bunsen-form'
+        },
+        {
+          route: 'component.abstract-input',
+          title: 'abstract-input'
         }
       ]
     },
     {
-      route: 'model',
       title: 'Model',
       links: [
         {
@@ -32,7 +34,6 @@ export default Controller.extend({
       ]
     },
     {
-      route: 'view',
       title: 'View',
       links: [
         {

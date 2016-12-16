@@ -22,8 +22,10 @@
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
           renderers=renderers
           showAllErrors=showAllErrors
+          triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
           value=propagatedValue
           valueChangeSet=propagatedValueChangeSet
@@ -44,10 +46,12 @@
             onError=onError
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
+            registerValidator=registerValidator
             renderers=renderers
             showAllErrors=showAllErrors
             showRemoveButton=false
             sortable=false
+            triggerValidation=triggerValidation
             unregisterForFormValueChanges=unregisterForFormValueChanges
             value=propagatedValue
             valueChangeSet=propagatedValueChangeSet
@@ -66,9 +70,11 @@
             onError=onError
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
+            registerValidator=registerValidator
             renderers=renderers
             required=required
             showAllErrors=showAllErrors
+            triggerValidation=triggerValidation
             unregisterForFormValueChanges=unregisterForFormValueChanges
             value=propagatedValue
             valueChangeSet=propagatedValueChangeSet
@@ -88,9 +94,11 @@
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
           renderers=renderers
           required=required
           showAllErrors=showAllErrors
+          triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
           value=renderValue
         }}
@@ -99,7 +107,7 @@
     {{#each cellConfig.children as |child index|}}
       {{frost-bunsen-cell
         bunsenId=renderId
-        bunsenModel=bunsenModel
+        bunsenModel=subModel
         bunsenView=bunsenView
         cellConfig=child
         errors=errors
@@ -109,8 +117,10 @@
         onError=onError
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
+        registerValidator=registerValidator
         renderers=renderers
         showAllErrors=showAllErrors
+        triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
         value=propagatedValue
         valueChangeSet=propagatedValueChangeSet
@@ -132,8 +142,10 @@
         onError=onError
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
+        registerValidator=registerValidator
         renderers=renderers
         showAllErrors=showAllErrors
+        triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
         value=propagatedValue
         valueChangeSet=propagatedValueChangeSet
@@ -154,10 +166,12 @@
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
           renderers=renderers
           showAllErrors=showAllErrors
           showRemoveButton=false
           sortable=false
+          triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
           value=propagatedValue
           valueChangeSet=propagatedValueChangeSet
@@ -176,9 +190,11 @@
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
           renderers=renderers
           required=required
           showAllErrors=showAllErrors
+          triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
           value=propagatedValue
           valueChangeSet=propagatedValueChangeSet
@@ -198,9 +214,11 @@
         onError=onError
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
+        registerValidator=registerValidator
         renderers=renderers
         required=required
         showAllErrors=showAllErrors
+        triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
         value=renderValue
         valueChangeSet=propagatedValueChangeSet
@@ -210,7 +228,7 @@
   {{#each cellConfig.children as |child index|}}
     {{frost-bunsen-cell
       bunsenId=renderId
-      bunsenModel=bunsenModel
+      bunsenModel=subModel
       bunsenView=bunsenView
       cellConfig=child
       errors=errors
@@ -220,8 +238,10 @@
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
+      registerValidator=registerValidator
       renderers=renderers
       showAllErrors=showAllErrors
+      triggerValidation=triggerValidation
       unregisterForFormValueChanges=unregisterForFormValueChanges
       value=propagatedValue
       valueChangeSet=propagatedValueChangeSet

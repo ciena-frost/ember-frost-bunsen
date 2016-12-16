@@ -2,6 +2,14 @@ export default {
   boolean: {},
   'button-group': {},
   'checkbox-array': {},
+  geolocation: {},
+  json: {
+    foo: {
+      alpha: 'test',
+      bravo: 1,
+      charlie: true
+    }
+  },
   link: {
     foo: 'http://ciena.com',
     label: 'Ciena',

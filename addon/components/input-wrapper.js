@@ -2,12 +2,13 @@ import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 import {getRendererComponentName, validateRenderer} from '../utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-wrapper'
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   layout,
@@ -25,12 +26,14 @@ export default Component.extend(PropTypeMixin, {
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     registerForFormValueChanges: PropTypes.func,
+    registerValidator: PropTypes.func,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
     required: PropTypes.bool,
     showAllErrors: PropTypes.bool,
+    triggerValidator: PropTypes.func,
     unregisterForFormValueChanges: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.array,

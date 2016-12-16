@@ -1,9 +1,7 @@
 import {expect} from 'chai'
-import {describeComponent, it} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import _ from 'lodash'
-import {beforeEach, describe} from 'mocha'
-import {integrationTestContext} from 'dummy/tests/helpers/template'
+import {describe, it} from 'mocha'
 
 const bunsenView = {
   cellDefinitions: {
@@ -22,22 +20,22 @@ const bunsenView = {
   version: '2.0'
 }
 
-const props = {
-  bunsenModel: {
-    properties: {
-      bar: {type: 'number'},
-      baz: {type: 'boolean'},
-      foo: {type: 'string'}
+describe('Integration: frost-bunsen-form', function () {
+  const ctx = setupFormComponentTest({
+    bunsenModel: {
+      properties: {
+        bar: {type: 'number'},
+        baz: {type: 'boolean'},
+        foo: {type: 'string'}
+      },
+      type: 'object'
     },
-    type: 'object'
-  },
-  bunsenView: _.cloneDeep(bunsenView)
-}
+    bunsenView: _.cloneDeep(bunsenView)
+  })
 
-function tests (ctx) {
   describe('multiple root cells', function () {
     it('renders as expected', function () {
-      const $tabs = ctx.rootNode.find('.frost-tabs')
+      const $tabs = this.$('.frost-tabs')
 
       expect(
         $tabs.length,
@@ -67,24 +65,7 @@ function tests (ctx) {
     })
 
     it('does not mutate bunsenView', function () {
-      expect(props.bunsenView).to.eql(bunsenView)
+      expect(ctx.props.bunsenView).to.eql(bunsenView)
     })
   })
-}
-
-describeComponent(...integrationTestContext('frost-bunsen-form'),
-  function () {
-    let ctx = {}
-
-    beforeEach(function () {
-      this.setProperties(props)
-      this.render(hbs`{{frost-bunsen-form
-        bunsenModel=bunsenModel
-        bunsenView=bunsenView
-      }}`)
-      ctx.rootNode = this.$('> *')
-    })
-
-    tests(ctx)
-  }
-)
+})

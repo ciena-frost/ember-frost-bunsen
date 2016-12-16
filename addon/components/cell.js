@@ -1,8 +1,9 @@
-import {
+import {utils} from 'bunsen-core'
+const {
   getLabel,
   getSubModel,
   getModelPath
-} from 'bunsen-core/utils'
+} = utils
 
 import Ember from 'ember'
 const {Component} = Ember
@@ -10,6 +11,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 import {isRequired} from 'ember-frost-bunsen/utils'
+import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
@@ -40,11 +42,11 @@ export function iterateMap (iterator, iteratee) {
   }
 }
 
-export default Component.extend(PropTypeMixin, {
+export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
   classNameBindings: [
-    'compact:compact',
+    'compact:frost-bunsen-compact',
     'computedClassName'
   ],
 
@@ -191,9 +193,15 @@ export default Component.extend(PropTypeMixin, {
    * @returns {BunsenModel} sub model
    */
   subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
+    if (!configModel) {
+      return bunsenModel
+    }
+
+    // Look for sub model using model property of cell config
     let subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
 
     if (!subModel) {
+      // Look for sub model using model property of cell config prepended with bunsen ID
       subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
     }
 
@@ -326,10 +334,7 @@ export default Component.extend(PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   isLeafNode (cellConfig) {
-    return (
-      cellConfig.model &&
-      (!cellConfig.children || cellConfig.children.length === 0)
-    )
+    return cellConfig.model && !cellConfig.children
   },
 
   @readOnly

@@ -4,7 +4,7 @@
     type=invalidSchemaType
   }}
 {{else}}
-  <form class='form'>
+  <form onsubmit='return false'>
     {{#if cellTabs.length}}
       {{#frost-tabs
         hook=hook
@@ -25,8 +25,10 @@
               onChange=(action 'handleChange')
               onError=(action 'handleError')
               registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+              registerValidator=(action registerValidator)
               renderers=renderers
               showAllErrors=showAllErrors
+              triggerValidation=(action triggerValidation)
               unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
               value=renderValue
               valueChangeSet=valueChangeSet
@@ -48,8 +50,10 @@
           onChange=(action 'handleChange')
           onError=(action 'handleError')
           registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+          registerValidator=(action registerValidator)
           renderers=renderers
           showAllErrors=showAllErrors
+          triggerValidation=(action triggerValidation)
           unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
           value=renderValue
           valueChangeSet=valueChangeSet
