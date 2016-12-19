@@ -13,6 +13,7 @@ const keys = [
   'hook',
   'onChange',
   'onError',
+  'onTabChange',
   'onValidation',
   'registeredComponents',
   'renderers',

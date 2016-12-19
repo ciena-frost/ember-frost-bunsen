@@ -3,7 +3,6 @@ module.exports = {
     return this.addAddonsToProject({
       packages: [
         {name: 'ember-ajax', target: '^2.5.2'},
-        {name: 'ember-browserify', target: '^1.1.12'},
         {name: 'ember-bunsen-core', target: '0.15.2'},
         {name: 'ember-frost-core', target: '^1.1.3'},
         {name: 'ember-frost-fields', target: '^4.0.0'},
@@ -14,7 +13,7 @@ module.exports = {
         {name: 'ember-prop-types', target: '^3.0.2'},
         {name: 'ember-redux-shim', target: '0.0.2'},
         {name: 'ember-redux-thunk', target: '0.0.1'},
-        {name: 'ember-spread', target: '0.0.7'},
+        {name: 'ember-spread', target: '^1.0.0'},
         {name: 'ember-sortable', target: '^1.8.1'}
       ]
     })
