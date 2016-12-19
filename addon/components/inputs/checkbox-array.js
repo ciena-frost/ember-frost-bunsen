@@ -35,19 +35,16 @@ export default AbstractInput.extend({
   options (bunsenModel, cellConfig, value) {
     const items = get(bunsenModel, 'items.enum') || []
     const labels = get(cellConfig, 'renderer.labels') || []
-    value = value || []
-    var options = {}
 
-    if (isEmpty(labels)) {
-      options = items.map((item) => {
-        return { value: item, label: item, checked: value.indexOf(item) > -1 }
-      })
-    } else {
-      options = items.map((item) => {
-        return { value: item, label: labels[item] || item, checked: value.indexOf(item) > -1 }
-      })
-    }
-    return options
+    value = value || []
+
+    return items.map((item) => {
+      return {
+        checked: value.indexOf(item) > -1,
+        label: labels[item] || item,
+        value: item
+      }
+    })
   },
 
   // == Functions ==============================================================
