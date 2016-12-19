@@ -27,6 +27,7 @@ export default DetailComponent.extend({
     hook: PropTypes.string,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onTabChange: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([

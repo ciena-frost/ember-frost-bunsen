@@ -94,12 +94,14 @@ export default Component.extend(PropTypeMixin, {
     hook: PropTypes.string,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onTabChange: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    selectedTabLabel: PropTypes.string,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
       PropTypes.null,
@@ -514,6 +516,14 @@ export default Component.extend(PropTypeMixin, {
     if (hasModelChanged || hasViewChanged) {
       this.validateProps(newBunsenModel)
     }
+
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+      if (selectedTab !== undefined) {
+        this.set('selectedTabIndex', selectedTab.id)
+      }
+    }
   },
   /* eslint-enable complexity */
 
@@ -545,6 +555,13 @@ export default Component.extend(PropTypeMixin, {
      */
     handleTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)
+
+      if (this.onTabChange) {
+        const cellTabs = this.get('cellTabs')
+        const selectedTab = cellTabs.findBy('id', tabIndex)
+
+        this.onTabChange(selectedTab.alias)
+      }
     },
 
     /**
