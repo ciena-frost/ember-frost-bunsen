@@ -17,7 +17,11 @@ export default AbstractInput.extend({
 
   // == State Properties =======================================================
 
-  selected: [],
+  getDefaultProps () {
+    return {
+      selected: []
+    }
+  },
 
   // == Computed Properties ====================================================
   @readOnly
@@ -27,12 +31,19 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('bunsenModel')
-  options (bunsenModel) {
+  @computed('bunsenModel', 'cellConfig', 'value')
+  options (bunsenModel, cellConfig, value) {
     const items = get(bunsenModel, 'items.enum') || []
+    const labels = get(cellConfig, 'renderer.labels') || []
 
-    return items.map((value) => {
-      return { value }
+    value = value || []
+
+    return items.map((item) => {
+      return {
+        checked: value.indexOf(item) > -1,
+        label: labels[item] || item,
+        value: item
+      }
     })
   },
 
@@ -47,7 +58,7 @@ export default AbstractInput.extend({
     if (data.value) {
       selected.push(data.id)
     } else {
-      var index = selected.indexOf(data.value)
+      var index = selected.indexOf(data.id)
       selected.splice(index, 1)
     }
     return selected

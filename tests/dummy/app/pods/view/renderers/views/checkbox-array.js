@@ -3,12 +3,35 @@ export default {
     main: {
       children: [
         {
-          model: 'severity',
-          renderer: {
-            name: 'checkbox-array'
-          }
+          children: [
+            {
+              model: 'severity',
+              renderer: {
+                name: 'checkbox-array'
+              }
+            }
+          ],
+          label: 'Severity',
+          collapsible: true
+        },
+        {
+          children: [
+            {
+              model: 'serviceAffecting',
+              renderer: {
+                name: 'checkbox-array',
+                labels: {
+                  'SERVICE_AFFECTING': 'Yes',
+                  'NON_SERVICE_AFFECTING': 'No'
+                }
+              }
+            }
+          ],
+          label: 'Service affecting',
+          collapsible: true
         }
-      ]
+      ],
+      label: 'Refine by'
     }
   },
   cells: [

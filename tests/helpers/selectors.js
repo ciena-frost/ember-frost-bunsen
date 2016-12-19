@@ -58,6 +58,7 @@ export default {
     },
     checkbox: {
       input: {
+        checked: '.frost-checkbox input[type="checkbox"]:checked',
         disabled: '.frost-checkbox input[type="checkbox"]:disabled',
         enabled: '.frost-checkbox input[type="checkbox"]:not(:disabled)'
       }

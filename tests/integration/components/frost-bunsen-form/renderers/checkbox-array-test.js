@@ -243,12 +243,124 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   describe('when user checks checkbox', function () {
     beforeEach(function () {
       this.$(selectors.frost.checkbox.input.enabled)
-        .trigger('click')
+        .eq(0).trigger('click')
+      this.$(selectors.frost.checkbox.input.enabled)
+        .eq(1).trigger('click')
     })
 
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when value is set to pre-check checkboxes', function () {
+    beforeEach(function () {
+      this.set('value', {
+        foo: ['bar', 'baz']
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when labels is set to override the model enum', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            disabled: false,
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              labels: {
+                bar: 'BAR',
+                baz: 'BAZ'
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['BAR', 'BAZ'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when an item is added to the enum', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar', 'baz', 'qux'],
+              type: 'string'
+            },
+            type: 'array'
+          }
+        },
+        type: 'object'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz', 'qux'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when an item is removed from the enum', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar'],
+              type: 'string'
+            },
+            type: 'array'
+          }
+        },
+        type: 'object'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when the value is changed', function () {
+    beforeEach(function () {
+      this.set('value', {
+        foo: ['bar', 'baz']
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
         items: ['bar', 'baz'],
         label: 'Foo'
       })

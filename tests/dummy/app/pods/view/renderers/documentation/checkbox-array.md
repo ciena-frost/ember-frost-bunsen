@@ -29,3 +29,20 @@ Change what size checkboxes are used. See [ember-frost-core](http://ciena-frost.
   }
 }
 ```
+
+#### renderer.labels
+
+Overrides the enum in the model to use specified label.
+
+```json
+{
+  "model": "foo",
+  "renderer": {
+    "name": "checkbox-array",
+    "labels": {
+      "ENUM_VALUE1": "The label for the corresponding checkbox",
+      "ENUM_VALUE2": "The label for the corresponding checkbox"
+    }
+  }
+}
+```

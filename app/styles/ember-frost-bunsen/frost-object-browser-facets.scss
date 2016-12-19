@@ -46,6 +46,12 @@
     .frost-bunsen-left-label {
       display: none;
     }
+
+    .frost-bunsen-input-checkbox-array {
+      .frost-checkbox {
+        padding-top: 10px;
+      }
+    }
   }
 
   .frost-password,
