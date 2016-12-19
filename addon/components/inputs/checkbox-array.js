@@ -3,7 +3,7 @@ import AbstractInput from './abstract-input'
 import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-checkbox-array'
 import Ember from 'ember'
-const {get, isEmpty} = Ember
+const {get} = Ember
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
