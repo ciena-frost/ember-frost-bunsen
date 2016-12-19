@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, Logger} = Ember
 
 const bunsenModel = {
   properties: {
@@ -56,6 +56,10 @@ export default Controller.extend({
       } catch (err) {
         this.set('bunsenModelString', newValue)
       }
+    },
+
+    tabChange (alias) {
+      Logger.info(`Tab selected with alias ${alias}`)
     },
 
     valueUpdated (newValue) {

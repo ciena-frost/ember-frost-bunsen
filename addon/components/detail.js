@@ -562,14 +562,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
      * @param {Number} tabIndex - index of root cell corresponding to tab
      */
     handleTabChange (tabIndex) {
-      const onTabChange = this.get('onTabChange')
-      const selectedTabCell = this.get(`precomputedCellConfig.${tabIndex}`)
-      const tabAlias = getAlias(selectedTabCell)
-
       this.set('selectedTabIndex', tabIndex)
 
-      if (onTabChange) {
-        onTabChange(tabAlias, tabIndex)
+      if (this.onTabChange) {
+        const cellTabs = this.get('cellTabs')
+        const selectedTab = cellTabs.findBy('id', tabIndex)
+
+        this.onTabChange(selectedTab.alias)
       }
     },
 
