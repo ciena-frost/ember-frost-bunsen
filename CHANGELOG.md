@@ -1,3 +1,9 @@
+# 14.1.3
+
+* **Added** new `onTabChange` property so consumers can be notified of changing tabs.
+* **Fixed** build to work with bug fix in `ember-prop-types`.
+
+
 # 14.1.2
 
 * **Fixed** blueprints to not install `ember-browserify` and use the latest/correct versions of other dependencies.
