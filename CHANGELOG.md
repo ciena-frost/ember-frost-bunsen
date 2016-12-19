@@ -1,3 +1,13 @@
+# 14.2.0
+
+* **Fixed** an issue where checkbox selection was carrying across checkbox-array groups
+* **Fixed** checkbox-array styling, checkboxes are now in a column
+* **Added** spacing between checkboxes for object-browser facets styles
+* **Added** renderer.labels for overriding labels
+* **Added** Style for frost-object-browser-facets for checkbox array spacing
+* **Updated** `bunsen-core` to latest version.
+* **Updated** `ember-bunsen-core` to latest version.
+
 # 14.1.3
 
 * **Added** new `onTabChange` property so consumers can be notified of changing tabs.
