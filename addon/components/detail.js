@@ -102,6 +102,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     hook: PropTypes.string,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onTabChange: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
@@ -562,6 +563,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
      */
     handleTabChange (tabIndex) {
       this.set('selectedTabIndex', tabIndex)
+
+      if (this.onTabChange) {
+        const cellTabs = this.get('cellTabs')
+        const selectedTab = cellTabs.findBy('id', tabIndex)
+
+        this.onTabChange(selectedTab.alias)
+      }
     },
 
     /**
