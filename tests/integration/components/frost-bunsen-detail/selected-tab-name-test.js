@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
 
-describe('Integration: frost-bunsen-detail , when selectedTabLabel is exit', function () {
+describe('Integration: Component / frost-bunsen-detail / selectedTabLabel present', function () {
   setupDetailComponentTest({
     bunsenModel: {
       properties: {

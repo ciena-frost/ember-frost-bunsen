@@ -102,6 +102,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     hook: PropTypes.string,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onTabChange: PropTypes.func,
     onValidation: PropTypes.func,
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
@@ -216,17 +217,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   @computed('propValidationResult')
   isInvalid (propValidationResult) {
     return propValidationResult && !_.isEmpty(propValidationResult.errors)
-  },
-
-  @readOnly
-  @computed('selectedTabLabel')
-  onTabChange (selectedTabLabel) {
-    if (selectedTabLabel !== undefined) {
-      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
-      if (selectedTab !== undefined) {
-        return selectedTab.id
-      }
-    }
   },
 
   // == Functions ==============================================================
@@ -572,7 +562,15 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
      * @param {Number} tabIndex - index of root cell corresponding to tab
      */
     handleTabChange (tabIndex) {
+      const onTabChange = this.get('onTabChange')
+      const selectedTabCell = this.get(`precomputedCellConfig.${tabIndex}`)
+      const tabAlias = getAlias(selectedTabCell)
+
       this.set('selectedTabIndex', tabIndex)
+
+      if (onTabChange) {
+        onTabChange(tabAlias, tabIndex)
+      }
     },
 
     /**
