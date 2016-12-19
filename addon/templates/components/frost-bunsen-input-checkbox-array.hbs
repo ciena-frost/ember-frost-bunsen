@@ -10,6 +10,7 @@
       {{frost-checkbox
         class=valueClassName
         disabled=disabled
+        hook=(concat hook '-checkbox-' option.value)
         onInput=(action 'handleChange')
         size=size
         value=option.value

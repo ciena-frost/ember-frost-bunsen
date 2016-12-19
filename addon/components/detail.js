@@ -46,6 +46,13 @@ function getAlias (cell) {
   return Ember.String.capitalize(words)
 }
 
+function getAttr (attrs, key) {
+  return (
+    _.get(attrs, `${key}.value`) ||
+    _.get(attrs, `options.value.${key}`)
+  )
+}
+
 /**
  * Determine if an object is an Ember.Object or not
  * @param {Object|Ember.Object} object - object to check
@@ -424,9 +431,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Object} the old and new schemas
    */
   getSchema (schemaName, oldAttrs, newAttrs) {
-    const newSchema = _.get(newAttrs, `${schemaName}.value`)
+    const newSchema = getAttr(newAttrs, schemaName)
     const newSchemaPojo = isEmberObject(newSchema) ? deemberify(newSchema) : newSchema
-    const oldSchema = _.get(oldAttrs, `${schemaName}.value`)
+    const oldSchema = getAttr(oldAttrs, schemaName)
     const oldSchemaPojo = isEmberObject(oldSchema) ? deemberify(oldSchema) : oldSchema
 
     return {
