@@ -27,8 +27,8 @@ export function expectWithState (bunsenId, state) {
   const $renderer = $hook(hookName).first()
 
   const defaults = {
-    disabled: false,
     checked: false,
+    disabled: false,
     items: []
   }
 
