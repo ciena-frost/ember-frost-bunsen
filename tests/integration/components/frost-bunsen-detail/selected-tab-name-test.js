@@ -58,4 +58,14 @@ describe('Integration: frost-bunsen-detail , open specific tab using tab label',
   it('renders tab having label `Two`', function () {
     expect(rootNode.find('.frost-tabs .active div')[0].innerText).to.equal('Two')
   })
+
+  describe('when selectedTab property updated to be first tab', function () {
+    beforeEach(function () {
+      this.set('selectedTabLabel', 'One')
+    })
+
+    it('renders first tab', function () {
+      expect(this.$('.frost-tabs .active div').text().trim()).to.equal('One')
+    })
+  })
 })

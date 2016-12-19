@@ -47,12 +47,14 @@
       bunsenModel=bunsenModel
       bunsenView=bunsenView
       onChange=(action "formChange")
+      onTabChange=(action 'tabChange')
       value=bunsenValue
     }}
   {{else}}
     {{frost-bunsen-detail
       bunsenModel=bunsenModel
       bunsenView=bunsenView
+      onTabChange=(action 'tabChange')
       value=bunsenValue
     }}
   {{/if}}
