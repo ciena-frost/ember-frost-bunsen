@@ -218,6 +218,17 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     return propValidationResult && !_.isEmpty(propValidationResult.errors)
   },
 
+  @readOnly
+  @computed('selectedTabLabel')
+  onTabChange (selectedTabLabel) {
+    if (selectedTabLabel !== undefined) {
+      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+      if (selectedTab !== undefined) {
+        return selectedTab.id
+      }
+    }
+  },
+
   // == Functions ==============================================================
 
   /* eslint-disable complexity */

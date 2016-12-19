@@ -14,6 +14,7 @@ export function getDefaultsForDetailComponent () {
     bunsenModel: undefined,
     bunsenView: undefined,
     hook: 'bunsenDetail', // Note: undefined keeps default from applying
+    selectedTabLabel: undefined,
     value: undefined
   }
 }
@@ -32,6 +33,7 @@ export function getDefaultsForFormComponent (sandbox) {
     hook: 'bunsenForm', // Note: undefined keeps default from applying
     onChange: sandbox.spy(),
     onValidation: sandbox.spy(),
+    selectedTabLabel: undefined,
     showAllErrors: undefined,
     value: undefined
   }
@@ -45,6 +47,7 @@ export function renderDetailComponent () {
     bunsenModel=bunsenModel
     bunsenView=bunsenView
     hook=hook
+    selectedTabLabel=selectedTabLabel
     value=value
   }}`)
 }
@@ -61,6 +64,7 @@ export function renderFormComponent () {
     hook=hook
     onChange=onChange
     onValidation=onValidation
+    selectedTabLabel=selectedTabLabel
     showAllErrors=showAllErrors
     value=value
   }}`)
