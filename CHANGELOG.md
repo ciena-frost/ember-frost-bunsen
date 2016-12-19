@@ -1,3 +1,8 @@
+# 14.1.2
+
+* **Fixed** blueprints to not install `ember-browserify` and use the latest/correct versions of other dependencies.
+
+
 # 14.1.1
 
 * **Fixed** list item CSS.
