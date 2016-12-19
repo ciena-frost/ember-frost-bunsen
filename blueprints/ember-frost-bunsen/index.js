@@ -4,7 +4,7 @@ module.exports = {
       packages: [
         {name: 'ember-ajax', target: '^2.5.2'},
         {name: 'ember-browserify', target: '^1.1.12'},
-        {name: 'ember-bunsen-core', target: '0.15.0'},
+        {name: 'ember-bunsen-core', target: '0.15.2'},
         {name: 'ember-frost-core', target: '^1.1.3'},
         {name: 'ember-frost-fields', target: '^4.0.0'},
         {name: 'ember-frost-popover', target: '^4.0.1'},

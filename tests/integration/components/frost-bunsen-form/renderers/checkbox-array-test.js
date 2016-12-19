@@ -302,4 +302,68 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       })
     })
   })
+
+  describe('when an item is added to the enum', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar', 'baz', 'qux'],
+              type: 'string'
+            },
+            type: 'array'
+          }
+        },
+        type: 'object'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar', 'baz', 'qux'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when an item is removed from the enum', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {
+        properties: {
+          foo: {
+            items: {
+              enum: ['bar'],
+              type: 'string'
+            },
+            type: 'array'
+          }
+        },
+        type: 'object'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        items: ['bar'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when the value is changed', function () {
+    beforeEach(function () {
+      this.set('value', {
+        foo: ['bar', 'baz']
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        checked: true,
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
 })
