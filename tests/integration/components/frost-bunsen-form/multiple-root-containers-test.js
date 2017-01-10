@@ -1,7 +1,8 @@
 import {expect} from 'chai'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import _ from 'lodash'
 import {describe, it} from 'mocha'
+
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 const bunsenView = {
   cellDefinitions: {

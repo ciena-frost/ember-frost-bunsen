@@ -10,7 +10,6 @@ export {default as Form} from './components/form'
 export {default as InputWrapper} from './components/input-wrapper'
 export {default as Section} from './components/section'
 export {default as ValidationResult} from './components/validation-result'
-
 import {default as Boolean} from './components/inputs/boolean'
 import {default as ButtonGroup} from './components/inputs/button-group'
 import {default as CheckboxArray} from './components/inputs/checkbox-array'

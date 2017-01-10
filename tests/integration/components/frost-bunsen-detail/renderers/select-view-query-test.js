@@ -1,11 +1,12 @@
 import {expect} from 'chai'
-import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import Ember from 'ember'
-const {Logger, RSVP, run} = Ember
+const {Logger, RSVP, Service, run} = Ember
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describe('Integration: Component / frost-bunsen-detail / renderer | select view query', function () {
@@ -25,7 +26,7 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select view 
       resolver.reject = reject
     })
 
-    this.register('service:store', Ember.Service.extend({
+    this.register('service:store', Service.extend({
       query () {
         return promise
       }

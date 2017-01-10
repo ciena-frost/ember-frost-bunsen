@@ -1,7 +1,7 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, get, Logger} = Ember
+const {Component, Logger, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'

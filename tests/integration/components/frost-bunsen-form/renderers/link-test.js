@@ -1,11 +1,12 @@
 import {expect} from 'chai'
-import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
-import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
+import selectors from 'dummy/tests/helpers/selectors'
 
 describe('Integration: Component / frost-bunsen-form / renderer / link', function () {
   setupComponentTest('frost-bunsen-form', {

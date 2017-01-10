@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {describe, it} from 'mocha'
 
 import {
@@ -8,6 +7,7 @@ import {
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-form / array reference item property', function () {
   setupFormComponentTest({

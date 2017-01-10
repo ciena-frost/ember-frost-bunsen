@@ -1,6 +1,7 @@
 import {expect} from 'chai'
-import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 import {describe, it} from 'mocha'
+
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: frost-bunsen-detail / single root container', function () {
   setupDetailComponentTest({

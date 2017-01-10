@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {

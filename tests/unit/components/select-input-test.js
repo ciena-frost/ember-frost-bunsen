@@ -1,7 +1,7 @@
+import {expect} from 'chai'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
-import {expect} from 'chai'
-import {describe, beforeEach, it} from 'mocha'
+import {beforeEach, describe, it} from 'mocha'
 
 describe('Unit: frost-bunsen-input-select', function () {
   setupComponentTest('frost-bunsen-input-select', {

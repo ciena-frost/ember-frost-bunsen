@@ -1,5 +1,5 @@
-import Ember from 'ember'
 import {expect} from 'chai'
+import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'

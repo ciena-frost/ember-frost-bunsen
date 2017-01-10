@@ -1,10 +1,11 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger} = Ember
-import selectors from 'dummy/tests/helpers/selectors'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {after, before, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-form / errors / view / wrong type', function () {
   before(function () {

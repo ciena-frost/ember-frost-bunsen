@@ -1,6 +1,7 @@
 import {expect} from 'chai'
-import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 import {beforeEach, describe, it} from 'mocha'
+
+import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-detail / selectedTabLabel present', function () {
   setupDetailComponentTest({

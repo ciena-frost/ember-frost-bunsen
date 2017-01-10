@@ -1,5 +1,6 @@
-import _ from 'lodash'
 import Ember from 'ember'
+import _ from 'lodash'
+
 import config from '../config/environment'
 
 export default function () {

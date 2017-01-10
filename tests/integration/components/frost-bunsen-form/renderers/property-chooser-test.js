@@ -1,15 +1,15 @@
 import {expect} from 'chai'
+import {$hook} from 'ember-hook'
+import {beforeEach, describe, it} from 'mocha'
 
 import {
-  expectOnValidationState,
-  expectCollapsibleHandles
+  expectCollapsibleHandles,
+  expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {$hook} from 'ember-hook'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / renderer / property-chooser', function () {
   const ctx = setupFormComponentTest({

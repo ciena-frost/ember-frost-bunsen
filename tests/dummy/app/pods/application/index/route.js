@@ -1,5 +1,6 @@
 import Ember from 'ember'
 const {Route} = Ember
+
 import steps from 'dummy/pods/tutorial/steps'
 
 export default Route.extend({

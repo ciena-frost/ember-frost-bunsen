@@ -1,14 +1,15 @@
 import {expect} from 'chai'
+import {beforeEach, describe, it} from 'mocha'
+
+import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
   expectTextInputWithState,
   findTextInputs
 } from 'dummy/tests/helpers/ember-frost-core'
 
-import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / cell required label', function () {
   const ctx = setupFormComponentTest({

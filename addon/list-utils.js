@@ -2,11 +2,10 @@
  * Utilitiy functions for working with lists, mainly used by select renderer
  */
 
-import _ from 'lodash'
+import {utils} from 'bunsen-core'
 import Ember from 'ember'
 const {Logger, RSVP} = Ember
-
-import {utils} from 'bunsen-core'
+import _ from 'lodash'
 
 /**
  * set a list's available options

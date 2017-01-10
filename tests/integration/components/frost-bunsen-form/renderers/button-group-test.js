@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+import {beforeEach, describe, it} from 'mocha'
 
 import {
   expectBunsenButtonGroupRendererWithState,
@@ -8,8 +10,6 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import Ember from 'ember'
-import {beforeEach, describe, it} from 'mocha'
 
 /**
  * Get button labels for bunsenModel's enum options

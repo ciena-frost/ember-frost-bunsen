@@ -1,7 +1,8 @@
 import {expect} from 'chai'
+import {describe, it} from 'mocha'
+
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / errors / view / type unknown', function () {
   setupFormComponentTest({

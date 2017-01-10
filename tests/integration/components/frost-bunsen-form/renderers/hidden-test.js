@@ -1,10 +1,11 @@
+import {describe, it} from 'mocha'
+
 import {
   expectOnChangeState,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / renderer / hidden', function () {
   describe('with default value', function () {

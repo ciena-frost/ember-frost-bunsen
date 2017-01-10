@@ -1,4 +1,11 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {$} = Ember
+import {$hook, initialize} from 'ember-hook'
+import {setupComponentTest} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
 
 import {
   expectBunsenInputToHaveError,
@@ -7,13 +14,6 @@ import {
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
-import Ember from 'ember'
-const {$} = Ember
-import {$hook, initialize} from 'ember-hook'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 
 function render () {
   this.render(hbs`

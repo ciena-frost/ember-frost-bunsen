@@ -1,19 +1,20 @@
 import {utils} from 'bunsen-core'
 const {
   getLabel,
-  getSubModel,
-  getModelPath
+  getModelPath,
+  getSubModel
 } = utils
 
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
-import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
-import {isRequired} from 'ember-frost-bunsen/utils'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
+
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
+import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
+import {isRequired} from 'ember-frost-bunsen/utils'
 
 /**
  * Return path without an index at the end

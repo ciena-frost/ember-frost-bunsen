@@ -1,6 +1,7 @@
 import {expect} from 'chai'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {describe, it} from 'mocha'
+
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: frost-bunsen-form', function () {
   setupFormComponentTest({

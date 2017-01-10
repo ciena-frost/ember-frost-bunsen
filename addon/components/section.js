@@ -3,6 +3,7 @@ const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-section'
 
 const KEY_CODES = {

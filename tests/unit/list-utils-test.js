@@ -2,14 +2,15 @@
  * Unit tests for the bunsen list-utils helpers
  */
 
-import Ember from 'ember'
-const {Logger, RSVP} = Ember
 import {expect} from 'chai'
+import Ember from 'ember'
+const {A, Logger, RSVP} = Ember
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-import {getEnumValues, getAsyncDataValues, getOptions} from 'ember-frost-bunsen/list-utils'
 
-const heroes = Ember.A([
+import {getAsyncDataValues, getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
+
+const heroes = A([
   Ember.Object.create({
     secret: 'Bruce Wayne',
     name: 'Batman'

@@ -1,13 +1,13 @@
 import {expect} from 'chai'
-import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import Ember from 'ember'
 const {$} = Ember
-import {generateFacetView} from 'ember-frost-bunsen/utils'
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
   expectSelectWithState,
@@ -17,6 +17,7 @@ import {
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
+import {generateFacetView} from 'ember-frost-bunsen/utils'
 
 describe('Integration: Component / frost-bunsen-form / facet view', function () {
   setupComponentTest('frost-bunsen-form', {

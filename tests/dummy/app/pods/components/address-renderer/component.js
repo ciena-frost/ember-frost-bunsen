@@ -1,4 +1,5 @@
-import computed from 'ember-computed-decorators'
+import computed, {readOnly} from 'ember-computed-decorators'
+
 import {AbstractInput} from 'ember-frost-bunsen'
 
 export default AbstractInput.extend({
@@ -9,6 +10,7 @@ export default AbstractInput.extend({
 
   placeholder: '1383 North McDowell Blvd., Suite 300\nPetaluma, CA 94954',
 
+  @readOnly
   @computed('bunsenId', 'value')
   renderValue (bunsenId) {
     let value = ''

@@ -1,16 +1,17 @@
 import {utils} from 'bunsen-core'
 const {getSubModel, parseVariables} = utils
 import Ember from 'ember'
-const {get, inject, Logger, typeOf} = Ember
+const {Logger, get, inject, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import countries from 'ember-frost-bunsen/fixtures/countries'
-import subFormModel from 'ember-frost-bunsen/fixtures/geolocation-model'
-import addressView from 'ember-frost-bunsen/fixtures/geolocation-address-view'
-import locationView from 'ember-frost-bunsen/fixtures/geolocation-location-view'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-geolocation'
 import config from 'ember-get-config'
 import {PropTypes} from 'ember-prop-types'
+
 import AbstractInput from './abstract-input'
+import countries from 'ember-frost-bunsen/fixtures/countries'
+import addressView from 'ember-frost-bunsen/fixtures/geolocation-address-view'
+import locationView from 'ember-frost-bunsen/fixtures/geolocation-location-view'
+import subFormModel from 'ember-frost-bunsen/fixtures/geolocation-model'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-geolocation'
 
 const MAPQUEST_API_KEY = get(config, 'ember-frost-bunsen.MAPQUEST_API_KEY')
 const LOOKUP_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/address'

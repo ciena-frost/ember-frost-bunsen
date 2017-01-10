@@ -1,8 +1,9 @@
 import {expect} from 'chai'
+import {beforeEach, describe, it} from 'mocha'
+
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / renderer / static', function () {
   setupFormComponentTest({

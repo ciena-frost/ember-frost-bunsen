@@ -1,7 +1,8 @@
 import {expect} from 'chai'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {describe, it} from 'mocha'
+
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-form / array ensure one section heading', function () {
   setupFormComponentTest({

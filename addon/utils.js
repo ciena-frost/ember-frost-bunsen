@@ -1,9 +1,9 @@
-import _ from 'lodash'
 import Ember from 'ember'
-const {typeOf} = Ember
+const {typeOf} = Ember // eslint-disable-line
 import config from 'ember-get-config'
+import _ from 'lodash'
 
-const assign = Ember.assign || Object.assign || Ember.merge
+const assign = Ember.assign || Object.assign || Ember.merge // eslint-disable-line
 
 /**
  * @typedef {Object} Facet

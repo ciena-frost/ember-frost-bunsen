@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'mocha'
+
 import {
   expectBunsenCheckboxArrayRendererWithState,
   expectCollapsibleHandles,
@@ -6,7 +8,6 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array', function () {
   const ctx = setupFormComponentTest({

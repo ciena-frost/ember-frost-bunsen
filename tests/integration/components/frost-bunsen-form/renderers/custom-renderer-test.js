@@ -1,11 +1,12 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP} = Ember
-import {AbstractInput} from 'ember-frost-bunsen'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import {AbstractInput} from 'ember-frost-bunsen'
 
 describe('Integration: Component / frost-bunsen-form / renderer / custom', function () {
   setupComponentTest('frost-bunsen-form', {

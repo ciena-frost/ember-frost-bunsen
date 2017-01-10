@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
 import {addChangeSet} from './changeset-helper'
 
 describe('Unit: frost-bunsen-cell', function () {

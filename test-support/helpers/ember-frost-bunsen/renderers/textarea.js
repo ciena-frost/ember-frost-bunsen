@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import Ember from 'ember'
+import Ember from 'ember' // eslint-disable-line
 import {$hook} from 'ember-hook'
 
 import {
@@ -8,7 +8,7 @@ import {
   expectLabel
 } from './common'
 
-const assign = Object.assign || Ember.assign || Ember.merge
+const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const SELECTORS = {
   DISABLED_TEXTAREA: 'textarea:disabled',

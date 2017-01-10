@@ -1,8 +1,8 @@
 import Ember from 'ember'
 const {Controller, Logger} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-
 import rawFiles from 'ember-frost-demo-components/raw'
+
 import models from './models'
 
 const rendererOptions = Object.keys(models)

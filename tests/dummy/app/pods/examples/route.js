@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Route, RSVP} = Ember
+const {RSVP, Route} = Ember
 
 export default Route.extend({
   model () {
