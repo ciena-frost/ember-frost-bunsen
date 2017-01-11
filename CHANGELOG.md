@@ -1,3 +1,9 @@
+# 14.2.1
+
+* **Fixed** all `ember-prop-type` warnings to ensure API's are all being used properly.
+* **Fixed** code to comply with latest ESLint rules from `eslint-config-frost-standard`.
+
+
 # 14.2.0
 
 * **Fixed** an issue where checkbox selection was carrying across checkbox-array groups
