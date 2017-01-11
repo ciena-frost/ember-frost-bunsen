@@ -19,9 +19,18 @@
     viewOptions=viewOptions
     viewSelectionDisabled=viewSelectionDisabled
   }}
-    Detail: {{frost-checkbox onInput=(action "toggleDetail")}}
-    Show All Errors: {{frost-checkbox onInput=(action "toggleShowAllErrors")}}
-    Disable: {{frost-checkbox onInput=(action "toggleDisabled")}}
+    Detail: {{frost-checkbox
+      hook='detailCheckbox'
+      onInput=(action "toggleDetail")
+    }}
+    Show All Errors: {{frost-checkbox
+      hook='showAllErrorsCheckbox'
+      onInput=(action "toggleShowAllErrors")
+    }}
+    Disable: {{frost-checkbox
+      hook='disableCheckbox'
+      onInput=(action "toggleDisabled")
+    }}
     <h2 class="demo-header">Rendered Demo</h2>
     {{#if detail}}
       {{frost-bunsen-detail

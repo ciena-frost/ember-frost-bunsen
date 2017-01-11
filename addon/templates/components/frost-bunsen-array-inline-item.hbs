@@ -2,6 +2,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
+      hook=(concat hook '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'
@@ -10,7 +11,11 @@
   </div>
 {{/if}}
 {{#if sortable}}
-  {{frost-icon class='frost-bunsen-handle' icon='menu'}}
+  {{frost-icon
+    class='frost-bunsen-handle'
+    hook=(concat hook '-sortIcon')
+    icon='menu'
+  }}
 {{/if}}
 <div class='frost-bunsen-item-input'>
   {{#if itemCell.renderer}}
@@ -20,7 +25,7 @@
       bunsenView=bunsenView
       cellConfig=cellConfig
       formDisabled=formDisabled
-      formHook=formHook
+      hook=hook
       label=label
       onChange=onChange
       onError=onError
@@ -42,7 +47,7 @@
       cellConfig=cellConfig
       errors=errors
       formDisabled=formDisabled
-      formHook=formHook
+      hook=hook
       label=label
       onChange=onChange
       onError=onError
@@ -64,7 +69,7 @@
       cellConfig=itemCell
       errors=errors
       formDisabled=formDisabled
-      formHook=formHook
+      hook=hook
       label=label
       onChange=onChange
       onError=onError
@@ -86,7 +91,7 @@
       cellConfig=itemCell
       errorMessage=errorMessage
       formDisabled=formDisabled
-      formHook=formHook
+      hook=hook
       label=label
       onChange=onChange
       onError=onError
@@ -105,6 +110,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
+      hook=(concat hook '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'

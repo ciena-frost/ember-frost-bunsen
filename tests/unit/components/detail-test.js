@@ -1,11 +1,12 @@
-import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
-import {beforeEach, afterEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 import {changeUtils} from 'bunsen-core'
 const {getChangeSet} = changeUtils
-import treeUtils from 'ember-frost-bunsen/tree-utils'
+import {expect} from 'chai'
+import {setupComponentTest} from 'ember-mocha'
 import _ from 'lodash'
+import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
+
+import treeUtils from 'ember-frost-bunsen/tree-utils'
 
 const testCellConfig = {
   children: [

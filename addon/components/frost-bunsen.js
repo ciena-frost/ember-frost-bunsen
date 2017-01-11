@@ -1,9 +1,10 @@
 import Ember from 'ember'
 const {Component, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen'
 import {HookMixin} from 'ember-hook'
 import SpreadMixin from 'ember-spread'
+
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen'
 
 const keys = [
   'autofocus',

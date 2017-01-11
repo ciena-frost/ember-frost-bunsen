@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import {describe, it} from 'mocha'
+
 import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
@@ -8,7 +10,6 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {describe, it} from 'mocha'
 
 [
   {

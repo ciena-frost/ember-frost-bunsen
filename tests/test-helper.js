@@ -1,6 +1,7 @@
 /* global chai */
-import resolver from './helpers/resolver'
 import {setResolver} from 'ember-mocha'
+
+import resolver from './helpers/resolver'
 
 const flag = chai.util.flag
 

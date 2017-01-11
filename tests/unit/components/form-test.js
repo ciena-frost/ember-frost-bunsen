@@ -1,6 +1,6 @@
+import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP} = Ember
-import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'

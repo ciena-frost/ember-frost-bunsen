@@ -1,7 +1,8 @@
 import {expect} from 'chai'
+import {describe, it} from 'mocha'
+
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {describe, it} from 'mocha'
 
 const description = 'Integration: Component / frost-bunsen-form / errors / view / cellDefinitions property wrong type'
 

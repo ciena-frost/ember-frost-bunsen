@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'mocha'
+
 import {
   expectBunsenPasswordRendererWithState,
   expectCollapsibleHandles,
@@ -7,7 +9,6 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / renderer / password', function () {
   const ctx = setupFormComponentTest({

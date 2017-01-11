@@ -1,6 +1,7 @@
-import _ from 'lodash'
 import Ember from 'ember'
 const {run} = Ember
+import _ from 'lodash'
+
 import AbstractInput from './abstract-input'
 
 export default AbstractInput.extend({

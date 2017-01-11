@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {$} = Ember
+const {$} = Ember // eslint-disable-line
 import {$hook} from 'ember-hook'
 
 import {
@@ -8,7 +8,7 @@ import {
   expectLabel
 } from './common'
 
-const assign = Object.assign || Ember.assign || Ember.merge
+const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const SELECTORS = {
   CHECKBOX_INPUT: 'input[type="checkbox"]',

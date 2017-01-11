@@ -3,7 +3,6 @@
  * NOTE: These specs have lots of expect() calls in a single it() for performance reasons
  */
 import {expect} from 'chai'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 import {before, beforeEach, describe, it} from 'mocha'
 
 import {
@@ -19,6 +18,7 @@ import {
 } from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
+import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 export default function (format, invalidValues, validValues, focus = false) {
   const describeFunc = focus ? describe.only : describe

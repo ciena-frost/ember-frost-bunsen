@@ -19,6 +19,12 @@ module.exports = function (environment) {
 
     'ember-frost-bunsen': {
       MAPQUEST_API_KEY: process.env.MAPQUEST_API_KEY
+    },
+
+    'ember-prop-types': {
+      spreadProperty: 'options',
+      throwErrors: true,
+      validateOnUpdate: true
     }
   }
 

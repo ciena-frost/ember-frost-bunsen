@@ -9,6 +9,7 @@
       hook=hook
       onChange=(action 'handleTabChange')
       selectedTab=tabSelection
+      tabs=(array)
       as |controls|
     }}
       {{#each cellTabs key='@index' as |tab|}}
@@ -20,7 +21,7 @@
             cellConfig=tab.cell
             errors=renderErrors
             formDisabled=disabled
-            formHook=hook
+            hook=hook
             onChange=(action 'handleChange')
             onError=(action 'handleError')
             readOnly=true
@@ -44,7 +45,7 @@
         cellConfig=cell
         errors=renderErrors
         formDisabled=disabled
-        formHook=hook
+        hook=hook
         onChange=(action 'handleChange')
         onError=(action 'handleError')
         readOnly=true

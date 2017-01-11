@@ -1,5 +1,6 @@
-import _ from 'lodash'
 import computed, {readOnly} from 'ember-computed-decorators'
+import _ from 'lodash'
+
 import {AbstractInput} from 'ember-frost-bunsen'
 
 export default AbstractInput.extend({

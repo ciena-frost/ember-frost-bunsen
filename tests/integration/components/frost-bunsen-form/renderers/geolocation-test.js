@@ -1,4 +1,8 @@
 import {expect} from 'chai'
+import Ember from 'ember' // eslint-disable-line
+import wait from 'ember-test-helpers/wait'
+import {after, before, beforeEach, describe, it} from 'mocha'
+import Pretender from 'pretender'
 
 import {
   expectBunsenGeolocationRendererWithState,
@@ -6,12 +10,8 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import Ember from 'ember'
-import wait from 'ember-test-helpers/wait'
-import {after, before, beforeEach, describe, it} from 'mocha'
-import Pretender from 'pretender'
 
-const assign = Object.assign || Ember.assign || Ember.merge
+const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const GEOLOCATION_RESPONSE_CODES = {
   PERMISSION_DENIED: 1,

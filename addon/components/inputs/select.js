@@ -1,15 +1,16 @@
 /**
  * The select input component
  */
-import _ from 'lodash'
-import Ember from 'ember'
-const {inject} = Ember
 import {utils} from 'bunsen-core'
+import Ember from 'ember'
+const {A, inject} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import * as listUtils from 'ember-frost-bunsen/list-utils'
-import {getErrorMessage} from 'ember-frost-bunsen/utils'
+import _ from 'lodash'
+
 import AbstractInput from './abstract-input'
+import * as listUtils from 'ember-frost-bunsen/list-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
+import {getErrorMessage} from 'ember-frost-bunsen/utils'
 
 export default AbstractInput.extend({
   // == Dependencies ===========================================================
@@ -29,7 +30,7 @@ export default AbstractInput.extend({
 
   getDefaultProps () {
     return {
-      options: Ember.A([]),
+      options: A([]),
       optionsInitialized: false,
       queryDisabled: false
     }
@@ -39,6 +40,7 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
+  @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'queryDisabled')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, queryDisabled) {
     if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || queryDisabled) {
@@ -98,6 +100,18 @@ export default AbstractInput.extend({
     options = options || []
     const selectedOption = options.find((option) => option.value === value)
     return selectedOption ? selectedOption.label : value
+  },
+
+  @readOnly
+  @computed('isFilteringLocally')
+  selectOptions (isFilteringLocally) {
+    if (isFilteringLocally) {
+      return {}
+    }
+
+    return {
+      onInput: this.actions.filterOptions.bind(this)
+    }
   },
 
   // == Functions ==============================================================

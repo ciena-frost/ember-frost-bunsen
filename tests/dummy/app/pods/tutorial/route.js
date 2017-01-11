@@ -1,5 +1,6 @@
 import Ember from 'ember'
 const {Route} = Ember
+
 import steps from './steps'
 
 export default Route.extend({

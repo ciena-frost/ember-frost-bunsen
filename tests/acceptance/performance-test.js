@@ -2,14 +2,15 @@
  * Performance test to make sure typing into forms is snappy
  */
 
-import Ember from 'ember'
-const {Logger, RSVP} = Ember
-import {after, before, describe, it} from 'mocha'
 import {expect} from 'chai'
+import Ember from 'ember'
+const {Logger, RSVP, run} = Ember
 import {$hook} from 'ember-hook'
-import startApp from '../helpers/start-app'
-import destroyApp from '../helpers/destroy-app'
+import {after, before, describe, it} from 'mocha'
 import sinon from 'sinon'
+
+import destroyApp from '../helpers/destroy-app'
+import startApp from '../helpers/start-app'
 
 const MAX_TIMEOUT = 10000 // Travis CI can take a long time sometimes
 const DEBUG_MSG = 'AbstractInput::didRender() called'
@@ -38,7 +39,7 @@ function typeText (text, $input) {
   const promises = []
   text.split('').forEach((character) => {
     const promise = new RSVP.Promise(function (resolve) {
-      setTimeout(() => {
+      run.later(this, () => {
         typeCharacter(character, $input)
         resolve()
       }, 1)

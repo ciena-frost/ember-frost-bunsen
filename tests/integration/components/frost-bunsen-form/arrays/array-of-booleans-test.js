@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {beforeEach, describe, it} from 'mocha'
 
 import {
   expectCollapsibleHandles,
@@ -8,7 +9,6 @@ import {
 import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / array of booleans', function () {
   describe('without initial value', function () {

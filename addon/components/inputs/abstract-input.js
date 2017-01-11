@@ -1,7 +1,7 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, get, Logger} = Ember
+const {Component, Logger, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -22,7 +22,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     cellConfig: PropTypes.object.isRequired,
     errorMessage: PropTypes.oneOfType([
       PropTypes.null,
-      PropTypes.string
+      PropTypes.string,
+      PropTypes.object // For Ember.String.htmlSafe()
     ]),
     formDisabled: PropTypes.bool,
     label: PropTypes.string,
@@ -247,15 +248,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   // == Events =================================================================
-
-  init () {
-    this._super(...arguments)
-
-    const bunsenId = this.get('bunsenId')
-    const formHook = this.get('formHook') || ''
-
-    this.set('hook', `${formHook}-${bunsenId}`)
-  },
 
   didRender () {
     this._super(...arguments)

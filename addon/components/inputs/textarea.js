@@ -1,3 +1,7 @@
+import Ember from 'ember'
+const {get} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-textarea'
 
@@ -9,5 +13,25 @@ export default AbstractInput.extend({
     'frost-field'
   ],
 
-  layout
+  layout,
+
+  // == Computed Properties ====================================================
+
+  @readOnly
+  @computed('cellConfig')
+  textareaOptions (cellConfig) {
+    const options = {}
+    const cols = get(cellConfig, 'renderer.cols')
+    const rows = get(cellConfig, 'renderer.rows')
+
+    if (cols) {
+      options.cols = cols
+    }
+
+    if (rows) {
+      options.rows = rows
+    }
+
+    return options
+  }
 })

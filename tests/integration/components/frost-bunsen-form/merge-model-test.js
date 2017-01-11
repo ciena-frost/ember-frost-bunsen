@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {describe, it} from 'mocha'
 
 import {
   expectTextInputWithState,
@@ -7,7 +8,6 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-import {describe, it} from 'mocha'
 
 describe('Integration: Component / frost-bunsen-form / merge models', function () {
   setupFormComponentTest({

@@ -1,9 +1,9 @@
 import Ember from 'ember'
 const {Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import rawFiles from 'ember-frost-demo-components/raw'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-import rawFiles from 'ember-frost-demo-components/raw'
 import models from './models'
 import values from './values'
 import views from './views'

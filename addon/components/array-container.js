@@ -1,11 +1,12 @@
-import _ from 'lodash'
+import {utils} from 'bunsen-core'
+const {getLabel} = utils
 import Ember from 'ember'
 const {A, Component, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {utils} from 'bunsen-core'
-const {getLabel} = utils
+import _ from 'lodash'
+
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
 export default Component.extend(HookMixin, PropTypeMixin, {
@@ -24,7 +25,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
-    formValue: PropTypes.EmberObject,
+    formValue: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,

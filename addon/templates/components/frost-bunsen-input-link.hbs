@@ -8,6 +8,7 @@
   {{#if route}}
     {{#frost-link route value
       design='inline'
+      hook=(concat hook '-link')
       onClick=(action 'handleClick')
     }}
       {{linkLabel}}

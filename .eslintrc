@@ -2,5 +2,18 @@
   "extends": ["frost-standard"],
   "globals": {
     "URL": false
+  },
+  "rules": {
+    "ocd/sort-import-declarations": [
+      2,
+      {
+        "localPrefixes": [
+          "../",
+          "./",
+          "dummy/",
+          "ember-frost-bunsen"
+        ]
+      }
+    ]
   }
 }

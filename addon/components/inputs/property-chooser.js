@@ -1,9 +1,10 @@
 import Ember from 'ember'
+const {run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
+
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-property-chooser'
-const {run} = Ember
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================

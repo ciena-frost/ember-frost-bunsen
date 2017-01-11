@@ -4,6 +4,7 @@
     {{#unless readOnly}}
       {{frost-button
         disabled=disabled
+        hook=(concat hook '-removeBtn')
         onClick=(action 'remove')
         priority='tertiary'
         size='medium'

@@ -1,4 +1,5 @@
 import computed, {readOnly} from 'ember-computed-decorators'
+
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-multi-select'
 

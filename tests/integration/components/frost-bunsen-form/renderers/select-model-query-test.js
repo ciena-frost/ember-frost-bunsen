@@ -1,4 +1,11 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {RSVP, Service, run} = Ember
+import {$hook, initialize} from 'ember-hook'
+import {setupComponentTest} from 'ember-mocha'
+import hbs from 'htmlbars-inline-precompile'
+import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
 
 import {
   expectBunsenInputToHaveError,
@@ -7,13 +14,6 @@ import {
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
-import Ember from 'ember'
-const {RSVP, run} = Ember
-import {$hook, initialize} from 'ember-hook'
-import {setupComponentTest} from 'ember-mocha'
-import hbs from 'htmlbars-inline-precompile'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
 
 describe('Integration: Component / frost-bunsen-form / renderer / select model query', function () {
   setupComponentTest('frost-bunsen-form', {
@@ -27,7 +27,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
     initialize()
     resolver = {}
 
-    this.register('service:store', Ember.Service.extend({
+    this.register('service:store', Service.extend({
       query () {
         return new RSVP.Promise((resolve, reject) => {
           resolver.resolve = resolve
@@ -61,7 +61,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
     this.setProperties(props)
 
     this.render(hbs`
-      {{frost-select-outlet}}
+      {{frost-select-outlet hook='selectOutlet'}}
       {{frost-bunsen-form
         bunsenModel=bunsenModel
         bunsenView=bunsenView

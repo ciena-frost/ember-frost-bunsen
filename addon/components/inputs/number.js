@@ -1,5 +1,6 @@
+import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
-import computed from 'ember-computed-decorators'
+
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-number'
 
@@ -15,6 +16,7 @@ export default AbstractInput.extend({
 
   // == Computed Properties ====================================================
 
+  @readOnly
   @computed('value')
   /**
    * Text to render for value

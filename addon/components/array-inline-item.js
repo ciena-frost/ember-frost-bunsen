@@ -1,11 +1,12 @@
-import _ from 'lodash'
+import {utils} from 'bunsen-core'
+const {getLabel} = utils
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import {utils} from 'bunsen-core'
-const {getLabel} = utils
+import _ from 'lodash'
+
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-inline-item'
 
 export default Component.extend(HookMixin, PropTypeMixin, {
@@ -38,7 +39,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     showRemoveButton: PropTypes.bool,
     sortable: PropTypes.bool.isRequired,
     unregisterForFormValueChanges: PropTypes.func,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object
   },
 
   getDefaultProps () {

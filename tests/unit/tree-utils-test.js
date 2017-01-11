@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
+
 import treeUtils from 'ember-frost-bunsen/tree-utils'
 
 describe('treeUtils', function () {

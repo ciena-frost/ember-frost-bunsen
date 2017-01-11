@@ -11,7 +11,7 @@
             compact=compact
             errors=errors
             formDisabled=formDisabled
-            formHook=formHook
+            hook=hook
             index=index
             onChange=(action 'handleChange')
             onError=onError
@@ -40,7 +40,7 @@
         compact=compact
         errors=errors
         formDisabled=formDisabled
-        formHook=formHook
+        hook=hook
         index=index
         onError=onError
         onChange=(action 'handleChange')
@@ -82,6 +82,7 @@
       <li role='presentation'>
         {{frost-button
           disabled=disabled
+          hook=(concat hook '-addBtn')
           icon='round-add'
           onClick=(action 'addItem')
           priority='tertiary'
@@ -100,7 +101,7 @@
         cellConfig=cellConfig
         errors=errors
         formDisabled=formDisabled
-        formHook=formHook
+        hook=hook
         index=index
         onError=onError
         onChange=(action 'handleChange')
@@ -125,6 +126,7 @@
 {{#if (and showAddButton (not readOnly))}}
   {{frost-button
     disabled=disabled
+    hook=(concat hook '-addBtn')
     icon='round-add'
     onClick=(action 'addItem')
     priority='tertiary'

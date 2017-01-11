@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
-import {beforeEach, describe, it} from 'mocha'
 import hbs from 'htmlbars-inline-precompile'
+import {beforeEach, describe, it} from 'mocha'
 
 describe('Integration: FrostBunsenError', function () {
   setupComponentTest('frost-bunsen-error', {

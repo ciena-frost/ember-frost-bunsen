@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {beforeEach, describe, it} from 'mocha'
 
 import {
   generateFacetCell,
@@ -7,8 +8,6 @@ import {
   isRegisteredEmberDataModel,
   isRequired
 } from 'ember-frost-bunsen/utils'
-
-import {beforeEach, describe, it} from 'mocha'
 
 describe('bunsen-utils', function () {
   describe('generateFacetCell()', function () {

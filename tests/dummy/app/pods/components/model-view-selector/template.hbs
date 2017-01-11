@@ -1,6 +1,7 @@
 Model:
 {{frost-select
   data=modelOptions
+  hook='modelSelect'
   selectedValue=selectedModelId
   onChange=onSelectModel
 }}
@@ -9,6 +10,7 @@ View:
 {{frost-select
   data=viewOptions
   disabled=viewSelectionDisabled
+  hook='viewSelect'
   selectedValue=selectedViewId
   onChange=onSelectView
 }}
@@ -18,6 +20,7 @@ View:
   {{frost-select
     data=valueOptions
     disabled=valueSelectionDisabled
+    hook='valueSelect'
     selectedValue=selectedValueId
     onChange=onSelectValue
   }}

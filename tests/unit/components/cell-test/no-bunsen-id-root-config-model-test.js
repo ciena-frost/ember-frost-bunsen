@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+
 import {addChangeSet} from './changeset-helper'
 
 describe('Unit: frost-bunsen-cell', function () {
@@ -102,16 +103,6 @@ describe('Unit: frost-bunsen-cell', function () {
         expect(component.get('renderValue')).to.eql({
           bar: 'baz'
         })
-      })
-    })
-
-    describe('when value is not present', function () {
-      beforeEach(function () {
-        component.set('value', null)
-      })
-
-      it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.equal(undefined)
       })
     })
   })

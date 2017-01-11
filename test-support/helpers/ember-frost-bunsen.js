@@ -6,10 +6,10 @@
 // them without the worry of them changing on minor/patch upgrades.
 
 import {expect} from 'chai'
-import Ember from 'ember'
+import Ember from 'ember' // eslint-disable-line
 import {$hook} from 'ember-hook'
 
-const assign = Object.assign || Ember.assign || Ember.merge
+const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 export {
   expectBunsenInputNotToHaveError,

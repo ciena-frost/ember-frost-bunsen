@@ -3,6 +3,7 @@ const {validate} = actions
 import Ember from 'ember'
 const {$, RSVP} = Ember
 import {PropTypes} from 'ember-prop-types'
+
 import DetailComponent from './detail'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-form'
 

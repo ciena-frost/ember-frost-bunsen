@@ -1,4 +1,5 @@
 import computed, {readOnly} from 'ember-computed-decorators'
+
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-password'
 

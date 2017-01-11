@@ -9,24 +9,22 @@ import {
 } from 'bunsen-core'
 
 const {
-  changeModel,
   CHANGE_VALUE,
+  changeModel,
   validate
 } = actions
 
-import {createStore, applyMiddleware} from 'redux'
-import thunkMiddleware from 'redux-thunk'
-const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
-
 import Ember from 'ember'
-const {Component, RSVP, typeOf, run, Logger} = Ember
+const {A, Component, Logger, RSVP, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import SpreadMixin from 'ember-spread'
 import _ from 'lodash'
+import {applyMiddleware, createStore} from 'redux'
+import thunkMiddleware from 'redux-thunk'
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
   deemberify,
@@ -35,7 +33,8 @@ import {
   validateRenderer
 } from '../utils'
 
-import {traverseCellBreadthFirst, findCommonAncestor} from 'ember-frost-bunsen/tree-utils'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
+import {findCommonAncestor, traverseCellBreadthFirst} from 'ember-frost-bunsen/tree-utils'
 
 function getAlias (cell) {
   if (cell.label) {
@@ -193,7 +192,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
-      return Ember.A([])
+      return A([])
     }
 
     const tabs = cells.map((cell, index) => {
@@ -210,7 +209,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       }
     })
 
-    return Ember.A(tabs)
+    return A(tabs)
   },
 
   @readOnly
@@ -344,7 +343,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     const state = this.get('reduxStore').getState()
-    const {errors, validationResult, value, valueChangeSet, lastAction} = state
+    const {errors, lastAction, validationResult, value, valueChangeSet} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
     const newProps = {}
 
@@ -499,7 +498,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
-    const {newSchema: newBunsenModel, hasChanged: hasModelChanged} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
+    const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
 

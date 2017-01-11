@@ -1,12 +1,4 @@
 import {expect} from 'chai'
-
-import {
-  expectBunsenInputToHaveError,
-  expectCollapsibleHandles
-} from 'dummy/tests/helpers/ember-frost-bunsen'
-
-import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
-import selectors from 'dummy/tests/helpers/selectors'
 import Ember from 'ember'
 const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
@@ -15,9 +7,17 @@ import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
+import {
+  expectBunsenInputToHaveError,
+  expectCollapsibleHandles
+} from 'dummy/tests/helpers/ember-frost-bunsen'
+
+import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
+import selectors from 'dummy/tests/helpers/selectors'
+
 function render () {
   this.render(hbs`
-    {{frost-select-outlet}}
+    {{frost-select-outlet hook='selectOutlet'}}
     {{frost-bunsen-form
       bunsenModel=bunsenModel
       bunsenView=bunsenView

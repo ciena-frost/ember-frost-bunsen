@@ -6,7 +6,7 @@
     cellConfig=cellConfig
     errorMessage=errorMessage
     formDisabled=formDisabled
-    formHook=formHook
+    hook=hook
     onChange=onChange
     onError=onError
     readOnly=readOnly
@@ -33,7 +33,7 @@
       hook=hook
       onChange=(action 'handleChange')
       onFocusOut=(action 'showErrorMessage')
-      onInput=(if isFilteringLocally undefined (action 'filterOptions'))
+      options=selectOptions
       placeholder=placeholder
       selectedValue=value
     }}
