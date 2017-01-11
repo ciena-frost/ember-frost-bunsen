@@ -25,7 +25,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
-    formValue: PropTypes.EmberObject,
+    formValue: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,

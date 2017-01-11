@@ -102,6 +102,18 @@ export default AbstractInput.extend({
     return selectedOption ? selectedOption.label : value
   },
 
+  @readOnly
+  @computed('isFilteringLocally')
+  selectOptions (isFilteringLocally) {
+    if (isFilteringLocally) {
+      return {}
+    }
+
+    return {
+      onInput: this.actions.filterOptions.bind(this)
+    }
+  },
+
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {

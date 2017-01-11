@@ -33,7 +33,7 @@
       hook=hook
       onChange=(action 'handleChange')
       onFocusOut=(action 'showErrorMessage')
-      onInput=(if isFilteringLocally undefined (action 'filterOptions'))
+      options=selectOptions
       placeholder=placeholder
       selectedValue=value
     }}

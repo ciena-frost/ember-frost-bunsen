@@ -39,7 +39,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     showRemoveButton: PropTypes.bool,
     sortable: PropTypes.bool.isRequired,
     unregisterForFormValueChanges: PropTypes.func,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object
   },
 
   getDefaultProps () {

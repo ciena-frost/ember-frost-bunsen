@@ -105,15 +105,5 @@ describe('Unit: frost-bunsen-cell', function () {
         })
       })
     })
-
-    describe('when value is not present', function () {
-      beforeEach(function () {
-        component.set('value', null)
-      })
-
-      it('renderValue returns undefined', function () {
-        expect(component.get('renderValue')).to.equal(undefined)
-      })
-    })
   })
 })

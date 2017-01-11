@@ -34,7 +34,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     onToggle: PropTypes.func,
     renderContentWhenCollapsed: PropTypes.bool,
     required: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.oneOfType([
+      PropTypes.null,
+      PropTypes.string
+    ])
   },
 
   getDefaultProps () {

@@ -10,6 +10,7 @@
         hook=hook
         onChange=(action 'handleTabChange')
         selectedTab=tabSelection
+        tabs=(array)
         as |controls|
       }}
         {{#each cellTabs key='@index' as |tab|}}
