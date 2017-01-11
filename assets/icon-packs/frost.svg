@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><symbol id="add" viewBox="55 0 40 40">
   <rect x="57.9" y="17.9" width="33.3" height="4.1"/>
   <rect x="72.5" y="3.3" width="4.1" height="33.3"/>
+</symbol><symbol id="checkbox-checked" viewBox="0 0 20 20">
+	<linearGradient id="checkbox-checked-gradient" gradientUnits="userSpaceOnUse" x1="10" y1="0.5" x2="10" y2="19.5">
+		<stop offset="0" style="stop-color:#FFFFFF"/>
+		<stop offset="1" style="stop-color:#F2F2F2"/>
+	</linearGradient>
+	<rect x="0.5" y="0.5" fill="url(#checkbox-checked-gradient)" width="19" height="19"/>
+  <path fill="#CCCBCB" d="M19,1v18H1V1H19 M20,0H0v20h20V0L20,0z"/>
+	<rect x="5.9" y="8.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.3011 8.288)" fill="#009EEF" width="2" height="5.9"/>
+	<polygon fill="#009EEF" points="8.5,14.5 7.1,13.1 15,5.4 16.4,6.9 	"/>
+</symbol><symbol id="checkbox-disabled-checked" viewBox="0 0 20 20">
+  <rect x="0" opacity="0.8" fill="#F3F3F3" width="20" height="20"/>
+  <g opacity="0.4">
+    <rect x="5.6" y="8.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.2811 8.0795)" fill="#888888" width="2" height="5.9"/>
+    <polygon fill="#888888" points="8.3,14.4 6.9,13 14.8,5.3 16.2,6.7 	"/>
+  </g>
+</symbol><symbol id="checkbox-disabled" viewBox="0 0 20 20">
+  <rect x="0" y="0" opacity="0.8" fill="#F3F3F3" width="20" height="20"/>
+</symbol><symbol id="checkbox-error" viewBox="0 0 20 20">
+	<linearGradient id="checkbox-error-gradient" gradientUnits="userSpaceOnUse" x1="10" y1="0.5" x2="10" y2="19.5">
+		<stop offset="0" style="stop-color:#FFFFFF"/>
+		<stop offset="1" style="stop-color:#F2F2F2"/>
+	</linearGradient>
+	<rect x="0.5" y="0.5" fill="url(#checkbox-error-gradient)" width="19" height="19"/>
+	<path fill="#D1625E" d="M19,1v18H1V1H19 M20,0H0v20h20V0L20,0z"/>
+</symbol><symbol id="checkbox-hover-checked" viewBox="0 0 20 20">
+	<linearGradient id="checkbox-hover-checked-gradient" gradientUnits="userSpaceOnUse" x1="10" y1="0.5" x2="10" y2="19.5">
+		<stop offset="0" style="stop-color:#FFFFFF"/>
+		<stop offset="1" style="stop-color:#F2F2F2"/>
+	</linearGradient>
+	<rect x="0.5" y="0.5" fill="url(#checkbox-hover-checked-gradient)" width="19" height="19"/>
+  <path fill="#CCCCCC" d="M19,1v18H1V1H19 M20,0H0v20h20V0L20,0z"/>
+  <g opacity="8.000000e-002">
+    <rect x="0" y="0" fill="#009EEF" width="20" height="20"/>
+  </g>
+	<rect x="5.9" y="8.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.3011 8.288)" fill="#009EEF" width="2" height="5.9"/>
+	<polygon fill="#009EEF" points="8.5,14.5 7.1,13.1 15,5.4 16.4,6.9 	"/>
+</symbol><symbol id="checkbox-hover" viewBox="0 0 20 20">
+	<linearGradient id="checkbox-hover-gradient" gradientUnits="userSpaceOnUse" x1="10" y1="0.5" x2="10" y2="19.5">
+		<stop offset="0" style="stop-color:#FFFFFF"/>
+		<stop offset="1" style="stop-color:#F2F2F2"/>
+	</linearGradient>
+	<rect x="0.5" y="0.5" fill="url(#checkbox-hover-gradient)" width="19" height="19"/>
+  <path fill="#CCCCCC" d="M19,1v18H1V1H19 M20,0H0v20h20V0L20,0z"/>
+  <g opacity="0.08">
+    <rect y="0" fill="#009EEF" width="20" height="20"/>
+  </g>
+</symbol><symbol id="checkbox" viewBox="0 0 20 20">
+	<linearGradient id="checkbox-gradient" gradientUnits="userSpaceOnUse" x1="10" y1="0.5" x2="10" y2="19.5">
+		<stop offset="0" style="stop-color:#FFFFFF"/>
+		<stop offset="1" style="stop-color:#F2F2F2"/>
+	</linearGradient>
+	<rect x="0.5" y="0.5" fill="url(#checkbox-gradient)" width="19" height="19"/>
+  <path fill="#CCCBCB" d="M19,1v18H1V1H19 M20,0H0v20h20V0L20,0z"/>
 </symbol><symbol id="chevron-double" viewBox="0 0 48 48">
   <path class="base" d="M 24.83,14.83 22,12 10,24 22,36 24.83,33.17 15.66,24 Z"/>
   <path class="base" d="m 38.797605,14.855422 -2.83,-2.83 -12,12 12,12 2.83,-2.83 -9.17,-9.17 z"/>
