@@ -61,7 +61,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
     this.setProperties(props)
 
     this.render(hbs`
-      {{frost-select-outlet}}
+      {{frost-select-outlet hook='selectOutlet'}}
       {{frost-bunsen-form
         bunsenModel=bunsenModel
         bunsenView=bunsenView

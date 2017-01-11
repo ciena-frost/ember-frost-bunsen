@@ -5,6 +5,7 @@
   </div>
   {{frost-select
     data=rendererOptions
+    hook='formatSelect'
     onChange=(action "onSelectedRendererChange")
     selectedValue=selectedRendererValue
   }}

@@ -12,6 +12,7 @@
 {{#if showPreviousStepButton}}
   {{frost-button
     class="demo-previous-button"
+    hook='previousBtn'
     onClick=(action "previous")
     priority="secondary"
     size="medium"
@@ -22,6 +23,7 @@
 {{#if showNextStepButton}}
   {{frost-button
     class="demo-next-button"
+    hook='nextBtn'
     onClick=(action "next")
     priority="primary"
     size="medium"

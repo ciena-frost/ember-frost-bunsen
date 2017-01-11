@@ -1,4 +1,3 @@
-{{log formHook}}
 {{frost-bunsen-form
   bunsenModel=subFormModel
   bunsenView=addressView
@@ -10,6 +9,7 @@
 <div class="frost-bunsen-input-geolocation-action-bar">
   {{frost-button
     disabled=isLoading
+    hook=(concat hook '-lookupLocationBtn')
     icon='expand-collapse'
     onClick=(action 'lookupLocation')
     priority='tertiary'
@@ -20,12 +20,14 @@
   {{else}}
     {{frost-icon
       class=(if isLoading 'frost-bunsen-icon-faded')
+      hook=(concat hook '-locationIcon')
       icon='location'
       pack='frost-bunsen'
     }}
   {{/if}}
   {{frost-button
     disabled=isLoading
+    hook=(concat hook '-lookupAddressBtn')
     icon='expand-collapse'
     onClick=(action 'lookupAddress')
     priority='tertiary'
@@ -42,6 +44,7 @@
 }}
 {{frost-button
   disabled=isLoading
+  hook=(concat hook '-useLocationBtn')
   onClick=(action 'useCurrentLocation')
   priority='secondary'
   size='small'

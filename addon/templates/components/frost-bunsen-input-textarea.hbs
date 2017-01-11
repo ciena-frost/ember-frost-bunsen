@@ -10,8 +10,8 @@
     cols=cellConfig.renderer.cols
     disabled=disabled
     hook=hook
-    onBlur=(action 'showErrorMessage')
-    onFocus=(action 'hideErrorMessage')
+    onFocusIn=(action 'hideErrorMessage')
+    onFocusOut=(action 'showErrorMessage')
     onInput=(action 'handleChange')
     placeholder=placeholder
     rows=cellConfig.renderer.rows

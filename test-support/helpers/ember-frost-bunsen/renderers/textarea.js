@@ -10,6 +10,10 @@ import {
 
 const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
+// @see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
+const HTML5_COLS_DEFAULT = '20'
+const HTML5_ROWS_DEFAULT = '2'
+
 const SELECTORS = {
   DISABLED_TEXTAREA: 'textarea:disabled',
   ENABLED_TEXTAREA: 'textarea:not(:disabled)'
@@ -39,6 +43,7 @@ function expectDisabledInput ($renderer, disabled) {
     .to.have.length(1)
 }
 
+/* eslint-disable complexity */
 /**
  * Check that property is renderer as a textarea with expected state
  * @param {String} bunsenId - bunsen ID for property rendered as textarea
@@ -83,16 +88,16 @@ export function expectWithState (bunsenId, state) {
     .to.equal(state.value)
 
   expect(
-    $textarea.attr('cols'),
+    $textarea.attr('cols') || HTML5_COLS_DEFAULT,
     'textarea renderer has expected cols'
   )
-    .to.eql(getString(state.cols))
+    .to.eql(getString(state.cols || HTML5_COLS_DEFAULT))
 
   expect(
-    $textarea.attr('rows'),
+    $textarea.attr('rows') || HTML5_ROWS_DEFAULT,
     'textarea renderer has expecte rows'
   )
-    .to.eql(getString(state.rows))
+    .to.eql(getString(state.rows || HTML5_ROWS_DEFAULT))
 
   if (state.error) {
     expectBunsenInputToHaveError(bunsenId, state.error, hook)
@@ -100,6 +105,7 @@ export function expectWithState (bunsenId, state) {
     expectBunsenInputNotToHaveError(bunsenId, hook)
   }
 }
+/* eslint-enable complexity */
 
 /**
  * Fill in textarea renderer textarea

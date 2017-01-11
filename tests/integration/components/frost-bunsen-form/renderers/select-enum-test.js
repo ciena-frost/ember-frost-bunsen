@@ -17,7 +17,7 @@ import selectors from 'dummy/tests/helpers/selectors'
 
 function render () {
   this.render(hbs`
-    {{frost-select-outlet}}
+    {{frost-select-outlet hook='selectOutlet'}}
     {{frost-bunsen-form
       bunsenModel=bunsenModel
       bunsenView=bunsenView

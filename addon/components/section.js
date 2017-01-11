@@ -29,11 +29,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     ]),
     expanded: PropTypes.bool,
     expandedOnInitialRender: PropTypes.bool,
-    formHook: PropTypes.string,
+    hook: PropTypes.string,
     onClear: PropTypes.func,
     onToggle: PropTypes.func,
     renderContentWhenCollapsed: PropTypes.bool,
-    required: PropTypes.bool.isRequired,
+    required: PropTypes.bool,
     title: PropTypes.string
   },
 

@@ -62,6 +62,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const errorMessages = errors[bunsenId]
+    debugger
     return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
   },
 
