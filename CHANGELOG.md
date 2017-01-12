@@ -1,3 +1,8 @@
+# 14.3.0
+
+* **Added** new `image` renderer for rendering images in views.
+
+
 # 14.2.2
 
 * **Fixed** `generateFacetCell()` utility method to only include the collapsible handle for inputs that consume a lot of horizontal space. Currently the collapsible handle will be present for the following renderers:
