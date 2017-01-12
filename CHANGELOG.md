@@ -1,3 +1,13 @@
+# 14.2.2
+
+* **Fixed** `generateFacetCell()` utility method to only include the collapsible handle for inputs that consume a lot of horizontal space. Currently the collapsible handle will be present for the following renderers:
+
+  * `checkbox-array`
+  * `geolocation`
+  * `json`
+  * `textarea`
+
+
 # 14.2.1
 
 * **Fixed** all `ember-prop-type` warnings to ensure API's are all being used properly.
