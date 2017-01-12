@@ -39,7 +39,7 @@ describe('bunsen-utils', function () {
               }
             ],
             clearable: false,
-            collapsible: true,
+            collapsible: false,
             label: 'Bar'
           })
         })
@@ -58,7 +58,7 @@ describe('bunsen-utils', function () {
               }
             ],
             clearable: false,
-            collapsible: true,
+            collapsible: false,
             label: 'Foo'
           })
         })
@@ -80,7 +80,7 @@ describe('bunsen-utils', function () {
               }
             ],
             clearable: true,
-            collapsible: true,
+            collapsible: false,
             label: 'Bar'
           })
         })
@@ -96,7 +96,7 @@ describe('bunsen-utils', function () {
               }
             ],
             clearable: true,
-            collapsible: true,
+            collapsible: false,
             label: 'Foo'
           })
         })
@@ -121,6 +121,30 @@ describe('bunsen-utils', function () {
           renderer: {
             name: 'multi-select'
           }
+        },
+        {
+          model: 'alpha',
+          renderer: {
+            name: 'checkbox-array'
+          }
+        },
+        {
+          model: 'bravo',
+          renderer: {
+            name: 'geolocation'
+          }
+        },
+        {
+          model: 'charlie',
+          renderer: {
+            name: 'json'
+          }
+        },
+        {
+          model: 'delta',
+          renderer: {
+            name: 'textarea'
+          }
         }
       ]
     })
@@ -138,7 +162,7 @@ describe('bunsen-utils', function () {
                   }
                 ],
                 clearable: true,
-                collapsible: true,
+                collapsible: false,
                 label: 'Foo'
               },
               {
@@ -148,7 +172,7 @@ describe('bunsen-utils', function () {
                   }
                 ],
                 clearable: true,
-                collapsible: true,
+                collapsible: false,
                 label: 'Bar baz'
               },
               {
@@ -161,8 +185,60 @@ describe('bunsen-utils', function () {
                   }
                 ],
                 clearable: false,
-                collapsible: true,
+                collapsible: false,
                 label: 'Baz'
+              },
+              {
+                children: [
+                  {
+                    model: 'alpha',
+                    renderer: {
+                      name: 'checkbox-array'
+                    }
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Alpha'
+              },
+              {
+                children: [
+                  {
+                    model: 'bravo',
+                    renderer: {
+                      name: 'geolocation'
+                    }
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Bravo'
+              },
+              {
+                children: [
+                  {
+                    model: 'charlie',
+                    renderer: {
+                      name: 'json'
+                    }
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Charlie'
+              },
+              {
+                children: [
+                  {
+                    model: 'delta',
+                    renderer: {
+                      name: 'textarea'
+                    }
+                  }
+                ],
+                clearable: true,
+                collapsible: true,
+                label: 'Delta'
               }
             ]
           }

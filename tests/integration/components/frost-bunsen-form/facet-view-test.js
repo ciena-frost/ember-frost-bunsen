@@ -77,7 +77,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
   })
 
   it('renders as expected', function () {
-    expectCollapsibleHandles(2)
+    expectCollapsibleHandles(0)
 
     expect(
       this.$(selectors.bunsen.section.clearableButton),
@@ -175,7 +175,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
     })
 
     it('renders as expected', function () {
-      expectCollapsibleHandles(2)
+      expectCollapsibleHandles(0)
 
       expect(
         this.$(selectors.bunsen.section.clearableButton),
@@ -288,7 +288,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
       })
 
       it('renders as expected', function () {
-        expectCollapsibleHandles(2)
+        expectCollapsibleHandles(0)
 
         expect(
           this.$(selectors.bunsen.section.clearableButton),
