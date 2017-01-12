@@ -1,46 +1,9 @@
-import {utils} from 'bunsen-core'
-const {parseVariables} = utils
-import Ember from 'ember'
-const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
+import {getAttr, getOption} from 'ember-frost-bunsen/input-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-link'
-
-function getAttr (attrs, name) {
-  if (!attrs) {
-    return undefined
-  }
-
-  if (name.indexOf('.') === -1) {
-    return get(attrs, `${name}.value`)
-  }
-
-  const segments = name.split('.')
-  const firstSegment = segments.splice(0, 1)
-  const remainingPath = segments.join('.')
-
-  return get(attrs, `${firstSegment}.value.${remainingPath}`)
-}
-
-function getOption (attrs, optionName, formValue, fallback = '') {
-  if (!attrs) {
-    return undefined
-  }
-
-  const bunsenId = getAttr(attrs, 'bunsenId')
-  const configOption = getAttr(attrs, `cellConfig.renderer.${optionName}`)
-  const value = getAttr(attrs, 'value')
-
-  if (!configOption) {
-    return value
-  }
-
-  const mutableFormValue = formValue ? formValue.asMutable({deep: true}) : {}
-
-  return parseVariables(mutableFormValue, configOption, bunsenId, true) || fallback
-}
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================

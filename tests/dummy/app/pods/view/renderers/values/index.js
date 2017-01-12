@@ -3,6 +3,11 @@ export default {
   'button-group': {},
   'checkbox-array': {},
   geolocation: {},
+  image: {
+    foo: 'https://placeholdit.imgix.net/~text?txtsize=20&txt=100%C3%97100&w=100&h=100',
+    h: 120,
+    w: '150'
+  },
   json: {
     foo: {
       alpha: 'test',
