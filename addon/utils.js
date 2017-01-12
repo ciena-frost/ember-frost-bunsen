@@ -87,15 +87,27 @@ export function generateFacetCell (facet) {
     'multi-select'
   ]
 
-  const clearable = (
+  const renderersToShowCollapseHandleFor = [
+    'checkbox-array',
+    'geolocation',
+    'json',
+    'textarea'
+  ]
+
+  const clearable = Boolean(
     !facet.renderer ||
     renderersToHideClearButtonFor.indexOf(facet.renderer.name) === -1
+  )
+
+  const collapsible = Boolean(
+    facet.renderer &&
+    renderersToShowCollapseHandleFor.indexOf(facet.renderer.name) !== -1
   )
 
   return {
     children: [cell],
     clearable,
-    collapsible: true,
+    collapsible,
     label: facet.label || generateLabelFromModel(facet.model)
   }
 }
