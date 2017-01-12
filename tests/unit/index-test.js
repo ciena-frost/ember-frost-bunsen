@@ -97,12 +97,12 @@ describe('Unit: ember-frost-bunsen', function () {
     expect(InputWrapper).to.equal(_InputWrapper)
   })
 
-  it('exports LinkInput', function () {
-    expect(LinkInput).to.equal(Inputs.Link)
+  it('exports ImageInput', function () {
+    expect(ImageInput).to.equal(Inputs.Image)
   })
 
-  it('exports ImageInput', function () {
-    expect(ImageInput).to.equal(Inputs.Link)
+  it('exports LinkInput', function () {
+    expect(LinkInput).to.equal(Inputs.Link)
   })
 
   it('exports MultiSelectInput', function () {
