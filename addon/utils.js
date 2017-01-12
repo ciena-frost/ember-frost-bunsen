@@ -18,6 +18,7 @@ export const builtInRenderers = {
   'checkbox-array': 'frost-bunsen-input-checkbox-array',
   geolocation: 'frost-bunsen-input-geolocation',
   hidden: 'frost-bunsen-input-hidden',
+  image: 'frost-bunsen-input-image',
   integer: 'frost-bunsen-input-number',
   json: 'frost-bunsen-input-json',
   link: 'frost-bunsen-input-link',

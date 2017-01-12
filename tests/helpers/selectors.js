@@ -14,6 +14,7 @@ export default {
       boolean: '.frost-bunsen-input-boolean',
       buttonGroup: '.frost-bunsen-input-button-group',
       checkboxArray: '.frost-bunsen-input-checkbox-array',
+      image: '.frost-bunsen-input-image',
       link: '.frost-bunsen-input-link',
       multiSelect: '.frost-bunsen-input-multi-select',
       number: '.frost-bunsen-input-number',

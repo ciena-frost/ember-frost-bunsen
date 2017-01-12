@@ -30,6 +30,7 @@ import {default as AbstractInput} from 'ember-frost-bunsen/components/inputs/abs
 import {default as BooleanInput} from 'ember-frost-bunsen/components/inputs/boolean'
 import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/inputs/button-group'
 import {default as CheckboxArrayInput} from 'ember-frost-bunsen/components/inputs/checkbox-array'
+import {default as ImageInput} from 'ember-frost-bunsen/components/inputs/image'
 import {default as LinkInput} from 'ember-frost-bunsen/components/inputs/link'
 import {default as MultiSelectInput} from 'ember-frost-bunsen/components/inputs/multi-select'
 import {default as NumberInput} from 'ember-frost-bunsen/components/inputs/number'
@@ -98,6 +99,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('exports LinkInput', function () {
     expect(LinkInput).to.equal(Inputs.Link)
+  })
+
+  it('exports ImageInput', function () {
+    expect(ImageInput).to.equal(Inputs.Link)
   })
 
   it('exports MultiSelectInput', function () {
