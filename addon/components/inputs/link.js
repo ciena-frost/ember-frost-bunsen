@@ -31,7 +31,7 @@ export default AbstractInput.extend({
    * @returns {String} input class name
    */
   valueClassName (errorMessage) {
-    const classNames = ['frost-link']
+    const classNames = ['frost-link', 'inline']
 
     if (errorMessage) {
       classNames.push('error')
