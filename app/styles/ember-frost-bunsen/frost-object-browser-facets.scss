@@ -27,14 +27,15 @@
       padding-right: 0;
       text-align: left;
 
-      .frost-bunsen-toggle-handle + h3 {
-        margin-left: 10px;
-      }
-
       h3 {
+        margin-left: 0;
         color: $frost-color-night-1;
         font-size: 14px;
         font-weight: bold;
+      }
+
+      .frost-bunsen-toggle-handle + h3 {
+        margin-left: 10px;
       }
 
       h3 + button {
