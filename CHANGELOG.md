@@ -1,3 +1,8 @@
+# 14.3.2
+
+* **Removed** spacing to left of facet labels when expand/collapse handle is not present.
+
+
 # 14.3.1
 
 * **Fixed** styling of links from`link` renderer when using `url` option.
