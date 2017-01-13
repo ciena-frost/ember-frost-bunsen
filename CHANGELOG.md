@@ -1,3 +1,8 @@
+# 14.3.1
+
+* **Fixed** styling of links from`link` renderer when using `url` option.
+
+
 # 14.3.0
 
 * **Added** new `image` renderer for rendering images in views.
