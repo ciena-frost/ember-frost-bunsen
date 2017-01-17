@@ -28,7 +28,7 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig')
   size (cellConfig) {
-    return _.get(cellConfig, 'renderer.size') || 'medium'
+    return _.get(cellConfig, 'renderer.size') || 'small'
   },
 
   @readOnly
