@@ -1,3 +1,9 @@
+# 14.4.0
+
+* Cleaned up some code in preparation to get this addon working with Ember 2.10.
+* **Updated** dependencies to latest versions (shims were renamed which is why is a minor and not a major). If a consumer uses the old shims instead it'll still function the same.
+
+
 # 14.3.4
 
 * **Fixed** issues with CSS for object browser filter facets.
