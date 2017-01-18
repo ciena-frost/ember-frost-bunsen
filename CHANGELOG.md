@@ -1,3 +1,13 @@
+# 14.3.4
+
+* **Fixed** issues with CSS for object browser filter facets.
+
+# 14.3.3
+
+**Changed** default checkbox size in checkbox-array renderer to small to default to UX standard
+**Added** integration tests for checkbox-array renderer size
+
+
 # 14.3.2
 
 * **Removed** spacing to left of facet labels when expand/collapse handle is not present.

@@ -367,4 +367,56 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       })
     })
   })
+
+  describe('when size set to medium in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              size: 'medium'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        size: 'medium',
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
+
+  describe('when size set to large in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'checkbox-array',
+              size: 'large'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectBunsenCheckboxArrayRendererWithState('foo', {
+        size: 'large',
+        items: ['bar', 'baz'],
+        label: 'Foo'
+      })
+    })
+  })
 })

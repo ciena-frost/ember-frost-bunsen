@@ -29,7 +29,8 @@ export function expectWithState (bunsenId, state) {
   const defaults = {
     checked: false,
     disabled: false,
-    items: []
+    items: [],
+    size: 'small'
   }
 
   state = assign(defaults, state)
@@ -63,6 +64,12 @@ export function expectWithState (bunsenId, state) {
         `checkbox at index ${index} is checked`
       )
         .to.equal(state.checked)
+
+      expect(
+        $checkbox.hasClass(state.size),
+        `checkbox at index ${index} is of size ${state.size}`
+      )
+        .to.equal(true)
 
       expect(
         $checkbox.text().trim(),

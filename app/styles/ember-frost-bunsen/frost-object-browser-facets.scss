@@ -1,4 +1,16 @@
 .frost-object-browser-facets {
+  .frost-bunsen-body,
+  .frost-bunsen-description-bubble,
+  .frost-bunsen-heading,
+  .frost-bunsen-section {
+    display: flex;
+    flex-basis: 100%;
+  }
+
+  .frost-bunsen-section {
+    flex-wrap: wrap;
+  }
+
   .frost-bunsen-form {
     .frost-bunsen-collapsed {
       > .frost-bunsen-body {
@@ -20,7 +32,6 @@
     }
 
     .frost-bunsen-heading {
-      display: flex;
       align-items: center;
       margin-top: 5px;
       margin-bottom: 5px;
