@@ -46,11 +46,6 @@ export function iterateMap (iterator, iteratee) {
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: [
-    'compact:frost-bunsen-compact',
-    'computedClassName'
-  ],
-
   layout,
 
   // == State Properties =======================================================
@@ -105,6 +100,13 @@ export default Component.extend(HookMixin, PropTypeMixin, {
         'propagatedValueChangeSet': this.get('valueChangeSet')
       })
     }
+
+    const newClassNames = this.getClassNames()
+    const oldClassNames = this.get('classNames')
+
+    if (!_.isEqual(newClassNames, oldClassNames)) {
+      this.set('classNames', newClassNames)
+    }
   },
 
   // == Computed Properties ====================================================
@@ -128,26 +130,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   isRequired (bunsenModel, cellDefinitions, cellConfig, value) {
     return isRequired(cellConfig, cellDefinitions, bunsenModel, value)
-  },
-
-  @readOnly
-  @computed('classNames')
-  /**
-   * Get class name for cell
-   * @param {String} classNames - class names
-   * @returns {String} cell's class name
-   */
-  computedClassName (classNames) {
-    const viewDefinedClass = this.get('cellConfig.classNames.cell')
-    const classes = classNames.toString().split(' ')
-
-    classes.push('frost-bunsen-cell')
-
-    if (viewDefinedClass) {
-      classes.push(viewDefinedClass)
-    }
-
-    return classes.join(' ')
   },
 
   @readOnly
@@ -365,6 +347,23 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
         this._clearChildren(child)
       })
+  },
+
+  getClassNames () {
+    const viewDefinedClass = this.get('cellConfig.classNames.cell')
+    const classes = this.get('classNames').toString().split(' ')
+
+    classes.push('frost-bunsen-cell')
+
+    if (this.get('compact')) {
+      classes.push('frost-bunsen-compact')
+    }
+
+    if (viewDefinedClass) {
+      classes.push(viewDefinedClass)
+    }
+
+    return classes
   },
 
   /**
