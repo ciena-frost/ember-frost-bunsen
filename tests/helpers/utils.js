@@ -1,7 +1,6 @@
-import Ember from 'ember'
-const {assign} = Ember
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
+import _ from 'lodash'
 import {afterEach, beforeEach} from 'mocha'
 import sinon from 'sinon'
 
@@ -88,7 +87,7 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
   beforeEach(function () {
     const sandbox = sinon.sandbox.create()
 
-    assign(ctx, {
+    _.assign(ctx, {
       props: assign(defaults(sandbox), props),
       sandbox
     })
