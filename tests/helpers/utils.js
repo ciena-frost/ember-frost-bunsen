@@ -88,7 +88,7 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
     const sandbox = sinon.sandbox.create()
 
     _.assign(ctx, {
-      props: assign(defaults(sandbox), props),
+      props: _.assign(defaults(sandbox), props),
       sandbox
     })
 
