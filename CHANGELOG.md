@@ -1,3 +1,12 @@
+# 14.4.1
+
+* **Added** more tests for the following renderers to ensure we don't have any regressions in the future around their functionality:
+
+  * `button-group`
+  * `multi-select`
+  * `select`
+
+
 # 14.4.0
 
 * Cleaned up some code in preparation to get this addon working with Ember 2.10.
