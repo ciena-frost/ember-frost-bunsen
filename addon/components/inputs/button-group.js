@@ -8,7 +8,7 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-b
 export const helpers = {
   validateValues (values, type) {
     if (!_.isArray(values)) {
-      throw new Error(`In order to use a toggle input with type ${type} enum must be present`)
+      throw new Error(`In order to use a button-group renderer with type ${type} enum must be present`)
     }
   }
 }
@@ -52,7 +52,7 @@ export default AbstractInput.extend({
         return values.map((value) => Ember.String.capitalize(value))
 
       default:
-        throw new Error(`Toggle input cannot be used with type ${type}`)
+        throw new Error(`button-group renderer cannot be used with type ${type}`)
     }
   },
 
