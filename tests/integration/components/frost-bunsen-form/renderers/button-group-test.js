@@ -26,6 +26,61 @@ function getButtonLabels (bunsenModel) {
 }
 
 describe('Integration: Component / frost-bunsen-form / renderer / button-group', function () {
+  describe('initialized', function () {
+    setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            enum: ['bar', 'baz'],
+            type: 'string'
+          }
+        },
+        type: 'object'
+      },
+      bunsenView: {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'button-group'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      }
+    })
+
+    it('throws error when used on an array', function () {
+      expect(() => {
+        this.set('bunsenModel', {
+          properties: {
+            foo: {
+              items: {
+                type: 'string'
+              },
+              type: 'array'
+            }
+          },
+          type: 'object'
+        })
+      }).to.throw('button-group renderer cannot be used with type array')
+    })
+
+    it('throws error when used on an object', function () {
+      expect(() => {
+        this.set('bunsenModel', {
+          properties: {
+            foo: {
+              type: 'object'
+            }
+          },
+          type: 'object'
+        })
+      }).to.throw('button-group renderer cannot be used with type object')
+    })
+  })
+
   ;[
     {
       type: 'boolean'
@@ -503,6 +558,21 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             })
           })
         })
+
+        if (fooModel.type !== 'boolean') { // boolean doesn't require enum
+          it('throws error when enum is missing', function () {
+            expect(() => {
+              this.set('bunsenModel', {
+                properties: {
+                  foo: {
+                    type: fooModel.type
+                  }
+                },
+                type: 'object'
+              })
+            }).to.throw(`In order to use a button-group renderer with type ${fooModel.type} enum must be present`)
+          })
+        }
       })
     })
 })

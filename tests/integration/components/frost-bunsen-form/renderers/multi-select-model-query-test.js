@@ -17,7 +17,7 @@ import {
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-form / renderer / select model query', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / multi-select model query', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
@@ -42,18 +42,32 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
       bunsenModel: {
         properties: {
           foo: {
+            items: {
+              type: 'string'
+            },
             labelAttribute: 'label',
             modelType: 'node',
             query: {
               baz: 'alpha'
             },
-            type: 'string',
+            type: 'array',
             valueAttribute: 'value'
           }
         },
         type: 'object'
       },
-      bunsenView: undefined,
+      bunsenView: {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'multi-select'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      },
       disabled: undefined,
       hook: 'my-form',
       onChange: sandbox.spy(),
@@ -169,10 +183,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['bar', 'baz'],
+              opened: true,
               text: 'bar'
             })
 
-            expectOnChangeState({props}, {foo: 'bar'})
+            expectOnChangeState({props}, {foo: ['bar']})
             expectOnValidationState({props}, {count: 1})
           })
         })
@@ -186,10 +202,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['bar', 'baz'],
+              opened: true,
               text: 'baz'
             })
 
-            expectOnChangeState({props}, {foo: 'baz'})
+            expectOnChangeState({props}, {foo: ['baz']})
             expectOnValidationState({props}, {count: 1})
           })
         })
@@ -201,7 +219,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 label: 'FooBar Baz',
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -262,7 +283,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -323,7 +347,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -384,7 +411,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 model: 'foo',
-                placeholder: 'Foo bar'
+                placeholder: 'Foo bar',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -474,7 +504,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -501,7 +534,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -531,11 +567,16 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
           this.set('bunsenModel', {
             properties: {
               foo: {
-                enum: [
-                  'bar',
-                  'baz'
-                ],
-                type: 'string'
+                items: {
+                  type: 'string'
+                },
+                labelAttribute: 'label',
+                modelType: 'node',
+                query: {
+                  baz: 'alpha'
+                },
+                type: 'array',
+                valueAttribute: 'value'
               }
             },
             required: ['foo'],
@@ -645,7 +686,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
     describe('when initial value', function () {
       beforeEach(function () {
-        this.set('value', {foo: 'bar'})
+        this.set('value', {foo: ['bar']})
 
         run(() => {
           resolver.resolve([
@@ -713,16 +754,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              items: ['bar', 'baz'],
+              opened: true,
+              text: ''
             })
 
-            expect(
-              props.onChange.callCount,
-              'does not trigger change since value is aleady selected'
-            )
-              .to.equal(0)
-
-            expectOnValidationState({props}, {count: 0})
+            expectOnChangeState({props}, {})
+            expectOnValidationState({props}, {count: 1})
           })
         })
 
@@ -735,10 +773,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'baz'
+              items: ['bar', 'baz'],
+              opened: true,
+              text: 'bar, baz'
             })
 
-            expectOnChangeState({props}, {foo: 'baz'})
+            expectOnChangeState({props}, {foo: ['bar', 'baz']})
             expectOnValidationState({props}, {count: 1})
           })
         })
@@ -753,7 +793,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 label: 'FooBar Baz',
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -799,7 +842,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -845,7 +891,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -891,7 +940,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 model: 'foo',
-                placeholder: 'Foo bar'
+                placeholder: 'Foo bar',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -974,7 +1026,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -1006,7 +1061,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'multi-select'
+                }
               }
             ],
             type: 'form',
@@ -1038,11 +1096,16 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
           this.set('bunsenModel', {
             properties: {
               foo: {
-                enum: [
-                  'bar',
-                  'baz'
-                ],
-                type: 'string'
+                items: {
+                  type: 'string'
+                },
+                labelAttribute: 'label',
+                modelType: 'node',
+                query: {
+                  baz: 'alpha'
+                },
+                type: 'array',
+                valueAttribute: 'value'
               }
             },
             required: ['foo'],
@@ -1058,7 +1121,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: ''
           })
 
           expect(
@@ -1085,7 +1148,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: ''
             })
 
             expect(
@@ -1113,7 +1176,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: ''
             })
 
             expectOnValidationState({props}, {count: 0})

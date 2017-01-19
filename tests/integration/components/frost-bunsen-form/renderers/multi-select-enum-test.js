@@ -13,7 +13,7 @@ import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
-describe('Integration: Component / frost-bunsen-form / renderer / multi-select', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / multi-select enum', function () {
   const ctx = setupFormComponentTest({
     bunsenModel: {
       properties: {

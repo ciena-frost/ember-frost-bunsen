@@ -9,7 +9,9 @@ import sinon from 'sinon'
 
 import {
   expectBunsenInputToHaveError,
-  expectCollapsibleHandles
+  expectCollapsibleHandles,
+  expectOnChangeState,
+  expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
@@ -102,25 +104,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
       )
         .to.have.length(0)
 
-      expect(
-        props.onValidation.callCount,
-        'informs consumer of validation results'
-      )
-        .to.equal(1)
-
-      const validationResult = props.onValidation.lastCall.args[0]
-
-      expect(
-        validationResult.errors.length,
-        'informs consumer there are no errors'
-      )
-        .to.equal(0)
-
-      expect(
-        validationResult.warnings.length,
-        'informs consumer there are no warnings'
-      )
-        .to.equal(0)
+      expectOnValidationState({props}, {count: 1})
     })
 
     describe('when expanded/opened', function () {
@@ -151,6 +135,57 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
             opened: true,
             text: ''
           })
+        })
+      })
+
+      describe('when first option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expectOnChangeState({props}, {foo: 'bar'})
+          expectOnValidationState({props}, {count: 1})
+        })
+      })
+
+      describe('when middle option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'baz'
+          })
+
+          expectOnChangeState({props}, {foo: 'baz'})
+          expectOnValidationState({props}, {count: 1})
+        })
+      })
+
+      describe('when last option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'spam'
+          })
+
+          expectOnChangeState({props}, {foo: 'spam'})
+          expectOnValidationState({props}, {count: 1})
         })
       })
     })
@@ -720,6 +755,62 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
             opened: true,
             text: 'bar'
           })
+        })
+      })
+
+      describe('when first option selected (initial value)', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expect(
+            props.onChange.callCount,
+            'does not trigger change since value is aleady selected'
+          )
+            .to.equal(0)
+
+          expectOnValidationState({props}, {count: 0})
+        })
+      })
+
+      describe('when middle option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'baz'
+          })
+
+          expectOnChangeState({props}, {foo: 'baz'})
+          expectOnValidationState({props}, {count: 1})
+        })
+      })
+
+      describe('when last option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'spam'
+          })
+
+          expectOnChangeState({props}, {foo: 'spam'})
+          expectOnValidationState({props}, {count: 1})
         })
       })
     })
@@ -1402,6 +1493,62 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
             opened: true,
             text: 'bar'
           })
+        })
+      })
+
+      describe('when first option selected (default value)', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expect(
+            props.onChange.callCount,
+            'does not trigger change since value is aleady selected'
+          )
+            .to.equal(0)
+
+          expectOnValidationState({props}, {count: 0})
+        })
+      })
+
+      describe('when middle option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'baz'
+          })
+
+          expectOnChangeState({props}, {foo: 'baz'})
+          expectOnValidationState({props}, {count: 1})
+        })
+      })
+
+      describe('when last option selected', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'spam'
+          })
+
+          expectOnChangeState({props}, {foo: 'spam'})
+          expectOnValidationState({props}, {count: 1})
         })
       })
     })
