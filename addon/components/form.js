@@ -1,11 +1,14 @@
 import {actions} from 'bunsen-core'
 const {validate} = actions
 import Ember from 'ember'
-const {RSVP} = Ember
+const {$, RSVP, VERSION} = Ember
 import {PropTypes} from 'ember-prop-types'
 
 import DetailComponent from './detail'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-form'
+
+const [major, minor] = VERSION.split('.')
+const isGlimmer1 = major < 2 || (major === 2 && minor < 10)
 
 export default DetailComponent.extend({
   // == Component Properties ===================================================
@@ -86,6 +89,22 @@ export default DetailComponent.extend({
   didInsertElement () {
     this._visibilityChangeHandler = this._onVisiblityChange.bind(this)
     document.addEventListener('visibilitychange', this._visibilityChangeHandler, false)
+  },
+
+  /**
+   * After render select first input unless something else already has focus on page
+   */
+  didRender () {
+    if (
+      !isGlimmer1 || // autofocus won't let you leave focus from form in Glimmer 2
+      !this.get('autofocus') || // autofucs feature is disabled
+      $(':focus').length !== 0 // there is an element already in focus
+    ) {
+      return
+    }
+
+    // Focus on first input in busen form
+    this.$(':input:enabled:visible:first').focus()
   },
 
   willDestroyElement () {
