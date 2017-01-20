@@ -2,6 +2,7 @@ const addonsToAdd = {
   packages: [
     {name: 'ember-ajax', target: '^2.5.2'},
     {name: 'ember-bunsen-core', target: '0.16.0'},
+    {name: 'ember-concurrency', target: '0.7.17'},
     {name: 'ember-frost-core', target: '^1.7.2'},
     {name: 'ember-frost-fields', target: '^4.0.0'},
     {name: 'ember-frost-popover', target: '^4.0.1'},
