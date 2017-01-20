@@ -5,6 +5,7 @@ import {utils} from 'bunsen-core'
 import Ember from 'ember'
 const {A, inject} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {task} from 'ember-concurrency'
 import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
@@ -134,12 +135,7 @@ export default AbstractInput.extend({
     return modelDef
   },
 
-  /* eslint-disable complexity */
-  formValueChanged (newValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
+  formValueChanged: task(function * (newValue) {
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
     this.set('formValue', newValue)
@@ -172,7 +168,7 @@ export default AbstractInput.extend({
           }])
         })
     }
-  },
+  }),
 
   hasQueryParams (query) {
     if (!query || _.isEmpty(query)) {

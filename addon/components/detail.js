@@ -363,7 +363,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
       this.get('registeredComponents').forEach((component) => {
         if (!component.isDestroyed) {
-          component.formValueChanged(value)
+          if (typeOf(component.formValueChanged) === 'function') {
+            component.formValueChanged(value)
+          } else {
+            component.get('formValueChanged').perform(value)
+          }
         }
       })
     }
@@ -588,8 +592,14 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         component.unregisterForFormValueChanges(component)
       })
 
+      const formValue = this.get('renderValue') || {}
+
       // Make sure we inform component of formValue immediately
-      component.formValueChanged(this.get('renderValue') || {})
+      if (typeOf(component.formValueChanged) === 'function') {
+        component.formValueChanged(formValue)
+      } else {
+        component.get('formValueChanged').perform(formValue)
+      }
 
       this.get('registeredComponents').push(component)
     },
