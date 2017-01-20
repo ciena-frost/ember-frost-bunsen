@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import rawFiles from 'ember-frost-demo-components/raw'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -102,7 +102,9 @@ export default Controller.extend(PropTypeMixin, {
 
   actions: {
     onFormValueChange (value) {
-      this.set('value', value)
+      run.next(() => {
+        this.set('value', value)
+      })
     },
 
     onSelectedRendererChange (value) {
