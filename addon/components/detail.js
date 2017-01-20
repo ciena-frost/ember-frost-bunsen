@@ -368,7 +368,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       })
     }
 
-    this.setProperties(newProps)
+    run.next(() => {
+      this.setProperties(newProps)
+    })
 
     if ('renderValue' in newProps && this.onChange) {
       this.onChange(value)

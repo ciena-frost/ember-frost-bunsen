@@ -1,6 +1,8 @@
 import {changeUtils} from 'bunsen-core'
 const {getChangeSet} = changeUtils
 import {expect} from 'chai'
+import Ember from 'ember'
+const {run} = Ember
 import {setupComponentTest} from 'ember-mocha'
 import _ from 'lodash'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -109,7 +111,7 @@ describe('Unit: frost-bunsen-detail', function () {
 
     describe('when renderValue has changed but errors has not', function () {
       let newValue
-      beforeEach(function () {
+      beforeEach(function (done) {
         newValue = {
           foo: 'baz'
         }
@@ -129,7 +131,11 @@ describe('Unit: frost-bunsen-detail', function () {
 
         sandbox.stub(component, 'setProperties')
         component.storeUpdated()
-        newProps = component.setProperties.lastCall.args[0]
+
+        run.next(() => {
+          newProps = component.setProperties.lastCall.args[0]
+          done()
+        })
       })
 
       it('should update renderValue in properties', function () {
@@ -151,7 +157,7 @@ describe('Unit: frost-bunsen-detail', function () {
 
     describe('when errors has changed but renderValue has not', function () {
       let newErrors
-      beforeEach(function () {
+      beforeEach(function (done) {
         newErrors = [
           {
             path: '#/fizz',
@@ -176,7 +182,11 @@ describe('Unit: frost-bunsen-detail', function () {
 
         sandbox.stub(component, 'setProperties')
         component.storeUpdated()
-        newProps = component.setProperties.lastCall.args[0]
+
+        run.next(() => {
+          newProps = component.setProperties.lastCall.args[0]
+          done()
+        })
       })
 
       it('should update errors in properties', function () {
@@ -199,7 +209,7 @@ describe('Unit: frost-bunsen-detail', function () {
     describe('when both renderValue and errors have changed and lastAction is CHANGE_VALUE', function () {
       let newErrors, newValue
 
-      beforeEach(function () {
+      beforeEach(function (done) {
         newErrors = [
           {
             path: '#/fizz',
@@ -226,7 +236,11 @@ describe('Unit: frost-bunsen-detail', function () {
 
         sandbox.stub(component, 'setProperties')
         component.storeUpdated()
-        newProps = component.setProperties.lastCall.args[0]
+
+        run.next(() => {
+          newProps = component.setProperties.lastCall.args[0]
+          done()
+        })
       })
 
       it('should update renderValue in properties', function () {
@@ -248,7 +262,7 @@ describe('Unit: frost-bunsen-detail', function () {
 
     describe('when both renderValue and errors have changed and lastAction is not CHANGE_VALUE', function () {
       let newErrors
-      beforeEach(function () {
+      beforeEach(function (done) {
         newErrors = [
           {
             path: '#/fizz',
@@ -275,7 +289,11 @@ describe('Unit: frost-bunsen-detail', function () {
 
         sandbox.stub(component, 'setProperties')
         component.storeUpdated()
-        newProps = component.setProperties.lastCall.args[0]
+
+        run.next(() => {
+          newProps = component.setProperties.lastCall.args[0]
+          done()
+        })
       })
 
       it('should update errors in properties', function () {

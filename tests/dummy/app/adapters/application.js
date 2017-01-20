@@ -1,5 +1,4 @@
-import DS from 'ember-data'
-const {RESTAdapter} = DS
+import RESTAdapter from 'ember-data/adapters/rest'
 
 export default RESTAdapter.extend({
 })

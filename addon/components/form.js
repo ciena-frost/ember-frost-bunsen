@@ -1,7 +1,7 @@
 import {actions} from 'bunsen-core'
 const {validate} = actions
 import Ember from 'ember'
-const {$, RSVP} = Ember
+const {$, RSVP, run} = Ember
 import {PropTypes} from 'ember-prop-types'
 
 import DetailComponent from './detail'
@@ -92,17 +92,19 @@ export default DetailComponent.extend({
    * After render select first input unless something else already has focus on page
    */
   didRender () {
-    if (!this.get('autofocus')) {
-      return
-    }
+    run.later(() => {
+      if (!this.get('autofocus')) {
+        return
+      }
 
-    // If there is already an element in focus do nothing
-    if ($(':focus').length !== 0) {
-      return
-    }
+      // If there is already an element in focus do nothing
+      if ($(':focus').length !== 0) {
+        return
+      }
 
-    // Focus on first input in busen form
-    this.$(':input:enabled:visible:first').focus()
+      // Focus on first input in busen form
+      this.$(':input:enabled:visible:first').focus()
+    })
   },
 
   willDestroyElement () {
