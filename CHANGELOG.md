@@ -1,3 +1,8 @@
+# 14.5.0
+
+* **Fixed** issues in codebase that were preventing it from being used with Ember 2.10. One known issue currently is that when using with Ember 2.10 the `autofocus` property for forms won't function. If using an older version of Ember the `autofocus` property will continue to work as it always has.
+
+
 # 14.4.1
 
 * **Added** more tests for the following renderers to ensure we don't have any regressions in the future around their functionality:
