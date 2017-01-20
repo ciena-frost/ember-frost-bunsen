@@ -175,10 +175,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when first option selected', function () {
-          beforeEach(function () {
+          beforeEach(function (done) {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+            run.next(() => {
+              done()
+            })
           })
 
           it('renders as expected', function () {
@@ -194,10 +197,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when last option selected', function () {
-          beforeEach(function () {
+          beforeEach(function (done) {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+            run.next(() => {
+              done()
+            })
           })
 
           it('renders as expected', function () {
@@ -746,10 +752,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when first option selected (initial value)', function () {
-          beforeEach(function () {
+          beforeEach(function (done) {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+            run.next(() => {
+              done()
+            })
           })
 
           it('renders as expected', function () {
@@ -765,10 +774,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when last option selected', function () {
-          beforeEach(function () {
+          beforeEach(function (done) {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+            run.next(() => {
+              done()
+            })
           })
 
           it('renders as expected', function () {

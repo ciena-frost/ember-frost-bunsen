@@ -2,15 +2,15 @@ const addonsToAdd = {
   packages: [
     {name: 'ember-ajax', target: '^2.5.2'},
     {name: 'ember-bunsen-core', target: '0.16.0'},
-    {name: 'ember-frost-core', target: '^1.7.1'},
+    {name: 'ember-frost-core', target: '^1.7.2'},
     {name: 'ember-frost-fields', target: '^4.0.0'},
     {name: 'ember-frost-popover', target: '^4.0.1'},
     {name: 'ember-frost-tabs', target: '^5.0.0'},
     {name: 'ember-getowner-polyfill', target: '^1.0.1'},
     {name: 'ember-lodash-shim', target: '^1.0.0'},
     {name: 'ember-prop-types', target: '^3.0.2'},
-    {name: 'ember-redux-shim', target: '^10.0.0'},
-    {name: 'ember-redux-thunk-shim', target: '^1.0.0'},
+    {name: 'ember-redux-shim', target: '^1.0.1'},
+    {name: 'ember-redux-thunk-shim', target: '^1.1.0'},
     {name: 'ember-spread', target: '^1.0.0'},
     {name: 'ember-sortable', target: '^1.8.1'}
   ]

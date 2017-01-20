@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
 const {getSubModel, parseVariables} = utils
 import Ember from 'ember'
-const {Logger, get, inject, typeOf} = Ember
+const {Logger, get, inject, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import config from 'ember-get-config'
 import {PropTypes} from 'ember-prop-types'
@@ -476,7 +476,9 @@ export default AbstractInput.extend({
               const bunsenId = this._getRefBunsenId(ref)
               const value = deserializeProperty(ref, formValue[key], bunsenModel)
 
-              this.get('onChange')(bunsenId, value)
+              run.next(() => {
+                this.get('onChange')(bunsenId, value)
+              })
             }
           }
         })
