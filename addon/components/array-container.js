@@ -281,10 +281,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @param {Object} newValue - the new formValue
    */
   formValueChanged (newValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
     const bunsenId = this.get('bunsenId')
     const newItems = _.get(newValue, bunsenId)
     const oldItems = _.get(this.get('value'), bunsenId)
