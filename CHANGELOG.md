@@ -1,3 +1,9 @@
+# 14.5.1
+
+* **Fixed** arrays to stop showing add button when `maxItems` is reached.
+* **Upgraded** build to use Ember 2.11.
+
+
 # 14.5.0
 
 * **Fixed** issues in codebase that were preventing it from being used with Ember 2.10. One known issue currently is that when using with Ember 2.10 the `autofocus` property for forms won't function. If using an older version of Ember the `autofocus` property will continue to work as it always has.
