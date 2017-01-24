@@ -18,10 +18,6 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   formValueChanged (newValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
     const cellConfig = this.get('cellConfig')
     const rendererAlt = get(cellConfig, 'renderer.alt')
     const rendererSrc = get(cellConfig, 'renderer.src')

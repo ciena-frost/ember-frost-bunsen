@@ -13,10 +13,6 @@ export default AbstractInput.extend({
 
   /* eslint-disable complexity */
   formValueChanged (newFormValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
     let value
     // using currentValue cache since using this.get('value') takes 2 additional
     // cycles to update

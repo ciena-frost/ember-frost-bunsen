@@ -136,10 +136,6 @@ export default AbstractInput.extend({
 
   /* eslint-disable complexity */
   formValueChanged (newValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
     const modelDef = this._getModelDef()
     const oldValue = this.get('formValue')
     this.set('formValue', newValue)

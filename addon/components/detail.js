@@ -362,7 +362,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       newProps.valueChangeSet = this.batchChanges(valueChangeSet)
 
       this.get('registeredComponents').forEach((component) => {
-        if (!component.isDestroyed) {
+        if (!component.isDestroyed && !component.isDestroying) {
           component.formValueChanged(value)
         }
       })

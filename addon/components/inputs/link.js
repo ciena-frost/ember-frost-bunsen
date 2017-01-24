@@ -43,10 +43,6 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   formValueChanged (newValue) {
-    if (this.get('isDestroyed') || this.get('isDestroying')) {
-      return
-    }
-
     const cellConfig = this.get('cellConfig')
     const rendererLabel = _.get(cellConfig, 'renderer.label')
     const rendererUrl = _.get(cellConfig, 'renderer.url')

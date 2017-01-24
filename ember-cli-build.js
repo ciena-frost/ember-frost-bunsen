@@ -5,12 +5,14 @@ module.exports = function (defaults) {
   var app = new EmberAddon(defaults, {
 
     babel: {
-      includePolyfill: true,
       optional: ['es7.decorators']
     },
     codemirror: {
       modes: ['javascript', 'handlebars', 'markdown'],
       themes: ['mdn-like']
+    },
+    'ember-cli-babel': {
+      includePolyfill: true
     },
     'ember-cli-mocha': {
       useLintTree: false

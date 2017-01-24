@@ -669,6 +669,111 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         })
       })
     })
+
+    describe('when maxItems', function () {
+      beforeEach(function () {
+        ctx.props.onValidation.reset()
+
+        this.set('bunsenModel', {
+          properties: {
+            foo: {
+              items: {
+                type: 'boolean'
+              },
+              maxItems: 1,
+              type: 'array'
+            }
+          },
+          type: 'object'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.boolean),
+          'does not render any bunsen boolean inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.frost.checkbox.input.enabled),
+          'does not render any checkbox inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.array.sort.handle),
+          'does not render any sort handles'
+        )
+          .to.have.length(0)
+
+        const $button = this.$(selectors.frost.button.input.enabled)
+
+        expectButtonWithState($button, {
+          icon: 'round-add',
+          text: 'Add foo'
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expectOnValidationState(ctx, {count: 0})
+      })
+
+      describe('when user adds item (maxItems reached)', function () {
+        beforeEach(function () {
+          this.$(selectors.frost.button.input.enabled)
+            .trigger('click')
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0)
+
+          expect(
+            this.$(selectors.bunsen.renderer.boolean),
+            'renders a bunsen boolean input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.frost.checkbox.input.enabled),
+            'renders an enabled checkbox input'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle'
+          )
+            .to.have.length(0)
+
+          const $buttons = this.$(selectors.frost.button.input.enabled)
+
+          expect(
+            $buttons,
+            'has an enabled button for removing item'
+          )
+            .to.have.length(1)
+
+          expectButtonWithState($buttons.first(), {
+            text: 'Remove'
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expectOnValidationState(ctx, {count: 1})
+        })
+      })
+    })
   })
 
   describe('with initial value', function () {
