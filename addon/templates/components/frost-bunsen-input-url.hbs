@@ -8,6 +8,7 @@
   {{frost-url-input
     class=valueClassName
     disabled=disabled
+    hook=(concat hook '-urlInput')
     onFocusIn=(action 'hideErrorMessage')
     onFocusOut=(action 'showErrorMessage')
     onInput=(action 'handleChange')

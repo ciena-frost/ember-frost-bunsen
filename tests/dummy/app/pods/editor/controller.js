@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller, Logger} = Ember
+const {Controller, Logger, run} = Ember
 
 const bunsenModel = {
   properties: {
@@ -40,9 +40,11 @@ export default Controller.extend({
 
   actions: {
     formChange (bunsenValue) {
-      this.setProperties({
-        bunsenValue,
-        bunsenValueString: JSON.stringify(bunsenValue, null, 2)
+      run.next(() => {
+        this.setProperties({
+          bunsenValue,
+          bunsenValueString: JSON.stringify(bunsenValue, null, 2)
+        })
       })
     },
 

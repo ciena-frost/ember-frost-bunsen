@@ -438,6 +438,143 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         })
       })
     })
+
+    describe('when maxItems', function () {
+      beforeEach(function () {
+        ctx.props.onValidation.reset()
+
+        this.set('bunsenModel', {
+          properties: {
+            foo: {
+              items: {
+                properties: {
+                  bar: {
+                    type: 'string'
+                  },
+                  baz: {
+                    type: 'number'
+                  }
+                },
+                type: 'object'
+              },
+              maxItems: 1,
+              type: 'array'
+            }
+          },
+          type: 'object'
+        })
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.text),
+          'does not render any bunsen text inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.renderer.number),
+          'does not render any bunsen number inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          findTextInputs({type: 'text'}),
+          'does not render any text inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          findTextInputs({type: 'number'}),
+          'does not render any number inputs'
+        )
+          .to.have.length(0)
+
+        expect(
+          this.$(selectors.bunsen.array.sort.handle),
+          'does not render any sort handles'
+        )
+          .to.have.length(0)
+
+        const $button = this.$(selectors.frost.button.input.enabled)
+
+        expectButtonWithState($button, {
+          icon: 'round-add',
+          text: 'Add foo'
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expectOnValidationState(ctx, {count: 0})
+      })
+
+      describe('when user adds item (maxItems reached)', function () {
+        beforeEach(function () {
+          this.$(selectors.frost.button.input.enabled)
+            .trigger('click')
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0)
+
+          expect(
+            this.$(selectors.bunsen.renderer.text),
+            'renders a bunsen text input for item'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.renderer.number),
+            'renders a bunsen number input for item'
+          )
+            .to.have.length(1)
+
+          expect(
+            findTextInputs({
+              disabled: false,
+              type: 'text'
+            }),
+            'renders an enabled text input for item'
+          )
+            .to.have.length(1)
+
+          expect(
+            findTextInputs({
+              disabled: false,
+              type: 'number'
+            }),
+            'renders an enabled number input for item'
+          )
+            .to.have.length(1)
+
+          expect(
+            this.$(selectors.bunsen.array.sort.handle),
+            'does not render sort handle for auto added array item'
+          )
+            .to.have.length(0)
+
+          const $button = this.$(selectors.frost.button.input.enabled)
+
+          expectButtonWithState($button, {
+            text: 'Remove'
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expectOnValidationState(ctx, {count: 1})
+        })
+      })
+    })
   })
 
   describe('with initial value', function () {

@@ -121,7 +121,6 @@ export default DetailComponent.extend({
      */
     handleChange (bunsenId, inputValue) {
       const reduxStore = this.get('reduxStore')
-
       reduxStore.dispatch(
         validate(bunsenId, inputValue, this.get('renderModel'), this.getAllValidators(), RSVP.all)
       )

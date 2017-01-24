@@ -100,8 +100,15 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('inline', 'cellConfig')
-  showAddButton (inline, cellConfig) {
+  @computed('bunsenModel', 'cellConfig', 'inline', 'items')
+  showAddButton (bunsenModel, cellConfig, inline, items) {
+    const maxItems = this.get('bunsenModel.maxItems')
+
+    // If we've reached max items don't allow more to be added
+    if (maxItems && maxItems <= items.length) {
+      return false
+    }
+
     return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
   },
 
@@ -230,10 +237,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
       const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
 
-      if (itemIndex !== 0 || !autoAdd) {
-        this.send('removeItem', itemIndex)
-        return
-      }
+      this.send('removeItem', itemIndex)
+      return
     }
 
     this.onChange(bunsenId, value)
