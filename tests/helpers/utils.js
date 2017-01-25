@@ -1,3 +1,4 @@
+import {initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import _ from 'lodash'
@@ -85,6 +86,7 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
   })
 
   beforeEach(function () {
+    initializeHook()
     const sandbox = sinon.sandbox.create()
 
     _.assign(ctx, {

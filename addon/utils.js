@@ -16,6 +16,7 @@ export const builtInRenderers = {
   boolean: 'frost-bunsen-input-boolean',
   'button-group': 'frost-bunsen-input-button-group',
   'checkbox-array': 'frost-bunsen-input-checkbox-array',
+  date: 'frost-bunsen-input-date',
   geolocation: 'frost-bunsen-input-geolocation',
   hidden: 'frost-bunsen-input-hidden',
   image: 'frost-bunsen-input-image',
