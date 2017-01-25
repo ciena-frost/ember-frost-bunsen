@@ -110,7 +110,7 @@ describe('Unit: frost-bunsen-input-select', function () {
   describe('needsInitialOptions', function () {
     describe('when options is not initialized', function () {
       beforeEach(function () {
-        component.set('optionsInitialized', false)
+        component.set('itemsInitialized', false)
       })
 
       it('returns true when query does not contain dependencies', function () {
@@ -146,7 +146,7 @@ describe('Unit: frost-bunsen-input-select', function () {
 
     describe('when options is initialized', function () {
       beforeEach(function () {
-        component.set('optionsInitialized', true)
+        component.set('itemsInitialized', true)
       })
 
       it('returns false when query does not contain dependencies', function () {

@@ -284,7 +284,13 @@ describe('Unit: list-utils', function () {
 
     describe('when filter is not provided', function () {
       beforeEach(function (done) {
-        getOptions({}, modelDef, data, '', {}).then((data) => {
+        getOptions({
+          bunsenId: '',
+          data,
+          options: modelDef,
+          store: {},
+          value: {}
+        }).then((data) => {
           options = data
           done()
         })
@@ -297,7 +303,14 @@ describe('Unit: list-utils', function () {
 
     describe('when filter is provided', function () {
       beforeEach(function (done) {
-        getOptions({}, modelDef, data, '', {}, 'Custom2').then((data) => {
+        getOptions({
+          bunsenId: '',
+          data,
+          filter: 'Custom2',
+          options: modelDef,
+          store: {},
+          value: {}
+        }).then((data) => {
           options = data
           done()
         })
@@ -323,7 +336,13 @@ describe('Unit: list-utils', function () {
       })
 
       it('calls store.query with empty query when no query is provided', function (done) {
-        getOptions({}, modelDef, data, '', store).then((data) => {
+        getOptions({
+          bunsenId: '',
+          data,
+          options: modelDef,
+          store,
+          value: {}
+        }).then((data) => {
           options = data
           done()
         })
@@ -334,7 +353,13 @@ describe('Unit: list-utils', function () {
         modelDef.query = {
           label: 'labelName'
         }
-        getOptions({}, modelDef, data, '', store).then((data) => {
+        getOptions({
+          bunsenId: '',
+          data,
+          options: modelDef,
+          store,
+          value: {}
+        }).then((data) => {
           options = data
           done()
         })

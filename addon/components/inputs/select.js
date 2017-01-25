@@ -3,7 +3,7 @@
  */
 import {utils} from 'bunsen-core'
 import Ember from 'ember'
-const {A, inject} = Ember
+const {A, get, inject, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
@@ -11,6 +11,23 @@ import AbstractInput from './abstract-input'
 import * as listUtils from 'ember-frost-bunsen/list-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
+
+/**
+ * Get options for select from both model and view, with view settings taking
+ * precendence over model settings.
+ * @param {Object} bunsenModel - model for property
+ * @param {Object} cellConfig - bunsen view cell for property
+ * @returns {Object} merged options from model and view
+ */
+export function getMergedOptions (bunsenModel, cellConfig) {
+  const viewOptions = get(cellConfig, 'renderer.options')
+
+  if (viewOptions) {
+    return _.assign({}, bunsenModel, viewOptions)
+  }
+
+  return bunsenModel
+}
 
 export default AbstractInput.extend({
   // == Dependencies ===========================================================
@@ -31,7 +48,7 @@ export default AbstractInput.extend({
   getDefaultProps () {
     return {
       options: A([]),
-      optionsInitialized: false,
+      itemsInitialized: false,
       queryDisabled: false
     }
   },
@@ -90,7 +107,7 @@ export default AbstractInput.extend({
    * @returns {Boolean} whether or not filtering is to be done within frost-select
    */
   isFilteringLocally (cellConfig) {
-    const modelDef = this._getModelDef()
+    const modelDef = getMergedOptions(this.get('bunsenModel'), cellConfig)
     return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelType
   },
 
@@ -117,30 +134,27 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   isQueryDisabled (formValue) {
-    const bunsenId = this.get('bunsenId')
-    const modelDef = this._getModelDef()
+    const {bunsenId, bunsenModel, cellConfig} = this.getProperties(
+      'bunsenId', 'bunsenModel', 'cellConfig'
+    )
+
+    const modelDef = getMergedOptions(bunsenModel, cellConfig)
     return modelDef.query !== undefined && !utils.hasValidQueryValues(formValue, modelDef.query, bunsenId)
-  },
-
-  _getModelDef () {
-    const cellConfig = this.get('cellConfig')
-    const modelDef = this.get('bunsenModel')
-    const options = _.get(cellConfig, 'renderer.options')
-
-    if (options) {
-      return _.assign({}, options, modelDef)
-    }
-
-    return modelDef
   },
 
   /* eslint-disable complexity */
   formValueChanged (newValue) {
-    const modelDef = this._getModelDef()
-    const oldValue = this.get('formValue')
+    const {
+      bunsenModel,
+      cellConfig,
+      formValue: oldValue
+    } = this.getProperties('bunsenModel', 'cellConfig', 'formValue')
+
+    const options = getMergedOptions(bunsenModel, cellConfig)
+
     this.set('formValue', newValue)
 
-    if (!modelDef) {
+    if (!options) {
       return
     }
 
@@ -150,47 +164,41 @@ export default AbstractInput.extend({
       this.set('queryDisabled', isQueryDisabled)
     }
 
-    if (!isQueryDisabled && this.hasQueryChanged(oldValue, newValue, modelDef.query) || this.needsInitialOptions()) {
-      // setting required variables once above condition is true
-      const store = this.get('store')
-      const bunsenId = this.get('bunsenId')
-      const listData = this.get('listData')
+    if (!isQueryDisabled && this.hasQueryChanged(oldValue, newValue, options.query) || this.needsInitialOptions()) {
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
-      this.set('optionsInitialized', true)
-      listUtils.getOptions(newValue, modelDef, listData, bunsenId, store)
-        .then((opts) => {
-          this.set('options', opts)
-        })
-        .catch((err) => {
-          this.onError(bunsenId, [{
-            path: bunsenId,
-            message: getErrorMessage(err)
-          }])
-        })
+      this.set('itemsInitialized', true)
+      this.updateItems(newValue)
     }
   },
 
-  hasQueryParams (query) {
-    if (!query || _.isEmpty(query)) {
+  /**
+   * Determine if query parameters with references to other properties are present
+   * @param {Object} query - query parameters as key-value params
+   * @returns {Boolean} whether or referential not query parameters are present
+   */
+  hasQueryParamsWithReferences (query) {
+    if (typeOf(query) !== 'object' || Object.keys(query).length === 0) {
       return false
     }
 
-    const queryString = JSON.stringify(query)
-    const parts = queryString.split('${')
-
-    if (parts.length < 2) {
-      return false
-    }
-
-    return true
+    return Object.keys(query)
+      .some((key) => {
+        return (
+          typeOf(query[key]) === 'string' &&
+          query[key].indexOf('${') !== -1
+        )
+      })
   },
 
   needsInitialOptions () {
-    const modelDef = this._getModelDef()
-    const optionsInitialized = this.get('optionsInitialized')
+    const {bunsenModel, cellConfig, itemsInitialized} = this.getProperties(
+      'bunsenModel', 'cellConfig', 'itemsInitialized'
+    )
 
-    return !optionsInitialized &&
-      (!_.isEmpty(this.get('listData')) || !this.hasQueryParams(modelDef.query))
+    const modelDef = getMergedOptions(bunsenModel, cellConfig)
+
+    return !itemsInitialized &&
+      (!_.isEmpty(this.get('listData')) || !this.hasQueryParamsWithReferences(modelDef.query))
   },
 
   /* eslint-disable complexity */
@@ -202,7 +210,7 @@ export default AbstractInput.extend({
    * @returns {Boolean} true if query has been changed
    */
   hasQueryChanged (oldValue, newValue, query) {
-    if (!this.hasQueryParams(query)) {
+    if (!this.hasQueryParamsWithReferences(query)) {
       return false
     }
 
@@ -242,8 +250,7 @@ export default AbstractInput.extend({
     let label = ''
     value = value || ''
 
-    const id = this.get('bunsenId')
-    const options = this.get('options')
+    const {id, options} = this.getProperties('id', 'options')
 
     options.forEach((option, optionIndex) => {
       if (option.value === value) {
@@ -264,6 +271,50 @@ export default AbstractInput.extend({
     return data[0]
   },
 
+  /**
+   * Update select dropdown items
+   * @param {Object} value - current form value
+   * @param {String} [filter=''] - string to filter items by
+   * @returns {RSVP.Promise} resolves once items were fetched (or failed to fetch)
+   */
+  updateItems (value, filter = '') {
+    const {
+      bunsenId,
+      bunsenModel,
+      cellConfig,
+      listData: data,
+      store
+    } = this.getProperties(
+      'bunsenId',
+      'bunsenModel',
+      'cellConfig',
+      'listData',
+      'store'
+    )
+
+    const options = getMergedOptions(bunsenModel, cellConfig)
+
+    return listUtils.getOptions({
+      bunsenId,
+      data,
+      filter,
+      options,
+      store,
+      value
+    })
+      .then((items) => {
+        this.set('options', items)
+      })
+      .catch((err) => {
+        const error = {
+          path: bunsenId,
+          message: getErrorMessage(err)
+        }
+
+        this.onError(bunsenId, [error])
+      })
+  },
+
   // == Events ================================================================
 
   init () {
@@ -279,21 +330,8 @@ export default AbstractInput.extend({
      * @param  {String} filter the filter text
      */
     filterOptions (filter) {
-      const modelDef = this._getModelDef()
-      const bunsenId = this.get('bunsenId')
-      const store = this.get('store')
       const value = this.get('formValue')
-      const listData = this.get('listData')
-      listUtils.getOptions(value, modelDef, listData, bunsenId, store, filter)
-        .then((opts) => {
-          this.set('options', opts)
-        })
-        .catch((err) => {
-          this.onError(bunsenId, [{
-            path: bunsenId,
-            message: getErrorMessage(err)
-          }])
-        })
+      this.updateItems(value, filter)
     }
   }
 })
