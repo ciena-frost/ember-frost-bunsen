@@ -2,13 +2,14 @@
  * The select input component
  */
 import {utils} from 'bunsen-core'
+const {findValue, hasValidQueryValues, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, typeOf} = Ember
+const {A, get, inject, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
-import * as listUtils from 'ember-frost-bunsen/list-utils'
+import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
 
@@ -78,7 +79,7 @@ export default AbstractInput.extend({
     let data = []
 
     if (enumDef && !hasOverrides) {
-      data = listUtils.getEnumValues(enumDef)
+      data = getEnumValues(enumDef)
     } else if (hasOverrides) {
       data = _.cloneDeep(renderOptions.data)
     }
@@ -113,7 +114,7 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('options', 'value')
-  selectedOptionLabel (options, value) {
+  selectedItemLabel (options, value) {
     options = options || []
     const selectedOption = options.find((option) => option.value === value)
     return selectedOption ? selectedOption.label : value
@@ -121,7 +122,7 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('isFilteringLocally')
-  selectOptions (isFilteringLocally) {
+  selectSpreadProperties (isFilteringLocally) {
     if (isFilteringLocally) {
       return {}
     }
@@ -133,13 +134,23 @@ export default AbstractInput.extend({
 
   // == Functions ==============================================================
 
-  isQueryDisabled (formValue) {
+  /**
+   * Determine if query has references to properties that have yet to be set.
+   * If the query contains no references then there is nothing to wait on.
+   * @param {Object} formValue - form value
+   * @returns {Boolean} whether or not query is waiting on missing references
+   */
+  isQueryWaitingOnReferences (formValue) {
     const {bunsenId, bunsenModel, cellConfig} = this.getProperties(
       'bunsenId', 'bunsenModel', 'cellConfig'
     )
 
-    const modelDef = getMergedOptions(bunsenModel, cellConfig)
-    return modelDef.query !== undefined && !utils.hasValidQueryValues(formValue, modelDef.query, bunsenId)
+    const {query} = getMergedOptions(bunsenModel, cellConfig)
+
+    return (
+      typeOf(query) === 'object' &&
+      !hasValidQueryValues(formValue, query, bunsenId)
+    )
   },
 
   /* eslint-disable complexity */
@@ -158,13 +169,19 @@ export default AbstractInput.extend({
       return
     }
 
-    const isQueryDisabled = this.isQueryDisabled(newValue)
+    const isQueryWaitingOnReferences = this.isQueryWaitingOnReferences(newValue)
 
-    if (this.get('queryDisabled') !== isQueryDisabled) {
-      this.set('queryDisabled', isQueryDisabled)
+    if (this.get('queryDisabled') !== isQueryWaitingOnReferences) {
+      this.set('queryDisabled', isQueryWaitingOnReferences)
     }
 
-    if (!isQueryDisabled && this.hasQueryChanged(oldValue, newValue, options.query) || this.needsInitialOptions()) {
+    // If we are still waiting on missing query references then there is nothing
+    // to do at this point
+    if (isQueryWaitingOnReferences) {
+      return
+    }
+
+    if (this.hasQueryChanged(oldValue, newValue, options.query) || this.needsInitialItems()) {
       // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
       this.set('itemsInitialized', true)
       this.updateItems(newValue)
@@ -190,15 +207,15 @@ export default AbstractInput.extend({
       })
   },
 
-  needsInitialOptions () {
+  needsInitialItems () {
     const {bunsenModel, cellConfig, itemsInitialized} = this.getProperties(
       'bunsenModel', 'cellConfig', 'itemsInitialized'
     )
 
-    const modelDef = getMergedOptions(bunsenModel, cellConfig)
+    const {query} = getMergedOptions(bunsenModel, cellConfig)
 
     return !itemsInitialized &&
-      (!_.isEmpty(this.get('listData')) || !this.hasQueryParamsWithReferences(modelDef.query))
+      (!isEmpty(this.get('listData')) || !this.hasQueryParamsWithReferences(query))
   },
 
   /* eslint-disable complexity */
@@ -221,22 +238,23 @@ export default AbstractInput.extend({
     const valueVariable = parts[1].split('}')[0]
 
     // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
-    let newValueResult = utils.findValue(newValue, valueVariable, bunsenId)
-    let oldValueResult = utils.findValue(oldValue, valueVariable, bunsenId)
+    let newValueResult = findValue(newValue, valueVariable, bunsenId)
+    let oldValueResult = findValue(oldValue, valueVariable, bunsenId)
 
-    if (newValueResult || oldValueResult) {
-      // parse old and new query before look for differences
-      const oldQuery = utils.populateQuery(oldValue, query, bunsenId) || {}
-      const newQuery = utils.populateQuery(newValue, query, bunsenId) || {}
-
-      // returns false when every top level key/value pair are equal
-      return !Object.keys(query)
-        .every((key) => {
-          return newQuery[key] === oldQuery[key]
-        })
+    // If no new or old value results then nothing to compare
+    if (!newValueResult && !oldValueResult) {
+      return false
     }
 
-    return false
+    // parse old and new query before look for differences
+    const oldQuery = populateQuery(oldValue, query, bunsenId) || {}
+    const newQuery = populateQuery(newValue, query, bunsenId) || {}
+
+    // returns false when every top level key/value pair are equal
+    return !Object.keys(query)
+      .every((key) => {
+        return newQuery[key] === oldQuery[key]
+      })
   },
   /* eslint-enable complexity */
 
@@ -246,20 +264,24 @@ export default AbstractInput.extend({
    * @returns {Object} variables
    */
   getTemplateVariables (value) {
-    let index = -1
-    let label = ''
-    value = value || ''
-
     const {id, options} = this.getProperties('id', 'options')
 
-    options.forEach((option, optionIndex) => {
-      if (option.value === value) {
-        index = optionIndex
-        label = option.label
-      }
-    })
+    return options.reduce(
+      (vars, option, index) => {
+        if (option.value === value) {
+          vars.index = index
+          vars.label = option.label
+        }
 
-    return {id, index, label, value}
+        return vars
+      },
+      {
+        id,
+        index: -1,
+        label: '',
+        value: ''
+      }
+    )
   },
 
   /**
@@ -294,7 +316,7 @@ export default AbstractInput.extend({
 
     const options = getMergedOptions(bunsenModel, cellConfig)
 
-    return listUtils.getOptions({
+    return getOptions({
       bunsenId,
       data,
       filter,
