@@ -50,7 +50,7 @@ export default AbstractInput.extend({
     return {
       options: A([]),
       itemsInitialized: false,
-      queryDisabled: false
+      waitingOnReferences: false
     }
   },
 
@@ -59,9 +59,9 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'queryDisabled')
-  disabled (bunsenId, cellConfig, bunsenModel, formDisabled, queryDisabled) {
-    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || queryDisabled) {
+  @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'waitingOnReferences')
+  disabled (bunsenId, cellConfig, bunsenModel, formDisabled, waitingOnReferences) {
+    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || waitingOnReferences) {
       return true
     }
 
@@ -140,7 +140,7 @@ export default AbstractInput.extend({
    * @param {Object} formValue - form value
    * @returns {Boolean} whether or not query is waiting on missing references
    */
-  isQueryWaitingOnReferences (formValue) {
+  iswaitingOnReferences (formValue) {
     const {bunsenId, bunsenModel, cellConfig} = this.getProperties(
       'bunsenId', 'bunsenModel', 'cellConfig'
     )
@@ -169,21 +169,28 @@ export default AbstractInput.extend({
       return
     }
 
-    const isQueryWaitingOnReferences = this.isQueryWaitingOnReferences(newValue)
+    const isWaitingOnReferences = this.iswaitingOnReferences(newValue)
 
-    if (this.get('queryDisabled') !== isQueryWaitingOnReferences) {
-      this.set('queryDisabled', isQueryWaitingOnReferences)
+    if (this.get('waitingOnReferences') !== isWaitingOnReferences) {
+      this.set('waitingOnReferences', isWaitingOnReferences)
     }
 
     // If we are still waiting on missing query references then there is nothing
     // to do at this point
-    if (isQueryWaitingOnReferences) {
+    if (isWaitingOnReferences) {
       return
     }
 
-    if (this.hasQueryChanged(oldValue, newValue, options.query) || this.needsInitialItems()) {
-      // prevent multiple api calls when multiple formValueChanged is fired before options has a chance to be set
+    // If the query has changed or we have yet to initialize the items lets go
+    // get our items
+    if (
+      this.hasQueryChanged(oldValue, newValue, options.query) ||
+      this.needsInitialItems()
+    ) {
+      // Make sure we flag that we've begun fetching items so we don't queue up
+      // a bunch of API requests back to back
       this.set('itemsInitialized', true)
+
       this.updateItems(newValue)
     }
   },
