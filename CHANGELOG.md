@@ -1,3 +1,8 @@
+# 14.6.0
+
+* Refactored select renderer code to be a little easier to comprehend.
+
+
 # 14.5.1
 
 * **Fixed** arrays to stop showing add button when `maxItems` is reached.
