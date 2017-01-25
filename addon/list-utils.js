@@ -9,22 +9,22 @@ import _ from 'lodash'
 
 /**
  * set a list's available options
- * @param  {Object} value the current value object for the form instance
- * @param  {Object} modelDef the bunsen model definition
- * @param  {Object[]} data initializes the list with this
- * @param  {String} bunsenId the bunsen id for this property
- * @param  {Object} store the ember-data store
- * @param  {String} filter the optional string to filter on
+ * @param  {String} bunsenId - the bunsen id for this property
+ * @param  {Object[]} data - initializes the list with this
+ * @param  {String} filter - the optional string to filter on
+ * @param  {Object} options - the bunsen model definition
+ * @param  {Object} store - the ember-data store
+ * @param  {Object} value - the current value object for the form instance
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions (value, modelDef, data, bunsenId, store, filter = '') {
+export function getOptions ({bunsenId, data, filter = '', options, store, value}) {
   const filteredData = data.filter((item) => {
     const filterRegex = new RegExp(filter, 'i')
     return filterRegex.test(item.label)
   })
 
-  if (modelDef.modelType) {
-    return getAsyncDataValues(value, modelDef, filteredData, bunsenId, store, filter)
+  if (options.modelType) {
+    return getAsyncDataValues(value, options, filteredData, bunsenId, store, filter)
   }
 
   return RSVP.resolve(filteredData)

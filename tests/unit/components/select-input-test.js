@@ -107,10 +107,10 @@ describe('Unit: frost-bunsen-input-select', function () {
     })
   })
 
-  describe('needsInitialOptions', function () {
+  describe('needsInitialItems', function () {
     describe('when options is not initialized', function () {
       beforeEach(function () {
-        component.set('optionsInitialized', false)
+        component.set('itemsInitialized', false)
       })
 
       it('returns true when query does not contain dependencies', function () {
@@ -118,14 +118,14 @@ describe('Unit: frost-bunsen-input-select', function () {
           query: {
           }
         })
-        expect(component.needsInitialOptions()).to.equal(true)
+        expect(component.needsInitialItems()).to.equal(true)
       })
 
       it('returns true when enum is specified', function () {
         component.set('bunsenModel', {
           enum: []
         })
-        expect(component.needsInitialOptions()).to.equal(true)
+        expect(component.needsInitialItems()).to.equal(true)
       })
 
       it('returns true when list data is provided', function () {
@@ -140,13 +140,13 @@ describe('Unit: frost-bunsen-input-select', function () {
           }
         })
 
-        expect(component.needsInitialOptions()).to.equal(true)
+        expect(component.needsInitialItems()).to.equal(true)
       })
     })
 
     describe('when options is initialized', function () {
       beforeEach(function () {
-        component.set('optionsInitialized', true)
+        component.set('itemsInitialized', true)
       })
 
       it('returns false when query does not contain dependencies', function () {
@@ -154,14 +154,14 @@ describe('Unit: frost-bunsen-input-select', function () {
           query: {
           }
         })
-        expect(component.needsInitialOptions()).to.equal(false)
+        expect(component.needsInitialItems()).to.equal(false)
       })
 
       it('returns false when enum is specified', function () {
         component.set('bunsenModel', {
           enum: []
         })
-        expect(component.needsInitialOptions()).to.equal(false)
+        expect(component.needsInitialItems()).to.equal(false)
       })
 
       it('returns false when list data is provided', function () {
@@ -176,7 +176,7 @@ describe('Unit: frost-bunsen-input-select', function () {
           }
         })
 
-        expect(component.needsInitialOptions()).to.equal(false)
+        expect(component.needsInitialItems()).to.equal(false)
       })
     })
   })

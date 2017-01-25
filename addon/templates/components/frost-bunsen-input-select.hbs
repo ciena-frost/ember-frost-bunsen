@@ -15,7 +15,7 @@
     required=required
     showAllErrors=showAllErrors
     unregisterForFormValueChanges=unregisterForFormValueChanges
-    value=selectedOptionLabel
+    value=selectedItemLabel
   }}
 {{else}}
   <label class={{labelWrapperClassName}}>
@@ -33,7 +33,7 @@
       hook=hook
       onChange=(action 'handleChange')
       onFocusOut=(action 'showErrorMessage')
-      options=selectOptions
+      options=selectSpreadProperties
       placeholder=placeholder
       selectedValue=value
     }}
