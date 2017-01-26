@@ -96,5 +96,6 @@ export default function () {
   })
 
   this.passthrough()
+  this.passthrough('http://data.consumerfinance.gov/api/**')
   this.passthrough('http://www.mapquestapi.com/**')
 }

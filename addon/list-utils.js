@@ -98,7 +98,7 @@ export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
 
   return ajax.request(url)
     .then((result) => {
-      const records = get(result, options.recordsPath)
+      const records = options.recordsPath ? get(result, options.recordsPath) : result
 
       if (!isArray(records)) {
         Logger.warn(
