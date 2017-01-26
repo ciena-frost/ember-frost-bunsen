@@ -25,7 +25,7 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
   if (options.modelType) {
     return getItemsFromEmberData(value, options, filteredData, bunsenId, store, filter)
   } else if (options.endpoint) {
-    return getItemsFromAjaxCall({ajax, data: filteredData, filter, options, value})
+    return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
   }
 
   return RSVP.resolve(filteredData)
@@ -77,14 +77,16 @@ export function getEnumValues (values = [], filter = '') {
 /**
  * Fetch the list of items from an API endpoint
  * @param {Object} ajax - ember-ajax service
+ * @param {Object} bunsenId - the bunsenId for this form
  * @param {Object[]} data - initializes the list with this
  * @param {String} filter - the partial match query filter to populate
  * @param {Object} options - bunsen model for this property plus view renderer options
  * @param {Object} value - the bunsen value for this form
  * @returns {RSVP.Promise} a promise that resolves with the list of items
  */
-export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
+export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, value}) {
   const query = getQuery({
+    bunsenId,
     filter,
     query: options.query,
     value
@@ -134,6 +136,7 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
   const {labelAttribute, valueAttribute} = modelDef
 
   const query = getQuery({
+    bunsenId,
     filter,
     query: modelDef.query,
     value
