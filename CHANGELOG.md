@@ -1,3 +1,8 @@
+# 14.7.1
+
+* **Fixed** bug in select when references are present.
+
+
 # 14.7.0
 
 * **Added** ability to drive select inputs via an API without using Ember Data. Instead you can do something like the following (this example lets you search a city and get a list of matching states from MapQuest's geolocation API):
