@@ -1,3 +1,45 @@
+# 14.7.0
+
+* **Added** ability to drive select inputs via an API without using Ember Data. Instead you can do something like the following (this example lets you search a city and get a list of matching states from MapQuest's geolocation API):
+
+  **Model**
+  ```json
+  {
+    "properties": {
+      "location": {
+        "type": "string"
+      },
+      "results": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+  ```
+
+  *View*
+  ```json
+  {
+    "properties": {
+      "location": {
+        "type": "string"
+      },
+      "results": {
+        "endpoint": "http://www.mapquestapi.com/geocoding/v1/address",
+        "labelAttribute": "adminArea3",
+        "recordsPath": "results.0.locations",
+        "query": {
+          "key": "<mapquest-api-goes-here>",
+          "location": "${./location}"
+        },
+        "type": "string",
+        "valueAttribute": "linkId"
+      }
+    },
+    "type": "object"
+  }
+  ```
+
 # 14.6.0
 
 * Refactored select renderer code to be a little easier to comprehend.
