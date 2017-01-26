@@ -20,9 +20,12 @@ export default AbstractInput.extend({
   // == Actions ===============================================================
 
   actions: {
-    selectDate (pikaday) {
-      const value = pikaday.toString()
-      this.send('handleChange', value)
+    /**
+     * Send the new date to handleChange()
+     * @param {String} dateString - the selected date, formatted as YYYY-MM-DD
+     */
+    selectDate (dateString) {
+      this.send('handleChange', dateString)
     }
   }
 })
