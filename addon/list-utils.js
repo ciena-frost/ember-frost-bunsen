@@ -115,6 +115,7 @@ export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
     })
     .catch((err) => {
       Logger.error(`Error fetching endpoint "${options.endpoint}"`, err)
+      throw err
     })
 }
 
