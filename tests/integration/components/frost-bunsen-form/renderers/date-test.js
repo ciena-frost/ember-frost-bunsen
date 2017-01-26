@@ -1,3 +1,4 @@
+import {expect} from 'chai'
 import {$hook} from 'ember-hook'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -15,8 +16,8 @@ import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
  * Click outside the date picker to close it
  * @param {Object} context - the test context
  */
-function closePikaday(context) {
-  context.$().click();
+function closePikaday (context) {
+  context.$().click()
 }
 
 describe('Integration: Component / frost-bunsen-form / renderer / date', function () {
@@ -32,14 +33,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
     bunsenView: {
       cells: [
         {
-          model: "foo",
+          model: 'foo',
           renderer: {
-            name: "date"
+            name: 'date'
           }
         }
       ],
-      type: "form",
-      version: "2.0"
+      type: 'form',
+      version: '2.0'
     }
   })
 
@@ -56,13 +57,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
           {
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             },
             classNames: {
               label: 'custom-label',
               value: 'custom-value'
             }
-          },
+          }
         ],
         type: 'form',
         version: '2.0'
@@ -85,7 +86,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             label: 'FooBar Baz',
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             }
           }
         ],
@@ -109,7 +110,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             collapsible: true,
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             }
           }
         ],
@@ -133,7 +134,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             collapsible: false,
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             }
           }
         ],
@@ -184,7 +185,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             disabled: false,
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             }
           }
         ],
@@ -208,7 +209,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             disabled: true,
             model: 'foo',
             renderer: {
-              name: "date"
+              name: 'date'
             }
           }
         ],

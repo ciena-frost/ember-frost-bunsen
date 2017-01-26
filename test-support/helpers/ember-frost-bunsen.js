@@ -32,7 +32,7 @@ export {
 
 export {
   expectWithState as expectBunsenDateRendererWithState,
-  openDatepicker as openDatepickerBunsenDateRenderer,
+  openDatepicker as openDatepickerBunsenDateRenderer
 } from './ember-frost-bunsen/renderers/date'
 
 export {

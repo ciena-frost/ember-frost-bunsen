@@ -12,7 +12,7 @@
     hook=(concat hook '-datePicker')
     onFocusIn=(action 'hideErrorMessage')
     onFocusOut=(action 'showErrorMessage')
-    onSelect=(action 'selectDate')
+    onSelect=(action 'handleChange')
   }}
 </div>
 {{#if renderErrorMessage}}

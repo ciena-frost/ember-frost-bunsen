@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember' // eslint-disable-line
+const {$} = Ember
 import {$hook} from 'ember-hook'
 
 import {
@@ -17,7 +18,6 @@ const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-li
  */
 function expectDisabledInput ($renderer, disabled) {
   const determinerPlusVerb = disabled ? 'a disabled' : 'an enabled'
-
 
   expect(
     $renderer.find('input'),
@@ -76,7 +76,7 @@ export function expectWithState (bunsenId, state) {
  * @param {String} hook - the hook for the form
  * @returns {Object} an object than can selectDate
  */
-export function openDatepicker(bunsenId, hook) {
+export function openDatepicker (bunsenId, hook) {
   hook = hook || 'bunsenForm'
 
   const hookName = `${hook}-${bunsenId}-datePicker-input`
@@ -89,7 +89,7 @@ export function openDatepicker(bunsenId, hook) {
 const PikadayInteractor = {
   selectorForMonthSelect: '.pika-lendar:visible .pika-select-month',
   selectorForYearSelect: '.pika-lendar:visible .pika-select-year',
-  selectDate: function(date) {
+  selectDate: function (date) {
     var day = date.getDate()
     var month = date.getMonth()
     var year = date.getFullYear()
@@ -102,24 +102,24 @@ const PikadayInteractor = {
 
     triggerNativeEvent($('td[data-day="' + day + '"] button:visible')[0], selectEvent)
   },
-  selectedDay: function() {
+  selectedDay: function () {
     return $('.pika-single td.is-selected button').html()
   },
-  selectedMonth: function() {
+  selectedMonth: function () {
     return $(this.selectorForMonthSelect + ' option:selected').val()
   },
-  selectedYear: function() {
+  selectedYear: function () {
     return $(this.selectorForYearSelect + ' option:selected').val()
   },
-  minimumYear: function() {
+  minimumYear: function () {
     return $(this.selectorForYearSelect).children().first().val()
   },
-  maximumYear: function() {
+  maximumYear: function () {
     return $(this.selectorForYearSelect).children().last().val()
   }
 }
 
-function triggerNativeEvent(element, eventName) {
+function triggerNativeEvent (element, eventName) {
   if (document.createEvent) {
     var event = document.createEvent('Events')
     event.initEvent(eventName, true, false)
