@@ -8,7 +8,7 @@ const {A, Logger, RSVP} = Ember
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {getAsyncDataValues, getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
+import {getItemsFromEmberData, getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
 
 const heroes = A([
   Ember.Object.create({
@@ -54,7 +54,7 @@ describe('Unit: list-utils', function () {
     })
   })
 
-  describe('getAsyncDataValues()', function () {
+  describe('getItemsFromEmberData()', function () {
     let sandbox, value, modelDef, bunsenId, store, filter, data
 
     beforeEach(function () {
@@ -91,7 +91,7 @@ describe('Unit: list-utils', function () {
       beforeEach(function (done) {
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+        getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -129,7 +129,7 @@ describe('Unit: list-utils', function () {
         modelDef.query.text = '$filter'
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+        getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -172,7 +172,7 @@ describe('Unit: list-utils', function () {
         ]
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+        getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -200,7 +200,7 @@ describe('Unit: list-utils', function () {
         modelDef.modelType = 'busted'
         store.query.withArgs('busted', {booleanFlag: true, universe: 'DC'}).returns(RSVP.reject('Uh oh'))
         sandbox.stub(Logger, 'log')
-        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+        getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })
@@ -232,7 +232,7 @@ describe('Unit: list-utils', function () {
         delete modelDef.query
         store.query.returns(RSVP.resolve(heroes))
 
-        getAsyncDataValues(value, modelDef, data, bunsenId, store, filter)
+        getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
           .then((items) => {
             options = items
           })

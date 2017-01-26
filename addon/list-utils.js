@@ -4,8 +4,9 @@
 
 import {utils} from 'bunsen-core'
 import Ember from 'ember'
-const {Logger, RSVP} = Ember
-import _ from 'lodash'
+const {Logger, RSVP, get, typeOf} = Ember
+
+const {isArray} = Array
 
 /**
  * set a list's available options
@@ -17,17 +18,36 @@ import _ from 'lodash'
  * @param  {Object} value - the current value object for the form instance
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions ({bunsenId, data, filter = '', options, store, value}) {
-  const filteredData = data.filter((item) => {
-    const filterRegex = new RegExp(filter, 'i')
-    return filterRegex.test(item.label)
-  })
+export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value}) {
+  const filterRegex = new RegExp(filter, 'i')
+  const filteredData = data.filter((item) => filterRegex.test(item.label))
 
   if (options.modelType) {
-    return getAsyncDataValues(value, options, filteredData, bunsenId, store, filter)
+    return getItemsFromEmberData(value, options, filteredData, bunsenId, store, filter)
+  } else if (options.endpoint) {
+    return getItemsFromAjaxCall({ajax, data: filteredData, filter, options, value})
   }
 
   return RSVP.resolve(filteredData)
+}
+
+export function getQuery ({bunsenId, filter, query, value}) {
+  const result = utils.populateQuery(value, query, bunsenId)
+
+  if (typeOf(result) !== 'object') {
+    return result
+  }
+
+  // replace the special $filter placeholder with the filter value (if it exists)
+  Object.keys(result).forEach((key) => {
+    const value = result[key]
+
+    if (typeOf(value) === 'string') {
+      result[key] = value.replace('$filter', filter)
+    }
+  })
+
+  return result
 }
 
 /**
@@ -46,6 +66,41 @@ export function getEnumValues (values = [], filter = '') {
   return filteredValues
 }
 
+export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
+  const query = getQuery({
+    filter,
+    query: options.query,
+    value
+  })
+
+  const queryString = Object.keys(query)
+    .map((key) => `${key}=${query[key]}`)
+    .join('&')
+
+  const url = queryString ? `${options.endpoint}?${queryString}` : options.endpoint
+
+  return ajax.request(url)
+    .then((result) => {
+      const records = get(result, options.recordsPath)
+
+      if (!isArray(records)) {
+        Logger.warn(
+          `Expected an array of records at "${options.recordPath}" but got:`,
+          records
+        )
+
+        return []
+      }
+
+      const {labelAttribute, valueAttribute} = options
+
+      return getItems({data, labelAttribute, records, valueAttribute})
+    })
+    .catch((err) => {
+      Logger.error(`Error fetching endpoint "${options.endpoint}"`, err)
+    })
+}
+
 /**
  * Fetch the list of network functions from the backend and set them
  * @param  {Object} value the bunsen value for this form
@@ -56,33 +111,38 @@ export function getEnumValues (values = [], filter = '') {
  * @param  {String} filter the partial match query filter to populate
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filter) {
-  const query = utils.populateQuery(value, modelDef.query, bunsenId)
-  const labelAttr = modelDef.labelAttribute || 'label'
-  const valueAttr = modelDef.valueAttribute || 'id'
+export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
+  const modelType = modelDef.modelType || 'resources'
+  const {labelAttribute, valueAttribute} = modelDef
 
-  // replace the special $filter placeholder with the filter value (if it exists)
-  _.forIn(query, (value, key) => {
-    if (_.isString(value)) {
-      query[key] = value.replace('$filter', filter)
-    }
+  const query = getQuery({
+    filter,
+    query: modelDef.query,
+    value
   })
 
-  const modelType = modelDef.modelType || 'resources'
   return store.query(modelType, query)
-    .then((resp) => {
-      const items = resp.map((resource) => {
-        const label = resource.get(labelAttr) || resource.get('title')
-        const value = resource.get(valueAttr)
-        return {
-          label,
-          value
-        }
-      })
-
-      return data.concat(items)
+    .then((records) => {
+      return getItems({data, labelAttribute, records, valueAttribute})
     }).catch((err) => {
       Logger.log(`Error fetching ${modelType}`, err)
       throw err
     })
+}
+
+function getItems ({data, labelAttribute, records, valueAttribute}) {
+  const labelAttr = labelAttribute || 'label'
+  const valueAttr = valueAttribute || 'id'
+
+  return data.concat(
+    records.map((record) => {
+      const label = get(record, labelAttr) || record.get('title')
+      const value = get(record, valueAttr)
+
+      return {
+        label,
+        value
+      }
+    })
+  )
 }
