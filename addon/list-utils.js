@@ -4,8 +4,9 @@
 
 import {utils} from 'bunsen-core'
 import Ember from 'ember'
-const {Logger, RSVP} = Ember
-import _ from 'lodash'
+const {Logger, RSVP, get, typeOf} = Ember
+
+const {isArray} = Array
 
 /**
  * set a list's available options
@@ -17,17 +18,44 @@ import _ from 'lodash'
  * @param  {Object} value - the current value object for the form instance
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions ({bunsenId, data, filter = '', options, store, value}) {
-  const filteredData = data.filter((item) => {
-    const filterRegex = new RegExp(filter, 'i')
-    return filterRegex.test(item.label)
-  })
+export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value}) {
+  const filterRegex = new RegExp(filter, 'i')
+  const filteredData = data.filter((item) => filterRegex.test(item.label))
 
   if (options.modelType) {
-    return getAsyncDataValues(value, options, filteredData, bunsenId, store, filter)
+    return getItemsFromEmberData(value, options, filteredData, bunsenId, store, filter)
+  } else if (options.endpoint) {
+    return getItemsFromAjaxCall({ajax, data: filteredData, filter, options, value})
   }
 
   return RSVP.resolve(filteredData)
+}
+
+/**
+ * Get query with property references replaced by property values.
+ * @param {String} bunsenId - bunsen ID of property (used for relative references)
+ * @param {String} filter - the partial match query filter to populate
+ * @param {Object} query - query to process references in
+ * @param {Object} value - the bunsen value for this form
+ * @returns {Object} query object with references filled in
+ */
+export function getQuery ({bunsenId, filter, query, value}) {
+  const result = utils.populateQuery(value, query, bunsenId)
+
+  if (typeOf(result) !== 'object') {
+    return result
+  }
+
+  // replace the special $filter placeholder with the filter value (if it exists)
+  Object.keys(result).forEach((key) => {
+    const value = result[key]
+
+    if (typeOf(value) === 'string') {
+      result[key] = value.replace('$filter', filter)
+    }
+  })
+
+  return result
 }
 
 /**
@@ -47,6 +75,51 @@ export function getEnumValues (values = [], filter = '') {
 }
 
 /**
+ * Fetch the list of items from an API endpoint
+ * @param {Object} ajax - ember-ajax service
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} filter - the partial match query filter to populate
+ * @param {Object} options - bunsen model for this property plus view renderer options
+ * @param {Object} value - the bunsen value for this form
+ * @returns {RSVP.Promise} a promise that resolves with the list of items
+ */
+export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
+  const query = getQuery({
+    filter,
+    query: options.query,
+    value
+  })
+
+  const queryString = Object.keys(query)
+    .map((key) => `${key}=${query[key]}`)
+    .join('&')
+
+  const url = queryString ? `${options.endpoint}?${queryString}` : options.endpoint
+
+  return ajax.request(url)
+    .then((result) => {
+      const records = options.recordsPath ? get(result, options.recordsPath) : result
+
+      if (!isArray(records)) {
+        Logger.warn(
+          `Expected an array of records at "${options.recordPath}" but got:`,
+          records
+        )
+
+        return []
+      }
+
+      const {labelAttribute, valueAttribute} = options
+
+      return normalizeItems({data, labelAttribute, records, valueAttribute})
+    })
+    .catch((err) => {
+      Logger.error(`Error fetching endpoint "${options.endpoint}"`, err)
+      throw err
+    })
+}
+
+/**
  * Fetch the list of network functions from the backend and set them
  * @param  {Object} value the bunsen value for this form
  * @param  {Object} modelDef the full bunsen model def for this property
@@ -56,33 +129,47 @@ export function getEnumValues (values = [], filter = '') {
  * @param  {String} filter the partial match query filter to populate
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getAsyncDataValues (value, modelDef, data, bunsenId, store, filter) {
-  const query = utils.populateQuery(value, modelDef.query, bunsenId)
-  const labelAttr = modelDef.labelAttribute || 'label'
-  const valueAttr = modelDef.valueAttribute || 'id'
+export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
+  const modelType = modelDef.modelType || 'resources'
+  const {labelAttribute, valueAttribute} = modelDef
 
-  // replace the special $filter placeholder with the filter value (if it exists)
-  _.forIn(query, (value, key) => {
-    if (_.isString(value)) {
-      query[key] = value.replace('$filter', filter)
-    }
+  const query = getQuery({
+    filter,
+    query: modelDef.query,
+    value
   })
 
-  const modelType = modelDef.modelType || 'resources'
   return store.query(modelType, query)
-    .then((resp) => {
-      const items = resp.map((resource) => {
-        const label = resource.get(labelAttr) || resource.get('title')
-        const value = resource.get(valueAttr)
-        return {
-          label,
-          value
-        }
-      })
-
-      return data.concat(items)
+    .then((records) => {
+      return normalizeItems({data, labelAttribute, records, valueAttribute})
     }).catch((err) => {
       Logger.log(`Error fetching ${modelType}`, err)
       throw err
     })
+}
+
+/**
+ * Converts records from an API response into a standard format with "label"
+ * and "value" properties so renderers can predictably process the data.
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} labelAttribute - dot notated path to label attribute in record
+ * @param {Array<Object>} records - records to normalize
+ * @param {String} valueAttribute - dot notated path to value attribute in record
+ * @returns {Array<Object>} normalized items
+ */
+function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
+  const labelAttr = labelAttribute || 'label'
+  const valueAttr = valueAttribute || 'id'
+
+  return data.concat(
+    records.map((record) => {
+      const label = get(record, labelAttr) || record.get('title')
+      const value = get(record, valueAttr)
+
+      return {
+        label,
+        value
+      }
+    })
+  )
 }

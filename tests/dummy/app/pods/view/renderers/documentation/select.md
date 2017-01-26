@@ -25,12 +25,21 @@ This is the default renderer when the model contains the property `enum` or the 
 
 ### Querying Data
 
-The model and view can be configured to fetch the select options from the server.
+The model and view can be configured to fetch the select options from the
+server using Ember Data or an API endpoint directly.
 
-```js
-// Model schema
+#### Ember Data
+
+In order to use Ember Data you must have the appropriate Ember Data model,
+adapter, and serializer in your app to properly map an API endpoint into
+data Ember Data understands. Assuming you have a basic understanding of that
+this example will show you how to wire bunsen up to your Ember Data model.
+
+**Model**
+
+```json
 {
-  "modelType": "<ember-data-model>"
+  "modelType": "<ember-data-model>",
   "query": {
     "label": "$filter"
   }
@@ -42,18 +51,68 @@ This maps to an Ember Data query,
 ```js
 this.get('store').query('modelType', {
   label: "$filter"
-})`
+})
 ```
 
 Use `$filter` as a placeholder for the text the user types into the `select` input. Optionally, you can reference other fields from the form value.
 
-```js
-// Model schema
+**Model**
+
+```json
 {
-  "modelType": "<ember-data-model>"
+  "modelType": "<ember-data-model>",
   "query": {
     "label": "$filter",
     "type": "${./type}"
+  }
+}
+```
+
+#### API Endpoint
+
+This lets you specify an endpoint directly in which to fetch the data. The first
+option you'll need to set is `endpoint` which is the URL to the API you want to
+fetch data from. Similar to the Ember Data options you can configure the `query`
+option which gets mapped to query parameters on your endpoint and supports
+the template approach to reference other properties. Next you need to tell
+bunsen where in the response the data lives, which is achieved via the
+`recordsPath` option. If the API response is a literal array of records you can
+set this to an empty string, otherwise it is the path to the records which could
+be something like: `data.records`. Once we know where to find the records you
+provide the `labelAttribute` and `valueAttribute` properties just like for the
+Ember Data scenario to inform us which properties in the records to use for the
+label and value respectively.
+
+> Note: You can specify these options in the model, view, or both. Bunsen will
+merge the options from the two places with the view options taking precedence
+over the model options.
+
+**Model**
+
+```json
+{
+  "properties": {
+    "item": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
+```
+
+**View Cell**
+
+```json
+{
+  "model": "item",
+  "renderer": {
+    "name": "select",
+    "options": {
+      "endpoint": "http://data.consumerfinance.gov/api/views.json",
+      "labelAttribute": "name",
+      "recordsPath": "",
+      "valueAttribute": "id"
+    }
   }
 }
 ```
