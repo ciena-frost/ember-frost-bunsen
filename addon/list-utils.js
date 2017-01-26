@@ -31,6 +31,14 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
   return RSVP.resolve(filteredData)
 }
 
+/**
+ * Get query with property references replaced by property values.
+ * @param {String} bunsenId - bunsen ID of property (used for relative references)
+ * @param {String} filter - the partial match query filter to populate
+ * @param {Object} query - query to process references in
+ * @param {Object} value - the bunsen value for this form
+ * @returns {Object} query object with references filled in
+ */
 export function getQuery ({bunsenId, filter, query, value}) {
   const result = utils.populateQuery(value, query, bunsenId)
 
@@ -66,6 +74,15 @@ export function getEnumValues (values = [], filter = '') {
   return filteredValues
 }
 
+/**
+ * Fetch the list of items from an API endpoint
+ * @param {Object} ajax - ember-ajax service
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} filter - the partial match query filter to populate
+ * @param {Object} options - bunsen model for this property plus view renderer options
+ * @param {Object} value - the bunsen value for this form
+ * @returns {RSVP.Promise} a promise that resolves with the list of items
+ */
 export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
   const query = getQuery({
     filter,
@@ -94,7 +111,7 @@ export function getItemsFromAjaxCall ({ajax, data, filter, options, value}) {
 
       const {labelAttribute, valueAttribute} = options
 
-      return getItems({data, labelAttribute, records, valueAttribute})
+      return normalizeItems({data, labelAttribute, records, valueAttribute})
     })
     .catch((err) => {
       Logger.error(`Error fetching endpoint "${options.endpoint}"`, err)
@@ -123,14 +140,23 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
 
   return store.query(modelType, query)
     .then((records) => {
-      return getItems({data, labelAttribute, records, valueAttribute})
+      return normalizeItems({data, labelAttribute, records, valueAttribute})
     }).catch((err) => {
       Logger.log(`Error fetching ${modelType}`, err)
       throw err
     })
 }
 
-function getItems ({data, labelAttribute, records, valueAttribute}) {
+/**
+ * Converts records from an API response into a standard format with "label"
+ * and "value" properties so renderers can predictably process the data.
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} labelAttribute - dot notated path to label attribute in record
+ * @param {Array<Object>} records - records to normalize
+ * @param {String} valueAttribute - dot notated path to value attribute in record
+ * @returns {Array<Object>} normalized items
+ */
+function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
   const labelAttr = labelAttribute || 'label'
   const valueAttr = valueAttribute || 'id'
 
