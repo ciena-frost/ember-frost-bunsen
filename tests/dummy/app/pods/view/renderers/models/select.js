@@ -3,6 +3,9 @@ export default {
     foo: {
       enum: ['bar', 'baz'],
       type: 'string'
+    },
+    item: {
+      type: 'string'
     }
   },
   type: 'object'

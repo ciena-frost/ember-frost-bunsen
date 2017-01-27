@@ -17,7 +17,7 @@ import {
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-form / renderer / select view query', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / select endpoint view query', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
@@ -29,8 +29,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
     initialize()
     resolver = {}
 
-    this.register('service:store', Service.extend({
-      query () {
+    this.register('service:ajax', Service.extend({
+      request () {
         return new RSVP.Promise((resolve, reject) => {
           resolver.resolve = resolve
           resolver.reject = reject
@@ -54,8 +54,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
             renderer: {
               name: 'select',
               options: {
+                endpoint: 'backdoor/api/',
                 labelAttribute: 'label',
-                modelType: 'node',
+                recordsPath: '',
                 query: {
                   baz: 'alpha'
                 },
@@ -102,14 +103,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
       beforeEach(function () {
         run(() => {
           resolver.resolve([
-            Ember.Object.create({
+            {
               label: 'bar',
               value: 'bar'
-            }),
-            Ember.Object.create({
+            },
+            {
               label: 'baz',
               value: 'baz'
-            })
+            }
           ])
         })
       })
@@ -224,8 +225,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -296,8 +298,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -368,8 +371,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -439,8 +443,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -541,8 +546,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -579,8 +585,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -730,14 +737,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
 
         run(() => {
           resolver.resolve([
-            Ember.Object.create({
+            {
               label: 'bar',
               value: 'bar'
-            }),
-            Ember.Object.create({
+            },
+            {
               label: 'baz',
               value: 'baz'
-            })
+            }
           ])
         })
       })
@@ -844,8 +851,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -901,8 +909,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -958,8 +967,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -1014,8 +1024,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -1109,8 +1120,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },
@@ -1152,8 +1164,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
                 renderer: {
                   name: 'select',
                   options: {
+                    endpoint: 'backdoor/api/',
                     labelAttribute: 'label',
-                    modelType: 'node',
+                    recordsPath: '',
                     query: {
                       baz: 'alpha'
                     },

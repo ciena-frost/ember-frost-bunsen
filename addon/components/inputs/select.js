@@ -33,6 +33,7 @@ export function getMergedOptions (bunsenModel, cellConfig) {
 export default AbstractInput.extend({
   // == Dependencies ===========================================================
 
+  ajax: inject.service(),
   store: inject.service(),
 
   // == Component Properties ===================================================
@@ -108,8 +109,9 @@ export default AbstractInput.extend({
    * @returns {Boolean} whether or not filtering is to be done within frost-select
    */
   isFilteringLocally (cellConfig) {
-    const modelDef = getMergedOptions(this.get('bunsenModel'), cellConfig)
-    return _.get(cellConfig, 'renderer.options.localFiltering') || !modelDef.modelType
+    const {endpoint, modelType} = getMergedOptions(this.get('bunsenModel'), cellConfig)
+    const dataFromAPI = endpoint || modelType
+    return get(cellConfig, 'renderer.options.localFiltering') || !dataFromAPI
   },
 
   @readOnly
@@ -140,7 +142,7 @@ export default AbstractInput.extend({
    * @param {Object} formValue - form value
    * @returns {Boolean} whether or not query is waiting on missing references
    */
-  iswaitingOnReferences (formValue) {
+  isWaitingOnReferences (formValue) {
     const {bunsenId, bunsenModel, cellConfig} = this.getProperties(
       'bunsenId', 'bunsenModel', 'cellConfig'
     )
@@ -169,7 +171,7 @@ export default AbstractInput.extend({
       return
     }
 
-    const isWaitingOnReferences = this.iswaitingOnReferences(newValue)
+    const isWaitingOnReferences = this.isWaitingOnReferences(newValue)
 
     if (this.get('waitingOnReferences') !== isWaitingOnReferences) {
       this.set('waitingOnReferences', isWaitingOnReferences)
@@ -308,12 +310,14 @@ export default AbstractInput.extend({
    */
   updateItems (value, filter = '') {
     const {
+      ajax,
       bunsenId,
       bunsenModel,
       cellConfig,
       listData: data,
       store
     } = this.getProperties(
+      'ajax',
       'bunsenId',
       'bunsenModel',
       'cellConfig',
@@ -324,6 +328,7 @@ export default AbstractInput.extend({
     const options = getMergedOptions(bunsenModel, cellConfig)
 
     return getOptions({
+      ajax,
       bunsenId,
       data,
       filter,

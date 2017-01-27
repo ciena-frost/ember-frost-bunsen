@@ -17,7 +17,7 @@ import {
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-form / renderer / select model query', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / select Ember Data view query', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
@@ -42,18 +42,31 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
       bunsenModel: {
         properties: {
           foo: {
-            labelAttribute: 'label',
-            modelType: 'node',
-            query: {
-              baz: 'alpha'
-            },
-            type: 'string',
-            valueAttribute: 'value'
+            type: 'string'
           }
         },
         type: 'object'
       },
-      bunsenView: undefined,
+      bunsenView: {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'select',
+              options: {
+                labelAttribute: 'label',
+                modelType: 'node',
+                query: {
+                  baz: 'alpha'
+                },
+                valueAttribute: 'value'
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      },
       disabled: undefined,
       hook: 'my-form',
       onChange: sandbox.spy(),
@@ -207,7 +220,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 label: 'FooBar Baz',
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -268,7 +292,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -329,7 +364,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -390,6 +436,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                },
                 placeholder: 'Foo bar'
               }
             ],
@@ -480,7 +537,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -507,7 +575,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -537,10 +616,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
           this.set('bunsenModel', {
             properties: {
               foo: {
-                enum: [
-                  'bar',
-                  'baz'
-                ],
                 type: 'string'
               }
             },
@@ -765,7 +840,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 label: 'FooBar Baz',
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -811,7 +897,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -857,7 +954,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 collapsible: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -903,6 +1011,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                },
                 placeholder: 'Foo bar'
               }
             ],
@@ -986,7 +1105,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: false,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -1018,7 +1148,18 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             cells: [
               {
                 disabled: true,
-                model: 'foo'
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                }
               }
             ],
             type: 'form',
@@ -1050,10 +1191,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
           this.set('bunsenModel', {
             properties: {
               foo: {
-                enum: [
-                  'bar',
-                  'baz'
-                ],
                 type: 'string'
               }
             },
@@ -1070,7 +1207,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: ''
           })
 
           expect(
@@ -1097,7 +1234,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: ''
             })
 
             expect(
@@ -1125,7 +1262,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: ''
             })
 
             expectOnValidationState({props}, {count: 0})
