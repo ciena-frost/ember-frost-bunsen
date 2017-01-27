@@ -1,3 +1,8 @@
+# 14.8.2
+
+* Fixes an issue where `isRequired` called on a cell that referenced a conditioned model threw an exception.
+
+
 # 14.8.1
 
 **Fixed** `ember-frost-date-picker` version in blueprint.
