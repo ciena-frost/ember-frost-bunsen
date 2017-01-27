@@ -20,7 +20,7 @@ export default AbstractInput.extend({
 
   getDefaultProps () {
     return {
-      selected: []
+      selected: _.clone(this.get('value')) || []
     }
   },
 
