@@ -1,3 +1,8 @@
+# 14.8.0
+
+**Added**  new `date` renderer for handling date input.
+
+
 # 14.7.1
 
 * **Fixed** bug in select when references are present.
