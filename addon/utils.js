@@ -201,6 +201,7 @@ export function getRendererComponentName (rendererName) {
   return builtInRenderers[rendererName] || rendererName
 }
 
+/* eslint-disable complexity */
 /**
  * Determine if an input is required to submit form
  * @param {String} path - path to property in bunsen model
@@ -213,6 +214,10 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
   const isChildMissing = !_.get(value, path)
 
   let isParentPresent, lastSegment
+
+  if (!isModelPathValid(path, bunsenModel)) {
+    return false
+  }
 
   if (path.indexOf('.') === -1) {
     isParentPresent = Boolean(value)
@@ -240,7 +245,8 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
     }
   }
 
-  const childIsRequiredByParent = bunsenModel.required && bunsenModel.required.indexOf(lastSegment) !== -1
+  const childIsRequiredByParent = bunsenModel.required &&
+    bunsenModel.required.indexOf(lastSegment) !== -1
 
   return (
     childIsRequiredByParent &&
@@ -248,7 +254,9 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
     isChildMissing
   )
 }
+/* eslint-enable complexity */
 
+/* eslint-disable complexity */
 /**
  * Determine whether or not cell contains required inputs
  * @param {BunsenCell} cell - bunsen view cell
@@ -269,6 +277,10 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
   // If the cell has a model defined, that model is applied to all children cells and thus we need to get
   // the sub-model of the current bunsenModel that represents this scoped/nested model
   if (cell.model) {
+    if (!isModelPathValid(cell.model, bunsenModel)) {
+      return false
+    }
+
     const modelSegments = cell.model.split('.')
 
     while (modelSegments.length !== 0) {
@@ -294,6 +306,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
   return cell.children
     .some((child) => isRequired(child, cellDefinitions, bunsenModel, value, parentRequired))
 }
+/* eslint-enable complexity */
 
 export function validateRenderer (owner, rendererName) {
   return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
@@ -321,4 +334,26 @@ export function getErrorMessage (error) {
   }
 
   return message
+}
+
+/**
+ * Used to sanity check if the path to the model is valid
+ * @param {String} path - bunsen model path reference
+ * @param {Object} bunsenModel - the bunsen model
+ * @returns {Boolean} true if the path is valid
+ */
+export function isModelPathValid (path, bunsenModel) {
+  const segments = path.split('.')
+
+  while (segments.length !== 0 && bunsenModel) {
+    const segment = segments.shift()
+
+    if (/^\d+$/.test(segment)) {
+      bunsenModel = bunsenModel.items
+    } else {
+      bunsenModel = bunsenModel.properties[segment]
+    }
+  }
+
+  return Boolean(bunsenModel)
 }

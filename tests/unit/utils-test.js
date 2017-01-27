@@ -5,6 +5,7 @@ import {
   generateFacetCell,
   generateFacetView,
   generateLabelFromModel,
+  isModelPathValid,
   isRegisteredEmberDataModel,
   isRequired
 } from 'ember-frost-bunsen/utils'
@@ -341,6 +342,16 @@ describe('bunsen-utils', function () {
         const cell = {model: 'delta'}
         expect(isRequired(cell, {}, bunsenModel)).to.equal(false)
       })
+
+      it('returns false when the model is not valid', function () {
+        const cell = {model: 'gamma'}
+        expect(isRequired(cell, {}, bunsenModel)).to.equal(false)
+      })
+
+      it('returns false when the model base path is not valid', function () {
+        const cell = {model: 'gamma.foo'}
+        expect(isRequired(cell, {}, bunsenModel)).to.equal(false)
+      })
     })
 
     describe('when children present in view cell', function () {
@@ -387,6 +398,33 @@ describe('bunsen-utils', function () {
           expect(isRequired(cell, {}, bunsenModel)).to.equal(false)
         })
       })
+    })
+  })
+
+  describe('isModelPathValid', function () {
+    let bunsenModel
+    beforeEach(function () {
+      bunsenModel = {
+        properties: {
+          foo: {
+            properties: {
+              bar: {type: 'string'}
+            },
+            type: 'object'
+          }
+        },
+        type: 'object'
+      }
+    })
+
+    it('returns false when the path is invalid', function () {
+      expect(isModelPathValid('baz', bunsenModel)).to.equal(false)
+      expect(isModelPathValid('foo.baz', bunsenModel)).to.equal(false)
+    })
+
+    it('returns true when the path is valid', function () {
+      expect(isModelPathValid('foo', bunsenModel)).to.equal(true)
+      expect(isModelPathValid('foo.bar', bunsenModel)).to.equal(true)
     })
   })
 })
