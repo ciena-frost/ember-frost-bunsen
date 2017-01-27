@@ -1,0 +1,22 @@
+<label class={{labelWrapperClassName}}>
+  {{renderLabel}}
+  {{#if required}}
+    <div class='frost-bunsen-required'>Required</div>
+  {{/if}}
+</label>
+<div class={{inputWrapperClassName}}>
+  {{frost-date-picker
+    class=valueClassName
+    currentValue=(readonly transformedValue)
+    disabled=disabled
+    hook=(concat hook '-datePicker')
+    onFocusIn=(action 'hideErrorMessage')
+    onFocusOut=(action 'showErrorMessage')
+    onSelect=(action 'handleChange')
+  }}
+</div>
+{{#if renderErrorMessage}}
+  <div class="frost-bunsen-error">
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

@@ -31,6 +31,11 @@ export {
 } from './ember-frost-bunsen/renderers/checkbox-array'
 
 export {
+  expectWithState as expectBunsenDateRendererWithState,
+  openDatepicker as openDatepickerBunsenDateRenderer
+} from './ember-frost-bunsen/renderers/date'
+
+export {
   expectWithState as expectBunsenGeolocationRendererWithState
 } from './ember-frost-bunsen/renderers/geolocation'
 
