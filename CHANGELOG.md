@@ -1,3 +1,8 @@
+# 14.8.1
+
+**Fixed** `ember-frost-date-picker` version in blueprint.
+
+
 # 14.8.0
 
 **Added**  new `date` renderer for handling date input.
