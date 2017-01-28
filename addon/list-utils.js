@@ -133,7 +133,9 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
  */
 export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
   const modelType = modelDef.modelType || 'resources'
-  const {labelAttribute, valueAttribute} = modelDef
+  const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
+  const valueAsId = Number(value[bunsenId])
+  const actuallyFindCurrentValue = queryForCurrentValue && !!valueAsId
 
   const query = getQuery({
     bunsenId,
@@ -142,13 +144,30 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
     value
   })
 
-  return store.query(modelType, query)
-    .then((records) => {
-      return normalizeItems({data, labelAttribute, records, valueAttribute})
-    }).catch((err) => {
-      Logger.log(`Error fetching ${modelType}`, err)
-      throw err
-    })
+  const queries = RSVP.hash({
+    items: store.query(modelType, query)
+      .then((records) => {
+        return normalizeItems({data, labelAttribute, records, valueAttribute})
+      })
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      }),
+    valueRecord: actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
+        .catch((err) => {
+          Logger.log(`Error fetching ${modelType}`, err)
+          throw err
+        }) : RSVP.resolve(null)
+  })
+
+  return queries.then((queries) => {
+    const {items, valueRecord} = queries
+    if (actuallyFindCurrentValue &&
+      shouldAddCurrentValue({data: items, valueRecord, labelAttribute, valueAttribute, filter})) {
+      return normalizeItems({data: items, labelAttribute, records: [valueRecord], valueAttribute})
+    }
+    return items
+  })
 }
 
 /**
@@ -175,4 +194,20 @@ function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
       }
     })
   )
+}
+
+/**
+ * Determine whether or not valueRecord should be appended to data
+ * @param {Object[]} data - the larger set of data
+ * @param {EmberObject} valueRecord - the record to add or not
+ * @param {String} labelAttribute - dot notated path to label attribute in record
+ * @param {String} valueAttribute - dot notated path to value attribute in record
+ * @param {String} filter - the partial match query filter to populate
+ * @returns {boolean} true if valueRecord should be added to data
+ */
+function shouldAddCurrentValue ({data, valueRecord, labelAttribute, valueAttribute, filter}) {
+  const filterRegex = new RegExp(filter, 'i')
+  return filterRegex.test(valueRecord.get(labelAttribute)) && !data.find(item => {
+    return item.value === valueRecord.get(valueAttribute)
+  })
 }

@@ -68,6 +68,25 @@ Use `$filter` as a placeholder for the text the user types into the `select` inp
 }
 ```
 
+When using a paged API, the initial value from the form might not be included in the regular query, 
+causing the select to appear blank even though the form has the value set. If this is a concern, set `queryForCurrentValue`
+to execute a second API call to make sure the current value is included in the select options and can be displayed correctly.
+
+*Note: This second API call is made with `store.findRecord()`, which requires that the value be a record id.
+ 
+ **Model**
+ 
+ ```json
+ {
+   "modelType": "<ember-data-model>",
+   "query": {
+     "label": "$filter",
+     "type": "${./type}"
+   },
+   "queryForCurrentValue": true
+ }
+ ```
+
 #### API Endpoint
 
 This lets you specify an endpoint directly in which to fetch the data. The first
