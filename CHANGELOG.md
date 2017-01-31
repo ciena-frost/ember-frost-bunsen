@@ -1,3 +1,8 @@
+# 14.8.3
+
+**Fixed** a checkbox-array bug where keeping the value upon refresh was not kept in the selected property, causing the checkboxes to all be cleared upon checking any of the checkboxes after a refresh.
+
+
 # 14.8.2
 
 * Fixes an issue where `isRequired` called on a cell that referenced a conditioned model threw an exception.
