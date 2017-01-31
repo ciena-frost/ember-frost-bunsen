@@ -18,12 +18,6 @@ export default AbstractInput.extend({
 
   // == State Properties =======================================================
 
-  getDefaultProps () {
-    return {
-      selected: []
-    }
-  },
-
   // == Computed Properties ====================================================
   @readOnly
   @computed('cellConfig')
@@ -55,11 +49,11 @@ export default AbstractInput.extend({
    * @returns {any} parsed value
    */
   parseValue (data) {
-    var selected = this.get('selected')
+    const selected = Array.from(this.get('value') || [])
     if (data.value) {
       selected.push(data.id)
     } else {
-      var index = selected.indexOf(data.id)
+      const index = selected.indexOf(data.id)
       selected.splice(index, 1)
     }
     return selected
