@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember' // eslint-disable-line
-const {$} = Ember
+const {$} = Ember // eslint-disable-line
 import {$hook} from 'ember-hook'
 
 import {
