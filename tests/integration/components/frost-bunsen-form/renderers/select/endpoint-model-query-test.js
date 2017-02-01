@@ -1453,4 +1453,620 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
       })
     })
   })
+
+  describe('when endpoint and query contain references to other properties', function () {
+    beforeEach(function () {
+      this.register('service:ajax', Service.extend({
+        request (endpoint) {
+          if (endpoint.indexOf('backdoor/api') === 0) {
+            return RSVP.resolve([
+              {
+                label: 'bar',
+                value: 'bar'
+              },
+              {
+                label: 'baz',
+                value: 'baz'
+              }
+            ])
+          }
+
+          return RSVP.reject()
+        }
+      }))
+    })
+
+    describe('when referenced properties are not present', function () {
+      let props
+
+      beforeEach(function () {
+        props = {
+          bunsenModel: {
+            properties: {
+              bar: {
+                type: 'string'
+              },
+              foo: {
+                endpoint: '${./bar}/api/',
+                labelAttribute: 'label',
+                query: {
+                  baz: '${./baz}'
+                },
+                recordsPath: '',
+                type: 'string',
+                valueAttribute: 'value'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: undefined,
+          disabled: undefined,
+          hook: 'my-form',
+          onChange: sandbox.spy(),
+          onError: sandbox.spy(),
+          onValidation: sandbox.spy(),
+          showAllErrors: undefined
+        }
+
+        this.setProperties(props)
+
+        this.render(hbs`
+          {{frost-select-outlet hook='selectOutlet'}}
+          {{frost-bunsen-form
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            disabled=disabled
+            hook=hook
+            onChange=onChange
+            onError=onError
+            onValidation=onValidation
+            showAllErrors=showAllErrors
+            value=value
+          }}
+        `)
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
+        expect(
+          this.$(selectors.bunsen.renderer.select.input),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          disabled: true,
+          text: ''
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when referenced property set', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
+          this.set('value', {
+            bar: 'backdoor',
+            baz: 'alpha'
+          })
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: ''
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when expanded/opened', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            return $hook('my-form-foo').find('.frost-select').click()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['bar', 'baz'],
+              opened: true
+            })
+          })
+        })
+      })
+    })
+
+    describe('when property referenced by endpoint is present', function () {
+      let props
+
+      beforeEach(function () {
+        props = {
+          bunsenModel: {
+            properties: {
+              bar: {
+                type: 'string'
+              },
+              foo: {
+                endpoint: '${./bar}/api/',
+                labelAttribute: 'label',
+                query: {
+                  baz: '${./baz}'
+                },
+                recordsPath: '',
+                type: 'string',
+                valueAttribute: 'value'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: undefined,
+          disabled: undefined,
+          hook: 'my-form',
+          onChange: sandbox.spy(),
+          onError: sandbox.spy(),
+          onValidation: sandbox.spy(),
+          showAllErrors: undefined,
+          value: {
+            bar: 'backdoor'
+          }
+        }
+
+        this.setProperties(props)
+
+        this.render(hbs`
+          {{frost-select-outlet hook='selectOutlet'}}
+          {{frost-bunsen-form
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            disabled=disabled
+            hook=hook
+            onChange=onChange
+            onError=onError
+            onValidation=onValidation
+            showAllErrors=showAllErrors
+            value=value
+          }}
+        `)
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
+        expect(
+          this.$(selectors.bunsen.renderer.select.input),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          disabled: true,
+          text: ''
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when property referenced by query is set', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
+          this.set('value', {
+            bar: 'backdoor',
+            baz: 'alpha'
+          })
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: ''
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when expanded/opened', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            return $hook('my-form-foo').find('.frost-select').click()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['bar', 'baz'],
+              opened: true
+            })
+          })
+        })
+      })
+    })
+
+    describe('when property referenced by query is present', function () {
+      let props
+
+      beforeEach(function () {
+        props = {
+          bunsenModel: {
+            properties: {
+              bar: {
+                type: 'string'
+              },
+              foo: {
+                endpoint: '${./bar}/api/',
+                labelAttribute: 'label',
+                query: {
+                  baz: '${./baz}'
+                },
+                recordsPath: '',
+                type: 'string',
+                valueAttribute: 'value'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: undefined,
+          disabled: undefined,
+          hook: 'my-form',
+          onChange: sandbox.spy(),
+          onError: sandbox.spy(),
+          onValidation: sandbox.spy(),
+          showAllErrors: undefined,
+          value: {
+            baz: 'alpha'
+          }
+        }
+
+        this.setProperties(props)
+
+        this.render(hbs`
+          {{frost-select-outlet hook='selectOutlet'}}
+          {{frost-bunsen-form
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            disabled=disabled
+            hook=hook
+            onChange=onChange
+            onError=onError
+            onValidation=onValidation
+            showAllErrors=showAllErrors
+            value=value
+          }}
+        `)
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
+        expect(
+          this.$(selectors.bunsen.renderer.select.input),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          disabled: true,
+          text: ''
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when property referenced by endpoint is set', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
+          this.set('value', {
+            bar: 'backdoor',
+            baz: 'alpha'
+          })
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: ''
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when expanded/opened', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            return $hook('my-form-foo').find('.frost-select').click()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['bar', 'baz'],
+              opened: true
+            })
+          })
+        })
+      })
+    })
+
+    describe('when referenced properties are present', function () {
+      let props
+
+      beforeEach(function () {
+        props = {
+          bunsenModel: {
+            properties: {
+              bar: {
+                type: 'string'
+              },
+              foo: {
+                endpoint: '${./bar}/api/',
+                labelAttribute: 'label',
+                query: {
+                  baz: '${./baz}'
+                },
+                recordsPath: '',
+                type: 'string',
+                valueAttribute: 'value'
+              }
+            },
+            type: 'object'
+          },
+          bunsenView: undefined,
+          disabled: undefined,
+          hook: 'my-form',
+          onChange: sandbox.spy(),
+          onError: sandbox.spy(),
+          onValidation: sandbox.spy(),
+          showAllErrors: undefined,
+          value: {
+            bar: 'backdoor',
+            baz: 'alpha'
+          }
+        }
+
+        this.setProperties(props)
+
+        this.render(hbs`
+          {{frost-select-outlet hook='selectOutlet'}}
+          {{frost-bunsen-form
+            bunsenModel=bunsenModel
+            bunsenView=bunsenView
+            disabled=disabled
+            hook=hook
+            onChange=onChange
+            onError=onError
+            onValidation=onValidation
+            showAllErrors=showAllErrors
+            value=value
+          }}
+        `)
+      })
+
+      it('renders as expected', function () {
+        expectCollapsibleHandles(0, 'my-form')
+
+        expect(
+          this.$(selectors.bunsen.renderer.select.input),
+          'renders a bunsen select input'
+        )
+          .to.have.length(1)
+
+        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+          text: ''
+        })
+
+        expect(
+          this.$(selectors.error),
+          'does not have any validation errors'
+        )
+          .to.have.length(0)
+
+        expect(
+          props.onValidation.callCount,
+          'informs consumer of validation results'
+        )
+          .to.equal(1)
+
+        const validationResult = props.onValidation.lastCall.args[0]
+
+        expect(
+          validationResult.errors.length,
+          'informs consumer there are no errors'
+        )
+          .to.equal(0)
+
+        expect(
+          validationResult.warnings.length,
+          'informs consumer there are no warnings'
+        )
+          .to.equal(0)
+      })
+
+      describe('when expanded/opened', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+          return $hook('my-form-foo').find('.frost-select').click()
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            items: ['bar', 'baz'],
+            opened: true
+          })
+        })
+      })
+    })
+  })
 })
