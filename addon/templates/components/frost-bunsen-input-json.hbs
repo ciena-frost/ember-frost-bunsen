@@ -17,6 +17,9 @@
     rows=cellConfig.renderer.rows
     value=(readonly renderValue)
   }}
+  {{frost-bunsen-description-bubble
+    description=cellConfig.description
+  }}
 </div>
 {{#if renderErrorMessage}}
   <div class='frost-bunsen-error'>
