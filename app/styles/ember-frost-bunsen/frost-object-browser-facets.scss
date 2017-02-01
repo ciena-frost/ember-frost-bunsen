@@ -23,8 +23,6 @@
     }
 
     .frost-field {
-      width: 158px; // FIXME: somehow .frost-text started overflowing the facets, should be fixed better
-
       > div {
         display: block;
       }
