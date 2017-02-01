@@ -8,7 +8,7 @@ const {A, Logger, RSVP} = Ember
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {getItemsFromEmberData, getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
+import {getEnumValues, getItemsFromEmberData, getOptions} from 'ember-frost-bunsen/list-utils'
 
 const heroes = A([
   Ember.Object.create({

@@ -254,7 +254,7 @@ export default AbstractInput.extend({
 
     // If there is hardcoded data then we need to initialize so at a minimum
     // the hardcoded data shows up immediately
-    if (!isEmpty(this.get('listData'))) return false
+    if (!isEmpty(this.get('listData'))) return true
 
     const bunsenId = this.get('bunsenId')
     const queryHasReferences = hasValidQueryValues(formValue, query, bunsenId)
