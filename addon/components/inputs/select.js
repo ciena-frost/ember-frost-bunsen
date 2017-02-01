@@ -2,9 +2,9 @@
  * The select input component
  */
 import {utils} from 'bunsen-core'
-const {findValue, hasValidQueryValues, populateQuery} = utils
+const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, typeOf} = Ember
+const {A, get, inject, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
@@ -27,7 +27,7 @@ export function getMergedOptions (bunsenModel, cellConfig) {
     return _.assign({}, bunsenModel, viewOptions)
   }
 
-  return bunsenModel
+  return _.assign({}, bunsenModel)
 }
 
 export default AbstractInput.extend({
@@ -147,12 +147,27 @@ export default AbstractInput.extend({
       'bunsenId', 'bunsenModel', 'cellConfig'
     )
 
-    const {query} = getMergedOptions(bunsenModel, cellConfig)
+    const {endpoint, query} = getMergedOptions(bunsenModel, cellConfig)
 
-    return (
+    const isWaitingOnQueryReference = (
       typeOf(query) === 'object' &&
       !hasValidQueryValues(formValue, query, bunsenId)
     )
+
+    if (isWaitingOnQueryReference) {
+      return true
+    }
+
+    if (!endpoint) {
+      return false
+    }
+
+    try {
+      parseVariables(formValue, endpoint, bunsenId) // throws if reference not met
+      return false
+    } catch (e) {
+      return true
+    }
   },
 
   /* eslint-disable complexity */
@@ -177,8 +192,8 @@ export default AbstractInput.extend({
       this.set('waitingOnReferences', isWaitingOnReferences)
     }
 
-    // If we are still waiting on missing query references then there is nothing
-    // to do at this point
+    // If we are still waiting on missing query references or a missing endpoint
+    // reference hen there is nothing to do at this point
     if (isWaitingOnReferences) {
       return
     }
@@ -186,8 +201,9 @@ export default AbstractInput.extend({
     // If the query has changed or we have yet to initialize the items lets go
     // get our items
     if (
+      this.hasEndpointChanged(oldValue, newValue, options.endpoint) ||
       this.hasQueryChanged(oldValue, newValue, options.query) ||
-      this.needsInitialItems()
+      this.needsInitialItems(newValue)
     ) {
       // Make sure we flag that we've begun fetching items so we don't queue up
       // a bunch of API requests back to back
@@ -198,9 +214,19 @@ export default AbstractInput.extend({
   },
 
   /**
+   * Determine if endpoint contains references to other properties
+   * @param {String} endpoint - endpoint
+   * @returns {Boolean} whether or not referential endpoint is present
+   */
+  hasEndpointWithReferences (endpoint) {
+    if (typeOf(endpoint) !== 'string') return false
+    return endpoint.indexOf('${') !== -1
+  },
+
+  /**
    * Determine if query parameters with references to other properties are present
    * @param {Object} query - query parameters as key-value params
-   * @returns {Boolean} whether or referential not query parameters are present
+   * @returns {Boolean} whether or not referential query parameters are present
    */
   hasQueryParamsWithReferences (query) {
     if (typeOf(query) !== 'object' || Object.keys(query).length === 0) {
@@ -216,15 +242,80 @@ export default AbstractInput.extend({
       })
   },
 
-  needsInitialItems () {
+  needsInitialItems (formValue) {
     const {bunsenModel, cellConfig, itemsInitialized} = this.getProperties(
       'bunsenModel', 'cellConfig', 'itemsInitialized'
     )
 
-    const {query} = getMergedOptions(bunsenModel, cellConfig)
+    const {endpoint, query} = getMergedOptions(bunsenModel, cellConfig)
 
-    return !itemsInitialized &&
-      (!isEmpty(this.get('listData')) || !this.hasQueryParamsWithReferences(query))
+    // If items have already been initialized then we are done here
+    if (itemsInitialized) return false
+
+    const bunsenId = this.get('bunsenId')
+    const queryHasReferences = hasValidQueryValues(formValue, query, bunsenId)
+
+    // If endpoint and query contain no references or references are all present
+    // then we are ready to initialize
+    if (endpoint) {
+      let endpointHasReferences
+
+      try {
+        parseVariables(formValue, endpoint, bunsenId)
+        endpointHasReferences = true
+      } catch (e) {
+        endpointHasReferences = false
+      }
+
+      return endpointHasReferences && queryHasReferences
+    }
+
+    // If using modelType and query contains no references or references are all
+    // present then we can go ahead and initialize items
+    return queryHasReferences
+  },
+
+  /**
+   * Checks if endpoint has been changed
+   * @param {Object} oldValue - old formValue
+   * @param {Object} newValue - new formValue
+   * @param {String} endpoint - endpoint
+   * @returns {Boolean} true if endpoint has changed
+   */
+  hasEndpointChanged (oldValue, newValue, endpoint) {
+    if (!this.hasEndpointWithReferences(endpoint)) {
+      return false
+    }
+
+    const bunsenId = this.get('bunsenId')
+    const parts = endpoint.split('${')
+
+    const valueVariable = parts[1].split('}')[0]
+
+    // If valueVariable exists in newAttrs & oldAttrs only then evaluate further
+    let newValueResult = findValue(newValue, valueVariable, bunsenId)
+    let oldValueResult = findValue(oldValue, valueVariable, bunsenId)
+
+    // If no new or old value results then nothing to compare
+    if (!newValueResult && !oldValueResult) {
+      return false
+    }
+
+    let newEndpoint, oldEndpoint
+
+    try {
+      newEndpoint = parseVariables(newValue, endpoint, bunsenId) // throws if reference not met
+    } catch (e) {
+      newEndpoint = ''
+    }
+
+    try {
+      oldEndpoint = parseVariables(newValue, endpoint, bunsenId) // throws if reference not met
+    } catch (e) {
+      oldEndpoint = ''
+    }
+
+    return oldEndpoint !== newEndpoint
   },
 
   /* eslint-disable complexity */
@@ -326,6 +417,16 @@ export default AbstractInput.extend({
     )
 
     const options = getMergedOptions(bunsenModel, cellConfig)
+
+    if (options.endpoint) {
+      const endpoint = parseVariables(
+        this.get('formValue'),
+        options.endpoint,
+        bunsenId
+      )
+
+      set(options, 'endpoint', endpoint)
+    }
 
     return getOptions({
       ajax,
