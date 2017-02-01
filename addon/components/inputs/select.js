@@ -4,7 +4,7 @@
 import {utils} from 'bunsen-core'
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, set, typeOf} = Ember
+const {A, get, inject, isEmpty, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
@@ -251,6 +251,10 @@ export default AbstractInput.extend({
 
     // If items have already been initialized then we are done here
     if (itemsInitialized) return false
+
+    // If there is hardcoded data then we need to initialize so at a minimum
+    // the hardcoded data shows up immediately
+    if (!isEmpty(this.get('listData'))) return false
 
     const bunsenId = this.get('bunsenId')
     const queryHasReferences = hasValidQueryValues(formValue, query, bunsenId)
