@@ -1,3 +1,8 @@
+# 14.9.0
+
+* **Added** support for template strings in `select` renderers `endpoint` property.
+
+
 # 14.8.3
 
 **Fixed** a checkbox-array bug where keeping the value upon refresh was not kept in the selected property, causing the checkboxes to all be cleared upon checking any of the checkboxes after a refresh.
