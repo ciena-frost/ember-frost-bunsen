@@ -1,21 +1,14 @@
 {{#if description}}
-  <div class="frost-bunsen-description-input">
-    {{yield}}
-  </div>
-  <div class="frost-bunsen-description-icon">
-    {{frost-icon
-      hook=(concat hook '-helpIcon')
-      icon='question'
-      pack='frost-bunsen'
-    }}
-    {{#frost-popover
-      closest=true
-      position='top'
-      target='.frost-bunsen-description-bubble'
-    }}
-      {{description}}
-    {{/frost-popover}}
-  </div>
-{{else}}
-  {{yield}}
+  {{frost-icon
+    hook=(concat hook '-helpIcon')
+    icon='question'
+    pack='frost-bunsen'
+  }}
+  {{#frost-popover
+    closest=true
+    position='top'
+    target='.frost-bunsen-left-input'
+  }}
+    {{description}}
+  {{/frost-popover}}
 {{/if}}

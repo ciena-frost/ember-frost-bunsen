@@ -8,8 +8,10 @@ $frost-bunsen-left-input-width: 250px;
 }
 
 .frost-bunsen-description-bubble {
-  display: inline-flex;
-  position: relative;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  margin-left: 4px;
 
   svg {
     width: 24px;
