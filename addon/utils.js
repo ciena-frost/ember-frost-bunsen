@@ -17,6 +17,7 @@ export const builtInRenderers = {
   'button-group': 'frost-bunsen-input-button-group',
   'checkbox-array': 'frost-bunsen-input-checkbox-array',
   date: 'frost-bunsen-input-date',
+  datetime: 'frost-bunsen-input-datetime',
   geolocation: 'frost-bunsen-input-geolocation',
   hidden: 'frost-bunsen-input-hidden',
   image: 'frost-bunsen-input-image',
