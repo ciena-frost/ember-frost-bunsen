@@ -3,6 +3,7 @@ export default {
   'button-group': {},
   'checkbox-array': {},
   date: {},
+  datetime: {},
   geolocation: {},
   image: {
     foo: 'https://placeholdit.imgix.net/~text?txtsize=20&txt=100%C3%97100&w=100&h=100',

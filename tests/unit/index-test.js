@@ -31,6 +31,7 @@ import {default as BooleanInput} from 'ember-frost-bunsen/components/inputs/bool
 import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/inputs/button-group'
 import {default as CheckboxArrayInput} from 'ember-frost-bunsen/components/inputs/checkbox-array'
 import {default as DateInput} from 'ember-frost-bunsen/components/inputs/date'
+import {default as DatetimeInput} from 'ember-frost-bunsen/components/inputs/datetime'
 import {default as ImageInput} from 'ember-frost-bunsen/components/inputs/image'
 import {default as LinkInput} from 'ember-frost-bunsen/components/inputs/link'
 import {default as MultiSelectInput} from 'ember-frost-bunsen/components/inputs/multi-select'
@@ -84,6 +85,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('imports DateInput', function () {
     expect(DateInput).to.equal(Inputs.Date)
+  })
+
+  it('imports DatetimeInput', function () {
+    expect(DatetimeInput).to.equal(Inputs.Datetime)
   })
 
   it('exports Detail', function () {
