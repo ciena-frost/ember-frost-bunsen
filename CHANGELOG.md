@@ -1,3 +1,8 @@
+# 14.11.0
+
+**Added** queryForCurrentValue option to select renderer
+
+
 # 14.10.0
 
 * **Fixed** issues with alignment of description icon in consuming apps by changing where it appears in the DOM.
