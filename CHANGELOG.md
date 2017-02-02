@@ -1,3 +1,8 @@
+# 14.10.0
+
+* **Fixed** issues with alignment of description icon in consuming apps by changing where it appears in the DOM.
+
+
 # 14.9.0
 
 * **Added** support for template strings in `select` renderers `endpoint` property.
