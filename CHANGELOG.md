@@ -1,3 +1,8 @@
+# 14.12.0
+
+**Added** a new feature for the renderers called DateTime. Allows a user to input a date and time input. Also created tests and added ability to view sample on the dummy server.
+
+
 # 14.11.0
 
 **Added** queryForCurrentValue option to select renderer
