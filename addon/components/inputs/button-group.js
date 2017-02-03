@@ -5,9 +5,11 @@ import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-button-group'
 
+const {isArray} = Array
+
 export const helpers = {
   validateValues (values, type) {
-    if (!_.isArray(values)) {
+    if (!isArray(values)) {
       throw new Error(`In order to use a button-group renderer with type ${type} enum must be present`)
     }
   }

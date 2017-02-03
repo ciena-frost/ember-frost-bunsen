@@ -4,7 +4,7 @@
 import {utils} from 'bunsen-core'
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, set, typeOf} = Ember
+const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
@@ -22,12 +22,13 @@ import {getErrorMessage} from 'ember-frost-bunsen/utils'
  */
 export function getMergedOptions (bunsenModel, cellConfig) {
   const viewOptions = get(cellConfig, 'renderer.options')
+  const mergedOptions = merge({}, bunsenModel)
 
   if (viewOptions) {
-    return _.assign({}, bunsenModel, viewOptions)
+    return merge(mergedOptions, viewOptions)
   }
 
-  return _.assign({}, bunsenModel)
+  return mergedOptions
 }
 
 export default AbstractInput.extend({

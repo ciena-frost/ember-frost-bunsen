@@ -1,7 +1,7 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, Logger, get} = Ember
+const {Component, Logger, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -134,7 +134,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('value', 'cellConfig')
   transformedValue (value, cellConfig) {
-    if (!_.isString(value)) {
+    if (typeOf(value) !== 'string') {
       return value
     }
 
@@ -243,7 +243,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   parseValue (data) {
     return _.find([data.value, _.get(data, 'target.value'), data], function (value) {
-      return !_.isUndefined(value)
+      return value !== undefined
     })
   },
 
