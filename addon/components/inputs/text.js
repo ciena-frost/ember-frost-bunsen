@@ -1,5 +1,6 @@
+import Ember from 'ember'
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-text'
@@ -20,6 +21,6 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig')
   inputType (cellConfig) {
-    return _.get(cellConfig, 'renderer.type') || 'text'
+    return get(cellConfig, 'renderer.type') || 'text'
   }
 })

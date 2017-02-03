@@ -57,7 +57,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
@@ -95,7 +95,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} input wrapper element class name
    */
   inputWrapperClassName (cellConfig) {
-    return _.get(cellConfig, 'classNames.value') || defaultClassNames.inputWrapper
+    return get(cellConfig, 'classNames.value') || defaultClassNames.inputWrapper
   },
 
   @readOnly
@@ -106,7 +106,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label wrapper element class name
    */
   labelWrapperClassName (cellConfig) {
-    return _.get(cellConfig, 'classNames.label') || defaultClassNames.labelWrapper
+    return get(cellConfig, 'classNames.label') || defaultClassNames.labelWrapper
   },
 
   @readOnly
@@ -138,7 +138,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return value
     }
 
-    return this.applyTransforms(value, _.get(cellConfig, 'transforms.read'))
+    return this.applyTransforms(value, get(cellConfig, 'transforms.read'))
   },
 
   @readOnly

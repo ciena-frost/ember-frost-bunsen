@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -48,7 +48,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} name of custom renderer component
    */
   customRenderer (cellConfig) {
-    const renderer = _.get(cellConfig, 'arrayOptions.itemCell.renderer.name')
+    const renderer = get(cellConfig, 'arrayOptions.itemCell.renderer.name')
     return this.get(`renderers.${renderer}`)
   },
 
@@ -85,8 +85,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label
    */
   label (cellConfig, index, bunsenModel, cellDefinitions) {
-    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
-    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
+    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)
@@ -96,6 +96,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   itemCell (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.itemCell') || {}
+    return get(cellConfig, 'arrayOptions.itemCell') || {}
   }
 })

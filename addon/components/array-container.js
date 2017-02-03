@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {A, Component, typeOf} = Ember
+const {A, Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -63,7 +63,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label
    */
   addLabel (bunsenId, cellConfig, bunsenModel) {
-    const label = _.get(cellConfig, 'label')
+    const label = get(cellConfig, 'label')
     const renderLabel = getLabel(label, bunsenModel, bunsenId)
     return `Add ${Ember.String.singularize(renderLabel).toLowerCase()}`
   },
@@ -77,7 +77,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {BunsenCell} current cell definition
    */
   currentCell (cellConfig, cellDefinitions) {
-    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
 
     if (!cellId) {
       return this.get('cellConfig')
@@ -89,13 +89,13 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
   @computed('cellConfig')
   inline (cellConfig) {
-    const inline = _.get(cellConfig, 'arrayOptions.inline')
+    const inline = get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
   },
 
@@ -109,7 +109,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return false
     }
 
-    return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
+    return inline && !get(cellConfig, 'arrayOptions.autoAdd')
   },
 
   @readOnly
@@ -123,7 +123,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   sortable (cellConfig, readOnly) {
     return (
       readOnly !== true &&
-      _.get(cellConfig, 'arrayOptions.sortable') === true
+      get(cellConfig, 'arrayOptions.sortable') === true
     )
   },
 

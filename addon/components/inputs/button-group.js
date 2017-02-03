@@ -1,4 +1,5 @@
 import Ember from 'ember'
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
@@ -61,7 +62,7 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig')
   size (cellConfig) {
-    return _.get(cellConfig, 'renderer.size') || 'medium'
+    return get(cellConfig, 'renderer.size') || 'medium'
   },
 
   // == Functions ==============================================================

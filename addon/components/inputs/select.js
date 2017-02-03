@@ -63,20 +63,21 @@ export default AbstractInput.extend({
   @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'waitingOnReferences')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, waitingOnReferences) {
-    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || waitingOnReferences) {
+    if (formDisabled || get(cellConfig, 'disabled') || !bunsenModel || waitingOnReferences) {
       return true
     }
 
     return false
   },
 
+  /* eslint-disable complexity */
   @readOnly
   @computed('bunsenModel', 'cellConfig')
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    const renderOptions = _.get(cellConfig, 'renderer.options')
+    const renderOptions = get(cellConfig, 'renderer.options') || {}
     const hasOverrides = !_.isEmpty(_.get(renderOptions, 'data'))
-    const hasNoneOption = _.get(renderOptions, 'none.present')
+    const hasNoneOption = get(renderOptions, 'none.present')
 
     let data = []
 
@@ -99,6 +100,7 @@ export default AbstractInput.extend({
 
     return data
   },
+  /* eslint-enable complexity */
 
   @readOnly
   @computed('cellConfig')

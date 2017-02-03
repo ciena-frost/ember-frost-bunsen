@@ -1,7 +1,6 @@
 import Ember from 'ember'
-const {run} = Ember
+const {get, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-property-chooser'
@@ -21,7 +20,7 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig')
   data (cellConfig) {
-    return _.get(cellConfig, 'renderer.choices') || []
+    return get(cellConfig, 'renderer.choices') || []
   },
 
   @readOnly

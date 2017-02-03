@@ -6,7 +6,7 @@ const {
 } = utils
 
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -15,6 +15,8 @@ import _ from 'lodash'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 import {isRequired} from 'ember-frost-bunsen/utils'
+
+const {isArray} = Array
 
 /**
  * Return path without an index at the end
@@ -115,7 +117,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('propagatedValue')
   renderValue (value) {
     const bunsenId = this.get('renderId')
-    return _.get(value, bunsenId)
+
+    if (typeOf(value) !== 'object') {
+      return undefined
+    }
+
+    return get(value, bunsenId)
   },
 
   @readOnly
@@ -162,7 +169,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const propertyName = model.split('.').pop()
-    return _.includes(parentModel.required, propertyName)
+
+    return (
+      parentModel &&
+      isArray(parentModel.required) &&
+      parentModel.required.indexOf(propertyName) !== -1
+    )
   },
 
   @readOnly
@@ -301,7 +313,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   compact (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.compact') === true
+    return get(cellConfig, 'arrayOptions.compact') === true
   },
 
   @readOnly
@@ -327,7 +339,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return null
     }
 
-    const label = _.get(cellConfig, 'label')
+    const label = get(cellConfig, 'label')
     return getLabel(label, subModel, nonIndexId)
   },
 
