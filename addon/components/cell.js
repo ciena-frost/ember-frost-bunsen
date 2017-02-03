@@ -6,7 +6,7 @@ const {
 } = utils
 
 import Ember from 'ember'
-const {Component, get, typeOf} = Ember
+const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -144,12 +144,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   errorMessage (errors) {
     const bunsenId = this.get('renderId')
 
-    if (_.isEmpty(errors)) {
+    if (typeOf(errors) !== 'object' || isEmpty(errors[bunsenId])) {
       return null
     }
 
-    const errorMessages = errors[bunsenId]
-    return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
+    return Ember.String.htmlSafe(errors[bunsenId].join('<br>'))
   },
 
   @readOnly

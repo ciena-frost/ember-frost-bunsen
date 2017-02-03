@@ -1,11 +1,10 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {Component, get} = Ember
+const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-content'
 
@@ -57,12 +56,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   errorMessage (errors) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
 
-    if (_.isEmpty(errors)) {
+    if (typeOf(errors) !== 'object' || isEmpty(errors[bunsenId])) {
       return null
     }
 
-    const errorMessages = errors[bunsenId]
-    return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
+    return Ember.String.htmlSafe(errors[bunsenId].join('<br>'))
   },
 
   @readOnly

@@ -15,7 +15,7 @@ const {
 } = actions
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, isEmpty, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
@@ -58,7 +58,11 @@ function getAttr (attrs, key) {
  * @returns {Boolean} whether or not object is an Ember.Object
  */
 function isEmberObject (object) {
-  return !_.isEmpty(object) && !_.isPlainObject(object)
+  return (
+    typeOf(object) === 'object' &&
+    Object.keys(object).length !== 0 &&
+    !_.isPlainObject(object)
+  )
 }
 
 /**
@@ -154,7 +158,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, bunsenView) {
-    if (_.isEmpty(bunsenView)) {
+    if (isEmpty(bunsenView) || Object.keys(bunsenView).length === 0) {
       return generateView(model)
     }
 
@@ -222,7 +226,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   @readOnly
   @computed('propValidationResult')
   isInvalid (propValidationResult) {
-    return propValidationResult && !_.isEmpty(propValidationResult.errors)
+    return propValidationResult && !isEmpty(propValidationResult.errors)
   },
 
   // == Functions ==============================================================

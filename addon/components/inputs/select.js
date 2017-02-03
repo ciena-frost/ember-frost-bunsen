@@ -76,7 +76,8 @@ export default AbstractInput.extend({
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
     const renderOptions = get(cellConfig, 'renderer.options') || {}
-    const hasOverrides = !_.isEmpty(_.get(renderOptions, 'data'))
+    const optionsData = get(renderOptions, 'data') || {}
+    const hasOverrides = Object.keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
 
     let data = []
@@ -84,7 +85,7 @@ export default AbstractInput.extend({
     if (enumDef && !hasOverrides) {
       data = getEnumValues(enumDef)
     } else if (hasOverrides) {
-      data = _.cloneDeep(renderOptions.data)
+      data = _.cloneDeep(optionsData)
     }
 
     if (hasNoneOption) {
