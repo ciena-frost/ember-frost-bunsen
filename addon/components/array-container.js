@@ -136,7 +136,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       value = value.asMutable({deep: true})
     }
 
-    const items = _.get(value, bunsenId) || []
+    const items = get(value || {}, bunsenId) || []
 
     if (
       readOnly !== true &&
@@ -204,13 +204,13 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
       // If property is nested further down clear it and remove any empty parent items
       } else {
-        let relativeObject = _.get(itemCopy, itemPathBits)
+        let relativeObject = get(itemCopy, itemPathBits)
         delete relativeObject[key]
         bunsenId = bunsenId.replace(`.${key}`, '')
 
         while (itemPathBits.length > 0) {
           key = itemPathBits.pop()
-          relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
+          relativeObject = get(itemCopy, itemPathBits, itemCopy)
           const parentObject = relativeObject[key]
 
           if (keys(parentObject).length === 0) {
@@ -226,7 +226,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       }
 
       const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
-      value = _.get(itemCopy, relativePath, itemCopy)
+      value = get(itemCopy, relativePath, itemCopy)
     }
 
     this.onChange(bunsenId, value)
@@ -284,8 +284,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   formValueChanged (newValue) {
     const bunsenId = this.get('bunsenId')
-    const newItems = _.get(newValue, bunsenId)
-    const oldItems = _.get(this.get('value'), bunsenId)
+    const newItems = get(newValue || {}, bunsenId)
+    const oldItems = get(this.get('value') || {}, bunsenId)
 
     if (!_.isEqual(oldItems, newItems)) {
       this.notifyPropertyChange('value')
@@ -304,7 +304,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
       const value = this.get('value')
-      const items = _.get(value, bunsenId) || []
+      const items = get(value || {}, bunsenId) || []
       const index = items.length
 
       this.onChange(`${bunsenId}.${index}`, newItem)
@@ -341,7 +341,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     removeItem (index) {
       const bunsenId = this.get('bunsenId')
       const value = this.get('value')
-      const items = _.get(value, bunsenId) || []
+      const items = get(value || {}, bunsenId) || []
       const newValue = items.slice(0, index).concat(items.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things
