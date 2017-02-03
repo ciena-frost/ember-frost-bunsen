@@ -7,6 +7,8 @@ import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
+const {keys} = Object
+
 export const defaultClassNames = {
   inputWrapper: 'frost-bunsen-left-input',
   labelWrapper: 'frost-bunsen-left-label'
@@ -164,7 +166,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   applyObjectTransform (value, transform) {
     const newObject = {}
     const variables = this.getTemplateVariables(value)
-    Object.keys(transform.object)
+    keys(transform.object)
       .forEach((key) => {
         newObject[key] = parseVariables(variables, transform.object[key], '', true)
       })

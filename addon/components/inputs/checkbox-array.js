@@ -5,6 +5,8 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-checkbox-array'
 
+const {from} = Array
+
 export default AbstractInput.extend({
   // == Component Properties ===================================================
 
@@ -48,7 +50,7 @@ export default AbstractInput.extend({
    * @returns {any} parsed value
    */
   parseValue (data) {
-    const selected = Array.from(this.get('value') || [])
+    const selected = from(this.get('value') || [])
     if (data.value) {
       selected.push(data.id)
     } else {

@@ -13,6 +13,8 @@ import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
 
+const {keys} = Object
+
 /**
  * Get options for select from both model and view, with view settings taking
  * precendence over model settings.
@@ -77,7 +79,7 @@ export default AbstractInput.extend({
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
     const renderOptions = get(cellConfig, 'renderer.options') || {}
     const optionsData = get(renderOptions, 'data') || {}
-    const hasOverrides = Object.keys(optionsData).length !== 0
+    const hasOverrides = keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
 
     let data = []
@@ -229,11 +231,11 @@ export default AbstractInput.extend({
    * @returns {Boolean} whether or not referential query parameters are present
    */
   hasQueryParamsWithReferences (query) {
-    if (typeOf(query) !== 'object' || Object.keys(query).length === 0) {
+    if (typeOf(query) !== 'object' || keys(query).length === 0) {
       return false
     }
 
-    return Object.keys(query)
+    return keys(query)
       .some((key) => {
         return (
           typeOf(query[key]) === 'string' &&
@@ -355,7 +357,7 @@ export default AbstractInput.extend({
     const newQuery = populateQuery(newValue, query, bunsenId) || {}
 
     // returns false when every top level key/value pair are equal
-    return !Object.keys(query)
+    return !keys(query)
       .every((key) => {
         return newQuery[key] === oldQuery[key]
       })

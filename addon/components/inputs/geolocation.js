@@ -13,6 +13,8 @@ import locationView from 'ember-frost-bunsen/fixtures/geolocation-location-view'
 import subFormModel from 'ember-frost-bunsen/fixtures/geolocation-model'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-geolocation'
 
+const {keys} = Object
+
 const MAPQUEST_API_KEY = get(config, 'ember-frost-bunsen.MAPQUEST_API_KEY')
 const LOOKUP_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/address'
 const REVERSE_LOOKUP_ENDPOINT = 'http://www.mapquestapi.com/geocoding/v1/reverse'
@@ -182,7 +184,7 @@ export default AbstractInput.extend({
     try {
       const formValue = JSON.parse(stringifiedFormValue)
 
-      Object.keys(subFormValueShape)
+      keys(subFormValueShape)
         .forEach((key) => {
           if (key in refs) {
             return
@@ -467,7 +469,7 @@ export default AbstractInput.extend({
         formValue = formValue.set('country', countryCode)
       }
 
-      Object.keys(subFormValueShape)
+      keys(subFormValueShape)
         .forEach((key) => {
           if (oldFormValue[key] !== formValue[key]) {
             const ref = this.get(`cellConfig.renderer.refs.${key}`)

@@ -1,5 +1,4 @@
 import Ember from 'ember'
-import _ from 'lodash'
 
 import config from '../config/environment'
 
@@ -73,7 +72,7 @@ export default function () {
 
       if ('p' in request.queryParams) {
         const pQueries = request.queryParams.p.split(',')
-        _.forEach(pQueries, (query) => {
+        pQueries.foreach((query) => {
           let [attr, value] = query.split(':')
           items = items.filter((item) => {
             return item[attr] ? item[attr].toLowerCase().indexOf(value.toLowerCase()) !== -1 : false
@@ -88,9 +87,7 @@ export default function () {
 
     this.get(`/${key}/:id`, function ({db}, request) {
       return {
-        [key]: _.find(db[pluralizedKey], {
-          id: request.params.id
-        })
+        [key]: db[pluralizedKey].find((item) => item.id === request.params.id)
       }
     })
   })

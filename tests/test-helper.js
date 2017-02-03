@@ -3,6 +3,8 @@ import {setResolver} from 'ember-mocha'
 
 import resolver from './helpers/resolver'
 
+const {isArray} = Array
+const {keys} = Object
 const flag = chai.util.flag
 
 /* eslint-disable complexity */
@@ -18,7 +20,7 @@ function compare (expected, actual) {
     return false
   }
 
-  if (Array.isArray(expected)) {
+  if (isArray(expected)) {
     if (typeof (actual.length) !== 'number') {
       return false
     }
@@ -34,7 +36,7 @@ function compare (expected, actual) {
     return expected.getTime() === actual.getTime()
   }
 
-  return Object.keys(expected).every(function (key) {
+  return keys(expected).every(function (key) {
     var eo = expected[key]
     var ao = actual[key]
     if (typeof (eo) === 'object' && eo !== null && ao !== null) {

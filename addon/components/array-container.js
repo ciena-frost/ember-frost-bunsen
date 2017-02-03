@@ -9,6 +9,8 @@ import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
+const {keys} = Object
+
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
@@ -211,14 +213,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
           relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
           const parentObject = relativeObject[key]
 
-          if (Object.keys(parentObject).length === 0) {
+          if (keys(parentObject).length === 0) {
             delete relativeObject[key]
             bunsenId = bunsenId.replace(`.${key}`, '')
           }
         }
       }
 
-      if (Object.keys(itemCopy).length === 0) {
+      if (keys(itemCopy).length === 0) {
         this.send('removeItem', itemIndex)
         return
       }
@@ -260,7 +262,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
         return isNaN(item) || item === null
 
       case 'object':
-        return [undefined, null].indexOf(item) !== -1 || Object.keys(item).length === 0
+        return [undefined, null].indexOf(item) !== -1 || keys(item).length === 0
 
       case 'string':
         return [undefined, null, ''].indexOf(item) !== -1

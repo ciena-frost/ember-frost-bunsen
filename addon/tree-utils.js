@@ -1,3 +1,5 @@
+const {keys} = Object
+
 /* eslint-disable complexity */
 /**
  * Determines if aId or bId is a common ancestor of each other
@@ -168,7 +170,7 @@ export function traverseObject (obj, iteratee) {
 
     iteratee(next)
 
-    Object.keys(next).forEach((key) => {
+    keys(next).forEach((key) => {
       stack.push(next[key])
     })
   }

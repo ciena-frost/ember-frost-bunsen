@@ -15,7 +15,7 @@ const {
 } = actions
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, get, isEmpty, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
@@ -36,6 +36,8 @@ import {
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-detail'
 import {findCommonAncestor, traverseCellBreadthFirst} from 'ember-frost-bunsen/tree-utils'
 
+const {defineProperty, keys} = Object
+
 function getAlias (cell) {
   if (cell.label) {
     return cell.label
@@ -46,9 +48,11 @@ function getAlias (cell) {
 }
 
 function getAttr (attrs, key) {
+  attrs = attrs || {}
+
   return (
-    _.get(attrs, `${key}.value`) ||
-    _.get(attrs, `options.value.${key}`)
+    get(attrs, `${key}.value`) ||
+    get(attrs, `options.value.${key}`)
   )
 }
 
@@ -60,7 +64,7 @@ function getAttr (attrs, key) {
 function isEmberObject (object) {
   return (
     typeOf(object) === 'object' &&
-    Object.keys(object).length !== 0 &&
+    keys(object).length !== 0 &&
     !_.isPlainObject(object)
   )
 }
@@ -72,7 +76,7 @@ function isEmberObject (object) {
  * @param {Object|Number|String} value - property value
  */
 function addMetaProperty (object, propName, value) {
-  Object.defineProperty(object, propName, {
+  defineProperty(object, propName, {
     enumerable: false,
     value
   })
@@ -158,7 +162,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {BunsenView} the view to render
    */
   renderView (model, bunsenView) {
-    if (isEmpty(bunsenView) || Object.keys(bunsenView).length === 0) {
+    if (isEmpty(bunsenView) || keys(bunsenView).length === 0) {
       return generateView(model)
     }
 
@@ -417,7 +421,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
       invalidSchemaType = 'view'
-      result = validateView(view, bunsenModel, _.keys(renderers), validateRendererFn, isRegisteredEmberDataModel)
+      result = validateView(
+        view,
+        bunsenModel,
+        keys(renderers),
+        validateRendererFn,
+        isRegisteredEmberDataModel
+      )
     }
 
     this.setProperties({

@@ -7,6 +7,7 @@ import Ember from 'ember'
 const {Logger, RSVP, get, typeOf} = Ember
 
 const {isArray} = Array
+const {keys} = Object
 
 /**
  * set a list's available options
@@ -47,7 +48,7 @@ export function getQuery ({bunsenId, filter, query, value}) {
   }
 
   // replace the special $filter placeholder with the filter value (if it exists)
-  Object.keys(result).forEach((key) => {
+  keys(result).forEach((key) => {
     const value = result[key]
 
     if (typeOf(value) === 'string') {
@@ -92,7 +93,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
     value
   })
 
-  const queryString = Object.keys(query)
+  const queryString = keys(query)
     .map((key) => `${key}=${query[key]}`)
     .join('&')
 

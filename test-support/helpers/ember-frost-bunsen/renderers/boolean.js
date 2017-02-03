@@ -1,5 +1,6 @@
 import {expect} from 'chai'
-import Ember from 'ember' // eslint-disable-line
+import Ember from 'ember'
+const {merge} = Ember
 import {$hook} from 'ember-hook'
 
 import {
@@ -7,8 +8,6 @@ import {
   expectBunsenInputToHaveError,
   expectLabel
 } from './common'
-
-const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const SELECTORS = {
   CHECKBOX: '.frost-checkbox input[type="checkbox"]',
@@ -76,7 +75,7 @@ export function expectWithState (bunsenId, state) {
     disabled: false
   }
 
-  state = assign(defaults, state)
+  state = merge(defaults, state)
 
   expect(
     $renderer,

@@ -8,7 +8,9 @@ import models from './models'
 import values from './values'
 import views from './views'
 
-const rendererOptions = Object.keys(models)
+const {keys} = Object
+
+const rendererOptions = keys(models)
   .map((renderer) => {
     return {
       label: renderer,

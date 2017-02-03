@@ -1,9 +1,9 @@
 import Ember from 'ember'
-const {typeOf} = Ember // eslint-disable-line
+const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
 import _ from 'lodash'
 
-const assign = Ember.assign || Object.assign || Ember.merge // eslint-disable-line
+const {keys} = Object
 
 /**
  * @typedef {Object} Facet
@@ -144,7 +144,7 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
   }
 
   const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
-  const mergedConfig = assign(superCell, cellConfig)
+  const mergedConfig = merge(superCell, cellConfig)
 
   delete mergedConfig.extends
 
@@ -183,7 +183,7 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
  * @returns {Boolean} whether or not model is registered with Ember Data
  */
 export function isRegisteredEmberDataModel (modelName) {
-  return Object.keys(require._eak_seen)
+  return keys(require._eak_seen)
     .filter((module) => {
       return (
         module.indexOf(`${config.modulePrefix}/models/`) === 0 ||
@@ -212,7 +212,7 @@ export function getRendererComponentName (rendererName) {
  * @returns {Boolean} whether or not last path is required
  */
 export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentRequired) {
-  const isChildMissing = !_.get(value, path)
+  const isChildMissing = !get(value || {}, path)
 
   let isParentPresent, lastSegment
 
@@ -227,7 +227,7 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
     const segments = path.split('.')
     lastSegment = segments.pop()
     const relativePath = segments.join('.')
-    isParentPresent = Boolean(_.get(value, relativePath))
+    isParentPresent = Boolean(get(value || {}, relativePath))
 
     while (segments.length !== 0) {
       const segment = segments.splice(0, 1)[0]
@@ -300,7 +300,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
       }
     }
 
-    value = _.get(value, cell.model)
+    value = get(value || {}, cell.model)
   }
 
   // If any child view cell is required then the parent cell should be labeled as required in the UI
@@ -322,11 +322,11 @@ export function getErrorMessage (error) {
   let message = 'Unable to parse error object'
 
   // most common case will be a JSON-API error response from ember-data
-  message = _.get(error, 'responseJSON.errors[0].detail')
+  message = get(error || {}, 'responseJSON.errors.0.detail')
 
   if (!message) {
     // next common is maybe an Error Object
-    message = _.get(error, 'message')
+    message = get(error || {}, 'message')
   }
 
   if (!message && error.toString) {
