@@ -6,7 +6,6 @@ const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
 const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
@@ -87,7 +86,7 @@ export default AbstractInput.extend({
     if (enumDef && !hasOverrides) {
       data = getEnumValues(enumDef)
     } else if (hasOverrides) {
-      data = _.cloneDeep(optionsData)
+      data = optionsData.map((option) => merge({}, option))
     }
 
     if (hasNoneOption) {

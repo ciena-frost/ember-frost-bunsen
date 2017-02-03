@@ -1,10 +1,9 @@
 import {expect} from 'chai'
-import _ from 'lodash'
 import {describe, it} from 'mocha'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
-const bunsenView = {
+const bunsenView = Object.freeze({
   cellDefinitions: {
     one: {
       children: [
@@ -19,7 +18,7 @@ const bunsenView = {
   ],
   type: 'form',
   version: '2.0'
-}
+})
 
 describe('Integration: frost-bunsen-form', function () {
   const ctx = setupFormComponentTest({
@@ -31,7 +30,7 @@ describe('Integration: frost-bunsen-form', function () {
       },
       type: 'object'
     },
-    bunsenView: _.cloneDeep(bunsenView)
+    bunsenView
   })
 
   describe('multiple root cells', function () {
