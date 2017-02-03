@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /* eslint-disable complexity */
 /**
  * Determines if aId or bId is a common ancestor of each other
@@ -72,7 +70,7 @@ export function findCommonAncestor (ids) {
     let sample = paths[0][i]
 
     // keep going if all path segments at i are equal
-    if (_.every(paths, (path) => {
+    if (paths.every((path) => {
       return path[i] === sample
     })) {
       commonAncestorPath.push(sample)

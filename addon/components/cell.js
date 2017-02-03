@@ -80,9 +80,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
-  didReceiveAttrs ({oldAttrs, newAttrs}) {
+  didReceiveAttrs (attrs) {
     const valueChangeSet = this.get('valueChangeSet')
-    const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
+    const oldCellConfig = get(attrs, 'oldAttrs.cellConfig.value')
     const newCellConfig = this.get('cellConfig')
 
     let isDirty = false
@@ -298,7 +298,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const dependencyId = bunsenId.replace(cellConfig.model, cellConfig.dependsOn)
-    const dependencyValue = _.get(value, dependencyId)
+    const dependencyValue = get(value || {}, dependencyId)
 
     return dependencyValue !== undefined
   },
@@ -387,7 +387,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     const model = this.get('bunsenModel')
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
-    return (parentPath) ? _.get(model, parentPath) : model
+    return (parentPath) ? get(model, parentPath) : model
   },
 
   // == Actions ================================================================

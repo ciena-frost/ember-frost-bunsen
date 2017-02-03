@@ -1,7 +1,7 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, Logger, get, typeOf} = Ember
+const {Component, Logger, get, merge, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -126,7 +126,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label text
    */
   renderLabel (bunsenId, cellConfig, label, bunsenModel) {
-    const config = _.defaults({}, cellConfig, getCellDefaults())
+    const config = merge(getCellDefaults(), cellConfig)
     const customLabel = label || config.label
     return getLabel(customLabel, bunsenModel, bunsenId)
   },
@@ -242,9 +242,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {any} parsed value
    */
   parseValue (data) {
-    return _.find([data.value, _.get(data, 'target.value'), data], function (value) {
-      return value !== undefined
-    })
+    return [
+      data.value,
+      get(data, 'target.value'),
+      data
+    ]
+      .find((value) => value !== undefined)
   },
 
   // == Events =================================================================

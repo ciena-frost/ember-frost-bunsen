@@ -89,14 +89,10 @@ export default AbstractInput.extend({
     }
 
     if (hasNoneOption) {
-      const none = _.defaults({
-        label: renderOptions.none.label,
-        value: renderOptions.none.value
-      }, {
-        label: 'None',
-        value: ''
+      data.splice(0, 0, {
+        label: renderOptions.none.label || 'None',
+        value: renderOptions.none.value || ''
       })
-      data = [none].concat(data)
     }
 
     return data
