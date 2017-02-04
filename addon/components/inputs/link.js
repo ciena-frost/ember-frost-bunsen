@@ -1,9 +1,12 @@
+import Ember from 'ember'
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import {getAttr, getOption} from 'ember-frost-bunsen/input-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-link'
+
+const {keys} = Object
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -20,7 +23,7 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig', 'value')
   route (cellConfig) {
-    return _.get(cellConfig, 'renderer.route')
+    return get(cellConfig, 'renderer.route')
   },
 
   @readOnly
@@ -44,8 +47,8 @@ export default AbstractInput.extend({
 
   formValueChanged (newValue) {
     const cellConfig = this.get('cellConfig')
-    const rendererLabel = _.get(cellConfig, 'renderer.label')
-    const rendererUrl = _.get(cellConfig, 'renderer.url')
+    const rendererLabel = get(cellConfig, 'renderer.label')
+    const rendererUrl = get(cellConfig, 'renderer.url')
     const labelContainsReferences = rendererLabel && rendererLabel.indexOf('${') !== -1
     const urlContainsReferences = rendererUrl && rendererUrl.indexOf('${') !== -1
 
@@ -79,7 +82,7 @@ export default AbstractInput.extend({
       props.url = newUrl
     }
 
-    if (Object.keys(props).length !== 0) {
+    if (keys(props).length !== 0) {
       this.setProperties(props)
     }
   },

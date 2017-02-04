@@ -4,14 +4,15 @@
 import {utils} from 'bunsen-core'
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, set, typeOf} = Ember
+const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-select'
 import {getErrorMessage} from 'ember-frost-bunsen/utils'
+
+const {keys} = Object
 
 /**
  * Get options for select from both model and view, with view settings taking
@@ -22,12 +23,13 @@ import {getErrorMessage} from 'ember-frost-bunsen/utils'
  */
 export function getMergedOptions (bunsenModel, cellConfig) {
   const viewOptions = get(cellConfig, 'renderer.options')
+  const mergedOptions = merge({}, bunsenModel)
 
   if (viewOptions) {
-    return _.assign({}, bunsenModel, viewOptions)
+    return merge(mergedOptions, viewOptions)
   }
 
-  return _.assign({}, bunsenModel)
+  return mergedOptions
 }
 
 export default AbstractInput.extend({
@@ -62,42 +64,41 @@ export default AbstractInput.extend({
   @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'waitingOnReferences')
   disabled (bunsenId, cellConfig, bunsenModel, formDisabled, waitingOnReferences) {
-    if (formDisabled || _.get(cellConfig, 'disabled') || !bunsenModel || waitingOnReferences) {
+    if (formDisabled || get(cellConfig, 'disabled') || !bunsenModel || waitingOnReferences) {
       return true
     }
 
     return false
   },
 
+  /* eslint-disable complexity */
   @readOnly
   @computed('bunsenModel', 'cellConfig')
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    const renderOptions = _.get(cellConfig, 'renderer.options')
-    const hasOverrides = !_.isEmpty(_.get(renderOptions, 'data'))
-    const hasNoneOption = _.get(renderOptions, 'none.present')
+    const renderOptions = get(cellConfig, 'renderer.options') || {}
+    const optionsData = get(renderOptions, 'data') || {}
+    const hasOverrides = keys(optionsData).length !== 0
+    const hasNoneOption = get(renderOptions, 'none.present')
 
     let data = []
 
     if (enumDef && !hasOverrides) {
       data = getEnumValues(enumDef)
     } else if (hasOverrides) {
-      data = _.cloneDeep(renderOptions.data)
+      data = optionsData.map((option) => merge({}, option))
     }
 
     if (hasNoneOption) {
-      const none = _.defaults({
-        label: renderOptions.none.label,
-        value: renderOptions.none.value
-      }, {
-        label: 'None',
-        value: ''
+      data.splice(0, 0, {
+        label: renderOptions.none.label || 'None',
+        value: renderOptions.none.value || ''
       })
-      data = [none].concat(data)
     }
 
     return data
   },
+  /* eslint-enable complexity */
 
   @readOnly
   @computed('cellConfig')
@@ -229,11 +230,11 @@ export default AbstractInput.extend({
    * @returns {Boolean} whether or not referential query parameters are present
    */
   hasQueryParamsWithReferences (query) {
-    if (typeOf(query) !== 'object' || Object.keys(query).length === 0) {
+    if (typeOf(query) !== 'object' || keys(query).length === 0) {
       return false
     }
 
-    return Object.keys(query)
+    return keys(query)
       .some((key) => {
         return (
           typeOf(query[key]) === 'string' &&
@@ -355,7 +356,7 @@ export default AbstractInput.extend({
     const newQuery = populateQuery(newValue, query, bunsenId) || {}
 
     // returns false when every top level key/value pair are equal
-    return !Object.keys(query)
+    return !keys(query)
       .every((key) => {
         return newQuery[key] === oldQuery[key]
       })

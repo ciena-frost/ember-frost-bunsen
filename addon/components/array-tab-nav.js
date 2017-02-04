@@ -1,11 +1,10 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-tab-nav'
 
@@ -36,7 +35,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
@@ -50,8 +49,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} tab title
    */
   title (cellConfig, index, bunsenModel, cellDefinitions) {
-    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
-    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
+    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = getLabel(label, bunsenModel, itemId)

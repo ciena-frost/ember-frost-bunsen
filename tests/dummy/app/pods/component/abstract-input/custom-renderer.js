@@ -1,9 +1,7 @@
-/* eslint-disable complexity */
 import Ember from 'ember'
 const {RSVP} = Ember
 import {AbstractInput} from 'ember-frost-bunsen'
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 export default AbstractInput.extend({
   classNames: ['frost-field'],
@@ -23,7 +21,7 @@ export default AbstractInput.extend({
       value: {}
     }
 
-    if (_.includes(this.invalidNames, this.get('fullName'))) {
+    if (this.invalidNames.indexOf(this.get('fullName')) !== -1) {
       result.value = {
         errors: [
           {message: 'Invalid name', path: '#/name'}
@@ -35,6 +33,7 @@ export default AbstractInput.extend({
     return RSVP.resolve(result)
   },
 
+  /* eslint-disable complexity */
   @readOnly
   @computed('transformedValue')
   renderValue (name) {
@@ -48,6 +47,7 @@ export default AbstractInput.extend({
 
     return `${first}${space}${last}`
   },
+  /* eslint-enable complexity */
 
   parseValue (target) {
     // this saves the name to use for local validation because you can't rely on

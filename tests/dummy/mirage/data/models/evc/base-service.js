@@ -1,16 +1,15 @@
+import Ember from 'ember'
+const {merge} = Ember
+
 import forwardingConstruct from './forwarding-construct'
-import _ from 'lodash'
-/**
- * base properties from
- * https://bitbucket.ciena.com/projects/BP_SO/repos/bpo-mdso-interserver-app/browse/resources/definitions/types/tosca/resource_type_base_service.tosca
- **/
-export default _.merge({
+
+export default {
   title: 'Base Service',
   description: 'Base Service definition derived from ForwardingConstruct',
   properties: {
     properties: {
       type: 'object',
-      properties: {
+      properties: merge({
         customerName: {
           description: 'Name of the customer for which this service will be provisioned.',
           type: 'string'
@@ -53,7 +52,7 @@ export default _.merge({
           title: 'Remove Endpoint',
           type: 'string'
         }
-      }
+      }, forwardingConstruct.properties.properties.properties)
     }
   }
-}, forwardingConstruct)
+}

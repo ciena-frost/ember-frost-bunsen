@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember' // eslint-disable-line
-const {$} = Ember // eslint-disable-line
+const {$, merge} = Ember
 import {$hook} from 'ember-hook'
 
 import {
@@ -8,8 +8,6 @@ import {
   expectBunsenInputToHaveError,
   expectLabel
 } from './common'
-
-const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 /**
  * Check whether or not input box is disabled/enabled as expected
@@ -41,7 +39,7 @@ export function expectWithState (bunsenId, state) {
     hasValue: false
   }
 
-  state = assign(defaults, state)
+  state = merge(defaults, state)
 
   expect(
     $renderer,

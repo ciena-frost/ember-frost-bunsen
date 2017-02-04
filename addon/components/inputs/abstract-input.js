@@ -1,11 +1,13 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, Logger, get} = Ember
+const {Component, Logger, get, merge, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
+
+const {keys} = Object
 
 export const defaultClassNames = {
   inputWrapper: 'frost-bunsen-left-input',
@@ -57,7 +59,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
@@ -95,7 +97,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} input wrapper element class name
    */
   inputWrapperClassName (cellConfig) {
-    return _.get(cellConfig, 'classNames.value') || defaultClassNames.inputWrapper
+    return get(cellConfig || {}, 'classNames.value') || defaultClassNames.inputWrapper
   },
 
   @readOnly
@@ -106,7 +108,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label wrapper element class name
    */
   labelWrapperClassName (cellConfig) {
-    return _.get(cellConfig, 'classNames.label') || defaultClassNames.labelWrapper
+    return get(cellConfig, 'classNames.label') || defaultClassNames.labelWrapper
   },
 
   @readOnly
@@ -126,7 +128,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label text
    */
   renderLabel (bunsenId, cellConfig, label, bunsenModel) {
-    const config = _.defaults({}, cellConfig, getCellDefaults())
+    const config = merge(getCellDefaults(), cellConfig)
     const customLabel = label || config.label
     return getLabel(customLabel, bunsenModel, bunsenId)
   },
@@ -134,11 +136,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('value', 'cellConfig')
   transformedValue (value, cellConfig) {
-    if (!_.isString(value)) {
+    if (typeOf(value) !== 'string') {
       return value
     }
 
-    return this.applyTransforms(value, _.get(cellConfig, 'transforms.read'))
+    return this.applyTransforms(value, get(cellConfig, 'transforms.read'))
   },
 
   @readOnly
@@ -164,7 +166,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   applyObjectTransform (value, transform) {
     const newObject = {}
     const variables = this.getTemplateVariables(value)
-    Object.keys(transform.object)
+    keys(transform.object)
       .forEach((key) => {
         newObject[key] = parseVariables(variables, transform.object[key], '', true)
       })
@@ -242,9 +244,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {any} parsed value
    */
   parseValue (data) {
-    return _.find([data.value, _.get(data, 'target.value'), data], function (value) {
-      return !_.isUndefined(value)
-    })
+    return [
+      data.value,
+      get(data, 'target.value'),
+      data
+    ]
+      .find((value) => value !== undefined)
   },
 
   // == Events =================================================================

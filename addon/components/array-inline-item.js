@@ -1,11 +1,10 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-inline-item'
 
@@ -59,14 +58,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} name of custom renderer component
    */
   customRenderer (cellConfig) {
-    const renderer = _.get(cellConfig, 'arrayOptions.itemCell.renderer.name')
+    const renderer = get(cellConfig, 'arrayOptions.itemCell.renderer.name')
     return this.get(`renderers.${renderer}`)
   },
 
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
@@ -74,19 +73,23 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   errorMessage (errors) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
 
-    if (_.isEmpty(errors)) {
+    if (typeOf(errors) !== 'object' || isEmpty(errors[bunsenId])) {
       return null
     }
 
-    const errorMessages = errors[bunsenId]
-    return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
+    return Ember.String.htmlSafe(errors[bunsenId].join('<br>'))
   },
 
   @readOnly
   @computed('value')
   renderValue (value) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
-    return _.get(value, bunsenId)
+
+    if (typeOf(value) !== 'object') {
+      return undefined
+    }
+
+    return get(value, bunsenId)
   },
 
   @readOnly
@@ -100,8 +103,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label
    */
   label (cellConfig, index, bunsenModel, cellDefinitions) {
-    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
-    const label = _.get(cellConfig, 'arrayOptions.itemCell.label')
+    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
+    const label = get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
     const itemLabel = Ember.String.singularize(getLabel(label, bunsenModel, itemId))
@@ -111,7 +114,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   itemCell (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.itemCell') || {}
+    return get(cellConfig, 'arrayOptions.itemCell') || {}
   },
 
   // == Actions ================================================================

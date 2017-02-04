@@ -4,42 +4,43 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {run} = Ember
 import {setupComponentTest} from 'ember-mocha'
-import _ from 'lodash'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import treeUtils from 'ember-frost-bunsen/tree-utils'
 
-const testCellConfig = {
-  children: [
-    {
-      model: 'parent-model',
-      children: [
-        {
-          model: 'child-model'
-        }
-      ]
-    },
-    {
-      children: [
-        {
-          model: 'model'
-        }
-      ]
-    },
-    {
-      arrayOptions: {
-        itemCell: {
-          children: [
-            {
-              model: 'array-item'
-            }
-          ]
-        }
+function getCellConfig () {
+  return {
+    children: [
+      {
+        model: 'parent-model',
+        children: [
+          {
+            model: 'child-model'
+          }
+        ]
       },
-      model: 'array-model'
-    }
-  ]
+      {
+        children: [
+          {
+            model: 'model'
+          }
+        ]
+      },
+      {
+        arrayOptions: {
+          itemCell: {
+            children: [
+              {
+                model: 'array-item'
+              }
+            ]
+          }
+        },
+        model: 'array-model'
+      }
+    ]
+  }
 }
 
 describe('Unit: frost-bunsen-detail', function () {
@@ -317,7 +318,7 @@ describe('Unit: frost-bunsen-detail', function () {
   describe('precomputeIds', function () {
     let cellConfig
     beforeEach(function () {
-      cellConfig = _.cloneDeep(testCellConfig)
+      cellConfig = getCellConfig()
       component.precomputeIds(cellConfig)
     })
 
@@ -345,7 +346,7 @@ describe('Unit: frost-bunsen-detail', function () {
   describe('precomputeDependencies', function () {
     let cellConfig
     beforeEach(function () {
-      cellConfig = _.cloneDeep(testCellConfig)
+      cellConfig = getCellConfig()
       component.precomputeIds(cellConfig)
       component.precomputeDependencies(cellConfig)
     })

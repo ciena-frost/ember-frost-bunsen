@@ -6,7 +6,7 @@ const {
 } = utils
 
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -15,6 +15,8 @@ import _ from 'lodash'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
 import {isRequired} from 'ember-frost-bunsen/utils'
+
+const {isArray} = Array
 
 /**
  * Return path without an index at the end
@@ -78,9 +80,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
-  didReceiveAttrs ({oldAttrs, newAttrs}) {
+  didReceiveAttrs (attrs) {
     const valueChangeSet = this.get('valueChangeSet')
-    const oldCellConfig = _.get(oldAttrs, 'cellConfig.value')
+    const oldCellConfig = get(attrs, 'oldAttrs.cellConfig.value')
     const newCellConfig = this.get('cellConfig')
 
     let isDirty = false
@@ -115,7 +117,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('propagatedValue')
   renderValue (value) {
     const bunsenId = this.get('renderId')
-    return _.get(value, bunsenId)
+
+    if (typeOf(value) !== 'object') {
+      return undefined
+    }
+
+    return get(value, bunsenId)
   },
 
   @readOnly
@@ -137,12 +144,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   errorMessage (errors) {
     const bunsenId = this.get('renderId')
 
-    if (_.isEmpty(errors)) {
+    if (typeOf(errors) !== 'object' || isEmpty(errors[bunsenId])) {
       return null
     }
 
-    const errorMessages = errors[bunsenId]
-    return _.isEmpty(errorMessages) ? null : Ember.String.htmlSafe(errorMessages.join('<br>'))
+    return Ember.String.htmlSafe(errors[bunsenId].join('<br>'))
   },
 
   @readOnly
@@ -162,7 +168,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const propertyName = model.split('.').pop()
-    return _.includes(parentModel.required, propertyName)
+
+    return (
+      parentModel &&
+      isArray(parentModel.required) &&
+      parentModel.required.indexOf(propertyName) !== -1
+    )
   },
 
   @readOnly
@@ -287,7 +298,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const dependencyId = bunsenId.replace(cellConfig.model, cellConfig.dependsOn)
-    const dependencyValue = _.get(value, dependencyId)
+    const dependencyValue = get(value || {}, dependencyId)
 
     return dependencyValue !== undefined
   },
@@ -301,7 +312,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig')
   compact (cellConfig) {
-    return _.get(cellConfig, 'arrayOptions.compact') === true
+    return get(cellConfig, 'arrayOptions.compact') === true
   },
 
   @readOnly
@@ -327,7 +338,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return null
     }
 
-    const label = _.get(cellConfig, 'label')
+    const label = get(cellConfig, 'label')
     return getLabel(label, subModel, nonIndexId)
   },
 
@@ -376,7 +387,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     const model = this.get('bunsenModel')
     const path = getModelPath(reference, dependencyReference)
     const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
-    return (parentPath) ? _.get(model, parentPath) : model
+    return (parentPath) ? get(model, parentPath) : model
   },
 
   // == Actions ================================================================

@@ -1,10 +1,9 @@
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
-import _ from 'lodash'
 
 import {getRendererComponentName, validateRenderer} from '../utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-wrapper'
@@ -65,7 +64,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {Boolean} whether or not component should render if it is a dependency
    */
   shouldRender (cellConfig, isDependencyMet, bunsenModel) {
-    const dependsOn = _.get(cellConfig, 'dependsOn')
+    const dependsOn = get(cellConfig, 'dependsOn')
     return (!dependsOn || isDependencyMet) && (bunsenModel !== undefined)
   },
 
@@ -89,7 +88,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} name of component helper to use for input
    */
   inputName (cellConfig, editable, endpoint, enumList, modelType, type, readOnly, shouldRender, renderers) {
-    const renderer = _.get(cellConfig, 'renderer.name')
+    const renderer = get(cellConfig, 'renderer.name')
 
     if (renderer) {
       return this.getComponentName(renderer, renderers)

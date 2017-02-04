@@ -1,14 +1,12 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {$} = Ember // eslint-disable-line
+const {$, merge} = Ember
 import {$hook} from 'ember-hook'
 
 import {
   expectBunsenInputNotToHaveError,
   expectLabel
 } from './common'
-
-const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const SELECTORS = {
   CHECKBOX_INPUT: 'input[type="checkbox"]',
@@ -33,7 +31,7 @@ export function expectWithState (bunsenId, state) {
     size: 'small'
   }
 
-  state = assign(defaults, state)
+  state = merge(defaults, state)
 
   expect(
     $renderer,
