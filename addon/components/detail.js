@@ -62,11 +62,7 @@ function getAttr (attrs, key) {
  * @returns {Boolean} whether or not object is an Ember.Object
  */
 function isEmberObject (object) {
-  return (
-    typeOf(object) === 'object' &&
-    keys(object).length !== 0 &&
-    !_.isPlainObject(object)
-  )
+  return typeOf(object) === 'instance'
 }
 
 /**
