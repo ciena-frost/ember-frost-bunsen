@@ -1,3 +1,8 @@
+# 14.13.0
+
+* **Replaced** a bunch of lodash calls with equivalent calls using ES6 and Ember methods.
+
+
 # 14.12.0
 
 **Added** a new feature for the renderers called DateTime. Allows a user to input a date and time input. Also created tests and added ability to view sample on the dummy server.
