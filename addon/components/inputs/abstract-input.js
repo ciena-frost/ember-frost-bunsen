@@ -97,7 +97,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} input wrapper element class name
    */
   inputWrapperClassName (cellConfig) {
-    return get(cellConfig, 'classNames.value') || defaultClassNames.inputWrapper
+    return get(cellConfig || {}, 'classNames.value') || defaultClassNames.inputWrapper
   },
 
   @readOnly
