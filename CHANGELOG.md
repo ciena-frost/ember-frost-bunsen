@@ -1,3 +1,9 @@
+# 14.14.0
+
+* **Added** `ember-lodash-shim` configuration to optimize build to only include necessary `lodash` methods.
+* **Updated** CI to test in Chrome as well as Firefox.
+
+
 # 14.13.0
 
 * **Replaced** a bunch of lodash calls with equivalent calls using ES6 and Ember methods.
