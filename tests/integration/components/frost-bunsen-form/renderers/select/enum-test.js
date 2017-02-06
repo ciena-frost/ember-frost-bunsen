@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {$, run} = Ember
+const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
