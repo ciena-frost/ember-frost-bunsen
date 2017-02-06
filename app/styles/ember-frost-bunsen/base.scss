@@ -186,7 +186,8 @@ $frost-bunsen-left-input-width: 250px;
   }
 
   .frost-bunsen-remove-btn-container {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
