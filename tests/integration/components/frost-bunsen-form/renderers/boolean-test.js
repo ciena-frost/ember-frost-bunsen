@@ -241,7 +241,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
           label: 'Foo'
         })
         expectOnChangeState(ctx, {foo: true})
-        expectOnValidationState(ctx, {count: 2})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when user unchecks checkbox', function () {
@@ -284,7 +284,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
             label: 'Foo'
           })
           expectOnChangeState(ctx, {foo: true})
-          expectOnValidationState(ctx, {count: 2})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when user unchecks checkbox', function () {
@@ -331,7 +331,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / boolean', func
             label: 'Foo'
           })
           expectOnChangeState(ctx, {foo: true})
-          expectOnValidationState(ctx, {count: 2})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when user unchecks checkbox', function () {

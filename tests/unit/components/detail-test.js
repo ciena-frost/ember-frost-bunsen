@@ -151,8 +151,8 @@ describe('Unit: frost-bunsen-detail', function () {
         expect(changeHandler.lastCall.args).to.eql([newValue])
       })
 
-      it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.eql([{errors: []}])
+      it('should not fire onValidation', function () {
+        expect(validationHandler).to.have.callCount(0)
       })
     })
 
@@ -178,7 +178,7 @@ describe('Unit: frost-bunsen-detail', function () {
             foo: 'bar'
           },
           valueChangeSet: new Map(),
-          lastAction: 'VALIDATION_RESULT'
+          lastAction: 'VALIDATION_RESOLVED'
         })
 
         sandbox.stub(component, 'setProperties')
@@ -256,12 +256,12 @@ describe('Unit: frost-bunsen-detail', function () {
         expect(changeHandler.lastCall.args).to.eql([newValue])
       })
 
-      it('should fire onValidation', function () {
-        expect(validationHandler.lastCall.args).to.eql([{errors: newErrors}])
+      it('should not fire onValidation', function () {
+        expect(validationHandler).to.have.callCount(0)
       })
     })
 
-    describe('when both renderValue and errors have changed and lastAction is not CHANGE_VALUE', function () {
+    describe('when both renderValue and errors have changed and lastAction is VALIDATION_RESOLVED', function () {
       let newErrors
       beforeEach(function (done) {
         newErrors = [
@@ -285,7 +285,7 @@ describe('Unit: frost-bunsen-detail', function () {
           valueChangeSet: new Map([
             ['foo', 'bar']
           ]),
-          lastAction: 'VALIDATION_RESULT'
+          lastAction: 'VALIDATION_RESOLVED'
         })
 
         sandbox.stub(component, 'setProperties')
