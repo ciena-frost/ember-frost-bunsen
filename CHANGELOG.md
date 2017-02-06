@@ -1,3 +1,8 @@
+# 14.14.1
+
+* **Fixed** issue where remove button wasn't clickable for an array item due to other DOM sitting on top of the button.
+
+
 # 14.14.0
 
 * **Added** `ember-lodash-shim` configuration to optimize build to only include necessary `lodash` methods.
