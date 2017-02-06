@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {$hook} from 'ember-hook'
 import {beforeEach, describe, it} from 'mocha'
 
 import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
@@ -11,7 +12,7 @@ import {
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
-describe('Integration: Component / frost-bunsen-form / cell required label', function () {
+describe.only('Integration: Component / frost-bunsen-form / cell required label', function () {
   const ctx = setupFormComponentTest({
     bunsenModel: {
       properties: {
@@ -118,6 +119,17 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
 
         expectOnValidationState(ctx, {count: 1})
       })
+
+      describe('when input is updated', function () {
+        beforeEach(function () {
+          ctx.props.onValidation.reset()
+          $hook('bunsenForm-foo.bar-input').val('b').trigger('input')
+        })
+
+        it('should have correct validation state', function () {
+          expectOnValidationState(ctx, {count: 1})
+        })
+      })
     })
 
     describe('when child is not required but ancenstors are', function () {
@@ -192,7 +204,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           .to.have.length(0)
 
         expectOnValidationState(ctx, {
-          count: 3,
+          count: 2,
           errors: [
             {
               code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -202,6 +214,17 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
               isRequiredError: true
             }
           ]
+        })
+      })
+
+      describe('when input is updated to meet requirement', function () {
+        beforeEach(function () {
+          ctx.props.onValidation.reset()
+          $hook('bunsenForm-foo.bar-input').val('b').trigger('input')
+        })
+
+        it('should have correct validation state', function () {
+          expectOnValidationState(ctx, {count: 1})
         })
       })
     })
@@ -283,7 +306,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           .to.have.length(0)
 
         expectOnValidationState(ctx, {
-          count: 3,
+          count: 2,
           errors: [
             {
               code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -395,6 +418,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
 
       describe('when childs parent is not present', function () {
         beforeEach(function () {
+          ctx.props.onValidation.reset()
           this.set('value', {})
         })
 

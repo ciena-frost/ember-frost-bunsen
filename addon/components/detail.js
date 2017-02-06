@@ -378,7 +378,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       this.onChange(value)
     }
 
-    if (('errors' in newProps || 'renderValue' in newProps) && this.onValidation) {
+    if (lastAction === "VALIDATION_RESOLVED" && this.onValidation) {
       this.onValidation(validationResult)
     }
   },

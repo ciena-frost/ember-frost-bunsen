@@ -7,6 +7,10 @@ const {isArray} = Array
 const {keys} = Object
 const flag = chai.util.flag
 
+mocha.setup({
+  timeout: 5000000
+})
+
 /* eslint-disable complexity */
 // Taken from chai-subset
 function compare (expected, actual) {
