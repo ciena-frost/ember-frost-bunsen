@@ -5,19 +5,11 @@
 	{{/if}}
 </label>
 <div class={{inputWrapperClassName}}>
-	{{frost-date-picker
-		class=valueClassName
-		currentValue=(readonly transformedValue)
-		disabled=disabled
-		hook=(concat hook '-datePicker')
-		onFocusIn=(action 'hideErrorMessage')
-		onFocusOut=(action 'showErrorMessage')
-		onSelect=(action 'handleChange')
-	}}
-	{{frost-time-picker
-		hook=(concat hook '-timePicker')
-		currentValue=myTime
-		onSelect=(action 'handleChange')
+	{{frost-date-time-picker
+		hook='date-time-picker'
+		class=(if dateTimeValueInvalid 'error')
+		value=dateTimeValue
+		onChange=(action 'onDateTimeChange')
 	}}
 </div>
 {{#if renderErrorMessage}}
