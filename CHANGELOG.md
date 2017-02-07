@@ -1,3 +1,8 @@
+# 14.14.2
+
+* **Fixed** a bug causing the `onValidate()` action to fire twice in certain situations. It will now fire once for each time Bunsen calls `validate()`, regardless of whether the value is updated or there are errors.
+
+
 # 14.14.1
 
 * **Fixed** issue where remove button wasn't clickable for an array item due to other DOM sitting on top of the button.
