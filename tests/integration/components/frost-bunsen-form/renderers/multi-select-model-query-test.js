@@ -3,6 +3,7 @@ import Ember from 'ember'
 const {RSVP, Service, run} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -175,13 +176,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when first option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -197,13 +196,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when last option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -752,13 +749,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when first option selected (initial value)', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -774,13 +769,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
         })
 
         describe('when last option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1142,7 +1135,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
           )
             .to.have.length(0)
 
-          expectOnValidationState({props}, {count: 0})
+          expectOnValidationState({props}, {count: 1})
         })
 
         describe('when showAllErrors is false', function () {

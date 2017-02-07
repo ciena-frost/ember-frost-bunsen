@@ -722,7 +722,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
         )
           .to.have.length(0)
 
-        expectOnValidationState(ctx, {count: 0})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when user adds item (maxItems reached)', function () {
@@ -770,7 +770,7 @@ describe('Integration: Component / frost-bunsen-form / array of booleans', funct
           )
             .to.have.length(0)
 
-          expectOnValidationState(ctx, {count: 1})
+          expectOnValidationState(ctx, {count: 2})
         })
       })
     })

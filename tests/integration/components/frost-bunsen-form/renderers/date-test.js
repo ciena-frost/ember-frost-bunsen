@@ -310,7 +310,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
           label: 'Foo'
         })
         expectOnChangeState(ctx, {foo: '2017-01-24'})
-        expectOnValidationState(ctx, {count: 2})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when date is unset', function () {
@@ -324,7 +324,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
           expectBunsenDateRendererWithState('foo', {label: 'Foo'})
           expectOnChangeState(ctx, {})
           expectOnValidationState(ctx, {
-            count: 2,
+            count: 1,
             errors: [
               {
                 code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -366,7 +366,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             label: 'Foo'
           })
           expectOnChangeState(ctx, {foo: '2017-01-24'})
-          expectOnValidationState(ctx, {count: 2})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when date is unset', function () {
@@ -380,7 +380,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             expectBunsenDateRendererWithState('foo', {})
             expectOnChangeState(ctx, {})
             expectOnValidationState(ctx, {
-              count: 2,
+              count: 1,
               errors: [
                 {
                   code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -426,7 +426,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             label: 'Foo'
           })
           expectOnChangeState(ctx, {foo: '2017-01-24'})
-          expectOnValidationState(ctx, {count: 2})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when date is unset', function () {
@@ -443,7 +443,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
             })
             expectOnChangeState(ctx, {})
             expectOnValidationState(ctx, {
-              count: 2,
+              count: 1,
               errors: [
                 {
                   code: 'OBJECT_MISSING_REQUIRED_PROPERTY',

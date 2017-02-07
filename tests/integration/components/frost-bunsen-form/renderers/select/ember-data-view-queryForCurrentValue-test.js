@@ -183,13 +183,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when first option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -203,13 +201,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when last option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -641,6 +637,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
             required: ['foo'],
             type: 'object'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -826,13 +824,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when last option selected (initial value)', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -851,13 +847,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when first option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1285,6 +1279,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
             required: ['foo'],
             type: 'object'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1304,7 +1300,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
           )
             .to.have.length(0)
 
-          expectOnValidationState({props}, {count: 0})
+          expectOnValidationState({props}, {count: 1})
         })
 
         describe('when showAllErrors is false', function () {
@@ -1462,13 +1458,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when last option selected (initial value)', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1487,13 +1481,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
         })
 
         describe('when first option selected', function () {
-          beforeEach(function (done) {
+          beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
             $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            run.next(() => {
-              done()
-            })
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1921,6 +1913,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
             required: ['foo'],
             type: 'object'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1940,7 +1934,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
           )
             .to.have.length(0)
 
-          expectOnValidationState({props}, {count: 0})
+          expectOnValidationState({props}, {count: 1})
         })
 
         describe('when showAllErrors is false', function () {
