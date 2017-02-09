@@ -1,8 +1,11 @@
+import Ember from 'ember'
+const {typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-number'
+
+const {isFinite} = Number
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -28,7 +31,7 @@ export default AbstractInput.extend({
       return ''
     }
 
-    if (_.isNumber(value)) {
+    if (typeOf(value) === 'number') {
       return value.toString()
     }
 
@@ -46,7 +49,7 @@ export default AbstractInput.extend({
     let result = null
     if (value !== undefined && value !== null) {
       const number = parseFloat(this._super(value))
-      result = _.isFinite(number) ? number : null
+      result = isFinite(number) ? number : null
     }
     return result
   }

@@ -4,10 +4,11 @@ import {beforeEach, describe, it} from 'mocha'
 
 import {
   expectBunsenDatetimeRendererWithState,
+  expectClockpickerBunsenDatetimeRenderer,
   expectCollapsibleHandles,
-  expectOnChangeState,
-  expectOnValidationState,
-  openDatepickerBunsenDatetimeRenderer
+  openDatepickerBunsenDatetimeRenderer,
+  expectOnChangeStateDatetime,
+  expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
@@ -45,9 +46,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
   })
 
   it('renders as expected', function () {
-    expectCollapsibleHandles(0)
     expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
     expectOnValidationState(ctx, {count: 1})
+  })
+  it('should have an input for date', function () {
+    expect($hook('bunsenForm-foo-datetimePicker-date-input').length).to.equal(1)
+  })
+  it('should have an input for time', function () {
+    expect($hook('bunsenForm-foo-datetimePicker-time-input').length).to.equal(1)
   })
 
   describe('when classes are defined in view', function () {
@@ -71,7 +77,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
 
     it('renders as expected', function () {
-      expectCollapsibleHandles(0)
       expect($hook('bunsenForm-foo').find('label.custom-label')).to.have.length(1)
       expect($hook('bunsenForm-foo').find('.custom-value input')).to.have.length(2)
       expectOnValidationState(ctx, {count: 1})
@@ -96,7 +101,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
 
     it('renders as expected', function () {
-      expectCollapsibleHandles(0)
       expectBunsenDatetimeRendererWithState('foo', {label: 'FooBar Baz'})
       expectOnValidationState(ctx, {count: 1})
     })
@@ -150,84 +154,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
   })
 
-  describe('when form explicitly enabled', function () {
-    beforeEach(function () {
-      this.set('disabled', false)
-    })
-
-    it('renders as expected', function () {
-      expectCollapsibleHandles(0)
-      expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 1})
-    })
-  })
-
-  describe('when form disabled', function () {
-    beforeEach(function () {
-      this.set('disabled', true)
-    })
-
-    it('renders as expected', function () {
-      expectCollapsibleHandles(0)
-      expectBunsenDatetimeRendererWithState('foo', {
-        disabled: true,
-        label: 'Foo'
-      })
-      expectOnValidationState(ctx, {count: 1})
-    })
-  })
-
-  describe('when property explicitly enabled in view', function () {
-    beforeEach(function () {
-      this.set('bunsenView', {
-        cells: [
-          {
-            disabled: false,
-            model: 'foo',
-            renderer: {
-              name: 'datetime'
-            }
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      })
-    })
-
-    it('renders as expected', function () {
-      expectCollapsibleHandles(0)
-      expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 1})
-    })
-  })
-
-  describe('when property disabled in view', function () {
-    beforeEach(function () {
-      this.set('bunsenView', {
-        cells: [
-          {
-            disabled: true,
-            model: 'foo',
-            renderer: {
-              name: 'datetime'
-            }
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      })
-    })
-
-    it('renders as expected', function () {
-      expectCollapsibleHandles(0)
-      expectBunsenDatetimeRendererWithState('foo', {
-        disabled: true,
-        label: 'Foo'
-      })
-      expectOnValidationState(ctx, {count: 1})
-    })
-  })
-
   describe('when date is set', function () {
     beforeEach(function () {
       ctx.props.onValidation.reset()
@@ -242,7 +168,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
         hasValue: true,
         label: 'Foo'
       })
-      expectOnChangeState(ctx, {foo: '2017-01-24'})
+      expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
       expectOnValidationState(ctx, {count: 1})
     })
 
@@ -257,7 +183,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
         expectBunsenDatetimeRendererWithState('foo', {
           label: 'Foo'
         })
-        expectOnChangeState(ctx, {})
+        expectOnChangeStateDatetime(ctx, {})
         expectOnValidationState(ctx, {count: 1})
       })
     })
@@ -309,8 +235,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
           hasValue: true,
           label: 'Foo'
         })
-        expectOnChangeState(ctx, {foo: '2017-01-24'})
-        expectOnValidationState(ctx, {count: 2})
+        expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
+        expectOnValidationState(ctx, {count: 1})
       })
 
       describe('when date is unset', function () {
@@ -322,9 +248,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
         it('functions as expected', function () {
           expectCollapsibleHandles(0)
           expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
-          expectOnChangeState(ctx, {})
+          expectOnChangeStateDatetime(ctx, {})
           expectOnValidationState(ctx, {
-            count: 2,
+            count: 1,
             errors: [
               {
                 code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -365,8 +291,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
             hasValue: true,
             label: 'Foo'
           })
-          expectOnChangeState(ctx, {foo: '2017-01-24'})
-          expectOnValidationState(ctx, {count: 2})
+          expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
+          expectOnValidationState(ctx, {count: 1})
         })
 
         describe('when date is unset', function () {
@@ -378,9 +304,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
           it('functions as expected', function () {
             expectCollapsibleHandles(0)
             expectBunsenDatetimeRendererWithState('foo', {})
-            expectOnChangeState(ctx, {})
+            expectOnChangeStateDatetime(ctx, {})
             expectOnValidationState(ctx, {
-              count: 2,
+              count: 1,
               errors: [
                 {
                   code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
@@ -402,15 +328,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
         this.set('showAllErrors', true)
       })
 
-      it('renders as expected', function () {
-        expectCollapsibleHandles(0)
-        expectBunsenDatetimeRendererWithState('foo', {
-          error: 'Field is required.',
-          label: 'Foo'
-        })
-        expectOnValidationState(ctx, {count: 0})
-      })
-
       describe('when user selects date', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
@@ -425,38 +342,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
             hasValue: true,
             label: 'Foo'
           })
-          expectOnChangeState(ctx, {foo: '2017-01-24'})
-          expectOnValidationState(ctx, {count: 2})
-        })
-
-        describe('when date is unset', function () {
-          beforeEach(function () {
-            ctx.props.onValidation.reset()
-            this.set('value', {})
-          })
-
-          it('functions as expected', function () {
-            expectCollapsibleHandles(0)
-            expectBunsenDatetimeRendererWithState('foo', {
-              error: 'Field is required.',
-              label: 'Foo'
-            })
-            expectOnChangeState(ctx, {})
-            expectOnValidationState(ctx, {
-              count: 2,
-              errors: [
-                {
-                  code: 'OBJECT_MISSING_REQUIRED_PROPERTY',
-                  params: ['foo'],
-                  message: 'Field is required.',
-                  path: '#/foo',
-                  isRequiredError: true
-                }
-              ]
-            })
-          })
+          expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
+          expectOnValidationState(ctx, {count: 1})
         })
       })
+    })
+  })
+
+  describe('when time is set', function () {
+    it('functions as expected', function () {
+      expectClockpickerBunsenDatetimeRenderer('foo')
+      expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
     })
   })
 })

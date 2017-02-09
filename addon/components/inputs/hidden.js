@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {run} = Ember
+const {get, run} = Ember
 import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
@@ -20,7 +20,7 @@ export default AbstractInput.extend({
     const valueRef = this.get('cellConfig.renderer.valueRef')
 
     if (valueRef) {
-      value = _.get(newFormValue, valueRef)
+      value = get(newFormValue || {}, valueRef)
     } else {
       value = this.get('bunsenModel.default')
     }

@@ -1,13 +1,15 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {A, Component, typeOf} = Ember
+const {A, Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
+
+const {keys} = Object
 
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
@@ -63,7 +65,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label
    */
   addLabel (bunsenId, cellConfig, bunsenModel) {
-    const label = _.get(cellConfig, 'label')
+    const label = get(cellConfig, 'label')
     const renderLabel = getLabel(label, bunsenModel, bunsenId)
     return `Add ${Ember.String.singularize(renderLabel).toLowerCase()}`
   },
@@ -77,7 +79,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {BunsenCell} current cell definition
    */
   currentCell (cellConfig, cellDefinitions) {
-    const cellId = _.get(cellConfig, 'arrayOptions.itemCell.extends')
+    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
 
     if (!cellId) {
       return this.get('cellConfig')
@@ -89,13 +91,13 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
-    return formDisabled || _.get(cellConfig, 'disabled')
+    return formDisabled || get(cellConfig, 'disabled')
   },
 
   @readOnly
   @computed('cellConfig')
   inline (cellConfig) {
-    const inline = _.get(cellConfig, 'arrayOptions.inline')
+    const inline = get(cellConfig, 'arrayOptions.inline')
     return inline === undefined || inline === true
   },
 
@@ -109,7 +111,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return false
     }
 
-    return inline && !_.get(cellConfig, 'arrayOptions.autoAdd')
+    return inline && !get(cellConfig, 'arrayOptions.autoAdd')
   },
 
   @readOnly
@@ -123,7 +125,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   sortable (cellConfig, readOnly) {
     return (
       readOnly !== true &&
-      _.get(cellConfig, 'arrayOptions.sortable') === true
+      get(cellConfig, 'arrayOptions.sortable') === true
     )
   },
 
@@ -134,7 +136,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       value = value.asMutable({deep: true})
     }
 
-    const items = _.get(value, bunsenId) || []
+    const items = get(value || {}, bunsenId) || []
 
     if (
       readOnly !== true &&
@@ -202,29 +204,29 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
       // If property is nested further down clear it and remove any empty parent items
       } else {
-        let relativeObject = _.get(itemCopy, itemPathBits)
+        let relativeObject = get(itemCopy, itemPathBits)
         delete relativeObject[key]
         bunsenId = bunsenId.replace(`.${key}`, '')
 
         while (itemPathBits.length > 0) {
           key = itemPathBits.pop()
-          relativeObject = _.get(itemCopy, itemPathBits, itemCopy)
+          relativeObject = get(itemCopy, itemPathBits, itemCopy)
           const parentObject = relativeObject[key]
 
-          if (Object.keys(parentObject).length === 0) {
+          if (keys(parentObject).length === 0) {
             delete relativeObject[key]
             bunsenId = bunsenId.replace(`.${key}`, '')
           }
         }
       }
 
-      if (Object.keys(itemCopy).length === 0) {
+      if (keys(itemCopy).length === 0) {
         this.send('removeItem', itemIndex)
         return
       }
 
       const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
-      value = _.get(itemCopy, relativePath, itemCopy)
+      value = get(itemCopy, relativePath, itemCopy)
     }
 
     this.onChange(bunsenId, value)
@@ -260,7 +262,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
         return isNaN(item) || item === null
 
       case 'object':
-        return [undefined, null].indexOf(item) !== -1 || Object.keys(item).length === 0
+        return [undefined, null].indexOf(item) !== -1 || keys(item).length === 0
 
       case 'string':
         return [undefined, null, ''].indexOf(item) !== -1
@@ -282,8 +284,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   formValueChanged (newValue) {
     const bunsenId = this.get('bunsenId')
-    const newItems = _.get(newValue, bunsenId)
-    const oldItems = _.get(this.get('value'), bunsenId)
+    const newItems = get(newValue || {}, bunsenId)
+    const oldItems = get(this.get('value') || {}, bunsenId)
 
     if (!_.isEqual(oldItems, newItems)) {
       this.notifyPropertyChange('value')
@@ -302,7 +304,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
       const value = this.get('value')
-      const items = _.get(value, bunsenId) || []
+      const items = get(value || {}, bunsenId) || []
       const index = items.length
 
       this.onChange(`${bunsenId}.${index}`, newItem)
@@ -339,7 +341,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     removeItem (index) {
       const bunsenId = this.get('bunsenId')
       const value = this.get('value')
-      const items = _.get(value, bunsenId) || []
+      const items = get(value || {}, bunsenId) || []
       const newValue = items.slice(0, index).concat(items.slice(index + 1))
 
       // since the onChange mechanism doesn't allow for removing things

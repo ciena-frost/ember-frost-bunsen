@@ -1,26 +1,22 @@
 {{#if shouldRender}}
-  {{#frost-bunsen-description-bubble
-    description=cellConfig.description
+  {{component inputName
+    bunsenId=bunsenId
+    bunsenModel=bunsenModel
+    bunsenView=bunsenView
+    cellConfig=cellConfig
+    errorMessage=errorMessage
+    formDisabled=formDisabled
+    hook=(concat hook '-' bunsenId)
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    registerValidator=registerValidator
+    renderers=renderers
+    required=required
+    showAllErrors=showAllErrors
+    triggerValidation=triggerValidation
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=value
   }}
-    {{component inputName
-      bunsenId=bunsenId
-      bunsenModel=bunsenModel
-      bunsenView=bunsenView
-      cellConfig=cellConfig
-      errorMessage=errorMessage
-      formDisabled=formDisabled
-      hook=(concat hook '-' bunsenId)
-      onChange=onChange
-      onError=onError
-      readOnly=readOnly
-      registerForFormValueChanges=registerForFormValueChanges
-      registerValidator=registerValidator
-      renderers=renderers
-      required=required
-      showAllErrors=showAllErrors
-      triggerValidation=triggerValidation
-      unregisterForFormValueChanges=unregisterForFormValueChanges
-      value=value
-    }}
-  {{/frost-bunsen-description-bubble}}
 {{/if}}

@@ -6,10 +6,13 @@
 </label>
 <div class={{inputWrapperClassName}}>
 	{{frost-date-time-picker
-		hook='date-time-picker'
-		class=(if dateTimeValueInvalid 'error')
-		value=dateTimeValue
-		onChange=(action 'onDateTimeChange')
+		hook=(concat hook '-datetimePicker')
+		currentValue=(readonly value)
+		defaultDate=(readonly date)
+		defaultTime=(readonly time)
+		onFocusIn=(action 'hideErrorMessage')
+		onFocusOut=(action 'showErrorMessage')
+		onSelect=(action 'handleChange')
 	}}
 </div>
 {{#if renderErrorMessage}}

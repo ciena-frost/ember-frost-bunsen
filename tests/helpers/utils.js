@@ -1,7 +1,8 @@
+import Ember from 'ember'
+const {merge} = Ember
 import {initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
-import _ from 'lodash'
 import {afterEach, beforeEach} from 'mocha'
 import sinon from 'sinon'
 
@@ -89,8 +90,8 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
     initializeHook()
     const sandbox = sinon.sandbox.create()
 
-    _.assign(ctx, {
-      props: _.assign(defaults(sandbox), props),
+    merge(ctx, {
+      props: merge(defaults(sandbox), props),
       sandbox
     })
 

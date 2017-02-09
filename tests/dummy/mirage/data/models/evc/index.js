@@ -1,11 +1,14 @@
 /**
  * Bunsen model for a complex EVC
  */
-import _ from 'lodash'
+
+import Ember from 'ember'
+const {merge} = Ember
+
 import request from './evc-request'
 import propertyTypes from './property-types'
 
-export default _.merge({
+export default {
   type: 'object',
   required: ['label', 'properties'],
   properties: {
@@ -35,7 +38,7 @@ export default _.merge({
     properties: {
       type: 'object',
       required: ['name', 'serviceType'],
-      properties: {
+      properties: merge({
         operations: {
           type: 'object',
           properties: {
@@ -119,8 +122,8 @@ export default _.merge({
             }
           }
         }
-      }
+      }, request.properties.properties.properties)
     }
   },
   definitions: propertyTypes
-}, request)
+}

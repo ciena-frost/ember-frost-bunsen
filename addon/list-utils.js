@@ -7,6 +7,7 @@ import Ember from 'ember'
 const {Logger, RSVP, get, typeOf} = Ember
 
 const {isArray} = Array
+const {keys} = Object
 
 /**
  * set a list's available options
@@ -47,7 +48,7 @@ export function getQuery ({bunsenId, filter, query, value}) {
   }
 
   // replace the special $filter placeholder with the filter value (if it exists)
-  Object.keys(result).forEach((key) => {
+  keys(result).forEach((key) => {
     const value = result[key]
 
     if (typeOf(value) === 'string') {
@@ -92,7 +93,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
     value
   })
 
-  const queryString = Object.keys(query)
+  const queryString = keys(query)
     .map((key) => `${key}=${query[key]}`)
     .join('&')
 
@@ -133,7 +134,9 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
  */
 export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
   const modelType = modelDef.modelType || 'resources'
-  const {labelAttribute, valueAttribute} = modelDef
+  const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
+  const valueAsId = Number(value[bunsenId])
+  const actuallyFindCurrentValue = queryForCurrentValue && !!valueAsId
 
   const query = getQuery({
     bunsenId,
@@ -142,12 +145,27 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
     value
   })
 
-  return store.query(modelType, query)
-    .then((records) => {
-      return normalizeItems({data, labelAttribute, records, valueAttribute})
-    }).catch((err) => {
-      Logger.log(`Error fetching ${modelType}`, err)
-      throw err
+  return RSVP.hash({
+    items: store.query(modelType, query)
+      .then((records) => {
+        return normalizeItems({data, labelAttribute, records, valueAttribute})
+      })
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      }),
+    valueRecord: actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
+        .catch((err) => {
+          Logger.log(`Error fetching ${modelType}`, err)
+          throw err
+        }) : RSVP.resolve(null)
+  })
+    .then(({items, valueRecord}) => {
+      if (actuallyFindCurrentValue &&
+        shouldAddCurrentValue({items, valueRecord, labelAttribute, valueAttribute, filter})) {
+        return normalizeItems({data: items, labelAttribute, records: [valueRecord], valueAttribute})
+      }
+      return items
     })
 }
 
@@ -175,4 +193,20 @@ function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
       }
     })
   )
+}
+
+/**
+ * Determine whether or not valueRecord should be appended to data
+ * @param {Object[]} items - the larger set of data
+ * @param {EmberObject} valueRecord - the record to add or not
+ * @param {String} labelAttribute - dot notated path to label attribute in record
+ * @param {String} valueAttribute - dot notated path to value attribute in record
+ * @param {String} filter - the partial match query filter to populate
+ * @returns {boolean} true if valueRecord should be added to items
+ */
+function shouldAddCurrentValue ({items, valueRecord, labelAttribute, valueAttribute, filter}) {
+  const filterRegex = new RegExp(filter, 'i')
+  const valueRecordMatchesFilter = filterRegex.test(valueRecord.get(labelAttribute))
+  const itemsContainsValueRecord = items.find(item => item.value === valueRecord.get(valueAttribute))
+  return valueRecordMatchesFilter && !itemsContainsValueRecord
 }

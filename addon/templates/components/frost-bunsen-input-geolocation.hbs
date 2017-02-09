@@ -53,6 +53,9 @@
 {{#if (and isLoading isLoadingUserLocation)}}
   {{frost-loading hook=(concat '-loader')}}
 {{/if}}
+{{frost-bunsen-description-bubble
+  description=cellConfig.description
+}}
 {{#if getUserLocationErrorMessage}}
   <div class="frost-bunsen-error">
     {{getUserLocationErrorMessage}}

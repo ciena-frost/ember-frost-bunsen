@@ -3,7 +3,7 @@
 This renders a datetime input.
 
 ### Properties
-
+Currently disabled property is not supported.
 #### label
 
 ```json

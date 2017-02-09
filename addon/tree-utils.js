@@ -1,4 +1,4 @@
-import _ from 'lodash'
+const {keys} = Object
 
 /* eslint-disable complexity */
 /**
@@ -72,7 +72,7 @@ export function findCommonAncestor (ids) {
     let sample = paths[0][i]
 
     // keep going if all path segments at i are equal
-    if (_.every(paths, (path) => {
+    if (paths.every((path) => {
       return path[i] === sample
     })) {
       commonAncestorPath.push(sample)
@@ -170,7 +170,7 @@ export function traverseObject (obj, iteratee) {
 
     iteratee(next)
 
-    Object.keys(next).forEach((key) => {
+    keys(next).forEach((key) => {
       stack.push(next[key])
     })
   }

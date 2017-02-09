@@ -1,5 +1,6 @@
+import Ember from 'ember'
+const {typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-boolean'
@@ -28,7 +29,7 @@ export default AbstractInput.extend({
       return false
     }
 
-    if (_.isString(value)) {
+    if (typeOf(value) === 'string') {
       return value.toLowerCase() === 'true'
     }
 

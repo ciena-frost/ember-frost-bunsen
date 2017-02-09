@@ -1,5 +1,6 @@
 import {expect} from 'chai'
-import Ember from 'ember' // eslint-disable-line
+import Ember from 'ember'
+const {merge} = Ember
 import wait from 'ember-test-helpers/wait'
 import {after, before, beforeEach, describe, it} from 'mocha'
 import Pretender from 'pretender'
@@ -10,8 +11,6 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
-
-const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 const GEOLOCATION_RESPONSE_CODES = {
   PERMISSION_DENIED: 1,
@@ -99,7 +98,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       beforeEach(function (done) {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
-            assign(GEOLOCATION_RESPONSE_CODES, {
+            merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
             })
           )
@@ -125,7 +124,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       beforeEach(function (done) {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
-            assign(GEOLOCATION_RESPONSE_CODES, {
+            merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
             })
           )
@@ -151,7 +150,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       beforeEach(function (done) {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
-            assign(GEOLOCATION_RESPONSE_CODES, {
+            merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
             })
           )
@@ -502,7 +501,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
               })
             )
@@ -528,7 +527,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
               })
             )
@@ -554,7 +553,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
               })
             )
@@ -933,7 +932,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
               })
             )
@@ -959,7 +958,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
               })
             )
@@ -985,7 +984,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         beforeEach(function (done) {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
-              assign(GEOLOCATION_RESPONSE_CODES, {
+              merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
               })
             )

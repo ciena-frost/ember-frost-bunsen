@@ -1,3 +1,44 @@
+# 14.14.2
+
+* **Fixed** a bug causing the `onValidate()` action to fire twice in certain situations. It will now fire once for each time Bunsen calls `validate()`, regardless of whether the value is updated or there are errors.
+
+
+# 14.14.1
+
+* **Fixed** issue where remove button wasn't clickable for an array item due to other DOM sitting on top of the button.
+
+
+# 14.14.0
+
+* **Added** `ember-lodash-shim` configuration to optimize build to only include necessary `lodash` methods.
+* **Updated** CI to test in Chrome as well as Firefox.
+
+
+# 14.13.0
+
+* **Replaced** a bunch of lodash calls with equivalent calls using ES6 and Ember methods.
+
+
+# 14.12.0
+
+**Added** a new feature for the renderers called DateTime. Allows a user to input a date and time input. Also created tests and added ability to view sample on the dummy server.
+
+
+# 14.11.0
+
+**Added** queryForCurrentValue option to select renderer
+
+
+# 14.10.0
+
+* **Fixed** issues with alignment of description icon in consuming apps by changing where it appears in the DOM.
+
+
+# 14.9.0
+
+* **Added** support for template strings in `select` renderers `endpoint` property.
+
+
 # 14.8.3
 
 **Fixed** a checkbox-array bug where keeping the value upon refresh was not kept in the selected property, causing the checkboxes to all be cleared upon checking any of the checkboxes after a refresh.

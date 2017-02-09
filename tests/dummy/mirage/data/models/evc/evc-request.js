@@ -1,18 +1,15 @@
+import Ember from 'ember'
+const {merge} = Ember
+
 import baseService from './base-service'
-import _ from 'lodash'
 
-/**
- * EVC request specific properties from
- * https://bitbucket.ciena.com/projects/BP_SO/repos/bpo-mdso-interserver-app/browse/resources/definitions/types/tosca/resource_type_evc_request.tosca
- **/
-
-export default _.merge({
+export default {
   title: 'EVC Request',
   description: 'This resource type represent an end to end L2 Service',
   properties: {
     properties: {
       type: 'object',
-      properties: {
+      properties: merge({
         routeMeta: {
           type: 'object',
           title: 'Route Meta Data',
@@ -75,7 +72,7 @@ export default _.merge({
           type: 'string',
           '$ref': '#/definitions/serviceState'
         }
-      }
+      }, baseService.properties.properties.properties)
     }
   }
-}, baseService)
+}

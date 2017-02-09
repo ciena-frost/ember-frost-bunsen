@@ -1,55 +1,46 @@
-import AbstractInput from './abstract-input'
-import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
-import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
-import { Format, setTime, validateTime } from 'ember-frost-date-picker'
 import moment from 'moment'
 
+import AbstractInput from './abstract-input'
+import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
+
 export default AbstractInput.extend({
+  // == Component Properties ===================================================
 
-    // == Component Properties ===================================================
+  classNameBindings: ['value:frost-bunsen-has-value'],
 
-    classNameBindings: ['value:frost-bunsen-has-value'],
+  classNames: [
+    'frost-bunsen-input-datetime',
+    'frost-field'
+  ],
 
-    classNames: [
-        'frost-bunsen-input-datetime',
-        'frost-field'
-    ],
+  layout,
 
-    layout,
+  // == Computed Properties ====================================================
 
-    // == Computed Properties ====================================================
+  @readOnly
+  @computed('value')
+  date (value) {
+    const date = moment(value).format('YYYY-MM-DD')
+    return /^\d{4}-\d\d-\d\d$/.test(date) ? date : ''
+  },
 
-    /**
-    * Handles change in value. If there is a value set by the form it will take that value, else it will display a sample date. 
-    */
-    @computed('value')
-    dateTimeValue(value){
-        if(value!=undefined){
-            return moment(value).format(Format.dateTime)
-        }
-        return moment().subtract(1, 'day').subtract(1, 'hour').format(Format.dateTime)  
-    },
+  @readOnly
+  @computed('value')
+  time (value) {
+    const time = moment(value).format('HH:mm:ss')
+    return /^\d\d:\d\d:\d\d$/.test(time) ? time : ''
+  },
 
-     @computed('value')
-     dateTimeValueInvalid () {
-        return false
-     },
+  // == Functions ==============================================================
 
-    // == Actions ===============================================================
+  parseValue (value) {
+    return value.format('YYYY-MM-DDTHH:mm:ssZ')
+  },
 
-    actions: {
+  // == Actions ===============================================================
 
-        onDateTimeChange(dateTimeValue) {
-            const momentDateTimeValue = moment(dateTimeValue)
-            if (!momentDateTimeValue.isValid()) {
-                this.set('dateTimeValueInvalid', true)
-                return 
-            }
-            this.send('handleChange', dateTimeValue)
-        },
-    }
-
+  actions: {
+  }
 })
-
 

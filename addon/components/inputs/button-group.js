@@ -1,13 +1,16 @@
 import Ember from 'ember'
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-button-group'
 
+const {isArray} = Array
+
 export const helpers = {
   validateValues (values, type) {
-    if (!_.isArray(values)) {
+    if (!isArray(values)) {
       throw new Error(`In order to use a button-group renderer with type ${type} enum must be present`)
     }
   }
@@ -59,7 +62,7 @@ export default AbstractInput.extend({
   @readOnly
   @computed('cellConfig')
   size (cellConfig) {
-    return _.get(cellConfig, 'renderer.size') || 'medium'
+    return get(cellConfig, 'renderer.size') || 'medium'
   },
 
   // == Functions ==============================================================

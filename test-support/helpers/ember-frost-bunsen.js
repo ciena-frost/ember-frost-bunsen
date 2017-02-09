@@ -6,10 +6,9 @@
 // them without the worry of them changing on minor/patch upgrades.
 
 import {expect} from 'chai'
-import Ember from 'ember' // eslint-disable-line
+import Ember from 'ember'
+const {merge} = Ember
 import {$hook} from 'ember-hook'
-
-const assign = Object.assign || Ember.assign || Ember.merge // eslint-disable-line
 
 export {
   expectBunsenInputNotToHaveError,
@@ -36,6 +35,8 @@ export {
 } from './ember-frost-bunsen/renderers/date'
 
 export {
+  expectClockpicker as expectClockpickerBunsenDatetimeRenderer,
+  expectOnChangeState as expectOnChangeStateDatetime,
   expectWithState as expectBunsenDatetimeRendererWithState,
   openDatepicker as openDatepickerBunsenDatetimeRenderer
 } from './ember-frost-bunsen/renderers/datetime'
@@ -98,7 +99,7 @@ export function expectOnValidationState (ctx, state) {
     warnings: []
   }
 
-  state = assign(defaults, state)
+  state = merge(defaults, state)
 
   expect(
     spy.callCount,

@@ -5,7 +5,9 @@ import rawFiles from 'ember-frost-demo-components/raw'
 
 import models from './models'
 
-const rendererOptions = Object.keys(models)
+const {keys} = Object
+
+const rendererOptions = keys(models)
   .map((renderer) => {
     return {
       label: renderer,

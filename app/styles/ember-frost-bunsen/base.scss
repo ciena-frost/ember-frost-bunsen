@@ -8,20 +8,14 @@ $frost-bunsen-left-input-width: 250px;
 }
 
 .frost-bunsen-description-bubble {
-  display: inline-flex;
-  position: relative;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  margin-left: 4px;
 
   svg {
     width: 24px;
     height: 24px;
-  }
-}
-
-.frost-bunsen-description-icon {
-  padding-top: 5px;
-
-  .tooltip-frost-popover {
-    z-index: 100;
   }
 }
 
@@ -192,7 +186,8 @@ $frost-bunsen-left-input-width: 250px;
   }
 
   .frost-bunsen-remove-btn-container {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 

@@ -5,6 +5,8 @@ import AbstractInput from './abstract-input'
 import {getOption} from 'ember-frost-bunsen/input-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-image'
 
+const {keys} = Object
+
 export default AbstractInput.extend({
   // == Component Properties ===================================================
 
@@ -52,7 +54,7 @@ export default AbstractInput.extend({
       props.src = newSrc
     }
 
-    if (Object.keys(props).length !== 0) {
+    if (keys(props).length !== 0) {
       this.setProperties(props)
     }
   }
