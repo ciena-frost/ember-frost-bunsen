@@ -8,41 +8,17 @@ const {A, Logger, RSVP} = Ember
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-import {getEnumValues, getItemsFromEmberData, getOptions} from 'ember-frost-bunsen/list-utils'
+import {getEnumValues, getItemsFromAjaxCall, getItemsFromEmberData, getOptions} from 'ember-frost-bunsen/list-utils'
 
-const heroes = A([
-  Ember.Object.create({
-    secret: 'Bruce Wayne',
-    name: 'Batman',
-    id: 1
-  }),
-  Ember.Object.create({
-    secret: 'Clark Kent',
-    name: 'Superman',
-    id: 2
-  }),
-  Ember.Object.create({
-    secret: 'Hal Jordan',
-    name: 'Green Lantern',
-    id: 3
-  }),
-  Ember.Object.create({
-    secret: 'Barry Allen',
-    name: 'Flash',
-    id: 4
-  }),
-  Ember.Object.create({
-    secret: 'Oliver Queen',
-    name: 'Green Arrow',
-    id: 5
-  })
-])
+const heroPojos = [
+  {id: 1, name: 'Batman', secret: 'Bruce Wayne', title: 'The Dark Knight'},
+  {id: 2, name: 'Superman', secret: 'Clark Kent', title: 'The Man of Steel'},
+  {id: 3, name: 'Green Lantern', secret: 'Hal Jordan', title: 'Green Lantern 2814.1'},
+  {id: 4, name: 'Flash', secret: 'Barry Allen', title: 'The Fastest Man Alive'},
+  {id: 5, name: 'Green Arrow', secret: 'Oliver Queen', title: 'The Hood'}
+]
 
-const extraHero = Ember.Object.create({
-  secret: 'Al Rothstein',
-  name: 'Atom Smasher',
-  id: 42
-})
+const extraHeroPojo = {id: 42, name: 'Atom Smasher', secret: 'Al Rothstein', title: 'Nuklon'}
 
 describe('Unit: list-utils', function () {
   let sandbox
@@ -75,10 +51,593 @@ describe('Unit: list-utils', function () {
     })
   })
 
-  describe('getItemsFromEmberData()', function () {
-    let value, modelDef, bunsenId, store, filter, data
+  describe('getItemsFromAjaxCall()', function () {
+    let value, options, bunsenId, ajax, filter, data
 
     beforeEach(function () {
+      value = {universe: 'DC', heroId: 42}
+      data = []
+      bunsenId = 'heroId'
+      ajax = {
+        request: sandbox.stub().returns(RSVP.resolve({data: heroPojos}))
+      }
+      options = {
+        endpoint: '/api/v1/heroes',
+        recordsPath: 'data',
+        query: {
+          booleanFlag: true,
+          universe: '${../universe}'
+        }
+      }
+      filter = 'ark'
+    })
+
+    describe('when "labelAttribute" and "valueAttribute" are unset', function () {
+      beforeEach(function () {
+      })
+
+      it('should include a boolean query param to ensure that we do not assume a string', function () {
+        expect(options.query.booleanFlag).to.equal(true)
+      })
+
+      describe('with no filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'The Dark Knight', value: 1},
+            {label: 'The Man of Steel', value: 2},
+            {label: 'Green Lantern 2814.1', value: 3},
+            {label: 'The Fastest Man Alive', value: 4},
+            {label: 'The Hood', value: 5}
+          ])
+        })
+      })
+
+      describe('with filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.query.text = '$filter'
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC&text=ark')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'The Dark Knight', value: 1},
+            {label: 'The Man of Steel', value: 2},
+            {label: 'Green Lantern 2814.1', value: 3},
+            {label: 'The Fastest Man Alive', value: 4},
+            {label: 'The Hood', value: 5}
+          ])
+        })
+      })
+
+      describe('when data is populated', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          data = [{label: 'None', value: -1}]
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'None', value: -1},
+            {label: 'The Dark Knight', value: 1},
+            {label: 'The Man of Steel', value: 2},
+            {label: 'Green Lantern 2814.1', value: 3},
+            {label: 'The Fastest Man Alive', value: 4},
+            {label: 'The Hood', value: 5}
+          ])
+        })
+
+        it('should not error', function () {
+          expect(error).to.equal(undefined)
+        })
+      })
+
+      describe('when query fails', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.endpoint = '/busted'
+          ajax.request.withArgs('/busted?booleanFlag=true&universe=DC').returns(RSVP.reject('Uh oh'))
+          sandbox.stub(Logger, 'error')
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should not resolve', function () {
+          expect(normalizedItems).to.equal(undefined)
+        })
+
+        it('should reject', function () {
+          expect(error).to.equal('Uh oh')
+        })
+
+        it('should log the error', function () {
+          expect(Logger.error).to.have.been.calledWith('Error fetching endpoint "/busted"', 'Uh oh')
+        })
+      })
+
+      describe('when query not present', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          delete options.query
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'The Dark Knight', value: 1},
+            {label: 'The Man of Steel', value: 2},
+            {label: 'Green Lantern 2814.1', value: 3},
+            {label: 'The Fastest Man Alive', value: 4},
+            {label: 'The Hood', value: 5}
+          ])
+        })
+      })
+    })
+
+    describe('when "labelAttribute" and "valueAttribute" are plain strings', function () {
+      beforeEach(function () {
+        options.labelAttribute = 'name'
+        options.valueAttribute = 'secret'
+      })
+
+      it('should include a boolean query param to ensure that we do not assume a string', function () {
+        expect(options.query.booleanFlag).to.equal(true)
+      })
+
+      describe('with no filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman', value: 'Bruce Wayne'},
+            {label: 'Superman', value: 'Clark Kent'},
+            {label: 'Green Lantern', value: 'Hal Jordan'},
+            {label: 'Flash', value: 'Barry Allen'},
+            {label: 'Green Arrow', value: 'Oliver Queen'}
+          ])
+        })
+      })
+
+      describe('with filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.query.text = '$filter'
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC&text=ark')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman', value: 'Bruce Wayne'},
+            {label: 'Superman', value: 'Clark Kent'},
+            {label: 'Green Lantern', value: 'Hal Jordan'},
+            {label: 'Flash', value: 'Barry Allen'},
+            {label: 'Green Arrow', value: 'Oliver Queen'}
+          ])
+        })
+      })
+
+      describe('when data is populated', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          data = [{label: 'None', value: ''}]
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'None', value: ''},
+            {label: 'Batman', value: 'Bruce Wayne'},
+            {label: 'Superman', value: 'Clark Kent'},
+            {label: 'Green Lantern', value: 'Hal Jordan'},
+            {label: 'Flash', value: 'Barry Allen'},
+            {label: 'Green Arrow', value: 'Oliver Queen'}
+          ])
+        })
+
+        it('should not error', function () {
+          expect(error).to.equal(undefined)
+        })
+      })
+
+      describe('when query fails', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.endpoint = '/busted'
+          ajax.request.withArgs('/busted?booleanFlag=true&universe=DC').returns(RSVP.reject('Uh oh'))
+          sandbox.stub(Logger, 'error')
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should not resolve', function () {
+          expect(normalizedItems).to.equal(undefined)
+        })
+
+        it('should reject', function () {
+          expect(error).to.equal('Uh oh')
+        })
+
+        it('should log the error', function () {
+          expect(Logger.error).to.have.been.calledWith('Error fetching endpoint "/busted"', 'Uh oh')
+        })
+      })
+
+      describe('when query not present', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          delete options.query
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman', value: 'Bruce Wayne'},
+            {label: 'Superman', value: 'Clark Kent'},
+            {label: 'Green Lantern', value: 'Hal Jordan'},
+            {label: 'Flash', value: 'Barry Allen'},
+            {label: 'Green Arrow', value: 'Oliver Queen'}
+          ])
+        })
+      })
+    })
+
+    describe('when "labelAttribute" and "valueAttribute" are template strings', function () {
+      beforeEach(function () {
+        options.labelAttribute = '${name} (${secret})'
+        options.valueAttribute = '${secret} (${id})'
+      })
+
+      it('should include a boolean query param to ensure that we do not assume a string', function () {
+        expect(options.query.booleanFlag).to.equal(true)
+      })
+
+      describe('with no filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman (Bruce Wayne)', value: 'Bruce Wayne (1)'},
+            {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
+            {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
+            {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+          ])
+        })
+      })
+
+      describe('with filter', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.query.text = '$filter'
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes?booleanFlag=true&universe=DC&text=ark')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman (Bruce Wayne)', value: 'Bruce Wayne (1)'},
+            {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
+            {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
+            {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+          ])
+        })
+      })
+
+      describe('when data is populated', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          data = [{label: 'None', value: ''}]
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'None', value: ''},
+            {label: 'Batman (Bruce Wayne)', value: 'Bruce Wayne (1)'},
+            {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
+            {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
+            {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+          ])
+        })
+
+        it('should not error', function () {
+          expect(error).to.equal(undefined)
+        })
+      })
+
+      describe('when query fails', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          options.endpoint = '/busted'
+          ajax.request.withArgs('/busted?booleanFlag=true&universe=DC').returns(RSVP.reject('Uh oh'))
+          sandbox.stub(Logger, 'error')
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should not resolve', function () {
+          expect(normalizedItems).to.equal(undefined)
+        })
+
+        it('should reject', function () {
+          expect(error).to.equal('Uh oh')
+        })
+
+        it('should log the error', function () {
+          expect(Logger.error).to.have.been.calledWith('Error fetching endpoint "/busted"', 'Uh oh')
+        })
+      })
+
+      describe('when query not present', function () {
+        let normalizedItems, error
+
+        beforeEach(function (done) {
+          delete options.query
+
+          getItemsFromAjaxCall({ajax, bunsenId, data, filter, options, value})
+            .then((items) => {
+              normalizedItems = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(ajax.request).to.have.been.calledWith('/api/v1/heroes')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(normalizedItems).to.eql([
+            {label: 'Batman (Bruce Wayne)', value: 'Bruce Wayne (1)'},
+            {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
+            {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
+            {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+          ])
+        })
+      })
+    })
+  })
+
+  describe('getItemsFromEmberData()', function () {
+    let heroes, extraHero, value, modelDef, bunsenId, store, filter, data
+
+    beforeEach(function () {
+      heroes = A(heroPojos.map(Ember.Object.create))
+      extraHero = Ember.Object.create(extraHeroPojo)
       value = {universe: 'DC', heroSecret: 42}
       data = []
       bunsenId = 'heroSecret'
@@ -554,7 +1113,7 @@ describe('Unit: list-utils', function () {
     })
   })
 
-  describe('getOptions', function () {
+  describe('getOptions()', function () {
     let data, modelDef, options
     beforeEach(function () {
       data = [
