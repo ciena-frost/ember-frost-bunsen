@@ -636,9 +636,7 @@ describe('Unit: list-utils', function () {
     let heroes, extraHero, value, modelDef, bunsenId, store, filter, data
 
     beforeEach(function () {
-      heroes = A(heroPojos.map((hero) => {
-        return Ember.Object.create(hero)
-      }))
+      heroes = A(heroPojos.map((hero) => Ember.Object.create(hero)))
       extraHero = Ember.Object.create(extraHeroPojo)
       value = {universe: 'DC', heroSecret: 42}
       data = []

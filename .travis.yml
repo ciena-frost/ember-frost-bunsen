@@ -32,18 +32,19 @@ matrix:
 before_install:
   - npm config set spin false
   - npm install -g coveralls pr-bumper
-  - node_modules/pr-bumper/.travis/maybe-check-scope.sh
+  - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
-  - node_modules/pr-bumper/.travis/maybe-install.sh
+  - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - node_modules/pr-bumper/.travis/maybe-test.sh
-  - node_modules/pr-bumper/.travis/maybe-bump-version.sh
+  - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
+  - $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh
 after_success:
-  - node_modules/pr-bumper/.travis/publish-coverage.sh
+  - .travis/maybe-publish-coverage.sh
+  - .travis/maybe-publish-gh-pages.sh
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
@@ -55,8 +56,6 @@ deploy:
     condition: "$EMBER_TRY_SCENARIO = 'default'"
     node: 'stable'
     tags: true
-after_deploy:
-  - .travis/publish-gh-pages.sh
 notifications:
   slack:
     secure: AeQP9RKrNCWJODL8xHlkvKISD1+rWU1h/hFdPoQkJWjXOV8/0wwrEPFJ8TMc7lkBkWUp22aqLJuFIhw/t/au09zk0QJbVIZafWQB8z6nrgc6ceZUAM648wRTgHVYe3UapvnoQ2nwl4/KuN9v1sTRdIpKag21LnPvNqhHdCHfNdfrX0/5Ld2Ui3pyVMBXmx+sl5/p/fqxK87ZmGNFvoXy4T1s/DW30LpdL4FFvfOTJpm+1TfMJvkjVnt3MOp7pzneNDXzCatMhlUHYZuHXYhQezTy5g1XyG6L7YgyaXuMrSK+J/wu0nyX0mEx9FQMJledW5M8XPdQVcxyFJuf9sUvb2wD5mNVTl6TbktiLtP0pz9rG5qVRGjgXhl/BXrC42KYleS5C47ky5mruSC+QY3yAYwIZntTHV7R9E9Q95bME8TU0h25ENKWxh1aftd3CXDJvotzUEE4CCoyBZIFqv4TJGQCEkhiGMDDGmKcTpgEJpD2YuLmXWFWzCs3tZVIgDWnkNh+4DP5PRxfpDRjew5TObWhUL4zMJLVLkytuVMa7ph44/6Mol4nrF4b/kaFoAoxDr91GchqCTHs9fm8mrCFZCOBqv4X6i/rmcEZUkJ8Fq2siXmi5w/+yjCnHHWDrOh4tV8e8QUsqLnRdKkC0wWkF9Dug4DaI5PdDtOWcObU/Mo=
