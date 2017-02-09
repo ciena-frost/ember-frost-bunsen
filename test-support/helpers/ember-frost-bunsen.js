@@ -35,6 +35,8 @@ export {
 } from './ember-frost-bunsen/renderers/date'
 
 export {
+  expectClockpicker as expectClockpickerBunsenDatetimeRenderer,
+  expectOnChangeState as expectOnChangeStateDatetime,
   expectWithState as expectBunsenDatetimeRendererWithState,
   openDatepicker as openDatepickerBunsenDatetimeRenderer
 } from './ember-frost-bunsen/renderers/datetime'
