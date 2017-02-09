@@ -126,6 +126,11 @@ export default [
     label: 'Simple (Transforms)',
     modelIds: ['simple'],
     view: views.simpleTransforms
+  }, {
+    id: 'simple-with-conditionals',
+    label: 'Simple (Conditionals)',
+    modelIds: ['simple'],
+    view: views.simpleWithConditionals
   },
   {
     id: 'wedding-application-2-column',
