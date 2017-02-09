@@ -6,9 +6,10 @@ import {
   expectBunsenDatetimeRendererWithState,
   expectClockpickerBunsenDatetimeRenderer,
   expectCollapsibleHandles,
-  openDatepickerBunsenDatetimeRenderer,
+  expectInputsBunsenDatetimeRenderer,
   expectOnChangeStateDatetime,
-  expectOnValidationState
+  expectOnValidationState,
+  openDatepickerBunsenDatetimeRenderer
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
@@ -46,14 +47,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
   })
 
   it('renders as expected', function () {
+    expectCollapsibleHandles(0)
     expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
     expectOnValidationState(ctx, {count: 1})
   })
-  it('should have an input for date', function () {
-    expect($hook('bunsenForm-foo-datetimePicker-date-input').length).to.equal(1)
-  })
-  it('should have an input for time', function () {
-    expect($hook('bunsenForm-foo-datetimePicker-time-input').length).to.equal(1)
+  it('should have an input for date and time', function () {
+    expectInputsBunsenDatetimeRenderer()
   })
 
   describe('when classes are defined in view', function () {
@@ -77,6 +76,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
 
     it('renders as expected', function () {
+      expectCollapsibleHandles(0)
       expect($hook('bunsenForm-foo').find('label.custom-label')).to.have.length(1)
       expect($hook('bunsenForm-foo').find('.custom-value input')).to.have.length(2)
       expectOnValidationState(ctx, {count: 1})
@@ -101,6 +101,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
 
     it('renders as expected', function () {
+      expectCollapsibleHandles(0)
       expectBunsenDatetimeRendererWithState('foo', {label: 'FooBar Baz'})
       expectOnValidationState(ctx, {count: 1})
     })

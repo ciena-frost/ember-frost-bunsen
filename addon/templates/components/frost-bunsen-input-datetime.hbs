@@ -4,17 +4,21 @@
 		<div class='frost-bunsen-required'>Required</div>
 	{{/if}}
 </label>
-<div class={{inputWrapperClassName}}>
-	{{frost-date-time-picker
-		hook=(concat hook '-datetimePicker')
-		currentValue=(readonly value)
-		defaultDate=(readonly date)
-		defaultTime=(readonly time)
-		onFocusIn=(action 'hideErrorMessage')
-		onFocusOut=(action 'showErrorMessage')
-		onSelect=(action 'handleChange')
-	}}
-</div>
+{{#if disabled}}
+  {{date}} {{time}}
+{{else}}
+	<div class={{inputWrapperClassName}}>
+		{{frost-date-time-picker
+			hook=(concat hook '-datetimePicker')
+			currentValue=(readonly value)
+			defaultDate=(readonly date)
+			defaultTime=(readonly time)
+			onFocusIn=(action 'hideErrorMessage')
+			onFocusOut=(action 'showErrorMessage')
+			onSelect=(action 'handleChange')
+		}}
+	</div>
+{{/if}}	
 {{#if renderErrorMessage}}
   <div class="frost-bunsen-error">
     {{renderErrorMessage}}
