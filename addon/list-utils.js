@@ -184,8 +184,19 @@ function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
 
   return data.concat(
     records.map((record) => {
-      const label = get(record, labelAttr) || record.get('title')
-      const value = get(record, valueAttr)
+      let label, value
+
+      if (labelAttr.indexOf('${') !== -1) {
+        label = utils.parseVariables(record, labelAttr)
+      } else {
+        label = get(record, labelAttr) || get(record, 'title')
+      }
+
+      if (valueAttr.indexOf('${') !== -1) {
+        value = utils.parseVariables(record, valueAttr)
+      } else {
+        value = get(record, valueAttr)
+      }
 
       return {
         label,

@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.14.2",
+  "version": "14.15.0",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -9,13 +9,14 @@
   },
   "scripts": {
     "build": "ember build",
+    "ci-test": "EMBER_TRY_SCENARIO=${EMBER_TRY_SCENARIO:=default} && ember try:one $EMBER_TRY_SCENARIO --- COVERAGE=true ember test",
     "coverage": "COVERAGE=true ember test",
     "lint": "npm run lint-js && npm run lint-md && npm run lint-sass",
     "lint-js": "eslint *.js addon app blueprints config test-support tests",
     "lint-md": "remark *.md",
     "lint-sass": "sass-lint -v -q",
     "start": "ember server",
-    "test": "npm run lint && npm run coverage"
+    "test": "npm run lint && npm run ci-test"
   },
   "repository": {
     "type": "git",

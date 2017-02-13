@@ -66,6 +66,39 @@ export function expectWithState (bunsenId, state) {
   }
 }
 
+/**
+ * Checks that the inputs for date and time are displaying correctly
+ */
+export function expectDateTimeInputs () {
+  expect($hook('bunsenForm-foo-datetimePicker-date-input').length).to.equal(1)
+  expect($hook('bunsenForm-foo-datetimePicker-time-input').length).to.equal(1)
+}
+
+/**
+ * Expects the value change based on input -- checks based if the value is defined or not
+ * @param {Object} ctx - the context for the property
+ * @param {Object} expected - the expected value from the object
+ */
+export function expectOnChangeState (ctx, expected) {
+  const spy = ctx.props.onChange
+  let actual = spy.lastCall.args[0]
+  if (actual.foo !== undefined) {
+    const arr = actual['foo'].split('T', 1)
+    const value = {foo: arr[0]}
+    expect(
+      value,
+      'onChange informs consumer of expected form value'
+    )
+      .to.eql(expected)
+  } else {
+    expect(
+      actual,
+      'onChange informs consumer of expected form value'
+    )
+    .to.eql(expected)
+  }
+}
+
 // Helpers taken from ember-pickaday
 
 /**
@@ -77,7 +110,7 @@ export function expectWithState (bunsenId, state) {
 export function openDatepicker (bunsenId, hook) {
   hook = hook || 'bunsenForm'
 
-  const hookName = `${hook}-${bunsenId}-datePicker-input`
+  const hookName = `${hook}-${bunsenId}-datetimePicker-date-input`
   const $input = $hook(hookName)
   $input.click()
 
@@ -115,6 +148,22 @@ const PikadayInteractor = {
   maximumYear: function () {
     return $(this.selectorForYearSelect).children().last().val()
   }
+}
+
+/**
+ * Open the renderer's clock picker
+ * @param {String} bunsenId - the bunsen ID for the property
+ * @param {String} hook - the hook for the form
+ */
+export function expectClockpicker (bunsenId, hook) {
+  hook = hook || 'bunsenForm'
+
+  const hookName = `${hook}-${bunsenId}-datetimePicker-time-input`
+  const $input = $hook(hookName)
+  $input.click()
+
+  expect($('.clockpicker-popover').length,
+  'clockpicker was rendered').to.equal(1)
 }
 
 function triggerNativeEvent (element, eventName) {

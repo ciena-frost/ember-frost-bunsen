@@ -1,3 +1,22 @@
+# 14.15.0
+
+* **Fixed** CI configuration to *hopefully* bump version at the right time now
+* **Added** support for template strings in `endpoint` version of `select` renderer. You can now specify something like this in your bunsen view:  
+  ```js 
+  {
+    endpoint: '/api/v1/heroes',
+    recordsPath: 'data',
+    labelAttribute: '${name} (${secret})'
+    valueAttribute: 'id'
+  }
+  ```
+
+* **Fixed** a bug where `record.get('title')` was being used instead of `get(record, 'title')` which broke in the ajax use case where the `record` was a POJO and did not have `.get()` defined. 
+
+* **Added** and **Updated** integration tests to date time renderer. 
+* **Removed** some of the old tests that were not needed that were copied over from date renderer. 
+* **Fixed** a bug that prevented the renderer from properly holding data.
+
 # 14.14.2
 
 * **Fixed** a bug causing the `onValidate()` action to fire twice in certain situations. It will now fire once for each time Bunsen calls `validate()`, regardless of whether the value is updated or there are errors.
