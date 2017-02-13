@@ -8,6 +8,12 @@ export default [
     view: views.array
   },
   {
+    id: 'array-2-with-conditionals',
+    label: 'Array (Conditionals)',
+    modelIds: ['array-2'],
+    view: views.array2WithConditionals
+  },
+  {
     id: 'array-auto-add',
     label: 'Array (Auto Add)',
     modelIds: ['array-2'],
@@ -72,6 +78,12 @@ export default [
     label: 'Dependencies',
     modelIds: ['dependencies'],
     view: views.dependencies
+  },
+  {
+    id: 'dependencies-with-conditionals',
+    label: 'Dependencies with Conditionals',
+    modelIds: ['dependencies'],
+    view: views.dependenciesWithConditionals
   },
   {
     id: 'evc',

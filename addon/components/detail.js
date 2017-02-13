@@ -11,6 +11,7 @@ import {
 const {
   CHANGE_VALUE,
   changeModel,
+  changeView,
   validate
 } = actions
 
@@ -150,7 +151,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('renderModel', 'bunsenView')
+  @computed('renderModel', 'view')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
@@ -358,6 +359,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (!_.isEqual(this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
     }
+    if (!_.isEqual(this.get('view'), state.view)) {
+      newProps.view = state.view
+    }
 
     // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
     // not be wired up to change renderValue
@@ -394,6 +398,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStore = createStoreWithMiddleware(reducer, {
       baseModel: this.get('bunsenModel'),
+      baseView: this.get('bunsenView'),
       value: plainObjectValue
     })
 
@@ -413,6 +418,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
+    this.get('reduxStore').dispatch(changeView(view))
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
