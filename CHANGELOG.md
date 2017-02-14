@@ -1,3 +1,8 @@
+# 14.15.1
+
+* **Fixed** a bug that occurred when async select filtering was updated rapidly
+
+
 # 14.15.0
 
 * **Fixed** CI configuration to *hopefully* bump version at the right time now
