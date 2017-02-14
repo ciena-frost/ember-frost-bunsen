@@ -6,6 +6,7 @@ const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
 const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {task} from 'ember-concurrency'
 
 import AbstractInput from './abstract-input'
 import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
@@ -210,7 +211,7 @@ export default AbstractInput.extend({
       // a bunch of API requests back to back
       this.set('itemsInitialized', true)
 
-      this.updateItems(newValue)
+      this.get('updateItems').perform(newValue)
     }
   },
 
@@ -399,12 +400,11 @@ export default AbstractInput.extend({
   },
 
   /**
-   * Update select dropdown items
+   * Restartable ember-concurrency task that updates select dropdown items
    * @param {Object} value - current form value
    * @param {String} [filter=''] - string to filter items by
-   * @returns {RSVP.Promise} resolves once items were fetched (or failed to fetch)
    */
-  updateItems (value, filter = '') {
+  updateItems: task(function * (value, filter = '') {
     const {
       ajax,
       bunsenId,
@@ -433,27 +433,25 @@ export default AbstractInput.extend({
       set(options, 'endpoint', endpoint)
     }
 
-    return getOptions({
-      ajax,
-      bunsenId,
-      data,
-      filter,
-      options,
-      store,
-      value
-    })
-      .then((items) => {
-        this.set('options', items)
+    try {
+      const items = yield getOptions({
+        ajax,
+        bunsenId,
+        data,
+        filter,
+        options,
+        store,
+        value
       })
-      .catch((err) => {
-        const error = {
-          path: bunsenId,
-          message: getErrorMessage(err)
-        }
-
-        this.onError(bunsenId, [error])
-      })
-  },
+      this.set('options', items)
+    } catch (err) {
+      const error = {
+        path: bunsenId,
+        message: getErrorMessage(err)
+      }
+      this.onError(bunsenId, [error])
+    }
+  }).restartable(),
 
   // == Events ================================================================
 
@@ -471,7 +469,7 @@ export default AbstractInput.extend({
      */
     filterOptions (filter) {
       const value = this.get('formValue')
-      this.updateItems(value, filter)
+      this.get('updateItems').perform(value, filter)
     }
   }
 })
