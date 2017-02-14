@@ -1,7 +1,11 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
+
+import {returnPromiseWithArgs} from 'dummy/tests/helpers/ember-test-utils/ember-data'
+import utils from 'ember-frost-bunsen/list-utils'
 
 describe('Unit: frost-bunsen-input-select', function () {
   setupComponentTest('frost-bunsen-input-select', {
@@ -9,9 +13,10 @@ describe('Unit: frost-bunsen-input-select', function () {
   })
 
   const ctx = {}
-  let component
+  let component, sandbox
 
   beforeEach(function () {
+    sandbox = sinon.sandbox.create()
     component = this.subject({
       bunsenId: 'name',
       bunsenModel: {},
@@ -23,6 +28,10 @@ describe('Unit: frost-bunsen-input-select', function () {
       state: Ember.Object.create({})
     })
     ctx.component = component
+  })
+
+  afterEach(function () {
+    sandbox.restore()
   })
 
   describe('hasQueryChanged', function () {
@@ -312,6 +321,30 @@ describe('Unit: frost-bunsen-input-select', function () {
           value: ''
         }
       ])
+    })
+  })
+
+  describe('updateItems', function () {
+    describe('when called multiple times at once', function () {
+      let firstCall, secondCall
+      beforeEach(function () {
+        sandbox.stub(utils, 'getOptions')
+        returnPromiseWithArgs(utils.getOptions) // Make sure task does not complete
+        firstCall = component.get('updateItems').perform(component.get('formValue'))
+        secondCall = component.get('updateItems').perform(component.get('formValue'))
+      })
+
+      it('should only have one task running', function () {
+        expect(component.get('updateItems.concurrency')).to.equal(1)
+      })
+
+      it('should cancel the first call', function () {
+        expect(firstCall.get('isCanceled')).to.equal(true)
+      })
+
+      it('should have second call running', function () {
+        expect(secondCall.get('isRunning')).to.equal(true)
+      })
     })
   })
 })
