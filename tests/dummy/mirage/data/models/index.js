@@ -11,6 +11,7 @@ import evc from './evc'
 import select from './select'
 import simple from './simple'
 import simpleWithDefaults from './simple-with-defaults'
+import tags from './tags'
 import weddingApplication from './wedding-application'
 
 export default {
@@ -27,5 +28,6 @@ export default {
   select,
   simple,
   simpleWithDefaults,
+  tags,
   weddingApplication
 }

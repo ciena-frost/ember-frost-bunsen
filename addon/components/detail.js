@@ -11,6 +11,7 @@ import {
 const {
   CHANGE_VALUE,
   changeModel,
+  changeView,
   validate
 } = actions
 
@@ -150,7 +151,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('renderModel', 'bunsenView')
+  @computed('renderModel', 'view')
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
@@ -358,6 +359,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (!_.isEqual(this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
     }
+    if (!_.isEqual(this.get('view'), state.view)) {
+      newProps.view = state.view
+    }
 
     // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
     // not be wired up to change renderValue
@@ -394,6 +398,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const reduxStore = createStoreWithMiddleware(reducer, {
       baseModel: this.get('bunsenModel'),
+      baseView: this.get('bunsenView'),
       value: plainObjectValue
     })
 
@@ -509,7 +514,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
-    const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
+    const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
 
     // If the store value is empty we need to make sure we we set it to an empty object so
@@ -535,6 +540,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
           validate(null, value, newBunsenModel, allValidators, RSVP.all)
         )
       }
+    }
+    if (hasViewChanged) {
+      this.get('reduxStore').dispatch(changeView(newView))
     }
 
     if (hasModelChanged || hasViewChanged) {

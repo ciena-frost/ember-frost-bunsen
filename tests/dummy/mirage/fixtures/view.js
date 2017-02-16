@@ -8,6 +8,12 @@ export default [
     view: views.array
   },
   {
+    id: 'array-2-with-conditionals',
+    label: 'Array (Conditionals)',
+    modelIds: ['array-2'],
+    view: views.array2WithConditionals
+  },
+  {
     id: 'array-auto-add',
     label: 'Array (Auto Add)',
     modelIds: ['array-2'],
@@ -68,10 +74,22 @@ export default [
     view: views.conditionalPropSelectForm
   },
   {
+    id: 'conditional-tag',
+    label: 'Conditional Tag',
+    modelIds: ['tags'],
+    view: views.conditionalTag
+  },
+  {
     id: 'dependencies',
     label: 'Dependencies',
     modelIds: ['dependencies'],
     view: views.dependencies
+  },
+  {
+    id: 'dependencies-with-conditionals',
+    label: 'Dependencies with Conditionals',
+    modelIds: ['dependencies'],
+    view: views.dependenciesWithConditionals
   },
   {
     id: 'evc',
@@ -126,6 +144,11 @@ export default [
     label: 'Simple (Transforms)',
     modelIds: ['simple'],
     view: views.simpleTransforms
+  }, {
+    id: 'simple-with-conditionals',
+    label: 'Simple (Conditionals)',
+    modelIds: ['simple'],
+    view: views.simpleWithConditionals
   },
   {
     id: 'wedding-application-2-column',
