@@ -10,6 +10,7 @@ import arrayTabs from './array-tabs'
 import complex from './complex'
 import complexConditionalPropSelectForm from './complex-conditional-prop-select-form'
 import conditionalPropSelectForm from './conditional-prop-select-form'
+import conditionalTag from './conditional-tag'
 import dependencies from './dependencies'
 import dependenciesWithConditionals from './dependencies-with-conditionals'
 import evc from './evc'
@@ -37,6 +38,7 @@ export default {
   complex,
   complexConditionalPropSelectForm,
   conditionalPropSelectForm,
+  conditionalTag,
   dependencies,
   dependenciesWithConditionals,
   evc,

@@ -67,6 +67,11 @@ export default [
     model: models.simpleWithDefaults
   },
   {
+    id: 'tags',
+    label: 'Tags',
+    model: models.tags
+  },
+  {
     id: 'wedding-application',
     label: 'Wedding Application',
     model: models.weddingApplication

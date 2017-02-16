@@ -74,6 +74,12 @@ export default [
     view: views.conditionalPropSelectForm
   },
   {
+    id: 'conditional-tag',
+    label: 'Conditional Tag',
+    modelIds: ['tags'],
+    view: views.conditionalTag
+  },
+  {
     id: 'dependencies',
     label: 'Dependencies',
     modelIds: ['dependencies'],
