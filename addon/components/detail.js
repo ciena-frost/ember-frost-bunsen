@@ -418,7 +418,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
     this.get('reduxStore').dispatch(changeModel(bunsenModel))
     const view = this.get('renderView')
-    this.get('reduxStore').dispatch(changeView(view))
 
     if (result.errors.length === 0) {
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
@@ -515,7 +514,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
     const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
-    const {hasChanged: hasViewChanged} = this.getSchema('bunsenView', oldAttrs, newAttrs)
+    const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
 
     // If the store value is empty we need to make sure we we set it to an empty object so
@@ -541,6 +540,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
           validate(null, value, newBunsenModel, allValidators, RSVP.all)
         )
       }
+    }
+    if (hasViewChanged) {
+      this.get('reduxStore').dispatch(changeView(newView))
     }
 
     if (hasModelChanged || hasViewChanged) {
