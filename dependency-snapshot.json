@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.15.1",
+  "version": "14.16.0",
   "dependencies": {
     "5to6-codemod": {
       "version": "1.1.4",
@@ -1952,9 +1952,9 @@
       "dev": true
     },
     "bunsen-core": {
-      "version": "0.22.1",
-      "from": "bunsen-core@>=0.22.1 <0.23.0",
-      "resolved": "https://registry.npmjs.org/bunsen-core/-/bunsen-core-0.22.1.tgz",
+      "version": "0.23.1",
+      "from": "bunsen-core@>=0.23.1 <0.24.0",
+      "resolved": "https://registry.npmjs.org/bunsen-core/-/bunsen-core-0.23.1.tgz",
       "dev": true,
       "dependencies": {
         "lodash": {
@@ -4027,9 +4027,9 @@
       }
     },
     "ember-get-config": {
-      "version": "0.2.0",
-      "from": "ember-get-config@0.2.0",
-      "resolved": "https://registry.npmjs.org/ember-get-config/-/ember-get-config-0.2.0.tgz",
+      "version": "0.2.1",
+      "from": "ember-get-config@0.2.1",
+      "resolved": "https://registry.npmjs.org/ember-get-config/-/ember-get-config-0.2.1.tgz",
       "dev": true
     },
     "ember-getowner-polyfill": {
@@ -4142,7 +4142,15 @@
       "version": "3.10.3",
       "from": "ember-prop-types@>=3.10.2 <4.0.0",
       "resolved": "https://registry.npmjs.org/ember-prop-types/-/ember-prop-types-3.10.3.tgz",
-      "dev": true
+      "dev": true,
+      "dependencies": {
+        "ember-get-config": {
+          "version": "0.2.0",
+          "from": "ember-get-config@0.2.0",
+          "resolved": "https://registry.npmjs.org/ember-get-config/-/ember-get-config-0.2.0.tgz",
+          "dev": true
+        }
+      }
     },
     "ember-redux-shim": {
       "version": "1.1.0",
@@ -4189,9 +4197,9 @@
       "dev": true
     },
     "ember-seamless-immutable-shim": {
-      "version": "1.1.2",
-      "from": "ember-seamless-immutable-shim@>=1.1.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/ember-seamless-immutable-shim/-/ember-seamless-immutable-shim-1.1.2.tgz",
+      "version": "1.1.5",
+      "from": "ember-seamless-immutable-shim@1.1.5",
+      "resolved": "https://registry.npmjs.org/ember-seamless-immutable-shim/-/ember-seamless-immutable-shim-1.1.5.tgz",
       "dev": true
     },
     "ember-simple-uuid": {
@@ -10408,9 +10416,9 @@
       }
     },
     "seamless-immutable": {
-      "version": "6.3.0",
-      "from": "seamless-immutable@6.3.0",
-      "resolved": "https://registry.npmjs.org/seamless-immutable/-/seamless-immutable-6.3.0.tgz",
+      "version": "7.0.1",
+      "from": "seamless-immutable@>=7.0.0 <8.0.0",
+      "resolved": "https://registry.npmjs.org/seamless-immutable/-/seamless-immutable-7.0.1.tgz",
       "dev": true
     },
     "semver": {

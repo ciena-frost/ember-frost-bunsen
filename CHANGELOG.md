@@ -1,3 +1,6 @@
+# 14.16.0
+**Added** support for view conditionals.
+
 # 14.15.1
 
 * **Fixed** a bug that occurred when async select filtering was updated rapidly
