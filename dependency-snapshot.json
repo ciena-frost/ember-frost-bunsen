@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.16.0",
+  "version": "14.16.1",
   "dependencies": {
     "5to6-codemod": {
       "version": "1.1.4",
@@ -2958,9 +2958,9 @@
       }
     },
     "ember-bunsen-core": {
-      "version": "0.18.0",
-      "from": "ember-bunsen-core@0.18.0",
-      "resolved": "https://registry.npmjs.org/ember-bunsen-core/-/ember-bunsen-core-0.18.0.tgz",
+      "version": "0.19.1",
+      "from": "ember-bunsen-core@0.19.1",
+      "resolved": "https://registry.npmjs.org/ember-bunsen-core/-/ember-bunsen-core-0.19.1.tgz",
       "dev": true
     },
     "ember-cli": {

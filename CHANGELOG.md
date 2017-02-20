@@ -1,3 +1,8 @@
+# 14.16.1
+
+* **Fixed** bug where changing value to variable referenced in select `endpoint` wasn't causing a new API fetch to be made, to update the list.
+
+
 # 14.16.0
 **Added** support for view conditionals.
 
