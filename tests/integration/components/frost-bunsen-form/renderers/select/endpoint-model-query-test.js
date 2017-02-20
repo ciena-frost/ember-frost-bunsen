@@ -1178,6 +1178,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
             ])
           }
 
+          if (endpoint.indexOf('frontdoor/api') === 0) {
+            return RSVP.resolve([
+              {
+                label: 'spam',
+                value: 'spam'
+              }
+            ])
+          }
+
           return RSVP.reject()
         }
       }))
@@ -1445,6 +1454,68 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             items: ['bar', 'baz'],
             opened: true
+          })
+        })
+      })
+
+      describe('when other property value changed', function () {
+        beforeEach(function () {
+          props.onValidation.reset()
+          this.set('value', {bar: 'frontdoor'})
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: ''
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(1)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+
+        describe('when expanded/opened', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            return $hook('my-form-foo').find('.frost-select').click()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              items: ['spam'],
+              opened: true
+            })
           })
         })
       })

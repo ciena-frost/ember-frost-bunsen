@@ -316,7 +316,7 @@ export default AbstractInput.extend({
     }
 
     try {
-      oldEndpoint = parseVariables(newValue, endpoint, bunsenId) // throws if reference not met
+      oldEndpoint = parseVariables(oldValue, endpoint, bunsenId) // throws if reference not met
     } catch (e) {
       oldEndpoint = ''
     }
