@@ -1,3 +1,7 @@
+# 14.16.3
+
+Modifying queryForCurrentValue to work with string IDs.
+
 # 14.16.1
 
 * **Fixed** bug where changing value to variable referenced in select `endpoint` wasn't causing a new API fetch to be made, to update the list.
