@@ -19,6 +19,12 @@ const heroPojos = [
 ]
 
 const extraHeroPojo = {id: 42, name: 'Atom Smasher', secret: 'Al Rothstein', title: 'Nuklon'}
+const extraHeroPojoIdAsString = {
+  id: '16977f3d-120f-3d4d-b573-e8bf77a330ac',
+  name: 'Wonder Woman',
+  secret: 'Diana',
+  title: 'Wonder Woman'
+}
 
 describe('Unit: list-utils', function () {
   let sandbox
@@ -1092,22 +1098,147 @@ describe('Unit: list-utils', function () {
           ])
         })
       })
+    })
 
-      describe('when value is not a number', function () {
+    describe('when queryForCurrentValue is true and ID is a string', function () {
+      beforeEach(function () {
+        let newHero = Ember.Object.create(extraHeroPojoIdAsString)
+        value = {universe: 'DC', heroSecret: '16977f3d-120f-3d4d-b573-e8bf77a330ac'}
+        store.query.returns(RSVP.resolve(heroes))
+        store.findRecord.returns(RSVP.resolve(newHero))
+        filter = ''
+        modelDef = {
+          modelType: 'hero',
+          labelAttribute: 'name',
+          valueAttribute: 'id',
+          query: {
+            booleanFlag: true,
+            universe: '${../universe}'
+          },
+          queryForCurrentValue: true
+        }
+      })
+
+      describe('with no filter', function () {
+        let options, error
+
         beforeEach(function (done) {
-          value = {universe: 'DC', heroSecret: 'Smashed!'}
           getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+            .then((items) => {
+              options = items
+            })
+            .catch((err) => {
+              error = err
+            })
             .finally(() => {
               done()
             })
         })
 
-        it('should not call store.findRecord', function () {
-          expect(store.findRecord).to.have.callCount(0)
+        it('should make the appropriate query', function () {
+          expect(store.query).to.have.been.calledWithExactly('hero', {booleanFlag: true, universe: 'DC'})
         })
 
-        it('should call store.query', function () {
-          expect(store.query).to.have.been.calledWith('hero', {booleanFlag: true, universe: 'DC'})
+        it('should make the appropriate find record call', function () {
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(options).to.eql([
+            {value: 1, label: 'Batman'},
+            {value: 2, label: 'Superman'},
+            {value: 3, label: 'Green Lantern'},
+            {value: 4, label: 'Flash'},
+            {value: 5, label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Wonder Woman'}
+          ])
+        })
+      })
+
+      describe('with filter that excludes current value', function () {
+        let options, error
+
+        beforeEach(function (done) {
+          modelDef.query.text = '$filter'
+          filter = 'ark'
+          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+            .then((items) => {
+              options = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC', text: 'ark'}])
+        })
+
+        it('should make the appropriate find record call', function () {
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(options).to.eql([
+            {value: 1, label: 'Batman'},
+            {value: 2, label: 'Superman'},
+            {value: 3, label: 'Green Lantern'},
+            {value: 4, label: 'Flash'},
+            {value: 5, label: 'Green Arrow'}
+          ])
+        })
+      })
+
+      describe('with filter that includes current value', function () {
+        let options, error
+
+        beforeEach(function (done) {
+          modelDef.query.text = '$filter'
+          filter = 'won'
+          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+            .then((items) => {
+              options = items
+            })
+            .catch((err) => {
+              error = err
+            })
+            .finally(() => {
+              done()
+            })
+        })
+
+        it('should make the appropriate query', function () {
+          expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC', text: 'won'}])
+        })
+
+        it('should make the appropriate find record call', function () {
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
+        })
+
+        it('should not trigger the catch', function () {
+          expect(error).to.equal(undefined)
+        })
+
+        it('should return the proper options', function () {
+          expect(options).to.eql([
+            {value: 1, label: 'Batman'},
+            {value: 2, label: 'Superman'},
+            {value: 3, label: 'Green Lantern'},
+            {value: 4, label: 'Flash'},
+            {value: 5, label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Wonder Woman'}
+          ])
         })
       })
     })
