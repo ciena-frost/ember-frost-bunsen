@@ -1,9 +1,11 @@
-<label class={{labelWrapperClassName}}>
-	{{renderLabel}}
-	{{#if required}}
-		<div class='frost-bunsen-required'>Required</div>
-	{{/if}}
-</label>
+{{#if (not cellConfig.hideLabel)}}
+	<label class={{labelWrapperClassName}}>
+		{{renderLabel}}
+		{{#if required}}
+			<div class='frost-bunsen-required'>Required</div>
+		{{/if}}
+	</label>
+{{/if}}
 {{#if disabled}}
   {{date}} {{time}}
 {{else}}
@@ -18,7 +20,7 @@
 			onSelect=(action 'handleChange')
 		}}
 	</div>
-{{/if}}	
+{{/if}}
 {{#if renderErrorMessage}}
   <div class="frost-bunsen-error">
     {{renderErrorMessage}}

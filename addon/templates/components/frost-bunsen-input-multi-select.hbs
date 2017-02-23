@@ -1,9 +1,11 @@
-<label class={{labelWrapperClassName}}>
-  {{renderLabel}}
-  {{#if showRequiredLabel}}
-    <div class='frost-bunsen-required'>Required</div>
-  {{/if}}
-</label>
+{{#if (not cellConfig.hideLabel)}}
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+    {{#if showRequiredLabel}}
+      <div class='frost-bunsen-required'>Required</div>
+    {{/if}}
+  </label>
+{{/if}}
 <div class={{inputWrapperClassName}}>
   {{frost-multi-select
     class=valueClassName

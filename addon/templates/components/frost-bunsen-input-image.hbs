@@ -1,6 +1,8 @@
-<div class={{labelWrapperClassName}}>
-  {{renderLabel}}
-</div>
+{{#if (not cellConfig.hideLabel)}}
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+  </label>
+{{/if}}
 <div class={{inputWrapperClassName}}>
   <img
     alt={{alt}}

@@ -2,9 +2,59 @@ $frost-row-field-padding: 40px;
 $frost-bunsen-left-label-width: 140px;
 $frost-bunsen-left-input-width: 250px;
 
+.frost-bunsen-array-container {
+  flex-basis: 100%;
+}
+
 .frost-bunsen-cell {
   position: relative;
   flex: 1 1 auto;
+}
+
+.frost-bunsen-compact {
+  .frost-bunsen-body {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .frost-bunsen-cell {
+    display: inline-flex;
+    flex: 0 1 auto;
+  }
+
+  .frost-bunsen-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .frost-bunsen-item-input {
+      padding: 0 10px;
+
+      &:first-child {
+        padding-top: 10px;
+      }
+    }
+
+    .frost-field {
+      margin-bottom: 0;
+    }
+
+    .frost-bunsen-remove-btn-container {
+      margin-left: auto;
+      padding-right: 10px;
+      float: none;
+    }
+  }
+
+  .frost-field {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .frost-bunsen-left-label {
+      margin-bottom: 5px;
+      text-align: left;
+    }
+  }
 }
 
 .frost-bunsen-description-bubble {
@@ -166,17 +216,8 @@ $frost-bunsen-left-input-width: 250px;
 
 .frost-bunsen-form {
   .frost-bunsen-compact {
-    .frost-bunsen-item-wrapper {
-      display: flex;
-      align-items: center;
-
-      .frost-field {
-        margin-bottom: 0;
-      }
-
-      .frost-bunsen-remove-btn-container {
-        float: none;
-      }
+    .frost-bunsen-cell {
+      flex-wrap: wrap;
     }
   }
 
@@ -272,6 +313,14 @@ $frost-bunsen-left-input-width: 250px;
   line-height: 24px;
 }
 
+.frost-bunsen-item-input {
+  // flex: 1 0 auto;
+
+  & + .frost-bunsen-remove-btn-container {
+    flex: 0 1 auto;
+  }
+}
+
 .frost-bunsen-section {
   padding-top: 30px;
   border-top: 1px solid $frost-color-lgrey-1;
@@ -288,7 +337,7 @@ $frost-bunsen-left-input-width: 250px;
   }
 
   > .frost-bunsen-body {
-    display: inline-block;
+    flex-basis: 100%;
   }
 
   > .frost-bunsen-empty-msg {
