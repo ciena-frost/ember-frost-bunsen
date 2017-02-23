@@ -15,10 +15,15 @@ const heroPojos = [
   {id: 2, name: 'Superman', secret: 'Clark Kent', title: 'The Man of Steel'},
   {id: 3, name: 'Green Lantern', secret: 'Hal Jordan', title: 'Green Lantern 2814.1'},
   {id: 4, name: 'Flash', secret: 'Barry Allen', title: 'The Fastest Man Alive'},
-  {id: 5, name: 'Green Arrow', secret: 'Oliver Queen', title: 'The Hood'}
+  {id: '5x5', name: 'Green Arrow', secret: 'Oliver Queen', title: 'The Hood'}
 ]
 
-const extraHeroPojo = {id: 42, name: 'Atom Smasher', secret: 'Al Rothstein', title: 'Nuklon'}
+const extraHeroPojo = {
+  id: '16977f3d-120f-3d4d-b573-e8bf77a330ac',
+  name: 'Atom Smasher',
+  secret: 'Al Rothstein',
+  title: 'Nuklon'
+}
 
 describe('Unit: list-utils', function () {
   let sandbox
@@ -55,7 +60,7 @@ describe('Unit: list-utils', function () {
     let value, options, bunsenId, ajax, filter, data
 
     beforeEach(function () {
-      value = {universe: 'DC', heroId: 42}
+      value = {universe: 'DC', heroId: '16977f3d-120f-3d4d-b573-e8bf77a330ac'}
       data = []
       bunsenId = 'heroId'
       ajax = {
@@ -110,7 +115,7 @@ describe('Unit: list-utils', function () {
             {label: 'The Man of Steel', value: 2},
             {label: 'Green Lantern 2814.1', value: 3},
             {label: 'The Fastest Man Alive', value: 4},
-            {label: 'The Hood', value: 5}
+            {label: 'The Hood', value: '5x5'}
           ])
         })
       })
@@ -147,7 +152,7 @@ describe('Unit: list-utils', function () {
             {label: 'The Man of Steel', value: 2},
             {label: 'Green Lantern 2814.1', value: 3},
             {label: 'The Fastest Man Alive', value: 4},
-            {label: 'The Hood', value: 5}
+            {label: 'The Hood', value: '5x5'}
           ])
         })
       })
@@ -177,7 +182,7 @@ describe('Unit: list-utils', function () {
             {label: 'The Man of Steel', value: 2},
             {label: 'Green Lantern 2814.1', value: 3},
             {label: 'The Fastest Man Alive', value: 4},
-            {label: 'The Hood', value: 5}
+            {label: 'The Hood', value: '5x5'}
           ])
         })
 
@@ -251,7 +256,7 @@ describe('Unit: list-utils', function () {
             {label: 'The Man of Steel', value: 2},
             {label: 'Green Lantern 2814.1', value: 3},
             {label: 'The Fastest Man Alive', value: 4},
-            {label: 'The Hood', value: 5}
+            {label: 'The Hood', value: '5x5'}
           ])
         })
       })
@@ -484,7 +489,7 @@ describe('Unit: list-utils', function () {
             {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
             {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
             {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
-            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5x5)'}
           ])
         })
       })
@@ -521,7 +526,7 @@ describe('Unit: list-utils', function () {
             {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
             {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
             {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
-            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5x5)'}
           ])
         })
       })
@@ -551,7 +556,7 @@ describe('Unit: list-utils', function () {
             {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
             {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
             {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
-            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5x5)'}
           ])
         })
 
@@ -625,7 +630,7 @@ describe('Unit: list-utils', function () {
             {label: 'Superman (Clark Kent)', value: 'Clark Kent (2)'},
             {label: 'Green Lantern (Hal Jordan)', value: 'Hal Jordan (3)'},
             {label: 'Flash (Barry Allen)', value: 'Barry Allen (4)'},
-            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5)'}
+            {label: 'Green Arrow (Oliver Queen)', value: 'Oliver Queen (5x5)'}
           ])
         })
       })
@@ -638,7 +643,7 @@ describe('Unit: list-utils', function () {
     beforeEach(function () {
       heroes = A(heroPojos.map((hero) => Ember.Object.create(hero)))
       extraHero = Ember.Object.create(extraHeroPojo)
-      value = {universe: 'DC', heroSecret: 42}
+      value = {universe: 'DC', heroSecret: '16977f3d-120f-3d4d-b573-e8bf77a330ac'}
       data = []
       bunsenId = 'heroSecret'
       store = {
@@ -888,7 +893,7 @@ describe('Unit: list-utils', function () {
         })
 
         it('should make the appropriate find record call', function () {
-          expect(store.findRecord).to.have.been.calledWithExactly('hero', 42)
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
         })
 
         it('should not trigger the catch', function () {
@@ -901,8 +906,8 @@ describe('Unit: list-utils', function () {
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
-            {value: 5, label: 'Green Arrow'},
-            {value: 42, label: 'Atom Smasher'}
+            {value: '5x5', label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Atom Smasher'}
           ])
         })
       })
@@ -930,7 +935,7 @@ describe('Unit: list-utils', function () {
         })
 
         it('should make the appropriate find record call', function () {
-          expect(store.findRecord).to.have.been.calledWithExactly('hero', 42)
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
         })
 
         it('should not trigger the catch', function () {
@@ -943,7 +948,7 @@ describe('Unit: list-utils', function () {
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
-            {value: 5, label: 'Green Arrow'}
+            {value: '5x5', label: 'Green Arrow'}
           ])
         })
       })
@@ -971,7 +976,7 @@ describe('Unit: list-utils', function () {
         })
 
         it('should make the appropriate find record call', function () {
-          expect(store.findRecord).to.have.been.calledWithExactly('hero', 42)
+          expect(store.findRecord).to.have.been.calledWithExactly('hero', '16977f3d-120f-3d4d-b573-e8bf77a330ac')
         })
 
         it('should not trigger the catch', function () {
@@ -984,8 +989,8 @@ describe('Unit: list-utils', function () {
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
-            {value: 5, label: 'Green Arrow'},
-            {value: 42, label: 'Atom Smasher'}
+            {value: '5x5', label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Atom Smasher'}
           ])
         })
       })
@@ -1018,8 +1023,8 @@ describe('Unit: list-utils', function () {
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
-            {value: 5, label: 'Green Arrow'},
-            {value: 42, label: 'Atom Smasher'}
+            {value: '5x5', label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Atom Smasher'}
           ])
         })
       })
@@ -1087,27 +1092,9 @@ describe('Unit: list-utils', function () {
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
-            {value: 5, label: 'Green Arrow'},
-            {value: 42, label: 'Atom Smasher'}
+            {value: '5x5', label: 'Green Arrow'},
+            {value: '16977f3d-120f-3d4d-b573-e8bf77a330ac', label: 'Atom Smasher'}
           ])
-        })
-      })
-
-      describe('when value is not a number', function () {
-        beforeEach(function (done) {
-          value = {universe: 'DC', heroSecret: 'Smashed!'}
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
-            .finally(() => {
-              done()
-            })
-        })
-
-        it('should not call store.findRecord', function () {
-          expect(store.findRecord).to.have.callCount(0)
-        })
-
-        it('should call store.query', function () {
-          expect(store.query).to.have.been.calledWith('hero', {booleanFlag: true, universe: 'DC'})
         })
       })
     })
