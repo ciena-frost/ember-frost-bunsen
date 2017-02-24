@@ -32,7 +32,7 @@ export default AbstractInput.extend({
       options.rows = rows
     }
 
-    if (typeOf(cellConfig.renderer.options) === 'object') {
+    if (typeOf(get(cellConfig, 'renderer.options')) === 'object') {
       return merge(options, cellConfig.renderer.options)
     }
 

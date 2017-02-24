@@ -7,6 +7,7 @@ import Ember from 'ember'
 const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task} from 'ember-concurrency'
+import _ from 'lodash'
 
 import AbstractInput from './abstract-input'
 import {getEnumValues, getOptions} from 'ember-frost-bunsen/list-utils'
@@ -136,15 +137,32 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('isFilteringLocally')
-  selectSpreadProperties (isFilteringLocally) {
-    if (isFilteringLocally) {
-      return {}
+  @computed('cellConfig', 'isFilteringLocally')
+  selectSpreadProperties (cellConfig, isFilteringLocally) {
+    const options = {}
+
+    if (!isFilteringLocally) {
+      options.onInput = this.actions.filterOptions.bind(this)
     }
 
-    return {
-      onInput: this.actions.filterOptions.bind(this)
+    if (typeOf(get(cellConfig, 'renderer.options')) === 'object') {
+      const spreadOptions = _.omit(cellConfig.renderer.options, [
+        'data',
+        'endpoint',
+        'labelAttribute',
+        'localFiltering',
+        'modelType',
+        'none',
+        'query',
+        'queryForCurrentValue',
+        'recordsPath',
+        'valueAttribute'
+      ])
+
+      return merge(options, spreadOptions)
     }
+
+    return options
   },
 
   // == Functions ==============================================================
