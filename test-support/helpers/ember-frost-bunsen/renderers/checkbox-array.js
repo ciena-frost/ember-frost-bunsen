@@ -76,7 +76,7 @@ export function expectWithState (bunsenId, state) {
         .to.equal(state.items[index])
     })
 
-  if (state.label) {
+  if (state.label !== undefined) {
     expectLabel($renderer, state.label)
   }
 

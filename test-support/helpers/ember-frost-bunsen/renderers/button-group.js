@@ -52,7 +52,7 @@ export function expectWithState (bunsenId, state) {
         .to.have.class(state.size)
     })
 
-  if (state.label) {
+  if (state.label !== undefined) {
     expectLabel($renderer, state.label)
   }
 

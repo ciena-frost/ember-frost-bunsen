@@ -70,7 +70,7 @@ export function expectWithState (bunsenId, state) {
 
   expectDisabledInput($renderer, state.disabled)
 
-  if (state.label) {
+  if (state.label !== undefined) {
     expectLabel($renderer, state.label)
   }
 

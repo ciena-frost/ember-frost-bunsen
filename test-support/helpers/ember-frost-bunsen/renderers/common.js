@@ -59,6 +59,11 @@ export function expectBunsenInputToHaveError (bunsenId, errorMessage, hook = 'bu
 }
 
 export function expectLabel ($renderer, label) {
+  if (label === null) {
+    expect($renderer.find(SELECTORS.LABEL)).to.have.length(0)
+    return
+  }
+
   const labelText = $renderer.find(SELECTORS.LABEL)
     .clone().children().remove().end() // Remove required DOM to get just the heading
     .text().trim() // Remove whitespace around label text (often newlines)
