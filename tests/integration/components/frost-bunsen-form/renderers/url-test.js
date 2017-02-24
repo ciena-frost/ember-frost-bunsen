@@ -40,6 +40,54 @@ describe('Integration: Component / frost-bunsen-form / renderer / url', function
     expectOnValidationState(ctx, {count: 1})
   })
 
+  describe('when hideLabel is set to true in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            hideLabel: true,
+            model: 'foo',
+            renderer: {
+              name: 'url'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenUrlRendererWithState('foo', {label: null})
+      expectOnValidationState(ctx, {count: 1})
+    })
+  })
+
+  describe('when hideLabel is set to false in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            hideLabel: false,
+            model: 'foo',
+            renderer: {
+              name: 'url'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenUrlRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
+    })
+  })
+
   describe('when label defined in view', function () {
     beforeEach(function () {
       this.set('bunsenView', {

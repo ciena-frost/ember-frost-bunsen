@@ -40,6 +40,54 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
     expectOnValidationState(ctx, {count: 1})
   })
 
+  describe('when hideLabel is set to true in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            hideLabel: true,
+            model: 'foo',
+            renderer: {
+              name: 'textarea'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenTextareaRendererWithState('foo', {label: null})
+      expectOnValidationState(ctx, {count: 1})
+    })
+  })
+
+  describe('when hideLabel is set to false in view', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            hideLabel: false,
+            model: 'foo',
+            renderer: {
+              name: 'textarea'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenTextareaRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
+    })
+  })
+
   describe('when cols defined in view', function () {
     beforeEach(function () {
       this.set('bunsenView', {

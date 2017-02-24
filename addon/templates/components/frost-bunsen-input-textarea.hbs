@@ -1,9 +1,11 @@
-<label class={{labelWrapperClassName}}>
-  {{renderLabel}}
-  {{#if showRequiredLabel}}
-    <div class='required'>Required</div>
-  {{/if}}
-</label>
+{{#if (not cellConfig.hideLabel)}}
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+    {{#if showRequiredLabel}}
+      <div class='required'>Required</div>
+    {{/if}}
+  </label>
+{{/if}}
 <div class={{inputWrapperClassName}}>
   {{frost-textarea
     class=valueClassName

@@ -12,20 +12,33 @@ export default {
         {
           model: 'info.people',
           arrayOptions: {
+            compact: true,
             autoAdd: true,
             itemCell: {
-              extends: 'person',
-              label: 'Person'
-            }
+              extends: 'person'
+            },
+            showLabel: false
           }
         }
       ]
     },
     person: {
       children: [
-        {model: 'name.first'},
-        {model: 'name.last'},
-        {model: 'age'}
+        {
+          hideLabel: true,
+          model: 'name.first',
+          placeholder: 'First name'
+        },
+        {
+          hideLabel: true,
+          model: 'name.last',
+          placeholder: 'Last name'
+        },
+        {
+          hideLabel: true,
+          model: 'age',
+          placeholder: 'Age'
+        }
       ]
     }
   }
