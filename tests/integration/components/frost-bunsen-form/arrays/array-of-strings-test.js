@@ -325,7 +325,10 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
           cells: [
             {
               arrayOptions: {
-                compact: true
+                compact: true,
+                itemCell: {
+                  hideLabel: true
+                }
               },
               model: 'foo'
             }
@@ -439,8 +442,8 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
             'renders remove button inline with text input'
           )
             .to.be.within(
-              textInputOffset.top,
-              textInputOffset.top + $textInput.height()
+              textInputOffset.top - 5,
+              textInputOffset.top + $textInput.height() + 5
             )
 
           expect(
