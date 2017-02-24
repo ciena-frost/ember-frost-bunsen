@@ -1,3 +1,18 @@
+# 14.17.0
+
+* **Improved** visual styling of array items.
+
+  *Compact Form*
+  <img width="1224" alt="screen shot 2017-02-23 at 2 41 35 pm" src="https://cloud.githubusercontent.com/assets/422902/23285250/d5c93e42-f9e4-11e6-8c32-62bcbeb0141d.png">
+
+  *Compact Form with Labels Hidden*
+  <img width="1202" alt="screen shot 2017-02-23 at 1 54 01 pm" src="https://cloud.githubusercontent.com/assets/422902/23285292/173f3fb6-f9e5-11e6-8d4b-3b609435d46d.png">
+
+
+  *Compact Detail*
+  <img width="1078" alt="screen shot 2017-02-23 at 2 29 19 pm" src="https://cloud.githubusercontent.com/assets/422902/23285251/d7deba0e-f9e4-11e6-8312-3baacdbb61c6.png">
+
+
 # 14.16.3
 
 Modifying queryForCurrentValue to work with string IDs.
