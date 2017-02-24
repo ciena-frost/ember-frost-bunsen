@@ -1,7 +1,6 @@
 const addonsToAdd = {
   packages: [
     {name: 'ember-ajax', target: '^2.5.2'},
-    {name: 'ember-bunsen-core', target: '0.19.1'},
     {name: 'ember-frost-core', target: '^1.7.2'},
     {name: 'ember-frost-date-picker', target: '^6.0.0'},
     {name: 'ember-frost-fields', target: '^4.0.0'},
@@ -18,6 +17,7 @@ const addonsToAdd = {
 }
 
 const packagesToRemove = [
+  'ember-bunsen-core',
   'ember-redux-thunk'
 ]
   .map((packageName) => {
