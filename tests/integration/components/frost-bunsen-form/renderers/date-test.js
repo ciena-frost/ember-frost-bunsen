@@ -507,4 +507,36 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       })
     })
   })
+
+  // TODO: enable once https://github.com/ciena-frost/ember-frost-date-picker/issues/43 is resolved
+  // MRD 2017-02-24
+  describe.skip('when options passed in', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'date',
+              options: {
+                bar: true,
+                baz: 'spam',
+                foo: 1,
+                isIconVisible: false
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenDateRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
+      expect($hook('bunsenForm-foo-datePicker-cal')).to.have.length(0)
+    })
+  })
 })

@@ -559,6 +559,39 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           })
         })
 
+        describe('when options passed in', function () {
+          beforeEach(function () {
+            this.set('bunsenView', {
+              cells: [
+                {
+                  model: 'foo',
+                  renderer: {
+                    name: 'button-group',
+                    options: {
+                      bar: true,
+                      baz: 'spam',
+                      foo: 1,
+                      icon: 'round-add'
+                    }
+                  }
+                }
+              ],
+              type: 'form',
+              version: '2.0'
+            })
+          })
+
+          it('renders as expected', function () {
+            expectCollapsibleHandles(0)
+            expectBunsenButtonGroupRendererWithState('foo', {
+              buttons: buttonLabels,
+              label: 'Foo'
+            })
+            expectOnValidationState(ctx, {count: 1})
+            expect(this.$('.frost-icon')).to.have.length(2)
+          })
+        })
+
         if (fooModel.type !== 'boolean') { // boolean doesn't require enum
           it('throws error when enum is missing', function () {
             expect(() => {

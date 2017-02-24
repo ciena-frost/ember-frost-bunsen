@@ -1,3 +1,5 @@
+import {expect} from 'chai'
+import {$hook} from 'ember-hook'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -510,6 +512,36 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         expectOnChangeState(ctx, {foo: 'Alex'})
         expectOnValidationState(ctx, {count: 1})
       })
+    })
+  })
+
+  describe('when options passed in', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'textarea',
+              options: {
+                bar: true,
+                baz: 'spam',
+                foo: 1,
+                readonly: true
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenTextareaRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
+      expect($hook('bunsenForm-foo-input').prop('readonly')).to.equal(true)
     })
   })
 })
