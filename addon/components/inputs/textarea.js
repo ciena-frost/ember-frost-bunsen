@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {get} = Ember
+const {get, merge, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import AbstractInput from './abstract-input'
@@ -30,6 +30,10 @@ export default AbstractInput.extend({
 
     if (rows) {
       options.rows = rows
+    }
+
+    if (typeOf(cellConfig.renderer.options) === 'object') {
+      return merge(options, cellConfig.renderer.options)
     }
 
     return options

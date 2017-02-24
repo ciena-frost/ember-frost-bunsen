@@ -10,14 +10,15 @@
   <div class='frost-bunsen-input-checkbox-array-checkbox-container'>
     {{#each options as |option|}}
       {{frost-checkbox
+        checked=option.checked
         class=valueClassName
         disabled=disabled
         hook=(concat hook '-checkbox-' option.value)
+        label=option.label
         onInput=(action 'handleChange')
+        options=cellConfig.renderer.options
         size=size
         value=option.value
-        label=option.label
-        checked=option.checked
       }}
     {{/each}}
     {{frost-bunsen-description-bubble

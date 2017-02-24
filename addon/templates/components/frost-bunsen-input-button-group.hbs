@@ -12,6 +12,7 @@
       disabled=disabled
       hook=(concat hook '-' index '-btn')
       onClick=(action 'handleChange' index)
+      options=cellConfig.renderer.options
       priority=(if (eq index activeIndex) 'primary' 'secondary')
       size=size
     }}

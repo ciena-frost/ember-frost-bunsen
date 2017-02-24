@@ -23,11 +23,16 @@ const {keys} = Object
  * @returns {Object} merged options from model and view
  */
 export function getMergedOptions (bunsenModel, cellConfig) {
-  const viewOptions = get(cellConfig, 'renderer.options')
-  const mergedOptions = merge({}, bunsenModel)
+  const viewOptions = get(cellConfig, 'renderer')
+  const spreadOptions = get(cellConfig, 'renderer.options')
+  let mergedOptions = merge({}, bunsenModel)
 
   if (viewOptions) {
-    return merge(mergedOptions, viewOptions)
+    mergedOptions = merge(mergedOptions, viewOptions)
+  }
+
+  if (spreadOptions) {
+    mergedOptions = merge(mergedOptions, spreadOptions)
   }
 
   return mergedOptions
@@ -77,7 +82,9 @@ export default AbstractInput.extend({
   @computed('bunsenModel', 'cellConfig')
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    const renderOptions = get(cellConfig, 'renderer.options') || {}
+    let renderOptions = get(cellConfig, 'renderer') || {}
+    const spreadOptions = get(cellConfig, 'renderer.options')
+    if (spreadOptions) renderOptions = merge(renderOptions, spreadOptions)
     const optionsData = get(renderOptions, 'data') || {}
     const hasOverrides = keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
@@ -113,7 +120,11 @@ export default AbstractInput.extend({
   isFilteringLocally (cellConfig) {
     const {endpoint, modelType} = getMergedOptions(this.get('bunsenModel'), cellConfig)
     const dataFromAPI = endpoint || modelType
-    return get(cellConfig, 'renderer.options.localFiltering') || !dataFromAPI
+    return (
+      get(cellConfig, 'renderer.localFiltering') ||
+      get(cellConfig, 'renderer.options.localFiltering') ||
+      !dataFromAPI
+    )
   },
 
   @readOnly

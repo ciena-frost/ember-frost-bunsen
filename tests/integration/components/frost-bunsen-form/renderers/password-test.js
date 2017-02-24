@@ -1,3 +1,5 @@
+import {expect} from 'chai'
+import {$hook} from 'ember-hook'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -456,6 +458,36 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
         expectOnChangeState(ctx, {foo: 'Alex'})
         expectOnValidationState(ctx, {count: 1})
       })
+    })
+  })
+
+  describe('when options passed in', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'password',
+              options: {
+                bar: true,
+                baz: 'spam',
+                foo: 1,
+                tabindex: 23
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+    })
+
+    it('renders as expected', function () {
+      expectCollapsibleHandles(0)
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo'})
+      expectOnValidationState(ctx, {count: 1})
+      expect($hook('bunsenForm-foo-input').prop('tabindex')).to.equal(23)
     })
   })
 })
