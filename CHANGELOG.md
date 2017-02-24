@@ -1,3 +1,8 @@
+# 14.18.0
+
+* **Added** support for passthrough options (spread options). This allows new properties of downstream to be leveraged as soon as they are available, with the downside of them not being validated at the bunsen level.
+
+
 # 14.17.0
 
 * **Improved** visual styling of array items.
