@@ -54,7 +54,9 @@
     "ember-cli-mirage": "0.2.4",
     "ember-cli-mocha": "0.13.2",
     "ember-cli-moment-shim": "^3.0.1",
+    "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sass": "^6.1.1",
+    "ember-cli-shims": "^1.0.2",
     "ember-cli-showdown": "^2.10.0",
     "ember-cli-test-loader": "^1.1.1",
     "ember-cli-uglify": "^1.2.0",
@@ -76,7 +78,7 @@
     "ember-getowner-polyfill": "^1.1.1",
     "ember-hook": "^1.4.1",
     "ember-load-initializers": "0.6.3",
-    "ember-lodash-shim": "^1.1.1",
+    "ember-lodash-shim": "^2.0.0",
     "ember-moment": "^7.3.0",
     "ember-pikaday-shim": "0.1.0",
     "ember-prism": "0.0.8",
@@ -84,10 +86,11 @@
     "ember-redux-shim": "^1.0.1",
     "ember-redux-thunk-shim": "^1.1.0",
     "ember-resolver": "^2.1.1",
-    "ember-seamless-immutable-shim": "1.1.5",
+    "ember-seamless-immutable-shim": "2.0.0",
     "ember-simple-uuid": "0.1.4",
     "ember-sinon": "0.6.0",
     "ember-sortable": "^1.9.1",
+    "ember-source": "^2.11.2",
     "ember-spread": "^1.1.2",
     "ember-symbol-observable": "0.1.2",
     "ember-test-utils": "^1.6.1",
@@ -95,17 +98,13 @@
     "ember-validator-shim": "^2.1.1",
     "ember-z-schema": "^2.1.1",
     "eslint": "^3.13.1",
-    "eslint-config-frost-standard": "^5.3.2",
+    "eslint-config-frost-standard": "^6.0.0",
     "ivy-codemirror": "^2.0.3",
     "loader.js": "^4.1.0",
-    "lodash-es": "^4.17.4",
     "pikaday": "^1.5.1",
     "redux": "3.6.0",
     "redux-thunk": "2.2.0",
-    "remark-cli": "^2.1.0",
-    "remark-lint": "^5.4.0",
     "sass-lint": "^1.10.2",
-    "seamless-immutable": "^7.0.0",
     "sinon-chai": "^2.8.0",
     "validator": "^6.2.1",
     "z-schema": "^3.18.2"
@@ -120,7 +119,7 @@
     "schema"
   ],
   "dependencies": {
-    "ember-bunsen-core": "0.20.0",
+    "ember-bunsen-core": "0.21.0",
     "ember-cli-babel": "^5.1.8",
     "ember-cli-htmlbars": "^1.0.3"
   },
@@ -129,14 +128,5 @@
   },
   "ember-frost-icon-pack": {
     "name": "frost-bunsen"
-  },
-  "ember-lodash-shim": {
-    "includes": [
-      "cloneDeep",
-      "isEqual",
-      "isPlainObject"
-    ],
-    "includeLodash3Exports": false,
-    "whitelist": true
   }
 }
