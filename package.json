@@ -82,7 +82,7 @@
     "ember-redux-shim": "^1.0.1",
     "ember-redux-thunk-shim": "^1.1.0",
     "ember-resolver": "^2.1.1",
-    "ember-seamless-immutable-shim": "2.0.0",
+    "ember-seamless-immutable-shim": "1.1.5",
     "ember-simple-uuid": "0.1.4",
     "ember-sinon": "0.6.0",
     "ember-sortable": "^1.9.1",
@@ -101,6 +101,7 @@
     "redux": "3.6.0",
     "redux-thunk": "2.2.0",
     "sass-lint": "^1.10.2",
+    "seamless-immutable": "^7.0.0",
     "sinon-chai": "^2.8.0",
     "validator": "^6.2.1",
     "z-schema": "^3.18.2"
