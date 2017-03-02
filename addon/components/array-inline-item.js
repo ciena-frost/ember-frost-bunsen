@@ -4,6 +4,7 @@ import Ember from 'ember'
 const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
+import {singularize} from 'ember-inflector'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-inline-item'
@@ -107,7 +108,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     const label = get(cellConfig, 'arrayOptions.itemCell.label')
     const itemCellConfig = cellId ? cellDefinitions[cellId] : null
     const itemId = itemCellConfig ? cellId : ''
-    const itemLabel = Ember.String.singularize(getLabel(label, bunsenModel, itemId))
+    const itemLabel = singularize(getLabel(label, bunsenModel, itemId))
     return itemLabel ? `${itemLabel} ${index + 1}` : null
   },
 
