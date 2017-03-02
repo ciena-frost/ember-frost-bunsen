@@ -4,6 +4,7 @@ import Ember from 'ember'
 const {A, Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
+import {singularize} from 'ember-inflector'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import _ from 'lodash'
 
@@ -67,7 +68,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   addLabel (bunsenId, cellConfig, bunsenModel) {
     const label = get(cellConfig, 'label')
     const renderLabel = getLabel(label, bunsenModel, bunsenId)
-    return `Add ${Ember.String.singularize(renderLabel).toLowerCase()}`
+    return `Add ${singularize(renderLabel).toLowerCase()}`
   },
 
   @readOnly

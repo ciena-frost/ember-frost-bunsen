@@ -15,26 +15,26 @@ body {
 }
 
 .demo-next-button {
+  position: absolute;
   right: $spacing;
   bottom: $spacing;
-  position: absolute;
 }
 
 .demo-previous-button {
-  left: $spacing;
-  bottom: $spacing;
   position: absolute;
+  bottom: $spacing;
+  left: $spacing;
 }
 
 .demo-step-title {
   position: absolute;
+  top: $app-bar-height;
+  right: $spacing;
+  left: $spacing;
   height: $title-height;
   line-height: $title-height;
   margin: 0;
   padding: 0;
-  top: $app-bar-height;
-  right: $spacing;
-  left: $spacing;
 }
 
 .demo-step-content {

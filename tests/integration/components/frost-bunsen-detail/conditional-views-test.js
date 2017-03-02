@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
-import {describe, it, beforeEach} from 'mocha'
+import {beforeEach, describe, it} from 'mocha'
 
 function renderWithValue (context, value) {
   context.set('value', value)
