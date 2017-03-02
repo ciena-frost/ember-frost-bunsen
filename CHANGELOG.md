@@ -1,3 +1,9 @@
+# 14.19.0
+
+* **Fixed** size of icon in geolocation renderer.
+* **Replaced** some bower dependencies with node dependencies.
+* **Updated** `ember-lodash-shim` to version `2.0.0` which shaves over 150 KB off of the production build.
+
 # 14.18.0
 
 * **Added** support for passthrough options (spread options). This allows new properties of downstream to be leveraged as soon as they are available, with the downside of them not being validated at the bunsen level.
