@@ -68,6 +68,7 @@
     "ember-frost-demo-components": "^3.0.1",
     "ember-frost-fields": "^4.0.0",
     "ember-frost-popover": "^4.0.2",
+    "ember-frost-table": "^1.0.2",
     "ember-frost-tabs": "^5.0.2",
     "ember-frost-test": "1.0.1",
     "ember-get-config": "0.2.1",

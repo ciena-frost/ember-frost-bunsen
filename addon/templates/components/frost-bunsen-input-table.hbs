@@ -1,0 +1,23 @@
+{{#if (not cellConfig.hideLabel)}}
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+    {{#if showRequiredLabel}}
+      <div class='frost-bunsen-required'>Required</div>
+    {{/if}}
+  </label>
+{{/if}}
+<div class={{inputWrapperClassName}}>
+  {{frost-table
+    columns=columns
+    hook=hook
+    items=items
+  }}
+  {{frost-bunsen-description-bubble
+    description=cellConfig.description
+  }}
+</div>
+{{#if renderErrorMessage}}
+  <div class='frost-bunsen-error'>
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

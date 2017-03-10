@@ -28,6 +28,13 @@ export default {
   'property-chooser': {},
   select: {},
   string: {},
+  table: {
+    things: [
+      {foo: 'hello', bar: 'there', bazz: 'buddy'},
+      {foo: 'i\'m not', bar: 'your buddy', bazz: 'guy'},
+      {foo: 'i\'m not', bar: 'your guy', bazz: 'pal'}
+    ]
+  },
   textarea: {},
   url: {}
 }
