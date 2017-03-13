@@ -117,7 +117,7 @@
     "schema"
   ],
   "dependencies": {
-    "ember-bunsen-core": "0.21.0",
+    "ember-bunsen-core": "0.22.0",
     "ember-cli-babel": "^5.1.8",
     "ember-cli-htmlbars": "^1.0.3"
   },
