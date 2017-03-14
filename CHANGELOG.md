@@ -1,3 +1,7 @@
+# 14.19.1 (2017-03-14)
+**Added** a CONTRIBUTING.md file
+**Updated** ember version to 2.11.2 to address failing tests from [BUGFIX](https://github.com/emberjs/ember-mocha/issues/141)
+
 # 14.19.0
 
 * **Fixed** size of icon in geolocation renderer.
