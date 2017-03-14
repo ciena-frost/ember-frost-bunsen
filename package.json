@@ -86,7 +86,7 @@
     "ember-simple-uuid": "0.1.4",
     "ember-sinon": "0.6.0",
     "ember-sortable": "^1.9.1",
-    "ember-source": "^2.11.2",
+    "ember-source": "2.11.2",
     "ember-spread": "^1.1.2",
     "ember-symbol-observable": "0.1.2",
     "ember-test-utils": "^1.11.0",
