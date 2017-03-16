@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.19.0",
+  "version": "14.20.0",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -68,6 +68,7 @@
     "ember-frost-demo-components": "^3.0.1",
     "ember-frost-fields": "^4.0.0",
     "ember-frost-popover": "^4.0.2",
+    "ember-frost-table": "^1.0.2",
     "ember-frost-tabs": "^5.0.2",
     "ember-frost-test": "1.0.1",
     "ember-get-config": "0.2.1",
@@ -86,7 +87,7 @@
     "ember-simple-uuid": "0.1.4",
     "ember-sinon": "0.6.0",
     "ember-sortable": "^1.9.1",
-    "ember-source": "^2.11.2",
+    "ember-source": "2.11.2",
     "ember-spread": "^1.1.2",
     "ember-symbol-observable": "0.1.2",
     "ember-test-utils": "^1.11.0",
@@ -116,7 +117,7 @@
     "schema"
   ],
   "dependencies": {
-    "ember-bunsen-core": "0.21.1",
+    "ember-bunsen-core": "0.22.0",
     "ember-cli-babel": "^5.1.8",
     "ember-cli-htmlbars": "^1.0.3"
   },

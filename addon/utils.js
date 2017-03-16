@@ -31,6 +31,7 @@ export const builtInRenderers = {
   select: 'frost-bunsen-input-select',
   static: 'frost-bunsen-input-static',
   string: 'frost-bunsen-input-text',
+  table: 'frost-bunsen-input-table',
   textarea: 'frost-bunsen-input-textarea',
   url: 'frost-bunsen-input-url'
 }
