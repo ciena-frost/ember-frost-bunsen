@@ -23,6 +23,7 @@ import {default as Password} from './components/inputs/password'
 import {default as PropertyChooser} from './components/inputs/property-chooser'
 import {default as Select} from './components/inputs/select'
 import {default as Static} from './components/inputs/static'
+import {default as Table} from './components/inputs/table'
 import {default as Text} from './components/inputs/text'
 import {default as Textarea} from './components/inputs/textarea'
 import {default as Url} from './components/inputs/url'
@@ -41,6 +42,7 @@ export const Inputs = {
   PropertyChooser,
   Select,
   Static,
+  Table,
   Text,
   Textarea,
   Url
