@@ -16,14 +16,14 @@ This renderer provides a table output for array values using ember-frost-table.
 }
 ```
 
-#### with columns specified
+#### with columns specified (to set an order, or omit some)
 
 ```json
 {
   "model": "foo",
   "renderer": {
     "name": "table",
-    "columns": ["foo", "bar", "baz"]
+    "columns": ["bazz", "foo"]
   }
 }
 ```
@@ -34,7 +34,7 @@ This renderer provides a table output for array values using ember-frost-table.
 {
   "model": "foo",
   "renderer": {
-    "columns": [{"key": "foo", "label": "FOO-LABEL"}],
+    "columns": ["foo", {"key": "bar", "label": "BAR", "bazz"],
     "name": "table"
   }
 }

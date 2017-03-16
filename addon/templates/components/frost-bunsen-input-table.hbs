@@ -1,3 +1,5 @@
+{{log cellConfig}}
+{{log value}}
 {{#if (not cellConfig.hideLabel)}}
   <label class={{labelWrapperClassName}}>
     {{renderLabel}}
@@ -7,6 +9,8 @@
   </label>
 {{/if}}
 <div class={{inputWrapperClassName}}>
+  {{log cellConfig}}
+  {{log value}}
   {{frost-table
     columns=columns
     hook=hook
