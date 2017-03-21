@@ -2,9 +2,9 @@
 
 source $(npm root -g)/pr-bumper/.travis/is-bump-commit.sh
 
-if isBumpCommit
+if !isBumpCommit
 then
-  echo "Skipping gh-pages publish for version bump commit"
+  echo "Skipping gh-pages publish for non version bump commit"
   exit 0
 fi
 
