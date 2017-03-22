@@ -1,3 +1,7 @@
+# 14.20.1 (2017-03-22)
+
+* **Fixed** build to publish dummy app to `gh-pages` branch.
+
 # 14.20.0 (2017-03-16)
 
 Please add a description of your change here, it will be automatically prepended to the `CHANGELOG.md` file.
