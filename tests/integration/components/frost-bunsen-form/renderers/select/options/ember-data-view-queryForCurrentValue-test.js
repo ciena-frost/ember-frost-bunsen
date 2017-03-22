@@ -1131,7 +1131,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select view qu
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(1)
+            .not.to.equal(0)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
