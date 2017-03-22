@@ -1,18 +1,8 @@
 const addonsToAdd = {
   packages: [
-    {name: 'ember-ajax', target: '^2.5.2'},
-    {name: 'ember-frost-core', target: '^1.7.2'},
     {name: 'ember-frost-date-picker', target: '^6.0.0'},
     {name: 'ember-frost-fields', target: '^4.0.0'},
-    {name: 'ember-frost-popover', target: '^4.0.1'},
-    {name: 'ember-frost-tabs', target: '^5.0.0'},
-    {name: 'ember-getowner-polyfill', target: '^1.0.1'},
-    {name: 'ember-lodash-shim', target: '^2.0.0'},
-    {name: 'ember-prop-types', target: '^3.0.2'},
-    {name: 'ember-redux-shim', target: '^1.0.1'},
-    {name: 'ember-redux-thunk-shim', target: '^1.1.0'},
-    {name: 'ember-spread', target: '^1.0.0'},
-    {name: 'ember-sortable', target: '^1.8.1'}
+    {name: 'ember-frost-table', target: '^1.0.0'}
   ]
 }
 
@@ -34,7 +24,7 @@ module.exports = {
 
         return this.insertIntoFile(
           `${pathPrefix}app/styles/app.scss`,
-          "@import './ember-frost-bunsen';"
+          "@import 'ember-frost-bunsen';"
         )
       })
   },
