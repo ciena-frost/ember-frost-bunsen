@@ -1,3 +1,7 @@
+# 14.21.1 (2017-03-23)
+
+* **Fixed** addon to include `ember-symbol-observable` as a dependency instead of a devDependency.
+
 # 14.21.0 (2017-03-22)
 
 * **Changed** where we run gh-pages publish in hopes of fixing it.
