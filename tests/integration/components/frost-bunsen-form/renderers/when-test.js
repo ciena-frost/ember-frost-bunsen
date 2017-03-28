@@ -363,7 +363,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
           {
             model: 'foo',
             renderer: {
-              dateFormat: 'YYYY-M-DD',
+              dateFormat: 'YYYY MM DD',
               name: 'when',
               value: 'RIGHT_NOW'
             }
@@ -378,7 +378,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
       const dateValue = $hook('bunsenForm-foo-radio-button-date-input').val()
-      const dateTest = /^\d{4}-\d-\d\d$/.test(dateValue)
+      const dateTest = /^\d{4}\s\d\d\s\d\d$/.test(dateValue)
       expect(dateTest).to.equal(true)
       expectOnValidationState(ctx, {count: 2})
     })
