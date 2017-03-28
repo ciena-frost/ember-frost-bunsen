@@ -101,11 +101,11 @@ describe('Unit: frost-bunsen-input-when', function () {
     })
 
     it('sets "storedDateTimeValue" for the second radio button', function () {
-      expect(component.get('storedDateTimeValue')).to.include('2017-02-25T00:00:00')
+      expect(component.get('storedDateTimeValue')).to.include('2017-02-25')
     })
 
     it('calls onChange() with correct argument', function () {
-      expect(onChangeSpy).to.have.been.calledWith('foo', sinon.match('2017-02-25T00:00:00'))
+      expect(onChangeSpy).to.have.been.calledWith('foo', sinon.match('2017-02-25'))
     })
   })
 
