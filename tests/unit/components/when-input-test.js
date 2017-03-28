@@ -131,7 +131,7 @@ describe('Unit: frost-bunsen-input-when', function () {
         component.send('selectedButton', eventObject)
       })
 
-      it('sets "selectedValue" to the value the second radio button', function () {
+      it('sets "selectedValue" to the value the first radio button', function () {
         expect(component.get('selectedValue')).to.equal(firstButtonValue)
       })
 
