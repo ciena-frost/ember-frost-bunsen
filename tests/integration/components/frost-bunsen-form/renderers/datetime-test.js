@@ -206,7 +206,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
   describe('when date is set', function () {
     beforeEach(function () {
       ctx.props.onValidation.reset()
-      const interactor = openDatepickerBunsenDatetimeRenderer('foo')
+      const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-datetimePicker-date-input')
       interactor.selectDate(new Date(2017, 0, 24))
       closePikaday(this)
     })
@@ -273,7 +273,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     describe('when date is set', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        const interactor = openDatepickerBunsenDatetimeRenderer('foo')
+        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-datetimePicker-date-input')
         interactor.selectDate(new Date(2017, 0, 24))
         closePikaday(this)
       })
@@ -329,7 +329,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
       describe('when user sets date', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-          const interactor = openDatepickerBunsenDatetimeRenderer('foo')
+          const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-datetimePicker-date-input')
           interactor.selectDate(new Date(2017, 0, 24))
           closePikaday(this)
         })
@@ -380,7 +380,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
       describe('when user selects date', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-          const interactor = openDatepickerBunsenDatetimeRenderer('foo')
+          const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-datetimePicker-date-input')
           interactor.selectDate(new Date(2017, 0, 24))
           closePikaday(this)
         })
@@ -400,7 +400,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
 
   describe('when time is set', function () {
     it('functions as expected', function () {
-      expectClockpickerBunsenDatetimeRenderer('foo')
+      expectClockpickerBunsenDatetimeRenderer('bunsenForm-foo-datetimePicker-time-input')
       expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
     })
   })
