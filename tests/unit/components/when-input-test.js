@@ -7,7 +7,7 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import moment from 'moment'
 import sinon from 'sinon'
 
-describe.only('Unit: frost-bunsen-input-when', function () {
+describe('Unit: frost-bunsen-input-when', function () {
   setupComponentTest('frost-bunsen-input-when', {
     unit: true
   })
