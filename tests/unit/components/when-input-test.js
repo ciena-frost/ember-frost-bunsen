@@ -97,15 +97,15 @@ describe('Unit: frost-bunsen-input-when', function () {
     beforeEach(function () {
       onChangeSpy = sandbox.spy()
       component.set('onChange', onChangeSpy)
-      component.send('selectDate', moment('2017-02-25T00:00:00-06:00'))
+      component.send('selectDate', moment('2017-02-25 06Z'))
     })
 
     it('sets "storedDateTimeValue" for the second radio button', function () {
-      expect(component.get('storedDateTimeValue')).to.equal('2017-02-25T00:00:00-06:00')
+      expect(component.get('storedDateTimeValue')).to.include('2017-02-25T00:00:00')
     })
 
     it('calls onChange() with correct argument', function () {
-      expect(onChangeSpy).to.have.been.calledWith('foo', '2017-02-25T00:00:00-06:00')
+      expect(onChangeSpy).to.have.been.calledWith('foo', sinon.match('2017-02-25T00:00:00'))
     })
   })
 
