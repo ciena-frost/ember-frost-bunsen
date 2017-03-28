@@ -7,7 +7,7 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import moment from 'moment'
 import sinon from 'sinon'
 
-describe('Unit: frost-bunsen-input-when', function () {
+describe.only('Unit: frost-bunsen-input-when', function () {
   setupComponentTest('frost-bunsen-input-when', {
     unit: true
   })
@@ -97,7 +97,7 @@ describe('Unit: frost-bunsen-input-when', function () {
     beforeEach(function () {
       onChangeSpy = sandbox.spy()
       component.set('onChange', onChangeSpy)
-      component.send('selectDate', moment('2017-02-25'))
+      component.send('selectDate', moment('2017-02-25T00:00:00-06:00'))
     })
 
     it('sets "storedDateTimeValue" for the second radio button', function () {
