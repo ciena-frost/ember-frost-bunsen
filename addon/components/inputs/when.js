@@ -54,6 +54,7 @@ export default AbstractInput.extend({
   /**
    * The date format to be used in the date-time-picker
    * @param {Object} cellConfig - contains the dateFormat "string" property (a valid moment format)
+   * @see {@link https://momentjs.com/docs/#/displaying/format}
    * @returns {String} the date format
    */
   dateFormat (cellConfig) {
@@ -65,6 +66,7 @@ export default AbstractInput.extend({
   /**
    * The time format to be used in the date-time-picker
    * @param {Object} cellConfig - contains the timeFormat "string" property (a valid moment format)
+   * @see {@link https://momentjs.com/docs/#/displaying/format}
    * @returns {String} the time format
    */
   timeFormat (cellConfig) {
@@ -76,6 +78,7 @@ export default AbstractInput.extend({
   /**
    * The date time format to be used for formating the value sent to the bunsen model
    * @param {Object} cellConfig - contains the dateTimeFormat "string" property (a valid moment format)
+   * @see {@link https://momentjs.com/docs/#/displaying/format}
    * @returns {String} the date time format
    */
   dateTimeFormat (cellConfig) {
