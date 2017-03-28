@@ -33,7 +33,8 @@ export const builtInRenderers = {
   string: 'frost-bunsen-input-text',
   table: 'frost-bunsen-input-table',
   textarea: 'frost-bunsen-input-textarea',
-  url: 'frost-bunsen-input-url'
+  url: 'frost-bunsen-input-url',
+  when: 'frost-bunsen-input-when'
 }
 
 /* eslint-disable complexity */

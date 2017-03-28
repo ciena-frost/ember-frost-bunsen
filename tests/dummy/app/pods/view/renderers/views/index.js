@@ -16,6 +16,7 @@ import string from './string'
 import table from './table'
 import textarea from './textarea'
 import url from './url'
+import when from './when'
 
 export default {
   boolean,
@@ -35,5 +36,6 @@ export default {
   string,
   table,
   textarea,
-  url
+  url,
+  when
 }
