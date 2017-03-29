@@ -1,3 +1,11 @@
+# 14.22.0 (2017-03-29)
+* **Updated** date-time renderer test helpers to be more flexible so they can be used in other tests where date-time-picker is employed
+* **Updated** date-time renderer tests to use the more flexible test helpers
+* **Added** New `when` renderer that allows the selection of a date based on a keyword or a date time string.
+* **Updated** demo app to showcase the new `when` renderer
+* **Added** documentation for the new `when` renderer
+* **Added** tests for the new `when` render
+
 # 14.21.1 (2017-03-23)
 
 * **Fixed** addon to include `ember-symbol-observable` as a dependency instead of a devDependency.
