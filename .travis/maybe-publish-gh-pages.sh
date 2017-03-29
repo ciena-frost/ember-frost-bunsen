@@ -2,23 +2,14 @@
 
 source $(npm root -g)/pr-bumper/.travis/is-bump-commit.sh
 
-if ! isBumpCommit
+if isBumpCommit
 then
-  echo "Skipping gh-pages publish for non version bump commit"
+  echo "Skipping gh-pages publish for version bump commit"
   exit 0
 fi
 
-if [ "$TRAVIS_NODE_VERSION" != "6.9.1" ]
-then
-  echo "Skipping gh-pages publish for TRAVIS_NODE_VERSION ${TRAVIS_NODE_VERSION}"
-  exit 0
-fi
-
-if [ "$EMBER_TRY_SCENARIO" != "default" ]
-then
-  echo "Skipping gh-pages publish for EMBER_TRY_SCENARIO ${EMBER_TRY_SCENARIO}"
-  exit 0
-fi
+VERSION=`node -e "console.log(require('./package.json').version)"`
+TMP_GH_PAGES_DIR=.gh-pages-demo
 
 # We only want to deploy to gh-pages from "master"
 if [ "${TRAVIS_BRANCH}" != "master" ]
@@ -26,9 +17,6 @@ then
     echo "Skipping gh-pages publish for branch ${TRAVIS_BRANCH}"
     exit 0
 fi
-
-VERSION=`node -e "console.log(require('./package.json').version)"`
-TMP_GH_PAGES_DIR=.gh-pages-demo
 
 ember build --prod
 git clone https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG} ${TMP_GH_PAGES_DIR} > /dev/null 2>&1
