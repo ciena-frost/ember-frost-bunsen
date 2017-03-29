@@ -1,3 +1,6 @@
+# 14.22.1 (2017-03-29)
+* **Updated** travis build and gh pages publish scripts
+
 # 14.22.0 (2017-03-29)
 * **Updated** date-time renderer test helpers to be more flexible so they can be used in other tests where date-time-picker is employed
 * **Updated** date-time renderer tests to use the more flexible test helpers
