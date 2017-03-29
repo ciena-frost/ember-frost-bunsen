@@ -11,10 +11,10 @@ The date-time picker is disabled unless the second radio button is currently sel
 #### label
 ```json
 {
-  label: 'Bar',
-  model: 'foo',
-  renderer: {
-    name: 'when'
+  "label": "Bar",
+  "model": "foo",
+  "renderer": {
+    "name": "when"
   }
 }
 ```
@@ -24,10 +24,10 @@ Change the date format shown in the date-time-picker. The default is `'YYYY-MM-D
 
 ```json
 {
-  model: 'foo',
-  renderer: {
-    dateFormat: 'MM-DD-YYYY',
-    name: 'when'
+  "model": "foo",
+  "renderer": {
+    "dateFormat": "MM-DD-YYYY",
+    "name": "when"
   }
 }
 ```
@@ -38,10 +38,10 @@ Change the time format shown in the date-time-picker. The default is `'HH:mm:ss'
 
 ```json
 {
-  model: 'foo',
-  renderer: {
-    name: 'when',
-    timeFormat: 'HH:mm'
+  "model": "foo",
+  "renderer": {
+    "name": "when",
+    "timeFormat": "HH:mm"
   }
 }
 ```
@@ -52,10 +52,10 @@ Change the date-time format sent to the bunsen model. The default is `'YYYY-MM-D
 
 ```json
 {
-  model: 'foo',
-  renderer: {
-    dateTimeFormat: 'MM-DD-YYYYTHH:mm:ssZ',
-    name: 'when'
+  "model": "foo",
+  "renderer": {
+    "dateTimeFormat": "MM-DD-YYYYTHH:mm:ssZ",
+    "name": "when"
   }
 }
 ```
@@ -65,10 +65,10 @@ Change the date-time format sent to the bunsen model. The default is `'YYYY-MM-D
 The label for the first radio button
 ```json
 {
-  model: 'foo',
-  renderer: {
-    label: 'Now',
-    name: 'when'
+  "model": "foo",
+  "renderer": {
+    "label": "Now",
+    "name": "when"
   }
 }
 ```
@@ -79,10 +79,10 @@ Change what size radio buttons are used. The default size is `small` if not prov
 
 ```json
 {
-  model: 'foo',
-  renderer: {
-    name: 'when',
-    size: 'medium'
+  "model": "foo",
+  "renderer": {
+    "name": "when",
+    "size": "medium"
   }
 }
 ```
@@ -92,10 +92,10 @@ Change what size radio buttons are used. The default size is `small` if not prov
 The value for the first radio button
 ```json
 {
-  model: 'foo',
-  renderer: {
-    name: 'when',
-    value: 'RIGHT_NOW'
+  "model": "foo",
+  "renderer": {
+    "name": "when",
+    "value": "RIGHT_NOW"
   }
 }
 ```
