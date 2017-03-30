@@ -26,7 +26,7 @@ This is the default renderer when the model contains the property `enum` or the 
 
 #### width
 
-Sometimes you find yourself with some really long data, and the automatic truncation features of the select component aren't helping, or are obscuring the data in user-unfriendly ways. In this case you can tell Bunsen to force the select element's width.
+Sometimes you find yourself with some really long data, and the automatic truncation features of the select component aren't helping, or are obscuring the data in user-unfriendly ways. Other times you have an Enum of very short values (e.g., ['HTTP', 'FTP', 'UDP']), and that big ol' select just looks silly.  In these cases you can tell Bunsen to force the select element's width.
 
 ```js
 // UI schema 2
