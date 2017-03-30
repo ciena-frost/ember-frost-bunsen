@@ -187,6 +187,7 @@ Sometimes, it is necessary populate the list with static options which are then 
   }
 }
 ```
+If you use this option, it will replace the list of options sourced from `enum` but `enum` is still required for validation.
 
 ### None Option
 
