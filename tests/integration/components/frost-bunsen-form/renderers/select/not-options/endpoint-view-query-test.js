@@ -62,7 +62,8 @@ describe(desc, function () {
                 baz: 'alpha'
               },
               recordsPath: '',
-              valueAttribute: 'value'
+              valueAttribute: 'value',
+              width: 500
             }
           }
         ],
@@ -124,6 +125,14 @@ describe(desc, function () {
           'renders a bunsen select input'
         )
           .to.have.length(1)
+
+        const style = this.$(selectors.bunsen.renderer.select.componentEl).attr('style')
+
+        expect(
+          style.split(';').find(rule => rule.indexOf('width') !== -1),
+          'with the specified width'
+        )
+          .to.equal('width: 500px')
 
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
           text: ''

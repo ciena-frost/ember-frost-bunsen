@@ -27,6 +27,7 @@ export default {
       select: {
         arrow: '.frost-bunsen-input-select .down-arrow',
         input: '.frost-bunsen-input-select',
+        componentEl: '.frost-bunsen-input-select .frost-select',
         items: '.frost-select-dropdown li'
       },
       static: '.frost-bunsen-input-static',

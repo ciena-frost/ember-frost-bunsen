@@ -23,6 +23,24 @@ This is the default renderer when the model contains the property `enum` or the 
 }
 ```
 
+
+#### width
+
+Sometimes you find yourself with some really long data, and the automatic truncation features of the select component aren't helping, or are obscuring the data in user-unfriendly ways. Other times you have an Enum of very short values (e.g., ['HTTP', 'FTP', 'UDP']), and that big ol' select just looks silly.  In these cases you can tell Bunsen to force the select element's width.
+
+```js
+// UI schema 2
+{
+  model: 'foo',
+  renderer: {
+    name: 'select',
+    width: 500
+  }
+}
+```
+
+Note: It's entirely possible that width restrictions set on the `.frost-bunsen-left-input` or other wrapper CSS classes in your consuming app my still act to limit the select component's horizontal size.
+
 ### Querying Data
 
 The model and view can be configured to fetch the select options from the
@@ -68,14 +86,14 @@ Use `$filter` as a placeholder for the text the user types into the `select` inp
 }
 ```
 
-When using a paged API, the initial value from the form might not be included in the regular query, 
+When using a paged API, the initial value from the form might not be included in the regular query,
 causing the select to appear blank even though the form has the value set. If this is a concern, set `queryForCurrentValue`
 to execute a second API call to make sure the current value is included in the select options and can be displayed correctly.
 
 *Note: This second API call is made with `store.findRecord()`, which requires that the value be a record id.
- 
+
  **Model**
- 
+
  ```json
  {
    "modelType": "<ember-data-model>",
@@ -169,7 +187,6 @@ Sometimes, it is necessary populate the list with static options which are then 
   }
 }
 ```
-
 If you use this option, it will replace the list of options sourced from `enum` but `enum` is still required for validation.
 
 ### None Option

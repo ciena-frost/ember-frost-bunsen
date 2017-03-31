@@ -156,6 +156,7 @@ export default AbstractInput.extend({
         'query',
         'queryForCurrentValue',
         'recordsPath',
+        'width',
         'valueAttribute'
       ])
 
@@ -163,6 +164,13 @@ export default AbstractInput.extend({
     }
 
     return options
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  width (cellConfig) {
+    const renderer = cellConfig.renderer || {}
+    return get(renderer, 'width') || undefined
   },
 
   // == Functions ==============================================================
