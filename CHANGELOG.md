@@ -1,3 +1,7 @@
+# 14.23.0 (2017-03-31)
+* Now supports 'width' option for select renderer
+
+
 # 14.22.1 (2017-03-29)
 * **Updated** travis build and gh pages publish scripts
 
