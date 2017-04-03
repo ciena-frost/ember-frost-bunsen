@@ -1,3 +1,7 @@
+# 14.23.1 (2017-04-03)
+**Fixed** issue where hidden renderer was unintentionally unsetting values.
+
+
 # 14.23.0 (2017-03-31)
 * Now supports 'width' option for select renderer
 
