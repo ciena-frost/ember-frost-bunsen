@@ -1,3 +1,8 @@
+# 14.23.2 (2017-04-07)
+
+* **Fixed** boolean renderer to put label to right of checkbox.
+
+
 # 14.23.1 (2017-04-03)
 **Fixed** issue where hidden renderer was unintentionally unsetting values.
 
