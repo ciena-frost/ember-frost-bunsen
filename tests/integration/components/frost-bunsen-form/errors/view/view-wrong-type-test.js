@@ -63,7 +63,7 @@ describe('Integration: Component / frost-bunsen-form / errors / view / wrong typ
       .to.equal('ERROR: # Invalid JSON')
 
     const actual = Logger.warn.lastCall.args[0]
-    const expected = 'Property bunsenView does not match expected types: EmberObject, object'
+    const expected = 'Expected property bunsenView to be one of expected types: [EmberObject, object] but instead got string'
 
     expect(
       actual.indexOf(expected),

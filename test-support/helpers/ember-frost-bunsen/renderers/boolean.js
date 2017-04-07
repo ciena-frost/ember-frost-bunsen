@@ -5,14 +5,14 @@ import {$hook} from 'ember-hook'
 
 import {
   expectBunsenInputNotToHaveError,
-  expectBunsenInputToHaveError,
-  expectLabel
+  expectBunsenInputToHaveError
 } from './common'
 
 const SELECTORS = {
   CHECKBOX: '.frost-checkbox input[type="checkbox"]',
   DISABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:disabled',
-  ENABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:not(:disabled)'
+  ENABLED_CHECKBOX: '.frost-checkbox input[type="checkbox"]:not(:disabled)',
+  LABEL: '.frost-checkbox label'
 }
 
 /**
@@ -58,6 +58,17 @@ function expectDisabledInput ($renderer, disabled) {
     `renders ${determinerPlusVerb} checkbox input`
   )
     .to.have.length(1)
+}
+
+function expectLabel ($renderer, label) {
+  const labelText = $renderer.find(SELECTORS.LABEL)
+    .text().trim() // Remove whitespace around label text (often newlines)
+
+  expect(
+    labelText,
+    'renders expected label text'
+  )
+    .to.equal(label === null ? '' : label)
 }
 
 /**
