@@ -75,6 +75,7 @@
     "ember-moment": "^7.3.0",
     "ember-pikaday-shim": "0.1.0",
     "ember-prism": "0.0.8",
+    "ember-prop-types": "^3.11.0",
     "ember-resolver": "^2.1.1",
     "ember-simple-uuid": "0.1.4",
     "ember-sinon": "0.6.0",
