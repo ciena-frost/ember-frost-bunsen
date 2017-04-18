@@ -192,7 +192,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     // Look for sub model using model property of cell config
-    let subModel = getSubModel(bunsenModel, removeIndex(configModel), dependsOn)
+    let subModel = getSubModel(bunsenModel, configModel, dependsOn)
 
     if (!subModel) {
       // Look for sub model using model property of cell config prepended with bunsen ID
@@ -385,9 +385,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   getParentModel (reference, dependencyReference) {
     const model = this.get('bunsenModel')
-    const path = getModelPath(reference, dependencyReference)
-    const parentPath = path.split('.').slice(0, -2).join('.') // skip back past property name and 'properties'
-    return (parentPath) ? get(model, parentPath) : model
+    const path = getModelPath(model, reference, dependencyReference)
+    const parentPath = path.pop() // skip back past property name and 'properties'
+    return (parentPath) ? get(model, parentPath.toString()) : model
   },
 
   // == Actions ================================================================

@@ -72,6 +72,16 @@ export default [
     model: models.tags
   },
   {
+    id: 'tuple',
+    label: 'Tuple',
+    model: models.tuple
+  },
+  {
+    id: 'tuple-additional-items',
+    label: 'Tuple (with Additional Items)',
+    model: models.tupleAdditionalItems
+  },
+  {
     id: 'wedding-application',
     label: 'Wedding Application',
     model: models.weddingApplication
