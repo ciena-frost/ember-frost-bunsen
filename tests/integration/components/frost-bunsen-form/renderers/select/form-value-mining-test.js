@@ -81,7 +81,19 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       onChange: sandbox.spy(),
       onValidation: sandbox.spy(),
       showAllErrors: undefined,
-      value: {
+      value: undefined
+    }
+
+    this.setProperties(props)
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
+
+  describe('when no initial value', function () {
+    beforeEach(function () {
+      this.set('value', {
         bar: [
           {
             id: '1',
@@ -96,18 +108,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             name: 'spam'
           }
         ]
-      }
-    }
+      })
 
-    this.setProperties(props)
-  })
-
-  afterEach(function () {
-    sandbox.restore()
-  })
-
-  describe('when no initial value', function () {
-    beforeEach(function () {
       render.call(this)
     })
 
@@ -1440,19 +1442,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
     describe('when field is required', function () {
       beforeEach(function () {
-        this.set('bunsenModel', {
-          properties: {
-            foo: {
-              enum: [
-                'bar',
-                'baz'
-              ],
-              type: 'string'
-            }
-          },
-          required: ['foo'],
-          type: 'object'
-        })
+        props.bunsenModel.required = ['foo']
+        this.set('bunsenModel', props.bunsenModel)
       })
 
       describe('showAllErrors not set', function () {
@@ -1633,704 +1624,207 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
     beforeEach(function () {
       props.bunsenModel.properties.foo.default = '1'
       this.set('bunsenModel', props.bunsenModel)
+      render.call(this)
     })
 
-    describe('when expanded/opened', function () {
+    it('renders as expected', function () {
+      expectOnChangeState({props}, {
+        foo: '1'
+      })
+    })
+
+    describe('set property to be mined', function () {
       beforeEach(function () {
-        render.call(this)
-        return $hook('my-form-foo').find('.frost-select').click()
-      })
+        props.onValidation.reset()
 
-      it('renders as expected', function () {
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          // focused: true, // Not staying focused in test for some reason
-          items: ['bar', 'baz', 'spam'],
-          opened: true,
-          text: 'bar'
+        this.set('value', {
+          bar: [
+            {
+              id: '1',
+              name: 'bar'
+            },
+            {
+              id: '2',
+              name: 'baz'
+            },
+            {
+              id: '3',
+              name: 'spam'
+            }
+          ],
+          foo: '1'
         })
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
       })
 
-      describe('when filtered', function () {
+      describe('when expanded/opened', function () {
         beforeEach(function () {
-          $('.frost-select-dropdown .frost-text-input')
-            .val('sp')
-            .trigger('input')
+          render.call(this)
+          return $hook('my-form-foo').find('.frost-select').click()
         })
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['spam'],
+            items: ['bar', 'baz', 'spam'],
             opened: true,
             text: 'bar'
           })
-        })
-      })
 
-      describe('when first option selected (default value)', function () {
-        beforeEach(function () {
-          props.onChange.reset()
-          props.onValidation.reset()
-          $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-          return wait()
-        })
-
-        it('renders as expected', function () {
-          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
-          })
+          const formValue = props.onChange.lastCall.args[0]
 
           expect(
-            props.onChange.callCount,
-            'does not trigger change since value is aleady selected'
+            formValue,
+            'provides consumer with expected form value'
           )
-            .to.equal(0)
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+        })
 
-          expectOnValidationState({props}, {count: 0})
+        describe('when filtered', function () {
+          beforeEach(function () {
+            $('.frost-select-dropdown .frost-text-input')
+              .val('sp')
+              .trigger('input')
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              // focused: true, // Not staying focused in test for some reason
+              items: ['spam'],
+              opened: true,
+              text: 'bar'
+            })
+          })
+        })
+
+        describe('when first option selected (default value)', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'bar'
+            })
+
+            expect(
+              props.onChange.callCount,
+              'does not trigger change since value is aleady selected'
+            )
+              .to.equal(0)
+
+            expectOnValidationState({props}, {count: 0})
+          })
+        })
+
+        describe('when middle option selected', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'baz'
+            })
+
+            expectOnChangeState({props}, {
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '2'
+            })
+
+            expectOnValidationState({props}, {count: 1})
+          })
+        })
+
+        describe('when last option selected', function () {
+          beforeEach(function () {
+            props.onChange.reset()
+            props.onValidation.reset()
+            $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
+            return wait()
+          })
+
+          it('renders as expected', function () {
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'spam'
+            })
+
+            expectOnChangeState({props}, {
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '3'
+            })
+
+            expectOnValidationState({props}, {count: 1})
+          })
         })
       })
 
-      describe('when middle option selected', function () {
+      describe('when label defined in view', function () {
         beforeEach(function () {
-          props.onChange.reset()
-          props.onValidation.reset()
-          $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-          return wait()
-        })
-
-        it('renders as expected', function () {
-          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'baz'
-          })
-
-          expectOnChangeState({props}, {
-            bar: [
+          this.set('bunsenView', {
+            cells: [
               {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
+                label: 'FooBar Baz',
+                model: 'foo'
               }
             ],
-            foo: '2'
+            type: 'form',
+            version: '2.0'
           })
 
-          expectOnValidationState({props}, {count: 1})
-        })
-      })
-
-      describe('when last option selected', function () {
-        beforeEach(function () {
-          props.onChange.reset()
-          props.onValidation.reset()
-          $hook('my-form-foo-item', {index: 2}).trigger('mousedown')
-          return wait()
-        })
-
-        it('renders as expected', function () {
-          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'spam'
-          })
-
-          expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '3'
-          })
-
-          expectOnValidationState({props}, {count: 1})
-        })
-      })
-    })
-
-    describe('when label defined in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              label: 'FooBar Baz',
-              model: 'foo'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectCollapsibleHandles(0, 'my-form')
-
-        expect(
-          this.$(selectors.bunsen.renderer.select.input),
-          'renders a bunsen select input'
-        )
-          .to.have.length(1)
-
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('FooBar Baz')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
-      })
-    })
-
-    describe('when collapsible is set to true in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              collapsible: true,
-              model: 'foo'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectCollapsibleHandles(1, 'my-form')
-
-        expect(
-          this.$(selectors.bunsen.renderer.select.input),
-          'renders a bunsen select input'
-        )
-          .to.have.length(1)
-
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('Foo')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
-      })
-    })
-
-    describe('when collapsible is set to false in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              collapsible: false,
-              model: 'foo'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectCollapsibleHandles(0, 'my-form')
-
-        expect(
-          this.$(selectors.bunsen.renderer.select.input),
-          'renders a bunsen select input'
-        )
-          .to.have.length(1)
-
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        expect(
-          this.$(selectors.bunsen.label).text().trim(),
-          'renders expected label text'
-        )
-          .to.equal('Foo')
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
-      })
-    })
-
-    describe('when placeholder defined in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              model: 'foo',
-              placeholder: 'Foo bar'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expect(
-          this.$(selectors.bunsen.renderer.select.input),
-          'renders a bunsen select input'
-        )
-          .to.have.length(1)
-
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          props.onValidation.callCount,
-          'informs consumer of validation results'
-        )
-          .to.equal(1)
-
-        const validationResult = props.onValidation.lastCall.args[0]
-
-        expect(
-          validationResult.errors.length,
-          'informs consumer there are no errors'
-        )
-          .to.equal(0)
-
-        expect(
-          validationResult.warnings.length,
-          'informs consumer there are no warnings'
-        )
-          .to.equal(0)
-      })
-    })
-
-    describe('when form explicitly enabled', function () {
-      beforeEach(function () {
-        this.set('disabled', false)
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when form disabled', function () {
-      beforeEach(function () {
-        this.set('disabled', true)
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          disabled: true,
-          text: 'bar'
-        })
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when property explicitly enabled in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: false,
-              model: 'foo'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
-        })
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when property disabled in view', function () {
-      beforeEach(function () {
-        this.set('bunsenView', {
-          cells: [
-            {
-              disabled: true,
-              model: 'foo'
-            }
-          ],
-          type: 'form',
-          version: '2.0'
-        })
-
-        render.call(this)
-      })
-
-      it('renders as expected', function () {
-        expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          disabled: true,
-          text: 'bar'
-        })
-
-        const formValue = props.onChange.lastCall.args[0]
-
-        expect(
-          formValue,
-          'provides consumer with expected form value'
-        )
-          .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
-          })
-
-        expect(
-          this.$(selectors.error),
-          'does not have any validation errors'
-        )
-          .to.have.length(0)
-      })
-    })
-
-    describe('when field is required', function () {
-      beforeEach(function () {
-        props.bunsenModel.required = ['foo']
-        this.set('bunsenModel', props.bunsenModel)
-      })
-
-      describe('showAllErrors not set', function () {
-        beforeEach(function () {
           render.call(this)
         })
 
         it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
           expect(
             this.$(selectors.bunsen.renderer.select.input),
             'renders a bunsen select input'
@@ -2340,6 +1834,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             text: 'bar'
           })
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('FooBar Baz')
 
           expect(
             this.$(selectors.error),
@@ -2375,7 +1875,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(1)
+            .to.equal(2)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -2393,9 +1893,193 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
       })
 
-      describe('when showAllErrors is false', function () {
+      describe('when collapsible is set to true in view', function () {
         beforeEach(function () {
-          this.set('showAllErrors', false)
+          this.set('bunsenView', {
+            cells: [
+              {
+                collapsible: true,
+                model: 'foo'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
+          render.call(this)
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(1, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('Foo')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          const formValue = props.onChange.lastCall.args[0]
+
+          expect(
+            formValue,
+            'provides consumer with expected form value'
+          )
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(2)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when collapsible is set to false in view', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cells: [
+              {
+                collapsible: false,
+                model: 'foo'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
+          render.call(this)
+        })
+
+        it('renders as expected', function () {
+          expectCollapsibleHandles(0, 'my-form')
+
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expect(
+            this.$(selectors.bunsen.label).text().trim(),
+            'renders expected label text'
+          )
+            .to.equal('Foo')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          const formValue = props.onChange.lastCall.args[0]
+
+          expect(
+            formValue,
+            'provides consumer with expected form value'
+          )
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(2)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when placeholder defined in view', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cells: [
+              {
+                model: 'foo',
+                placeholder: 'Foo bar'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
           render.call(this)
         })
 
@@ -2406,6 +2090,69 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           )
             .to.have.length(1)
 
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'bar'
+          })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          const formValue = props.onChange.lastCall.args[0]
+
+          expect(
+            formValue,
+            'provides consumer with expected form value'
+          )
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+
+          expect(
+            props.onValidation.callCount,
+            'informs consumer of validation results'
+          )
+            .to.equal(2)
+
+          const validationResult = props.onValidation.lastCall.args[0]
+
+          expect(
+            validationResult.errors.length,
+            'informs consumer there are no errors'
+          )
+            .to.equal(0)
+
+          expect(
+            validationResult.warnings.length,
+            'informs consumer there are no warnings'
+          )
+            .to.equal(0)
+        })
+      })
+
+      describe('when form explicitly enabled', function () {
+        beforeEach(function () {
+          this.set('disabled', false)
+          render.call(this)
+        })
+
+        it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             text: 'bar'
           })
@@ -2439,28 +2186,70 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'does not have any validation errors'
           )
             .to.have.length(0)
-
-          expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
         })
       })
 
-      describe('when showAllErrors is true', function () {
+      describe('when form disabled', function () {
         beforeEach(function () {
-          this.set('showAllErrors', true)
+          this.set('disabled', true)
           render.call(this)
         })
 
         it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.select.input),
-            'renders a bunsen select input'
-          )
-            .to.have.length(1)
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            disabled: true,
+            text: 'bar'
+          })
 
+          const formValue = props.onChange.lastCall.args[0]
+
+          expect(
+            formValue,
+            'provides consumer with expected form value'
+          )
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+        })
+      })
+
+      describe('when property explicitly enabled in view', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cells: [
+              {
+                disabled: false,
+                model: 'foo'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
+          render.call(this)
+        })
+
+        it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             text: 'bar'
           })
@@ -2490,10 +2279,243 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             })
 
           expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
+            this.$(selectors.error),
+            'does not have any validation errors'
           )
-            .to.equal(1)
+            .to.have.length(0)
+        })
+      })
+
+      describe('when property disabled in view', function () {
+        beforeEach(function () {
+          this.set('bunsenView', {
+            cells: [
+              {
+                disabled: true,
+                model: 'foo'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
+          render.call(this)
+        })
+
+        it('renders as expected', function () {
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            disabled: true,
+            text: 'bar'
+          })
+
+          const formValue = props.onChange.lastCall.args[0]
+
+          expect(
+            formValue,
+            'provides consumer with expected form value'
+          )
+            .to.eql({
+              bar: [
+                {
+                  id: '1',
+                  name: 'bar'
+                },
+                {
+                  id: '2',
+                  name: 'baz'
+                },
+                {
+                  id: '3',
+                  name: 'spam'
+                }
+              ],
+              foo: '1'
+            })
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+        })
+      })
+
+      describe('when field is required', function () {
+        beforeEach(function () {
+          props.bunsenModel.required = ['foo']
+          this.set('bunsenModel', props.bunsenModel)
+        })
+
+        describe('showAllErrors not set', function () {
+          beforeEach(function () {
+            render.call(this)
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.select.input),
+              'renders a bunsen select input'
+            )
+              .to.have.length(1)
+
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'bar'
+            })
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            const formValue = props.onChange.lastCall.args[0]
+
+            expect(
+              formValue,
+              'provides consumer with expected form value'
+            )
+              .to.eql({
+                bar: [
+                  {
+                    id: '1',
+                    name: 'bar'
+                  },
+                  {
+                    id: '2',
+                    name: 'baz'
+                  },
+                  {
+                    id: '3',
+                    name: 'spam'
+                  }
+                ],
+                foo: '1'
+              })
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(2)
+
+            const validationResult = props.onValidation.lastCall.args[0]
+
+            expect(
+              validationResult.errors.length,
+              'informs consumer there are no errors'
+            )
+              .to.equal(0)
+
+            expect(
+              validationResult.warnings.length,
+              'informs consumer there are no warnings'
+            )
+              .to.equal(0)
+          })
+        })
+
+        describe('when showAllErrors is false', function () {
+          beforeEach(function () {
+            this.set('showAllErrors', false)
+            render.call(this)
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.select.input),
+              'renders a bunsen select input'
+            )
+              .to.have.length(1)
+
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'bar'
+            })
+
+            const formValue = props.onChange.lastCall.args[0]
+
+            expect(
+              formValue,
+              'provides consumer with expected form value'
+            )
+              .to.eql({
+                bar: [
+                  {
+                    id: '1',
+                    name: 'bar'
+                  },
+                  {
+                    id: '2',
+                    name: 'baz'
+                  },
+                  {
+                    id: '3',
+                    name: 'spam'
+                  }
+                ],
+                foo: '1'
+              })
+
+            expect(
+              this.$(selectors.error),
+              'does not have any validation errors'
+            )
+              .to.have.length(0)
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(2)
+          })
+        })
+
+        describe('when showAllErrors is true', function () {
+          beforeEach(function () {
+            this.set('showAllErrors', true)
+            render.call(this)
+          })
+
+          it('renders as expected', function () {
+            expect(
+              this.$(selectors.bunsen.renderer.select.input),
+              'renders a bunsen select input'
+            )
+              .to.have.length(1)
+
+            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+              text: 'bar'
+            })
+
+            const formValue = props.onChange.lastCall.args[0]
+
+            expect(
+              formValue,
+              'provides consumer with expected form value'
+            )
+              .to.eql({
+                bar: [
+                  {
+                    id: '1',
+                    name: 'bar'
+                  },
+                  {
+                    id: '2',
+                    name: 'baz'
+                  },
+                  {
+                    id: '3',
+                    name: 'spam'
+                  }
+                ],
+                foo: '1'
+              })
+
+            expect(
+              props.onValidation.callCount,
+              'informs consumer of validation results'
+            )
+              .to.equal(2)
+          })
         })
       })
     })
