@@ -1,3 +1,8 @@
+# 14.24.0 (2017-04-20)
+
+* **Added** support for mining select lists from the form value instead of an API endpoint.
+
+
 # 14.23.2 (2017-04-07)
 
 * **Fixed** boolean renderer to put label to right of checkbox.
