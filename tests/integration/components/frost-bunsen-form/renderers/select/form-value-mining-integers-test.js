@@ -34,7 +34,7 @@ function render () {
   `)
 }
 
-describe('Integration: Component / frost-bunsen-form / renderer / select form value mining', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / select form value mining integers', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
@@ -50,18 +50,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         properties: {
           bar: {
             items: {
-              properties: {
-                id: {type: 'string'},
-                name: {type: 'string'}
-              },
-              type: 'object'
+              type: 'integer'
             },
             type: 'array'
           },
           foo: {
             labelAttribute: 'name',
             recordsPath: 'bar',
-            type: 'string',
+            type: 'integer',
             valueAttribute: 'id'
           }
         },
@@ -94,20 +90,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
   describe('when no initial value', function () {
     beforeEach(function () {
       this.set('value', {
-        bar: [
-          {
-            id: '1',
-            name: 'bar'
-          },
-          {
-            id: '2',
-            name: 'baz'
-          },
-          {
-            id: '3',
-            name: 'spam'
-          }
-        ]
+        bar: [0, 1, 2]
       })
 
       render.call(this)
@@ -149,7 +132,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
           // focused: true, // Not staying focused in test for some reason
-          items: ['bar', 'baz', 'spam'],
+          items: [0, 1, 2],
           opened: true,
           text: ''
         })
@@ -158,14 +141,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       describe('when filtered', function () {
         beforeEach(function () {
           $('.frost-select-dropdown .frost-text-input')
-            .val('sp')
+            .val('2')
             .trigger('input')
         })
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['spam'],
+            items: [2],
             opened: true,
             text: ''
           })
@@ -182,25 +165,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
           expectOnValidationState({props}, {count: 1})
@@ -217,25 +187,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'baz'
+            text: '1'
           })
 
           expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '2'
+            bar: [0, 1, 2],
+            foo: 1
           })
 
           expectOnValidationState({props}, {count: 1})
@@ -252,25 +209,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'spam'
+            text: '2'
           })
 
           expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '3'
+            bar: [0, 1, 2],
+            foo: 2
           })
 
           expectOnValidationState({props}, {count: 1})
@@ -616,9 +560,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               foo: {
                 enum: [
                   'bar',
-                  'baz'
+                  1
                 ],
-                type: 'string'
+                type: 'integer'
               }
             },
             required: ['foo'],
@@ -738,21 +682,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
   describe('when initial value', function () {
     beforeEach(function () {
       this.set('value', {
-        bar: [
-          {
-            id: '1',
-            name: 'bar'
-          },
-          {
-            id: '2',
-            name: 'baz'
-          },
-          {
-            id: '3',
-            name: 'spam'
-          }
-        ],
-        foo: '1'
+        bar: [0, 1, 2],
+        foo: 0
       })
     })
 
@@ -765,9 +696,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
           // focused: true, // Not staying focused in test for some reason
-          items: ['bar', 'baz', 'spam'],
+          items: [0, 1, 2],
           opened: true,
-          text: 'bar'
+          text: '0'
         })
 
         const formValue = props.onChange.lastCall.args[0]
@@ -777,37 +708,24 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
       })
 
       describe('when filtered', function () {
         beforeEach(function () {
           $('.frost-select-dropdown .frost-text-input')
-            .val('sp')
+            .val('2')
             .trigger('input')
         })
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['spam'],
+            items: [2],
             opened: true,
-            text: 'bar'
+            text: '0'
           })
         })
       })
@@ -822,7 +740,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -845,25 +763,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'baz'
+            text: '1'
           })
 
           expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '2'
+            bar: [0, 1, 2],
+            foo: 1
           })
 
           expectOnValidationState({props}, {count: 1})
@@ -880,25 +785,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'spam'
+            text: '2'
           })
 
           expectOnChangeState({props}, {
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '3'
+            bar: [0, 1, 2],
+            foo: 2
           })
 
           expectOnValidationState({props}, {count: 1})
@@ -932,7 +824,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           .to.have.length(1)
 
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         expect(
@@ -954,21 +846,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1019,7 +898,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           .to.have.length(1)
 
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         expect(
@@ -1041,21 +920,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1106,7 +972,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           .to.have.length(1)
 
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         expect(
@@ -1128,21 +994,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1191,7 +1044,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           .to.have.length(1)
 
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         expect(
@@ -1207,21 +1060,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1254,7 +1094,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         const formValue = props.onChange.lastCall.args[0]
@@ -1264,21 +1104,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1298,7 +1125,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
           disabled: true,
-          text: 'bar'
+          text: '0'
         })
 
         const formValue = props.onChange.lastCall.args[0]
@@ -1308,21 +1135,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1351,7 +1165,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-          text: 'bar'
+          text: '0'
         })
 
         const formValue = props.onChange.lastCall.args[0]
@@ -1361,21 +1175,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1405,7 +1206,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       it('renders as expected', function () {
         expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
           disabled: true,
-          text: 'bar'
+          text: '0'
         })
 
         const formValue = props.onChange.lastCall.args[0]
@@ -1415,21 +1216,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           'provides consumer with expected form value'
         )
           .to.eql({
-            bar: [
-              {
-                id: '1',
-                name: 'bar'
-              },
-              {
-                id: '2',
-                name: 'baz'
-              },
-              {
-                id: '3',
-                name: 'spam'
-              }
-            ],
-            foo: '1'
+            bar: [0, 1, 2],
+            foo: 0
           })
 
         expect(
@@ -1459,7 +1247,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -1475,21 +1263,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -1528,7 +1303,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -1544,21 +1319,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -1583,7 +1345,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -1593,21 +1355,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -1622,14 +1371,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
   describe('when default value', function () {
     beforeEach(function () {
-      props.bunsenModel.properties.foo.default = '1'
+      props.bunsenModel.properties.foo.default = 0
       this.set('bunsenModel', props.bunsenModel)
       render.call(this)
     })
 
     it('renders as expected', function () {
       expectOnChangeState({props}, {
-        foo: '1'
+        foo: 0
       })
     })
 
@@ -1638,21 +1387,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         props.onValidation.reset()
 
         this.set('value', {
-          bar: [
-            {
-              id: '1',
-              name: 'bar'
-            },
-            {
-              id: '2',
-              name: 'baz'
-            },
-            {
-              id: '3',
-              name: 'spam'
-            }
-          ],
-          foo: '1'
+          bar: [0, 1, 2],
+          foo: 0
         })
       })
 
@@ -1665,9 +1401,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             // focused: true, // Not staying focused in test for some reason
-            items: ['bar', 'baz', 'spam'],
+            items: [0, 1, 2],
             opened: true,
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -1677,37 +1413,24 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
         })
 
         describe('when filtered', function () {
           beforeEach(function () {
             $('.frost-select-dropdown .frost-text-input')
-              .val('sp')
+              .val('2')
               .trigger('input')
           })
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               // focused: true, // Not staying focused in test for some reason
-              items: ['spam'],
+              items: [2],
               opened: true,
-              text: 'bar'
+              text: '0'
             })
           })
         })
@@ -1722,7 +1445,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: '0'
             })
 
             expect(
@@ -1745,25 +1468,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'baz'
+              text: '1'
             })
 
             expectOnChangeState({props}, {
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '2'
+              bar: [0, 1, 2],
+              foo: 1
             })
 
             expectOnValidationState({props}, {count: 1})
@@ -1780,25 +1490,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'spam'
+              text: '2'
             })
 
             expectOnChangeState({props}, {
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '3'
+              bar: [0, 1, 2],
+              foo: 2
             })
 
             expectOnValidationState({props}, {count: 1})
@@ -1832,7 +1529,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -1854,21 +1551,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -1919,7 +1603,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -1941,21 +1625,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2006,7 +1677,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -2028,21 +1699,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2091,7 +1749,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           expect(
@@ -2107,21 +1765,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2154,7 +1799,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -2164,21 +1809,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2198,7 +1830,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             disabled: true,
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -2208,21 +1840,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2251,7 +1870,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -2261,21 +1880,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2305,7 +1911,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
             disabled: true,
-            text: 'bar'
+            text: '0'
           })
 
           const formValue = props.onChange.lastCall.args[0]
@@ -2315,21 +1921,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             'provides consumer with expected form value'
           )
             .to.eql({
-              bar: [
-                {
-                  id: '1',
-                  name: 'bar'
-                },
-                {
-                  id: '2',
-                  name: 'baz'
-                },
-                {
-                  id: '3',
-                  name: 'spam'
-                }
-              ],
-              foo: '1'
+              bar: [0, 1, 2],
+              foo: 0
             })
 
           expect(
@@ -2359,7 +1952,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: '0'
             })
 
             expect(
@@ -2375,21 +1968,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               'provides consumer with expected form value'
             )
               .to.eql({
-                bar: [
-                  {
-                    id: '1',
-                    name: 'bar'
-                  },
-                  {
-                    id: '2',
-                    name: 'baz'
-                  },
-                  {
-                    id: '3',
-                    name: 'spam'
-                  }
-                ],
-                foo: '1'
+                bar: [0, 1, 2],
+                foo: 0
               })
 
             expect(
@@ -2428,7 +2008,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: '0'
             })
 
             const formValue = props.onChange.lastCall.args[0]
@@ -2438,21 +2018,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               'provides consumer with expected form value'
             )
               .to.eql({
-                bar: [
-                  {
-                    id: '1',
-                    name: 'bar'
-                  },
-                  {
-                    id: '2',
-                    name: 'baz'
-                  },
-                  {
-                    id: '3',
-                    name: 'spam'
-                  }
-                ],
-                foo: '1'
+                bar: [0, 1, 2],
+                foo: 0
               })
 
             expect(
@@ -2483,7 +2050,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: '0'
             })
 
             const formValue = props.onChange.lastCall.args[0]
@@ -2493,21 +2060,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               'provides consumer with expected form value'
             )
               .to.eql({
-                bar: [
-                  {
-                    id: '1',
-                    name: 'bar'
-                  },
-                  {
-                    id: '2',
-                    name: 'baz'
-                  },
-                  {
-                    id: '3',
-                    name: 'spam'
-                  }
-                ],
-                foo: '1'
+                bar: [0, 1, 2],
+                foo: 0
               })
 
             expect(

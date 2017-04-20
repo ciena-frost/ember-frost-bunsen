@@ -18,7 +18,7 @@ import {
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-form / renderer / select endpoint model query', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / select endpoint model query numbers', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
@@ -59,7 +59,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                 baz: 'alpha'
               },
               recordsPath: '',
-              type: 'string',
+              type: 'number',
               valueAttribute: 'value'
             }
           },
@@ -71,7 +71,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         onChange: sandbox.spy(),
         onError: sandbox.spy(),
         onValidation: sandbox.spy(),
-        showAllErrors: undefined
+        showAllErrors: undefined,
+        value: undefined
       }
 
       this.setProperties(props)
@@ -96,16 +97,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
       describe('when no initial value', function () {
         beforeEach(function () {
           run(() => {
-            resolver.resolve([
-              {
-                label: 'bar',
-                value: 'bar'
-              },
-              {
-                label: 'baz',
-                value: 'baz'
-              }
-            ])
+            resolver.resolve([0.5, 1.5])
           })
         })
 
@@ -162,7 +154,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true,
               text: ''
             })
@@ -178,10 +170,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
             it('renders as expected', function () {
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'bar'
+                text: '0.5'
               })
 
-              expectOnChangeState({props}, {foo: 'bar'})
+              expectOnChangeState({props}, {foo: 0.5})
               expectOnValidationState({props}, {count: 1})
             })
           })
@@ -196,10 +188,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
             it('renders as expected', function () {
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'baz'
+                text: '1.5'
               })
 
-              expectOnChangeState({props}, {foo: 'baz'})
+              expectOnChangeState({props}, {foo: 1.5})
               expectOnValidationState({props}, {count: 1})
             })
           })
@@ -537,21 +529,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
           beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
-
-            this.set('bunsenModel', {
-              properties: {
-                foo: {
-                  enum: [
-                    'bar',
-                    'baz'
-                  ],
-                  type: 'string'
-                }
-              },
-              required: ['foo'],
-              type: 'object'
-            })
-
+            const bunsenModel = Object.assign({}, props.bunsenModel)
+            bunsenModel.required = ['foo']
+            this.set('bunsenModel', bunsenModel)
             return wait()
           })
 
@@ -657,19 +637,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
       describe('when initial value', function () {
         beforeEach(function () {
-          this.set('value', {foo: 'bar'})
+          this.set('value', {foo: 0.5})
 
           run(() => {
-            resolver.resolve([
-              {
-                label: 'bar',
-                value: 'bar'
-              },
-              {
-                label: 'baz',
-                value: 'baz'
-              }
-            ])
+            resolver.resolve([0.5, 1.5])
           })
         })
 
@@ -683,7 +654,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'bar'
+            text: '0.5'
           })
 
           expect(
@@ -710,9 +681,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true,
-              text: 'bar'
+              text: '0.5'
             })
           })
 
@@ -726,7 +697,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
             it('renders as expected', function () {
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'bar'
+                text: '0.5'
               })
 
               expect(
@@ -749,10 +720,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
             it('renders as expected', function () {
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'baz'
+                text: '1.5'
               })
 
-              expectOnChangeState({props}, {foo: 'baz'})
+              expectOnChangeState({props}, {foo: 1.5})
               expectOnValidationState({props}, {count: 1})
             })
           })
@@ -943,7 +914,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: '0.5'
             })
 
             expect(
@@ -966,7 +937,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               disabled: true,
-              text: 'bar'
+              text: '0.5'
             })
 
             expect(
@@ -1048,21 +1019,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
           beforeEach(function () {
             props.onChange.reset()
             props.onValidation.reset()
-
-            this.set('bunsenModel', {
-              properties: {
-                foo: {
-                  enum: [
-                    'bar',
-                    'baz'
-                  ],
-                  type: 'string'
-                }
-              },
-              required: ['foo'],
-              type: 'object'
-            })
-
+            const bunsenModel = Object.assign({}, props.bunsenModel)
+            bunsenModel.required = ['foo']
+            this.set('bunsenModel', bunsenModel)
             return wait()
           })
 
@@ -1074,7 +1033,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
+              text: ''
             })
 
             expect(
@@ -1101,7 +1060,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                 .to.have.length(1)
 
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'bar'
+                text: ''
               })
 
               expect(
@@ -1129,7 +1088,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                 .to.have.length(1)
 
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: 'bar'
+                text: ''
               })
 
               expectOnValidationState({props}, {count: 0})
@@ -1166,25 +1125,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
       this.register('service:ajax', Service.extend({
         request (endpoint) {
           if (endpoint.indexOf('backdoor/api') === 0) {
-            return RSVP.resolve([
-              {
-                label: 'bar',
-                value: 'bar'
-              },
-              {
-                label: 'baz',
-                value: 'baz'
-              }
-            ])
+            return RSVP.resolve([0.5, 1.5])
           }
 
           if (endpoint.indexOf('frontdoor/api') === 0) {
-            return RSVP.resolve([
-              {
-                label: 'spam',
-                value: 'spam'
-              }
-            ])
+            return RSVP.resolve([2.5])
           }
 
           return RSVP.reject()
@@ -1209,7 +1154,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: 'alpha'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -1342,7 +1287,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true
             })
           })
@@ -1367,7 +1312,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: 'alpha'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -1452,7 +1397,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            items: ['bar', 'baz'],
+            items: [0.5, 1.5],
             opened: true
           })
         })
@@ -1513,7 +1458,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['spam'],
+              items: [2.5],
               opened: true
             })
           })
@@ -1527,16 +1472,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
       this.register('service:ajax', Service.extend({
         request (endpoint) {
           if (endpoint.indexOf('backdoor/api') === 0) {
-            return RSVP.resolve([
-              {
-                label: 'bar',
-                value: 'bar'
-              },
-              {
-                label: 'baz',
-                value: 'baz'
-              }
-            ])
+            return RSVP.resolve([0.5, 1.5])
           }
 
           return RSVP.reject()
@@ -1561,7 +1497,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: '${./baz}'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -1695,7 +1631,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true
             })
           })
@@ -1720,7 +1656,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: '${./baz}'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -1857,7 +1793,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true
             })
           })
@@ -1882,7 +1818,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: '${./baz}'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -2019,7 +1955,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
           it('renders as expected', function () {
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              items: ['bar', 'baz'],
+              items: [0.5, 1.5],
               opened: true
             })
           })
@@ -2044,7 +1980,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                   baz: '${./baz}'
                 },
                 recordsPath: '',
-                type: 'string',
+                type: 'number',
                 valueAttribute: 'value'
               }
             },
@@ -2130,7 +2066,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
         it('renders as expected', function () {
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            items: ['bar', 'baz'],
+            items: [0.5, 1.5],
             opened: true
           })
         })

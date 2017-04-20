@@ -213,6 +213,13 @@ function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
 
   return data.concat(
     records.map((record) => {
+      if (typeof record !== 'object') {
+        return {
+          label: `${record}`, // make sure label is a string
+          value: record
+        }
+      }
+
       let label, value
 
       if (labelAttr.indexOf('${') !== -1) {
