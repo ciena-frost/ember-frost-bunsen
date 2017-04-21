@@ -27,6 +27,8 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
     return getItemsFromEmberData(value, options, filteredData, bunsenId, store, filter)
   } else if (options.endpoint) {
     return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
+  } else if (options.recordsPath) {
+    return getItemsFromFormValue({data: filteredData, filter, options, value})
   }
 
   return RSVP.resolve(filteredData)
@@ -170,6 +172,33 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
 }
 
 /**
+ * Fetch the list of items from elsewhere in the form value
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} filter - the partial match query filter to populate
+ * @param {Object} options - bunsen model for this property plus view renderer options
+ * @param {Object} value - the bunsen value for this form
+ * @returns {RSVP.Promise} a promise that resolves with the list of items
+ */
+export function getItemsFromFormValue ({data, filter, options, value}) {
+  const records = get(value, options.recordsPath)
+
+  if (!isArray(records)) {
+    Logger.warn(
+      `Expected an array of records at "${options.recordPath}" but got:`,
+      records
+    )
+
+    return RSVP.resolve([])
+  }
+
+  const {labelAttribute, valueAttribute} = options
+
+  return RSVP.resolve(
+    normalizeItems({data, labelAttribute, records, valueAttribute})
+  )
+}
+
+/**
  * Converts records from an API response into a standard format with "label"
  * and "value" properties so renderers can predictably process the data.
  * @param {Object[]} data - initializes the list with this
@@ -184,6 +213,13 @@ function normalizeItems ({data, labelAttribute, records, valueAttribute}) {
 
   return data.concat(
     records.map((record) => {
+      if (typeof record !== 'object') {
+        return {
+          label: `${record}`, // make sure label is a string
+          value: record
+        }
+      }
+
       let label, value
 
       if (labelAttr.indexOf('${') !== -1) {

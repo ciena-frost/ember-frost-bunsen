@@ -71,7 +71,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   /* eslint-disable complexity */
   @readOnly
   @computed(
-    'cellConfig', 'bunsenModel.{editable,endpoint,enum,modelType,type}', 'readOnly', 'shouldRender',
+    'cellConfig', 'bunsenModel.{editable,endpoint,enum,modelType,recordsPath,type}', 'readOnly', 'shouldRender',
     'renderers'
   )
   /**
@@ -81,13 +81,16 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @param {String} endpoint - API endpoint
    * @param {Array<String>} enumList - list of possible values
    * @param {String} modelType - name of Ember Data model for lookup
+   * @param {String} recordsPath - path to records in mining/endpoint scenarios
    * @param {String} type - type of input to render
    * @param {Boolean} readOnly - whether or not input should be rendered as read only
    * @param {Boolean} shouldRender - whether or not input should render if it is a dependency
    * @param {Object} renderers - key value pairs mapping custom renderers to component helper names
    * @returns {String} name of component helper to use for input
    */
-  inputName (cellConfig, editable, endpoint, enumList, modelType, type, readOnly, shouldRender, renderers) {
+  inputName (
+    cellConfig, editable, endpoint, enumList, modelType, recordsPath, type, readOnly, shouldRender, renderers
+  ) {
     const renderer = get(cellConfig, 'renderer.name')
 
     if (renderer) {
@@ -97,7 +100,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     // NOTE: this must go before the readOnly check because the select will
     // automatically render the static input when the form is readOnly but will
     // show the user friendly label from an API lookup rather than the raw value
-    if (enumList || endpoint || modelType) {
+    if (enumList || endpoint || modelType || recordsPath) {
       return 'frost-bunsen-input-select'
     }
 

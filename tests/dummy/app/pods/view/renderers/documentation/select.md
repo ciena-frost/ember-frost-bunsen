@@ -44,7 +44,8 @@ Note: It's entirely possible that width restrictions set on the `.frost-bunsen-l
 ### Querying Data
 
 The model and view can be configured to fetch the select options from the
-server using Ember Data or an API endpoint directly.
+server using Ember Data, an API endpoint directly, or to mine the data from a list
+property elsewhere in the form value.
 
 #### Ember Data
 
@@ -148,6 +149,56 @@ over the model options.
       "endpoint": "http://data.consumerfinance.gov/api/views.json",
       "labelAttribute": "name",
       "recordsPath": "",
+      "valueAttribute": "id"
+    }
+  }
+}
+```
+
+#### Mine from Form Value
+
+This functions exactly like `endpoint` except you omit the `endpoint` option. Instead
+it will look for the list of possible items at the `recordsPath` location within the current
+form value. From here it will look for an array of objects and will use `labelAttribute` and
+`valueAttribute` to pull the relevant information from each array item.
+
+> Note: You can specify these options in the model, view, or both. Bunsen will
+merge the options from the two places with the view options taking precedence
+over the model options.
+
+**Model**
+
+```json
+{
+  "properties": {
+    "list": {
+      "items": {
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"}
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "item": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
+```
+
+**View Cell**
+
+```json
+{
+  "model": "item",
+  "renderer": {
+    "name": "select",
+    "options": {
+      "labelAttribute": "name",
+      "recordsPath": "list",
       "valueAttribute": "id"
     }
   }
