@@ -316,12 +316,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  showSection (cellConfig) {
+  @computed('cellConfig', 'subModel.type')
+  showSection (cellConfig, type) {
     return (
       cellConfig.collapsible ||
       (cellConfig.label && cellConfig.children) ||
-      (cellConfig.arrayOptions && !cellConfig.hideLabel)
+      (type === 'array' && !cellConfig.hideLabel)
     )
   },
 
