@@ -1,3 +1,7 @@
+# 14.26.0 (2017-04-24)
+* **Added** check in the blueprint to avoid installing packages already installed
+
+
 # 14.25.1 (2017-04-21)
 
 * **Fixed** bug where array label wasn't showing up when `arrayOptions` is not defined.
