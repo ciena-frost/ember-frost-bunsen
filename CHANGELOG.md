@@ -1,3 +1,7 @@
+# 14.26.1 (2017-04-27)
+
+* **Fixed** styling regression.
+
 # 14.26.0 (2017-04-24)
 * **Added** check in the blueprint to avoid installing packages already installed
 
