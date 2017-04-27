@@ -330,12 +330,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
      * Add an empty item then focus on it after it's been rendererd
      */
     addItem () {
-      debugger
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
       const value = this.get('value')
       const items = get(value || {}, bunsenId) || []
-      const index = items.length
+      const index = Math.max(items.length, this.get('bunsenModel.items.length') || 0)
 
       this.onChange(`${bunsenId}.${index}`, newItem)
     },
