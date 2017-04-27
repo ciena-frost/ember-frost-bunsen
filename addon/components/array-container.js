@@ -106,9 +106,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('bunsenModel', 'cellConfig', 'inline', 'items')
   showAddButton (bunsenModel, cellConfig, inline, items) {
     const maxItems = this.get('bunsenModel.maxItems')
-
     // If we've reached max items don't allow more to be added
     if (maxItems && maxItems <= items.length) {
+      return false
+    }
+    if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems) {
       return false
     }
 
@@ -131,8 +133,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'readOnly', 'value')
-  items (bunsenId, readOnly, value) {
+  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel.items')
+  items (bunsenId, readOnly, value, itemModels) {
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
@@ -145,15 +147,42 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     ) {
       items.push(this._getEmptyItem())
     }
-
+    if (Array.isArray(itemModels)) {
+      return A(items.slice(itemModels.length))
+    }
     return A(items)
+  },
+
+  @readOnly
+  @computed('bunsenId', 'bunsenModel.items', 'value')
+  startingIndex (bunsenId, items, value) {
+    if (Array.isArray(items)) {
+      return items.length
+    }
+    return 0
+  },
+
+  @readOnly
+  @computed('bunsenId', 'bunsenModel', 'value')
+  tupleItems (bunsenId, model, value) {
+    if (Array.isArray(model.items)) {
+      if (typeOf(value) === 'object' && 'asMutable' in value) {
+        value = value.asMutable({deep: true})
+      }
+      const items = get(value || {}, bunsenId) || []
+      return model.items.map((itemModel, index) => {
+        const value = items[index]
+        return value === undefined ? this._getEmptyItem(itemModel) : value
+      })
+    }
   },
 
   // == Functions ==============================================================
 
   /* eslint-disable complexity */
-  _getEmptyItem () {
-    const type = this.get('bunsenModel.items.type')
+  _getEmptyItem (model) {
+    const type = model ? model.type
+      : this.get('bunsenModel.items.type') || this.get('bunsenModel.additionalItems.type')
 
     switch (type) {
       case 'array':
@@ -243,7 +272,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       this.send('removeItem', itemIndex)
       return
     }
-
     this.onChange(bunsenId, value)
   },
 
@@ -302,6 +330,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
      * Add an empty item then focus on it after it's been rendererd
      */
     addItem () {
+      debugger
       const bunsenId = this.get('bunsenId')
       const newItem = this._getEmptyItem()
       const value = this.get('value')
@@ -314,7 +343,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     /* eslint-disable complexity */
     handleChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
-      const type = this.get('bunsenModel.items.type')
+      const type = this.get('bunsenModel.items.type') ||
+        this.get(`bunsenModel.items.${bunsenId.split('.').pop()}.type`) ||
+        this.get('bunsenModel.additionalItems.type')
 
       switch (type) {
         case 'array':

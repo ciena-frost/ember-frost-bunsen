@@ -21,6 +21,33 @@
   }}
 {{else}}
   {{#if inline}}
+    {{#if tupleItems}}
+      {{#each tupleItems key='@index' as |item index|}}
+        {{frost-bunsen-array-inline-item
+          bunsenId=bunsenId
+          bunsenModel=bunsenModel
+          bunsenView=bunsenView
+          cellConfig=cellConfig
+          compact=compact
+          errors=errors
+          formDisabled=formDisabled
+          hook=hook
+          index=index
+          onError=onError
+          onChange=(action 'handleChange')
+          readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
+          renderers=renderers
+          showAllErrors=showAllErrors
+          sortable=false
+          triggerValidation=triggerValidation
+          unregisterForFormValueChanges=unregisterForFormValueChanges
+          value=value
+          valueChangeSet=valueChangeSet
+        }}
+      {{/each}}
+    {{/if}}
     {{#if sortable}}
       {{#sortable-group onChange=(action 'reorderItems') as |group|}}
         {{#each items key='@index' as |item index|}}
@@ -34,7 +61,7 @@
               errors=errors
               formDisabled=formDisabled
               hook=hook
-              index=index
+              index=(add index startingIndex)
               onChange=(action 'handleChange')
               onError=onError
               onRemove=(action 'removeItem')
@@ -63,7 +90,7 @@
           errors=errors
           formDisabled=formDisabled
           hook=hook
-          index=index
+          index=(add index startingIndex)
           onError=onError
           onChange=(action 'handleChange')
           onRemove=(action 'removeItem')

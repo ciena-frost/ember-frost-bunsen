@@ -113,11 +113,23 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  itemCell (cellConfig) {
-    return get(cellConfig, 'arrayOptions.itemCell') || {}
+  @computed('cellConfig', 'index')
+  itemCell (cellConfig, index) {
+    return get(cellConfig, `arrayOptions.tupleCells.${index}`) || get(cellConfig, 'arrayOptions.itemCell') || {}
   },
 
+  @readOnly
+  @computed('bunsenModel', 'index')
+  itemModel (model, index) {
+    const items = model.items
+    if (Array.isArray(items)) {
+      if (index >= items.length) {
+        return model.additionalItems
+      }
+      return items[index]
+    }
+    return items
+  },
   // == Actions ================================================================
 
   actions: {
