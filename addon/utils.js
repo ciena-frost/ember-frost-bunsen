@@ -274,6 +274,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
+    if (!cell.model) return false
     return isChildRequiredToSubmitForm(cell.model, bunsenModel, value, parentRequired)
   }
 
