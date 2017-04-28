@@ -50,7 +50,6 @@ export default DetailComponent.extend({
   getDefaultProps () {
     return {
       autofocus: true,
-      classNames: ['frost-bunsen-form'],
       disabled: false,
       hook: 'bunsenForm',
       inputValidators: [],
@@ -85,6 +84,14 @@ export default DetailComponent.extend({
   },
 
   // == Events =================================================================
+
+  init () {
+    this._super(...arguments)
+    // Note: we must set class names explicitly in the init to remove the
+    // frost-bunsen-detail class which we automatically get courtesy of
+    // inheritance and Ember concatenated properties
+    this.set('classNames', ['frost-bunsen-form'])
+  },
 
   didInsertElement () {
     this._visibilityChangeHandler = this._onVisiblityChange.bind(this)

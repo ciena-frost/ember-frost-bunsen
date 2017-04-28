@@ -1,3 +1,26 @@
+# 14.26.1 (2017-04-27)
+
+* **Fixed** styling regression.
+
+# 14.26.0 (2017-04-24)
+* **Added** check in the blueprint to avoid installing packages already installed
+
+
+# 14.25.1 (2017-04-21)
+
+* **Fixed** bug where array label wasn't showing up when `arrayOptions` is not defined.
+
+
+# 14.25.0 (2017-04-20)
+
+* **Added** support for select renderer to be driven by an array of integers/numbers/strings when using `endpoint` or simply `recordsPath` to mine the form value.
+
+
+# 14.24.0 (2017-04-20)
+
+* **Added** support for mining select lists from the form value instead of an API endpoint.
+
+
 # 14.23.2 (2017-04-07)
 
 * **Fixed** boolean renderer to put label to right of checkbox.

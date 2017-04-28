@@ -241,6 +241,7 @@ export default AbstractInput.extend({
     // get our items
     if (
       this.hasEndpointChanged(oldValue, newValue, options.endpoint) ||
+      this.hasMinedPropertyChanged(oldValue, newValue, options) ||
       this.hasQueryChanged(oldValue, newValue, options.query) ||
       this.needsInitialItems(newValue)
     ) {
@@ -359,6 +360,25 @@ export default AbstractInput.extend({
     }
 
     return oldEndpoint !== newEndpoint
+  },
+
+  /**
+   * Checks if mined property has changed
+   * @param {Object} oldValue - old formValue
+   * @param {Object} newValue - new formValue
+   * @param {Object} options - options
+   * @returns {Boolean} true if mined property has changed
+   */
+  hasMinedPropertyChanged (oldValue, newValue, options) {
+    if (!options.recordsPath) return false // if not mining local property
+    if (options.endpoint) return false // if endpoint is present mining isn't local
+
+    const newMinedProperty = get(newValue || {}, options.recordsPath)
+    const oldMinedProperty = get(oldValue || {}, options.recordsPath)
+
+    if (_.isEqual(oldMinedProperty, newMinedProperty)) return false // if mined property hasn't changed
+
+    return true
   },
 
   /* eslint-disable complexity */

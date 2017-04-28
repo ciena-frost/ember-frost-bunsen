@@ -1,7 +1,6 @@
 import {utils} from 'bunsen-core'
 const {
   getLabel,
-  getModelPath,
   getSubModel
 } = utils
 
@@ -14,7 +13,6 @@ import _ from 'lodash'
 
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-cell'
 import {isCommonAncestor} from 'ember-frost-bunsen/tree-utils'
-import {isRequired} from 'ember-frost-bunsen/utils'
 
 const {isArray} = Array
 
@@ -114,6 +112,24 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig.children')
+  children (bunsenModel, cellDefinitions, children) {
+    if (!isArray(children)) return null
+
+    return children
+      .map((child) => {
+        let subModel = bunsenModel
+        if (child.model) subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
+
+        return {
+          cellConfig: child,
+          bunsenModel: subModel
+        }
+      })
+      .filter((child) => child.bunsenModel !== undefined)
+  },
+
+  @readOnly
   @computed('propagatedValue')
   renderValue (value) {
     const bunsenId = this.get('renderId')
@@ -126,20 +142,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig', 'value')
-  /**
-   * Determine whether or not cell contains required inputs
-   * @param {BunsenModel} bunsenModel - bunsen model for form
-   * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
-   * @param {BunsenCell} cellConfig - bunsen view cell
-   * @param {Object} value - form value
-   * @returns {Boolean} whether or not cell contains required inputs
-   */
-  isRequired (bunsenModel, cellDefinitions, cellConfig, value) {
-    return isRequired(cellConfig, cellDefinitions, bunsenModel, value)
-  },
-
-  @readOnly
   @computed('errors')
   errorMessage (errors) {
     const bunsenId = this.get('renderId')
@@ -149,65 +151,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     return Ember.String.htmlSafe(errors[bunsenId].join('<br>'))
-  },
-
-  @readOnly
-  @computed('cellConfig.{dependsOn,model}')
-  /**
-   * Whether or not cell is required
-   * @param {String} dependsOn - model cell depends on
-   * @param {BunsenModel} model - bunsen model of cell
-   * @returns {Boolean} whether or not cell is required
-   */
-  required (dependsOn, model) {
-    model = removeIndex(model)
-    const parentModel = this.getParentModel(model, dependsOn)
-
-    if (!parentModel) {
-      return false
-    }
-
-    const propertyName = model.split('.').pop()
-
-    return (
-      parentModel &&
-      isArray(parentModel.required) &&
-      parentModel.required.indexOf(propertyName) !== -1
-    )
-  },
-
-  @readOnly
-  @computed('cellConfig.{dependsOn,model}', 'bunsenModel', 'nonIndexId')
-  /**
-   * Get sub model
-   * @param {String} dependsOn - model cell depends on
-   * @param {String} configModel - relative model for cell config
-   * @param {BunsenModel} bunsenModel - bunsen model of form
-   * @param {String} nonIndexId - ID for array that item is within (if array item)
-   * @returns {BunsenModel} sub model
-   */
-  subModel (dependsOn, configModel, bunsenModel, nonIndexId) {
-    if (!configModel) {
-      return bunsenModel
-    }
-
-    // Look for sub model using model property of cell config
-    let subModel = getSubModel(bunsenModel, configModel, dependsOn)
-
-    if (!subModel) {
-      // Look for sub model using model property of cell config prepended with bunsen ID
-      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
-    }
-
-    if (!subModel) {
-      // When working with properties within arrays we only care about the path relative to the array
-      // item definition in the model (ie convert "foo.0.bar.1.baz" to "baz")
-      nonIndexId = nonIndexId.replace(/^.+\.\d+\./g, '')
-
-      subModel = getSubModel(bunsenModel, nonIndexId, dependsOn)
-    }
-
-    return subModel
   },
 
   @readOnly
@@ -260,7 +203,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'bunsenModel.type')
   /**
    * Determine if sub model is of type "array"
    * @param {String} renderer - custom renderer
@@ -272,7 +215,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig.renderer', 'subModel.type')
+  @computed('cellConfig.renderer', 'bunsenModel.type')
   /**
    * Determine if sub model is of type "object"
    * @param {String} renderer - custom renderer
@@ -316,12 +259,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  showSection (cellConfig) {
+  @computed('cellConfig', 'bunsenModel.type')
+  showSection (cellConfig, type) {
     return (
       cellConfig.collapsible ||
       (cellConfig.label && cellConfig.children) ||
-      (cellConfig.arrayOptions && !cellConfig.hideLabel)
+      (type === 'array' && !cellConfig.hideLabel)
     )
   },
 
@@ -332,14 +275,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig', 'nonIndexId', 'subModel')
-  renderLabel (cellConfig, nonIndexId, subModel) {
+  @computed('cellConfig', 'nonIndexId', 'bunsenModel')
+  renderLabel (cellConfig, nonIndexId, bunsenModel) {
     if (cellConfig.hideLabel) {
       return null
     }
 
     const label = get(cellConfig, 'label')
-    return getLabel(label, subModel, nonIndexId)
+    return getLabel(label, bunsenModel, nonIndexId)
   },
 
   // == Functions ==============================================================
@@ -375,19 +318,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     return classes
-  },
-
-  /**
-   * Get parent's model
-   * @param {BunsenModel} reference - bunsen model of cell
-   * @param {BunsenModel} dependencyReference - model cell depends on
-   * @returns {BunsenModel} model of parent
-   */
-  getParentModel (reference, dependencyReference) {
-    const model = this.get('bunsenModel')
-    const path = getModelPath(model, reference, dependencyReference)
-    const parentPath = path.pop() // skip back past property name and 'properties'
-    return (parentPath) ? get(model, parentPath.toString()) : model
   },
 
   // == Actions ================================================================

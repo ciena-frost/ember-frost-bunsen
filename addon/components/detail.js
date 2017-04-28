@@ -3,6 +3,7 @@ import {
   generateView,
   normalizeView,
   reducer,
+  utils,
   validateModel,
   validateView,
   viewV1ToV2
@@ -14,6 +15,8 @@ const {
   changeView,
   validate
 } = actions
+
+const {getSubModel} = utils
 
 import Ember from 'ember'
 const {A, Component, Logger, RSVP, get, isEmpty, run, typeOf} = Ember
@@ -97,6 +100,7 @@ function v2View (bunsenView) {
 export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
+  classNames: ['frost-bunsen-detail'],
   layout,
 
   // == State Properties =======================================================
@@ -130,7 +134,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail'],
       disabled: false,
       hook: 'bunsenDetail',
       inputValidators: [],
@@ -181,35 +184,44 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Object} cellConfigs with  precomputed model dependencies
    */
   @readOnly
-  @computed('renderView.cells', 'renderView.cellDefinitions')
-  precomputedCellConfig (cells, cellDefinitions) {
-    let cellConfigs = cells.map(cell => getMergedConfigRecursive(cell, cellDefinitions))
-    cellConfigs.forEach((cellConfig) => {
+  @computed('renderModel', 'renderView.{cellDefinitions,cells}')
+  precomputedCells (bunsenModel, cellDefinitions, cells) {
+    return cells.map((cell) => {
+      const cellConfig = getMergedConfigRecursive(cell, cellDefinitions)
+
       this.precomputeIds(cellConfig)
       this.precomputeDependencies(cellConfig)
-    })
 
-    return cellConfigs
+      let subModel = bunsenModel
+      if (cell.model) subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn)
+
+      return {
+        bunsenModel: subModel,
+        cellConfig
+      }
+    })
   },
 
   @readOnly
-  @computed('precomputedCellConfig')
+  @computed('precomputedCells')
   cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return A([])
     }
 
-    const tabs = cells.map((cell, index) => {
-      const alias = getAlias(cell)
+    const tabs = cells.map(({bunsenModel, cellConfig, isRequired}, index) => {
+      const alias = getAlias(cellConfig)
 
       // Since label is used for tab text don't render a label within tab as well
-      delete cell.label
+      delete cellConfig.label
 
       return {
         alias,
-        cell,
+        bunsenModel,
+        cell: cellConfig,
         id: `${index}-${Date.now()}`,
+        isRequired,
         classNames: Ember.String.dasherize(alias)
       }
     })

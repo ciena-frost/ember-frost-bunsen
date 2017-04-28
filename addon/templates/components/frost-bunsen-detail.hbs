@@ -16,11 +16,17 @@
         {{controls.tab
           contentClass=tab.classNames
           content=(component 'frost-bunsen-cell'
-            bunsenModel=renderModel
+            bunsenModel=tab.bunsenModel
             bunsenView=renderView
             cellConfig=tab.cell
             errors=renderErrors
             formDisabled=disabled
+            isRequired=(frost-bunsen-is-required
+              bunsenModel=renderModel
+              cell=tab.cell
+              cellDefinitions=renderView.cellDefinitions
+              value=value
+            )
             hook=hook
             onChange=(action 'handleChange')
             onError=(action 'handleError')
@@ -38,14 +44,20 @@
       {{/each}}
     {{/frost-tabs}}
   {{else}}
-    {{#each precomputedCellConfig as |cell|}}
+    {{#each precomputedCells as |cell|}}
       {{frost-bunsen-cell
-        bunsenModel=renderModel
+        bunsenModel=cell.bunsenModel
         bunsenView=renderView
-        cellConfig=cell
+        cellConfig=cell.cellConfig
         errors=renderErrors
         formDisabled=disabled
         hook=hook
+        isRequired=(frost-bunsen-is-required
+          bunsenModel=renderModel
+          cell=cell.cellConfig
+          cellDefinitions=renderView.cellDefinitions
+          value=value
+        )
         onChange=(action 'handleChange')
         onError=(action 'handleError')
         readOnly=true
