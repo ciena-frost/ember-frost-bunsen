@@ -164,16 +164,23 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
 
   // recursive object case
   if (mergedConfig.children) {
-    const mergedChildConfigs = []
-    mergedConfig.children.forEach((childConfig) => {
-      mergedChildConfigs.push(getMergedConfigRecursive(childConfig, cellDefinitions))
+    const mergedChildConfigs = mergedConfig.children.map((childConfig) => {
+      return getMergedConfigRecursive(childConfig, cellDefinitions)
     })
     mergedConfig.children = mergedChildConfigs
   }
 
   // recursive array case
-  if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
-    mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+  if (mergedConfig.arrayOptions) {
+    if (mergedConfig.arrayOptions.itemCell) {
+      mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+    }
+    if (mergedConfig.arrayOptions.tupleCells) {
+      const tupleCells = mergedConfig.arrayOptions.tupleCells.map((tupleCell) =>
+        getMergedConfigRecursive(tupleCell, cellDefinitions)
+      )
+      mergedConfig.arrayOptions.tupleCells = tupleCells
+    }
   }
 
   return mergedConfig

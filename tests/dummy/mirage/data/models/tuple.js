@@ -10,6 +10,10 @@ export default {
             type: 'string'
           }
         }
+      }, {
+        type: 'string'
+      }, {
+        type: 'number'
       }]
     }
   }

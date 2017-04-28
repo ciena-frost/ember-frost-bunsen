@@ -1,7 +1,7 @@
 {{#if cellConfig.renderer}}
   {{component customRenderer
     bunsenId=(concat bunsenId '.' index)
-    bunsenModel=bunsenModel.items
+    bunsenModel=itemsModel
     bunsenView=bunsenView
     cellConfig=cellConfig
     formDisabled=formDisabled
@@ -25,7 +25,7 @@
       {{#each tupleItems key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
           bunsenId=bunsenId
-          bunsenModel=bunsenModel
+          bunsenModel=item
           bunsenView=bunsenView
           cellConfig=cellConfig
           compact=compact
@@ -40,6 +40,7 @@
           registerValidator=registerValidator
           renderers=renderers
           showAllErrors=showAllErrors
+          showRemoveButton=false
           sortable=false
           triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -54,7 +55,7 @@
           {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
             {{frost-bunsen-array-inline-item
               bunsenId=bunsenId
-              bunsenModel=bunsenModel
+              bunsenModel=itemsModel
               bunsenView=bunsenView
               cellConfig=cellConfig
               compact=compact
@@ -83,7 +84,7 @@
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
           bunsenId=bunsenId
-          bunsenModel=bunsenModel
+          bunsenModel=itemsModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           compact=compact
@@ -116,7 +117,7 @@
     <ul class='frost-bunsen-nav frost-bunsen-nav-tabs'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-nav
-          bunsenModel=bunsenModel
+          bunsenModel=itemsModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           formDisabled=formDisabled
@@ -145,7 +146,7 @@
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-content
           bunsenId=bunsenId
-          bunsenModel=bunsenModel
+          bunsenModel=itemsModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           errors=errors
@@ -167,7 +168,7 @@
       {{/each}}
     </div>
   {{/if}}
-  {{#if (and (not items) readOnly)}}
+  {{#if (and (not items) (not tupleItems) readOnly)}}
     <span class="frost-bunsen-empty-msg">
       List is currently empty.
     </span>

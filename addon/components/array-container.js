@@ -133,6 +133,15 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
+  @computed('bunsenModel')
+  itemsModel (model) {
+    const itemModels = model.items
+    if (Array.isArray(itemModels)) {
+      return model.additionalItems
+    }
+    return itemModels
+  },
+  @readOnly
   @computed('bunsenId', 'readOnly', 'value', 'bunsenModel.items')
   items (bunsenId, readOnly, value, itemModels) {
     if (typeOf(value) === 'object' && 'asMutable' in value) {
@@ -163,17 +172,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'bunsenModel', 'value')
-  tupleItems (bunsenId, model, value) {
+  @computed('bunsenModel')
+  tupleItems (model) {
     if (Array.isArray(model.items)) {
-      if (typeOf(value) === 'object' && 'asMutable' in value) {
-        value = value.asMutable({deep: true})
-      }
-      const items = get(value || {}, bunsenId) || []
-      return model.items.map((itemModel, index) => {
-        const value = items[index]
-        return value === undefined ? this._getEmptyItem(itemModel) : value
-      })
+      return model.items
     }
   },
 

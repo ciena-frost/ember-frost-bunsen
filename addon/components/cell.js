@@ -119,8 +119,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     return children
       .map((child) => {
         let subModel = bunsenModel
-        if (child.model) subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
-
+        if (child.model) {
+          subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
+        }
         return {
           cellConfig: child,
           bunsenModel: subModel
