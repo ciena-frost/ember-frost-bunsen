@@ -12,12 +12,18 @@
       {{#if isSubModelObject}}
         {{frost-bunsen-cell
           bunsenId=renderId
-          bunsenModel=subModel
+          bunsenModel=bunsenModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           errors=errors
           formDisabled=formDisabled
           hook=hook
+          isRequired=(frost-bunsen-is-required
+            bunsenModel=bunsenModel
+            cell=cellConfig
+            cellDefinitions=bunsenView.cellDefinitions
+            value=value
+          )
           onChange=onChange
           onError=onError
           readOnly=readOnly
@@ -34,7 +40,7 @@
         {{#if isArrayItem}}
           {{frost-bunsen-array-inline-item
             bunsenId=nonIndexId
-            bunsenModel=subModel
+            bunsenModel=bunsenModel
             bunsenView=bunsenView
             cellConfig=cellConfig
             compact=compact
@@ -59,7 +65,7 @@
         {{else}}
           {{frost-bunsen-array-container
             bunsenId=renderId
-            bunsenModel=subModel
+            bunsenModel=bunsenModel
             bunsenView=bunsenView
             cellConfig=cellConfig
             compact=compact
@@ -72,7 +78,7 @@
             registerForFormValueChanges=registerForFormValueChanges
             registerValidator=registerValidator
             renderers=renderers
-            required=required
+            required=isRequired
             showAllErrors=showAllErrors
             triggerValidation=triggerValidation
             unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -83,7 +89,7 @@
       {{else}}
         {{frost-bunsen-input-wrapper
           bunsenId=renderId
-          bunsenModel=subModel
+          bunsenModel=bunsenModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           errorMessage=errorMessage
@@ -96,7 +102,7 @@
           registerForFormValueChanges=registerForFormValueChanges
           registerValidator=registerValidator
           renderers=renderers
-          required=required
+          required=isRequired
           showAllErrors=showAllErrors
           triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -104,15 +110,21 @@
         }}
       {{/if}}
     {{/if}}
-    {{#each cellConfig.children as |child index|}}
+    {{#each children as |child index|}}
       {{frost-bunsen-cell
         bunsenId=renderId
-        bunsenModel=subModel
+        bunsenModel=child.bunsenModel
         bunsenView=bunsenView
-        cellConfig=child
+        cellConfig=child.cellConfig
         errors=errors
         formDisabled=formDisabled
         hook=hook
+        isRequired=(frost-bunsen-is-required
+          bunsenModel=bunsenModel
+          cell=child.cellConfig
+          cellDefinitions=bunsenView.cellDefinitions
+          value=value
+        )
         onChange=onChange
         onError=onError
         readOnly=readOnly
@@ -132,12 +144,18 @@
     {{#if isSubModelObject}}
       {{frost-bunsen-cell
         bunsenId=renderId
-        bunsenModel=subModel
+        bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=cellConfig
         errors=errors
         formDisabled=formDisabled
         hook=hook
+        isRequired=(frost-bunsen-is-required
+          bunsenModel=bunsenModel
+          cell=cellConfig
+          cellDefinitions=bunsenView.cellDefinitions
+          value=value
+        )
         onChange=onChange
         onError=onError
         readOnly=readOnly
@@ -154,7 +172,7 @@
       {{#if isArrayItem}}
         {{frost-bunsen-array-inline-item
           bunsenId=nonIndexId
-          bunsenModel=subModel
+          bunsenModel=bunsenModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           compact=compact
@@ -179,7 +197,7 @@
       {{else}}
         {{frost-bunsen-array-container
           bunsenId=renderId
-          bunsenModel=subModel
+          bunsenModel=bunsenModel
           bunsenView=bunsenView
           cellConfig=cellConfig
           compact=compact
@@ -192,7 +210,7 @@
           registerForFormValueChanges=registerForFormValueChanges
           registerValidator=registerValidator
           renderers=renderers
-          required=required
+          required=isRequired
           showAllErrors=showAllErrors
           triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -203,7 +221,7 @@
     {{else}}
       {{frost-bunsen-input-wrapper
         bunsenId=renderId
-        bunsenModel=subModel
+        bunsenModel=bunsenModel
         bunsenView=bunsenView
         cellConfig=cellConfig
         errorMessage=errorMessage
@@ -216,7 +234,7 @@
         registerForFormValueChanges=registerForFormValueChanges
         registerValidator=registerValidator
         renderers=renderers
-        required=required
+        required=isRequired
         showAllErrors=showAllErrors
         triggerValidation=triggerValidation
         unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -225,15 +243,21 @@
       }}
     {{/if}}
   {{/if}}
-  {{#each cellConfig.children as |child index|}}
+  {{#each children as |child index|}}
     {{frost-bunsen-cell
       bunsenId=renderId
-      bunsenModel=subModel
+      bunsenModel=child.bunsenModel
       bunsenView=bunsenView
-      cellConfig=child
+      cellConfig=child.cellConfig
       errors=errors
       formDisabled=formDisabled
       hook=hook
+      isRequired=(frost-bunsen-is-required
+        bunsenModel=bunsenModel
+        cell=child.cellConfig
+        cellDefinitions=bunsenView.cellDefinitions
+        value=value
+      )
       onChange=onChange
       onError=onError
       readOnly=readOnly
