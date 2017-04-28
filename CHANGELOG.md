@@ -1,3 +1,7 @@
+# 14.27.0 (2017-04-28)
+
+* **Changed** a bunch of internal code so the `frost-bunsen-cell` component gets the `bunsenModel` for it's `bunsenId` not the parent model. This is preliminary work work a future PR to support conditionals in arrays.
+
 # 14.26.1 (2017-04-27)
 
 * **Fixed** styling regression.
