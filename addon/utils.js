@@ -81,7 +81,8 @@ export function generateLabelFromModel (model) {
  */
 export function generateFacetCell (facet) {
   const cell = {
-    model: facet.model
+    model: facet.model,
+    hideLabel: true
   }
 
   if (facet.renderer) {

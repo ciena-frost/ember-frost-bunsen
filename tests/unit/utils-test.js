@@ -34,6 +34,7 @@ describe('bunsen-utils', function () {
             children: [
               {
                 model: 'foo',
+                hideLabel: true,
                 renderer: {
                   name: 'multi-select'
                 }
@@ -53,6 +54,7 @@ describe('bunsen-utils', function () {
             children: [
               {
                 model: 'foo',
+                hideLabel: true,
                 renderer: {
                   name: 'multi-select'
                 }
@@ -77,7 +79,8 @@ describe('bunsen-utils', function () {
           expect(actual).to.eql({
             children: [
               {
-                model: 'foo'
+                model: 'foo',
+                hideLabel: true
               }
             ],
             clearable: true,
@@ -93,7 +96,8 @@ describe('bunsen-utils', function () {
           expect(actual).to.eql({
             children: [
               {
-                model: 'foo'
+                model: 'foo',
+                hideLabel: true
               }
             ],
             clearable: true,
@@ -159,7 +163,8 @@ describe('bunsen-utils', function () {
               {
                 children: [
                   {
-                    model: 'foo'
+                    model: 'foo',
+                    hideLabel: true
                   }
                 ],
                 clearable: true,
@@ -169,7 +174,8 @@ describe('bunsen-utils', function () {
               {
                 children: [
                   {
-                    model: 'bar'
+                    model: 'bar',
+                    hideLabel: true
                   }
                 ],
                 clearable: true,
@@ -180,6 +186,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'foo.bar.baz',
+                    hideLabel: true,
                     renderer: {
                       name: 'multi-select'
                     }
@@ -193,6 +200,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'alpha',
+                    hideLabel: true,
                     renderer: {
                       name: 'checkbox-array'
                     }
@@ -206,6 +214,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'bravo',
+                    hideLabel: true,
                     renderer: {
                       name: 'geolocation'
                     }
@@ -219,6 +228,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'charlie',
+                    hideLabel: true,
                     renderer: {
                       name: 'json'
                     }
@@ -232,6 +242,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'delta',
+                    hideLabel: true,
                     renderer: {
                       name: 'textarea'
                     }
