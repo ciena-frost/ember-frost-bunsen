@@ -1,3 +1,7 @@
+# 14.27.1 (2017-05-01)
+* **Fixed** a bug where generateFacetView was creating facets where each group had two labels.
+
+
 # 14.27.0 (2017-04-28)
 
 * **Changed** a bunch of internal code so the `frost-bunsen-cell` component gets the `bunsenModel` for it's `bunsenId` not the parent model. This is preliminary work work a future PR to support conditionals in arrays.
