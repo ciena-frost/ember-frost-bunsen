@@ -93,18 +93,18 @@ to execute a second API call to make sure the current value is included in the s
 
 *Note: This second API call is made with `store.findRecord()`, which requires that the value be a record id.
 
- **Model**
+**Model**
 
- ```json
- {
-   "modelType": "<ember-data-model>",
-   "query": {
-     "label": "$filter",
-     "type": "${./type}"
-   },
-   "queryForCurrentValue": true
- }
- ```
+```json
+{
+  "modelType": "<ember-data-model>",
+  "query": {
+    "label": "$filter",
+    "type": "${./type}"
+  },
+  "queryForCurrentValue": true
+}
+```
 
 #### API Endpoint
 
