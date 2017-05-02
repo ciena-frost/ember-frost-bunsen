@@ -1,3 +1,4 @@
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -60,6 +61,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -86,6 +89,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -112,6 +117,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -126,6 +133,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   describe('when form explicitly enabled', function () {
     beforeEach(function () {
       this.set('disabled', false)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -139,6 +147,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   describe('when form disabled', function () {
     beforeEach(function () {
       this.set('disabled', true)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -165,6 +174,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -190,6 +201,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -218,6 +231,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         required: ['foo'],
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -243,10 +258,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
 
   describe('when user checks checkbox', function () {
     beforeEach(function () {
-      this.$(selectors.frost.checkbox.input.enabled)
-        .eq(0).trigger('click')
-      this.$(selectors.frost.checkbox.input.enabled)
-        .eq(1).trigger('click')
+      this.$(selectors.frost.checkbox.input.enabled).eq(0).trigger('click')
+      this.$(selectors.frost.checkbox.input.enabled).eq(1).trigger('click')
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -264,6 +278,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       this.set('value', {
         foo: ['bar', 'baz']
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -294,6 +310,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -318,6 +336,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         },
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -342,6 +362,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         },
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -357,6 +379,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
       this.set('value', {
         foo: ['bar', 'baz']
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -383,6 +407,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -409,6 +435,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {

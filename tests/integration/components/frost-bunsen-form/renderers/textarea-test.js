@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -57,6 +58,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -81,6 +84,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -105,6 +110,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -132,6 +139,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -156,6 +165,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -180,6 +191,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -204,6 +217,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -231,6 +246,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -246,6 +263,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
   describe('when form explicitly enabled', function () {
     beforeEach(function () {
       this.set('disabled', false)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -258,6 +276,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
   describe('when form disabled', function () {
     beforeEach(function () {
       this.set('disabled', true)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -285,6 +304,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -309,6 +330,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -326,7 +349,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
 
     beforeEach(function () {
       ctx.props.onValidation.reset()
-      return fillInBunsenTextareaRenderer('foo', input)
+      fillInBunsenTextareaRenderer('foo', input)
+      return wait()
     })
 
     it('functions as expected', function () {
@@ -353,6 +377,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         required: ['foo'],
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -376,6 +402,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -389,6 +416,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', true)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -440,6 +468,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     describe('value matches literal string read transform', function () {
@@ -447,7 +477,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        return fillInBunsenTextareaRenderer('foo', input)
+        fillInBunsenTextareaRenderer('foo', input)
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -466,7 +497,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
 
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        return fillInBunsenTextareaRenderer('foo', input)
+        fillInBunsenTextareaRenderer('foo', input)
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -483,7 +515,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
     describe('applies literal string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        return fillInBunsenTextareaRenderer('foo', 'Johnathan')
+        fillInBunsenTextareaRenderer('foo', 'Johnathan')
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -500,7 +533,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
     describe('applies regex string write transform', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        return fillInBunsenTextareaRenderer('foo', 'Alexander')
+        fillInBunsenTextareaRenderer('foo', 'Alexander')
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -535,6 +569,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / textarea', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {

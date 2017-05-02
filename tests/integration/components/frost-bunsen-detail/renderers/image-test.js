@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -54,6 +55,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
       bunsenView=bunsenView
       value=value
     }}`)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -107,6 +110,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -157,6 +162,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -207,6 +214,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -259,6 +268,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           version: '2.0'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -311,6 +322,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           version: '2.0'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -366,6 +379,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           foo: 'http://www.ciena.com/includes/prx-logo.svg'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -440,6 +455,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           }
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -495,6 +512,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           foo: 'blueplanet'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -551,6 +570,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           foo: 'Ciena Corporation'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -625,6 +646,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
           }
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {

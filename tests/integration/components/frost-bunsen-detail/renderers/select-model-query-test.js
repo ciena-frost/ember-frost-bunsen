@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger, RSVP, Service, run} = Ember
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -62,6 +63,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
         value=value
       }}
     `)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -71,6 +74,7 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
   describe('when no initial value', function () {
     beforeEach(function () {
       this.set('value', undefined)
+      return wait()
     })
 
     describe('when query succeeds', function () {
@@ -123,6 +127,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -160,6 +166,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -197,6 +205,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -279,6 +289,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -316,6 +328,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -353,6 +367,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -385,6 +401,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
       this.set('value', {
         foo: 'bar'
       })
+
+      return wait()
     })
 
     describe('when query succeeds', function () {
@@ -476,6 +494,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -513,6 +533,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -595,6 +617,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -632,6 +656,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -669,6 +695,8 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {

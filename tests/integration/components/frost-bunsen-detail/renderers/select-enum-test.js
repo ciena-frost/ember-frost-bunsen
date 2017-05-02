@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
@@ -25,6 +26,7 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
   describe('when no initial value', function () {
     beforeEach(function () {
       this.set('value', undefined)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -61,6 +63,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -98,6 +102,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -135,6 +141,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -166,6 +174,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
       this.set('value', {
         foo: 'bar'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -202,6 +212,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -239,6 +251,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -276,6 +290,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer | select enum'
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {

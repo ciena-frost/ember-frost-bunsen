@@ -3,6 +3,7 @@ import Ember from 'ember'
 const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -70,6 +71,8 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
       onChange=onChange
       onValidation=onValidation
     }}`)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -172,6 +175,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
       props.onChange.reset()
       props.onValidation.reset()
       fillIn('bunsenForm-foo-input', input)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -282,9 +286,9 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
         props.onChange.reset()
         props.onValidation.reset()
 
-        this.$(selectors.bunsen.section.clearableButton)
-          .first()
-          .click()
+        this.$(selectors.bunsen.section.clearableButton).first().click()
+
+        return wait()
       })
 
       it('renders as expected', function () {

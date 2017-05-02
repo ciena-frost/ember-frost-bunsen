@@ -2,6 +2,7 @@ import Ember from 'ember'
 const {merge} = Ember
 import {initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach} from 'mocha'
 import sinon from 'sinon'
@@ -97,6 +98,8 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
 
     this.setProperties(ctx.props)
     renderer.call(this)
+
+    return wait()
   })
 
   afterEach(function () {

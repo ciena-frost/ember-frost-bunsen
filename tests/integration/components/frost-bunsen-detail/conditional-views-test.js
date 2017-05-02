@@ -18,6 +18,7 @@ describe('Integration: frost-bunsen-form / views with conditions', function () {
   setupComponentTest('forms with conditions', {
     integration: true
   })
+
   beforeEach(function () {
     this.setProperties({
       hook: 'ember-frost-bunsen-form',
@@ -56,6 +57,8 @@ describe('Integration: frost-bunsen-form / views with conditions', function () {
         version: '2.0'
       }
     })
+
+    return wait()
   })
 
   it('hides cells when conditions are not met', function () {

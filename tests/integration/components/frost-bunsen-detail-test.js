@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -45,6 +46,8 @@ describe('Integration: frost-bunsen-detail', function () {
     }}`)
 
     rootNode = this.$('> *')
+
+    return wait()
   })
 
   it('has correct classes', function () {
@@ -65,47 +68,66 @@ describe('Integration: frost-bunsen-detail', function () {
     })
   })
 
-  it('updates the displayed value when the value is changed', function () {
-    let newValue = {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      alias: 'Killer'
-    }
+  describe('when value is changed', function () {
+    let newValue
 
-    this.set('value', newValue)
+    beforeEach(function () {
+      newValue = {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        alias: 'Killer'
+      }
 
-    const $values = this.$('.frost-bunsen-left-input p')
-    const firstName = $values.eq(0).text()
-    const lastName = $values.eq(1).text()
-    const alias = $values.eq(2).text()
+      this.set('value', newValue)
 
-    expect(firstName).to.equal(newValue.firstName)
-    expect(lastName).to.equal(newValue.lastName)
-    expect(alias).to.equal(newValue.alias)
+      return wait()
+    })
+
+    it('updates the displayed value when the value is changed', function () {
+      const $values = this.$('.frost-bunsen-left-input p')
+      const firstName = $values.eq(0).text()
+      const lastName = $values.eq(1).text()
+      const alias = $values.eq(2).text()
+
+      expect(firstName).to.equal(newValue.firstName)
+      expect(lastName).to.equal(newValue.lastName)
+      expect(alias).to.equal(newValue.alias)
+    })
   })
 
-  it('displays an error message if the bunsenModel is not valid', function () {
-    this.set('bunsenModel', {type: 'invalid'})
-    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
-    expect(errorMessage).to.equal('There seems to be something wrong with your model schema')
+  describe('when bunsenModel is not valid', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {type: 'invalid'})
+      return wait()
+    })
+
+    it('displays an error message', function () {
+      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+      expect(errorMessage).to.equal('There seems to be something wrong with your model schema')
+    })
   })
 
-  it('displays an error message if the model property in the view is not valid', function () {
-    const invalidView = {
-      cellDefinitions: {
-        main: {
-          children: [
-            {model: 'some.non-existing.property'}
-          ]
-        }
-      },
-      cells: [{extends: 'main'}],
-      type: 'form',
-      version: '2.0'
-    }
-    this.set('bunsenView', invalidView)
+  describe('when bunsenView references an invalid model property', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cellDefinitions: {
+          main: {
+            children: [
+              {model: 'some.non-existing.property'}
+            ]
+          }
+        },
+        cells: [{extends: 'main'}],
+        type: 'form',
+        version: '2.0'
+      })
 
-    const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
-    expect(errorMessage).to.equal('There seems to be something wrong with your view schema')
+      return wait()
+    })
+
+    it('displays an error message', function () {
+      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+      expect(errorMessage).to.equal('There seems to be something wrong with your view schema')
+    })
   })
 })

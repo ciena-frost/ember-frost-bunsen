@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -38,7 +39,10 @@ describe('Integration: frost-bunsen-detail', function () {
     this.render(hbs`{{frost-bunsen-detail
       options=options
     }}`)
+
     rootNode = this.$('> *')
+
+    return wait()
   })
 
   describe('spread', function () {

@@ -345,6 +345,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     })
 
     run.schedule('afterRender', () => {
+      if (this.isDestroyed || this.isDestroying) return
       this.set('batchedChangeSet', null)
     })
 
@@ -414,8 +415,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       value: plainObjectValue
     })
 
-    this.set('reduxStore', reduxStore)
-    this.set('renderModel', reduxStore.getState().model)
+    this.setProperties({
+      reduxStore,
+      renderModel: reduxStore.getState().model
+    })
+
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
