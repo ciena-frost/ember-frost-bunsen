@@ -3,6 +3,7 @@
  * NOTE: These specs have lots of expect() calls in a single it() for performance reasons
  */
 import {expect} from 'chai'
+import wait from 'ember-test-helpers/wait'
 import {before, beforeEach, describe, it} from 'mocha'
 
 import {
@@ -66,6 +67,8 @@ export default function (format, invalidValues, validValues, focus = false) {
           })
 
           fillIn('bunsenForm-foo-input', input)
+
+          return wait()
         })
 
         it('functions as expected', function () {
@@ -101,6 +104,7 @@ export default function (format, invalidValues, validValues, focus = false) {
         describe('when user removes focus from input', function () {
           beforeEach(function () {
             focusout('bunsenForm-foo-input')
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -133,6 +137,8 @@ export default function (format, invalidValues, validValues, focus = false) {
           })
 
           fillIn('bunsenForm-foo-input', input)
+
+          return wait()
         })
 
         it('functions as expected', function () {
@@ -171,6 +177,7 @@ export default function (format, invalidValues, validValues, focus = false) {
         describe('when user removes focus from input', function () {
           beforeEach(function () {
             focusout('bunsenForm-foo-input')
+            return wait()
           })
 
           it('renders as expected', function () {

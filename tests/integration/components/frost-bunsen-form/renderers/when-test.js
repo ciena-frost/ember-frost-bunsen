@@ -55,7 +55,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
   it('renders as expected', function () {
     expectCollapsibleHandles(0)
     expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-    expectOnValidationState(ctx, {count: 1})
+    expectOnValidationState(ctx, {count: 2})
   })
 
   it('should have an input for date and time', function () {

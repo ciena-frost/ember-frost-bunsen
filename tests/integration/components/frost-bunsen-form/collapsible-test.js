@@ -12,6 +12,7 @@ import Ember from 'ember'
 const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -69,6 +70,8 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
       bunsenModel=bunsenModel
       bunsenView=bunsenView
     }}`)
+
+    return wait()
   })
 
   it('renders as expected', function () {
@@ -114,6 +117,7 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
   describe('click handle', function () {
     beforeEach(function () {
       this.$(selectors.bunsen.collapsible.handle).click()
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -161,6 +165,8 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
             keyCode: KEY_CODES.ENTER
           })
         )
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -213,6 +219,8 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
             keyCode: KEY_CODES.ENTER
           })
         )
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -260,6 +268,8 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
             keyCode: KEY_CODES.SPACE
           })
         )
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -307,6 +317,8 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
             keyCode: KEY_CODES.TAB
           })
         )
+
+      return wait()
     })
 
     it('renders as expected', function () {

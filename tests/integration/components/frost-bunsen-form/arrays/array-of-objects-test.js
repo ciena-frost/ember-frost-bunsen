@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -92,6 +93,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     describe('when form explicitly enabled', function () {
       beforeEach(function () {
         this.set('disabled', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -147,6 +149,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     describe('when form disabled', function () {
       beforeEach(function () {
         this.set('disabled', true)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -229,6 +232,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -288,6 +293,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
       describe('when user inputs value', function () {
         beforeEach(function () {
           fillIn('bunsenForm-foo.0.bar-input', 'bar')
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -357,6 +363,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
         describe('when user clears input', function () {
           beforeEach(function () {
             fillIn('bunsenForm-foo.0.bar-input', '')
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -463,6 +470,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           },
           type: 'object'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -516,8 +525,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
 
       describe('when user adds item (maxItems reached)', function () {
         beforeEach(function () {
-          this.$(selectors.frost.button.input.enabled)
-            .trigger('click')
+          this.$(selectors.frost.button.input.enabled).trigger('click')
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -682,6 +691,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     describe('when form explicitly enabled', function () {
       beforeEach(function () {
         this.set('disabled', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -757,6 +767,7 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
     describe('when form disabled', function () {
       beforeEach(function () {
         this.set('disabled', true)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -860,6 +871,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -967,6 +980,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1067,6 +1082,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1216,8 +1233,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
 
     describe('when user adds item', function () {
       beforeEach(function () {
-        this.$(selectors.frost.button.input.enabled)
-          .click()
+        this.$(selectors.frost.button.input.enabled).click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1293,9 +1310,8 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
 
       describe('when user clears input', function () {
         beforeEach(function () {
-          this.$(selectors.frost.button.input.enabled)
-            .first() // Remove button instead of add button
-            .click()
+          this.$(selectors.frost.button.input.enabled).first().click()
+          return wait()
         })
 
         it('renders as expected', function () {
