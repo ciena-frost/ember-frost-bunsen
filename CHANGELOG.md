@@ -1,3 +1,9 @@
+# 14.27.2 (2017-05-03)
+
+* **Added** a missing destroyed checked.
+* **Fixed** tests to use the `wait` helper to help prevent tests failures due to timing issues.
+
+
 # 14.27.1 (2017-05-01)
 * **Fixed** a bug where generateFacetView was creating facets where each group had two labels.
 
