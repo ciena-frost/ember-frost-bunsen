@@ -143,6 +143,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
   @readOnly
   @computed('bunsenId', 'readOnly', 'value', 'bunsenModel.items')
+  /* eslint-disable complexity*/
   items (bunsenId, readOnly, value, itemModels) {
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
@@ -161,6 +162,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
     return A(items)
   },
+  /* eslint-enable complexity*/
 
   @readOnly
   @computed('bunsenId', 'bunsenModel.items', 'value')

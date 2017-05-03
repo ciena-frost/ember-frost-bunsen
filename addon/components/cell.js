@@ -86,8 +86,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     let isDirty = false
 
     if (valueChangeSet) {
+      const id = this.get('bunsenId') || ''
       iterateMap(valueChangeSet.keys(), (bunsenId) => {
-        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId) ||
+          id === bunsenId.slice(0, id.length)
+        ) {
           isDirty = true
           return false
         }
@@ -133,6 +136,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('propagatedValue')
   renderValue (value) {
+    debugger
     const bunsenId = this.get('renderId')
 
     if (typeOf(value) !== 'object') {
@@ -159,12 +163,17 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
-   * @param {BunsenModel} model - bunsen model
+   * @param {String} model - bunsen model path
    * @returns {String} bunsen ID of input
    */
   renderId (bunsenId, model) {
     if (bunsenId && model) {
-      return `${bunsenId}.${model}`
+      if (isNaN(model[0])) {
+        return `${bunsenId}.${model}`
+      }
+      model = model.split('.')
+      model[0] = bunsenId
+      return model.join('.')
     }
 
     return bunsenId || model || ''
