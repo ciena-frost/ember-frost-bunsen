@@ -1,3 +1,9 @@
+# 14.28.0 (2017-05-04)
+
+* **Added** missing `return wait()` call to more tests to make sure they are async safe.
+* **Replaced** some deep cloning with shallow cloning to reduce new object creation.
+
+
 # 14.27.2 (2017-05-03)
 
 * **Added** a missing destroyed checked.
