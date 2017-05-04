@@ -24,7 +24,7 @@ import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 export default function (format, invalidValues, validValues, focus = false) {
   const describeFunc = focus ? describe.only : describe
 
-  describeFunc(`Integration: Component / frost-bunsen-form / format | ${format}`, function () {
+  describeFunc(`Integration: Component / frost-bunsen-form / format / ${format}`, function () {
     before(function () {
       this.timeout(3000) // Sometimes 2 seconds isn't enoguh for the CI
     })

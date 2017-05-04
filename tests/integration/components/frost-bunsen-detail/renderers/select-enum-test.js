@@ -6,7 +6,7 @@ import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 
-describe('Integration: Component / frost-bunsen-detail / renderer | select enum', function () {
+describe('Integration: Component / frost-bunsen-detail / renderer / select enum', function () {
   setupDetailComponentTest({
     bunsenModel: {
       properties: {

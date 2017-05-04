@@ -1,7 +1,6 @@
 import Ember from 'ember'
 const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
-import _ from 'lodash'
 
 const {keys} = Object
 
@@ -142,10 +141,10 @@ export function generateFacetView (facets) {
  */
 export function getMergedConfig (cellConfig, cellDefinitions) {
   if (!cellConfig.extends) {
-    return _.cloneDeep(cellConfig)
+    return cellConfig
   }
 
-  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
+  const superCell = Object.assign({}, getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions))
   const mergedConfig = merge(superCell, cellConfig)
 
   delete mergedConfig.extends
@@ -160,20 +159,27 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
  * @returns {BunsenCell} merged cell definition
  */
 export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
-  const mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
+  let mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
 
   // recursive object case
   if (mergedConfig.children) {
-    const mergedChildConfigs = []
-    mergedConfig.children.forEach((childConfig) => {
-      mergedChildConfigs.push(getMergedConfigRecursive(childConfig, cellDefinitions))
-    })
-    mergedConfig.children = mergedChildConfigs
+    const children = mergedConfig.children.map((childConfig) => getMergedConfigRecursive(childConfig, cellDefinitions))
+    const childrenChanged = children.some((child, index) => child !== mergedConfig.children[index])
+
+    if (childrenChanged) {
+      mergedConfig = Object.assign({}, mergedConfig, {children})
+    }
   }
 
   // recursive array case
   if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
-    mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+    const itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+    const itemCellChanged = itemCell !== mergedConfig.arrayOptions.itemCell
+
+    if (itemCellChanged) {
+      const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {itemCell})
+      mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+    }
   }
 
   return mergedConfig

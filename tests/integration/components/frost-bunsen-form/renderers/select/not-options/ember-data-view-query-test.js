@@ -92,6 +92,8 @@ describe(desc, function () {
         value=value
       }}
     `)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -113,6 +115,8 @@ describe(desc, function () {
             })
           ])
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -163,7 +167,8 @@ describe(desc, function () {
 
       describe('when expanded/opened', function () {
         beforeEach(function () {
-          return $hook('my-form-foo').find('.frost-select').click()
+          $hook('my-form-foo').find('.frost-select').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -232,6 +237,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -302,6 +309,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -372,6 +381,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -442,6 +453,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -486,6 +499,7 @@ describe(desc, function () {
       describe('when form explicitly enabled', function () {
         beforeEach(function () {
           this.set('disabled', false)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -504,6 +518,7 @@ describe(desc, function () {
       describe('when form disabled', function () {
         beforeEach(function () {
           this.set('disabled', true)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -541,6 +556,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -577,6 +594,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -650,6 +669,8 @@ describe(desc, function () {
               onValidation: props.onValidation,
               showAllErrors: false
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -685,6 +706,8 @@ describe(desc, function () {
               onValidation: props.onValidation,
               showAllErrors: true
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -727,6 +750,8 @@ describe(desc, function () {
             })
           ])
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -761,7 +786,8 @@ describe(desc, function () {
         beforeEach(function () {
           props.onChange.reset()
           props.onValidation.reset()
-          return $hook('my-form-foo').find('.frost-select').click()
+          $hook('my-form-foo').find('.frost-select').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -838,6 +864,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -893,6 +921,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -948,6 +978,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1003,6 +1035,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1031,6 +1065,7 @@ describe(desc, function () {
           props.onChange.reset()
           props.onValidation.reset()
           this.set('disabled', false)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1053,6 +1088,7 @@ describe(desc, function () {
           props.onChange.reset()
           props.onValidation.reset()
           this.set('disabled', true)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1095,6 +1131,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1136,6 +1174,8 @@ describe(desc, function () {
             type: 'form',
             version: '2.0'
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1197,6 +1237,7 @@ describe(desc, function () {
             props.onChange.reset()
             props.onValidation.reset()
             this.set('showAllErrors', false)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1225,6 +1266,7 @@ describe(desc, function () {
             props.onChange.reset()
             props.onValidation.reset()
             this.set('showAllErrors', true)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1256,6 +1298,8 @@ describe(desc, function () {
           }
         })
       })
+
+      return wait()
     })
 
     it('should call onError', function () {

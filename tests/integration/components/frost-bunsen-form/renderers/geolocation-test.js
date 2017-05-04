@@ -489,6 +489,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         },
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -920,6 +922,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           version: '2.0'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {

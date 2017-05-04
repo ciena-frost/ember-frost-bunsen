@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP} = Ember
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -78,6 +79,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / custom', funct
       renderers=renderers
       value=value
     }}`)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -88,29 +91,54 @@ describe('Integration: Component / frost-bunsen-form / renderer / custom', funct
     expect(validateSpy.called).to.equal(false)
   })
 
-  it('calls the component custom validator when the model changes', function () {
-    this.set('bunsenModel', {
-      foo: {
-        type: 'number'
-      }
+  describe('when model changes', function () {
+    beforeEach(function () {
+      this.set('bunsenModel', {
+        foo: {
+          type: 'number'
+        }
+      })
+      return wait()
     })
-    expect(validateSpy.called).to.equal(true)
-  })
 
-  it('calls the component custom validator on top-level value changes', function () {
-    this.set('value', {
-      foo: 'bar'
+    it('triggers custom validator', function () {
+      expect(validateSpy.called).to.equal(true)
     })
-    expect(validateSpy.called).to.equal(true)
   })
 
-  it('can call triggerValidation() to call the component custom validator', function () {
-    renderer.triggerValidation()
-    expect(validateSpy.called).to.equal(true)
+  describe('when top-level value changes', function () {
+    beforeEach(function () {
+      this.set('value', {
+        foo: 'bar'
+      })
+
+      return wait()
+    })
+
+    it('triggers custom validator', function () {
+      expect(validateSpy.called).to.equal(true)
+    })
   })
 
-  it('can call onChange to call the component custom validator', function () {
-    renderer.onChange('foo', 'bar')
-    expect(validateSpy.called).to.equal(true)
+  describe('when validation triggered', function () {
+    beforeEach(function () {
+      renderer.triggerValidation()
+      return wait()
+    })
+
+    it('calls the custom validator', function () {
+      expect(validateSpy.called).to.equal(true)
+    })
+  })
+
+  describe('when onChange called', function () {
+    beforeEach(function () {
+      renderer.onChange('foo', 'bar')
+      return wait()
+    })
+
+    it('calls the custom validator', function () {
+      expect(validateSpy.called).to.equal(true)
+    })
   })
 })
