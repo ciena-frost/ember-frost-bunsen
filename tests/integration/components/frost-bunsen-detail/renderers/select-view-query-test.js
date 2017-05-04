@@ -10,7 +10,7 @@ import sinon from 'sinon'
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-detail / renderer | select view query', function () {
+describe('Integration: Component / frost-bunsen-detail / renderer / select view query', function () {
   setupComponentTest('frost-bunsen-detail', {
     integration: true
   })

@@ -369,9 +369,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
     describe('when date is set', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        const interactor = openDatepickerBunsenDateRenderer('foo')
-        interactor.selectDate(new Date(2017, 0, 24))
-        closePikaday(this)
+
+        this.set('value', {
+          foo: '2017-01-24'
+        })
+
         return wait()
       })
 

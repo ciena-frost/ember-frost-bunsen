@@ -85,6 +85,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
     }
 
     this.setProperties(props)
+
+    return wait()
   })
 
   afterEach(function () {
@@ -111,6 +113,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       })
 
       render.call(this)
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -143,7 +147,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
     describe('when expanded/opened', function () {
       beforeEach(function () {
-        return $hook('my-form-foo').find('.frost-select').click()
+        $hook('my-form-foo').find('.frost-select').click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -160,6 +165,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           $('.frost-select-dropdown .frost-text-input')
             .val('sp')
             .trigger('input')
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -290,6 +297,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -351,6 +360,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -412,6 +423,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -473,6 +486,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -517,6 +532,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
     describe('when form explicitly enabled', function () {
       beforeEach(function () {
         this.set('disabled', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -535,6 +551,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
     describe('when form disabled', function () {
       beforeEach(function () {
         this.set('disabled', true)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -563,6 +580,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -590,6 +609,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           type: 'form',
           version: '2.0'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -626,6 +647,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           },
           onValidation: props.onValidation
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -674,6 +697,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             onValidation: props.onValidation,
             showAllErrors: false
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -709,6 +734,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             onValidation: props.onValidation,
             showAllErrors: true
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -754,12 +781,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         ],
         foo: '1'
       })
+
+      return wait()
     })
 
     describe('when expanded/opened', function () {
       beforeEach(function () {
         render.call(this)
-        return $hook('my-form-foo').find('.frost-select').click()
+        $hook('my-form-foo').find('.frost-select').click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -800,6 +830,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           $('.frost-select-dropdown .frost-text-input')
             .val('sp')
             .trigger('input')
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -920,6 +952,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1007,6 +1041,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1094,6 +1130,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1181,6 +1219,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1250,6 +1290,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       beforeEach(function () {
         this.set('disabled', false)
         render.call(this)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1293,6 +1334,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       beforeEach(function () {
         this.set('disabled', true)
         render.call(this)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1347,6 +1389,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1400,6 +1444,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         })
 
         render.call(this)
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -1444,11 +1490,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       beforeEach(function () {
         props.bunsenModel.required = ['foo']
         this.set('bunsenModel', props.bunsenModel)
+        return wait()
       })
 
       describe('showAllErrors not set', function () {
         beforeEach(function () {
           render.call(this)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1518,6 +1566,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         beforeEach(function () {
           this.set('showAllErrors', false)
           render.call(this)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1573,6 +1622,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         beforeEach(function () {
           this.set('showAllErrors', true)
           render.call(this)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1625,6 +1675,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       props.bunsenModel.properties.foo.default = '1'
       this.set('bunsenModel', props.bunsenModel)
       render.call(this)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -1654,12 +1705,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           ],
           foo: '1'
         })
+
+        return wait()
       })
 
       describe('when expanded/opened', function () {
         beforeEach(function () {
           render.call(this)
-          return $hook('my-form-foo').find('.frost-select').click()
+          $hook('my-form-foo').find('.frost-select').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1700,6 +1754,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             $('.frost-select-dropdown .frost-text-input')
               .val('sp')
               .trigger('input')
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -1820,6 +1876,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1907,6 +1965,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1994,6 +2054,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2081,6 +2143,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2150,6 +2214,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         beforeEach(function () {
           this.set('disabled', false)
           render.call(this)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2193,6 +2258,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         beforeEach(function () {
           this.set('disabled', true)
           render.call(this)
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2247,6 +2313,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2300,6 +2368,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           })
 
           render.call(this)
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -2344,11 +2414,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
         beforeEach(function () {
           props.bunsenModel.required = ['foo']
           this.set('bunsenModel', props.bunsenModel)
+          return wait()
         })
 
         describe('showAllErrors not set', function () {
           beforeEach(function () {
             render.call(this)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -2418,6 +2490,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           beforeEach(function () {
             this.set('showAllErrors', false)
             render.call(this)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -2473,6 +2546,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
           beforeEach(function () {
             this.set('showAllErrors', true)
             render.call(this)
+            return wait()
           })
 
           it('renders as expected', function () {
