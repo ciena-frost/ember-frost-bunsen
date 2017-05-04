@@ -1,3 +1,8 @@
+# 14.28.2 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to fix an issue with Files being stripped from values
+
+
 # 14.28.1 (2017-05-04)
 
 * **Updated** ember-bunsen-core dependency to 0.24.3, which fixes a bug that would strip Files from values.
