@@ -1,3 +1,8 @@
+# 14.28.1 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to 0.24.3, which fixes a bug that would strip Files from values.
+
+
 # 14.28.0 (2017-05-04)
 
 * **Added** missing `return wait()` call to more tests to make sure they are async safe.
