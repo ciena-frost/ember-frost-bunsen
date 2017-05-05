@@ -244,6 +244,86 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  /**
+   * Apply updates from redux store
+   * @param {String} lastAction - last action that occurred in the redux store
+   * @param {Object} newProps - new component property values to apply
+   * @param {Object} validationResult - latest validation result
+   * @param {Object} value - latest form value
+   */
+  applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
+    // Update component properties with newer state from redux store.
+    this.setProperties(newProps)
+
+    // If the value changed inform consumer of the new form value. This occurs
+    // when defaults are applied within the redux store.
+    if ('renderValue' in newProps && this.onChange) {
+      this.onChange(value)
+    }
+
+    // If the last action that occurred in the redux store was validation then
+    // inform consumer of latest validation results.
+    if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
+      this.onValidation(validationResult)
+    }
+  },
+
+  /**
+   * Batches the changes in a change-set so multiple updates to a change-set
+   * don't override each other in a a single run loop
+   * @param {Map} changeSet - the changeSet to merge with the batched version
+   * @returns {Map} the newly updated batched change-sets
+   */
+  batchChanges (changeSet) {
+    let batchedChangeSet = this.get('batchedChangeSet')
+
+    if (!batchedChangeSet) {
+      batchedChangeSet = new Map()
+
+      this.set('batchedChangeSet', batchedChangeSet)
+    }
+
+    changeSet.forEach((value, key) => {
+      batchedChangeSet.set(key, value)
+    })
+
+    run.schedule('afterRender', () => {
+      if (this.isDestroyed || this.isDestroying) return
+      this.set('batchedChangeSet', null)
+    })
+
+    return batchedChangeSet
+  },
+
+  /**
+   * Pass new model into redux store
+   * @param {BunsenModel} model - new model
+   */
+  dispatchModel (model) {
+    this.get('reduxStore').dispatch(changeModel(model))
+  },
+
+  /**
+   * Pass new view into redux store
+   * @param {BunsenView} view - new view
+   */
+  dispatchView (view) {
+    this.get('reduxStore').dispatch(changeView(view))
+  },
+
+  /**
+   * Inform renderers that registered to be notified of form value changes of
+   * new form value.
+   * @param {Object} value - new form value
+   */
+  informRenderersOfFormValueChange (value) {
+    this.get('registeredComponents')
+      .forEach((component) => {
+        if (component.isDestroyed || component.isDestroying) return
+        component.formValueChanged(value)
+      })
+  },
+
   /* eslint-disable complexity */
   /**
    * Precompute all model references from the view schema using the references `model` and `dependsOn`
@@ -326,39 +406,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   /**
-   * Batches the changes in a change-set so multiple updates to a change-set
-   * don't override each other in a a single run loop
-   * @param {Map} changeSet - the changeSet to merge with the batched version
-   * @returns {Map} the newly updated batched change-sets
-   */
-  batchChanges (changeSet) {
-    let batchedChangeSet = this.get('batchedChangeSet')
-
-    if (!batchedChangeSet) {
-      batchedChangeSet = new Map()
-
-      this.set('batchedChangeSet', batchedChangeSet)
-    }
-
-    changeSet.forEach((value, key) => {
-      batchedChangeSet.set(key, value)
-    })
-
-    run.schedule('afterRender', () => {
-      if (this.isDestroyed || this.isDestroying) return
-      this.set('batchedChangeSet', null)
-    })
-
-    return batchedChangeSet
-  },
-
-  /**
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
     const state = this.get('reduxStore').getState()
     const {errors, lastAction, validationResult, value, valueChangeSet} = state
@@ -372,6 +423,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (!_.isEqual(this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
     }
+
     if (!_.isEqual(this.get('view'), state.view)) {
       newProps.view = state.view
     }
@@ -381,23 +433,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
       newProps.valueChangeSet = this.batchChanges(valueChangeSet)
-
-      this.get('registeredComponents').forEach((component) => {
-        if (!component.isDestroyed && !component.isDestroying) {
-          component.formValueChanged(value)
-        }
-      })
+      this.informRenderersOfFormValueChange(value)
     }
 
-    this.setProperties(newProps)
-
-    if ('renderValue' in newProps && this.onChange) {
-      this.onChange(value)
-    }
-
-    if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
-      this.onValidation(validationResult)
-    }
+    this.applyStoreUpdate({lastAction, newProps, validationResult, value})
   },
   /* eslint-enable complexity */
 
@@ -407,19 +446,27 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   init () {
     this._super(...arguments)
 
+    // Get initial value passed in by consumer
     const value = this.get('value')
+
+    // Make sure value is a POJO (Converting Ember.Object's to POJO's)
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
+
+    // Create redux store and initialze with starting state
     const reduxStore = createStoreWithMiddleware(reducer, {
       baseModel: this.get('bunsenModel'),
       baseView: this.get('bunsenView'),
       value: plainObjectValue
     })
 
+    // Make sure we have a reference to the store as well as the processed model
+    // from the store.
     this.setProperties({
       reduxStore,
       renderModel: reduxStore.getState().model
     })
 
+    // Subscribe for redux store updates (so we can react to changes)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
@@ -428,29 +475,31 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @param {Object} bunsenModel - a deemberified bunsenModel
    */
   validateProps (bunsenModel) {
-    let invalidSchemaType = 'model'
-    const renderers = this.get('renderers') || {}
-
-    let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
-    this.get('reduxStore').dispatch(changeModel(bunsenModel))
-    const view = this.get('renderView')
-
-    if (result.errors.length === 0) {
-      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      invalidSchemaType = 'view'
-      result = validateView(
-        view,
-        bunsenModel,
-        keys(renderers),
-        validateRendererFn,
-        isRegisteredEmberDataModel
-      )
+    const props = {
+      invalidSchemaType: 'model',
+      propValidationResult: validateModel(bunsenModel, isRegisteredEmberDataModel)
     }
 
-    this.setProperties({
-      invalidSchemaType,
-      propValidationResult: result
-    })
+    // If model is valid then lets go ahead and validate the view
+    if (props.propValidationResult.errors.length === 0) {
+      const renderers = this.get('renderers') || {}
+      const view = this.get('renderView')
+      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
+
+      Object.assign(props, {
+        invalidSchemaType: 'view',
+        propValidationResult: validateView(
+          view,
+          bunsenModel,
+          keys(renderers),
+          validateRendererFn,
+          isRegisteredEmberDataModel
+        )
+      })
+    }
+
+    // Update component with latest validation state
+    this.setProperties(props)
   },
 
   /* eslint-disable complexity */
@@ -515,6 +564,19 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   /**
+   * Update selected tab
+   */
+  updateSelectedTab () {
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel === undefined) return
+
+    const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+    if (selectedTab === undefined) return
+
+    this.set('selectedTabIndex', selectedTab.id)
+  },
+
+  /**
    * Keep value in sync with store and validate properties
    */
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -550,28 +612,22 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       reduxStore.dispatch(
         validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all)
       )
-    } else {
-      if (hasModelChanged) {
-        reduxStore.dispatch(
-          validate(null, value, newBunsenModel, allValidators, RSVP.all)
-        )
-      }
+    } else if (hasModelChanged) {
+      reduxStore.dispatch(
+        validate(null, value, newBunsenModel, allValidators, RSVP.all)
+      )
     }
+
     if (hasViewChanged) {
-      this.get('reduxStore').dispatch(changeView(newView))
+      this.dispatchView(newView)
     }
 
     if (hasModelChanged || hasViewChanged) {
+      this.dispatchModel(newBunsenModel)
       this.validateProps(newBunsenModel)
     }
 
-    let selectedTabLabel = this.get('selectedTabLabel')
-    if (selectedTabLabel !== undefined) {
-      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
-      if (selectedTab !== undefined) {
-        this.set('selectedTabIndex', selectedTab.id)
-      }
-    }
+    this.updateSelectedTab()
   },
   /* eslint-enable complexity */
 
