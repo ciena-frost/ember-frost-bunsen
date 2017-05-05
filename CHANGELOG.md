@@ -1,3 +1,8 @@
+# 14.28.3 (2017-05-05)
+
+* **Cleaned** up code by breaking into smaller functions and adding some comments/JSDoc.
+
+
 # 14.28.2 (2017-05-04)
 
 * **Updated** ember-bunsen-core dependency to fix an issue with Files being stripped from values
