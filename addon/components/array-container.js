@@ -1,5 +1,5 @@
 import {utils} from 'bunsen-core'
-const {getLabel} = utils
+const {getLabel, getSubModel} = utils
 import Ember from 'ember'
 const {A, Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -11,6 +11,10 @@ import _ from 'lodash'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-container'
 
 const {keys} = Object
+
+function itemIndex (arrayId, itemId) {
+  return itemId.slice(arrayId.length + 1).split('.')[0]
+}
 
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
@@ -110,7 +114,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     if (maxItems && maxItems <= items.length) {
       return false
     }
-    if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems) {
+    if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems && bunsenModel.tuple) {
       return false
     }
 
@@ -136,20 +140,23 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('bunsenModel')
   itemsModel (model) {
     const itemModels = model.items
-    if (Array.isArray(itemModels)) {
+    if (Array.isArray(itemModels) && model.tuple) {
       return model.additionalItems
     }
-    return itemModels
   },
   @readOnly
-  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel.items')
+  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel')
   /* eslint-disable complexity*/
-  items (bunsenId, readOnly, value, itemModels) {
+  items (bunsenId, readOnly, value, bunsenModel) {
+    const itemModels = bunsenModel.items
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
 
     const items = get(value || {}, bunsenId) || []
+    const getModel = Array.isArray(bunsenModel.items)
+      ? (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
+      : () => bunsenModel.items
 
     if (
       readOnly !== true &&
@@ -157,17 +164,18 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     ) {
       items.push(this._getEmptyItem())
     }
-    if (Array.isArray(itemModels)) {
-      return A(items.slice(itemModels.length))
+    if (Array.isArray(itemModels) && bunsenModel.tuple) {
+      return A(_.map(items.slice(itemModels.length), getModel))
     }
-    return A(items)
+    return A(_.map(items, getModel))
   },
   /* eslint-enable complexity*/
 
   @readOnly
-  @computed('bunsenId', 'bunsenModel.items', 'value')
-  startingIndex (bunsenId, items, value) {
-    if (Array.isArray(items)) {
+  @computed('bunsenId', 'bunsenModel', 'value')
+  startingIndex (bunsenId, bunsenModel, value) {
+    const items = bunsenModel.items
+    if (Array.isArray(items) && bunsenModel.tuple) {
       return items.length
     }
     return 0
@@ -176,7 +184,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('bunsenModel')
   tupleItems (model) {
-    if (Array.isArray(model.items)) {
+    if (Array.isArray(model.items) && model.tuple) {
       return model.items
     }
   },
@@ -327,6 +335,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     this.set('formValue', newValue)
   },
 
+  itemType (itemId) {
+    return this.get('bunsenModel.items.type') ||
+      this.get(`bunsenModel.items.${itemIndex(this.get('bunsenId'), itemId)}.type`) ||
+      this.get('bunsenModel.additionalItems.type')
+  },
+
   // == Actions ================================================================
 
   actions: {
@@ -346,9 +360,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     /* eslint-disable complexity */
     handleChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
-      const type = this.get('bunsenModel.items.type') ||
-        this.get(`bunsenModel.items.${bunsenId.split('.').pop()}.type`) ||
-        this.get('bunsenModel.additionalItems.type')
+      const type = this.itemType(bunsenId)
 
       switch (type) {
         case 'array':

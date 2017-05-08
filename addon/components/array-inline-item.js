@@ -115,7 +115,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig', 'index')
   itemCell (cellConfig, index) {
-    return get(cellConfig, `arrayOptions.tupleCells.${index}`) || get(cellConfig, 'arrayOptions.itemCell') || {}
+    return get(cellConfig, `arrayOptions.tupleCells.${index}`) ||
+      get(cellConfig, `arrayOptions.itemCell.${index}`) ||
+      get(cellConfig, 'arrayOptions.itemCell') || {}
   },
 
   // == Actions ================================================================
