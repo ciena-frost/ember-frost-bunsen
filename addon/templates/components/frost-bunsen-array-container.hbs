@@ -24,7 +24,7 @@
     {{#if tupleItems}}
       {{#each tupleItems key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
-          bunsenId=bunsenId
+          bunsenId=(concat bunsenId '.' index)
           bunsenModel=item
           bunsenView=bunsenView
           cellConfig=cellConfig
@@ -54,7 +54,7 @@
         {{#each items key='@index' as |item index|}}
           {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
             {{frost-bunsen-array-inline-item
-              bunsenId=bunsenId
+              bunsenId=(concat bunsenId '.' index)
               bunsenModel=item
               bunsenView=bunsenView
               cellConfig=cellConfig
@@ -83,7 +83,7 @@
     {{else}}
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
-          bunsenId=bunsenId
+          bunsenId=(concat bunsenId '.' index)
           bunsenModel=item
           bunsenView=bunsenView
           cellConfig=cellConfig
@@ -145,7 +145,7 @@
     <div class='frost-bunsen-tab-content'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-content
-          bunsenId=bunsenId
+          bunsenId=(concat bunsenId '.' index)
           bunsenModel=item
           bunsenView=bunsenView
           cellConfig=cellConfig

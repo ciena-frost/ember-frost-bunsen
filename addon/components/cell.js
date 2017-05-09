@@ -115,19 +115,30 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig.children')
-  children (bunsenModel, cellDefinitions, children) {
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig', 'renderId')
+  children (bunsenModel, cellDefinitions, cellConfig, renderId) {
+    let children
+    if (cellConfig.extends) {
+      const extendedDef = cellDefinitions[cellConfig.extends]
+      children = extendedDef.children || cellConfig.children
+    } else {
+      children = cellConfig.children
+    }
+
     if (!isArray(children)) return null
 
     return children
       .map((child) => {
         let subModel = bunsenModel
+        let subId = renderId
         if (child.model) {
           subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
+          subId = subId ? `${subId}.${child.model}` : child.model
         }
         return {
           cellConfig: child,
-          bunsenModel: subModel
+          bunsenModel: subModel,
+          bunsenId: subId
         }
       })
       .filter((child) => child.bunsenModel !== undefined)
@@ -166,15 +177,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} bunsen ID of input
    */
   renderId (bunsenId, model) {
-    if (bunsenId && model) {
-      if (isNaN(model[0])) {
-        return `${bunsenId}.${model}`
-      }
-      model = model.split('.')
-      model[0] = bunsenId
-      return model.join('.')
-    }
-
     return bunsenId || model || ''
   },
 
@@ -278,9 +280,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  isLeafNode (cellConfig) {
-    return cellConfig.model && !cellConfig.children
+  @computed('cellConfig.model', 'children')
+  isLeafNode (model, children) {
+    return model && !children
   },
 
   @readOnly
