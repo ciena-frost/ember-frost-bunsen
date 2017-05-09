@@ -8,7 +8,7 @@
 {{/if}}
 <div class={{inputWrapperClassName}}>
   <div class='frost-bunsen-input-checkbox-array-checkbox-container'>
-    {{#each options as |option|}}
+    {{#each options key='value' as |option|}}
       {{frost-checkbox
         checked=option.checked
         class=valueClassName

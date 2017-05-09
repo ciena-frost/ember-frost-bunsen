@@ -1,11 +1,11 @@
+import {utils} from 'bunsen-core'
+const {parseVariables} = utils
 import Ember from 'ember'
 const {get} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
 
 import AbstractInput from './abstract-input'
-import {getOption} from 'ember-frost-bunsen/input-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-image'
-
-const {keys} = Object
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -17,6 +17,37 @@ export default AbstractInput.extend({
 
   layout,
 
+  @readOnly
+  @computed('cellConfig')
+  alt (cellConfig) {
+    return (
+      get(cellConfig, 'renderer.alt') ||
+      get(cellConfig, 'renderer.options.alt')
+    )
+  },
+
+  @readOnly
+  @computed('alt', 'bunsenId', 'formValue')
+  dereferencedAlt (alt, bunsenId, formValue) {
+    return parseVariables(formValue, alt, bunsenId, true) || ''
+  },
+
+  @readOnly
+  @computed('bunsenId', 'formValue', 'src', 'value')
+  dereferencedSrc (bunsenId, formValue, src, value) {
+    if (!src) return value
+    return parseVariables(formValue, src, bunsenId, true) || ''
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  src (cellConfig) {
+    return (
+      get(cellConfig, 'renderer.src') ||
+      get(cellConfig, 'renderer.options.src')
+    )
+  },
+
   // == Functions ==============================================================
 
   formValueChanged (newValue) {
@@ -26,9 +57,7 @@ export default AbstractInput.extend({
     const altContainsReferences = rendererAlt && rendererAlt.indexOf('${') !== -1
     const srcContainsReferences = rendererSrc && rendererSrc.indexOf('${') !== -1
 
-    if (!altContainsReferences && !srcContainsReferences) {
-      return
-    }
+    if (!altContainsReferences && !srcContainsReferences) return
 
     this.set('formValue', newValue)
   },
@@ -38,24 +67,5 @@ export default AbstractInput.extend({
   init () {
     this._super(...arguments)
     this.registerForFormValueChanges(this)
-  },
-
-  didReceiveAttrs ({newAttrs, oldAttrs}) {
-    const formValue = this.get('formValue')
-    const props = {}
-    const newAlt = getOption(newAttrs, 'alt', formValue, '', false)
-    const newSrc = getOption(newAttrs, 'src', formValue)
-
-    if (this.get('alt') !== newAlt) {
-      props.alt = newAlt
-    }
-
-    if (this.get('src') !== newSrc) {
-      props.src = newSrc
-    }
-
-    if (keys(props).length !== 0) {
-      this.setProperties(props)
-    }
   }
 })
