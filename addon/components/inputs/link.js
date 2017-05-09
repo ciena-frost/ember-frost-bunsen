@@ -1,12 +1,11 @@
+import {utils} from 'bunsen-core'
+const {parseVariables} = utils
 import Ember from 'ember'
 const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import AbstractInput from './abstract-input'
-import {getAttr, getOption} from 'ember-frost-bunsen/input-utils'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-link'
-
-const {keys} = Object
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -21,9 +20,54 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
+  @computed('cellConfig')
+  defaultLabel (cellConfig) {
+    return (
+      get(cellConfig, 'renderer.defaultLabel') ||
+      get(cellConfig, 'renderer.options.defaultLabel')
+    )
+  },
+
+  @readOnly
+  @computed('bunsenId', 'defaultLabel', 'formValue', 'linkLabel', 'value')
+  dereferencedLinkLabel (bunsenId, defaultLabel, formValue, linkLabel, value) {
+    if (!linkLabel) return value
+    return (
+      parseVariables(formValue, linkLabel, bunsenId, true) ||
+      defaultLabel ||
+      'Link'
+    )
+  },
+
+  @readOnly
+  @computed('bunsenId', 'formValue', 'url', 'value')
+  dereferencedUrl (bunsenId, formValue, url, value) {
+    if (!url) return value
+    return parseVariables(formValue, url, bunsenId, true) || ''
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  linkLabel (cellConfig) {
+    return (
+      get(cellConfig, 'renderer.label') ||
+      get(cellConfig, 'renderer.options.label')
+    )
+  },
+
+  @readOnly
   @computed('cellConfig', 'value')
   route (cellConfig) {
     return get(cellConfig, 'renderer.route')
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  url (cellConfig) {
+    return (
+      get(cellConfig, 'renderer.url') ||
+      get(cellConfig, 'renderer.options.url')
+    )
   },
 
   @readOnly
@@ -52,9 +96,7 @@ export default AbstractInput.extend({
     const labelContainsReferences = rendererLabel && rendererLabel.indexOf('${') !== -1
     const urlContainsReferences = rendererUrl && rendererUrl.indexOf('${') !== -1
 
-    if (!labelContainsReferences && !urlContainsReferences) {
-      return
-    }
+    if (!labelContainsReferences && !urlContainsReferences) return
 
     this.set('formValue', newValue)
   },
@@ -64,27 +106,6 @@ export default AbstractInput.extend({
   init () {
     this._super(...arguments)
     this.registerForFormValueChanges(this)
-  },
-
-  didReceiveAttrs ({newAttrs, oldAttrs}) {
-    const formValue = this.get('formValue')
-    const props = {}
-    const newDefaultLabel = getAttr(newAttrs, 'cellConfig.renderer.defaultLabel')
-    const newLabel = getOption(newAttrs, 'label', formValue, newDefaultLabel)
-    const newUrl = getOption(newAttrs, 'url', formValue)
-    const newLinkLabel = newLabel || 'Link'
-
-    if (this.get('linkLabel') !== newLinkLabel) {
-      props.linkLabel = newLinkLabel
-    }
-
-    if (this.get('url') !== newUrl) {
-      props.url = newUrl
-    }
-
-    if (keys(props).length !== 0) {
-      this.setProperties(props)
-    }
   },
 
   // == Actions ===============================================================

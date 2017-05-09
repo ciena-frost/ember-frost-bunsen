@@ -2,12 +2,12 @@
   There seems to be something wrong with your <strong>{{type}}</strong> schema
 </h4>
 <ul>
-  {{#each model.warnings as |warning|}}
+  {{#each model.warnings key='@index' as |warning|}}
     <li>
       {{frost-bunsen-error data=warning warning=true}}
     </li>
   {{/each}}
-  {{#each model.errors as |error|}}
+  {{#each model.errors key='@index' as |error|}}
     <li>
       {{frost-bunsen-error data=error}}
     </li>
