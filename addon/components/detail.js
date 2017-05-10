@@ -252,13 +252,16 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @param {Object} value - latest form value
    */
   applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
-    // Update component properties with newer state from redux store.
-    this.setProperties(newProps)
+    if (Object.keys(newProps).length !== 0) {
+      // Update component properties with newer state from redux store.
+      this.setProperties(newProps)
+    }
 
     // If the value changed inform consumer of the new form value. This occurs
     // when defaults are applied within the redux store.
     if ('renderValue' in newProps && this.onChange) {
-      this.onChange(value)
+      const valueWithoutInternalState = value.without('_internal')
+      this.onChange(valueWithoutInternalState)
     }
 
     // If the last action that occurred in the redux store was validation then
@@ -590,7 +593,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
-    const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
@@ -603,8 +605,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     // If the user/consumer has provided a value and it differs from the current store value
     // then we need to update the store to be the user/consumer supplied value
-    if (hasUserProvidedValue && !doesUserValueMatchStoreValue) {
-      dispatchValue = plainObjectValue
+    if (hasUserProvidedValue) {
+      const reduxStoreValueWithoutInternal = Object.assign({}, reduxStoreValue)
+      delete reduxStoreValueWithoutInternal._internal
+
+      if (!_.isEqual(plainObjectValue, reduxStoreValueWithoutInternal)) {
+        dispatchValue = plainObjectValue
+      }
     }
 
     // If we have a new value to assign the store then let's get to it

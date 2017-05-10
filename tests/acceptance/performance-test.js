@@ -6,6 +6,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {Logger, RSVP, run} = Ember
 import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 import {after, before, describe, it} from 'mocha'
 import sinon from 'sinon'
 
@@ -48,6 +49,7 @@ function typeText (text, $input) {
   })
 
   return RSVP.Promise.all(promises)
+    .then(() => wait())
 }
 
 /**
@@ -78,23 +80,19 @@ describe('Acceptance: Performance', function () {
 
   describe('typing on a simple form', function () {
     let $input, initialRenderCount
-    before(function (done) {
-      visit('/examples?model=simple')
-      andThen(() => {
-        initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
-        Logger.debug.reset()
-        $input = $hook('bunsenForm-lastName-input')
-        typeText('abcdef', $input).then(() => {
-          done()
+    before(function () {
+      return visit('/examples?model=simple')
+        .then(() => {
+          initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
+          Logger.debug.reset()
+          $input = $hook('bunsenForm-lastName-input')
+          return typeText('abcdef', $input)
         })
-      })
     })
 
     it('should have the full text', function () {
-      andThen(() => {
-        const value = getValue()
-        expect(value.lastName).to.equal('abcdef')
-      })
+      const value = getValue()
+      expect(value.lastName).to.equal('abcdef')
     })
 
     it('should re-render fewer times than initial render', function () {
@@ -105,16 +103,14 @@ describe('Acceptance: Performance', function () {
 
   describe('typing on a complex form', function () {
     let $input, initialRenderCount
-    before(function (done) {
-      visit('/examples?model=evc')
-      andThen(() => {
-        $input = $hook('bunsenForm-createdAt-input')
-        initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
-        Logger.debug.reset()
-        typeText('abcdef', $input).then(() => {
-          done()
+    before(function () {
+      return visit('/examples?model=evc')
+        .then(() => {
+          $input = $hook('bunsenForm-createdAt-input')
+          initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
+          Logger.debug.reset()
+          return typeText('abcdef', $input)
         })
-      })
     })
 
     it('should have the full text', function () {

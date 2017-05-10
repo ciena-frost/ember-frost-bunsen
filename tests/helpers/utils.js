@@ -73,6 +73,27 @@ export function renderFormComponent () {
 }
 
 /**
+ * Render frost-bunsen-form with frost-select-outlet
+ */
+export function renderFormComponentWithSelectOutlet () {
+  this.render(hbs`
+    {{frost-select-outlet hook='selectOutlet'}}
+    {{frost-bunsen-form
+      autofocus=autofocus
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      disabled=disabled
+      hook=hook
+      onChange=onChange
+      onValidation=onValidation
+      selectedTabLabel=selectedTabLabel
+      showAllErrors=showAllErrors
+      value=value
+    }}
+  `)
+}
+
+/**
  * Setup integration test for a particular ember-frost-bunsen component
  * @param {Function} defaults - method to get default props
  * @param {String} name - name of component being tested
@@ -134,5 +155,19 @@ export function setupFormComponentTest (props) {
     name: 'frost-bunsen-form',
     props,
     renderer: renderFormComponent
+  })
+}
+
+/**
+ * Setup integration test for frost-bunsen-form with frost-select-outlet
+ * @param {Object} props - properties for test
+ * @returns {Object} test context information
+ */
+export function setupFormComponentTestWithSelectOutlet (props) {
+  return setupCommonComponentTest({
+    defaults: getDefaultsForFormComponent,
+    name: 'frost-bunsen-form',
+    props,
+    renderer: renderFormComponentWithSelectOutlet
   })
 }
