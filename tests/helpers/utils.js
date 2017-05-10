@@ -125,6 +125,9 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
 
   afterEach(function () {
     ctx.sandbox.restore()
+    Object.keys(ctx).forEach((key) => {
+      delete ctx[key]
+    })
   })
 
   return ctx

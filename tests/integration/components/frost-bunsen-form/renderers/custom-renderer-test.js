@@ -85,6 +85,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / custom', funct
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    renderer = null
+    rendererComponent = null
+    sandbox = null
+    validateSpy = null
+    validationResult = null
   })
 
   it('does not call the component custom validator on the initial validation loop', function () {

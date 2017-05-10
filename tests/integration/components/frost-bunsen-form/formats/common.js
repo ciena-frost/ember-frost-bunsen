@@ -4,7 +4,7 @@
  */
 import {expect} from 'chai'
 import wait from 'ember-test-helpers/wait'
-import {before, beforeEach, describe, it} from 'mocha'
+import {afterEach, before, beforeEach, describe, it} from 'mocha'
 
 import {
   expectBunsenInputNotToHaveError,
@@ -69,6 +69,11 @@ export default function (format, invalidValues, validValues, focus = false) {
           fillIn('bunsenForm-foo-input', input)
 
           return wait()
+        })
+
+        afterEach(function () {
+          validationResult = null
+          value = null
         })
 
         it('functions as expected', function () {
@@ -139,6 +144,11 @@ export default function (format, invalidValues, validValues, focus = false) {
           fillIn('bunsenForm-foo-input', input)
 
           return wait()
+        })
+
+        afterEach(function () {
+          validationResult = null
+          value = null
         })
 
         it('functions as expected', function () {

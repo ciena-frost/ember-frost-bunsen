@@ -32,6 +32,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
 
   afterEach(function () {
     sandbox.restore()
+    sandbox = null
   })
 
   describe('when endpoint is literal string', function () {
@@ -93,6 +94,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
       `)
 
       return wait()
+    })
+
+    afterEach(function () {
+      props = null
+      resolver = null
     })
 
     describe('when query succeeds', function () {
@@ -1265,6 +1271,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         return wait()
       })
 
+      afterEach(function () {
+        props = null
+      })
+
       it('renders as expected', function () {
         expectCollapsibleHandles(0, 'my-form')
 
@@ -1429,6 +1439,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         `)
 
         return wait()
+      })
+
+      afterEach(function () {
+        props = null
       })
 
       it('renders as expected', function () {
@@ -1627,6 +1641,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         return wait()
       })
 
+      afterEach(function () {
+        props = null
+      })
+
       it('renders as expected', function () {
         expectCollapsibleHandles(0, 'my-form')
 
@@ -1792,6 +1810,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         `)
 
         return wait()
+      })
+
+      afterEach(function () {
+        props = null
       })
 
       it('renders as expected', function () {
@@ -1961,6 +1983,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         return wait()
       })
 
+      afterEach(function () {
+        props = null
+      })
+
       it('renders as expected', function () {
         expectCollapsibleHandles(0, 'my-form')
 
@@ -2127,6 +2153,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
         `)
 
         return wait()
+      })
+
+      afterEach(function () {
+        props = null
       })
 
       it('renders as expected', function () {

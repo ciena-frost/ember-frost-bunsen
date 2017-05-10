@@ -20,6 +20,7 @@ describe('Integration: Component / frost-bunsen-form / errors / view / wrong typ
   after(function () {
     settings.throwErrors = originalThrowErrorsSetting
     Logger.warn.restore()
+    originalThrowErrorsSetting = null
   })
 
   setupFormComponentTest({

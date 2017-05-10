@@ -30,8 +30,6 @@ describe('Integration: frost-bunsen', function () {
     integration: true
   })
 
-  let rootNode
-
   beforeEach(function () {
     this.setProperties(props)
 
@@ -40,14 +38,12 @@ describe('Integration: frost-bunsen', function () {
       bunsenView=bunsenView
     }}`)
 
-    rootNode = this.$('> *')
-
     return wait()
   })
 
   describe('detail direct properties', function () {
     it('renders input', function () {
-      expect(rootNode.find('.frost-bunsen-input-static').length).to.equal(1)
+      expect(this.$('> *').find('.frost-bunsen-input-static').length).to.equal(1)
     })
   })
 })

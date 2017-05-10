@@ -41,6 +41,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
   after(function () {
     server.shutdown()
+    server = null
   })
 
   const ctx = setupFormComponentTest({

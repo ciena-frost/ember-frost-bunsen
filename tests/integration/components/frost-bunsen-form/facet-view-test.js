@@ -77,6 +77,8 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   it('renders as expected', function () {
@@ -169,12 +171,10 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
   })
 
   describe('when user inputs value', function () {
-    const input = 'spam'
-
     beforeEach(function () {
       props.onChange.reset()
       props.onValidation.reset()
-      fillIn('bunsenForm-foo-input', input)
+      fillIn('bunsenForm-foo-input', 'spam')
       return wait()
     })
 
@@ -227,7 +227,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
-        value: input
+        value: 'spam'
       })
 
       expect(
@@ -257,7 +257,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
         'informs consumer of change'
       )
         .to.eql({
-          foo: input
+          foo: 'spam'
         })
 
       expect(

@@ -93,6 +93,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
 
   afterEach(function () {
     sandbox.restore()
+    findRecordResolver = null
+    props = null
+    queryResolver = null
+    sandbox = null
   })
 
   describe('when queries succeed', function () {

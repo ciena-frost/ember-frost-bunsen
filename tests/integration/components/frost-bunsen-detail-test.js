@@ -2,14 +2,12 @@ import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 describe('Integration: frost-bunsen-detail', function () {
   setupComponentTest('frost-bunsen-detail', {
     integration: true
   })
-
-  let rootNode
 
   beforeEach(function () {
     let props = {
@@ -45,13 +43,11 @@ describe('Integration: frost-bunsen-detail', function () {
       value=value
     }}`)
 
-    rootNode = this.$('> *')
-
     return wait()
   })
 
   it('has correct classes', function () {
-    expect(rootNode).to.have.class('frost-bunsen-detail')
+    expect(this.$('> *')).to.have.class('frost-bunsen-detail')
   })
 
   it('displays initial value', function () {
@@ -81,6 +77,10 @@ describe('Integration: frost-bunsen-detail', function () {
       this.set('value', newValue)
 
       return wait()
+    })
+
+    afterEach(function () {
+      newValue = null
     })
 
     it('updates the displayed value when the value is changed', function () {
