@@ -1,3 +1,10 @@
+# 14.29.0 (2017-05-10)
+
+* **Added** support for new `_internal` model property which can contain any properties you don't want to propagate back to the consumer via the `onChange` callback. These can be used to drive conditional views without polluting the form value with state.
+* **Fixed** `geolocation` renderer to make less set calls to tighten the Ember run loop around changes.
+* **Replaced** some `didReceiveAttrs()` hooks with computed properties since Ember has deprecated the use of the `attrs` argument in the `didReceiveAttrs()` life cycle hook.
+
+
 # 14.28.3 (2017-05-05)
 
 * **Cleaned** up code by breaking into smaller functions and adding some comments/JSDoc.
