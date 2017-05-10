@@ -158,23 +158,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
-   * @param {BunsenView} bunsenView - the view to use (if given)
+   * @param {BunsenView} view - the view to use (if given)
    * @returns {BunsenView} the view to render
    */
-  renderView (model, bunsenView) {
-    if (isEmpty(bunsenView) || keys(bunsenView).length === 0) {
-      return generateView(model)
-    }
-
-    if (bunsenView.version === '1.0') {
-      bunsenView = v2View(bunsenView)
-    } else if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      bunsenView = v2View(deemberify(bunsenView))
-    } else {
-      bunsenView = _.cloneDeep(bunsenView)
-    }
-
-    return normalizeView(bunsenView)
+  renderView (model, view) {
+    return this.getRenderView(model, view)
   },
 
   /**
@@ -244,6 +232,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   // == Functions ==============================================================
 
+  /* eslint-disable complexity */
   /**
    * Apply updates from redux store
    * @param {String} lastAction - last action that occurred in the redux store
@@ -253,6 +242,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    */
   applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
     if (Object.keys(newProps).length !== 0) {
+      const model = newProps.renderModel || this.get('renderModel')
+      const view = newProps.view ? this.getRenderView(model, newProps.view) : this.get('renderView')
+
+      Object.assign(newProps, this.validateSchemas(model, view))
+
       // Update component properties with newer state from redux store.
       this.setProperties(newProps)
     }
@@ -270,6 +264,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       this.onValidation(validationResult)
     }
   },
+  /* eslint-enable complexity */
 
   /**
    * Batches the changes in a change-set so multiple updates to a change-set
@@ -312,6 +307,28 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    */
   dispatchView (view) {
     this.get('reduxStore').dispatch(changeView(view))
+  },
+
+  /**
+   * Get the view to render (generate one if consumer doesn't supply a view)
+   * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
+   * @param {BunsenView} view - the view to use (if given)
+   * @returns {BunsenView} the view to render
+   */
+  getRenderView (model, view) {
+    if (isEmpty(view) || keys(view).length === 0) {
+      return generateView(model)
+    }
+
+    if (view.version === '1.0') {
+      view = v2View(view)
+    } else if (typeOf(view.get) === 'function' && view.get('view') === '1.0') {
+      view = v2View(deemberify(view))
+    } else {
+      view = _.cloneDeep(view)
+    }
+
+    return normalizeView(view)
   },
 
   /**
@@ -474,26 +491,27 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   /**
-   * Validate properties
-   * @param {Object} bunsenModel - a deemberified bunsenModel
+   * Validate schemas
+   * @param {BunsenModel} model - bunsen model
+   * @param {BunsenView} view - bunsen view
+   * @returns {Object} validation results
    */
-  validateProps (bunsenModel) {
+  validateSchemas (model, view) {
     const props = {
       invalidSchemaType: 'model',
-      propValidationResult: validateModel(bunsenModel, isRegisteredEmberDataModel)
+      propValidationResult: validateModel(model, isRegisteredEmberDataModel)
     }
 
     // If model is valid then lets go ahead and validate the view
     if (props.propValidationResult.errors.length === 0) {
       const renderers = this.get('renderers') || {}
-      const view = this.get('renderView')
       const validateRendererFn = validateRenderer.bind(null, getOwner(this))
 
       Object.assign(props, {
         invalidSchemaType: 'view',
         propValidationResult: validateView(
           view,
-          bunsenModel,
+          model,
           keys(renderers),
           validateRendererFn,
           isRegisteredEmberDataModel
@@ -501,8 +519,14 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       })
     }
 
-    // Update component with latest validation state
-    this.setProperties(props)
+    // Make sure we aren't updating things that haven't actually changed
+    Object.keys(props).forEach((key) => {
+      if (_.isEqual(props[key], this.get('key'))) {
+        delete props[key]
+      }
+    })
+
+    return props
   },
 
   /* eslint-disable complexity */
@@ -631,7 +655,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     if (hasModelChanged || hasViewChanged) {
       this.dispatchModel(newBunsenModel)
-      this.validateProps(newBunsenModel)
     }
 
     this.updateSelectedTab()

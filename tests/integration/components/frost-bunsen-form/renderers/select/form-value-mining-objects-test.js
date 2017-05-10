@@ -91,6 +91,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   describe('when no initial value', function () {

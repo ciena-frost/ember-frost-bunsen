@@ -61,6 +61,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / image', func
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   it('renders as expected', function () {

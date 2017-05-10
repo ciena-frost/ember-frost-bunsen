@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import {
   generateFacetCell,
@@ -16,6 +16,10 @@ describe('bunsen-utils', function () {
 
     beforeEach(function () {
       facet = {model: 'foo'}
+    })
+
+    afterEach(function () {
+      facet = null
     })
 
     describe('when renderer defined', function () {
@@ -152,6 +156,10 @@ describe('bunsen-utils', function () {
           }
         }
       ]
+    })
+
+    afterEach(function () {
+      facets = null
     })
 
     it('returns expected bunsen view', function () {
@@ -333,6 +341,10 @@ describe('bunsen-utils', function () {
       }
     })
 
+    afterEach(function () {
+      bunsenModel = null
+    })
+
     describe('when children not present in view cell', function () {
       it('returns true when model is required root leaf property', function () {
         const cell = {model: 'alpha'}
@@ -414,6 +426,7 @@ describe('bunsen-utils', function () {
 
   describe('isModelPathValid', function () {
     let bunsenModel
+
     beforeEach(function () {
       bunsenModel = {
         properties: {
@@ -426,6 +439,10 @@ describe('bunsen-utils', function () {
         },
         type: 'object'
       }
+    })
+
+    afterEach(function () {
+      bunsenModel = null
     })
 
     it('returns false when the path is invalid', function () {

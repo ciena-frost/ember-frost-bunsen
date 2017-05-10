@@ -99,6 +99,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select m
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    resolver = null
+    sandbox = null
   })
 
   describe('when query succeeds', function () {

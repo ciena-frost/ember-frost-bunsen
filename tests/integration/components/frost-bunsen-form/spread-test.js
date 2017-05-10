@@ -32,8 +32,6 @@ describe('Integration: frost-bunsen-form', function () {
     integration: true
   })
 
-  let rootNode
-
   beforeEach(function () {
     this.setProperties(props)
 
@@ -41,14 +39,12 @@ describe('Integration: frost-bunsen-form', function () {
       options=options
     }}`)
 
-    rootNode = this.$('> *')
-
     return wait()
   })
 
   describe('spread', function () {
     it('renders input', function () {
-      expect(rootNode.find('.frost-text').length).to.equal(1)
+      expect(this.$('> *').find('.frost-text').length).to.equal(1)
     })
   })
 })

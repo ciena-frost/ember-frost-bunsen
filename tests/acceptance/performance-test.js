@@ -7,7 +7,7 @@ import Ember from 'ember'
 const {Logger, RSVP, run} = Ember
 import {$hook} from 'ember-hook'
 import wait from 'ember-test-helpers/wait'
-import {after, before, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import destroyApp from '../helpers/destroy-app'
@@ -62,9 +62,10 @@ function getValue () {
 
 describe('Acceptance: Performance', function () {
   let application, sandbox
+
   this.timeout(MAX_TIMEOUT)
 
-  before(function () {
+  beforeEach(function () {
     sandbox = sinon.sandbox.create()
     sandbox.stub(Logger, 'debug')
     Logger.debug.withArgs(DEBUG_MSG)
@@ -73,21 +74,27 @@ describe('Acceptance: Performance', function () {
     server.createList('node', 5)
   })
 
-  after(function () {
+  afterEach(function () {
     sandbox.restore()
     destroyApp(application)
+    application = null
+    sandbox = null
   })
 
   describe('typing on a simple form', function () {
-    let $input, initialRenderCount
-    before(function () {
+    let initialRenderCount
+
+    beforeEach(function () {
       return visit('/examples?model=simple')
         .then(() => {
           initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
           Logger.debug.reset()
-          $input = $hook('bunsenForm-lastName-input')
-          return typeText('abcdef', $input)
+          return typeText('abcdef', $hook('bunsenForm-lastName-input'))
         })
+    })
+
+    afterEach(function () {
+      initialRenderCount = null
     })
 
     it('should have the full text', function () {
@@ -102,19 +109,23 @@ describe('Acceptance: Performance', function () {
   })
 
   describe('typing on a complex form', function () {
-    let $input, initialRenderCount
-    before(function () {
+    let initialRenderCount
+
+    beforeEach(function () {
       return visit('/examples?model=evc')
         .then(() => {
-          $input = $hook('bunsenForm-createdAt-input')
           initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
           Logger.debug.reset()
-          return typeText('abcdef', $input)
+          return typeText('abcdef', $hook('bunsenForm-createdAt-input'))
         })
     })
 
+    afterEach(function () {
+      initialRenderCount = null
+    })
+
     it('should have the full text', function () {
-      expect($input.val()).to.equal('abcdef')
+      expect($hook('bunsenForm-createdAt-input').val()).to.equal('abcdef')
     })
 
     it('should re-render fewer times than initial render', function () {

@@ -107,6 +107,9 @@ describe(description, function () {
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    resolver = null
+    sandbox = null
   })
 
   describe('when query succeeds', function () {

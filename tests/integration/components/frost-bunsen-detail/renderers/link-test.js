@@ -70,6 +70,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   it('renders as expected', function () {

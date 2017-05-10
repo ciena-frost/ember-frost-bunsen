@@ -69,6 +69,10 @@ describe('Integration: Component - frost-bunsen-detail - renderer - select model
 
   afterEach(function () {
     sandbox.restore()
+    promise = null
+    props = null
+    resolver = null
+    sandbox = null
   })
 
   describe('when no initial value', function () {
