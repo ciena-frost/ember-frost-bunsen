@@ -7,7 +7,7 @@ import Ember from 'ember'
 const {Logger, RSVP, run} = Ember
 import {$hook} from 'ember-hook'
 import wait from 'ember-test-helpers/wait'
-import {after, before, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import destroyApp from '../helpers/destroy-app'
@@ -64,7 +64,7 @@ describe('Acceptance: Performance', function () {
   let application, sandbox
   this.timeout(MAX_TIMEOUT)
 
-  before(function () {
+  beforeEach(function () {
     sandbox = sinon.sandbox.create()
     sandbox.stub(Logger, 'debug')
     Logger.debug.withArgs(DEBUG_MSG)
@@ -73,14 +73,14 @@ describe('Acceptance: Performance', function () {
     server.createList('node', 5)
   })
 
-  after(function () {
+  afterEach(function () {
     sandbox.restore()
     destroyApp(application)
   })
 
   describe('typing on a simple form', function () {
     let $input, initialRenderCount
-    before(function () {
+    beforeEach(function () {
       return visit('/examples?model=simple')
         .then(() => {
           initialRenderCount = Logger.debug.withArgs(DEBUG_MSG).callCount
@@ -103,7 +103,7 @@ describe('Acceptance: Performance', function () {
 
   describe('typing on a complex form', function () {
     let $input, initialRenderCount
-    before(function () {
+    beforeEach(function () {
       return visit('/examples?model=evc')
         .then(() => {
           $input = $hook('bunsenForm-createdAt-input')
