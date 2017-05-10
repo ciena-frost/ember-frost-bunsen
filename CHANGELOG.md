@@ -1,3 +1,10 @@
+# 14.29.1 (2017-05-10)
+
+* **Cleaned** up code to run validation in same run loop as setting properties for optimize components a bit more.
+* **Fixed** section component to properly apply class for expand/collapse icon.
+* **Fixed** tests to clear out variables defined in `describe` blocks to prevent memory leaks.
+
+
 # 14.29.0 (2017-05-10)
 
 * **Added** support for new `_internal` model property which can contain any properties you don't want to propagate back to the consumer via the `onChange` callback. These can be used to drive conditional views without polluting the form value with state.
