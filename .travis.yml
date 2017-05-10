@@ -41,10 +41,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 script:
   - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
+  - .travis/maybe-publish-gh-pages.sh
   - .travis/maybe-bump-version.sh
 after_success:
   - .travis/maybe-publish-coverage.sh
-  - .travis/maybe-publish-gh-pages.sh
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
