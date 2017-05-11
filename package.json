@@ -39,7 +39,7 @@
     "broccoli-asset-rev": "^2.5.0",
     "chai-jquery": "^2.0.0",
     "ember-browserify": "1.1.13",
-    "ember-bunsen-core": "0.24.0",
+    "ember-bunsen-core": "0.27.0",
     "ember-cli": "~2.11.0",
     "ember-cli-app-version": "^2.0.1",
     "ember-cli-chai": "^0.3.2",

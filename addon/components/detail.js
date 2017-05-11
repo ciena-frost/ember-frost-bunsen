@@ -322,7 +322,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     if (view.version === '1.0') {
       view = v2View(view)
-    } else if (typeOf(view.get) === 'function' && view.get('view') === '1.0') {
+    } else if (typeOf(view.get) === 'function' && view.get('version') === '1.0') {
       view = v2View(deemberify(view))
     } else {
       view = _.cloneDeep(view)
