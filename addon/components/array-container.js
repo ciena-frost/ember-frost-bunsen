@@ -1,5 +1,5 @@
 import {utils} from 'bunsen-core'
-const {getLabel, getSubModel} = utils
+const {getLabel} = utils
 import Ember from 'ember'
 const {A, Component, get, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -14,6 +14,20 @@ const {keys} = Object
 
 function itemIndex (arrayId, itemId) {
   return itemId.slice(arrayId.length + 1).split('.')[0]
+}
+function clearSubObject (object, path, pathIndex) {
+  const key = path[pathIndex]
+  if (path.length < pathIndex + 2) {
+    delete object[key]
+    return true
+  }
+  const subObj = object[key]
+  const didClear = clearSubObject(subObj, path, pathIndex + 1)
+  if (didClear && keys(subObj).length <= 0) {
+    delete object[key]
+    return true
+  }
+  return false
 }
 
 export default Component.extend(HookMixin, PropTypeMixin, {
@@ -107,11 +121,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel', 'cellConfig', 'inline', 'items')
-  showAddButton (bunsenModel, cellConfig, inline, items) {
-    const maxItems = this.get('bunsenModel.maxItems')
+  @computed('bunsenModel', 'cellConfig', 'inline', 'maxItemsReached')
+  showAddButton (bunsenModel, cellConfig, inline, maxItemsReached) {
     // If we've reached max items don't allow more to be added
-    if (maxItems && maxItems <= items.length) {
+    if (maxItemsReached) {
       return false
     }
     if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems && bunsenModel.tuple) {
@@ -119,6 +132,15 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     return inline && !get(cellConfig, 'arrayOptions.autoAdd')
+  },
+
+  @readOnly
+  @computed('bunsenModel.maxItems', 'value', 'bunsenId')
+  maxItemsReached (maxItems, value, bunsenId) {
+    if (value && maxItems) {
+      return get(value, bunsenId).length >= maxItems
+    }
+    return false
   },
 
   @readOnly
@@ -145,9 +167,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
   @readOnly
-  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel')
+  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel', 'cellConfig.arrayOptions.itemCell')
   /* eslint-disable complexity*/
-  items (bunsenId, readOnly, value, bunsenModel) {
+  items (bunsenId, readOnly, value, bunsenModel, cellConfig) {
     const itemModels = bunsenModel.items
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
@@ -157,17 +179,24 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     const getModel = Array.isArray(bunsenModel.items)
       ? (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
       : () => bunsenModel.items
-
+    const getCellConfig = Array.isArray(cellConfig)
+      ? (item, index) => cellConfig[index] || cellConfig[cellConfig.length - 1] || {}
+      : () => cellConfig || {}
     if (
       readOnly !== true &&
       this.get('cellConfig.arrayOptions.autoAdd') === true
     ) {
       items.push(this._getEmptyItem())
     }
-    if (Array.isArray(itemModels) && bunsenModel.tuple) {
-      return A(_.map(items.slice(itemModels.length), getModel))
+    const makeItem = (item, index) => {
+      const model = getModel(item, index)
+      const cellConfig = getCellConfig(item, index)
+      return {model, cellConfig}
     }
-    return A(_.map(items, getModel))
+    if (Array.isArray(itemModels) && bunsenModel.tuple) {
+      return A(_.map(items.slice(itemModels.length), makeItem))
+    }
+    return A(_.map(items, makeItem))
   },
   /* eslint-enable complexity*/
 
@@ -246,29 +275,16 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
       // If property is nested further down clear it and remove any empty parent items
       } else {
-        let relativeObject = get(itemCopy, itemPathBits)
-        delete relativeObject[key]
-        bunsenId = bunsenId.replace(`.${key}`, '')
-
-        while (itemPathBits.length > 0) {
-          key = itemPathBits.pop()
-          relativeObject = get(itemCopy, itemPathBits, itemCopy)
-          const parentObject = relativeObject[key]
-
-          if (keys(parentObject).length === 0) {
-            delete relativeObject[key]
-            bunsenId = bunsenId.replace(`.${key}`, '')
-          }
-        }
+        clearSubObject(itemCopy, itemPathBits, 0)
       }
 
       if (keys(itemCopy).length === 0) {
         this.send('removeItem', itemIndex)
         return
       }
-
-      const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
-      value = get(itemCopy, relativePath, itemCopy)
+      const subPathLen = itemPath.length === 0 ? 0 : itemPath.length + 1
+      const relativePath = bunsenId.slice(subPathLen)
+      value = get(itemCopy, relativePath)
     }
 
     this.onChange(bunsenId, value)

@@ -55,9 +55,9 @@
           {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
             {{frost-bunsen-array-inline-item
               bunsenId=(concat bunsenId '.' index)
-              bunsenModel=item
+              bunsenModel=item.model
               bunsenView=bunsenView
-              cellConfig=cellConfig
+              cellConfig=item.cellConfig
               compact=compact
               errors=errors
               formDisabled=formDisabled
@@ -84,9 +84,9 @@
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
           bunsenId=(concat bunsenId '.' index)
-          bunsenModel=item
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           compact=compact
           errors=errors
           formDisabled=formDisabled
@@ -117,9 +117,9 @@
     <ul class='frost-bunsen-nav frost-bunsen-nav-tabs'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-nav
-          bunsenModel=item
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           formDisabled=formDisabled
           index=index
           onRemove=(action 'removeItem')
@@ -146,9 +146,9 @@
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-content
           bunsenId=(concat bunsenId '.' index)
-          bunsenModel=item
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           errors=errors
           formDisabled=formDisabled
           hook=hook
