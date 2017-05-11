@@ -17,7 +17,7 @@ ember install ember-frost-bunsen
 
 ## Okay I have this voodoo installed now how do I leverage it's magic?
 
-The short answer is you consume one of it's three components:
+The short answer is you consume one of its three components:
 
 * \`frost-bunsen\`
 * \`frost-bunsen-detail\`
