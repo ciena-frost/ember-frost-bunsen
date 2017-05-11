@@ -3,6 +3,7 @@ import Ember from 'ember'
 const {$} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -70,10 +71,14 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
       onChange=onChange
       onValidation=onValidation
     }}`)
+
+    return wait()
   })
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   it('renders as expected', function () {
@@ -166,12 +171,11 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
   })
 
   describe('when user inputs value', function () {
-    const input = 'spam'
-
     beforeEach(function () {
       props.onChange.reset()
       props.onValidation.reset()
-      fillIn('bunsenForm-foo-input', input)
+      fillIn('bunsenForm-foo-input', 'spam')
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -223,7 +227,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
-        value: input
+        value: 'spam'
       })
 
       expect(
@@ -253,7 +257,7 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
         'informs consumer of change'
       )
         .to.eql({
-          foo: input
+          foo: 'spam'
         })
 
       expect(
@@ -282,9 +286,9 @@ describe('Integration: Component / frost-bunsen-form / facet view', function () 
         props.onChange.reset()
         props.onValidation.reset()
 
-        this.$(selectors.bunsen.section.clearableButton)
-          .first()
-          .click()
+        this.$(selectors.bunsen.section.clearableButton).first().click()
+
+        return wait()
       })
 
       it('renders as expected', function () {

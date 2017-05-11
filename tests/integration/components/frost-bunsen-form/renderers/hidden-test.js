@@ -80,6 +80,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
       })
     })
   })
+
   describe('when no default value and no valueRef are set', function () {
     const ctx = setupFormComponentTest({
       bunsenModel: {

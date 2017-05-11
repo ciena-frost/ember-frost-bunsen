@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.26.1",
+  "version": "14.29.2",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -39,7 +39,6 @@
     "broccoli-asset-rev": "^2.5.0",
     "chai-jquery": "^2.0.0",
     "ember-browserify": "1.1.13",
-    "ember-bunsen-core": "0.26.0",
     "ember-cli": "~2.11.0",
     "ember-cli-app-version": "^2.0.1",
     "ember-cli-chai": "^0.3.2",

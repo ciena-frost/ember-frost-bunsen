@@ -1,10 +1,13 @@
 import {utils} from 'bunsen-core'
+import {set} from 'bunsen-core/immutable-utils'
 const {getSubModel, parseVariables} = utils
 import Ember from 'ember'
 const {Logger, get, inject, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import config from 'ember-get-config'
 import {PropTypes} from 'ember-prop-types'
+import _ from 'lodash'
+import immutable from 'seamless-immutable'
 
 import AbstractInput from './abstract-input'
 import countries from 'ember-frost-bunsen/fixtures/countries'
@@ -27,32 +30,6 @@ const subFormValueShape = {
   longitude: PropTypes.string,
   postalCode: PropTypes.string,
   state: PropTypes.string
-}
-
-const areaHandlers = {
-  city (value, overwrite) {
-    if (!overwrite && this.get('internalFormValue.city')) {
-      return
-    }
-
-    this._updateProperty('city', value)
-  },
-
-  country (value, overwrite) {
-    if (!overwrite && this.get('internalFormValue.country')) {
-      return
-    }
-
-    this._updateProperty('country', value)
-  },
-
-  state (value, overwrite) {
-    if (!overwrite && this.get('internalFormValue.state')) {
-      return
-    }
-
-    this._updateProperty('state', value)
-  }
 }
 
 /**
@@ -99,14 +76,13 @@ function countryNameToCode (name) {
 
 /**
  * Deserialize property value to format consumer expects
- * @param {String} key - property key
+ * @param {String} bunsenId - property key
  * @param {String} value - property value
  * @param {Object} bunsenModel - bunsen model
  * @returns {String|Number} deserialized value
  */
-function deserializeProperty (key, value, bunsenModel) {
-  const reference = bunsenPathFromRef(key).slice(1)
-  const subModel = getSubModel(bunsenModel, reference)
+function deserializeProperty (bunsenId, value, bunsenModel) {
+  const subModel = getSubModel(bunsenModel, bunsenId)
 
   switch (subModel.type) {
     case 'integer':
@@ -243,16 +219,6 @@ export default AbstractInput.extend({
   },
 
   /**
-   * Convert bunsen model property reference to bunsen ID
-   * @param {String} ref - bunsen model property reference
-   * @returns {String} bunsen ID
-   */
-  _getRefBunsenId (ref) {
-    const bunsenId = this.get('bunsenId')
-    return bunsenId + bunsenPathFromRef(ref)
-  },
-
-  /**
    * Convert API response key to bunsen model property
    * @param {String} key - API key
    * @returns {String} bunsen model property
@@ -270,31 +236,32 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onGetCurrentPositionError (e) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
     let msg = this._getErrorMessage(e)
 
     if (msg) {
-      this.set('getUserLocationErrorMessage', msg)
+      this.setProperties({
+        getUserLocationErrorMessage: msg,
+        isLoading: false
+      })
     } else {
+      this.set('isLoading', false)
       Logger.error('Failed to get users location', e)
     }
-
-    this._stopLoading()
   },
 
   /**
    * Handle success from browsers geolocation lookup API
    */
   _onGetCurrentPositionSuccess ({coords}) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
-    this._updateProperty('latitude', coords.latitude)
-    this._updateProperty('longitude', coords.longitude)
+    this._updateProperties({
+      latitude: coords.latitude,
+      longitude: coords.longitude
+    })
+
     this._performReverseLookup(coords.latitude, coords.longitude)
   },
 
@@ -303,10 +270,8 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onLookupError (e) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
-
+    if (this.isDestroyed || this.isDestroying) return
+    this.set('isLoading', false)
     Logger.error('Failed to perform lookup', e)
   },
 
@@ -315,13 +280,16 @@ export default AbstractInput.extend({
    * @param {Object} resp - lookup response
    */
   _onLookupSuccess (resp) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
     const location = get(resp, 'results.0.locations.0') || {}
 
-    this._updateAdminAreaProperties(location, false)
+    const props = this._updateAdminAreaProperties(location, false)
+
+    Object.assign(props, {
+      latitude: get(location, 'latLng.lat'),
+      longitude: get(location, 'latLng.lng')
+    })
 
     ;[
       'postalCode',
@@ -330,17 +298,14 @@ export default AbstractInput.extend({
       .forEach((key) => {
         if (location[key]) {
           const normalizedKey = this._normalizeKey(key)
-
-          if (this.get(`internalFormValue.${normalizedKey}`)) {
-            return
-          }
-
-          this._updateProperty(normalizedKey, location[key])
+          if (this.get(`internalFormValue.${normalizedKey}`)) return
+          props[normalizedKey] = location[key]
         }
       })
 
-    this._updateProperty('latitude', get(location, 'latLng.lat'))
-    this._updateProperty('longitude', get(location, 'latLng.lng'))
+    this._updateProperties(props)
+
+    this.set('isLoading', false)
   },
 
   /**
@@ -348,10 +313,8 @@ export default AbstractInput.extend({
    * @param {Error} e - error
    */
   _onReverseLookupError (e) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
-
+    if (this.isDestroyed || this.isDestroying) return
+    this.set('isLoading', false)
     Logger.error('Failed to perform reverse lookup', e)
   },
 
@@ -360,13 +323,11 @@ export default AbstractInput.extend({
    * @param {Object} resp - reverse lookup response
    */
   _onReverseLookupSuccess (resp) {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
     const location = get(resp, 'results.0.locations.0') || {}
 
-    this._updateAdminAreaProperties(location, true)
+    const props = this._updateAdminAreaProperties(location, true)
 
     ;[
       'postalCode',
@@ -375,9 +336,13 @@ export default AbstractInput.extend({
       .forEach((key) => {
         if (location[key]) {
           const normalizedKey = this._normalizeKey(key)
-          this._updateProperty(normalizedKey, location[key])
+          props[normalizedKey] = location[key]
         }
       })
+
+    this._updateProperties(props)
+
+    this.set('isLoading', false)
   },
 
   /**
@@ -396,9 +361,6 @@ export default AbstractInput.extend({
     this.get('ajax').request(url)
       .then(this._onReverseLookupSuccess.bind(this))
       .catch(this._onReverseLookupError.bind(this))
-      .finally(() => {
-        this._stopLoading()
-      })
   },
 
   /**
@@ -413,18 +375,11 @@ export default AbstractInput.extend({
     })
   },
 
-  /**
-   * Update UI to reflect that lookup has completed
-   */
-  _stopLoading () {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
-
-    this.set('isLoading', false)
-  },
-
   _updateAdminAreaProperties (location, overwrite) {
+    const props = {}
+
+    if (!overwrite) return props
+
     for (let i = 1; i < 7; i++) {
       let type = location[`adminArea${i}Type`]
 
@@ -434,28 +389,47 @@ export default AbstractInput.extend({
 
       type = type.toLowerCase()
 
-      if (type in areaHandlers) {
-        areaHandlers[type].call(this, location[`adminArea${i}`], overwrite)
+      if (['city', 'country', 'state'].indexOf(type) !== -1) {
+        props[type] = location[`adminArea${i}`]
       }
     }
+
+    return props
   },
 
+  /* eslint-disable complexity */
   /**
-   * Update the value of one of the address/location properties
-   * @param {String} key - property to update
-   * @param {String} value - new value to set property to
+   * Update properties
+   * @param {Object} props - properties to update
    */
-  _updateProperty (key, value) {
+  _updateProperties (props) {
+    const bunsenModel = this.get('bunsenModel')
     const onChange = this.get('onChange')
     const refs = this.get('cellConfig.renderer.refs') || {}
+    let internalFormValue = this.get('internalFormValue') || immutable({})
 
-    if (refs[key]) {
-      onChange(this._getRefBunsenId(refs[key]), value)
-    } else {
-      this.set(`internalFormValue.${key}`, value)
-      // TODO: trigger re-render?
+    let value = this.get('value') || immutable({})
+
+    Object.keys(props).forEach((key) => {
+      if (refs[key]) {
+        let bunsenId = bunsenPathFromRef(refs[key])
+        if (bunsenId[0] === '.') bunsenId = bunsenId.substr(1)
+        const propValue = deserializeProperty(bunsenId, props[key], bunsenModel)
+        value = set(value, bunsenId, propValue)
+      } else {
+        internalFormValue = set(internalFormValue, key, props[key])
+      }
+    })
+
+    if (!_.isEqual(value, this.get('value'))) {
+      onChange(this.get('bunsenId'), value)
+    }
+
+    if (!_.isEqual(internalFormValue, this.get('internalFormValue'))) {
+      this.set('internalFormValue', internalFormValue)
     }
   },
+  /* eslint-enable complexity */
 
   // == Actions ================================================================
 
@@ -469,23 +443,40 @@ export default AbstractInput.extend({
         formValue = formValue.set('country', countryCode)
       }
 
+      let value = this.get('value') || immutable({})
+      let valueChanged = false
+
       keys(subFormValueShape)
         .forEach((key) => {
-          if (oldFormValue[key] !== formValue[key]) {
+          // We must convert to strings before comparing because we can run
+          // into case where one is a number and one is a string
+          if (`${oldFormValue[key]}` !== `${formValue[key]}`) {
             const ref = this.get(`cellConfig.renderer.refs.${key}`)
 
             if (ref) {
-              const bunsenId = this._getRefBunsenId(ref)
-              const value = deserializeProperty(ref, formValue[key], bunsenModel)
-
-              run.next(() => {
-                this.get('onChange')(bunsenId, value)
-              })
+              let bunsenId = bunsenPathFromRef(ref)
+              if (bunsenId[0] === '.') bunsenId = bunsenId.substr(1)
+              const propValue = deserializeProperty(bunsenId, formValue[key], bunsenModel)
+              value = set(value, bunsenId, propValue)
+              valueChanged = true
             }
           }
         })
 
-      this.set('internalFormValue', formValue)
+      if (valueChanged) {
+        run.next(() => {
+          const currentValue = this.get('value')
+          const changes = Object.keys(value).some((key) => `${get(value, key)}` !== `${get(currentValue, key)}`)
+
+          if (changes) {
+            this.get('onChange')(this.get('bunsenId'), value)
+          }
+        })
+      }
+
+      if (!_.isEqual(formValue, oldFormValue)) {
+        this.set('internalFormValue', formValue)
+      }
     },
 
     /**
@@ -517,9 +508,6 @@ export default AbstractInput.extend({
       this.get('ajax').request(url)
         .then(this._onLookupSuccess.bind(this))
         .catch(this._onLookupError.bind(this))
-        .finally(() => {
-          this._stopLoading()
-        })
     },
 
     useCurrentLocation () {

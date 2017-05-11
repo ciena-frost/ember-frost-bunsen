@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
@@ -69,6 +70,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
         type: 'detail',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -109,6 +112,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
         type: 'detail',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -149,6 +154,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
         type: 'detail',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -177,6 +184,7 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
   describe('user presses reveal icon', function () {
     beforeEach(function () {
       this.$(selectors.bunsen.renderer.password.reveal).click()
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -204,6 +212,7 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
     describe('user presses reveal icon again', function () {
       beforeEach(function () {
         this.$(selectors.bunsen.renderer.password.reveal).click()
+        return wait()
       })
 
       it('renders as expected', function () {

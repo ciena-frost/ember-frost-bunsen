@@ -37,6 +37,12 @@ describe('Unit: frost-bunsen-input-when', function () {
 
   afterEach(function () {
     sandbox.restore()
+    component = null
+    sandbox = null
+
+    Object.keys(ctx).forEach((key) => {
+      delete ctx[key]
+    })
   })
 
   it('size defaults to "small"', function () {

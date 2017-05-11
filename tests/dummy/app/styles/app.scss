@@ -46,6 +46,7 @@ body {
   right: $spacing;
   bottom: $frost-button-medium-height + $spacing + $spacing;
   left: $spacing;
+  overflow: auto;
 }
 
 .dummy-body{

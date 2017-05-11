@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -68,6 +69,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -93,6 +96,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -117,6 +122,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -141,6 +148,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -165,6 +174,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -189,6 +200,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -201,6 +214,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
   describe('when form explicitly enabled', function () {
     beforeEach(function () {
       this.set('disabled', false)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -213,6 +227,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
   describe('when form disabled', function () {
     beforeEach(function () {
       this.set('disabled', true)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -240,6 +255,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -264,6 +281,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -282,6 +301,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       const interactor = openDatepickerBunsenDateRenderer('foo')
       interactor.selectDate(new Date(2017, 0, 24))
       closePikaday(this)
+      return wait()
     })
 
     it('functions as expected', function () {
@@ -298,6 +318,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('value', {})
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -324,6 +345,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         required: ['foo'],
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -346,9 +369,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
     describe('when date is set', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
-        const interactor = openDatepickerBunsenDateRenderer('foo')
-        interactor.selectDate(new Date(2017, 0, 24))
-        closePikaday(this)
+
+        this.set('value', {
+          foo: '2017-01-24'
+        })
+
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -365,6 +391,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         beforeEach(function () {
           ctx.props.onValidation.reset()
           this.set('value', {})
+          return wait()
         })
 
         it('functions as expected', function () {
@@ -391,6 +418,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -399,12 +427,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         expectOnValidationState(ctx, {count: 0})
       })
 
-      describe('when user sets date', function () {
+      describe('when date is set', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-          const interactor = openDatepickerBunsenDateRenderer('foo')
-          interactor.selectDate(new Date(2017, 0, 24))
-          closePikaday(this)
+
+          this.set('value', {
+            foo: '2017-01-24'
+          })
+
+          return wait()
         })
 
         it('functions as expected', function () {
@@ -421,6 +452,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
           beforeEach(function () {
             ctx.props.onValidation.reset()
             this.set('value', {})
+            return wait()
           })
 
           it('functions as expected', function () {
@@ -448,6 +480,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', true)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -459,12 +492,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
         expectOnValidationState(ctx, {count: 0})
       })
 
-      describe('when user selects date', function () {
+      describe('when date is set', function () {
         beforeEach(function () {
           ctx.props.onValidation.reset()
-          const interactor = openDatepickerBunsenDateRenderer('foo')
-          interactor.selectDate(new Date(2017, 0, 24))
-          closePikaday(this)
+
+          this.set('value', {
+            foo: '2017-01-24'
+          })
+
+          return wait()
         })
 
         it('functions as expected', function () {
@@ -481,6 +517,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
           beforeEach(function () {
             ctx.props.onValidation.reset()
             this.set('value', {})
+            return wait()
           })
 
           it('functions as expected', function () {

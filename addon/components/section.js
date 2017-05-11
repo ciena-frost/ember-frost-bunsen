@@ -14,7 +14,7 @@ const KEY_CODES = {
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
-  classNameBindings: ['state.expanded:frost-bunsen-expanded:frost-bunsen-collapsed'],
+  classNameBindings: ['expanded:frost-bunsen-expanded:frost-bunsen-collapsed'],
   classNames: ['frost-bunsen-section'],
   layout,
 
@@ -41,9 +41,13 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   getDefaultProps () {
+    let expanded = this.get('expanded')
+    if (expanded === undefined) expanded = this.get('expandedOnInitialRender')
+    if (expanded === undefined) expanded = true
+
     return {
       clearable: false,
-      expandedOnInitialRender: true,
+      expanded,
       renderContentWhenCollapsed: false
     }
   },
@@ -51,7 +55,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('state.expanded', 'renderContentWhenCollapsed')
+  @computed('expanded', 'renderContentWhenCollapsed')
   /**
    * Whether or not to show section content
    * @param {Boolean} expanded - whether or not section is exapnded
@@ -63,32 +67,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   // == Functions ==============================================================
-
-  /**
-   * Initialize state
-   */
-  init () {
-    this._super()
-    let initialState
-    if (this.get('expanded') === undefined) {
-      initialState = {
-        expanded: this.get('expandedOnInitialRender')
-      }
-    }
-    this.set('state', Ember.Object.create(initialState))
-  },
-
-  /**
-   * Handle updates to properties by consumer
-   */
-  didReceiveAttrs () {
-    this._super(...arguments)
-    const expanded = this.get('expanded')
-
-    if (expanded !== undefined && this.get('state.expanded') !== expanded) {
-      this.set('state.expanded', expanded)
-    }
-  },
 
   // == Actions ================================================================
 
@@ -114,8 +92,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       e.stopPropagation()
       e.preventDefault()
 
-      const expanded = !this.get('state.expanded')
-      this.set('state.expanded', expanded)
+      const expanded = !this.get('expanded')
+      this.set('expanded', expanded)
 
       if (this.onToggle) {
         this.onToggle(expanded)

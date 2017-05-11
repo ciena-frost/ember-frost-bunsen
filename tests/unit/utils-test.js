@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import {
   generateFacetCell,
@@ -18,6 +18,10 @@ describe('bunsen-utils', function () {
       facet = {model: 'foo'}
     })
 
+    afterEach(function () {
+      facet = null
+    })
+
     describe('when renderer defined', function () {
       beforeEach(function () {
         facet.renderer = {name: 'multi-select'}
@@ -34,6 +38,7 @@ describe('bunsen-utils', function () {
             children: [
               {
                 model: 'foo',
+                hideLabel: true,
                 renderer: {
                   name: 'multi-select'
                 }
@@ -53,6 +58,7 @@ describe('bunsen-utils', function () {
             children: [
               {
                 model: 'foo',
+                hideLabel: true,
                 renderer: {
                   name: 'multi-select'
                 }
@@ -77,7 +83,8 @@ describe('bunsen-utils', function () {
           expect(actual).to.eql({
             children: [
               {
-                model: 'foo'
+                model: 'foo',
+                hideLabel: true
               }
             ],
             clearable: true,
@@ -93,7 +100,8 @@ describe('bunsen-utils', function () {
           expect(actual).to.eql({
             children: [
               {
-                model: 'foo'
+                model: 'foo',
+                hideLabel: true
               }
             ],
             clearable: true,
@@ -150,6 +158,10 @@ describe('bunsen-utils', function () {
       ]
     })
 
+    afterEach(function () {
+      facets = null
+    })
+
     it('returns expected bunsen view', function () {
       const actual = generateFacetView(facets)
       expect(actual).to.eql({
@@ -159,7 +171,8 @@ describe('bunsen-utils', function () {
               {
                 children: [
                   {
-                    model: 'foo'
+                    model: 'foo',
+                    hideLabel: true
                   }
                 ],
                 clearable: true,
@@ -169,7 +182,8 @@ describe('bunsen-utils', function () {
               {
                 children: [
                   {
-                    model: 'bar'
+                    model: 'bar',
+                    hideLabel: true
                   }
                 ],
                 clearable: true,
@@ -180,6 +194,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'foo.bar.baz',
+                    hideLabel: true,
                     renderer: {
                       name: 'multi-select'
                     }
@@ -193,6 +208,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'alpha',
+                    hideLabel: true,
                     renderer: {
                       name: 'checkbox-array'
                     }
@@ -206,6 +222,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'bravo',
+                    hideLabel: true,
                     renderer: {
                       name: 'geolocation'
                     }
@@ -219,6 +236,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'charlie',
+                    hideLabel: true,
                     renderer: {
                       name: 'json'
                     }
@@ -232,6 +250,7 @@ describe('bunsen-utils', function () {
                 children: [
                   {
                     model: 'delta',
+                    hideLabel: true,
                     renderer: {
                       name: 'textarea'
                     }
@@ -322,6 +341,10 @@ describe('bunsen-utils', function () {
       }
     })
 
+    afterEach(function () {
+      bunsenModel = null
+    })
+
     describe('when children not present in view cell', function () {
       it('returns true when model is required root leaf property', function () {
         const cell = {model: 'alpha'}
@@ -403,6 +426,7 @@ describe('bunsen-utils', function () {
 
   describe('isModelPathValid', function () {
     let bunsenModel
+
     beforeEach(function () {
       bunsenModel = {
         properties: {
@@ -415,6 +439,10 @@ describe('bunsen-utils', function () {
         },
         type: 'object'
       }
+    })
+
+    afterEach(function () {
+      bunsenModel = null
     })
 
     it('returns false when the path is invalid', function () {

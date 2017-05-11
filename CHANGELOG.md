@@ -1,3 +1,57 @@
+# 14.29.2 (2017-05-11)
+
+* **Added** some very basic introduction and model documentation.
+* **Fixed** a bug when working with a view in v1 schema.
+
+# 14.29.1 (2017-05-10)
+
+* **Cleaned** up code to run validation in same run loop as setting properties for optimize components a bit more.
+* **Fixed** section component to properly apply class for expand/collapse icon.
+* **Fixed** tests to clear out variables defined in `describe` blocks to prevent memory leaks.
+
+
+# 14.29.0 (2017-05-10)
+
+* **Added** support for new `_internal` model property which can contain any properties you don't want to propagate back to the consumer via the `onChange` callback. These can be used to drive conditional views without polluting the form value with state.
+* **Fixed** `geolocation` renderer to make less set calls to tighten the Ember run loop around changes.
+* **Replaced** some `didReceiveAttrs()` hooks with computed properties since Ember has deprecated the use of the `attrs` argument in the `didReceiveAttrs()` life cycle hook.
+
+
+# 14.28.3 (2017-05-05)
+
+* **Cleaned** up code by breaking into smaller functions and adding some comments/JSDoc.
+
+
+# 14.28.2 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to fix an issue with Files being stripped from values
+
+
+# 14.28.1 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to 0.24.3, which fixes a bug that would strip Files from values.
+
+
+# 14.28.0 (2017-05-04)
+
+* **Added** missing `return wait()` call to more tests to make sure they are async safe.
+* **Replaced** some deep cloning with shallow cloning to reduce new object creation.
+
+
+# 14.27.2 (2017-05-03)
+
+* **Added** a missing destroyed checked.
+* **Fixed** tests to use the `wait` helper to help prevent tests failures due to timing issues.
+
+
+# 14.27.1 (2017-05-01)
+* **Fixed** a bug where generateFacetView was creating facets where each group had two labels.
+
+
+# 14.27.0 (2017-04-28)
+
+* **Changed** a bunch of internal code so the `frost-bunsen-cell` component gets the `bunsenModel` for it's `bunsenId` not the parent model. This is preliminary work work a future PR to support conditionals in arrays.
+
 # 14.26.1 (2017-04-27)
 
 * **Fixed** styling regression.

@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -31,19 +32,19 @@ describe('Integration: frost-bunsen', function () {
     integration: true
   })
 
-  let rootNode
-
   beforeEach(function () {
     this.setProperties(props)
+
     this.render(hbs`{{frost-bunsen
       options=options
     }}`)
-    rootNode = this.$('> *')
+
+    return wait()
   })
 
   describe('form spread', function () {
     it('renders input', function () {
-      expect(rootNode.find('.frost-text').length).to.equal(1)
+      expect(this.$('> *').find('.frost-text').length).to.equal(1)
     })
   })
 })
