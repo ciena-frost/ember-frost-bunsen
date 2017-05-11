@@ -1,3 +1,8 @@
+# 14.29.2 (2017-05-11)
+
+* **Added** some very basic introduction and model documentation.
+* **Fixed** a bug when working with a view in v1 schema.
+
 # 14.29.1 (2017-05-10)
 
 * **Cleaned** up code to run validation in same run loop as setting properties for optimize components a bit more.
