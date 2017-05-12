@@ -86,6 +86,10 @@ export function generateFacetCell (facet) {
 
   if (facet.renderer) {
     cell.renderer = facet.renderer
+
+    if (facet.renderer.name === 'boolean') {
+      delete cell.hideLabel = false
+    }
   }
 
   const renderersToHideClearButtonFor = [
