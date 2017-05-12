@@ -1,3 +1,88 @@
+# 14.30.0 (2017-05-12)
+
+* **Added** support for array conditions in both models and views.
+
+* **Added** view model extension support. This means you can do something like the following:
+
+  *Model*
+
+  ```json
+  {
+    "properties": {
+      "lang": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+  ```
+
+  *View*
+  ```json
+  {
+    "cells": [
+      {
+        "children": [
+          {
+            "id": "langGroup",
+            "model": {
+              "enum": [
+                "Server",
+                "Web"
+              ],
+              "type": "string"
+            },
+            "internal": true
+          },
+          {
+            "conditions": [
+              {
+                "if": [
+                  {
+                    "_internal.langGroup": {"equals": "Web"}
+                  }
+                ]
+              }
+            ],
+            "model": "lang",
+            "renderer": {
+              "data": [
+                {"label": "CSS", "value": "css"},
+                {"label": "HTML", "value": "html"},
+                {"label": "JavaScript", "value": "js"}
+              ],
+              "name": "select"
+            }
+          },
+          {
+            "conditions": [
+              {
+                "if": [
+                  {
+                    "_internal.langGroup": {"equals": "Server"}
+                  }
+                ]
+              }
+            ],
+            "model": "lang",
+            "renderer": {
+              "data": [
+                {"label": "Express", "value": "express"},
+                {"label": "Python", "value": "py"},
+                {"label": "Ruby", "value": "rb"}
+              ],
+              "name": "select"
+            }
+          }
+        ]
+      }
+    ],
+    "type": "form",
+    "version": "2.0"
+  }
+  ```
+
+
 # 14.29.2 (2017-05-11)
 
 * **Added** some very basic introduction and model documentation.
