@@ -11,6 +11,15 @@ body {
   background: $frost-color-lgrey-4;
 }
 
+hr {
+  border-color: $frost-color-lgrey-4;
+  margin-top: 30px;
+}
+
+.CodeMirror {
+  height: auto;
+}
+
 .demo-markdown {
   padding: 0 $spacing;
 }
