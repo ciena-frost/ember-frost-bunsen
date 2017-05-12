@@ -88,7 +88,7 @@ export function generateFacetCell (facet) {
     cell.renderer = facet.renderer
 
     if (facet.renderer.name === 'boolean') {
-      delete cell.hideLabel = false
+      delete cell.hideLabel
     }
   }
 
