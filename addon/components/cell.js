@@ -77,7 +77,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       propagatedValueChangeSet: null
     }
   },
-
+  /* eslint-disable complexity */
   didReceiveAttrs (attrs) {
     const valueChangeSet = this.get('valueChangeSet')
     const oldCellConfig = get(attrs, 'oldAttrs.cellConfig.value')
@@ -111,6 +111,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       this.set('classNames', newClassNames)
     }
   },
+  /* eslint-enable complexity */
 
   // == Computed Properties ====================================================
 
