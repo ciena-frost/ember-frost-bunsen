@@ -20,8 +20,8 @@
 <div class='frost-bunsen-item-input'>
   {{#if itemCell.renderer}}
     {{component customRenderer
-      bunsenId=(concat bunsenId '.' index)
-      bunsenModel=bunsenModel.items
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
       cellConfig=cellConfig
       formDisabled=formDisabled
@@ -39,10 +39,10 @@
       value=value
       valueChangeSet=valueChangeSet
     }}
-  {{else if (eq bunsenModel.items.type 'array')}}
+  {{else if (eq bunsenModel.type 'array')}}
     {{frost-bunsen-array-container
-      bunsenId=(concat bunsenId '.' index)
-      bunsenModel=bunsenModel.items
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
       cellConfig=cellConfig
       errors=errors
@@ -61,12 +61,12 @@
       value=value
       valueChangeSet=valueChangeSet
     }}
-  {{else if (eq bunsenModel.items.type 'object')}}
+  {{else if (eq bunsenModel.type 'object')}}
     {{frost-bunsen-cell
-      bunsenId=(concat bunsenId '.' index)
-      bunsenModel=bunsenModel.items
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=itemCell
+      cellConfig=cellConfig
       errors=errors
       formDisabled=formDisabled
       hook=hook
@@ -91,10 +91,10 @@
     }}
   {{else}}
     {{frost-bunsen-input-wrapper
-      bunsenId=(concat bunsenId '.' index)
-      bunsenModel=bunsenModel.items
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=itemCell
+      cellConfig=cellConfig
       errorMessage=errorMessage
       formDisabled=formDisabled
       hook=hook

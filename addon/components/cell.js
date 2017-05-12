@@ -77,7 +77,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       propagatedValueChangeSet: null
     }
   },
-
+  /* eslint-disable complexity */
   didReceiveAttrs (attrs) {
     const valueChangeSet = this.get('valueChangeSet')
     const oldCellConfig = get(attrs, 'oldAttrs.cellConfig.value')
@@ -86,8 +86,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     let isDirty = false
 
     if (valueChangeSet) {
+      const id = this.get('bunsenId') || ''
       iterateMap(valueChangeSet.keys(), (bunsenId) => {
-        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId) ||
+          id === bunsenId.slice(0, id.length)
+        ) {
           isDirty = true
           return false
         }
@@ -108,22 +111,35 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       this.set('classNames', newClassNames)
     }
   },
+  /* eslint-enable complexity */
 
   // == Computed Properties ====================================================
 
   @readOnly
-  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig.children')
-  children (bunsenModel, cellDefinitions, children) {
+  @computed('bunsenModel', 'bunsenView.cellDefinitions', 'cellConfig', 'renderId')
+  children (bunsenModel, cellDefinitions, cellConfig, renderId) {
+    let children
+    if (cellConfig.extends) {
+      const extendedDef = cellDefinitions[cellConfig.extends]
+      children = extendedDef.children || cellConfig.children
+    } else {
+      children = cellConfig.children
+    }
+
     if (!isArray(children)) return null
 
     return children
       .map((child) => {
         let subModel = bunsenModel
-        if (child.model) subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
-
+        let subId = renderId
+        if (child.model) {
+          subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
+          subId = subId ? `${subId}.${child.model}` : child.model
+        }
         return {
           cellConfig: child,
-          bunsenModel: subModel
+          bunsenModel: subModel,
+          bunsenId: subId
         }
       })
       .filter((child) => child.bunsenModel !== undefined)
@@ -158,14 +174,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
-   * @param {BunsenModel} model - bunsen model
+   * @param {String} model - bunsen model path
    * @returns {String} bunsen ID of input
    */
   renderId (bunsenId, model) {
-    if (bunsenId && model) {
-      return `${bunsenId}.${model}`
-    }
-
     return bunsenId || model || ''
   },
 
@@ -269,9 +281,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  isLeafNode (cellConfig) {
-    return cellConfig.model && !cellConfig.children
+  @computed('cellConfig.model', 'children')
+  isLeafNode (model, children) {
+    return model && !children
   },
 
   @readOnly

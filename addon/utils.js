@@ -159,6 +159,7 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
  * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
  * @returns {BunsenCell} merged cell definition
  */
+/* eslint-disable complexity */
 export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
   let mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
 
@@ -173,18 +174,47 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
   }
 
   // recursive array case
-  if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
-    const itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
-    const itemCellChanged = itemCell !== mergedConfig.arrayOptions.itemCell
+  if (mergedConfig.arrayOptions) {
+    if (mergedConfig.arrayOptions.itemCell) {
+      let itemCell
+      let itemCellChanged = false
+      if (Array.isArray(itemCell)) {
+        itemCell = mergedConfig.arrayOptions.itemCell.map((itemCell) => {
+          const mergedConfig = getMergedConfigRecursive(itemCell, cellDefinitions)
+          if (itemCell !== mergedConfig) {
+            itemCellChanged = true
+          }
+          return mergedConfig
+        })
+      } else {
+        itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+        itemCellChanged = itemCell !== mergedConfig.arrayOptions.itemCell
+      }
 
-    if (itemCellChanged) {
-      const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {itemCell})
-      mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+      if (itemCellChanged) {
+        const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {itemCell})
+        mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+      }
+    }
+    if (mergedConfig.arrayOptions.tupleCells) {
+      let tupleCellChanged = false
+      const tupleCells = mergedConfig.arrayOptions.tupleCells.map((tupleCell) => {
+        const mergedConfig = getMergedConfigRecursive(tupleCell, cellDefinitions)
+        if (tupleCell !== mergedConfig) {
+          tupleCellChanged = true
+        }
+        return mergedConfig
+      })
+      if (tupleCellChanged) {
+        const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {tupleCells})
+        mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+      }
     }
   }
 
   return mergedConfig
 }
+/* eslint-enable complexity */
 
 /**
  * Determine if model is registered with Ember Data
