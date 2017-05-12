@@ -12,9 +12,25 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-c
 
 const {keys} = Object
 
+/**
+ * Finds the index of an item in an array based on the bunsen ID's of the item and its containing array
+ *
+ * @param {String} arrayId Bunsen ID of the array
+ * @param {String} itemId Bunsen ID of the item in the array
+ * @returns {String} Index of array item (as a string)
+ */
 function itemIndex (arrayId, itemId) {
   return itemId.slice(arrayId.length + 1).split('.')[0]
 }
+
+/**
+ * Recursively clears empty objects based on a path
+ *
+ * @param {Object} object Hash containing object
+ * @param {String[]} path Array of path segments to the desired value to clear
+ * @param {Number} pathIndex Index of the path segment to use as a key
+ * @returns {Boolean} True if a key was deleted from the passed in object
+ */
 function clearSubObject (object, path, pathIndex) {
   const key = path[pathIndex]
   if (path.length < pathIndex + 2) {
@@ -176,12 +192,21 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const items = get(value || {}, bunsenId) || []
-    const getModel = Array.isArray(bunsenModel.items)
-      ? (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
-      : () => bunsenModel.items
-    const getCellConfig = Array.isArray(cellConfig)
-      ? (item, index) => cellConfig[index] || cellConfig[cellConfig.length - 1] || {}
-      : () => cellConfig || {}
+
+    let getModel, getCellConfig
+
+    if (Array.isArray(bunsenModel.items)) {
+      getModel = (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
+    } else {
+      getModel = () => bunsenModel.items
+    }
+
+    if (Array.isArray(cellConfig)) {
+      getCellConfig = (item, index) => cellConfig[index] || cellConfig[cellConfig.length - 1] || {}
+    } else {
+      getCellConfig = () => cellConfig || {}
+    }
+
     if (
       readOnly !== true &&
       this.get('cellConfig.arrayOptions.autoAdd') === true
