@@ -1,7 +1,6 @@
 import Ember from 'ember'
-const {Component, get} = Ember
+const {Component, get, getOwner} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 

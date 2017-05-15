@@ -19,9 +19,8 @@ const {
 const {getSubModel} = utils
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, get, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, get, getOwner, isEmpty, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import SpreadMixin from 'ember-spread'
