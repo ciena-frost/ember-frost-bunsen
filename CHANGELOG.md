@@ -1,3 +1,7 @@
+# 14.30.1 (2017-05-16)
+**Update** core version to revert view generation.
+
+
 # 14.30.0 (2017-05-12)
 
 * **Added** support for array conditions in both models and views.
