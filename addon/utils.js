@@ -165,8 +165,14 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
 
   // recursive object case
   if (mergedConfig.children) {
-    const children = mergedConfig.children.map((childConfig) => getMergedConfigRecursive(childConfig, cellDefinitions))
-    const childrenChanged = children.some((child, index) => child !== mergedConfig.children[index])
+    let childrenChanged = false
+    const children = mergedConfig.children.map((childConfig) => {
+      const mergedConfig = getMergedConfigRecursive(childConfig, cellDefinitions)
+      if (mergedConfig === childConfig) {
+        childrenChanged = true
+      }
+      return Object.assign({}, mergedConfig)
+    })
 
     if (childrenChanged) {
       mergedConfig = Object.assign({}, mergedConfig, {children})
@@ -184,7 +190,7 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
           if (itemCell !== mergedConfig) {
             itemCellChanged = true
           }
-          return mergedConfig
+          return Object.mergedConfig
         })
       } else {
         itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
