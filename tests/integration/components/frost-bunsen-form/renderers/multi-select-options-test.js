@@ -1,6 +1,6 @@
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
 import {$hook} from 'ember-hook'
+import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -31,7 +31,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select o
             query: {
               'filter': '[baz]=$filter'
             },
-            type: 'array',
+            type: 'array'
           }
         },
         type: 'object'
