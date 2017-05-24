@@ -1,3 +1,11 @@
+# 14.30.3 (2017-05-23)
+* **Stop** importing `getOwner` from `ember-getowner-polyfill`, since it's a proper polyfill now. (Fixes [#415](https://github.com/ciena-frost/ember-frost-bunsen/issues/415))
+
+
+# 14.30.2 (2017-05-23)
+**Fixed** cell definition re-use. In certain situations cell definitions were being used directly instead of being copied which caused issues when trying to assign an ID to the result cell. Now cell definitions are copied instead of being used directly.
+
+
 # 14.30.1 (2017-05-16)
 **Update** core version to revert view generation.
 
