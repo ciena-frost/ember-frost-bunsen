@@ -1,3 +1,6 @@
+# 14.30.4 (2017-05-24)
+**Fixed** how view cells are merged.
+
 # 14.30.3 (2017-05-23)
 * **Stop** importing `getOwner` from `ember-getowner-polyfill`, since it's a proper polyfill now. (Fixes [#415](https://github.com/ciena-frost/ember-frost-bunsen/issues/415))
 
