@@ -17,7 +17,7 @@ import {
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe.only('Integration: Component / frost-bunsen-form / renderer / multi-select Ember Data view query /', function () {
+describe('Integration: Component / frost-bunsen-form / renderer / multi-select Ember Data view query /', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
