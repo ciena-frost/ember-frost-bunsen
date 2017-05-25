@@ -11,39 +11,43 @@ import sinon from 'sinon'
 import {
   expectBunsenInputToHaveError,
   expectCollapsibleHandles,
-  expectOnChangeState,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
-describe('Integration: Component / frost-bunsen-form / renderer / select Ember Data view query /', function () {
+describe.only('Integration: Component / frost-bunsen-form / renderer / multi-select Ember Data view query /', function () {
   setupComponentTest('frost-bunsen-form', {
     integration: true
   })
 
-  let props, sandbox, resolver
+  let props, sandbox, resolver, store
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
     initialize()
     resolver = {}
 
-    this.register('service:store', Service.extend({
+    store = {
       query () {
         return new RSVP.Promise((resolve, reject) => {
           resolver.resolve = resolve
           resolver.reject = reject
         })
       }
-    }))
+    }
+    sandbox.spy(store, 'query')
+    this.register('service:store', Service.extend(store))
 
     props = {
       bunsenModel: {
         properties: {
           foo: {
-            type: 'string'
+            type: 'array',
+            items: {
+              type: 'string'
+            }
           }
         },
         type: 'object'
@@ -53,12 +57,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
           {
             model: 'foo',
             renderer: {
-              name: 'select',
+              name: 'multi-select',
               options: {
                 labelAttribute: 'label',
                 modelType: 'node',
                 query: {
-                  baz: 'alpha'
+                  baz: 'alpha',
+                  filter: '[fizz]=$filter'
                 },
                 valueAttribute: 'value'
               }
@@ -101,6 +106,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
     props = null
     resolver = null
     sandbox = null
+  })
+
+  it('should perform initial query', function () {
+    expect(store.query).to.have.been.calledWith('node', {baz: 'alpha', filter: '[fizz]='})
   })
 
   describe('when query succeeds', function () {
@@ -151,7 +160,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
           props.onValidation.callCount,
           'informs consumer of validation results'
         )
-          .to.equal(1)
+          .not.to.equal(0)
 
         const validationResult = props.onValidation.lastCall.args[0]
 
@@ -181,42 +190,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
             text: ''
           })
         })
-
-        describe('when first option selected', function () {
-          beforeEach(function () {
-            props.onChange.reset()
-            props.onValidation.reset()
-            $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            return wait()
-          })
-
-          it('renders as expected', function () {
-            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
-            })
-
-            expectOnChangeState({props}, {foo: 'bar'})
-            expectOnValidationState({props}, {count: 1})
-          })
-        })
-
-        describe('when last option selected', function () {
-          beforeEach(function () {
-            props.onChange.reset()
-            props.onValidation.reset()
-            $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-            return wait()
-          })
-
-          it('renders as expected', function () {
-            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'baz'
-            })
-
-            expectOnChangeState({props}, {foo: 'baz'})
-            expectOnValidationState({props}, {count: 1})
-          })
-        })
       })
 
       describe('when label defined in view', function () {
@@ -227,7 +200,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 label: 'FooBar Baz',
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -301,7 +274,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 collapsible: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -375,7 +348,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 collapsible: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -448,7 +421,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
               {
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -554,7 +527,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 disabled: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -594,7 +567,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 disabled: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -635,7 +608,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
           this.set('bunsenModel', {
             properties: {
               foo: {
-                type: 'string'
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
               }
             },
             required: ['foo'],
@@ -751,7 +727,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
     describe('when initial value', function () {
       beforeEach(function () {
-        this.set('value', {foo: 'bar'})
+        this.set('value', {foo: ['bar']})
 
         run(() => {
           resolver.resolve([
@@ -812,47 +788,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
             text: 'bar'
           })
         })
-
-        describe('when first option selected (initial value)', function () {
-          beforeEach(function () {
-            props.onChange.reset()
-            props.onValidation.reset()
-            $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
-            return wait()
-          })
-
-          it('renders as expected', function () {
-            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'bar'
-            })
-
-            expect(
-              props.onChange.callCount,
-              'does not trigger change since value is aleady selected'
-            )
-              .to.equal(0)
-
-            expectOnValidationState({props}, {count: 0})
-          })
-        })
-
-        describe('when last option selected', function () {
-          beforeEach(function () {
-            props.onChange.reset()
-            props.onValidation.reset()
-            $hook('my-form-foo-item', {index: 1}).trigger('mousedown')
-            return wait()
-          })
-
-          it('renders as expected', function () {
-            expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: 'baz'
-            })
-
-            expectOnChangeState({props}, {foo: 'baz'})
-            expectOnValidationState({props}, {count: 1})
-          })
-        })
       })
 
       describe('when label defined in view', function () {
@@ -866,7 +801,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 label: 'FooBar Baz',
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -925,7 +860,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 collapsible: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -984,7 +919,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 collapsible: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1042,7 +977,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
               {
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1141,7 +1076,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 disabled: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1186,7 +1121,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
                 disabled: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1229,7 +1164,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
           this.set('bunsenModel', {
             properties: {
               foo: {
-                type: 'string'
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
               }
             },
             required: ['foo'],
@@ -1310,6 +1248,20 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
             expectOnValidationState({props}, {count: 0})
           })
         })
+      })
+    })
+
+    describe('when user types', function () {
+      beforeEach(function () {
+        $hook('my-form-foo').find('.frost-select').click()
+        return wait().then(() => {
+          $hook('my-form-foo-list-input-input').val('42').trigger('input')
+          return wait()
+        })
+      })
+
+      it('should make another query with the filter text', function () {
+        expect(store.query).to.have.been.calledWith('node', {baz: 'alpha', filter: '[fizz]=42'})
       })
     })
   })
