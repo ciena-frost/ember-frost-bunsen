@@ -1,3 +1,8 @@
+# 14.30.5 (2017-05-25)
+* **Fixed** specifying `options` in the bunsen view for a `multi-select` renderer. The `options` were not making it all the way to the `frost-multi-select` component. 
+* **Fixed** API filtering for multi-select. Previously, it was only using local filtering.
+
+
 # 14.30.4 (2017-05-24)
 **Fixed** how view cells are merged.
 
