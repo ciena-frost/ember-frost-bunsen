@@ -2,6 +2,7 @@
  * The select input component
  */
 import {utils} from 'bunsen-core'
+const {ValueWrapper} = utils.path
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
 const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
@@ -369,12 +370,20 @@ export default AbstractInput.extend({
    * @param {Object} options - options
    * @returns {Boolean} true if mined property has changed
    */
-  hasMinedPropertyChanged (oldValue, newValue, options) {
-    if (!options.recordsPath) return false // if not mining local property
-    if (options.endpoint) return false // if endpoint is present mining isn't local
+  hasMinedPropertyChanged (oldValue, newValue, {recordsPath, endpoint}) {
+    if (!recordsPath) return false // if not mining local property
+    if (endpoint) return false // if endpoint is present mining isn't local
 
-    const newMinedProperty = get(newValue || {}, options.recordsPath)
-    const oldMinedProperty = get(oldValue || {}, options.recordsPath)
+    let newMinedProperty
+    let oldMinedProperty
+
+    if (recordsPath[0] === '.') {
+      oldMinedProperty = new ValueWrapper(oldValue || {}, this.get('bunsenId')).get(recordsPath)
+      newMinedProperty = new ValueWrapper(newValue || {}, this.get('bunsenId')).get(recordsPath)
+    } else {
+      oldMinedProperty = new ValueWrapper(oldValue || {}, recordsPath).get()
+      newMinedProperty = new ValueWrapper(newValue || {}, recordsPath).get()
+    }
 
     if (_.isEqual(oldMinedProperty, newMinedProperty)) return false // if mined property hasn't changed
 
