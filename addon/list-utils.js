@@ -139,7 +139,8 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = value[bunsenId]
-  const actuallyFindCurrentValue = queryForCurrentValue && !!valueAsId
+  const actuallyFindCurrentValue = modelDef.name !== 'multi-select' && queryForCurrentValue && !!valueAsId
+  const actuallyFindCurrentValues = modelDef.name === 'multi-select' && !!valueAsId && queryForCurrentValue
 
   const query = getQuery({
     bunsenId,
@@ -161,12 +162,26 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
         .catch((err) => {
           Logger.log(`Error fetching ${modelType}`, err)
           throw err
-        }) : RSVP.resolve(null)
+        }) : RSVP.resolve(null),
+    valueRecords: actuallyFindCurrentValues ? store.findByIds(modelType, valueAsId.asMutable())
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      }) : RSVP.resolve(null)
   })
-    .then(({items, valueRecord}) => {
+    .then(({items, valueRecord, valueRecords}) => {
       if (actuallyFindCurrentValue &&
         shouldAddCurrentValue({items, valueRecord, labelAttribute, valueAttribute, filter})) {
         return normalizeItems({data: items, labelAttribute, records: [valueRecord], valueAttribute})
+      }
+      if (valueRecords) {
+        valueRecords.filter((selectedRecord) => {
+          shouldAddSelectedRecord({items, selectedRecord, labelAttribute})
+        })
+        var normalizedItems = normalizeItems({data: items, labelAttribute, records: valueRecords, valueAttribute})
+        items.push(...normalizedItems)
+        items = _.uniqWith(items, _.isEqual) // eslint-disable-line
+        items = moveSelectedItemsToFront({items, valueRecords})
       }
       return items
     })
@@ -264,4 +279,35 @@ function shouldAddCurrentValue ({items, valueRecord, labelAttribute, valueAttrib
   const valueRecordMatchesFilter = filterRegex.test(valueRecord.get(labelAttribute))
   const itemsContainsValueRecord = items.find(item => item.value === valueRecord.get(valueAttribute))
   return valueRecordMatchesFilter && !itemsContainsValueRecord
+}
+
+/**
+ * Determine whether or not selectedRecord should be added to data
+ * @param {Object[]} items - the larger set of data
+ * @param {EmberObject} selectedRecord - the record to add or not
+ * @param {String} labelAttribute - dot notated path to label attribute in record
+ * @returns {boolean} true if selectedRecord should be added to items
+ */
+function shouldAddSelectedRecord ({items, selectedRecord, labelAttribute}) {
+  const itemsContainsValueRecord = items.find(item => item.label === selectedRecord.get(labelAttribute))
+  return !itemsContainsValueRecord
+}
+
+/**
+ * Moves selected records to the top of the array
+ * @param {Object[]} items - the larger set of data
+ * @param {EmberObject} valueRecords - the list of selected records
+ * @returns {Array<Object>} sorted by selected items at the top
+ */
+function moveSelectedItemsToFront ({items, valueRecords}) {
+  for (var i = 0; i < valueRecords.length; i++) {
+    for (var j = 0; j < items.length; j++) {
+      if (items[j].value === valueRecords[i].id) {
+        var a = items.splice(j, 1)
+        items.unshift(a[0])
+        break
+      }
+    }
+  }
+  return items
 }

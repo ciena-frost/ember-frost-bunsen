@@ -66,6 +66,16 @@ export default {
           renderer: {
             name: 'multi-select'
           }
+        },
+        {
+          label: 'Multi Select selected items test',
+          model: 'queryExample',
+          renderer: {
+            name: 'multi-select',
+            options: {
+              queryForCurrentValue: true
+            }
+          }
         }
       ]
     }
