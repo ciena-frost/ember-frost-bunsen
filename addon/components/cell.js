@@ -146,8 +146,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('propagatedValue')
-  renderValue (value) {
+  @computed('propagatedValue', 'cellConfig')
+  renderValue (value, cellConfig) {
     const bunsenId = this.get('renderId')
 
     if (typeOf(value) !== 'object') {
@@ -170,14 +170,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'cellConfig.model')
+  @computed('bunsenId', 'bunsenModel', 'cellConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
    * @param {String} model - bunsen model path
    * @returns {String} bunsen ID of input
    */
-  renderId (bunsenId, model) {
+  renderId (bunsenId, bunsenModel, model) {
     return bunsenId || model || ''
   },
 
