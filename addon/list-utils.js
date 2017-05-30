@@ -190,7 +190,6 @@ export function getItemsFromFormValue ({bunsenId, data, filter, options, value})
     records = get(value, recordsPath)
   }
 
-
   if (!isArray(records)) {
     Logger.warn(
       `Expected an array of records at "${recordsPath}" but got:`,

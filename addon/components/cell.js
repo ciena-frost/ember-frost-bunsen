@@ -170,14 +170,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'bunsenModel', 'cellConfig.model')
+  @computed('bunsenId', 'cellConfig.model')
   /**
    * Get bunsen ID for cell's input
    * @param {String} bunsenId - bunsen ID
    * @param {String} model - bunsen model path
    * @returns {String} bunsen ID of input
    */
-  renderId (bunsenId, bunsenModel, model) {
+  renderId (bunsenId, model) {
     return bunsenId || model || ''
   },
 
