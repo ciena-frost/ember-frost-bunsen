@@ -146,8 +146,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('propagatedValue')
-  renderValue (value) {
+  @computed('propagatedValue', 'cellConfig')
+  renderValue (value, cellConfig) {
     const bunsenId = this.get('renderId')
 
     if (typeOf(value) !== 'object') {

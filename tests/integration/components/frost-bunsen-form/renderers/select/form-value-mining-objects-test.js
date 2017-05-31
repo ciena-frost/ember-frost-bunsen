@@ -2596,4 +2596,72 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       })
     })
   })
+  describe('recordsPath option', function () {
+    beforeEach(function () {
+      this.setProperties({
+        bunsenModel: {
+          type: 'object',
+          properties: {
+            foo: {
+              type: 'object',
+              properties: {
+                bar: {
+                  type: 'object',
+                  properties: {
+                    baz: {
+                      type: 'string'
+                    },
+                    quux: {
+                      type: 'array',
+                      items: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        bunsenView: {
+          type: 'form',
+          version: '2.0',
+          cells: [{
+            model: 'foo',
+            children: [{
+              model: 'bar.baz',
+              renderer: {
+                name: 'select',
+                options: {
+                  recordsPath: './quux'
+                }
+              }
+            }]
+          }]
+        },
+        value: {
+          foo: {
+            bar: {
+              baz: '',
+              quux: [
+                'One',
+                'Two',
+                'Three',
+                'Four',
+                'Five'
+              ]
+            }
+          }
+        }
+      })
+      render.call(this)
+      return wait()
+    })
+    it('supports relative pathing', function () {
+      this.$(selectors.bunsen.renderer.select.input + ' .frost-select').click()
+      return wait().then(() => {
+        expect(this.$('.frost-select-dropdown li')).to.have.length(5)
+      })
+    })
+  })
 })

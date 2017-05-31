@@ -3,6 +3,7 @@
  */
 
 import {utils} from 'bunsen-core'
+const {ValueWrapper} = utils.path
 import Ember from 'ember'
 const {Logger, RSVP, get, typeOf} = Ember
 
@@ -28,7 +29,7 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
   } else if (options.endpoint) {
     return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
   } else if (options.recordsPath) {
-    return getItemsFromFormValue({data: filteredData, filter, options, value})
+    return getItemsFromFormValue({bunsenId, data: filteredData, filter, options, value})
   }
 
   return RSVP.resolve(filteredData)
@@ -179,12 +180,19 @@ export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, f
  * @param {Object} value - the bunsen value for this form
  * @returns {RSVP.Promise} a promise that resolves with the list of items
  */
-export function getItemsFromFormValue ({data, filter, options, value}) {
-  const records = get(value, options.recordsPath)
+export function getItemsFromFormValue ({bunsenId, data, filter, options, value}) {
+  const {recordsPath} = options
+
+  let records
+  if (recordsPath[0] === '.') {
+    records = new ValueWrapper(value, bunsenId).get(recordsPath)
+  } else {
+    records = get(value, recordsPath)
+  }
 
   if (!isArray(records)) {
     Logger.warn(
-      `Expected an array of records at "${options.recordPath}" but got:`,
+      `Expected an array of records at "${recordsPath}" but got:`,
       records
     )
 

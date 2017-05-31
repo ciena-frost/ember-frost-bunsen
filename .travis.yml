@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 node_js:
   - '6.9.1'
-  - 'stable'
+  - '7.10.0'
 addons:
   apt:
     sources:
