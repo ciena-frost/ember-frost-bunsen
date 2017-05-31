@@ -1,3 +1,8 @@
+# 14.31.0 (2017-05-31)
+**Added** support for relative paths for the recordsPath select renderer option
+**Fixed** bunsenId, bunsenModel, and config assignment to cells from the inline array item component. 
+
+
 # 14.30.5 (2017-05-25)
 * **Fixed** specifying `options` in the bunsen view for a `multi-select` renderer. The `options` were not making it all the way to the `frost-multi-select` component. 
 * **Fixed** API filtering for multi-select. Previously, it was only using local filtering.
