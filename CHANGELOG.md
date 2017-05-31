@@ -1,3 +1,6 @@
+# 14.31.1 (2017-05-31)
+**Fixed** references to internal models in deeply nested cells.
+
 # 14.31.0 (2017-05-31)
 **Added** support for relative paths for the recordsPath select renderer option
 **Fixed** bunsenId, bunsenModel, and config assignment to cells from the inline array item component. 
