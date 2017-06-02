@@ -1264,6 +1264,34 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select E
         expect(store.query).to.have.been.calledWith('node', {baz: 'alpha', filter: '[fizz]=42'})
       })
     })
+
+    describe('when user types with selected item', function () {
+      beforeEach(function () {
+        run(() => {
+          resolver.resolve([
+            Ember.Object.create({
+              label: 'bar',
+              value: 'bar'
+            }),
+            Ember.Object.create({
+              label: 'baz',
+              value: 'baz'
+            })
+          ])
+        })
+
+        $hook('my-form-foo').find('.frost-select').click()
+        $hook('my-form-foo-item', {index: 0}).trigger('mousedown')
+        return wait().then(() => {
+          $hook('my-form-foo-list-input-input').val('42').trigger('input')
+          return wait()
+        })
+      })
+
+      it('should make another query with the filter text', function () {
+        expect(store.query).to.have.been.calledWith('node', {baz: 'alpha', filter: '[fizz]=42'})
+      })
+    })
   })
 
   describe('when query fails', function () {
