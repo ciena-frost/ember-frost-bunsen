@@ -1,3 +1,8 @@
+# 14.31.2 (2017-06-02)
+
+* **Fixes** issue with `select-input` failing validation when spread options are provided.
+
+
 # 14.31.1 (2017-05-31)
 **Fixed** references to internal models in deeply nested cells.
 
