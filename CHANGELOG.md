@@ -1,3 +1,7 @@
+# 14.31.3 (2017-06-03)
+- **Fixed** issue where when you select an item in the `multi-select` dropdown then filter it only filters locally.
+
+
 # 14.31.2 (2017-06-02)
 
 * **Fixes** issue with `select-input` failing validation when spread options are provided.
