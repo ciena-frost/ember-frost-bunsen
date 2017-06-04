@@ -1,3 +1,6 @@
+# 14.31.4 (2017-06-04)
+**Fixed** relative path resolution
+
 # 14.31.3 (2017-06-03)
 - **Fixed** issue where when you select an item in the `multi-select` dropdown then filter it only filters locally.
 
