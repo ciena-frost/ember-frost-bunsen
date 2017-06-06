@@ -39,6 +39,7 @@ export default DetailComponent.extend({
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
+    validateOnVisibilityChange: PropTypes.bool,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -56,6 +57,7 @@ export default DetailComponent.extend({
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
+      validateOnVisibilityChange: true,
       validators: [],
       value: null
     }
@@ -76,7 +78,8 @@ export default DetailComponent.extend({
 
   _onVisiblityChange (e) {
     // Nothing to do when page/tab loses visiblity
-    if (e.target.hidden) {
+    // or skip if disabled
+    if (e.target.hidden || !this.get('validateOnVisibilityChange')) {
       return
     }
 

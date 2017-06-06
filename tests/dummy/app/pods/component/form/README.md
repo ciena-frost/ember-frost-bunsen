@@ -32,6 +32,10 @@ Custom renderer template helper mappings
 
 Whether or not to show all errors even before the user interacts with the form. The default value is `false`.
 
+##### `validateOnVisibilityChange` : *boolean*
+
+Whether or not to trigger validation when the page loses and regains focus. The default value is `true`.
+
 ##### `validators` : *Array<Function>*
 
 List of custom validation functions
