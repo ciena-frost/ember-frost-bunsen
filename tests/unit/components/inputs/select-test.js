@@ -33,32 +33,97 @@ describe('Unit: frost-bunsen-input-select', function () {
   })
 
   describe('listData()', function () {
-    let bunsenModel, cellConfig
-    beforeEach(function () {
-      bunsenModel = {
-        enum: ['item1', 'item2']
-      }
-      cellConfig = {
-        renderer: {
-          options: {
-            debounceInterval: 500
+    let bunsenModel, cellConfig, listData
+    describe('when model has enum', function () {
+      beforeEach(function () {
+        bunsenModel = {
+          enum: ['item1', 'item2']
+        }
+        cellConfig = {
+          renderer: {
+            options: {
+              debounceInterval: 500
+            }
           }
         }
-      }
-      component.reopen({
-        bunsenModel,
-        cellConfig
+        component.reopen({
+          bunsenModel,
+          cellConfig
+        })
+        listData = component.get('listData')
       })
-      component.get('listData')
+
+      it('does not mutate the cellConfig', function () {
+        expect(cellConfig).to.eql({
+          renderer: {
+            options: {
+              debounceInterval: 500
+            }
+          }
+        })
+      })
+
+      it('returns the appropriate list data', function () {
+        expect(listData).to.eql([
+          {
+            label: 'item1',
+            value: 'item1'
+          }, {
+            label: 'item2',
+            value: 'item2'
+          }
+        ])
+      })
     })
 
-    it('does not mutate the cellConfig', function () {
-      expect(cellConfig).to.eql({
-        renderer: {
-          options: {
-            debounceInterval: 500
+    describe('when cellConfig has overrides', function () {
+      beforeEach(function () {
+        cellConfig = {
+          renderer: {
+            options: {
+              data: [{
+                label: 'data1',
+                value: 'data1'
+              }, {
+                label: 'data2',
+                value: 'data2'
+              }]
+            }
           }
         }
+        component.reopen({
+          bunsenModel: {},
+          cellConfig
+        })
+        listData = component.get('listData')
+      })
+
+      it('does not mutate the cellConfig', function () {
+        expect(cellConfig).to.eql({
+          renderer: {
+            options: {
+              data: [{
+                label: 'data1',
+                value: 'data1'
+              }, {
+                label: 'data2',
+                value: 'data2'
+              }]
+            }
+          }
+        })
+      })
+
+      it('returns the appropriate list data', function () {
+        expect(listData).to.eql([
+          {
+            label: 'data1',
+            value: 'data1'
+          }, {
+            label: 'data2',
+            value: 'data2'
+          }
+        ])
       })
     })
   })

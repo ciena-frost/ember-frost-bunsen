@@ -84,9 +84,7 @@ export default AbstractInput.extend({
   @computed('bunsenModel', 'cellConfig')
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    let renderOptions = get(cellConfig, 'renderer') || {}
-    const spreadOptions = get(cellConfig, 'renderer.options')
-    if (spreadOptions) renderOptions = merge({}, renderOptions, spreadOptions)
+    const renderOptions = getMergedOptions(bunsenModel, cellConfig)
     const optionsData = get(renderOptions, 'data') || {}
     const hasOverrides = keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
