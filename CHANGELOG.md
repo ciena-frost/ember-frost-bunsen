@@ -1,3 +1,8 @@
+# 14.31.5 (2017-06-06)
+
+* **Fixed** support for list data overrides in the select renderer
+
+
 # 14.31.4 (2017-06-04)
 **Fixed** relative path resolution
 
