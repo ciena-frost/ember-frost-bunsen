@@ -1,3 +1,8 @@
+# 14.32.0 (2017-06-06)
+* **Added** validateOnVisibilityChange property to allow disabling of form validation after losing/regaining focus of the page
+* **Fixed** select documentation formatting
+
+
 # 14.31.5 (2017-06-06)
 
 * **Fixed** support for list data overrides in the select renderer
