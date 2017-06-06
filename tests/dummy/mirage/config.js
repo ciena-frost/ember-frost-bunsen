@@ -26,6 +26,14 @@ export default function () {
     }
   })
 
+  this.get('/resources/:id', function ({db}, request) {
+    const resources = db.resources
+      .filter(item => item.id === request.params.id)
+    return {
+      resources
+    }
+  })
+
   this.get('/resources', function ({db}, request) {
     let search = request.queryParams.p
     search = search ? search.replace('label:', '') : null
