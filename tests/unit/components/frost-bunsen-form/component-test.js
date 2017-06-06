@@ -18,7 +18,6 @@ describe('Unit: frost-bunsen-form', function () {
       onChange () {},
       onError () {}
     })
-    component.init()
   })
 
   afterEach(function () {
