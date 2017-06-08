@@ -36,5 +36,6 @@ export default {
     ]
   },
   textarea: {},
-  url: {}
+  url: {},
+  when: {}
 }

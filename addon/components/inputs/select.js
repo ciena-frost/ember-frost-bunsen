@@ -2,6 +2,7 @@
  * The select input component
  */
 import {utils} from 'bunsen-core'
+const {ValueWrapper} = utils.path
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
 const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
@@ -83,9 +84,7 @@ export default AbstractInput.extend({
   @computed('bunsenModel', 'cellConfig')
   listData (bunsenModel, cellConfig) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    let renderOptions = get(cellConfig, 'renderer') || {}
-    const spreadOptions = get(cellConfig, 'renderer.options')
-    if (spreadOptions) renderOptions = merge(renderOptions, spreadOptions)
+    const renderOptions = getMergedOptions(bunsenModel, cellConfig)
     const optionsData = get(renderOptions, 'data') || {}
     const hasOverrides = keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
@@ -156,6 +155,7 @@ export default AbstractInput.extend({
         'query',
         'queryForCurrentValue',
         'recordsPath',
+        'width',
         'valueAttribute'
       ])
 
@@ -163,6 +163,13 @@ export default AbstractInput.extend({
     }
 
     return options
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  width (cellConfig) {
+    const renderer = cellConfig.renderer || {}
+    return get(renderer, 'width') || undefined
   },
 
   // == Functions ==============================================================
@@ -233,6 +240,7 @@ export default AbstractInput.extend({
     // get our items
     if (
       this.hasEndpointChanged(oldValue, newValue, options.endpoint) ||
+      this.hasMinedPropertyChanged(oldValue, newValue, options) ||
       this.hasQueryChanged(oldValue, newValue, options.query) ||
       this.needsInitialItems(newValue)
     ) {
@@ -351,6 +359,33 @@ export default AbstractInput.extend({
     }
 
     return oldEndpoint !== newEndpoint
+  },
+
+  /**
+   * Checks if mined property has changed
+   * @param {Object} oldValue - old formValue
+   * @param {Object} newValue - new formValue
+   * @param {Object} options - options
+   * @returns {Boolean} true if mined property has changed
+   */
+  hasMinedPropertyChanged (oldValue, newValue, {recordsPath, endpoint}) {
+    if (!recordsPath) return false // if not mining local property
+    if (endpoint) return false // if endpoint is present mining isn't local
+
+    let newMinedProperty
+    let oldMinedProperty
+
+    if (recordsPath[0] === '.') {
+      oldMinedProperty = new ValueWrapper(oldValue || {}, this.get('bunsenId')).get(recordsPath)
+      newMinedProperty = new ValueWrapper(newValue || {}, this.get('bunsenId')).get(recordsPath)
+    } else {
+      oldMinedProperty = new ValueWrapper(oldValue || {}, recordsPath).get()
+      newMinedProperty = new ValueWrapper(newValue || {}, recordsPath).get()
+    }
+
+    if (_.isEqual(oldMinedProperty, newMinedProperty)) return false // if mined property hasn't changed
+
+    return true
   },
 
   /* eslint-disable complexity */

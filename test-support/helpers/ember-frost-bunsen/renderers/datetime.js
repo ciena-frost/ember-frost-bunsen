@@ -103,14 +103,10 @@ export function expectOnChangeState (ctx, expected) {
 
 /**
  * Open the renderer's date picker
- * @param {String} bunsenId - the bunsen ID for the property
- * @param {String} hook - the hook for the form
+ * @param {String} hookName - the hook for the form
  * @returns {Object} an object than can selectDate
  */
-export function openDatepicker (bunsenId, hook) {
-  hook = hook || 'bunsenForm'
-
-  const hookName = `${hook}-${bunsenId}-datetimePicker-date-input`
+export function openDatepicker (hookName) {
   const $input = $hook(hookName)
   $input.click()
 
@@ -152,13 +148,9 @@ const PikadayInteractor = {
 
 /**
  * Open the renderer's clock picker
- * @param {String} bunsenId - the bunsen ID for the property
- * @param {String} hook - the hook for the form
+ * @param {String} hookName - the hook for the form
  */
-export function expectClockpicker (bunsenId, hook) {
-  hook = hook || 'bunsenForm'
-
-  const hookName = `${hook}-${bunsenId}-datetimePicker-time-input`
+export function expectClockpicker (hookName) {
   const $input = $hook(hookName)
   $input.click()
 

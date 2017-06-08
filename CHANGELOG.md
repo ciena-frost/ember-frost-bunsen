@@ -1,3 +1,254 @@
+# 14.32.0 (2017-06-06)
+* **Added** validateOnVisibilityChange property to allow disabling of form validation after losing/regaining focus of the page
+* **Fixed** select documentation formatting
+
+
+# 14.31.5 (2017-06-06)
+
+* **Fixed** support for list data overrides in the select renderer
+
+
+# 14.31.4 (2017-06-04)
+**Fixed** relative path resolution
+
+# 14.31.3 (2017-06-03)
+- **Fixed** issue where when you select an item in the `multi-select` dropdown then filter it only filters locally.
+
+
+# 14.31.2 (2017-06-02)
+
+* **Fixes** issue with `select-input` failing validation when spread options are provided.
+
+
+# 14.31.1 (2017-05-31)
+**Fixed** references to internal models in deeply nested cells.
+
+# 14.31.0 (2017-05-31)
+**Added** support for relative paths for the recordsPath select renderer option
+**Fixed** bunsenId, bunsenModel, and config assignment to cells from the inline array item component. 
+
+
+# 14.30.5 (2017-05-25)
+* **Fixed** specifying `options` in the bunsen view for a `multi-select` renderer. The `options` were not making it all the way to the `frost-multi-select` component. 
+* **Fixed** API filtering for multi-select. Previously, it was only using local filtering.
+
+
+# 14.30.4 (2017-05-24)
+**Fixed** how view cells are merged.
+
+# 14.30.3 (2017-05-23)
+* **Stop** importing `getOwner` from `ember-getowner-polyfill`, since it's a proper polyfill now. (Fixes [#415](https://github.com/ciena-frost/ember-frost-bunsen/issues/415))
+
+
+# 14.30.2 (2017-05-23)
+**Fixed** cell definition re-use. In certain situations cell definitions were being used directly instead of being copied which caused issues when trying to assign an ID to the result cell. Now cell definitions are copied instead of being used directly.
+
+
+# 14.30.1 (2017-05-16)
+**Update** core version to revert view generation.
+
+
+# 14.30.0 (2017-05-12)
+
+* **Added** support for array conditions in both models and views.
+
+* **Added** view model extension support. This means you can do something like the following:
+
+  *Model*
+
+  ```json
+  {
+    "properties": {
+      "lang": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+  ```
+
+  *View*
+  ```json
+  {
+    "cells": [
+      {
+        "children": [
+          {
+            "id": "langGroup",
+            "model": {
+              "enum": [
+                "Server",
+                "Web"
+              ],
+              "type": "string"
+            },
+            "internal": true
+          },
+          {
+            "conditions": [
+              {
+                "if": [
+                  {
+                    "_internal.langGroup": {"equals": "Web"}
+                  }
+                ]
+              }
+            ],
+            "model": "lang",
+            "renderer": {
+              "data": [
+                {"label": "CSS", "value": "css"},
+                {"label": "HTML", "value": "html"},
+                {"label": "JavaScript", "value": "js"}
+              ],
+              "name": "select"
+            }
+          },
+          {
+            "conditions": [
+              {
+                "if": [
+                  {
+                    "_internal.langGroup": {"equals": "Server"}
+                  }
+                ]
+              }
+            ],
+            "model": "lang",
+            "renderer": {
+              "data": [
+                {"label": "Express", "value": "express"},
+                {"label": "Python", "value": "py"},
+                {"label": "Ruby", "value": "rb"}
+              ],
+              "name": "select"
+            }
+          }
+        ]
+      }
+    ],
+    "type": "form",
+    "version": "2.0"
+  }
+  ```
+
+
+# 14.29.2 (2017-05-11)
+
+* **Added** some very basic introduction and model documentation.
+* **Fixed** a bug when working with a view in v1 schema.
+
+# 14.29.1 (2017-05-10)
+
+* **Cleaned** up code to run validation in same run loop as setting properties for optimize components a bit more.
+* **Fixed** section component to properly apply class for expand/collapse icon.
+* **Fixed** tests to clear out variables defined in `describe` blocks to prevent memory leaks.
+
+
+# 14.29.0 (2017-05-10)
+
+* **Added** support for new `_internal` model property which can contain any properties you don't want to propagate back to the consumer via the `onChange` callback. These can be used to drive conditional views without polluting the form value with state.
+* **Fixed** `geolocation` renderer to make less set calls to tighten the Ember run loop around changes.
+* **Replaced** some `didReceiveAttrs()` hooks with computed properties since Ember has deprecated the use of the `attrs` argument in the `didReceiveAttrs()` life cycle hook.
+
+
+# 14.28.3 (2017-05-05)
+
+* **Cleaned** up code by breaking into smaller functions and adding some comments/JSDoc.
+
+
+# 14.28.2 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to fix an issue with Files being stripped from values
+
+
+# 14.28.1 (2017-05-04)
+
+* **Updated** ember-bunsen-core dependency to 0.24.3, which fixes a bug that would strip Files from values.
+
+
+# 14.28.0 (2017-05-04)
+
+* **Added** missing `return wait()` call to more tests to make sure they are async safe.
+* **Replaced** some deep cloning with shallow cloning to reduce new object creation.
+
+
+# 14.27.2 (2017-05-03)
+
+* **Added** a missing destroyed checked.
+* **Fixed** tests to use the `wait` helper to help prevent tests failures due to timing issues.
+
+
+# 14.27.1 (2017-05-01)
+* **Fixed** a bug where generateFacetView was creating facets where each group had two labels.
+
+
+# 14.27.0 (2017-04-28)
+
+* **Changed** a bunch of internal code so the `frost-bunsen-cell` component gets the `bunsenModel` for it's `bunsenId` not the parent model. This is preliminary work work a future PR to support conditionals in arrays.
+
+# 14.26.1 (2017-04-27)
+
+* **Fixed** styling regression.
+
+# 14.26.0 (2017-04-24)
+* **Added** check in the blueprint to avoid installing packages already installed
+
+
+# 14.25.1 (2017-04-21)
+
+* **Fixed** bug where array label wasn't showing up when `arrayOptions` is not defined.
+
+
+# 14.25.0 (2017-04-20)
+
+* **Added** support for select renderer to be driven by an array of integers/numbers/strings when using `endpoint` or simply `recordsPath` to mine the form value.
+
+
+# 14.24.0 (2017-04-20)
+
+* **Added** support for mining select lists from the form value instead of an API endpoint.
+
+
+# 14.23.2 (2017-04-07)
+
+* **Fixed** boolean renderer to put label to right of checkbox.
+
+
+# 14.23.1 (2017-04-03)
+**Fixed** issue where hidden renderer was unintentionally unsetting values.
+
+
+# 14.23.0 (2017-03-31)
+* Now supports 'width' option for select renderer
+
+
+# 14.22.1 (2017-03-29)
+* **Updated** travis build and gh pages publish scripts
+
+# 14.22.0 (2017-03-29)
+* **Updated** date-time renderer test helpers to be more flexible so they can be used in other tests where date-time-picker is employed
+* **Updated** date-time renderer tests to use the more flexible test helpers
+* **Added** New `when` renderer that allows the selection of a date based on a keyword or a date time string.
+* **Updated** demo app to showcase the new `when` renderer
+* **Added** documentation for the new `when` renderer
+* **Added** tests for the new `when` render
+
+# 14.21.1 (2017-03-23)
+
+* **Fixed** addon to include `ember-symbol-observable` as a dependency instead of a devDependency.
+
+# 14.21.0 (2017-03-22)
+
+* **Changed** where we run gh-pages publish in hopes of fixing it.
+* **Replaced** blueprints with npm dependencies.
+* **Upgraded** `ember-bunsen-core` to version `0.23.1`.
+
+
+# 14.20.1 (2017-03-22)
+
+* **Fixed** build to publish dummy app to `gh-pages` branch.
+
 # 14.20.0 (2017-03-16)
 
 Please add a description of your change here, it will be automatically prepended to the `CHANGELOG.md` file.

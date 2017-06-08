@@ -3,6 +3,7 @@ import Ember from 'ember'
 const {RSVP, Service, run, typeOf} = Ember
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -100,10 +101,15 @@ describe(description, function () {
         value=value
       }}
     `)
+
+    return wait()
   })
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    resolver = null
+    sandbox = null
   })
 
   describe('when query succeeds', function () {
@@ -121,6 +127,8 @@ describe(description, function () {
             })
           ])
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -191,6 +199,8 @@ describe(description, function () {
             })
           ])
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -234,6 +244,8 @@ describe(description, function () {
           }
         })
       })
+
+      return wait()
     })
 
     it('should call onError', function () {

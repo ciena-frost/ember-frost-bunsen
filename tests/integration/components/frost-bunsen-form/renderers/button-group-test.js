@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -147,6 +148,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -174,6 +177,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -201,6 +206,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -228,6 +235,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -244,6 +253,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
         describe('when form explicitly enabled', function () {
           beforeEach(function () {
             this.set('disabled', false)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -278,6 +288,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
         describe('when form disabled', function () {
           beforeEach(function () {
             this.set('disabled', true)
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -324,6 +335,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -370,6 +383,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -406,9 +421,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
             ctx.props.onChange.reset()
             ctx.props.onValidation.reset()
 
-            this.$(selectors.bunsen.renderer.buttonGroup)
-              .find('button:first')
-              .click()
+            this.$(selectors.bunsen.renderer.buttonGroup).find('button:first').click()
+
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -486,9 +501,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               ctx.props.onChange.reset()
               ctx.props.onValidation.reset()
 
-              this.$(selectors.bunsen.renderer.buttonGroup)
-                .find('button:first')
-                .click()
+              this.$(selectors.bunsen.renderer.buttonGroup).find('button:first').click()
+
+              return wait()
             })
 
             it('renders as expected', function () {
@@ -579,6 +594,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
               type: 'form',
               version: '2.0'
             })
+
+            return wait()
           })
 
           it('renders as expected', function () {

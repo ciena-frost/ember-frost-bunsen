@@ -1,5 +1,5 @@
 import {utils} from 'bunsen-core'
-const {getLabel} = utils
+const {getLabel, getSubModel} = utils
 import Ember from 'ember'
 const {Component, get, isEmpty, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -82,8 +82,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('value')
-  renderValue (value) {
+  @computed('value', 'cellConfig.model')
+  renderValue (value, model) {
     const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
 
     if (typeOf(value) !== 'object') {
@@ -113,9 +113,30 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig')
-  itemCell (cellConfig) {
-    return get(cellConfig, 'arrayOptions.itemCell') || {}
+  @computed('cellConfig', 'index')
+  itemCell (cellConfig, index) {
+    return get(cellConfig, `arrayOptions.tupleCells.${index}`) ||
+      get(cellConfig, `arrayOptions.itemCell.${index}`) ||
+      get(cellConfig, 'arrayOptions.itemCell') || {}
+  },
+
+  @readOnly
+  @computed('cellConfig', 'bunsenModel')
+  renderModel (cellConfig, bunsenModel) {
+    if (typeof cellConfig.model === 'string') {
+      return getSubModel(bunsenModel, cellConfig.model)
+    }
+
+    return bunsenModel
+  },
+
+  @readOnly
+  @computed('bunsenId', 'cellConfig.model')
+  renderId (bunsenId, model) {
+    if (typeof model === 'string') {
+      return `${bunsenId}.${model}`
+    }
+    return bunsenId
   },
 
   // == Actions ================================================================

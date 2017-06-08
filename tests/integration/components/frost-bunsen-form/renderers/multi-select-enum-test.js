@@ -83,6 +83,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -127,6 +129,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -171,6 +175,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -215,6 +221,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -241,6 +249,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
   describe('when form explicitly enabled', function () {
     beforeEach(function () {
       this.set('disabled', false)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -259,6 +268,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
   describe('when form disabled', function () {
     beforeEach(function () {
       this.set('disabled', true)
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -290,6 +300,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -320,6 +332,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -353,6 +367,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
         required: ['foo'],
         type: 'object'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -390,6 +406,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', false)
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -417,6 +434,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
       beforeEach(function () {
         ctx.props.onValidation.reset()
         this.set('showAllErrors', true)
+        return wait()
       })
 
       it('renders as expected', function () {

@@ -13,16 +13,16 @@
       hook=(concat hook '-link')
       onClick=(action 'handleClick')
     }}
-      {{linkLabel}}
+      {{dereferencedLinkLabel}}
     {{/frost-link}}
   {{else}}
     <a
       class={{valueClassName}}
-      href={{url}}
+      href={{dereferencedUrl}}
       onclick={{action 'handleClick'}}
     >
       <div class="content text">
-        {{linkLabel}}
+        {{dereferencedLinkLabel}}
       </div>
     </a>
   {{/if}}

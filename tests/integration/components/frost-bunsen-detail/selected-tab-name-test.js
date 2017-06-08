@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
@@ -44,6 +45,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
   describe('when selectedTab property updated to be first tab', function () {
     beforeEach(function () {
       this.set('selectedTabLabel', 'One')
+      return wait()
     })
 
     it('renders first tab', function () {

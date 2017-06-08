@@ -23,10 +23,29 @@ This is the default renderer when the model contains the property `enum` or the 
 }
 ```
 
+
+#### width
+
+Sometimes you find yourself with some really long data, and the automatic truncation features of the select component aren't helping, or are obscuring the data in user-unfriendly ways. Other times you have an Enum of very short values (e.g., ['HTTP', 'FTP', 'UDP']), and that big ol' select just looks silly.  In these cases you can tell Bunsen to force the select element's width.
+
+```js
+// UI schema 2
+{
+  model: 'foo',
+  renderer: {
+    name: 'select',
+    width: 500
+  }
+}
+```
+
+Note: It's entirely possible that width restrictions set on the `.frost-bunsen-left-input` or other wrapper CSS classes in your consuming app my still act to limit the select component's horizontal size.
+
 ### Querying Data
 
 The model and view can be configured to fetch the select options from the
-server using Ember Data or an API endpoint directly.
+server using Ember Data, an API endpoint directly, or to mine the data from a list
+property elsewhere in the form value.
 
 #### Ember Data
 
@@ -68,24 +87,24 @@ Use `$filter` as a placeholder for the text the user types into the `select` inp
 }
 ```
 
-When using a paged API, the initial value from the form might not be included in the regular query, 
+When using a paged API, the initial value from the form might not be included in the regular query,
 causing the select to appear blank even though the form has the value set. If this is a concern, set `queryForCurrentValue`
 to execute a second API call to make sure the current value is included in the select options and can be displayed correctly.
 
 *Note: This second API call is made with `store.findRecord()`, which requires that the value be a record id.
- 
- **Model**
- 
- ```json
- {
-   "modelType": "<ember-data-model>",
-   "query": {
-     "label": "$filter",
-     "type": "${./type}"
-   },
-   "queryForCurrentValue": true
- }
- ```
+
+**Model**
+
+```json
+{
+  "modelType": "<ember-data-model>",
+  "query": {
+    "label": "$filter",
+    "type": "${./type}"
+  },
+  "queryForCurrentValue": true
+}
+```
 
 #### API Endpoint
 
@@ -136,6 +155,56 @@ over the model options.
 }
 ```
 
+#### Mine from Form Value
+
+This functions exactly like `endpoint` except you omit the `endpoint` option. Instead
+it will look for the list of possible items at the `recordsPath` location within the current
+form value. From here it will look for an array of objects and will use `labelAttribute` and
+`valueAttribute` to pull the relevant information from each array item.
+
+> Note: You can specify these options in the model, view, or both. Bunsen will
+merge the options from the two places with the view options taking precedence
+over the model options.
+
+**Model**
+
+```json
+{
+  "properties": {
+    "list": {
+      "items": {
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"}
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "item": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
+```
+
+**View Cell**
+
+```json
+{
+  "model": "item",
+  "renderer": {
+    "name": "select",
+    "options": {
+      "labelAttribute": "name",
+      "recordsPath": "list",
+      "valueAttribute": "id"
+    }
+  }
+}
+```
+
 ### Local Filtering vs Server Filtering
 
 By default, `select` issues a request on every `onInput` with the `$filter` set appropriately so you can filter the results on the server. If your server does support filtering or if the results are small enough, you can enable local filtering.
@@ -169,7 +238,6 @@ Sometimes, it is necessary populate the list with static options which are then 
   }
 }
 ```
-
 If you use this option, it will replace the list of options sourced from `enum` but `enum` is still required for validation.
 
 ### None Option

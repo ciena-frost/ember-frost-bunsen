@@ -46,6 +46,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     describe('when child and ancestors are not required', function () {
@@ -435,6 +437,7 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         beforeEach(function () {
           ctx.props.onValidation.reset()
           this.set('value', {})
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -539,11 +542,14 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           },
           value: {}
         })
+
+        return wait()
       })
 
       describe('when parent is not present', function () {
         beforeEach(function () {
           this.set('value', {})
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -578,6 +584,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           this.set('value', {
             foo: {}
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -614,6 +622,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
               bar: 'test'
             }
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -650,6 +660,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
               baz: 'test'
             }
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -698,6 +710,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     describe('when child and ancestors are not required', function () {
@@ -715,6 +729,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           },
           type: 'object'
         })
+
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -973,6 +989,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           },
           type: 'object'
         })
+
+        return wait()
       })
 
       describe('when childs parent is present', function () {
@@ -1165,11 +1183,14 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           },
           value: {}
         })
+
+        return wait()
       })
 
       describe('when parent is not present', function () {
         beforeEach(function () {
           this.set('value', {})
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1204,6 +1225,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
           this.set('value', {
             foo: {}
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1240,6 +1263,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
               bar: 'test'
             }
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -1276,6 +1301,8 @@ describe('Integration: Component / frost-bunsen-form / cell required label', fun
               baz: 'test'
             }
           })
+
+          return wait()
         })
 
         it('renders as expected', function () {

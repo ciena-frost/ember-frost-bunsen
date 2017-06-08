@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 describe('Unit: frost-bunsen-input-static', function () {
   setupComponentTest('frost-bunsen-input-static', {
@@ -20,6 +20,10 @@ describe('Unit: frost-bunsen-input-static', function () {
       onError () {},
       state: Ember.Object.create({})
     })
+  })
+
+  afterEach(function () {
+    component = null
   })
 
   describe('renderValue', function () {

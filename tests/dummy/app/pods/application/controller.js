@@ -28,6 +28,10 @@ export default Controller.extend({
       title: 'Model',
       links: [
         {
+          route: 'model.types',
+          title: 'Types'
+        },
+        {
           route: 'model.formats',
           title: 'Formats'
         }

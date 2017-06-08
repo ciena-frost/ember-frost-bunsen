@@ -27,6 +27,7 @@ import {default as Table} from './components/inputs/table'
 import {default as Text} from './components/inputs/text'
 import {default as Textarea} from './components/inputs/textarea'
 import {default as Url} from './components/inputs/url'
+import {default as When} from './components/inputs/when'
 
 export const Inputs = {
   Boolean,
@@ -45,5 +46,6 @@ export const Inputs = {
   Table,
   Text,
   Textarea,
-  Url
+  Url,
+  When
 }

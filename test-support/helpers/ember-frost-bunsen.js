@@ -71,6 +71,12 @@ export {
   expectWithState as expectBunsenUrlRendererWithState
 } from './ember-frost-bunsen/renderers/url'
 
+export {
+  selectRadioButton as selectRadioButtonBunsenWhenRenderer,
+  expectDateTimeInputs as expectInputsBunsenWhenRenderer,
+  expectWithState as expectBunsenWhenRendererWithState
+} from './ember-frost-bunsen/renderers/when'
+
 export function expectCollapsibleHandles (count, hook) {
   hook = hook || 'bunsenForm'
 

@@ -1,6 +1,6 @@
 @import 'node_modules/ember-frost-core/addon/styles/addon';
 @import 'ember-frost-table';
-@import './ember-frost-bunsen';
+@import 'ember-frost-bunsen';
 
 $app-bar-height: 60px;
 $frost-button-medium-height: 40px;
@@ -9,6 +9,15 @@ $title-height: 40px;
 
 body {
   background: $frost-color-lgrey-4;
+}
+
+hr {
+  border-color: $frost-color-lgrey-4;
+  margin-top: 30px;
+}
+
+.CodeMirror {
+  height: auto;
 }
 
 .demo-markdown {
@@ -46,6 +55,7 @@ body {
   right: $spacing;
   bottom: $frost-button-medium-height + $spacing + $spacing;
   left: $spacing;
+  overflow: auto;
 }
 
 .dummy-body{

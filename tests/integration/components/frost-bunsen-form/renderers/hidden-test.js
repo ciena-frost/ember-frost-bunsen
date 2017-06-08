@@ -80,4 +80,43 @@ describe('Integration: Component / frost-bunsen-form / renderer / hidden', funct
       })
     })
   })
+
+  describe('when no default value and no valueRef are set', function () {
+    const ctx = setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          baz: {
+            type: 'string'
+          },
+          foo: {
+            type: 'string'
+          }
+        },
+        type: 'object'
+      },
+      bunsenView: {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'hidden'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      },
+      value: {
+        baz: 'alpha',
+        foo: 'beta'
+      }
+    })
+
+    it('does not clear the set value', function () {
+      expectOnChangeState(ctx, {
+        baz: 'alpha',
+        foo: 'beta'
+      })
+    })
+  })
 })

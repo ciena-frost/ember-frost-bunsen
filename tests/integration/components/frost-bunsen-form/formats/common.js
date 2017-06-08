@@ -3,7 +3,8 @@
  * NOTE: These specs have lots of expect() calls in a single it() for performance reasons
  */
 import {expect} from 'chai'
-import {before, beforeEach, describe, it} from 'mocha'
+import wait from 'ember-test-helpers/wait'
+import {afterEach, before, beforeEach, describe, it} from 'mocha'
 
 import {
   expectBunsenInputNotToHaveError,
@@ -23,7 +24,7 @@ import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 export default function (format, invalidValues, validValues, focus = false) {
   const describeFunc = focus ? describe.only : describe
 
-  describeFunc(`Integration: Component / frost-bunsen-form / format | ${format}`, function () {
+  describeFunc(`Integration: Component / frost-bunsen-form / format / ${format}`, function () {
     before(function () {
       this.timeout(3000) // Sometimes 2 seconds isn't enoguh for the CI
     })
@@ -66,6 +67,13 @@ export default function (format, invalidValues, validValues, focus = false) {
           })
 
           fillIn('bunsenForm-foo-input', input)
+
+          return wait()
+        })
+
+        afterEach(function () {
+          validationResult = null
+          value = null
         })
 
         it('functions as expected', function () {
@@ -101,6 +109,7 @@ export default function (format, invalidValues, validValues, focus = false) {
         describe('when user removes focus from input', function () {
           beforeEach(function () {
             focusout('bunsenForm-foo-input')
+            return wait()
           })
 
           it('renders as expected', function () {
@@ -133,6 +142,13 @@ export default function (format, invalidValues, validValues, focus = false) {
           })
 
           fillIn('bunsenForm-foo-input', input)
+
+          return wait()
+        })
+
+        afterEach(function () {
+          validationResult = null
+          value = null
         })
 
         it('functions as expected', function () {
@@ -171,6 +187,7 @@ export default function (format, invalidValues, validValues, focus = false) {
         describe('when user removes focus from input', function () {
           beforeEach(function () {
             focusout('bunsenForm-foo-input')
+            return wait()
           })
 
           it('renders as expected', function () {

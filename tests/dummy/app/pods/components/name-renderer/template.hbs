@@ -3,9 +3,10 @@
 </div>
 <div>
   {{frost-text
-    change=(action "onChange")
+    hook=(concat bunsenId '.name-renderer')
+    change=(action 'handleChange')
     disabled=disabled
-    placeholder="John Doe"
+    placeholder='John Doe'
     value=(readonly renderValue)
   }}
 </div>

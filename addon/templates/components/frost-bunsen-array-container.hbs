@@ -1,7 +1,7 @@
 {{#if cellConfig.renderer}}
   {{component customRenderer
     bunsenId=(concat bunsenId '.' index)
-    bunsenModel=bunsenModel.items
+    bunsenModel=itemsModel
     bunsenView=bunsenView
     cellConfig=cellConfig
     formDisabled=formDisabled
@@ -21,20 +21,48 @@
   }}
 {{else}}
   {{#if inline}}
+    {{#if tupleItems}}
+      {{#each tupleItems key='@index' as |item index|}}
+        {{frost-bunsen-array-inline-item
+          bunsenId=(concat bunsenId '.' index)
+          bunsenModel=item
+          bunsenView=bunsenView
+          cellConfig=cellConfig
+          compact=compact
+          errors=errors
+          formDisabled=formDisabled
+          hook=hook
+          index=index
+          onError=onError
+          onChange=(action 'handleChange')
+          readOnly=readOnly
+          registerForFormValueChanges=registerForFormValueChanges
+          registerValidator=registerValidator
+          renderers=renderers
+          showAllErrors=showAllErrors
+          showRemoveButton=false
+          sortable=false
+          triggerValidation=triggerValidation
+          unregisterForFormValueChanges=unregisterForFormValueChanges
+          value=value
+          valueChangeSet=valueChangeSet
+        }}
+      {{/each}}
+    {{/if}}
     {{#if sortable}}
       {{#sortable-group onChange=(action 'reorderItems') as |group|}}
         {{#each items key='@index' as |item index|}}
           {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
             {{frost-bunsen-array-inline-item
-              bunsenId=bunsenId
-              bunsenModel=bunsenModel
+              bunsenId=(concat bunsenId '.' index)
+              bunsenModel=item.model
               bunsenView=bunsenView
-              cellConfig=cellConfig
+              cellConfig=item.cellConfig
               compact=compact
               errors=errors
               formDisabled=formDisabled
               hook=hook
-              index=index
+              index=(add index startingIndex)
               onChange=(action 'handleChange')
               onError=onError
               onRemove=(action 'removeItem')
@@ -55,15 +83,15 @@
     {{else}}
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
-          bunsenId=bunsenId
-          bunsenModel=bunsenModel
+          bunsenId=(concat bunsenId '.' index)
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           compact=compact
           errors=errors
           formDisabled=formDisabled
           hook=hook
-          index=index
+          index=(add index startingIndex)
           onError=onError
           onChange=(action 'handleChange')
           onRemove=(action 'removeItem')
@@ -89,9 +117,9 @@
     <ul class='frost-bunsen-nav frost-bunsen-nav-tabs'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-nav
-          bunsenModel=bunsenModel
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           formDisabled=formDisabled
           index=index
           onRemove=(action 'removeItem')
@@ -117,10 +145,10 @@
     <div class='frost-bunsen-tab-content'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-content
-          bunsenId=bunsenId
-          bunsenModel=bunsenModel
+          bunsenId=(concat bunsenId '.' index)
+          bunsenModel=item.model
           bunsenView=bunsenView
-          cellConfig=cellConfig
+          cellConfig=item.cellConfig
           errors=errors
           formDisabled=formDisabled
           hook=hook
@@ -140,7 +168,7 @@
       {{/each}}
     </div>
   {{/if}}
-  {{#if (and (not items) readOnly)}}
+  {{#if (and (not items) (not tupleItems) readOnly)}}
     <span class="frost-bunsen-empty-msg">
       List is currently empty.
     </span>

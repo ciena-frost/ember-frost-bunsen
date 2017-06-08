@@ -1,20 +1,10 @@
-const addonsToAdd = {
-  packages: [
-    {name: 'ember-ajax', target: '^2.5.2'},
-    {name: 'ember-frost-core', target: '^1.7.2'},
-    {name: 'ember-frost-date-picker', target: '^6.0.0'},
-    {name: 'ember-frost-fields', target: '^4.0.0'},
-    {name: 'ember-frost-popover', target: '^4.0.1'},
-    {name: 'ember-frost-tabs', target: '^5.0.0'},
-    {name: 'ember-getowner-polyfill', target: '^1.0.1'},
-    {name: 'ember-lodash-shim', target: '^2.0.0'},
-    {name: 'ember-prop-types', target: '^3.0.2'},
-    {name: 'ember-redux-shim', target: '^1.0.1'},
-    {name: 'ember-redux-thunk-shim', target: '^1.1.0'},
-    {name: 'ember-spread', target: '^1.0.0'},
-    {name: 'ember-sortable', target: '^1.8.1'}
-  ]
-}
+const blueprintHelper = require('ember-frost-core/blueprint-helper')
+
+const addonsToAdd = [
+  {name: 'ember-frost-date-picker', target: '^6.0.0'},
+  {name: 'ember-frost-fields', target: '^4.0.0'},
+  {name: 'ember-frost-table', target: '^1.0.0'}
+]
 
 const packagesToRemove = [
   'ember-bunsen-core',
@@ -25,16 +15,30 @@ const packagesToRemove = [
   })
 
 module.exports = {
-  afterInstall: function () {
+  afterInstall: function (options) {
     return this.removePackagesFromProject(packagesToRemove)
-      .then(this.addAddonsToProject.bind(this, addonsToAdd))
+      .then(() => {
+        // Get the packages installed in the consumer app/addon. Packages that are already installed in the consumer within
+        // the required semver range will not be re-installed or have blueprints re-run.
+        const consumerPackages = blueprintHelper.consumer.getPackages(options)
+
+        // Get the packages to install (not already installed) from a list of potential packages
+        return blueprintHelper.packageHandler.getPkgsToInstall(addonsToAdd, consumerPackages).then((pkgsToInstall) => {
+          if (pkgsToInstall.length !== 0) {
+            // Call the blueprint hook
+            return this.addAddonsToProject({
+              packages: pkgsToInstall
+            })
+          }
+        })
+      })
       .then(() => {
         const isAddon = this.project.isEmberCLIAddon()
         const pathPrefix = isAddon ? 'tests/dummy/' : ''
 
         return this.insertIntoFile(
           `${pathPrefix}app/styles/app.scss`,
-          "@import './ember-frost-bunsen';"
+          "@import 'ember-frost-bunsen';"
         )
       })
   },

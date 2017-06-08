@@ -1,7 +1,6 @@
 import Ember from 'ember'
 const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import _ from 'lodash'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-table'
 
@@ -38,7 +37,7 @@ export default AbstractInput.extend({
    */
   _getColumnsFromValue (value) {
     const exampleValue = value[0]
-    const columnNames = _.keys(exampleValue)
+    const columnNames = Object.keys(exampleValue)
     return columnNames.map((name) => {
       return {
         label: name,

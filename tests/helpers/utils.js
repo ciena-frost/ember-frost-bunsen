@@ -2,6 +2,7 @@ import Ember from 'ember'
 const {merge} = Ember
 import {initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach} from 'mocha'
 import sinon from 'sinon'
@@ -72,6 +73,27 @@ export function renderFormComponent () {
 }
 
 /**
+ * Render frost-bunsen-form with frost-select-outlet
+ */
+export function renderFormComponentWithSelectOutlet () {
+  this.render(hbs`
+    {{frost-select-outlet hook='selectOutlet'}}
+    {{frost-bunsen-form
+      autofocus=autofocus
+      bunsenModel=bunsenModel
+      bunsenView=bunsenView
+      disabled=disabled
+      hook=hook
+      onChange=onChange
+      onValidation=onValidation
+      selectedTabLabel=selectedTabLabel
+      showAllErrors=showAllErrors
+      value=value
+    }}
+  `)
+}
+
+/**
  * Setup integration test for a particular ember-frost-bunsen component
  * @param {Function} defaults - method to get default props
  * @param {String} name - name of component being tested
@@ -97,10 +119,15 @@ function setupCommonComponentTest ({defaults, name, props, renderer}) {
 
     this.setProperties(ctx.props)
     renderer.call(this)
+
+    return wait()
   })
 
   afterEach(function () {
     ctx.sandbox.restore()
+    Object.keys(ctx).forEach((key) => {
+      delete ctx[key]
+    })
   })
 
   return ctx
@@ -131,5 +158,19 @@ export function setupFormComponentTest (props) {
     name: 'frost-bunsen-form',
     props,
     renderer: renderFormComponent
+  })
+}
+
+/**
+ * Setup integration test for frost-bunsen-form with frost-select-outlet
+ * @param {Object} props - properties for test
+ * @returns {Object} test context information
+ */
+export function setupFormComponentTestWithSelectOutlet (props) {
+  return setupCommonComponentTest({
+    defaults: getDefaultsForFormComponent,
+    name: 'frost-bunsen-form',
+    props,
+    renderer: renderFormComponentWithSelectOutlet
   })
 }

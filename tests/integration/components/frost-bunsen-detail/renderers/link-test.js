@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
+import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
@@ -63,10 +64,14 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
       bunsenView=bunsenView
       value=value
     }}`)
+
+    return wait()
   })
 
   afterEach(function () {
     sandbox.restore()
+    props = null
+    sandbox = null
   })
 
   it('renders as expected', function () {
@@ -116,6 +121,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -166,6 +173,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -216,6 +225,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -268,6 +279,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           version: '2.0'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -320,6 +333,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           version: '2.0'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -375,6 +390,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           foo: 'http://ciena.com/'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -431,6 +448,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           foo: 'http://ciena.com/'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -505,6 +524,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           }
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -560,6 +581,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           foo: 'models'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -615,6 +638,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           foo: 'blueplanet'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -671,6 +696,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           foo: 'Ciena Corporation'
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -745,6 +772,8 @@ describe('Integration: Component / frost-bunsen-detail / renderer / link', funct
           }
         }
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {

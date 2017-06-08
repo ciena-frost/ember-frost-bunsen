@@ -12,6 +12,40 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-array-c
 
 const {keys} = Object
 
+/**
+ * Finds the index of an item in an array based on the bunsen ID's of the item and its containing array
+ *
+ * @param {String} arrayId Bunsen ID of the array
+ * @param {String} itemId Bunsen ID of the item in the array
+ * @returns {String} Index of array item (as a string)
+ */
+function itemIndex (arrayId, itemId) {
+  return itemId.slice(arrayId.length + 1).split('.')[0]
+}
+
+/**
+ * Recursively clears empty objects based on a path
+ *
+ * @param {Object} object Hash containing object
+ * @param {String[]} path Array of path segments to the desired value to clear
+ * @param {Number} pathIndex Index of the path segment to use as a key
+ * @returns {Boolean} True if a key was deleted from the passed in object
+ */
+function clearSubObject (object, path, pathIndex) {
+  const key = path[pathIndex]
+  if (path.length < pathIndex + 2) {
+    delete object[key]
+    return true
+  }
+  const subObj = object[key]
+  const didClear = clearSubObject(subObj, path, pathIndex + 1)
+  if (didClear && keys(subObj).length <= 0) {
+    delete object[key]
+    return true
+  }
+  return false
+}
+
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
@@ -103,16 +137,26 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenModel', 'cellConfig', 'inline', 'items')
-  showAddButton (bunsenModel, cellConfig, inline, items) {
-    const maxItems = this.get('bunsenModel.maxItems')
-
+  @computed('bunsenModel', 'cellConfig', 'inline', 'maxItemsReached')
+  showAddButton (bunsenModel, cellConfig, inline, maxItemsReached) {
     // If we've reached max items don't allow more to be added
-    if (maxItems && maxItems <= items.length) {
+    if (maxItemsReached) {
+      return false
+    }
+    if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems && bunsenModel.tuple) {
       return false
     }
 
     return inline && !get(cellConfig, 'arrayOptions.autoAdd')
+  },
+
+  @readOnly
+  @computed('bunsenModel.maxItems', 'value', 'bunsenId')
+  maxItemsReached (maxItems, value, bunsenId) {
+    if (value && maxItems) {
+      return get(value, bunsenId).length >= maxItems
+    }
+    return false
   },
 
   @readOnly
@@ -131,13 +175,37 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('bunsenId', 'readOnly', 'value')
-  items (bunsenId, readOnly, value) {
+  @computed('bunsenModel')
+  itemsModel (model) {
+    const itemModels = model.items
+    if (Array.isArray(itemModels) && model.tuple) {
+      return model.additionalItems
+    }
+  },
+  @readOnly
+  @computed('bunsenId', 'readOnly', 'value', 'bunsenModel', 'cellConfig.arrayOptions.itemCell')
+  /* eslint-disable complexity*/
+  items (bunsenId, readOnly, value, bunsenModel, cellConfig) {
+    const itemModels = bunsenModel.items
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
 
     const items = get(value || {}, bunsenId) || []
+
+    let getModel, getCellConfig
+
+    if (Array.isArray(bunsenModel.items)) {
+      getModel = (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
+    } else {
+      getModel = () => bunsenModel.items
+    }
+
+    if (Array.isArray(cellConfig)) {
+      getCellConfig = (item, index) => cellConfig[index] || cellConfig[cellConfig.length - 1] || {}
+    } else {
+      getCellConfig = () => cellConfig || {}
+    }
 
     if (
       readOnly !== true &&
@@ -145,15 +213,42 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     ) {
       items.push(this._getEmptyItem())
     }
+    const makeItem = (item, index) => {
+      const model = getModel(item, index)
+      const cellConfig = getCellConfig(item, index)
+      return {model, cellConfig}
+    }
+    if (Array.isArray(itemModels) && bunsenModel.tuple) {
+      return A(_.map(items.slice(itemModels.length), makeItem))
+    }
+    return A(_.map(items, makeItem))
+  },
+  /* eslint-enable complexity*/
 
-    return A(items)
+  @readOnly
+  @computed('bunsenId', 'bunsenModel', 'value')
+  startingIndex (bunsenId, bunsenModel, value) {
+    const items = bunsenModel.items
+    if (Array.isArray(items) && bunsenModel.tuple) {
+      return items.length
+    }
+    return 0
+  },
+
+  @readOnly
+  @computed('bunsenModel')
+  tupleItems (model) {
+    if (Array.isArray(model.items) && model.tuple) {
+      return model.items
+    }
   },
 
   // == Functions ==============================================================
 
   /* eslint-disable complexity */
-  _getEmptyItem () {
-    const type = this.get('bunsenModel.items.type')
+  _getEmptyItem (model) {
+    const type = model ? model.type
+      : this.get('bunsenModel.items.type') || this.get('bunsenModel.additionalItems.type')
 
     switch (type) {
       case 'array':
@@ -205,29 +300,16 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
       // If property is nested further down clear it and remove any empty parent items
       } else {
-        let relativeObject = get(itemCopy, itemPathBits)
-        delete relativeObject[key]
-        bunsenId = bunsenId.replace(`.${key}`, '')
-
-        while (itemPathBits.length > 0) {
-          key = itemPathBits.pop()
-          relativeObject = get(itemCopy, itemPathBits, itemCopy)
-          const parentObject = relativeObject[key]
-
-          if (keys(parentObject).length === 0) {
-            delete relativeObject[key]
-            bunsenId = bunsenId.replace(`.${key}`, '')
-          }
-        }
+        clearSubObject(itemCopy, itemPathBits, 0)
       }
 
       if (keys(itemCopy).length === 0) {
         this.send('removeItem', itemIndex)
         return
       }
-
-      const relativePath = bunsenId.replace(itemPath, '').replace(/^\./, '')
-      value = get(itemCopy, relativePath, itemCopy)
+      const subPathLen = itemPath.length === 0 ? 0 : itemPath.length + 1
+      const relativePath = bunsenId.slice(subPathLen)
+      value = get(itemCopy, relativePath)
     }
 
     this.onChange(bunsenId, value)
@@ -243,7 +325,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       this.send('removeItem', itemIndex)
       return
     }
-
     this.onChange(bunsenId, value)
   },
 
@@ -295,6 +376,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     this.set('formValue', newValue)
   },
 
+  itemType (itemId) {
+    return this.get('bunsenModel.items.type') ||
+      this.get(`bunsenModel.items.${itemIndex(this.get('bunsenId'), itemId)}.type`) ||
+      this.get('bunsenModel.additionalItems.type')
+  },
+
   // == Actions ================================================================
 
   actions: {
@@ -306,7 +393,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       const newItem = this._getEmptyItem()
       const value = this.get('value')
       const items = get(value || {}, bunsenId) || []
-      const index = items.length
+      const index = Math.max(items.length, this.get('bunsenModel.items.length') || 0)
 
       this.onChange(`${bunsenId}.${index}`, newItem)
     },
@@ -314,7 +401,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     /* eslint-disable complexity */
     handleChange (bunsenId, value) {
       const autoAdd = this.get('cellConfig.arrayOptions.autoAdd')
-      const type = this.get('bunsenModel.items.type')
+      const type = this.itemType(bunsenId)
 
       switch (type) {
         case 'array':

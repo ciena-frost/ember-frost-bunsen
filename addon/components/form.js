@@ -39,6 +39,7 @@ export default DetailComponent.extend({
       PropTypes.object
     ]),
     showAllErrors: PropTypes.bool,
+    validateOnVisibilityChange: PropTypes.bool,
     validators: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -50,13 +51,13 @@ export default DetailComponent.extend({
   getDefaultProps () {
     return {
       autofocus: true,
-      classNames: ['frost-bunsen-form'],
       disabled: false,
       hook: 'bunsenForm',
       inputValidators: [],
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
+      validateOnVisibilityChange: true,
       validators: [],
       value: null
     }
@@ -77,7 +78,8 @@ export default DetailComponent.extend({
 
   _onVisiblityChange (e) {
     // Nothing to do when page/tab loses visiblity
-    if (e.target.hidden) {
+    // or skip if disabled
+    if (e.target.hidden || !this.get('validateOnVisibilityChange')) {
       return
     }
 
@@ -85,6 +87,14 @@ export default DetailComponent.extend({
   },
 
   // == Events =================================================================
+
+  init () {
+    this._super(...arguments)
+    // Note: we must set class names explicitly in the init to remove the
+    // frost-bunsen-detail class which we automatically get courtesy of
+    // inheritance and Ember concatenated properties
+    this.set('classNames', ['frost-bunsen-form'])
+  },
 
   didInsertElement () {
     this._visibilityChangeHandler = this._onVisiblityChange.bind(this)

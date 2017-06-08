@@ -1,7 +1,6 @@
 import Ember from 'ember'
 const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
-import _ from 'lodash'
 
 const {keys} = Object
 
@@ -33,7 +32,8 @@ export const builtInRenderers = {
   string: 'frost-bunsen-input-text',
   table: 'frost-bunsen-input-table',
   textarea: 'frost-bunsen-input-textarea',
-  url: 'frost-bunsen-input-url'
+  url: 'frost-bunsen-input-url',
+  when: 'frost-bunsen-input-when'
 }
 
 /* eslint-disable complexity */
@@ -80,7 +80,8 @@ export function generateLabelFromModel (model) {
  */
 export function generateFacetCell (facet) {
   const cell = {
-    model: facet.model
+    model: facet.model,
+    hideLabel: true
   }
 
   if (facet.renderer) {
@@ -141,10 +142,10 @@ export function generateFacetView (facets) {
  */
 export function getMergedConfig (cellConfig, cellDefinitions) {
   if (!cellConfig.extends) {
-    return _.cloneDeep(cellConfig)
+    return cellConfig
   }
 
-  const superCell = getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions)
+  const superCell = Object.assign({}, getMergedConfig(cellDefinitions[cellConfig.extends], cellDefinitions))
   const mergedConfig = merge(superCell, cellConfig)
 
   delete mergedConfig.extends
@@ -158,25 +159,68 @@ export function getMergedConfig (cellConfig, cellDefinitions) {
  * @param {Object<String, BunsenCell>} cellDefinitions - list of cell definitions
  * @returns {BunsenCell} merged cell definition
  */
+/* eslint-disable complexity */
 export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
-  const mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
+  let mergedConfig = getMergedConfig(cellConfig, cellDefinitions)
 
   // recursive object case
   if (mergedConfig.children) {
-    const mergedChildConfigs = []
-    mergedConfig.children.forEach((childConfig) => {
-      mergedChildConfigs.push(getMergedConfigRecursive(childConfig, cellDefinitions))
+    let childrenChanged = false
+    const children = mergedConfig.children.map((childConfig) => {
+      const mergedConfig = getMergedConfigRecursive(childConfig, cellDefinitions)
+      if (mergedConfig === childConfig) {
+        childrenChanged = true
+      }
+      return Object.assign({}, mergedConfig)
     })
-    mergedConfig.children = mergedChildConfigs
+
+    if (childrenChanged) {
+      mergedConfig = Object.assign({}, mergedConfig, {children})
+    }
   }
 
   // recursive array case
-  if (mergedConfig.arrayOptions && mergedConfig.arrayOptions.itemCell) {
-    mergedConfig.arrayOptions.itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+  if (mergedConfig.arrayOptions) {
+    if (mergedConfig.arrayOptions.itemCell) {
+      let itemCell
+      let itemCellChanged = false
+      if (Array.isArray(itemCell)) {
+        itemCell = mergedConfig.arrayOptions.itemCell.map((itemCell) => {
+          const mergedConfig = getMergedConfigRecursive(itemCell, cellDefinitions)
+          if (itemCell !== mergedConfig) {
+            itemCellChanged = true
+          }
+          return Object.mergedConfig
+        })
+      } else {
+        itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)
+        itemCellChanged = itemCell !== mergedConfig.arrayOptions.itemCell
+      }
+
+      if (itemCellChanged) {
+        const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {itemCell})
+        mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+      }
+    }
+    if (mergedConfig.arrayOptions.tupleCells) {
+      let tupleCellChanged = false
+      const tupleCells = mergedConfig.arrayOptions.tupleCells.map((tupleCell) => {
+        const mergedConfig = getMergedConfigRecursive(tupleCell, cellDefinitions)
+        if (tupleCell !== mergedConfig) {
+          tupleCellChanged = true
+        }
+        return mergedConfig
+      })
+      if (tupleCellChanged) {
+        const arrayOptions = Object.assign({}, mergedConfig.arrayOptions, {tupleCells})
+        mergedConfig = Object.assign({}, mergedConfig, {arrayOptions})
+      }
+    }
   }
 
   return mergedConfig
 }
+/* eslint-enable complexity */
 
 /**
  * Determine if model is registered with Ember Data
@@ -273,6 +317,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
 
   // If the view cell doesn't contain children we can just determine if the model property is required
   if (!cell.children) {
+    if (!cell.model) return false
     return isChildRequiredToSubmitForm(cell.model, bunsenModel, value, parentRequired)
   }
 

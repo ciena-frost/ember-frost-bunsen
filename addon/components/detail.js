@@ -3,6 +3,7 @@ import {
   generateView,
   normalizeView,
   reducer,
+  utils,
   validateModel,
   validateView,
   viewV1ToV2
@@ -15,10 +16,11 @@ const {
   validate
 } = actions
 
+const {getSubModel} = utils
+
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, get, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, get, getOwner, isEmpty, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import getOwner from 'ember-getowner-polyfill'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 import SpreadMixin from 'ember-spread'
@@ -97,6 +99,7 @@ function v2View (bunsenView) {
 export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
+  classNames: ['frost-bunsen-detail'],
   layout,
 
   // == State Properties =======================================================
@@ -130,7 +133,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail'],
       disabled: false,
       hook: 'bunsenDetail',
       inputValidators: [],
@@ -155,23 +157,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
-   * @param {BunsenView} bunsenView - the view to use (if given)
+   * @param {BunsenView} view - the view to use (if given)
    * @returns {BunsenView} the view to render
    */
-  renderView (model, bunsenView) {
-    if (isEmpty(bunsenView) || keys(bunsenView).length === 0) {
-      return generateView(model)
-    }
-
-    if (bunsenView.version === '1.0') {
-      bunsenView = v2View(bunsenView)
-    } else if (typeOf(bunsenView.get) === 'function' && bunsenView.get('view') === '1.0') {
-      bunsenView = v2View(deemberify(bunsenView))
-    } else {
-      bunsenView = _.cloneDeep(bunsenView)
-    }
-
-    return normalizeView(bunsenView)
+  renderView (model, view) {
+    return this.getRenderView(model, view)
   },
 
   /**
@@ -181,35 +171,44 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Object} cellConfigs with  precomputed model dependencies
    */
   @readOnly
-  @computed('renderView.cells', 'renderView.cellDefinitions')
-  precomputedCellConfig (cells, cellDefinitions) {
-    let cellConfigs = cells.map(cell => getMergedConfigRecursive(cell, cellDefinitions))
-    cellConfigs.forEach((cellConfig) => {
+  @computed('renderModel', 'renderView.{cellDefinitions,cells}')
+  precomputedCells (bunsenModel, cellDefinitions, cells) {
+    return cells.map((cell) => {
+      const cellConfig = getMergedConfigRecursive(cell, cellDefinitions)
+
       this.precomputeIds(cellConfig)
       this.precomputeDependencies(cellConfig)
-    })
 
-    return cellConfigs
+      let subModel = bunsenModel
+      if (cell.model) subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn)
+
+      return {
+        bunsenModel: subModel,
+        cellConfig
+      }
+    })
   },
 
   @readOnly
-  @computed('precomputedCellConfig')
+  @computed('precomputedCells')
   cellTabs (cells) {
     // If there is only one cell then we don't need to render tabs
     if (cells.length === 1) {
       return A([])
     }
 
-    const tabs = cells.map((cell, index) => {
-      const alias = getAlias(cell)
+    const tabs = cells.map(({bunsenModel, cellConfig, isRequired}, index) => {
+      const alias = getAlias(cellConfig)
 
       // Since label is used for tab text don't render a label within tab as well
-      delete cell.label
+      delete cellConfig.label
 
       return {
         alias,
-        cell,
+        bunsenModel,
+        cell: cellConfig,
         id: `${index}-${Date.now()}`,
+        isRequired,
         classNames: Ember.String.dasherize(alias)
       }
     })
@@ -231,6 +230,118 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   // == Functions ==============================================================
+
+  /* eslint-disable complexity */
+  /**
+   * Apply updates from redux store
+   * @param {String} lastAction - last action that occurred in the redux store
+   * @param {Object} newProps - new component property values to apply
+   * @param {Object} validationResult - latest validation result
+   * @param {Object} value - latest form value
+   */
+  applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
+    if (Object.keys(newProps).length !== 0) {
+      const model = newProps.renderModel || this.get('renderModel')
+      const view = newProps.view ? this.getRenderView(model, newProps.view) : this.get('renderView')
+
+      Object.assign(newProps, this.validateSchemas(model, view))
+
+      // Update component properties with newer state from redux store.
+      this.setProperties(newProps)
+    }
+
+    // If the value changed inform consumer of the new form value. This occurs
+    // when defaults are applied within the redux store.
+    if ('renderValue' in newProps && this.onChange) {
+      const valueWithoutInternalState = value.without('_internal')
+      this.onChange(valueWithoutInternalState)
+    }
+
+    // If the last action that occurred in the redux store was validation then
+    // inform consumer of latest validation results.
+    if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
+      this.onValidation(validationResult)
+    }
+  },
+  /* eslint-enable complexity */
+
+  /**
+   * Batches the changes in a change-set so multiple updates to a change-set
+   * don't override each other in a a single run loop
+   * @param {Map} changeSet - the changeSet to merge with the batched version
+   * @returns {Map} the newly updated batched change-sets
+   */
+  batchChanges (changeSet) {
+    let batchedChangeSet = this.get('batchedChangeSet')
+
+    if (!batchedChangeSet) {
+      batchedChangeSet = new Map()
+
+      this.set('batchedChangeSet', batchedChangeSet)
+    }
+
+    changeSet.forEach((value, key) => {
+      batchedChangeSet.set(key, value)
+    })
+
+    run.schedule('afterRender', () => {
+      if (this.isDestroyed || this.isDestroying) return
+      this.set('batchedChangeSet', null)
+    })
+
+    return batchedChangeSet
+  },
+
+  /**
+   * Pass new model into redux store
+   * @param {BunsenModel} model - new model
+   */
+  dispatchModel (model) {
+    this.get('reduxStore').dispatch(changeModel(model))
+  },
+
+  /**
+   * Pass new view into redux store
+   * @param {BunsenView} view - new view
+   */
+  dispatchView (view) {
+    this.get('reduxStore').dispatch(changeView(view))
+  },
+
+  /**
+   * Get the view to render (generate one if consumer doesn't supply a view)
+   * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
+   * @param {BunsenView} view - the view to use (if given)
+   * @returns {BunsenView} the view to render
+   */
+  getRenderView (model, view) {
+    if (isEmpty(view) || keys(view).length === 0) {
+      return generateView(model)
+    }
+
+    if (view.version === '1.0') {
+      view = v2View(view)
+    } else if (typeOf(view.get) === 'function' && view.get('version') === '1.0') {
+      view = v2View(deemberify(view))
+    } else {
+      view = _.cloneDeep(view)
+    }
+
+    return normalizeView(view)
+  },
+
+  /**
+   * Inform renderers that registered to be notified of form value changes of
+   * new form value.
+   * @param {Object} value - new form value
+   */
+  informRenderersOfFormValueChange (value) {
+    this.get('registeredComponents')
+      .forEach((component) => {
+        if (component.isDestroyed || component.isDestroying) return
+        component.formValueChanged(value)
+      })
+  },
 
   /* eslint-disable complexity */
   /**
@@ -314,38 +425,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   /**
-   * Batches the changes in a change-set so multiple updates to a change-set
-   * don't override each other in a a single run loop
-   * @param {Map} changeSet - the changeSet to merge with the batched version
-   * @returns {Map} the newly updated batched change-sets
-   */
-  batchChanges (changeSet) {
-    let batchedChangeSet = this.get('batchedChangeSet')
-
-    if (!batchedChangeSet) {
-      batchedChangeSet = new Map()
-
-      this.set('batchedChangeSet', batchedChangeSet)
-    }
-
-    changeSet.forEach((value, key) => {
-      batchedChangeSet.set(key, value)
-    })
-
-    run.schedule('afterRender', () => {
-      this.set('batchedChangeSet', null)
-    })
-
-    return batchedChangeSet
-  },
-
-  /**
    * Keep UI in sync with updates to redux store
    */
   storeUpdated () {
-    if (this.isDestroyed || this.isDestroying) {
-      return
-    }
+    if (this.isDestroyed || this.isDestroying) return
 
     const state = this.get('reduxStore').getState()
     const {errors, lastAction, validationResult, value, valueChangeSet} = state
@@ -359,6 +442,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (!_.isEqual(this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
     }
+
     if (!_.isEqual(this.get('view'), state.view)) {
       newProps.view = state.view
     }
@@ -368,23 +452,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
       newProps.valueChangeSet = this.batchChanges(valueChangeSet)
-
-      this.get('registeredComponents').forEach((component) => {
-        if (!component.isDestroyed && !component.isDestroying) {
-          component.formValueChanged(value)
-        }
-      })
+      this.informRenderersOfFormValueChange(value)
     }
 
-    this.setProperties(newProps)
-
-    if ('renderValue' in newProps && this.onChange) {
-      this.onChange(value)
-    }
-
-    if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
-      this.onValidation(validationResult)
-    }
+    this.applyStoreUpdate({lastAction, newProps, validationResult, value})
   },
   /* eslint-enable complexity */
 
@@ -394,47 +465,67 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   init () {
     this._super(...arguments)
 
+    // Get initial value passed in by consumer
     const value = this.get('value')
+
+    // Make sure value is a POJO (Converting Ember.Object's to POJO's)
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
+
+    // Create redux store and initialze with starting state
     const reduxStore = createStoreWithMiddleware(reducer, {
       baseModel: this.get('bunsenModel'),
       baseView: this.get('bunsenView'),
       value: plainObjectValue
     })
 
-    this.set('reduxStore', reduxStore)
-    this.set('renderModel', reduxStore.getState().model)
+    // Make sure we have a reference to the store as well as the processed model
+    // from the store.
+    this.setProperties({
+      reduxStore,
+      renderModel: reduxStore.getState().model
+    })
+
+    // Subscribe for redux store updates (so we can react to changes)
     reduxStore.subscribe(this.storeUpdated.bind(this))
   },
 
   /**
-   * Validate properties
-   * @param {Object} bunsenModel - a deemberified bunsenModel
+   * Validate schemas
+   * @param {BunsenModel} model - bunsen model
+   * @param {BunsenView} view - bunsen view
+   * @returns {Object} validation results
    */
-  validateProps (bunsenModel) {
-    let invalidSchemaType = 'model'
-    const renderers = this.get('renderers') || {}
-
-    let result = validateModel(bunsenModel, isRegisteredEmberDataModel)
-    this.get('reduxStore').dispatch(changeModel(bunsenModel))
-    const view = this.get('renderView')
-
-    if (result.errors.length === 0) {
-      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
-      invalidSchemaType = 'view'
-      result = validateView(
-        view,
-        bunsenModel,
-        keys(renderers),
-        validateRendererFn,
-        isRegisteredEmberDataModel
-      )
+  validateSchemas (model, view) {
+    const props = {
+      invalidSchemaType: 'model',
+      propValidationResult: validateModel(model, isRegisteredEmberDataModel)
     }
 
-    this.setProperties({
-      invalidSchemaType,
-      propValidationResult: result
+    // If model is valid then lets go ahead and validate the view
+    if (props.propValidationResult.errors.length === 0) {
+      const renderers = this.get('renderers') || {}
+      const validateRendererFn = validateRenderer.bind(null, getOwner(this))
+
+      Object.assign(props, {
+        invalidSchemaType: 'view',
+        propValidationResult: validateView(
+          view,
+          model,
+          keys(renderers),
+          validateRendererFn,
+          isRegisteredEmberDataModel
+        )
+      })
+    }
+
+    // Make sure we aren't updating things that haven't actually changed
+    Object.keys(props).forEach((key) => {
+      if (_.isEqual(props[key], this.get('key'))) {
+        delete props[key]
+      }
     })
+
+    return props
   },
 
   /* eslint-disable complexity */
@@ -499,6 +590,19 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   },
 
   /**
+   * Update selected tab
+   */
+  updateSelectedTab () {
+    let selectedTabLabel = this.get('selectedTabLabel')
+    if (selectedTabLabel === undefined) return
+
+    const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+    if (selectedTab === undefined) return
+
+    this.set('selectedTabIndex', selectedTab.id)
+  },
+
+  /**
    * Keep value in sync with store and validate properties
    */
   didReceiveAttrs ({newAttrs, oldAttrs}) {
@@ -512,7 +616,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
-    const doesUserValueMatchStoreValue = _.isEqual(plainObjectValue, reduxStoreValue)
     const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
@@ -525,8 +628,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     // If the user/consumer has provided a value and it differs from the current store value
     // then we need to update the store to be the user/consumer supplied value
-    if (hasUserProvidedValue && !doesUserValueMatchStoreValue) {
-      dispatchValue = plainObjectValue
+    if (hasUserProvidedValue) {
+      const reduxStoreValueWithoutInternal = Object.assign({}, reduxStoreValue)
+      delete reduxStoreValueWithoutInternal._internal
+
+      if (!_.isEqual(plainObjectValue, reduxStoreValueWithoutInternal)) {
+        dispatchValue = plainObjectValue
+      }
     }
 
     // If we have a new value to assign the store then let's get to it
@@ -534,28 +642,21 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       reduxStore.dispatch(
         validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all)
       )
-    } else {
-      if (hasModelChanged) {
-        reduxStore.dispatch(
-          validate(null, value, newBunsenModel, allValidators, RSVP.all)
-        )
-      }
+    } else if (hasModelChanged) {
+      reduxStore.dispatch(
+        validate(null, value, newBunsenModel, allValidators, RSVP.all)
+      )
     }
+
     if (hasViewChanged) {
-      this.get('reduxStore').dispatch(changeView(newView))
+      this.dispatchView(newView)
     }
 
     if (hasModelChanged || hasViewChanged) {
-      this.validateProps(newBunsenModel)
+      this.dispatchModel(newBunsenModel)
     }
 
-    let selectedTabLabel = this.get('selectedTabLabel')
-    if (selectedTabLabel !== undefined) {
-      const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
-      if (selectedTab !== undefined) {
-        this.set('selectedTabIndex', selectedTab.id)
-      }
-    }
+    this.updateSelectedTab()
   },
   /* eslint-enable complexity */
 
