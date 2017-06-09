@@ -9,8 +9,5 @@
     "showdown": "1.5.1",
     "sinonjs": "1.17.1",
     "clockpicker-seconds": "~0.1.6"
-  },
-  "resolutions": {
-    "route-recognizer": "^0.2.3"
   }
 }
