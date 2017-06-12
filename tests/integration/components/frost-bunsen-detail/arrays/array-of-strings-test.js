@@ -165,6 +165,21 @@ describe('Integration: Component / frost-bunsen-detail / array of strings', func
       expectCollapsibleHandles(0, 'bunsenDetail')
 
       const $static = this.$(selectors.bunsen.renderer.static)
+      const value = this.get('value')
+
+      expect(
+        $static,
+        'renders a bunsen static input for each array item'
+      )
+        .to.have.length(2)
+
+      $static.each((index, el) => {
+        expect(
+          el.textContent.includes(value.foo[index]),
+          'has the correct values'
+        )
+          .to.equal(true)
+      })
 
       expect(
         $static,
@@ -221,12 +236,21 @@ describe('Integration: Component / frost-bunsen-detail / array of strings', func
         expectCollapsibleHandles(0, 'bunsenDetail')
 
         const $static = this.$(selectors.bunsen.renderer.static)
+        const value = this.get('value')
 
         expect(
           $static,
           'renders a bunsen static input for each array item'
         )
           .to.have.length(2)
+
+        $static.each((index, el) => {
+          expect(
+            el.textContent.includes(value.foo[index]),
+            'has the correct values'
+          )
+            .to.equal(true)
+        })
 
         expect(
           this.$(selectors.bunsen.array.sort.handle),
@@ -278,12 +302,21 @@ describe('Integration: Component / frost-bunsen-detail / array of strings', func
         expectCollapsibleHandles(0, 'bunsenDetail')
 
         const $static = this.$(selectors.bunsen.renderer.static)
+        const value = this.get('value')
 
         expect(
           $static,
           'renders a bunsen static input for each array item'
         )
           .to.have.length(2)
+
+        $static.each((index, el) => {
+          expect(
+            el.textContent.includes(value.foo[index]),
+            'has the correct values'
+          )
+            .to.equal(true)
+        })
 
         expect(
           this.$(selectors.bunsen.array.sort.handle),

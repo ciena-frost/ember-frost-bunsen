@@ -920,12 +920,22 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
 
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
+      const $inputs = this.$(selectors.bunsen.renderer.text)
+      const value = this.get('value')
 
       expect(
-        this.$(selectors.bunsen.renderer.text),
+        $inputs,
         'renders a bunsen text input for each array item'
       )
         .to.have.length(2)
+
+      $inputs.each((index, el) => {
+        expect(
+          el.getElementsByTagName('input')[0].value,
+          'has the correct values'
+        )
+          .to.equal(value.foo[index])
+      })
 
       expect(
         findTextInputs({
@@ -979,12 +989,22 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
 
       it('renders as expected', function () {
         expectCollapsibleHandles(0)
+        const $inputs = this.$(selectors.bunsen.renderer.text)
+        const value = this.get('value')
 
         expect(
-          this.$(selectors.bunsen.renderer.text),
+          $inputs,
           'renders a bunsen text input for each array item'
         )
           .to.have.length(2)
+
+        $inputs.each((index, el) => {
+          expect(
+            el.getElementsByTagName('input')[0].value,
+            'has the correct values'
+          )
+            .to.equal(value.foo[index])
+        })
 
         expect(
           findTextInputs({

@@ -1,3 +1,7 @@
+# 14.32.1 (2017-06-09)
+- added a fix to arrays per @agonza40 and updated tests to ensure the values are actually shown
+
+
 # 14.32.0 (2017-06-06)
 * **Added** validateOnVisibilityChange property to allow disabling of form validation after losing/regaining focus of the page
 * **Fixed** select documentation formatting

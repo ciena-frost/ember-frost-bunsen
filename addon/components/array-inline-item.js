@@ -72,7 +72,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('errors')
   errorMessage (errors) {
-    const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
+    const bunsenId = this.get('bunsenId')
 
     if (typeOf(errors) !== 'object' || isEmpty(errors[bunsenId])) {
       return null
@@ -84,7 +84,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('value', 'cellConfig.model')
   renderValue (value, model) {
-    const bunsenId = `${this.get('bunsenId')}.${this.get('index')}`
+    const bunsenId = this.get('bunsenId')
 
     if (typeOf(value) !== 'object') {
       return undefined
