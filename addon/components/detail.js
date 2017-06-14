@@ -9,6 +9,8 @@ import {
   viewV1ToV2
 } from 'bunsen-core'
 
+import {clearInternals} from 'bunsen-core/utils'
+
 const {
   CHANGE_VALUE,
   changeModel,
@@ -31,6 +33,7 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
   deemberify,
+  findInternalValues,
   getMergedConfigRecursive,
   isRegisteredEmberDataModel,
   validateRenderer
@@ -171,8 +174,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Object} cellConfigs with  precomputed model dependencies
    */
   @readOnly
-  @computed('renderModel', 'renderView.{cellDefinitions,cells}')
-  precomputedCells (bunsenModel, cellDefinitions, cells) {
+  @computed('renderModel', 'view')
+  precomputedCells (bunsenModel, view) {
+    const {cellDefinitions, cells} = this.getRenderView(bunsenModel, view)
     return cells.map((cell) => {
       const cellConfig = getMergedConfigRecursive(cell, cellDefinitions)
 
@@ -242,7 +246,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
     if (Object.keys(newProps).length !== 0) {
       const model = newProps.renderModel || this.get('renderModel')
-      const view = newProps.view ? this.getRenderView(model, newProps.view) : this.get('renderView')
+      const view = newProps.view
+        ? this.getRenderView(model, newProps.view)
+        : this.getRenderView(model, this.get('view'))
 
       Object.assign(newProps, this.validateSchemas(model, view))
 
@@ -253,7 +259,8 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     // If the value changed inform consumer of the new form value. This occurs
     // when defaults are applied within the redux store.
     if ('renderValue' in newProps && this.onChange) {
-      const valueWithoutInternalState = value.without('_internal')
+      const internalPaths = findInternalValues(value)
+      const valueWithoutInternalState = value.without(internalPaths)
       this.onChange(valueWithoutInternalState)
     }
 
@@ -630,7 +637,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     // then we need to update the store to be the user/consumer supplied value
     if (hasUserProvidedValue) {
       const reduxStoreValueWithoutInternal = Object.assign({}, reduxStoreValue)
-      delete reduxStoreValueWithoutInternal._internal
+      clearInternals(reduxStoreValueWithoutInternal)
 
       if (!_.isEqual(plainObjectValue, reduxStoreValueWithoutInternal)) {
         dispatchValue = plainObjectValue

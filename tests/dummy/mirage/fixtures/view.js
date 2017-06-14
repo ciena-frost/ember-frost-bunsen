@@ -144,11 +144,18 @@ export default [
     label: 'Simple (Transforms)',
     modelIds: ['simple'],
     view: views.simpleTransforms
-  }, {
+  },
+  {
     id: 'simple-with-conditionals',
     label: 'Simple (Conditionals)',
     modelIds: ['simple'],
     view: views.simpleWithConditionals
+  },
+  {
+    id: 'simple-with-internal-models',
+    label: 'Simple (Internal Models)',
+    modelIds: ['simple'],
+    view: views.simpleWithInternalModels
   },
   {
     id: 'wedding-application-2-column',
