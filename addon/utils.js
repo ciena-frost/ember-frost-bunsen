@@ -419,14 +419,14 @@ export function findInternalValues (val) {
       if (key === '_internal') {
         return key
       }
-      if (['boolean', 'number', 'string', 'undefined', 'null'].indexOf(typeof item) !== -1) {
+      if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof item)) {
         return
       }
       const subPaths = findInternalValues(item)
       if (subPaths.length <= 0) {
         return
       }
-      return _.map(subPaths, function (subPath) {
+      return subPaths.map(function (subPath) {
         return `${key}.${subPath}`
       })
     })
