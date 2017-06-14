@@ -1,3 +1,9 @@
+# 14.32.2 (2017-06-14)
+**Changed** model expansions and internal models to take effect in nested objects.
+**Added** support for internal models within arrays.
+
+
+
 # 14.32.1 (2017-06-09)
 - added a fix to arrays per @agonza40 and updated tests to ensure the values are actually shown
 
