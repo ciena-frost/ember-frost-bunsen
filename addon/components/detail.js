@@ -246,7 +246,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
     if (Object.keys(newProps).length !== 0) {
       const model = newProps.renderModel || this.get('renderModel')
-      const view = newProps.view ? this.getRenderView(model, newProps.view) : this.getRenderView(model, this.get('view'))
+      const view = newProps.view
+        ? this.getRenderView(model, newProps.view)
+        : this.getRenderView(model, this.get('view'))
 
       Object.assign(newProps, this.validateSchemas(model, view))
 
