@@ -23,6 +23,7 @@ import simpleCustom from './simple-custom'
 import simpleGrouping from './simple-grouping'
 import simpleTransforms from './simple-transforms'
 import simpleWithConditionals from './simple-with-conditionals'
+import simpleWithInternalModels from './simple-with-internal-models'
 import weddingApplication2Column from './wedding-application-2-column'
 
 export default {
@@ -51,5 +52,6 @@ export default {
   simpleGrouping,
   simpleTransforms,
   simpleWithConditionals,
+  simpleWithInternalModels,
   weddingApplication2Column
 }

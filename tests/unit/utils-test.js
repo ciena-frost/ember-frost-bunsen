@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import {
+  findInternalValues,
   generateFacetCell,
   generateFacetView,
   generateLabelFromModel,
@@ -453,6 +454,82 @@ describe('bunsen-utils', function () {
     it('returns true when the path is valid', function () {
       expect(isModelPathValid('foo', bunsenModel)).to.equal(true)
       expect(isModelPathValid('foo.bar', bunsenModel)).to.equal(true)
+    })
+  })
+
+  describe('findInternalValues', function () {
+    it('returns an empty array when there are no internal values', function () {
+      const value = {
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        }
+      }
+      const internals = findInternalValues(value)
+      expect(internals).to.eql([])
+    })
+    it('finds internal values at the top level', function () {
+      const value = {
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        },
+        _internal: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        }
+      }
+      const internals = findInternalValues(value)
+      expect(internals).to.eql(['_internal'])
+    })
+    it('finds internal values at the deeper levels', function () {
+      const value = {
+        foo: {
+          bar: {
+            baz: {
+              _internal: {
+                bar: {
+                  baz: {},
+                  quux: {}
+                }
+              }
+            },
+            quux: {
+              _internal: {
+                bar: {
+                  baz: {},
+                  quux: {}
+                }
+              }
+            },
+            _internal: {
+              bar: {
+                baz: {},
+                quux: {}
+              }
+            }
+          },
+          _internal: {
+            bar: {
+              baz: {},
+              quux: {}
+            }
+          }
+        }
+      }
+      const internals = findInternalValues(value)
+      expect(internals).to.eql([
+        'foo.bar.baz._internal',
+        'foo.bar.quux._internal',
+        'foo.bar._internal',
+        'foo._internal'
+      ])
     })
   })
 })

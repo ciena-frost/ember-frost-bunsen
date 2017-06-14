@@ -1,6 +1,7 @@
 import Ember from 'ember'
 const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
+import _ from 'lodash'
 
 const {keys} = Object
 
@@ -403,4 +404,33 @@ export function isModelPathValid (path, bunsenModel) {
   }
 
   return Boolean(bunsenModel)
+}
+
+/**
+ * Aggregates paths to internal model values.
+ *
+ * @export
+ * @param {any} val Value to check for internal values
+ * @returns {String[]} List of strings that are paths to internal values
+ */
+export function findInternalValues (val) {
+  return _.chain(val)
+    .map(function (item, key) {
+      if (key === '_internal') {
+        return key
+      }
+      if (['boolean', 'number', 'string', 'undefined', 'null'].indexOf(typeof item) !== -1) {
+        return
+      }
+      const subPaths = findInternalValues(item)
+      if (subPaths.length <= 0) {
+        return
+      }
+      return _.map(subPaths, function (subPath) {
+        return `${key}.${subPath}`
+      })
+    })
+    .filter()
+    .flatten()
+    .value()
 }
