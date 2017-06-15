@@ -26,7 +26,7 @@ const extraHeroPojoIdAsString = {
   title: 'Wonder Woman'
 }
 
-describe.only('Unit: list-utils', function () {
+describe('Unit: list-utils', function () {
   let sandbox
 
   beforeEach(function () {
