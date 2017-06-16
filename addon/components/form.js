@@ -13,6 +13,7 @@ const isGlimmer1 = major < 2 || (major === 2 && minor < 10)
 export default DetailComponent.extend({
   // == Component Properties ===================================================
 
+  classNames: ['frost-bunsen-form'],
   layout,
 
   // == State Properties =======================================================
