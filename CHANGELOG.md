@@ -1,3 +1,8 @@
+# 14.23.4 (2017-06-16)
+
+* **Fixes** the merge build.
+
+
 # 14.23.2 (2017-04-07)
 
 * **Fixed** boolean renderer to put label to right of checkbox.
