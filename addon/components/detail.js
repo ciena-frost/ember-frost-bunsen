@@ -96,7 +96,7 @@ function v2View (bunsenView) {
 
 export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
-
+  classNames: ['frost-bunsen-detail'],
   layout,
 
   // == State Properties =======================================================
@@ -130,7 +130,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   getDefaultProps () {
     return {
-      classNames: ['frost-bunsen-detail'],
       disabled: false,
       hook: 'bunsenDetail',
       inputValidators: [],

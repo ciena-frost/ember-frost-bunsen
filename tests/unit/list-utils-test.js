@@ -644,9 +644,13 @@ describe('Unit: list-utils', function () {
     beforeEach(function () {
       heroes = A(heroPojos.map((hero) => Ember.Object.create(hero)))
       extraHero = Ember.Object.create(extraHeroPojo)
-      value = {universe: 'DC', heroSecret: 42}
+      value = {
+        heroes: [{
+          universe: 'DC', heroSecret: 42
+        }]
+      }
       data = []
-      bunsenId = 'heroSecret'
+      bunsenId = 'heroes.0.heroSecret'
       store = {
         findRecord: sandbox.stub(),
         query: sandbox.stub()
@@ -663,7 +667,7 @@ describe('Unit: list-utils', function () {
           valueAttribute: 'secret',
           query: {
             booleanFlag: true,
-            universe: '${../universe}'
+            universe: '${./universe}'
           }
         }
       })
@@ -863,7 +867,7 @@ describe('Unit: list-utils', function () {
           valueAttribute: 'id',
           query: {
             booleanFlag: true,
-            universe: '${../universe}'
+            universe: '${./universe}'
           },
           queryForCurrentValue: true
         }
@@ -1103,7 +1107,11 @@ describe('Unit: list-utils', function () {
     describe('when queryForCurrentValue is true and ID is a string', function () {
       beforeEach(function () {
         let newHero = Ember.Object.create(extraHeroPojoIdAsString)
-        value = {universe: 'DC', heroSecret: '16977f3d-120f-3d4d-b573-e8bf77a330ac'}
+        value = {
+          heroes: [{
+            universe: 'DC', heroSecret: '16977f3d-120f-3d4d-b573-e8bf77a330ac'
+          }]
+        }
         store.query.returns(RSVP.resolve(heroes))
         store.findRecord.returns(RSVP.resolve(newHero))
         filter = ''
@@ -1113,7 +1121,7 @@ describe('Unit: list-utils', function () {
           valueAttribute: 'id',
           query: {
             booleanFlag: true,
-            universe: '${../universe}'
+            universe: '${./universe}'
           },
           queryForCurrentValue: true
         }
@@ -1317,7 +1325,7 @@ describe('Unit: list-utils', function () {
 
       it('calls store.query with empty query when no query is provided', function (done) {
         getOptions({
-          bunsenId: '',
+          bunsenId: 'foo',
           data,
           options: modelDef,
           store,
@@ -1334,7 +1342,7 @@ describe('Unit: list-utils', function () {
           label: 'labelName'
         }
         getOptions({
-          bunsenId: '',
+          bunsenId: 'foo',
           data,
           options: modelDef,
           store,
