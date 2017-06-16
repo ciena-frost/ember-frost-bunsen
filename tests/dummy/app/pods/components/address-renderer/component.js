@@ -11,10 +11,10 @@ export default AbstractInput.extend({
   placeholder: '1383 North McDowell Blvd., Suite 300\nPetaluma, CA 94954',
 
   @readOnly
-  @computed('bunsenId', 'value')
+  @computed('bunsenId')
   renderValue (bunsenId) {
     let value = ''
-    const address = this.get(`value.${bunsenId}`)
+    const address = this.get(`value.${bunsenId}`) || {}
 
     if (address.street) {
       value += address.street
