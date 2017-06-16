@@ -13,7 +13,6 @@ const isGlimmer1 = major < 2 || (major === 2 && minor < 10)
 export default DetailComponent.extend({
   // == Component Properties ===================================================
 
-  classNames: ['frost-bunsen-form'],
   layout,
 
   // == State Properties =======================================================
@@ -63,6 +62,13 @@ export default DetailComponent.extend({
   },
 
   // == Functions ==============================================================
+
+  init () {
+    this._super(...arguments)
+    const classNames = this.get('classNames').filter((className) => className !== 'frost-bunsen-detail')
+    // prevent frost-bunsen-detail from being applied through inheritance but allow overrides on the template
+    this.set('classNames', classNames)
+  },
 
   triggerValidation () {
     const model = this.get('renderModel')
