@@ -1,3 +1,7 @@
+# 14.32.3 (2017-06-17)
+**Fixed** how BunsenModelPath handles appending string paths using dot notation. This was causing internal models to be added to the wrong spot in the bunsen model if the cell defining the internal model used dot notation.
+
+
 # 14.32.2 (2017-06-14)
 **Changed** model expansions and internal models to take effect in nested objects.
 **Added** support for internal models within arrays.
