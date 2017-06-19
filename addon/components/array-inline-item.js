@@ -49,7 +49,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
-
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {

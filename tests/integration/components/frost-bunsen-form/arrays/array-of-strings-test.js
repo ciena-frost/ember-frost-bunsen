@@ -1335,7 +1335,7 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
     })
   })
   describe('allows custom renderers on items', function () {
-    const ctx = setupFormComponentTest({
+    setupFormComponentTest({
       bunsenModel: {
         properties: {
           foo: {
