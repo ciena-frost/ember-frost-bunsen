@@ -1,3 +1,7 @@
+# 14.32.4 (2017-06-19)
+**Fixed** custom renderers in arrays as part of the `itemCell` configuration. 
+
+
 # 14.32.3 (2017-06-17)
 **Fixed** how BunsenModelPath handles appending string paths using dot notation. This was causing internal models to be added to the wrong spot in the bunsen model if the cell defining the internal model used dot notation.
 
