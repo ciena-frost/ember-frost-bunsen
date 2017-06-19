@@ -138,7 +138,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
 export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
-  const valueAsId = value[bunsenId]
+  const valueAsId = get(value, bunsenId)
   const actuallyFindCurrentValue = queryForCurrentValue && !!valueAsId
 
   const query = getQuery({
