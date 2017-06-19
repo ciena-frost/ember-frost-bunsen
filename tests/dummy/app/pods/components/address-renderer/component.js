@@ -2,6 +2,27 @@ import computed, {readOnly} from 'ember-computed-decorators'
 
 import {AbstractInput} from 'ember-frost-bunsen'
 
+function formatAddress ({street, city, state, zip}) {
+  let value = ''
+  if (street) {
+    value += street
+  }
+
+  value += '\n'
+
+  if (city) {
+    value += city
+  }
+
+  if (state) {
+    value += `, ${state}`
+  }
+
+  if (zip) {
+    value += ` ${zip}`
+  }
+  return value
+}
 export default AbstractInput.extend({
   clasNames: [
     'address-renderer',
@@ -11,29 +32,10 @@ export default AbstractInput.extend({
   placeholder: '1383 North McDowell Blvd., Suite 300\nPetaluma, CA 94954',
 
   @readOnly
-  @computed('bunsenId', 'value')
+  @computed('bunsenId')
   renderValue (bunsenId) {
-    let value = ''
-    const address = this.get(`value.${bunsenId}`)
-
-    if (address.street) {
-      value += address.street
-    }
-
-    value += '\n'
-
-    if (address.city) {
-      value += address.city
-    }
-
-    if (address.state) {
-      value += `, ${address.state}`
-    }
-
-    if (address.zip) {
-      value += ` ${address.zip}`
-    }
-
+    const address = this.get(`value.${bunsenId}`) || {}
+    const value = formatAddress(address)
     return value.trim()
   },
 

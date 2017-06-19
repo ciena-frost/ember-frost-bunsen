@@ -49,20 +49,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
-  // == Computed Properties ====================================================
-
-  @readOnly
-  @computed('cellConfig', 'renderers')
-  /**
-   * Get name of component for custom renderer
-   * @param {Object} cellConfig - cell config
-   * @returns {String} name of custom renderer component
-   */
-  customRenderer (cellConfig) {
-    const renderer = get(cellConfig, 'arrayOptions.itemCell.renderer.name')
-    return this.get(`renderers.${renderer}`)
-  },
-
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {

@@ -283,7 +283,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig.model', 'children')
   isLeafNode (model, children) {
-    return model && !children
+    return !children
   },
 
   @readOnly

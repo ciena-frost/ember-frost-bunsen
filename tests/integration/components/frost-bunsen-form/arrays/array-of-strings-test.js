@@ -1334,4 +1334,49 @@ describe('Integration: Component / frost-bunsen-form / array of strings', functi
       })
     })
   })
+  describe('allows custom renderers on items', function () {
+    setupFormComponentTest({
+      bunsenModel: {
+        properties: {
+          foo: {
+            items: {
+              type: 'string'
+            },
+            type: 'array'
+          },
+          bar: {
+            items: {
+              type: 'string'
+            },
+            type: 'array'
+          }
+        },
+        type: 'object'
+      },
+      bunsenView: {
+        type: 'form',
+        version: '2.0',
+        cells: [{
+          model: 'foo',
+          arrayOptions: {
+            itemCell: {
+              renderer: {
+                name: 'select',
+                recordsPath: 'bar'
+              }
+            }
+          }
+        }, {
+          model: 'bar'
+        }]
+      },
+      value: {
+        foo: ['string 1', 'string 2', 'string 3'],
+        bar: ['string 1', 'string 2', 'string 3']
+      }
+    })
+    it('such as the select renderer', function () {
+      expect(this.$('.frost-select')).to.have.length(3)
+    })
+  })
 })

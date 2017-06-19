@@ -18,28 +18,7 @@
   }}
 {{/if}}
 <div class='frost-bunsen-item-input'>
-  {{#if cellConfig.renderer}}
-    {{component customRenderer
-      bunsenId=renderId
-      bunsenModel=renderModel
-      bunsenView=bunsenView
-      cellConfig=cellConfig
-      formDisabled=formDisabled
-      hook=hook
-      label=label
-      onChange=onChange
-      onError=onError
-      readOnly=readOnly
-      registerForFormValueChanges=registerForFormValueChanges
-      registerValidator=registerValidator
-      renderers=renderers
-      showAllErrors=showAllErrors
-      triggerValidation=triggerValidation
-      unregisterForFormValueChanges=unregisterForFormValueChanges
-      value=value
-      valueChangeSet=valueChangeSet
-    }}
-  {{else if (eq renderModel.type 'array')}}
+  {{#if (eq renderModel.type 'array')}}
     {{frost-bunsen-array-container
       bunsenId=renderId
       bunsenModel=renderModel
