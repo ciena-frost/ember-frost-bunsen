@@ -212,14 +212,6 @@ export default {
           model: 'details.0.flowSettings.0.ingressPolicer'
         },
         {
-          /*
-          renderer: {
-            name: 'filter-profile'
-          },
-          */
-          renderer: {
-            name: 'filter-profile'
-          },
           label: 'Filter profile',
           model: 'details.0.flowSettings.0.filter'
         },
