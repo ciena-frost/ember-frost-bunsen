@@ -1,3 +1,13 @@
+# 14.32.6 (2017-06-20)
+**Fixed** issue where tabs would jump to back to the first tab when an array is added to.
+
+
+# 14.32.5 (2017-06-19)
+
+* **Fixed** a bug with the queryForCurrentValue select option which assumed the id was at the top level of the form's value.
+* **Fixed** `components/form.js` to allow extension of `classNames` rather than hard-setting it to only one class name.
+
+
 # 14.32.4 (2017-06-19)
 **Fixed** custom renderers in arrays as part of the `itemCell` configuration. 
 

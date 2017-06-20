@@ -223,8 +223,8 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellTabs', 'selectedTabIndex')
   tabSelection (cellTabs, selectedTabIndex) {
-    const selectedTab = cellTabs.findBy('id', selectedTabIndex)
-    return selectedTab ? selectedTabIndex : cellTabs.get('0.id')
+    const selectedTab = cellTabs[selectedTabIndex]
+    return selectedTab ? selectedTab.id : cellTabs.get('0.id')
   },
 
   @readOnly
@@ -603,10 +603,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     let selectedTabLabel = this.get('selectedTabLabel')
     if (selectedTabLabel === undefined) return
 
-    const selectedTab = this.get('cellTabs').findBy('alias', selectedTabLabel)
+    const selectedTab = this.get('cellTabs').findIndex((item) => item.alias === selectedTabLabel)
     if (selectedTab === undefined) return
 
-    this.set('selectedTabIndex', selectedTab.id)
+    this.set('selectedTabIndex', selectedTab)
   },
 
   /**
@@ -691,14 +691,15 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     /**
      * Change selected tab/root cell
-     * @param {Number} tabIndex - index of root cell corresponding to tab
+     * @param {String} tabId - index of root cell corresponding to tab
      */
-    handleTabChange (tabIndex) {
+    handleTabChange (tabId) {
+      const cellTabs = this.get('cellTabs')
+      const tabIndex = cellTabs.findIndex((tab) => tab.id === tabId)
       this.set('selectedTabIndex', tabIndex)
 
       if (this.onTabChange) {
-        const cellTabs = this.get('cellTabs')
-        const selectedTab = cellTabs.findBy('id', tabIndex)
+        const selectedTab = cellTabs[tabIndex]
 
         this.onTabChange(selectedTab.alias)
       }
