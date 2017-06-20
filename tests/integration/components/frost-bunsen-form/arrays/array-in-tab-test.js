@@ -105,12 +105,12 @@ describe('Integration: Component / frost-bunsen-form / array in tab', function (
       value: {}
     })
     it('does not jump tabs', function () {
-      return wait(200).then(() => {
+      return wait().then(() => {
         this.$('.frost-tab button').last().click()
-        return wait(200)
+        return wait()
       }).then(() => {
         this.$('.frost-bunsen-array-container button').click()
-        return wait(200)
+        return wait()
       }).then(() => {
         this.$('.frost-bunsen-array-container button')
         expect(this.$('.frost-bunsen-array-container')).to.have.length(1)
