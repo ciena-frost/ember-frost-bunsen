@@ -1,3 +1,8 @@
+# 14.32.9 (2017-06-21)
+
+* **Fixed** an issue where view schema would have validation errors if it referenced a field that did not have its condition met.
+
+
 # 14.32.8 (2017-06-21)
 
 * **Fixes** a bug in the select renderer not displaying a label when the model enum has 0
