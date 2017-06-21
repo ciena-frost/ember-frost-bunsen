@@ -1,3 +1,14 @@
+# 14.32.8 (2017-06-21)
+
+* **Fixes** a bug in the select renderer not displaying a label when the model enum has 0
+
+
+# 14.32.7 (2017-06-21)
+
+* **Updated** to use [bunsen-core@0.30.13](https://github.com/ciena-blueplanet/bunsen-core/pull/112)
+* **Fixed** the evc example
+
+
 # 14.32.6 (2017-06-20)
 **Fixed** issue where tabs would jump to back to the first tab when an array is added to.
 
