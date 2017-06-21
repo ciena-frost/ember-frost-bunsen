@@ -110,6 +110,10 @@ describe('Integration: Component / frost-bunsen-form / condition', function () {
         )
           .to.have.length(0)
       })
+
+      it('has no validation errors', function () {
+        expect(this.$('.frost-bunsen-validation-result')).to.have.length(0)
+      })
     })
   })
 
@@ -196,6 +200,10 @@ describe('Integration: Component / frost-bunsen-form / condition', function () {
           'does not render any text input'
         )
           .to.have.length(0)
+      })
+
+      it('has no validation errors', function () {
+        expect(this.$('.frost-bunsen-validation-result')).to.have.length(0)
       })
     })
   })

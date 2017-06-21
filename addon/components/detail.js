@@ -246,11 +246,12 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
     if (Object.keys(newProps).length !== 0) {
       const model = newProps.renderModel || this.get('renderModel')
+      const baseModel = newProps.baseModel || this.get('baseModel')
       const view = newProps.view
         ? this.getRenderView(model, newProps.view)
         : this.getRenderView(model, this.get('view'))
 
-      Object.assign(newProps, this.validateSchemas(model, view))
+      Object.assign(newProps, this.validateSchemas(baseModel, model, view))
 
       // Update component properties with newer state from redux store.
       this.setProperties(newProps)
@@ -448,6 +449,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     if (!_.isEqual(this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
+      newProps.baseModel = state.baseModel
     }
 
     if (!_.isEqual(this.get('view'), state.view)) {
@@ -485,11 +487,14 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       value: plainObjectValue
     })
 
+    const {baseModel, model: renderModel} = reduxStore.getState()
+
     // Make sure we have a reference to the store as well as the processed model
     // from the store.
     this.setProperties({
       reduxStore,
-      renderModel: reduxStore.getState().model
+      renderModel,
+      baseModel
     })
 
     // Subscribe for redux store updates (so we can react to changes)
@@ -498,11 +503,12 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   /**
    * Validate schemas
+   * @param {BunsenModel} baseModel - bunsen model before conditions are evaluated
    * @param {BunsenModel} model - bunsen model
    * @param {BunsenView} view - bunsen view
    * @returns {Object} validation results
    */
-  validateSchemas (model, view) {
+  validateSchemas (baseModel, model, view) {
     const props = {
       invalidSchemaType: 'model',
       propValidationResult: validateModel(model, isRegisteredEmberDataModel)
@@ -517,7 +523,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         invalidSchemaType: 'view',
         propValidationResult: validateView(
           view,
-          model,
+          baseModel,
           keys(renderers),
           validateRendererFn,
           isRegisteredEmberDataModel
