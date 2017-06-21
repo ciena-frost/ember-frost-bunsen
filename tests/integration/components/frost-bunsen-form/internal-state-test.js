@@ -1,14 +1,26 @@
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
 import wait from 'ember-test-helpers/wait'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTestWithSelectOutlet} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-form / internal state', function () {
+  let onChangeValue
   setupFormComponentTestWithSelectOutlet({
+    value: {
+      more: {
+        nickName: 'slim',
+        _internal: {
+          yearsExperience: 4
+        }
+      }
+    },
+    onChange: function (val) {
+      onChangeValue = val
+    },
     bunsenModel: {
       properties: {
         _internal: {
@@ -25,6 +37,22 @@ describe('Integration: Component / frost-bunsen-form / internal state', function
         },
         lang: {
           type: 'string'
+        },
+        more: {
+          type: 'object',
+          properties: {
+            nickName: {
+              type: 'string'
+            },
+            _internal: {
+              type: 'object',
+              properties: {
+                yearsExperience: {
+                  type: 'number'
+                }
+              }
+            }
+          }
         }
       },
       type: 'object'
@@ -75,6 +103,9 @@ describe('Integration: Component / frost-bunsen-form / internal state', function
                 ],
                 name: 'select'
               }
+            },
+            {
+              model: 'more._internal.yearsExperience'
             }
           ]
         }
@@ -82,6 +113,9 @@ describe('Integration: Component / frost-bunsen-form / internal state', function
       type: 'form',
       version: '2.0'
     }
+  })
+  afterEach(function () {
+    onChangeValue = undefined
   })
 
   it('renders as expected', function () {
@@ -124,6 +158,11 @@ describe('Integration: Component / frost-bunsen-form / internal state', function
         expectSelectWithState($hook('bunsenForm-lang').find('.frost-select'), {
           text: ''
         })
+      })
+
+      it('removes internal properties from the value provided to the "onChange" callback', function () {
+        expect(onChangeValue._internal).to.equal(undefined)
+        expect(onChangeValue.more._internal).to.equal(undefined)
       })
 
       describe('when language select expanded/opened', function () {

@@ -2,13 +2,13 @@ import {expect} from 'chai'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import {
-  findInternalValues,
   generateFacetCell,
   generateFacetView,
   generateLabelFromModel,
   isModelPathValid,
   isRegisteredEmberDataModel,
-  isRequired
+  isRequired,
+  removeInternalValues
 } from 'ember-frost-bunsen/utils'
 
 describe('bunsen-utils', function () {
@@ -457,8 +457,8 @@ describe('bunsen-utils', function () {
     })
   })
 
-  describe('findInternalValues', function () {
-    it('returns an empty array when there are no internal values', function () {
+  describe('removeInternalValues', function () {
+    it('returns an equal object when there are no internal values', function () {
       const value = {
         foo: {
           bar: {
@@ -467,10 +467,17 @@ describe('bunsen-utils', function () {
           }
         }
       }
-      const internals = findInternalValues(value)
-      expect(internals).to.eql([])
+      const withoutInternals = removeInternalValues(value)
+      expect(withoutInternals).to.eql({
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        }
+      })
     })
-    it('finds internal values at the top level', function () {
+    it('finds and removes internal values at the top level', function () {
       const value = {
         foo: {
           bar: {
@@ -485,10 +492,17 @@ describe('bunsen-utils', function () {
           }
         }
       }
-      const internals = findInternalValues(value)
-      expect(internals).to.eql(['_internal'])
+      const internals = removeInternalValues(value)
+      expect(internals).to.eql({
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        }
+      })
     })
-    it('finds internal values at the deeper levels', function () {
+    it('finds and removes internal values at the deeper levels', function () {
       const value = {
         foo: {
           bar: {
@@ -523,13 +537,15 @@ describe('bunsen-utils', function () {
           }
         }
       }
-      const internals = findInternalValues(value)
-      expect(internals).to.eql([
-        'foo.bar.baz._internal',
-        'foo.bar.quux._internal',
-        'foo.bar._internal',
-        'foo._internal'
-      ])
+      const internals = removeInternalValues(value)
+      expect(internals).to.eql({
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          }
+        }
+      })
     })
   })
 })

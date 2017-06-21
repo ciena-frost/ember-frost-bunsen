@@ -2,6 +2,7 @@ import Ember from 'ember'
 const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
 import _ from 'lodash'
+import immutable from 'seamless-immutable'
 
 const {keys} = Object
 
@@ -407,30 +408,55 @@ export function isModelPathValid (path, bunsenModel) {
 }
 
 /**
- * Aggregates paths to internal model values.
+ * Removes nested _internal keys from an object
+ *
+ * @param {Object} withoutInternal Object to remove nested _internal keys from
+ * @returns {Object} Copy of the object with no _internal keys
+ */
+function removeChildInternals (withoutInternal) {
+  return _.chain(withoutInternal)
+    .map((item, key) => {
+      const withoutInternal = removeInternalValues(item)
+      if (withoutInternal !== undefined && withoutInternal !== item) {
+        return [key, withoutInternal]
+      }
+    })
+    .filter()
+    .fromPairs()
+    .value()
+}
+
+/**
+ * Removes internal model values.
  *
  * @export
  * @param {any} val Value to check for internal values
- * @returns {String[]} List of strings that are paths to internal values
+ * @returns {any} The value with any _internal properties removed
  */
-export function findInternalValues (val) {
-  return _.chain(val)
-    .map(function (item, key) {
-      if (key === '_internal') {
-        return key
-      }
-      if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof item)) {
-        return
-      }
-      const subPaths = findInternalValues(item)
-      if (subPaths.length <= 0) {
-        return
-      }
-      return subPaths.map(function (subPath) {
-        return `${key}.${subPath}`
-      })
+export function removeInternalValues (val) {
+  if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof val)) {
+    return val
+  }
+
+  if (!Array.isArray(val)) {
+    let withoutInternal
+    if (immutable.isImmutable(val)) {
+      withoutInternal = val.without('_internal')
+      const childrenWithoutInternals = removeChildInternals(withoutInternal)
+      return withoutInternal.merge(childrenWithoutInternals)
+    }
+
+    if (val._internal !== undefined) {
+      withoutInternal = Object.assign({}, val)
+      delete withoutInternal._internal
+    } else {
+      withoutInternal = val
+    }
+    const childrenWithoutInternals = removeChildInternals(withoutInternal)
+    return Object.assign(withoutInternal, childrenWithoutInternals)
+  } else {
+    return val.map((item) => {
+      return removeInternalValues(item)
     })
-    .filter()
-    .flatten()
-    .value()
+  }
 }
