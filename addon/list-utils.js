@@ -72,7 +72,7 @@ export function getEnumValues (values = [], filter = '') {
   const filteredValues = []
   values.filter((value) => {
     if (!filter || value.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
-      filteredValues.push({label: value, value})
+      filteredValues.push({label: value.toString(), value})
     }
   })
   return filteredValues
