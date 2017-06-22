@@ -456,3 +456,12 @@ form > div > .frost-bunsen-section {
   padding-top: 0;
   border-top: 0;
 }
+
+.frost-bunsen-input-when {
+  .frost-radio-button {
+    label {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

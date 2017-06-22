@@ -156,7 +156,6 @@ export default AbstractInput.extend({
       $(this).prop('disabled', state)
     })
   },
-
   // == Actions ===============================================================
 
   actions: {
@@ -167,22 +166,24 @@ export default AbstractInput.extend({
      * @returns {undefined}
      */
     selectedButton (event) {
+      const value = event.target.value
       const firstButtonValue = this.get('firstButtonValue')
-
-      // Set which button is selected.
-      // Needed because clicking in the date-time-picker changes the event object.
-      if (event.target.value === DATE_VALUE || event.target.value === firstButtonValue) {
-        this.set('selectedValue', event.target.value)
-      }
 
       // Set the bunsen model to the value of the selected button
       this.onChange(
         this.get('bunsenId'),
-        (event.target.value === firstButtonValue) ? firstButtonValue : this.get('storedDateTimeValue')
+        (value === firstButtonValue) ? firstButtonValue : (
+          (value === DATE_VALUE) ? this.get('storedDateTimeValue') : moment(value).format(this.get('dateTimeFormat'))
+        )
       )
 
-      // Disable the date-time-picker when it's radio button is not selected
-      this._setDisabled(event.target.value === firstButtonValue)
+      // If the value of the button did not change for an existing value we don't want to track it
+      if (value === firstButtonValue || value === DATE_VALUE) {
+        this.set('selectedValue', value)
+
+        // Disable the date-time-picker when it's radio button is not selected
+        this._setDisabled(value === firstButtonValue)
+      }
     },
 
     /**
@@ -192,7 +193,7 @@ export default AbstractInput.extend({
      * @returns {undefined}
      */
     selectDate (value) {
-      const datetime = value.format(this.get('dateTimeFormat'))
+      const datetime = moment(value).format(this.get('dateTimeFormat'))
 
       this.set('storedDateTimeValue', datetime)
       this.onChange(this.get('bunsenId'), datetime)

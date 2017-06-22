@@ -9,12 +9,12 @@
 <div class={{inputWrapperClassName}}>
   {{frost-date-picker
     class=valueClassName
-    currentValue=(readonly transformedValue)
+    value=(readonly currentValue)
     disabled=disabled
     hook=(concat hook '-datePicker')
     onFocusIn=(action 'hideErrorMessage')
     onFocusOut=(action 'showErrorMessage')
-    onSelect=(action 'handleChange')
+    onChange=(action 'handleChange')
     options=cellConfig.renderer.options
   }}
   {{frost-bunsen-description-bubble

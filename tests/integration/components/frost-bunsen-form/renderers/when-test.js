@@ -55,7 +55,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
   it('renders as expected', function () {
     expectCollapsibleHandles(0)
     expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-    expectOnValidationState(ctx, {count: 1})
+    expectOnValidationState(ctx, {count: 2})
   })
 
   it('should have an input for date and time', function () {
@@ -83,7 +83,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'FooBar Baz'})
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -108,7 +108,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders as expected', function () {
       expectCollapsibleHandles(1)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -133,7 +133,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -158,7 +158,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: null})
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -183,7 +183,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders as expected', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -211,7 +211,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         label: 'Foo',
         firstButtonLabel: 'BarBaz'
       })
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -239,14 +239,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         label: 'Foo',
         selectedButton: 'second'
       })
-      expectOnValidationState(ctx, {count: 3})
+      expectOnValidationState(ctx, {count: 5})
     })
 
     describe('when date is set', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-input')
+        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
         interactor.selectDate(new Date(2017, 0, 24))
         closePikaday(this)
       })
@@ -254,7 +254,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       it('functions as expected', function () {
         expectCollapsibleHandles(0)
         expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
-        expectOnValidationState(ctx, {count: 2})
+        expectOnValidationState(ctx, {count: 3})
       })
     })
 
@@ -265,7 +265,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       })
 
       it('functions as expected', function () {
-        expectClockpickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-time-input')
+        expectClockpickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-time-picker-input')
       })
     })
   })
@@ -296,7 +296,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       })
       selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 1})
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 4})
+      expectOnValidationState(ctx, {count: 6})
     })
   })
 
@@ -324,7 +324,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         label: 'Foo',
         firstButtonLabel: 'Test'
       })
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -352,7 +352,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         label: 'Foo',
         size: 'medium'
       })
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -377,10 +377,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders using provided dateFormat', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      const dateValue = $hook('bunsenForm-foo-radio-button-date-input').val()
+      const dateValue = $hook('bunsenForm-foo-radio-button-date-picker-input').val()
       const dateTest = /^\d{4}\s\d\d\s\d\d$/.test(dateValue)
       expect(dateTest).to.equal(true)
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
@@ -405,10 +405,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders using provided timeFormat', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      const timeFormat = $hook('bunsenForm-foo-radio-button-time-input').val()
+      const timeFormat = $hook('bunsenForm-foo-radio-button-time-picker-input').val()
       const timeTest = /^\d\d:\d\d$/.test(timeFormat)
       expect(timeTest).to.equal(true)
-      expectOnValidationState(ctx, {count: 2})
+      expectOnValidationState(ctx, {count: 4})
     })
   })
 
