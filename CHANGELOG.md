@@ -1,3 +1,8 @@
+# 14.32.10 (2017-06-22)
+**Fixed** removal of `_internal` properties for `onChange` handler.
+**Updated** bunsen-core to fix validation for deep internal properties
+
+
 # 14.32.9 (2017-06-21)
 
 * **Fixed** an issue where view schema would have validation errors if it referenced a field that did not have its condition met.
