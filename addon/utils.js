@@ -427,6 +427,21 @@ function removeChildInternals (withoutInternal) {
 }
 
 /**
+ * Merges properties from an object into another if the second object has enumerable properties
+ *
+ * @param {Object} first Object
+ * @param {Object} second Object with properties to merge into the first
+ * @returns {Object} The merged object if the second object has enumerable properties or the first
+ * object otherwise
+ */
+function maybeMerge (first, second) {
+  if (Object.keys(second).length > 0) {
+    return Object.assign({}, first, second) // don't mutate the object
+  }
+  return first
+}
+
+/**
  * Removes internal model values.
  *
  * @export
@@ -440,20 +455,21 @@ export function removeInternalValues (val) {
 
   if (!Array.isArray(val)) {
     let withoutInternal
+    let merge
+    let without
     if (immutable.isImmutable(val)) {
-      withoutInternal = val.without('_internal')
-      const childrenWithoutInternals = removeChildInternals(withoutInternal)
-      return withoutInternal.merge(childrenWithoutInternals)
-    }
-
-    if (val._internal !== undefined) {
-      withoutInternal = Object.assign({}, val)
-      delete withoutInternal._internal
+      merge = immutable.merge
+      without = immutable.without
+    } else if (val._internal !== undefined) {
+      merge = Object.assign
+      without = _.omit
     } else {
-      withoutInternal = val
+      merge = maybeMerge
+      without = _.identity
     }
+    withoutInternal = without(val, '_internal')
     const childrenWithoutInternals = removeChildInternals(withoutInternal)
-    return Object.assign(withoutInternal, childrenWithoutInternals)
+    return merge(withoutInternal, childrenWithoutInternals)
   } else {
     return val.map((item) => {
       return removeInternalValues(item)

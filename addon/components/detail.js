@@ -31,9 +31,9 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
   deemberify,
-  removeInternalValues,
   getMergedConfigRecursive,
   isRegisteredEmberDataModel,
+  removeInternalValues,
   validateRenderer
 } from '../utils'
 
