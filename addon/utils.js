@@ -2,6 +2,7 @@ import Ember from 'ember'
 const {get, merge, typeOf} = Ember
 import config from 'ember-get-config'
 import _ from 'lodash'
+import immutable from 'seamless-immutable'
 
 const {keys} = Object
 
@@ -407,30 +408,71 @@ export function isModelPathValid (path, bunsenModel) {
 }
 
 /**
- * Aggregates paths to internal model values.
+ * Removes nested _internal keys from an object
+ *
+ * @param {Object} withoutInternal Object to remove nested _internal keys from
+ * @returns {Object} Copy of the object with no _internal keys
+ */
+function removeChildInternals (withoutInternal) {
+  return _.chain(withoutInternal)
+    .map((item, key) => {
+      const withoutInternal = removeInternalValues(item)
+      if (withoutInternal !== undefined && withoutInternal !== item) {
+        return [key, withoutInternal]
+      }
+    })
+    .filter()
+    .fromPairs()
+    .value()
+}
+
+/**
+ * Merges properties from an object into another if the second object has enumerable properties
+ *
+ * @param {Object} first Object
+ * @param {Object} second Object with properties to merge into the first
+ * @returns {Object} The merged object if the second object has enumerable properties or the first
+ * object otherwise
+ */
+function maybeMerge (first, second) {
+  if (Object.keys(second).length > 0) {
+    return Object.assign({}, first, second) // don't mutate the object
+  }
+  return first
+}
+
+/**
+ * Removes internal model values.
  *
  * @export
  * @param {any} val Value to check for internal values
- * @returns {String[]} List of strings that are paths to internal values
+ * @returns {any} The value with any _internal properties removed
  */
-export function findInternalValues (val) {
-  return _.chain(val)
-    .map(function (item, key) {
-      if (key === '_internal') {
-        return key
-      }
-      if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof item)) {
-        return
-      }
-      const subPaths = findInternalValues(item)
-      if (subPaths.length <= 0) {
-        return
-      }
-      return subPaths.map(function (subPath) {
-        return `${key}.${subPath}`
-      })
+export function removeInternalValues (val) {
+  if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof val)) {
+    return val
+  }
+
+  if (!Array.isArray(val)) {
+    let withoutInternal
+    let merge
+    let without
+    if (immutable.isImmutable(val)) {
+      merge = immutable.merge
+      without = immutable.without
+    } else if (val._internal !== undefined) {
+      merge = Object.assign
+      without = _.omit
+    } else {
+      merge = maybeMerge
+      without = _.identity
+    }
+    withoutInternal = without(val, '_internal')
+    const childrenWithoutInternals = removeChildInternals(withoutInternal)
+    return merge(withoutInternal, childrenWithoutInternals)
+  } else {
+    return val.map((item) => {
+      return removeInternalValues(item)
     })
-    .filter()
-    .flatten()
-    .value()
+  }
 }

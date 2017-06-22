@@ -9,8 +9,6 @@ import {
   viewV1ToV2
 } from 'bunsen-core'
 
-import {clearInternals} from 'bunsen-core/utils'
-
 const {
   CHANGE_VALUE,
   changeModel,
@@ -33,9 +31,9 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
   deemberify,
-  findInternalValues,
   getMergedConfigRecursive,
   isRegisteredEmberDataModel,
+  removeInternalValues,
   validateRenderer
 } from '../utils'
 
@@ -260,8 +258,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     // If the value changed inform consumer of the new form value. This occurs
     // when defaults are applied within the redux store.
     if ('renderValue' in newProps && this.onChange) {
-      const internalPaths = findInternalValues(value)
-      const valueWithoutInternalState = value.without(internalPaths)
+      const valueWithoutInternalState = removeInternalValues(value)
       this.onChange(valueWithoutInternalState)
     }
 
@@ -642,10 +639,12 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     // If the user/consumer has provided a value and it differs from the current store value
     // then we need to update the store to be the user/consumer supplied value
     if (hasUserProvidedValue) {
-      const reduxStoreValueWithoutInternal = Object.assign({}, reduxStoreValue)
-      clearInternals(reduxStoreValueWithoutInternal)
-
-      if (!_.isEqual(plainObjectValue, reduxStoreValueWithoutInternal)) {
+      if (reduxStoreValue !== null) {
+        const reduxStoreValueWithoutInternal = removeInternalValues(reduxStoreValue)
+        if (!_.isEqual(plainObjectValue, reduxStoreValueWithoutInternal)) {
+          dispatchValue = plainObjectValue
+        }
+      } else {
         dispatchValue = plainObjectValue
       }
     }
