@@ -170,12 +170,16 @@ export default AbstractInput.extend({
       const firstButtonValue = this.get('firstButtonValue')
 
       // Set the bunsen model to the value of the selected button
-      this.onChange(
-        this.get('bunsenId'),
-        (value === firstButtonValue) ? firstButtonValue : (
-          (value === DATE_VALUE) ? this.get('storedDateTimeValue') : moment(value).format(this.get('dateTimeFormat'))
-        )
-      )
+      let newValue
+      if (value === firstButtonValue) {
+        newValue = firstButtonValue
+      } else if (value === DATE_VALUE) {
+        newValue = this.get('storedDateTimeValue')
+      } else {
+        newValue = moment(value).format(this.get('dateTimeFormat'))
+      }
+
+      this.onChange(this.get('bunsenId'), newValue)
 
       // If the value of the button did not change for an existing value we don't want to track it
       if (value === firstButtonValue || value === DATE_VALUE) {
