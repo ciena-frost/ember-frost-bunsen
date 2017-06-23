@@ -137,7 +137,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
  * @param {Boolean} keepCurrentValue determines whether we need to refetch for the current value
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, filter, keepCurrentValue}) {
+export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, filter, keepCurrentValue = true}) {
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = get(value, bunsenId)
