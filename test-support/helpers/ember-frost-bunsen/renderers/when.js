@@ -13,8 +13,8 @@ import {
  * Checks that the inputs for date and time are displaying correctly
  */
 export function expectDateTimeInputs () {
-  expect($hook('bunsenForm-foo-radio-button-date-input').length).to.equal(1)
-  expect($hook('bunsenForm-foo-radio-button-time-input').length).to.equal(1)
+  expect($hook('bunsenForm-foo-radio-button-date-picker-input').length).to.equal(1)
+  expect($hook('bunsenForm-foo-radio-button-time-picker-input').length).to.equal(1)
 }
 
 /**
@@ -39,7 +39,7 @@ function expectDisabledInput ($renderer, disabled) {
  */
 function expectRadioButtonState (hookName, selectedButton) {
   const radioButtonHook = `${hookName}-radio-group-button`
-  const radioButtonInputHook = `${hookName}-radio-button-date-input`
+  const radioButtonInputHook = `${hookName}-radio-button-date-picker-input`
 
   if (selectedButton === 'first') {
     expect(
