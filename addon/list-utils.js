@@ -25,7 +25,8 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
   const filteredData = data.filter((item) => filterRegex.test(item.label))
 
   if (options.modelType) {
-    return getItemsFromEmberData({value, modelDef: options, data: filteredData, bunsenId, store, filter, keepCurrentValue})
+    return getItemsFromEmberData(
+      {value, modelDef: options, data: filteredData, bunsenId, store, filter, keepCurrentValue})
   } else if (options.endpoint) {
     return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
   }
