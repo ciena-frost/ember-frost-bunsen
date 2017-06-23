@@ -12,20 +12,21 @@ const {keys} = Object
 
 /**
  * set a list's available options
- * @param  {String} bunsenId - the bunsen id for this property
- * @param  {Object[]} data - initializes the list with this
- * @param  {String} filter - the optional string to filter on
- * @param  {Object} options - the bunsen model definition
- * @param  {Object} store - the ember-data store
- * @param  {Object} value - the current value object for the form instance
+ * @param {String} bunsenId - the bunsen id for this property
+ * @param {Object[]} data - initializes the list with this
+ * @param {String} filter - the optional string to filter on
+ * @param {Object} options - the bunsen model definition
+ * @param {Object} store - the ember-data store
+ * @param {Object} value - the current value object for the form instance
+ * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value}) {
+export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value, keepCurrentValue}) {
   const filterRegex = new RegExp(filter, 'i')
   const filteredData = data.filter((item) => filterRegex.test(item.label))
 
   if (options.modelType) {
-    return getItemsFromEmberData(value, options, filteredData, bunsenId, store, filter)
+    return getItemsFromEmberData({value, modelDef: options, data: filteredData, bunsenId, store, filter, keepCurrentValue})
   } else if (options.endpoint) {
     return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
   } else if (options.recordsPath) {
@@ -127,19 +128,20 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
 
 /**
  * Fetch the list of network functions from the backend and set them
- * @param  {Object} value the bunsen value for this form
- * @param  {Object} modelDef the full bunsen model def for this property
- * @param  {Object[]} data initializes the list with this
- * @param  {Object} bunsenId the bunsenId for this form
- * @param  {Object} store the ember-data store
- * @param  {String} filter the partial match query filter to populate
+ * @param {Object} value the bunsen value for this form
+ * @param {Object} modelDef the full bunsen model def for this property
+ * @param {Object[]} data initializes the list with this
+ * @param {Object} bunsenId the bunsenId for this form
+ * @param {Object} store the ember-data store
+ * @param {String} filter the partial match query filter to populate
+ * @param {Boolean} keepCurrentValue determines whether we need to refetch for the current value
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getItemsFromEmberData (value, modelDef, data, bunsenId, store, filter) {
+export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, filter, keepCurrentValue}) {
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = get(value, bunsenId)
-  const actuallyFindCurrentValue = queryForCurrentValue && !!valueAsId
+  const actuallyFindCurrentValue = keepCurrentValue && queryForCurrentValue && valueAsId !== undefined
 
   const query = getQuery({
     bunsenId,
