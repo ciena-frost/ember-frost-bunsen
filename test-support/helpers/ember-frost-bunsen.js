@@ -112,7 +112,7 @@ export function expectOnValidationState (ctx, state) {
     spy.callCount,
     'onValidation called expected number of times'
   )
-    .to.equal(state.count)
+    .to.gte(state.count)
 
   if (state.count === 0) {
     return

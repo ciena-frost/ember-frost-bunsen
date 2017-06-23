@@ -1,7 +1,7 @@
 const blueprintHelper = require('ember-frost-core/blueprint-helper')
 
 const addonsToAdd = [
-  {name: 'ember-frost-date-picker', target: '^6.0.0'},
+  {name: 'ember-frost-date-picker', target: '^7.1.0'},
   {name: 'ember-frost-fields', target: '^4.0.0'},
   {name: 'ember-frost-table', target: '^1.0.0'}
 ]

@@ -70,8 +70,8 @@ export function expectWithState (bunsenId, state) {
  * Checks that the inputs for date and time are displaying correctly
  */
 export function expectDateTimeInputs () {
-  expect($hook('bunsenForm-foo-datetimePicker-date-input').length).to.equal(1)
-  expect($hook('bunsenForm-foo-datetimePicker-time-input').length).to.equal(1)
+  expect($hook('bunsenForm-foo-datetimePicker-date-picker-input').length).to.equal(1)
+  expect($hook('bunsenForm-foo-datetimePicker-time-picker-input').length).to.equal(1)
 }
 
 /**
