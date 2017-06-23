@@ -246,9 +246,10 @@ export default AbstractInput.extend({
       needsInitialItems
     ) {
       // clears any previous selection
-      if (!needsInitialItems) {
+      const bunsenId = this.get('bunsenId')
+      if (!needsInitialItems && get(oldValue, bunsenId) !== undefined) {
         run.next(() => {
-          this.onChange(this.get('bunsenId'), undefined)
+          this.onChange(bunsenId, undefined)
         })
       }
 

@@ -7,6 +7,8 @@ import sinon from 'sinon'
 import {returnPromiseWithArgs} from 'dummy/tests/helpers/ember-test-utils/ember-data'
 import utils from 'ember-frost-bunsen/list-utils'
 
+const {run} = Ember
+
 describe('Unit: frost-bunsen-input-select', function () {
   setupComponentTest('frost-bunsen-input-select', {
     unit: true
@@ -330,8 +332,8 @@ describe('Unit: frost-bunsen-input-select', function () {
       beforeEach(function () {
         sandbox.stub(utils, 'getOptions')
         returnPromiseWithArgs(utils.getOptions) // Make sure task does not complete
-        firstCall = component.get('updateItems').perform(component.get('formValue'))
-        secondCall = component.get('updateItems').perform(component.get('formValue'))
+        firstCall = component.get('updateItems').perform({value: component.get('formValue')})
+        secondCall = component.get('updateItems').perform({value: component.get('formValue')})
       })
 
       it('should only have one task running', function () {
@@ -344,6 +346,80 @@ describe('Unit: frost-bunsen-input-select', function () {
 
       it('should have second call running', function () {
         expect(secondCall.get('isRunning')).to.equal(true)
+      })
+    })
+  })
+
+  describe('formValueChanged', function () {
+    describe('when query references change', function () {
+      beforeEach(function () {
+        component.setProperties({
+          bunsenId: 'bar',
+          onChange: sandbox.stub(),
+          bunsenModel: {
+            query: {
+              foo: '${./foo}'
+            }
+          },
+          cellConfig: {
+            model: 'bar'
+          },
+          formValue: {
+            foo: 'value1'
+          },
+          updateItems: {
+            perform: sandbox.stub()
+          }
+        })
+      })
+
+      it('clears the selection when items are initialized and value is set', function (done) {
+        component.setProperties({
+          itemsInitialized: true,
+          formValue: {
+            foo: 'value1',
+            bar: 'value1'
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).to.have.been.calledWith('bar', undefined)
+          done()
+        })
+      })
+
+      it('does not clear the selection when items are not initialized', function (done) {
+        component.setProperties({
+          formValue: {
+            foo: 'value1',
+            bar: 'value1'
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          done()
+        })
+      })
+
+      it('does not clear selection when value is not set', function (done) {
+        component.setProperties({
+          itemsInitialized: true,
+          formValue: {
+            foo: 'value1'
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          done()
+        })
       })
     })
   })

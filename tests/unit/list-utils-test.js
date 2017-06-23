@@ -702,7 +702,7 @@ describe('Unit: list-utils', function () {
         let options, error
 
         beforeEach(function (done) {
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -743,7 +743,7 @@ describe('Unit: list-utils', function () {
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
 
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -786,7 +786,7 @@ describe('Unit: list-utils', function () {
           ]
           store.query.returns(RSVP.resolve(heroes))
 
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -814,7 +814,7 @@ describe('Unit: list-utils', function () {
           modelDef.modelType = 'busted'
           store.query.withArgs('busted', {booleanFlag: true, universe: 'DC'}).returns(RSVP.reject('Uh oh'))
           sandbox.stub(Logger, 'log')
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -846,7 +846,7 @@ describe('Unit: list-utils', function () {
           delete modelDef.query
           store.query.returns(RSVP.resolve(heroes))
 
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -903,7 +903,7 @@ describe('Unit: list-utils', function () {
         let options, error
 
         beforeEach(function (done) {
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -945,7 +945,7 @@ describe('Unit: list-utils', function () {
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
           filter = 'ark'
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -986,7 +986,7 @@ describe('Unit: list-utils', function () {
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
           filter = 'ato'
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1063,7 +1063,7 @@ describe('Unit: list-utils', function () {
           modelDef.modelType = 'busted'
           store.query.withArgs('busted', {booleanFlag: true, universe: 'DC'}).returns(RSVP.reject('Uh oh'))
           sandbox.stub(Logger, 'log')
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1093,7 +1093,7 @@ describe('Unit: list-utils', function () {
 
         beforeEach(function (done) {
           delete modelDef.query
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1126,7 +1126,35 @@ describe('Unit: list-utils', function () {
       })
     })
 
-    describe('when queryForCurrentValue is true and ID is a string', function () {
+    describe('when queryForCurrentValue is true and keepCurrentValue is false', function () {
+      beforeEach(function () {
+        value = {
+          heroes: [{
+            universe: 'DC', heroSecret: '16977f3d-120f-3d4d-b573-e8bf77a330ac'
+          }]
+        }
+        store.query.returns(RSVP.resolve(heroes))
+        filter = ''
+        modelDef = {
+          modelType: 'hero',
+          labelAttribute: 'name',
+          valueAttribute: 'id',
+          query: {
+            booleanFlag: true,
+            universe: '${./universe}'
+          },
+          queryForCurrentValue: true
+        }
+
+        return getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter, keepCurrentValue: false})
+      })
+
+      it('should not make a find record call', function () {
+        expect(store.findRecord).to.have.callCount(0)
+      })
+    })
+
+    describe('when queryForCurrentValue is true is a string', function () {
       beforeEach(function () {
         let newHero = Ember.Object.create(extraHeroPojoIdAsString)
         value = {
@@ -1153,7 +1181,7 @@ describe('Unit: list-utils', function () {
         let options, error
 
         beforeEach(function (done) {
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1195,7 +1223,7 @@ describe('Unit: list-utils', function () {
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
           filter = 'ark'
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1236,7 +1264,7 @@ describe('Unit: list-utils', function () {
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
           filter = 'won'
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
@@ -1356,7 +1384,7 @@ describe('Unit: list-utils', function () {
           options = data
           done()
         })
-        expect(store.query.calledWith('resource', {}))
+        expect(store.query).to.be.calledWith('resource', {})
       })
 
       it('calls story.query with supplied query when query is provided', function (done) {
@@ -1373,7 +1401,7 @@ describe('Unit: list-utils', function () {
           options = data
           done()
         })
-        expect(store.query.calledWith('resource', {label: 'labelName'}))
+        expect(store.query).to.be.calledWith('resource', {label: 'labelName'})
       })
     })
   })
