@@ -1,3 +1,9 @@
+# 14.23.7 (2017-06-23)
+
+* **Fixed** a regression in `select` which no longer cleared a selection when a select's query values changed.
+* **Fixed** a bug in `queryForCurrentValue` that merged old values into a new query result.
+
+
 # 14.23.6 (2017-06-23)
 * **Updated** `ember-frost-date-picker@^7.1.0`
 
