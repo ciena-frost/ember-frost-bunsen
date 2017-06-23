@@ -48,7 +48,7 @@ export default AbstractInput.extend({
   // == Functions ==============================================================
 
   parseValue (value) {
-    return moment(value).format(DATE_FORMAT)
+    return moment(value).format(DATE_TIME_FORMAT)
   },
 
   // == Actions ===============================================================
