@@ -1034,7 +1034,7 @@ describe('Unit: list-utils', function () {
           ]
           store.query.returns(RSVP.resolve(heroes))
 
-          getItemsFromEmberData(value, modelDef, data, bunsenId, store, filter)
+          getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
             })
