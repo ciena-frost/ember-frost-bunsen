@@ -12,12 +12,12 @@
 	<div class={{inputWrapperClassName}}>
 		{{frost-date-time-picker
 			hook=(concat hook '-datetimePicker')
-			currentValue=(readonly value)
+			value=(readonly currentValue)
 			defaultDate=(readonly date)
 			defaultTime=(readonly time)
 			onFocusIn=(action 'hideErrorMessage')
 			onFocusOut=(action 'showErrorMessage')
-			onSelect=(action 'handleChange')
+			onChange=(action 'handleChange')
 	    options=cellConfig.renderer.options
 		}}
 	</div>

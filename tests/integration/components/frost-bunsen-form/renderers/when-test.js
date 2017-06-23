@@ -246,7 +246,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-input')
+        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
         interactor.selectDate(new Date(2017, 0, 24))
         closePikaday(this)
       })
@@ -254,7 +254,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       it('functions as expected', function () {
         expectCollapsibleHandles(0)
         expectOnChangeStateDatetime(ctx, {foo: '2017-01-24'})
-        expectOnValidationState(ctx, {count: 2})
+        expectOnValidationState(ctx, {count: 3})
       })
     })
 
@@ -265,7 +265,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       })
 
       it('functions as expected', function () {
-        expectClockpickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-time-input')
+        expectClockpickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-time-picker-input')
       })
     })
   })
@@ -377,7 +377,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders using provided dateFormat', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      const dateValue = $hook('bunsenForm-foo-radio-button-date-input').val()
+      const dateValue = $hook('bunsenForm-foo-radio-button-date-picker-input').val()
       const dateTest = /^\d{4}\s\d\d\s\d\d$/.test(dateValue)
       expect(dateTest).to.equal(true)
       expectOnValidationState(ctx, {count: 2})
@@ -405,7 +405,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     it('renders using provided timeFormat', function () {
       expectCollapsibleHandles(0)
       expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      const timeFormat = $hook('bunsenForm-foo-radio-button-time-input').val()
+      const timeFormat = $hook('bunsenForm-foo-radio-button-time-picker-input').val()
       const timeTest = /^\d\d:\d\d$/.test(timeFormat)
       expect(timeTest).to.equal(true)
       expectOnValidationState(ctx, {count: 2})
