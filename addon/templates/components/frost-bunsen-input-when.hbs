@@ -28,12 +28,13 @@
       id=dateId
       hook=(concat hook '-radio-button')
       dateFormat=dateFormat
-      timeFormat=timeFormat
       defaultDate=(readonly date)
       defaultTime=(readonly time)
+      onChange=(action 'selectDate')
       onFocusIn=(action 'hideErrorMessage')
       onFocusOut=(action 'showErrorMessage')
-      onSelect=(action 'selectDate')
+      timeFormat=timeFormat
+      value=storedDateTimeValue
     }}
   {{/controls.button}}
 {{/frost-radio-group}}

@@ -1,3 +1,12 @@
+# 14.23.6 (2017-06-23)
+* **Updated** `ember-frost-date-picker@^7.1.0`
+
+
+# 14.23.5 (2017-06-21)
+
+* **Fixes** a bug in the select renderer not displaying a label when the model enum has 0
+
+
 # 14.23.4 (2017-06-16)
 
 * **Fixes** the merge build.
