@@ -265,9 +265,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
+  focusSelector () {
+    return 'input'
+  },
+
   focusIn (event) {
     if (this.get('onFocus')) {
-      this.get('onFocus')(this.get('bunsenId'), 'input')
+      const inputSelector = this.focusSelector(event)
+      this.get('onFocus')(this.get('bunsenId'), inputSelector)
     }
   },
 
