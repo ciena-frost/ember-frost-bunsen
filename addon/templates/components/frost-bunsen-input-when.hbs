@@ -33,7 +33,8 @@
       defaultTime=(readonly time)
       onFocusIn=(action 'hideErrorMessage')
       onFocusOut=(action 'showErrorMessage')
-      onSelect=(action 'selectDate')
+      onChange=(action 'selectDate')
+      value=storedDateTimeValue
     }}
   {{/controls.button}}
 {{/frost-radio-group}}

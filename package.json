@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-bunsen",
-  "version": "14.32.10",
+  "version": "14.32.11",
   "description": "Create UI's from JSON configurations.",
   "frostGuideDirectory": "design-patterns/forms/overview",
   "directories": {
@@ -63,7 +63,7 @@
     "ember-elsewhere": "0.4.1",
     "ember-export-application-global": "^1.1.1",
     "ember-frost-core": "1.14.3",
-    "ember-frost-date-picker": "^6.0.0",
+    "ember-frost-date-picker": "^7.1.0",
     "ember-frost-demo-components": "^3.0.1",
     "ember-frost-fields": "^4.0.0",
     "ember-frost-table": "^1.0.0",
