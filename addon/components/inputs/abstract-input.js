@@ -54,6 +54,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
+  attributeBindings: ['bunsenId:data-bunsenId'],
+
   // == Computed Properties ====================================================
 
   @readOnly
@@ -257,6 +259,16 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   didRender () {
     this._super(...arguments)
     Logger.debug('AbstractInput::didRender() called')
+
+    if (this.get('focused')) {
+      this.$('input').focus()
+    }
+  },
+
+  focusIn (event) {
+    if (this.get('onFocus')) {
+      this.get('onFocus')(this.get('bunsenId'), 'input')
+    }
   },
 
   // == Actions ================================================================

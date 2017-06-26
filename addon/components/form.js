@@ -105,9 +105,15 @@ export default DetailComponent.extend({
    * After render select first input unless something else already has focus on page
    */
   didRender () {
+    const focusedElement = this.get('focusedElement')
+    if (this.get('rerendering') && focusedElement) {
+      this.$(`[data-bunsenid='${focusedElement.bunsenId}'] ${focusedElement.selector}`).focus()
+      this.set('rerendering', false)
+    }
+
     if (
       !isGlimmer1 || // autofocus won't let you leave focus from form in Glimmer 2
-      !this.get('autofocus') || // autofucs feature is disabled
+      !this.get('autofocus') || // autofocus feature is disabled
       $(':focus').length !== 0 // there is an element already in focus
     ) {
       return
@@ -121,6 +127,12 @@ export default DetailComponent.extend({
     document.removeEventListener('visibilitychange', this._visibilityChangeHandler)
   },
 
+  focusOut () {
+    if (this.isDestroyed || this.isDestroying) return
+    if (!this.get('rerendering')) {
+      this.set('focusedElement', null)
+    }
+  },
   // == Actions ================================================================
 
   actions: {
@@ -134,6 +146,15 @@ export default DetailComponent.extend({
       reduxStore.dispatch(
         validate(bunsenId, inputValue, this.get('renderModel'), this.getAllValidators(), RSVP.all)
       )
+      if (this.isDestroyed || this.isDestroying) return
+      this.set('rerendering', true)
+    },
+    onFocus (bunsenId, selector) {
+      if (this.isDestroyed || this.isDestroying) return
+      this.set('focusedElement', {
+        bunsenId,
+        selector
+      })
     }
   }
 })
