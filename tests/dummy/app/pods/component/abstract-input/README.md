@@ -26,6 +26,15 @@ Used to parse the user-supplied value of the component
 | ---- | ---- | ----------- |
 |`data` | `Event` | The event passed to the default `handleChange` action |
 
+#### focusSelector
+
+Used to provide an input to focus. Useful to override if a custom renderer has multiple focusable inputs.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+|`event` | `Event` | The event passed to the default `focusIn` handler |
+
 #### Callbacks
 
 --------------
@@ -40,6 +49,17 @@ Used to parse the user-supplied value of the component
 | ---- | ---- | ----------- |
 | `bunsenId` | `String` | The path to the model being changed |
 | `value` | `any` | The new value |
+
+#### onFocus
+
+*Inform the parent form component that an input has been focused*
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `bunsenId` | `String` | The path to the model being changed |
+| `selector` | `String` | A unique selector for the focused input|
 
 <br />
 #### registerForFormValueChanges
