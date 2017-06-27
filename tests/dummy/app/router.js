@@ -22,6 +22,7 @@ Router.map(function () {
   this.route('model', function () {
     this.route('formats')
     this.route('types')
+    this.route('conditional-properties')
   })
 
   this.route('tutorial', {path: 'tutorial/:slug'})

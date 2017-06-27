@@ -34,6 +34,10 @@ export default Controller.extend({
         {
           route: 'model.formats',
           title: 'Formats'
+        },
+        {
+          route: 'model.conditional-properties',
+          title: 'Conditional Properties'
         }
       ]
     },
