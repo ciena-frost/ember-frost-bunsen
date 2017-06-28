@@ -1,0 +1,50 @@
+<div class='demo-container fullscreen'>
+  <div class='demo-banner'>
+    <h1>Conditional Cells</h1>
+    <p>Conditional properties are a feature of bunsen views that allow for adding cells to the view or modifying existing cells when a specified condition is met.</p>
+  </div>
+  {{frost-select
+    data=rendererOptions
+    hook='exampleSelect'
+    onChange=(action 'onExampleChange')
+    selectedValue=selectedRendererValue
+  }}
+  <h2>Description</h2>
+  {{markdown-to-html markdown=documentation ghCodeBlocks=true}}
+  <h2>Examples</h2>
+  <div class='flex-grid'>
+    <div class='one-half'>
+      <h3 class='demo-heading'>Model</h3>
+      {{ivy-codemirror
+        options=(hash
+          lineNumbers=true
+          mode='javascript'
+          readOnly=true
+          theme='mdn-like'
+        )
+        value=(to-json bunsenModel)
+      }}
+    </div>
+    <div class='one-half'>
+      <h3 class='demo-heading'>View</h3>
+      {{ivy-codemirror
+        options=(hash
+          lineNumbers=true
+          mode='javascript'
+          readOnly=true
+          theme='mdn-like'
+        )
+        value=(to-json bunsenView)
+      }}
+    </div>
+    <div class='one-half'>
+      <h3 class='demo-heading'>Demo</h3>
+      {{frost-bunsen-form
+        bunsenModel=bunsenModel
+        bunsenView=bunsenView
+        onChange=(action 'onFormValueChange')
+        value=value
+      }}
+    </div>
+  </div>
+</div>

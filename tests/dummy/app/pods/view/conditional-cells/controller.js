@@ -19,12 +19,18 @@ export default Controller.extend({
   @readOnly
   @computed('selectedRendererValue')
   bunsenModel (selectedRendererValue) {
-    return examples[selectedRendererValue]
+    return examples[selectedRendererValue].model
+  },
+
+  @readOnly
+  @computed('selectedRendererValue')
+  bunsenView (selectedRendererValue) {
+    return examples[selectedRendererValue].view
   },
 
   getDocumentation (rendererName) {
     const key = `${rendererName}.md`
-    return rawFiles.model['conditional-properties'].documentation[key] || 'No content found'
+    return rawFiles.view['conditional-cells'].documentation[key] || 'No content found'
   },
 
   init () {

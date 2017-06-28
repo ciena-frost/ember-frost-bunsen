@@ -47,6 +47,10 @@ export default Controller.extend({
         {
           route: 'view.renderers',
           title: 'Renderers'
+        },
+        {
+          route: 'view.conditional-cells',
+          title: 'Conditional Cells'
         }
       ]
     },

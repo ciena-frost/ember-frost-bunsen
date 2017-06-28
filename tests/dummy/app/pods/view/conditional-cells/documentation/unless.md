@@ -1,0 +1,1 @@
+The `unless` keyword is the inverse of `if` and will hide a cell if the condition is met.

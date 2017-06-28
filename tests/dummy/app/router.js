@@ -29,6 +29,7 @@ Router.map(function () {
 
   this.route('view', function () {
     this.route('renderers')
+    this.route('conditional-cells')
   })
 })
 
