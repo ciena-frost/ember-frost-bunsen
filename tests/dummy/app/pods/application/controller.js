@@ -34,6 +34,10 @@ export default Controller.extend({
         {
           route: 'model.formats',
           title: 'Formats'
+        },
+        {
+          route: 'model.conditional-properties',
+          title: 'Conditional Properties'
         }
       ]
     },
@@ -43,6 +47,10 @@ export default Controller.extend({
         {
           route: 'view.renderers',
           title: 'Renderers'
+        },
+        {
+          route: 'view.conditional-cells',
+          title: 'Conditional Cells'
         }
       ]
     },

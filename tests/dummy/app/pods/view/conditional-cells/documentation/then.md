@@ -1,0 +1,1 @@
+The `then` keyword can be used to change a cell if the condition is met. This is useful if you have a cell that needs to be displayed differently under different conditions.

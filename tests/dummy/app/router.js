@@ -22,12 +22,14 @@ Router.map(function () {
   this.route('model', function () {
     this.route('formats')
     this.route('types')
+    this.route('conditional-properties')
   })
 
   this.route('tutorial', {path: 'tutorial/:slug'})
 
   this.route('view', function () {
     this.route('renderers')
+    this.route('conditional-cells')
   })
 })
 

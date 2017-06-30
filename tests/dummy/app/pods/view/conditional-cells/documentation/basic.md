@@ -1,0 +1,1 @@
+When a conditional cell's condition is met, the cell is shown.
