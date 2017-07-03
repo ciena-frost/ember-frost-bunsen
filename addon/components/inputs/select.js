@@ -5,7 +5,7 @@ import {utils} from 'bunsen-core'
 const {ValueWrapper} = utils.path
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, merge, set, typeOf} = Ember
+const {A, get, inject, isEmpty, merge, run, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task} from 'ember-concurrency'
 import _ from 'lodash'
@@ -236,20 +236,36 @@ export default AbstractInput.extend({
       return
     }
 
+    const needsInitialItems = this.needsInitialItems(newValue)
     // If the query has changed or we have yet to initialize the items lets go
     // get our items
     if (
       this.hasEndpointChanged(oldValue, newValue, options.endpoint) ||
       this.hasMinedPropertyChanged(oldValue, newValue, options) ||
       this.hasQueryChanged(oldValue, newValue, options.query) ||
-      this.needsInitialItems(newValue)
+      needsInitialItems
     ) {
+      // clears any previous selection
+      const bunsenId = this.get('bunsenId')
+      if (!needsInitialItems && get(oldValue, bunsenId) !== undefined) {
+        this.clearOptions()
+      }
+
       // Make sure we flag that we've begun fetching items so we don't queue up
       // a bunch of API requests back to back
       this.set('itemsInitialized', true)
 
-      this.get('updateItems').perform(newValue)
+      this.get('updateItems').perform({value: newValue, keepCurrentValue: needsInitialItems})
     }
+  },
+
+  clearOptions () {
+    const bunsenId = this.get('bunsenId')
+
+    run.next(() => {
+      this.onChange(bunsenId, undefined)
+      this.set('options', [])
+    })
   },
 
   /**
@@ -467,8 +483,9 @@ export default AbstractInput.extend({
    * Restartable ember-concurrency task that updates select dropdown items
    * @param {Object} value - current form value
    * @param {String} [filter=''] - string to filter items by
+   * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
    */
-  updateItems: task(function * (value, filter = '') {
+  updateItems: task(function * ({value, filter = '', keepCurrentValue}) {
     const {
       ajax,
       bunsenId,
@@ -505,7 +522,8 @@ export default AbstractInput.extend({
         filter,
         options,
         store,
-        value
+        value,
+        keepCurrentValue
       })
       this.set('options', items)
     } catch (err) {
@@ -533,7 +551,7 @@ export default AbstractInput.extend({
      */
     filterOptions (filter) {
       const value = this.get('formValue')
-      this.get('updateItems').perform(value, filter)
+      this.get('updateItems').perform({value, filter, keepCurrentValue: false})
     }
   }
 })
