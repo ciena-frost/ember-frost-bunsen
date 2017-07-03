@@ -1619,7 +1619,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(4)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -1695,7 +1695,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(4)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -1771,7 +1771,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(4)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -1839,7 +1839,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
             props.onValidation.callCount,
             'informs consumer of validation results'
           )
-            .to.equal(2)
+            .to.equal(4)
 
           const validationResult = props.onValidation.lastCall.args[0]
 
@@ -2050,7 +2050,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               props.onValidation.callCount,
               'informs consumer of validation results'
             )
-              .to.equal(2)
+              .to.equal(3)
 
             const validationResult = props.onValidation.lastCall.args[0]
 
@@ -2107,7 +2107,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               props.onValidation.callCount,
               'informs consumer of validation results'
             )
-              .to.equal(2)
+              .to.equal(4)
           })
         })
 
@@ -2144,7 +2144,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
               props.onValidation.callCount,
               'informs consumer of validation results'
             )
-              .to.equal(2)
+              .to.equal(4)
           })
         })
       })
