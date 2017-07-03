@@ -379,13 +379,18 @@ describe('Unit: frost-bunsen-input-select', function () {
           formValue: {
             foo: 'value1',
             bar: 'value1'
-          }
+          },
+          options: [{
+            data: 'value1',
+            label: 'value1'
+          }]
         })
         component.formValueChanged({
           foo: 'value2'
         })
         run.next(() => {
           expect(component.onChange).to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).to.eql([])
           done()
         })
       })
@@ -395,13 +400,18 @@ describe('Unit: frost-bunsen-input-select', function () {
           formValue: {
             foo: 'value1',
             bar: 'value1'
-          }
+          },
+          options: [{
+            data: 'value1',
+            label: 'value1'
+          }]
         })
         component.formValueChanged({
           foo: 'value2'
         })
         run.next(() => {
           expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
           done()
         })
       })
@@ -411,13 +421,18 @@ describe('Unit: frost-bunsen-input-select', function () {
           itemsInitialized: true,
           formValue: {
             foo: 'value1'
-          }
+          },
+          options: [{
+            data: 'value1',
+            label: 'value1'
+          }]
         })
         component.formValueChanged({
           foo: 'value2'
         })
         run.next(() => {
           expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
           done()
         })
       })
