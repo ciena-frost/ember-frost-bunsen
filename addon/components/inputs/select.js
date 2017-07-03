@@ -248,9 +248,7 @@ export default AbstractInput.extend({
       // clears any previous selection
       const bunsenId = this.get('bunsenId')
       if (!needsInitialItems && get(oldValue, bunsenId) !== undefined) {
-        run.next(() => {
-          this.onChange(bunsenId, undefined)
-        })
+        this.clearOptions()
       }
 
       // Make sure we flag that we've begun fetching items so we don't queue up
@@ -259,6 +257,15 @@ export default AbstractInput.extend({
 
       this.get('updateItems').perform({value: newValue, keepCurrentValue: needsInitialItems})
     }
+  },
+
+  clearOptions () {
+    const bunsenId = this.get('bunsenId')
+
+    run.next(() => {
+      this.onChange(bunsenId, undefined)
+      this.set('options', [])
+    })
   },
 
   /**
