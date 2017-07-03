@@ -1,3 +1,7 @@
+# 14.23.8 (2017-07-03)
+
+* **Fixed** old items persisting when new query refreshes the list
+
 # 14.23.7 (2017-06-23)
 
 * **Fixed** a regression in `select` which no longer cleared a selection when a select's query values changed.
