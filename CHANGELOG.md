@@ -1,3 +1,8 @@
+# 14.32.13 (2017-07-03)
+
+* **Fixes** the behavior when the query dependencies for the select renderer changes
+
+
 # 14.32.12 (2017-06-27)
 **Fixed** issue where inputs are unfocused when items are added to an array. This was causing inputs to lose focus when `autoAdd` feature for arrays is enabled and a user started to type into an empty input.
 
