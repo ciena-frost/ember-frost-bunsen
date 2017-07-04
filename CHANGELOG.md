@@ -1,3 +1,8 @@
+# 14.32.14 (2017-07-04)
+
+* **Fixes** a regression in labeling that would always display labels if the model was an array. It's been modified to not display the label if the cell has a renderer for the it.
+
+
 # 14.32.13 (2017-07-03)
 
 * **Fixes** the behavior when the query dependencies for the select renderer changes
