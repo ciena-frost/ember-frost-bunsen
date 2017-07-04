@@ -273,10 +273,11 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('cellConfig', 'bunsenModel.type')
   showSection (cellConfig, type) {
+    const isArrayCell = type === 'array' && cellConfig.renderer === undefined
     return (
       cellConfig.collapsible ||
       (cellConfig.label && cellConfig.children) ||
-      (type === 'array' && !cellConfig.hideLabel)
+      (isArrayCell && !cellConfig.hideLabel)
     )
   },
 
