@@ -1,3 +1,7 @@
+# 14.32.15 (2017-07-08)
+
+* **Updating** to latest bunsen-core@1.0.0
+
 # 14.32.14 (2017-07-04)
 
 * **Fixes** a regression in labeling that would always display labels if the model was an array. It's been modified to not display the label if the cell has a renderer for the it.
