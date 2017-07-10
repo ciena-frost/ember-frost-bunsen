@@ -16,7 +16,8 @@ export default {
               endpoint: 'http://data.consumerfinance.gov/api/views.json',
               labelAttribute: 'name',
               recordsPath: '',
-              valueAttribute: 'id'
+              valueAttribute: 'id',
+              sorting: true
             }
           }
         }

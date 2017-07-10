@@ -525,7 +525,7 @@ export default AbstractInput.extend({
         value,
         keepCurrentValue
       })
-      this.set('options', items)
+      this.set('options', this._sortItems(items))
     } catch (err) {
       const error = {
         path: bunsenId,
@@ -534,6 +534,23 @@ export default AbstractInput.extend({
       this.onError(bunsenId, [error])
     }
   }).restartable(),
+
+  _sortItems (items) {
+    const {cellConfig} = this.getProperties('cellConfig')
+    const sorting = get(cellConfig, 'renderer.options.sorting')
+
+    if (!sorting) {
+      return items
+    }
+
+    const sortingOptions = (
+      get(cellConfig, 'renderer.options.sortingOptions') ||
+      [undefined, {numeric: true, sensitivity: 'base'}]
+    )
+    var collator = new Intl.Collator(...sortingOptions)
+    items.sort((a, b) => collator.compare(a.label, b.label))
+    return items
+  },
 
   // == Events ================================================================
 
