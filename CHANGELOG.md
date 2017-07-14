@@ -1,3 +1,8 @@
+# 14.32.16 (2017-07-14)
+
+* **Fixed** issue with clearing values on mined property changes. Since it's sync, it'll try to clear options after it's been refreshed to new values.
+
+
 # 14.32.15 (2017-07-08)
 
 * **Updating** to latest bunsen-core@1.0.0
