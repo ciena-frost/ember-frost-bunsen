@@ -420,39 +420,37 @@ describe('Unit: frost-bunsen-input-select', function () {
   })
 
   describe('formValueChanged', function () {
-    describe('when query references change', function () {
+    beforeEach(function () {
+      component.setProperties({
+        bunsenId: 'bar',
+        onChange: sandbox.stub(),
+        needsInitialItems: sandbox.stub(),
+        hasQueryChanged: sandbox.stub(),
+        hasEndpointChanged: sandbox.stub(),
+        hasMinedPropertyChanged: sandbox.stub(),
+        updateItems: {
+          perform: sandbox.stub()
+        },
+        options: [{
+          label: 'value1',
+          value: 'value1'
+        }],
+        formValue: {}
+      })
+    })
+
+    describe('when endpoints change', function () {
       beforeEach(function () {
-        component.setProperties({
-          bunsenId: 'bar',
-          onChange: sandbox.stub(),
-          bunsenModel: {
-            query: {
-              foo: '${./foo}'
-            }
-          },
-          cellConfig: {
-            model: 'bar'
-          },
-          formValue: {
-            foo: 'value1'
-          },
-          updateItems: {
-            perform: sandbox.stub()
-          }
-        })
+        component.hasEndpointChanged.returns(true)
       })
 
-      it('clears the selection when items are initialized and value is set', function (done) {
+      it('should clear the selection when items are initialized and value is set', function (done) {
+        component.needsInitialItems.returns(false)
         component.setProperties({
-          itemsInitialized: true,
           formValue: {
             foo: 'value1',
             bar: 'value1'
-          },
-          options: [{
-            data: 'value1',
-            label: 'value1'
-          }]
+          }
         })
         component.formValueChanged({
           foo: 'value2'
@@ -464,16 +462,48 @@ describe('Unit: frost-bunsen-input-select', function () {
         })
       })
 
-      it('does not clear the selection when items are not initialized', function (done) {
+      it('should not clear the selection when items are not initialized', function (done) {
+        component.needsInitialItems.returns(true)
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
+          done()
+        })
+      })
+
+      it('should not clear selection when value is not set', function (done) {
+        component.needsInitialItems.returns(false)
+        component.setProperties({
+          formValue: {
+            foo: 'value1'
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
+          done()
+        })
+      })
+    })
+
+    describe('when mined properties change', function () {
+      beforeEach(function () {
+        component.hasMinedPropertyChanged.returns(true)
+      })
+
+      it('should not clear the selection when items are initialized and value is set', function (done) {
+        component.needsInitialItems.returns(false)
         component.setProperties({
           formValue: {
             foo: 'value1',
             bar: 'value1'
-          },
-          options: [{
-            data: 'value1',
-            label: 'value1'
-          }]
+          }
         })
         component.formValueChanged({
           foo: 'value2'
@@ -485,16 +515,77 @@ describe('Unit: frost-bunsen-input-select', function () {
         })
       })
 
-      it('does not clear selection when value is not set', function (done) {
+      it('should not clear the selection when items are not initialized', function (done) {
+        component.needsInitialItems.returns(true)
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
+          done()
+        })
+      })
+
+      it('should not clear selection when value is not set', function (done) {
+        component.needsInitialItems.returns(false)
         component.setProperties({
-          itemsInitialized: true,
           formValue: {
             foo: 'value1'
-          },
-          options: [{
-            data: 'value1',
-            label: 'value1'
-          }]
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
+          done()
+        })
+      })
+    })
+
+    describe('when query references change', function () {
+      beforeEach(function () {
+        component.hasQueryChanged.returns(true)
+      })
+
+      it('should clear the selection when items are initialized and value is set', function (done) {
+        component.needsInitialItems.returns(false)
+        component.setProperties({
+          formValue: {
+            foo: 'value1',
+            bar: 'value1'
+          }
+        })
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).to.eql([])
+          done()
+        })
+      })
+
+      it('should not clear the selection when items are not initialized', function (done) {
+        component.needsInitialItems.returns(true)
+        component.formValueChanged({
+          foo: 'value2'
+        })
+        run.next(() => {
+          expect(component.onChange).not.to.have.been.calledWith('bar', undefined)
+          expect(component.get('options')).not.to.eql([])
+          done()
+        })
+      })
+
+      it('should not clear selection when value is not set', function (done) {
+        component.needsInitialItems.returns(false)
+        component.setProperties({
+          formValue: {
+            foo: 'value1'
+          }
         })
         component.formValueChanged({
           foo: 'value2'
