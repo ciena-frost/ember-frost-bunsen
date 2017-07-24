@@ -52,6 +52,7 @@ ember install ember-frost-bunsen
 | `bunsenModel`   | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`    | `Ember.Object` or `object` | No       | View definition                          |
 | `disabled`      | `boolean`                  | No       | Whether or not to disable entire form    |
+| `mergeDefaults` | `boolean`                  | No       | Whether to merge form defaults with the initial value |
 | `onChange`      | `Function`                 | No       | Callback for when form values change     |
 | `onError`       | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `onValidation`  | `Function`                 | No       | Callback for when form is validated      |
