@@ -71,9 +71,10 @@ export default DetailComponent.extend({
     const reduxStore = this.get('reduxStore')
     const validators = this.getAllValidators()
     const value = this.get('renderValue')
+    const mergeDefaults = this.get('mergeDefaults')
 
     reduxStore.dispatch(
-      validate(null, value, model, validators, RSVP.all, true)
+      validate(null, value, model, validators, RSVP.all, true, mergeDefaults)
     )
   },
 
