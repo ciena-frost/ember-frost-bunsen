@@ -115,6 +115,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       PropTypes.object
     ]),
     hook: PropTypes.string,
+    mergeDefaults: PropTypes.bool,
     onChange: PropTypes.func,
     onError: PropTypes.func,
     onTabChange: PropTypes.func,
@@ -137,6 +138,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       disabled: false,
       hook: 'bunsenDetail',
       inputValidators: [],
+      mergeDefaults: false,
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
@@ -629,6 +631,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
     const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
     const allValidators = this.getAllValidators()
+    const mergeDefaults = this.get('mergeDefaults')
 
     // If the store value is empty we need to make sure we we set it to an empty object so
     // properties can be assigned to it via onChange events
@@ -652,11 +655,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     // If we have a new value to assign the store then let's get to it
     if (dispatchValue) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all)
+        validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all,
+          undefined, mergeDefaults)
       )
     } else if (hasModelChanged) {
       reduxStore.dispatch(
-        validate(null, value, newBunsenModel, allValidators, RSVP.all)
+        validate(null, value, newBunsenModel, allValidators, RSVP.all,
+          undefined, mergeDefaults)
       )
     }
 

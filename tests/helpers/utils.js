@@ -64,6 +64,7 @@ export function renderFormComponent () {
     bunsenView=bunsenView
     disabled=disabled
     hook=hook
+    mergeDefaults=mergeDefaults
     onChange=onChange
     onValidation=onValidation
     selectedTabLabel=selectedTabLabel
