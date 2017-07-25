@@ -1,3 +1,9 @@
+# 14.33.0 (2017-07-25)
+
+* **Upgraded** bunsen-core and stopped pinning to a specific version
+* **Updated** the form to take `mergeDefaults` which allows defaults to be merged with the initial value.
+
+
 # 14.32.16 (2017-07-14)
 
 * **Fixed** issue with clearing values on mined property changes. Since it's sync, it'll try to clear options after it's been refreshed to new values.
