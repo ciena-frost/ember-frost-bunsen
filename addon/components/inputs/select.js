@@ -237,17 +237,15 @@ export default AbstractInput.extend({
     }
 
     const needsInitialItems = this.needsInitialItems(newValue)
-    // If the query has changed or we have yet to initialize the items lets go
-    // get our items
-    if (
-      this.hasEndpointChanged(oldValue, newValue, options.endpoint) ||
-      this.hasMinedPropertyChanged(oldValue, newValue, options) ||
-      this.hasQueryChanged(oldValue, newValue, options.query) ||
-      needsInitialItems
-    ) {
+    const hasQueryChanged = this.hasQueryChanged(oldValue, newValue, options.query)
+    const hasEndpointChanged = this.hasEndpointChanged(oldValue, newValue, options.endpoint)
+    const hasMinedPropertyChanged = this.hasMinedPropertyChanged(oldValue, newValue, options)
+    const requiresAsyncChanges = hasQueryChanged || hasEndpointChanged
+
+    if (requiresAsyncChanges || hasMinedPropertyChanged || needsInitialItems) {
       // clears any previous selection
-      const bunsenId = this.get('bunsenId')
-      if (!needsInitialItems && get(oldValue, bunsenId) !== undefined) {
+      const clearSelection = get(oldValue || {}, this.get('bunsenId')) !== undefined
+      if (!needsInitialItems && requiresAsyncChanges && clearSelection) {
         this.clearOptions()
       }
 
@@ -263,6 +261,8 @@ export default AbstractInput.extend({
     const bunsenId = this.get('bunsenId')
 
     run.next(() => {
+      if (this.isDestroying || this.isDestroyed) return
+
       this.onChange(bunsenId, undefined)
       this.set('options', [])
     })
