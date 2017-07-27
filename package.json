@@ -76,6 +76,7 @@
     "ember-source": "~2.12.0",
     "ember-test-utils": "^1.11.0",
     "ember-truth-helpers": "^1.2.0",
+    "ember-try": "0.2.11",
     "eslint": "^3.13.1",
     "eslint-config-frost-standard": "^6.0.0",
     "ivy-codemirror": "^2.0.3",
