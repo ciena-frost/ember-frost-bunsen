@@ -1,5 +1,5 @@
 sudo: required
-dist: trusty
+dist: precise
 language: node_js
 node_js:
   - '6.9.1'
@@ -15,7 +15,7 @@ addons:
   firefox: 'latest-esr'
 cache:
   directories:
-  - node_modules
+  - node_module
 env:
   matrix:
     - EMBER_TRY_SCENARIO=ember-lts-2.8
