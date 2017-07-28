@@ -28,6 +28,7 @@ matrix:
 before_install:
   - npm config set spin false
   - npm install -g coveralls pr-bumper@^1.0.0
+  - yarn config set ignore-engines true
   - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
   - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
@@ -39,6 +40,7 @@ script:
   - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
   - .travis/maybe-bump-version.sh
 after_success:
+  - yarn config delete ignore-engines
   - .travis/maybe-publish-coverage.sh
   - .travis/maybe-publish-gh-pages.sh
 deploy:
