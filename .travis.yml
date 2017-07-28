@@ -13,9 +13,6 @@ addons:
       - google-chrome-stable
       - g++-4.8
   firefox: 'latest-esr'
-cache:
-  directories:
-  - node_module
 env:
   matrix:
     - EMBER_TRY_SCENARIO=ember-lts-2.8
