@@ -29,7 +29,8 @@ module.exports = function (defaults) {
 
   app.import('bower_components/sinonjs/sinon.js')
   // client-side template compilation for the abstract-input demo page
-  app.import('vendor/ember/ember-template-compiler.js')
+  app.import(app.project.addonPackages['ember-source']
+  ? 'vendor/ember/ember-template-compiler.js' : 'bower_components/ember/ember-template-compiler.js')
 
   /*
     This build file specifes the options for the dummy test app of this
