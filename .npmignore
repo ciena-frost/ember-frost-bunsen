@@ -1,10 +1,10 @@
-.travis/
-bower_components/
-coverage/
-dist/
-node_modules/
-tests/
-tmp/
+/.travis
+/bower_components
+/config/ember-try.js
+/coverage
+/dist
+/tests
+/tmp
 
 **/.gitkeep
 
@@ -13,14 +13,15 @@ tmp/
 .editorconfig
 .ember-cli
 .eslintignore
-.eslintrc
+.eslintrc.js
+.gitignore
 .idea
 .npmignore
 .pullapprove.yml
 .remarkrc
 .sass-lint.yml
 .travis.yml
+.watchmanconfig
 bower.json
-Brocfile.js
+ember-cli-build.js
 testem.js
-testem.json
