@@ -3,6 +3,8 @@ import Ember from 'ember'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
+const {Test} = Ember
+
 import {
   expectBunsenButtonGroupRendererWithState,
   expectCollapsibleHandles,
@@ -11,6 +13,15 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+
+// @quincyle 2017-07-31
+// Hack to fix test failing when using `throw`
+// Issue introduced by https://github.com/emberjs/ember.js/pull/14898
+Test.adapter = Test.MochaAdapter.extend({
+  exception (error) {
+    throw error
+  }
+}).create()
 
 /**
  * Get button labels for bunsenModel's enum options
@@ -52,10 +63,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
       }
     })
 
-    // Quincy Le 2017-07-30
-    // expect().to.throw() doesn't work with ember-cli: 2.12.3. Error gets throwed and can't be catched by
-    // expect().to.throw() which fails the test.
-    it.skip('throws error when used on an array', function () {
+    it('throws error when used on an array', function () {
       expect(() => {
         this.set('bunsenModel', {
           properties: {
@@ -71,10 +79,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
       }).to.throw('button-group renderer cannot be used with type array')
     })
 
-    // Quincy Le 2017-07-30
-    // expect().to.throw() doesn't work with ember-cli: 2.12.3. Error gets throwed and can't be catched by
-    // expect().to.throw() which fails the test.
-    it.skip('throws error when used on an object', function () {
+    it('throws error when used on an object', function () {
       expect(() => {
         this.set('bunsenModel', {
           properties: {
@@ -616,10 +621,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
         })
 
         if (fooModel.type !== 'boolean') { // boolean doesn't require enum
-          // Quincy Le 2017-07-30
-          // expect().to.throw() doesn't work with ember-cli: 2.12.3. Error gets throwed and can't be catched by
-          // expect().to.throw() which fails the test.
-          it.skip('throws error when enum is missing', function () {
+          it('throws error when enum is missing', function () {
             expect(() => {
               this.set('bunsenModel', {
                 properties: {

@@ -9,11 +9,10 @@ import utils from 'ember-frost-bunsen/list-utils'
 
 const {run} = Ember
 
-// Quincy Le 2017-07-30
-// can't find injection service:ajax with ember-cli: 2.12.3
-describe.skip('Unit: frost-bunsen-input-select', function () {
+describe('Unit: frost-bunsen-input-select', function () {
   setupComponentTest('frost-bunsen-input-select', {
-    unit: true
+    unit: true,
+    needs: ['service:ajax']
   })
 
   let component, sandbox

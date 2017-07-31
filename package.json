@@ -60,7 +60,7 @@
     "ember-elsewhere": "~1.0.1",
     "ember-export-application-global": "^1.0.5",
     "ember-frost-date-picker": "^7.1.0",
-    "ember-frost-demo-components": "git://github.com/helloWorldCindy/ember-frost-demo-components.git#upgrade",
+    "ember-frost-demo-components": "3.1.2",
     "ember-frost-fields": "^4.0.0",
     "ember-frost-table": "^1.0.0",
     "ember-frost-test": "1.0.1",
