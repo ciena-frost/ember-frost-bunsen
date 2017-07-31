@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 node_js:
   - '6.9.1'
-  - '7.10.0'
+  - 'stable'
 addons:
   apt:
     sources:
@@ -15,7 +15,7 @@ addons:
   firefox: 'latest-esr'
 env:
   matrix:
-    - EMBER_TRY_SCENARIO=ember-lts-2.8
+    - EMBER_TRY_SCENARIO=ember-2-11
     - EMBER_TRY_SCENARIO=ember-default
   global:
     - CXX=g++-4.8
