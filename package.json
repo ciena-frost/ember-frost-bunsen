@@ -67,7 +67,7 @@
     "ember-get-config": "0.2.1",
     "ember-hook": "^1.4.1",
     "ember-load-initializers": "^0.6.0",
-    "ember-moment": "^7.3.0",
+    "ember-moment": "~7.3.0",
     "ember-pikaday-shim": "0.1.0",
     "ember-prism": "0.0.8",
     "ember-resolver": "^2.0.3",

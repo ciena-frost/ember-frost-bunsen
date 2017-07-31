@@ -78,9 +78,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
   /* eslint-disable complexity */
-  didReceiveAttrs (attrs) {
+  didReceiveAttrs () {
     const valueChangeSet = this.get('valueChangeSet')
-    const oldCellConfig = get(attrs, 'oldAttrs.cellConfig.value')
+
+    const oldCellConfig = this.get('_oldCellConfig.value')
     const newCellConfig = this.get('cellConfig')
 
     let isDirty = false
@@ -110,6 +111,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     if (!_.isEqual(newClassNames, oldClassNames)) {
       this.set('classNames', newClassNames)
     }
+
+    this.set('_oldCellConfig', newCellConfig)
   },
   /* eslint-enable complexity */
 

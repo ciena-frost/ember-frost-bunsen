@@ -19,7 +19,7 @@ const {
 const {getSubModel} = utils
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, get, getOwner, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, getOwner, isEmpty, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -49,15 +49,6 @@ function getAlias (cell) {
 
   const words = Ember.String.dasherize(cell.model || 'Tab').replace('-', ' ')
   return Ember.String.capitalize(words)
-}
-
-function getAttr (attrs, key) {
-  attrs = attrs || {}
-
-  return (
-    get(attrs, `${key}.value`) ||
-    get(attrs, `options.value.${key}`)
-  )
 }
 
 /**
@@ -543,16 +534,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /* eslint-disable complexity */
   /**
    * Determines if the any of the schema attrs has changed
-   * @param {String} schemaName - the name of the schema attribute
-   * @param {Object} oldAttrs - the old attributes
-   * @param {Object} newAttrs - the new attributes
+   * @param {Object} oldSchema - the old schema
+   * @param {Object} newSchema - the new schema
    * @returns {Object} the old and new schemas
    */
-  getSchema (schemaName, oldAttrs, newAttrs) {
-    const newSchema = getAttr(newAttrs, schemaName)
-    const newSchemaPojo = isEmberObject(newSchema) ? deemberify(newSchema) : newSchema
-    const oldSchema = getAttr(oldAttrs, schemaName)
+  getSchema (oldSchema, newSchema) {
     const oldSchemaPojo = isEmberObject(oldSchema) ? deemberify(oldSchema) : oldSchema
+    const newSchemaPojo = isEmberObject(newSchema) ? deemberify(newSchema) : newSchema
 
     return {
       hasChanged: !_.isEqual(oldSchemaPojo, newSchemaPojo),
@@ -617,10 +605,16 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /**
    * Keep value in sync with store and validate properties
    */
-  didReceiveAttrs ({newAttrs, oldAttrs}) {
+  didReceiveAttrs () {
     this._super(...arguments)
 
     let dispatchValue
+
+    const oldAttrBunsenModel = this.get('_oldAttrBunsenModel')
+    const newAttrBunsenModel = this.get('bunsenModel') || this.get('options.bunsenModel')
+
+    const oldAttrBunsenView = this.get('__oldAttrBunsenView')
+    const newAttrBunsenView = this.get('bunsenView') || this.get('options.bunsenView')
 
     const reduxStore = this.get('reduxStore')
     const reduxStoreValue = reduxStore.getState().value
@@ -628,8 +622,8 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
     const isReduxStoreValueEmpty = [null, undefined].indexOf(reduxStoreValue) !== -1
-    const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema('bunsenModel', oldAttrs, newAttrs)
-    const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema('bunsenView', oldAttrs, newAttrs)
+    const {hasChanged: hasModelChanged, newSchema: newBunsenModel} = this.getSchema(oldAttrBunsenModel, newAttrBunsenModel) // eslint-disable-line max-len
+    const {hasChanged: hasViewChanged, newSchema: newView} = this.getSchema(oldAttrBunsenView, newAttrBunsenView)
     const allValidators = this.getAllValidators()
     const mergeDefaults = this.get('mergeDefaults')
 
@@ -674,6 +668,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     this.updateSelectedTab()
+
+    this.set('_oldAttrBunsenModel', newAttrBunsenModel)
+    this.set('_oldAttrBunsenView', newAttrBunsenView)
   },
   /* eslint-enable complexity */
 
