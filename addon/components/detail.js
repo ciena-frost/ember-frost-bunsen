@@ -613,7 +613,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const oldAttrBunsenModel = this.get('_oldAttrBunsenModel')
     const newAttrBunsenModel = this.get('bunsenModel') || this.get('options.bunsenModel')
 
-    const oldAttrBunsenView = this.get('__oldAttrBunsenView')
+    const oldAttrBunsenView = this.get('_oldAttrBunsenView')
     const newAttrBunsenView = this.get('bunsenView') || this.get('options.bunsenView')
 
     const reduxStore = this.get('reduxStore')
