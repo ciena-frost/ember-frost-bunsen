@@ -3,6 +3,8 @@ import Ember from 'ember'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
+const {Test} = Ember
+
 import {
   expectBunsenButtonGroupRendererWithState,
   expectCollapsibleHandles,
@@ -11,6 +13,15 @@ import {
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+
+// @quincyle 2017-07-31
+// Hack to fix test failing when using `throw`
+// Issue introduced by https://github.com/emberjs/ember.js/pull/14898
+Test.adapter = Test.MochaAdapter.extend({
+  exception (error) {
+    throw error
+  }
+}).create()
 
 /**
  * Get button labels for bunsenModel's enum options

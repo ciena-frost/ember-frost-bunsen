@@ -1,5 +1,5 @@
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon')
+/* eslint-env node */
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon')
 
 module.exports = function (defaults) {
   var app = new EmberAddon(defaults, {
@@ -29,7 +29,8 @@ module.exports = function (defaults) {
 
   app.import('bower_components/sinonjs/sinon.js')
   // client-side template compilation for the abstract-input demo page
-  app.import('vendor/ember/ember-template-compiler.js')
+  app.import(app.project.addonPackages['ember-source']
+  ? 'vendor/ember/ember-template-compiler.js' : 'bower_components/ember/ember-template-compiler.js')
 
   /*
     This build file specifes the options for the dummy test app of this

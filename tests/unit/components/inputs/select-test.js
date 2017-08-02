@@ -11,7 +11,8 @@ const {run} = Ember
 
 describe('Unit: frost-bunsen-input-select', function () {
   setupComponentTest('frost-bunsen-input-select', {
-    unit: true
+    unit: true,
+    needs: ['service:ajax']
   })
 
   let component, sandbox

@@ -1,13 +1,10 @@
-{
-  "extends": ["frost-standard"],
-  "globals": {
-    "URL": false
-  },
-  "rules": {
+module.exports = {
+  extends: 'frost-standard',
+  rules: {
     "ocd/sort-import-declarations": [
       2,
       {
-        "localPrefixes": [
+        localPrefixes: [
           "../",
           "./",
           "dummy/",

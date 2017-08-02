@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
 import {
@@ -78,6 +79,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -103,6 +106,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -128,6 +133,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -153,6 +160,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -178,6 +187,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -203,6 +214,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -230,25 +243,35 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
-    it('enables the date-time-picker', function () {
-      expectCollapsibleHandles(0)
-      selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-      expectBunsenWhenRendererWithState('foo', {
-        label: 'Foo',
-        selectedButton: 'second'
+    describe('when nothing is set', function () {
+      beforeEach(function () {
+        selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
       })
-      expectOnValidationState(ctx, {count: 3})
+
+      it('enables the date-time-picker', function () {
+        expectCollapsibleHandles(0)
+        expectBunsenWhenRendererWithState('foo', {
+          label: 'Foo',
+          selectedButton: 'second'
+        })
+        expectOnValidationState(ctx, {count: 3})
+      })
     })
 
     describe('when date is set', function () {
       beforeEach(function () {
         ctx.props.onValidation.reset()
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
-        interactor.selectDate(new Date(2017, 0, 24))
-        closePikaday(this)
+
+        return wait().then(() => {
+          const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
+          interactor.selectDate(new Date(2017, 0, 24))
+          closePikaday(this)
+        })
       })
 
       it('functions as expected', function () {
@@ -262,6 +285,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
+
+        return wait()
       })
 
       it('functions as expected', function () {
@@ -285,18 +310,29 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
+
+      return wait()
     })
 
-    it('disables the date-time-picker', function () {
+    it('enables the date-time-picker', function () {
       expectCollapsibleHandles(0)
-      selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
       expectBunsenWhenRendererWithState('foo', {
         label: 'Foo',
         selectedButton: 'second'
       })
-      selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 1})
-      expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-      expectOnValidationState(ctx, {count: 4})
+    })
+
+    describe('when user clicks first', function () {
+      beforeEach(function () {
+        selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 1})
+      })
+
+      it('disables the date-time-picker', function () {
+        expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
+        expectOnValidationState(ctx, {count: 4})
+      })
     })
   })
 
@@ -316,6 +352,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -344,6 +382,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders as expected', function () {
@@ -372,6 +412,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders using provided dateFormat', function () {
@@ -400,6 +442,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders using provided timeFormat', function () {
@@ -427,6 +471,8 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         type: 'form',
         version: '2.0'
       })
+
+      return wait()
     })
 
     it('renders using provided value', function () {
