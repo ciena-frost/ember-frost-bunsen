@@ -1,3 +1,7 @@
+# 14.33.1 (2017-08-02)
+* **Update** to `ember-cli@2.12.3`
+
+
 # 14.33.0 (2017-07-25)
 
 * **Upgraded** bunsen-core and stopped pinning to a specific version
