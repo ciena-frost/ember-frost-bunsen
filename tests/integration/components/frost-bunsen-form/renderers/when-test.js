@@ -266,11 +266,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       beforeEach(function () {
         ctx.props.onValidation.reset()
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-        const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
-        interactor.selectDate(new Date(2017, 0, 24))
-        closePikaday(this)
 
-        return wait()
+        return wait().then(() => {
+          const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
+          interactor.selectDate(new Date(2017, 0, 24))
+          closePikaday(this)
+        })
       })
 
       it('functions as expected', function () {
