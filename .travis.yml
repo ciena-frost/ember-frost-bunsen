@@ -15,7 +15,7 @@ addons:
   firefox: 'latest-esr'
 env:
   matrix:
-    - EMBER_TRY_SCENARIO=ember-2-11
+    - EMBER_TRY_SCENARIO=ember-2-8
     - EMBER_TRY_SCENARIO=ember-default
   global:
     - CXX=g++-4.8

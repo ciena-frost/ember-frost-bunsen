@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {merge} = Ember
 import {$hook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 
 import {
   expectBunsenInputNotToHaveError,
@@ -135,6 +136,7 @@ export function expectWithState (bunsenId, state) {
  * Selects a radio button
  * @param {String} bunsenId - bunsen ID for property rendered as boolean
  * @param {Object} state - expected state of boolean renderer
+ * @returns {RSVP.Promise} - promise wait for all async operations
  *
  */
 export function selectRadioButton (bunsenId, state) {
@@ -153,4 +155,6 @@ export function selectRadioButton (bunsenId, state) {
   } else {
     $hook(radioButtonHook).last().trigger('click')
   }
+
+  return wait()
 }
