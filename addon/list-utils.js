@@ -183,10 +183,7 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
       }
 
       if (arrayRecords) {
-        const recordsToAdd = arrayRecords.filter(record => {
-          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter})
-        })
-        return normalizeItems({data: items, labelAttribute, records: recordsToAdd, valueAttribute})
+        return normalizeItems({data: items, labelAttribute, records: arrayRecords, valueAttribute})
       }
       return items
     })
