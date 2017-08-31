@@ -31,13 +31,11 @@
     }}
   {{/if}}
 </div>
-<div class='frost-bunsen-body'>
-  {{#if showContent}}
-    {{#if description}}
-      <div class='frost-bunsen-description'>
-        {{description}}
-      </div>
-    {{/if}}
-    {{yield}}
+<div class='frost-bunsen-body {{if showContent "" "hidden"}}'>
+  {{#if description}}
+    <div class='frost-bunsen-description'>
+      {{description}}
+    </div>
   {{/if}}
+  {{yield}}
 </div>

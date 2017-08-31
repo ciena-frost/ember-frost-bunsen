@@ -338,6 +338,10 @@ $frost-bunsen-left-input-width: 250px;
 
   > .frost-bunsen-body {
     flex-basis: 100%;
+
+    &.hidden {
+      display: none;
+    }
   }
 
   > .frost-bunsen-empty-msg {
