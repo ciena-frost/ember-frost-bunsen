@@ -39,7 +39,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
   })
 
   it('renders second tab', function () {
-    expect(this.$('.frost-tabs .active div').text().trim()).to.equal('Two')
+    expect(this.$('.frost-tabs .active div.tab').text().trim()).to.equal('Two')
   })
 
   describe('when selectedTab property updated to be first tab', function () {
@@ -49,7 +49,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
     })
 
     it('renders first tab', function () {
-      expect(this.$('.frost-tabs .active div').text().trim()).to.equal('One')
+      expect(this.$('.frost-tabs .active div.tab').text().trim()).to.equal('One')
     })
   })
 })

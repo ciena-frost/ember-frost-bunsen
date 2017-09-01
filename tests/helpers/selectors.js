@@ -38,7 +38,8 @@ export default {
     section: {
       clearableButton: '.frost-bunsen-heading h3 + button',
       heading: '.frost-bunsen-heading h3',
-      required: '.frost-bunsen-heading .frost-bunsen-required'
+      required: '.frost-bunsen-heading .frost-bunsen-required',
+      body: '.frost-bunsen-body'
     },
     validationErrors: {
       error: '.frost-bunsen-error',

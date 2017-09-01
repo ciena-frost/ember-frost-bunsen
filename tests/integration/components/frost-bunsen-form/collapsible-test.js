@@ -124,7 +124,6 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
       expectCollapsibleHandles(1)
 
       const $headings = this.$(selectors.bunsen.section.heading)
-
       expect(
         $headings,
         'renders correct number of headings'
@@ -139,20 +138,26 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
 
       expect(
         this.$(selectors.bunsen.renderer.text),
-        'renders one bunsen text input'
+        'renders two bunsen text inputs'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expect(
         findTextInputs(),
-        'renders one text input'
+        'renders two text inputs'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
         value: ''
       })
+    })
+
+    it('hides section body', function () {
+      expect(
+        this.$(selectors.bunsen.section.body).is(':visible')
+      ).to.equal(false)
     })
   })
 
@@ -208,6 +213,12 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
         value: ''
       })
     })
+
+    it('doesn\'t hide section body', function () {
+      expect(
+        this.$(selectors.bunsen.section.body).is(':visible')
+      ).to.equal(true)
+    })
   })
 
   describe('press enter key while focused on toggle', function () {
@@ -242,20 +253,26 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
 
       expect(
         this.$(selectors.bunsen.renderer.text),
-        'renders one bunsen text input'
+        'renders two bunsen text inputs'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expect(
         findTextInputs(),
-        'renders one text input'
+        'renders two text inputs'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
         value: ''
       })
+    })
+
+    it('hides section body', function () {
+      expect(
+        this.$(selectors.bunsen.section.body).is(':visible')
+      ).to.equal(false)
     })
   })
 
@@ -291,20 +308,26 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
 
       expect(
         this.$(selectors.bunsen.renderer.text),
-        'renders one bunsen text input'
+        'renders two bunsen text inputs'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expect(
         findTextInputs(),
-        'renders one text input'
+        'renders two text input'
       )
-        .to.have.length(1)
+        .to.have.length(2)
 
       expectTextInputWithState('bunsenForm-foo-input', {
         placeholder: '',
         value: ''
       })
+    })
+
+    it('hides section body', function () {
+      expect(
+        this.$(selectors.bunsen.section.body).is(':visible')
+      ).to.equal(false)
     })
   })
 
@@ -359,6 +382,12 @@ describe('Integration: Component / frost-bunsen-form / collapsible', function ()
         placeholder: '',
         value: ''
       })
+    })
+
+    it('doesn\'t hide section body', function () {
+      expect(
+        this.$(selectors.bunsen.section.body).is(':visible')
+      ).to.equal(true)
     })
   })
 })
