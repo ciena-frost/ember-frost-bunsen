@@ -2,13 +2,13 @@
   {{#if collapsible}}
     <span
       class="frost-bunsen-toggle-handle"
-      data-test={{hook (concat hook '-toggle')}}
+      data-test={{hook (concat hookPrefix '-toggle')}}
       onkeypress={{action 'handleToggleKeyPress'}}
       onclick={{action (action 'toggle')}}
       tabindex="0"
     >
       {{frost-icon
-        hook=(concat hook '-expandCollapseIcon')
+        hook=(concat hookPrefix '-expandCollapseIcon')
         icon='expand-collapse'
       }}
     </span>
@@ -23,7 +23,7 @@
   {{/if}}
   {{#if clearable}}
     {{frost-button
-      hook=(concat hook '-clearBtn')
+      hook=(concat hookPrefix '-clearBtn')
       onClick=onClear
       priority='tertiary'
       size='small'

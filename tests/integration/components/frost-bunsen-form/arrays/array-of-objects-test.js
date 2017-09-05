@@ -361,12 +361,6 @@ describe('Integration: Component / frost-bunsen-form / array of objects', functi
             .to.have.length(0)
 
           expectOnValidationState(ctx, {count: 2})
-
-          const firstInput = findTextInputs('bunsenForm-foo.0.bar-input')[0]
-          expect(
-            firstInput,
-            'input stays focused'
-          ).to.equal(document.activeElement)
         })
 
         describe('when user clears input', function () {

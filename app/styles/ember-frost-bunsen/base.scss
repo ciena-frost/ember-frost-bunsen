@@ -321,9 +321,17 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+// only apply section borders on sibling cells
+.frost-bunsen-cell ~ .frost-bunsen-cell > .frost-bunsen-section {
+  border-top: 1px solid $frost-color-lgrey-1;
+}
+
 .frost-bunsen-section {
   padding-top: 30px;
-  border-top: 1px solid $frost-color-lgrey-1;
+
+  .frost-bunsen-description {
+    margin-left: 28px;
+  }
 
   &.frost-bunsen-collapsed {
     .frost-icon {
@@ -447,10 +455,6 @@ $frost-bunsen-left-input-width: 250px;
   margin-left: 0;
 }
 
-.frost-bunsen-description {
-  display: none;
-}
-
 // First section in form
 form > div > .frost-bunsen-section {
   padding-top: 0;
@@ -463,5 +467,13 @@ form > div > .frost-bunsen-section {
       display: flex;
       align-items: center;
     }
+  }
+}
+
+.frost-bunsen-input-form {
+  .error,
+  .frost-bunsen-error {
+    color: $frost-color-danger;
+    font-size: $frost-font-xs;
   }
 }

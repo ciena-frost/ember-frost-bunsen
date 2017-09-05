@@ -2,7 +2,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
-      hook=(concat hook '-removeBtn')
+      hook=(concat hookPrefix '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'
@@ -13,7 +13,7 @@
 {{#if sortable}}
   {{frost-icon
     class='frost-bunsen-handle'
-    hook=(concat hook '-sortIcon')
+    hook=(concat hookPrefix '-sortIcon')
     icon='menu'
   }}
 {{/if}}
@@ -26,10 +26,12 @@
       cellConfig=cellConfig
       errors=errors
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -49,7 +51,8 @@
       cellConfig=cellConfig
       errors=errors
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       isRequired=(frost-bunsen-is-required
         bunsenModel=renderModel.items
         cell=itemCell
@@ -58,7 +61,8 @@
       )
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -78,10 +82,12 @@
       cellConfig=cellConfig
       errorMessage=errorMessage
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -98,7 +104,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
-      hook=(concat hook '-removeBtn')
+      hook=(concat hookPrefix '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'

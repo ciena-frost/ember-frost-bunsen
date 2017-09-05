@@ -65,9 +65,7 @@ export default function () {
       if ('modelId' in request.queryParams) {
         const modelId = request.queryParams.modelId
 
-        items = items.filter((item) => {
-          return item.modelIds ? item.modelIds.indexOf(modelId) !== -1 : false
-        })
+        items = items.filter((item) => modelId === item.id)
       }
 
       if ('p' in request.queryParams) {

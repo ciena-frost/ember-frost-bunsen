@@ -89,6 +89,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     }
   })
 
+  beforeEach(function () {
+    return wait()
+  })
+
   it('renders as expected', function () {
     expectBunsenGeolocationRendererWithState('address', {})
     expect(ctx.props.onChange.callCount, 'does not trigger onChange').to.equal(0)
@@ -96,20 +100,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
   describe('press use current location button', function () {
     describe('when user has blocked geolocation', function () {
-      beforeEach(function (done) {
+      beforeEach(function () {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
             })
           )
-
-          wait().then(() => {
-            done()
-          })
         })
 
         this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -122,20 +123,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when geolocation lookup fails', function () {
-      beforeEach(function (done) {
+      beforeEach(function () {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
             })
           )
-
-          wait().then(() => {
-            done()
-          })
         })
 
         this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -148,20 +146,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when geolocation lookup times out', function () {
-      beforeEach(function (done) {
+      beforeEach(function () {
         stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
             })
           )
-
-          wait().then(() => {
-            done()
-          })
         })
 
         this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        return wait()
       })
 
       it('renders as expected', function () {
@@ -501,20 +496,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -527,20 +519,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup fails', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -553,20 +542,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup times out', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -934,20 +920,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -960,20 +943,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup fails', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {
@@ -986,20 +966,17 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup times out', function () {
-        beforeEach(function (done) {
+        beforeEach(function () {
           stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
             errorCallback(
               merge(GEOLOCATION_RESPONSE_CODES, {
                 code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
               })
             )
-
-            wait().then(() => {
-              done()
-            })
           })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          return wait()
         })
 
         it('renders as expected', function () {

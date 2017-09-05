@@ -7,7 +7,7 @@
   <form onsubmit='return false'>
     {{#if cellTabs.length}}
       {{#frost-tabs
-        hook=hook
+        hook=hookPrefix
         onChange=(action 'handleTabChange')
         selectedTab=tabSelection
         tabs=(array)
@@ -22,15 +22,17 @@
               cellConfig=tab.cell
               errors=renderErrors
               formDisabled=disabled
-              hook=hook
+              getRootProps=(action 'getRootProps')
+              hookPrefix=hookPrefix
               isRequired=(frost-bunsen-is-required
                 bunsenModel=renderModel
                 cell=tab.cell
                 cellDefinitions=renderView.cellDefinitions
-                value=value
+                value=renderValue
               )
               onChange=(action 'handleChange')
-              onFocus=(action 'onFocus')
+              onFocusIn=(action 'handleFocusIn')
+              onFocusOut=(action 'handleFocusOut')
               onError=(action 'handleError')
               registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
               registerValidator=(action registerValidator)
@@ -54,15 +56,17 @@
           cellConfig=cell.cellConfig
           errors=renderErrors
           formDisabled=disabled
-          hook=hook
+          getRootProps=(action 'getRootProps')
+          hookPrefix=hookPrefix
           isRequired=(frost-bunsen-is-required
             bunsenModel=renderModel
             cell=cell.cellConfig
             cellDefinitions=renderView.cellDefinitions
-            value=value
+            value=renderValue
           )
           onChange=(action 'handleChange')
-          onFocus=(action 'onFocus')
+          onFocusIn=(action 'handleFocusIn')
+          onFocusOut=(action 'handleFocusOut')
           onError=(action 'handleError')
           registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
           registerValidator=(action registerValidator)

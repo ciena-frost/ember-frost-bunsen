@@ -37,7 +37,7 @@ export default AbstractInput.extend({
     return revealed ? value : '************'
   },
 
-// == Actions ==================================================================
+  // == Actions ==================================================================
 
   actions: {
     toggleRevealed () {

@@ -1,10 +1,4 @@
 export default {
-
-  /**
-   * Property type definitions from
-   * https://bitbucket.ciena.com/projects/BP_SO/repos/bpo-mdso-interserver-app/browse/resources/definitions/types/tosca/resource_type_evc_request.tosca
-   * includes Profile, EVCFilter, VLanOperationEntry, Policer, L2Termination
-   **/
   evcFilter: {
     title: 'EVC Filter',
     type: 'object',

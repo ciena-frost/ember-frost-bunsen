@@ -5,6 +5,7 @@ import {
   generateFacetCell,
   generateFacetView,
   generateLabelFromModel,
+  getMergedConfigRecursive,
   isModelPathValid,
   isRegisteredEmberDataModel,
   isRequired,
@@ -545,6 +546,136 @@ describe('bunsen-utils', function () {
             quux: {}
           }
         }
+      })
+    })
+  })
+
+  describe('getMergedConfigRecursive()', function () {
+    let config, cellDefinitions
+    beforeEach(function () {
+    })
+
+    describe('when config is simple', function () {
+      beforeEach(function () {
+        config = {
+          model: 'foo'
+        }
+      })
+
+      it('should return original config when config has children', function () {
+        config.children = [{
+          model: 'bar'
+        }]
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.equal(config)
+      })
+
+      it('should return original config when config has arrayOptions.itemCell', function () {
+        config.arrayOptions = {
+          itemCell: {
+            model: 'bar'
+          }
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.equal(config)
+      })
+
+      it('should return original config when config has an array of arrayOptions.itemCell', function () {
+        config.arrayOptions = {
+          itemCell: [{
+            model: 'bar'
+          }]
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.equal(config)
+      })
+
+      it('should return original config when config has arrayOptions.tupleCell', function () {
+        config.arrayOptions = {
+          tupleCells: [{
+            model: 'bar'
+          }]
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.equal(config)
+      })
+    })
+
+    describe('when config is complex', function () {
+      beforeEach(function () {
+        config = {
+          extends: 'foo'
+        }
+        cellDefinitions = {
+          foo: {
+            model: 'foo'
+          }
+        }
+      })
+
+      it('should return expanded config when cellDefinition has children', function () {
+        cellDefinitions.foo.children = [{
+          model: 'bar'
+        }]
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.eql({
+          model: 'foo',
+          children: [{
+            model: 'bar'
+          }]
+        })
+      })
+
+      it('should return expanded config when config has arrayOptions.itemCell', function () {
+        cellDefinitions.bar = {
+          model: 'bar'
+        }
+        cellDefinitions.foo.arrayOptions = {
+          itemCell: {
+            extends: 'bar'
+          }
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.eql({
+          model: 'foo',
+          arrayOptions: {
+            itemCell: {
+              model: 'bar'
+            }
+          }
+        })
+      })
+
+      it('should return expanded config when config has an array of arrayOptions.itemCell', function () {
+        cellDefinitions.bar = {
+          model: 'bar'
+        }
+        cellDefinitions.foo.arrayOptions = {
+          itemCell: [{
+            extends: 'bar'
+          }]
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.eql({
+          model: 'foo',
+          arrayOptions: {
+            itemCell: [{
+              model: 'bar'
+            }]
+          }
+        })
+      })
+
+      it('should return expanded config when config has arrayOptions.tupleCell', function () {
+        cellDefinitions.bar = {
+          model: 'bar'
+        }
+        cellDefinitions.foo.arrayOptions = {
+          tupleCells: [{
+            extends: 'bar'
+          }]
+        }
+        expect(getMergedConfigRecursive(config, cellDefinitions)).to.eql({
+          model: 'foo',
+          arrayOptions: {
+            tupleCells: [{
+              model: 'bar'
+            }]
+          }
+        })
       })
     })
   })

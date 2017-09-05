@@ -1,0 +1,283 @@
+import {expect} from 'chai'
+import Ember from 'ember'
+import wait from 'ember-test-helpers/wait'
+import {unit} from 'ember-test-utils/test-support/setup-component-test'
+import {afterEach, beforeEach, describe, it} from 'mocha'
+import sinon from 'sinon'
+
+const {run} = Ember
+
+const test = unit('frost-bunsen-detail')
+
+describe(test.label, function () {
+  test.setup()
+
+  let sandbox, component, bunsenModel
+  beforeEach(function () {
+    sandbox = sinon.sandbox.create()
+    bunsenModel = {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string'
+        }
+      }
+    }
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
+
+  describe('init()', function () {
+    it('should initialize the renderModel to an empty model', function () {
+      component = this.subject({
+        bunsenModel,
+        didReceiveAttrs () {}
+      })
+
+      expect(component.get('renderModel')).to.eql({
+        type: 'object'
+      })
+    })
+
+    it('should initialize hookPrefix to hook if hookPrefix is not defined', function () {
+      component = this.subject({
+        bunsenModel,
+        didReceiveAttrs () {},
+        hook: 'captain'
+      })
+
+      expect(component.get('hookPrefix')).to.equal('captain')
+    })
+  })
+
+  describe('when initialized', function () {
+    beforeEach(function () {
+      component = this.subject({
+        bunsenModel
+      })
+    })
+
+    describe('batchChanges()', function () {
+      it('should update generic properties into batchedChanges', function () {
+        run(function () {
+          component.batchChanges({
+            duck: 'duck'
+          })
+          component.batchChanges({
+            duck: 'goose'
+          })
+
+          expect(component.get('batchedChanges')).to.eql({
+            duck: 'goose'
+          })
+        })
+      })
+
+      it('should update valueChangeSet by updating the map', function () {
+        run(function () {
+          component.batchChanges({
+            valueChangeSet: new Map([['foo', 'bar']])
+          })
+          component.batchChanges({
+            valueChangeSet: new Map([['bar', 'baz']])
+          })
+
+          expect(Array.from(component.get('batchedChanges').valueChangeSet)).to.eql(
+            [['foo', 'bar'], ['bar', 'baz']]
+          )
+        })
+      })
+
+      it('should clear all properties at the end of the run loop', function (done) {
+        run(function () {
+          component.batchChanges({
+            foo: 'bar',
+            valueChangeSet: new Map([['foo', 'bar']])
+          })
+          run.schedule('destroy', function () {
+            expect(component.get('batchedChanges')).to.eql({})
+            done()
+          })
+        })
+      })
+    })
+
+    describe('storeUpdated()', function () {
+      let reduxState
+      beforeEach(function () {
+        sandbox.stub(component, 'applyStoreUpdate')
+
+        reduxState = {
+          errors: [],
+          lastAction: 'CHANGE_VALUE',
+          model: {
+            type: 'object'
+          },
+          baseModel: {
+            type: 'object'
+          },
+          validationResult: {},
+          value: {},
+          valueChangeSet: new Map()
+        }
+        const reduxStore = {
+          getState () {
+            return reduxState
+          }
+        }
+        component.setProperties({
+          errors: reduxState.errors,
+          reduxStore,
+          renderModel: reduxState.model,
+          value: reduxState.value
+        })
+      })
+
+      it('should call applyStoreUpdate with new model', function () {
+        const model = {
+          type: 'object',
+          properties: {
+            foo: {
+              type: 'string'
+            }
+          }
+        }
+
+        reduxState.model = model
+        run(() => {
+          component.storeUpdated()
+          expect(component.applyStoreUpdate).to.be.calledWith({
+            lastAction: reduxState.lastAction,
+            newProps: {
+              renderModel: model,
+              baseModel: reduxState.baseModel
+            },
+            validationResult: reduxState.validationResult,
+            value: reduxState.value,
+            hasSchemaChanges: true
+          })
+        })
+      })
+
+      it('should call applyStoreUpdate with new view', function () {
+        const view = {
+          cells: [{
+            model: 'foo'
+          }]
+        }
+
+        reduxState.view = view
+        run(() => {
+          component.storeUpdated()
+          expect(component.applyStoreUpdate).to.be.calledWith({
+            lastAction: reduxState.lastAction,
+            newProps: {
+              view: reduxState.view
+            },
+            validationResult: reduxState.validationResult,
+            value: reduxState.value,
+            hasSchemaChanges: true
+          })
+        })
+      })
+
+      it('should call applyStoreUpdate with new value and changeset', function () {
+        const value = {
+          foo: 'bar'
+        }
+
+        reduxState.value = value
+        reduxState.valueChangeSet = new Map([['foo', 'bar']])
+
+        run(() => {
+          component.storeUpdated()
+          expect(component.applyStoreUpdate.args[0][0].newProps.renderValue).to.equal(value)
+          expect(Array.from(component.applyStoreUpdate.args[0][0].newProps.valueChangeSet)).to.eql([['foo', 'bar']])
+        })
+      })
+    })
+
+    describe('applyStoreUpdate()', function () {
+      beforeEach(function () {
+        sandbox.stub(component, 'validateSchemas').returns({
+          validateSchemaProps: 'blah'
+        })
+        component.onChange = sandbox.stub()
+        component.onValidation = sandbox.stub()
+      })
+
+      it('should validate schemas and update validation props when when schema has changes', function () {
+        let renderModel = {
+          type: 'object'
+        }
+
+        run(() => {
+          component.applyStoreUpdate({
+            hasSchemaChanges: true,
+            newProps: {
+              renderModel,
+              baseModel: renderModel
+            }
+          })
+          expect(component.validateSchemas, 'should validate the schema').to.be.calledWith(renderModel, renderModel)
+          expect(component.get('validateSchemaProps'), 'should not props immediately').to.equal(undefined)
+        })
+
+        return wait(() => {
+          expect(component.get('validateSchemaProps'), 'should update props after render').to.eql('blah')
+        })
+      })
+
+      it('should update validate schemas when there are no schema changes', function () {
+        run(() => {
+          component.applyStoreUpdate({
+            hasSchemaChanges: false,
+            newProps: {}
+          })
+          expect(component.validateSchemas, 'should not validate the schema').to.have.callCount(0)
+        })
+      })
+
+      describe('when newProps contains renderValue', function () {
+        it('should schedule onChange after render', function () {
+          run(() => {
+            component.applyStoreUpdate({
+              hasSchemaChanges: false,
+              newProps: {
+                renderValue: {foo: 'bar'}
+              }
+            })
+
+            expect(component.onChange).to.have.callCount(0)
+          })
+
+          return wait(() => {
+            expect(component.onChange).to.have.callCount(1)
+          })
+        })
+      })
+
+      describe('when lastAction is VALIDATION_RESOLVED', function () {
+        it('should schedule onValidation after render', function () {
+          run(() => {
+            component.applyStoreUpdate({
+              lastAction: 'VALIDATION_RESOLVED',
+              hasSchemaChanges: false,
+              newProps: {
+                renderValue: {foo: 'bar'}
+              }
+            })
+
+            expect(component.onValidation).to.have.callCount(0)
+          })
+
+          return wait(() => {
+            expect(component.onValidation).to.have.callCount(1)
+          })
+        })
+      })
+    })
+  })
+})

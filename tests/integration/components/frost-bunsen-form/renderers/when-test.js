@@ -53,10 +53,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     }
   })
 
+  beforeEach(function () {
+    return wait()
+  })
+
   it('renders as expected', function () {
     expectCollapsibleHandles(0)
     expectBunsenWhenRendererWithState('foo', {label: 'Foo'})
-    expectOnValidationState(ctx, {count: 2})
+    expectOnValidationState(ctx, {count: 1})
   })
 
   it('should have an input for date and time', function () {
@@ -271,6 +275,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
           const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
           interactor.selectDate(new Date(2017, 0, 24))
           closePikaday(this)
+          return wait()
         })
       })
 
@@ -311,9 +316,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
         version: '2.0'
       })
 
-      selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
-
-      return wait()
+      return wait().then(() => {
+        selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 2})
+        return wait()
+      })
     })
 
     it('enables the date-time-picker', function () {

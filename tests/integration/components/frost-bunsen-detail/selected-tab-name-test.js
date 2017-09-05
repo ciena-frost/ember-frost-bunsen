@@ -18,19 +18,19 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
       cellDefinitions: {
         one: {
           children: [
-             {model: 'foo'},
-             {model: 'bar'}
+            {model: 'foo'},
+            {model: 'bar'}
           ]
         },
         two: {
           children: [
-             {model: 'baz'}
+            {model: 'baz'}
           ]
         }
       },
       cells: [
-         {label: 'One', extends: 'one'},
-         {label: 'Two', extends: 'two'}
+        {label: 'One', extends: 'one'},
+        {label: 'Two', extends: 'two'}
       ],
       type: 'form',
       version: '2.0'
@@ -38,8 +38,12 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
     selectedTabLabel: 'Two'
   })
 
+  beforeEach(function () {
+    return wait()
+  })
+
   it('renders second tab', function () {
-    expect(this.$('.frost-tabs .active div').text().trim()).to.equal('Two')
+    expect(this.$('.frost-tab.active').text().trim()).to.equal('Two')
   })
 
   describe('when selectedTab property updated to be first tab', function () {
@@ -49,7 +53,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
     })
 
     it('renders first tab', function () {
-      expect(this.$('.frost-tabs .active div').text().trim()).to.equal('One')
+      expect(this.$('.frost-tab.active').text().trim()).to.equal('One')
     })
   })
 })

@@ -421,13 +421,17 @@ export default AbstractInput.extend({
       }
     })
 
-    if (!_.isEqual(value, this.get('value'))) {
-      onChange(this.get('bunsenId'), value)
-    }
+    run.next(() => {
+      if (this.isDestroyed || this.isDestroying) return
 
-    if (!_.isEqual(internalFormValue, this.get('internalFormValue'))) {
-      this.set('internalFormValue', internalFormValue)
-    }
+      if (!_.isEqual(value, this.get('value'))) {
+        onChange(this.get('bunsenId'), value)
+      }
+
+      if (!_.isEqual(internalFormValue, this.get('internalFormValue'))) {
+        this.set('internalFormValue', internalFormValue)
+      }
+    })
   },
   /* eslint-enable complexity */
 

@@ -3,6 +3,7 @@ import buttonGroup from './button-group'
 import checkboxArray from './checkbox-array'
 import date from './date'
 import datetime from './datetime'
+import form from './form'
 import geolocation from './geolocation'
 import image from './image'
 import json from './json'
@@ -24,6 +25,7 @@ export default {
   'checkbox-array': checkboxArray,
   date,
   datetime,
+  form,
   geolocation,
   image,
   json,

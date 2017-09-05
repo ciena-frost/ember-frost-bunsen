@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {isEmpty, run} = Ember
+const {isEmpty} = Ember
 import {DATE_VALUE} from 'ember-frost-bunsen/components/inputs/when'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -91,10 +91,6 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     it('sets storedDateTimeValue', function () {
       expect(isEmpty(component.get('storedDateTimeValue'))).to.equal(false)
-    })
-
-    it('calls onChange() with value of first button', function () {
-      run.later(() => expect(onChangeSpy).to.have.been.calledWith('foo', firstButtonValue))
     })
   })
 
