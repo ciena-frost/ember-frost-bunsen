@@ -333,6 +333,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
     describe('when user clicks first', function () {
       beforeEach(function () {
         selectRadioButtonBunsenWhenRenderer('foo', {buttonNumber: 1})
+        return wait()
       })
 
       it('disables the date-time-picker', function () {
