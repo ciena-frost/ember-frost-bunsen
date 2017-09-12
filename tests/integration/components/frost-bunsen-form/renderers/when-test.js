@@ -273,9 +273,12 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
 
         return wait().then(() => {
           const interactor = openDatepickerBunsenDatetimeRenderer('bunsenForm-foo-radio-button-date-picker-input')
-          interactor.selectDate(new Date(2017, 0, 24))
-          closePikaday(this)
-          return wait()
+          // stinkin openDatepicker is clicking but not waiting for the popover the appear
+          return wait().then(() => {
+            interactor.selectDate(new Date(2017, 0, 24))
+            closePikaday(this)
+            return wait()
+          })
         })
       })
 
