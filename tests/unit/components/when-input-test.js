@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {isEmpty} = Ember
+const {isEmpty, run} = Ember
 import {DATE_VALUE} from 'ember-frost-bunsen/components/inputs/when'
 import {setupComponentTest} from 'ember-mocha'
 import {afterEach, beforeEach, describe, it} from 'mocha'
@@ -129,8 +129,10 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     describe('when secenario for first button has been selected', function () {
       beforeEach(function () {
-        eventObject.target.value = firstButtonValue
-        component.send('selectedButton', eventObject)
+        run(() => {
+          eventObject.target.value = firstButtonValue
+          component.send('selectedButton', eventObject)
+        })
       })
 
       it('sets "selectedValue" to the value the first radio button', function () {
@@ -148,8 +150,10 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     describe('when secenario for second button has been selected', function () {
       beforeEach(function () {
-        eventObject.target.value = DATE_VALUE
-        component.send('selectedButton', eventObject)
+        run(() => {
+          eventObject.target.value = DATE_VALUE
+          component.send('selectedButton', eventObject)
+        })
       })
 
       it('sets "selectedValue" to the value the second radio button', function () {
