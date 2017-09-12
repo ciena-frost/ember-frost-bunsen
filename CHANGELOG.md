@@ -1,3 +1,14 @@
+# 14.34.0 (2017-09-12)
+
+* **Added** object/form renderer for rendering forms dynamically. Custom views can now reference an object type field directly without needing to expand the view definition further.
+* **Added** plugins property (utilized by the form renderer) which is responsible for generating bunsen meta data.
+* **Added** much needed test against the regressions found that degraded the performance.
+* **Updated** refocus logic to focus on init (if applicable) instead of on every change.
+* **Updated** the redux workflow to be more compatible with the run-loop. It should prevent issues with multiple synchronous updates causing redundant `onChange` actions being triggered which improves performance.
+* **Fixed** performance issue with `when` renderer causing multiple `onChange` events on `init`.
+* **Fixed** performance issue with value propagation due to a bug in the view precomputation and dependency diffing.
+* **Removed** useless internal hooks. This does not alter the hook names of public interfaces but removes the duplicates used through the intermediate DOM nodes used to render a form. There are still duplicate hooks applied to the form inputs but no change has been made to those to avoid a major release.
+
 # 14.33.1 (2017-08-02)
 * **Update** to `ember-cli@2.12.3`
 
