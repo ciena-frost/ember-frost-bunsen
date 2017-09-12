@@ -1,11 +1,10 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 import {setupComponentTest} from 'ember-mocha'
+import utils from 'ember-frost-bunsen/list-utils'
+import {returnPromiseFromStub} from 'ember-test-utils/test-support/stub'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
-
-import {returnPromiseWithArgs} from 'dummy/tests/helpers/ember-test-utils/ember-data'
-import utils from 'ember-frost-bunsen/list-utils'
 
 const {run} = Ember
 
@@ -401,7 +400,7 @@ describe('Unit: frost-bunsen-input-select', function () {
       let firstCall, secondCall
       beforeEach(function () {
         sandbox.stub(utils, 'getOptions')
-        returnPromiseWithArgs(utils.getOptions) // Make sure task does not complete
+        returnPromiseFromStub(utils.getOptions) // Make sure task does not complete
         firstCall = component.get('updateItems').perform({value: component.get('formValue')})
         secondCall = component.get('updateItems').perform({value: component.get('formValue')})
       })

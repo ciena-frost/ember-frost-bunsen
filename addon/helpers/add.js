@@ -4,7 +4,7 @@
 import Ember from 'ember'
 const {Helper} = Ember
 
-export function add (params/*, hash*/) {
+export function add (params) {
   return params.reduce((prev, cur) => prev + cur)
 }
 

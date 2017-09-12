@@ -66,6 +66,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    getRootProps: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -184,7 +185,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
   @readOnly
   @computed('bunsenId', 'readOnly', 'value', 'bunsenModel', 'cellConfig.arrayOptions.itemCell')
-  /* eslint-disable complexity*/
+  /* eslint-disable complexity */
   items (bunsenId, readOnly, value, bunsenModel, cellConfig) {
     const itemModels = bunsenModel.items
     if (typeOf(value) === 'object' && 'asMutable' in value) {
@@ -223,7 +224,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
     return A(_.map(items, makeItem))
   },
-  /* eslint-enable complexity*/
+  /* eslint-enable complexity */
 
   @readOnly
   @computed('bunsenId', 'bunsenModel', 'value')

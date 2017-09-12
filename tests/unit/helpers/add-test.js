@@ -14,4 +14,3 @@ describe('Unit | Helper | add', function () {
     expect(result).to.be.equal(100)
   })
 })
-

@@ -3,41 +3,13 @@
     clearable=clearable
     collapsible=cellConfig.collapsible
     description=cellConfig.description
-    hook=hook
+    hookPrefix=hookPrefix
     onClear=(action 'clear')
     required=isRequired
     title=renderLabel
   }}
     {{#if isLeafNode}}
-      {{#if isSubModelObject}}
-        {{frost-bunsen-cell
-          bunsenId=renderId
-          bunsenModel=subModel
-          bunsenView=bunsenView
-          cellConfig=cellConfig
-          errors=errors
-          formDisabled=formDisabled
-          hook=hook
-          isRequired=(frost-bunsen-is-required
-            bunsenModel=bunsenModel
-            cell=cellConfig
-            cellDefinitions=bunsenView.cellDefinitions
-            value=value
-          )
-          onChange=onChange
-          onFocus=onFocus
-          onError=onError
-          readOnly=readOnly
-          registerForFormValueChanges=registerForFormValueChanges
-          registerValidator=registerValidator
-          renderers=renderers
-          showAllErrors=showAllErrors
-          triggerValidation=triggerValidation
-          unregisterForFormValueChanges=unregisterForFormValueChanges
-          value=propagatedValue
-          valueChangeSet=propagatedValueChangeSet
-        }}
-      {{else if isSubModelArray}}
+      {{#if isSubModelArray}}
         {{#if isArrayItem}}
           {{frost-bunsen-array-inline-item
             bunsenId=nonIndexId
@@ -47,10 +19,12 @@
             compact=compact
             errors=errors
             formDisabled=formDisabled
-            hook=hook
+            getRootProps=getRootProps
+            hookPrefix=hookPrefix
             index=index
             onChange=onChange
-            onFocus=onFocus
+            onFocusIn=onFocusIn
+            onFocusOut=onFocusOut
             onError=onError
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
@@ -73,9 +47,11 @@
             compact=compact
             errors=errors
             formDisabled=formDisabled
-            hook=hook
+            getRootProps=getRootProps
+            hookPrefix=hookPrefix
             onChange=onChange
-            onFocus=onFocus
+            onFocusIn=onFocusIn
+            onFocusOut=onFocusOut
             onError=onError
             readOnly=readOnly
             registerForFormValueChanges=registerForFormValueChanges
@@ -97,10 +73,12 @@
           cellConfig=cellConfig
           errorMessage=errorMessage
           formDisabled=formDisabled
-          hook=hook
+          getRootProps=getRootProps
+          hookPrefix=hookPrefix
           isDependencyMet=isDependencyMet
           onChange=onChange
-          onFocus=onFocus
+          onFocusIn=onFocusIn
+          onFocusOut=onFocusOut
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
@@ -114,7 +92,7 @@
         }}
       {{/if}}
     {{/if}}
-    {{#each children as |child index|}}
+    {{#each children as |child|}}
       {{frost-bunsen-cell
         bunsenId=child.bunsenId
         bunsenModel=child.bunsenModel
@@ -122,15 +100,17 @@
         cellConfig=child.cellConfig
         errors=errors
         formDisabled=formDisabled
-        hook=hook
+        getRootProps=getRootProps
+        hookPrefix=hookPrefix
         isRequired=(frost-bunsen-is-required
           bunsenModel=bunsenModel
           cell=child.cellConfig
           cellDefinitions=bunsenView.cellDefinitions
-          value=value
+          value=propagatedValue
         )
         onChange=onChange
-        onFocus=onFocus
+        onFocusIn=onFocusIn
+        onFocusOut=onFocusOut
         onError=onError
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
@@ -146,35 +126,7 @@
   {{/frost-bunsen-section}}
 {{else}}
   {{#if isLeafNode}}
-    {{#if isSubModelObject}}
-      {{frost-bunsen-cell
-        bunsenId=renderId
-        bunsenModel=subModel
-        bunsenView=bunsenView
-        cellConfig=cellConfig
-        errors=errors
-        formDisabled=formDisabled
-        hook=hook
-        isRequired=(frost-bunsen-is-required
-          bunsenModel=bunsenModel
-          cell=cellConfig
-          cellDefinitions=bunsenView.cellDefinitions
-          value=value
-        )
-        onChange=onChange
-        onFocus=onFocus
-        onError=onError
-        readOnly=readOnly
-        registerForFormValueChanges=registerForFormValueChanges
-        registerValidator=registerValidator
-        renderers=renderers
-        showAllErrors=showAllErrors
-        triggerValidation=triggerValidation
-        unregisterForFormValueChanges=unregisterForFormValueChanges
-        value=propagatedValue
-        valueChangeSet=propagatedValueChangeSet
-      }}
-    {{else if isSubModelArray}}
+    {{#if isSubModelArray}}
       {{#if isArrayItem}}
         {{frost-bunsen-array-inline-item
           bunsenId=bunsenId
@@ -184,10 +136,12 @@
           compact=compact
           errors=errors
           formDisabled=formDisabled
-          hook=hook
+          getRootProps=getRootProps
+          hookPrefix=hookPrefix
           index=index
           onChange=onChange
-          onFocus=onFocus
+          onFocusIn=onFocusIn
+          onFocusOut=onFocusOut
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
@@ -210,9 +164,11 @@
           compact=compact
           errors=errors
           formDisabled=formDisabled
-          hook=hook
+          getRootProps=getRootProps
+          hookPrefix=hookPrefix
           onChange=onChange
-          onFocus=onFocus
+          onFocusIn=onFocusIn
+          onFocusOut=onFocusOut
           onError=onError
           readOnly=readOnly
           registerForFormValueChanges=registerForFormValueChanges
@@ -234,10 +190,12 @@
         cellConfig=cellConfig
         errorMessage=errorMessage
         formDisabled=formDisabled
-        hook=hook
+        getRootProps=getRootProps
+        hookPrefix=hookPrefix
         isDependencyMet=isDependencyMet
         onChange=onChange
-        onFocus=onFocus
+        onFocusIn=onFocusIn
+        onFocusOut=onFocusOut
         onError=onError
         readOnly=readOnly
         registerForFormValueChanges=registerForFormValueChanges
@@ -252,7 +210,7 @@
       }}
     {{/if}}
   {{/if}}
-  {{#each children as |child index|}}
+  {{#each children as |child|}}
     {{frost-bunsen-cell
       bunsenId=child.bunsenId
       bunsenModel=child.bunsenModel
@@ -260,15 +218,17 @@
       cellConfig=child.cellConfig
       errors=errors
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       isRequired=(frost-bunsen-is-required
         bunsenModel=bunsenModel
         cell=child.cellConfig
         cellDefinitions=bunsenView.cellDefinitions
-        value=value
+        value=propagatedValue
       )
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges

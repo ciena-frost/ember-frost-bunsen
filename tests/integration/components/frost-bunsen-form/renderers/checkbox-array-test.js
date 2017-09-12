@@ -259,8 +259,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / checkbox-array
   describe('when user checks checkbox', function () {
     beforeEach(function () {
       this.$(selectors.frost.checkbox.input.enabled).eq(0).trigger('click')
-      this.$(selectors.frost.checkbox.input.enabled).eq(1).trigger('click')
-      return wait()
+      // need to wait for first onChange to update component before clicking on the next item
+      return wait().then(() => {
+        this.$(selectors.frost.checkbox.input.enabled).eq(1).trigger('click')
+        return wait()
+      })
     })
 
     it('renders as expected', function () {

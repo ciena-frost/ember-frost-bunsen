@@ -129,7 +129,7 @@ export default AbstractInput.extend({
       time
     })
 
-    run.later(() => {
+    run.schedule('afterRender', () => {
       this.onChange(this.get('bunsenId'), firstButtonValue)
     })
   },
@@ -177,18 +177,21 @@ export default AbstractInput.extend({
       } else if (value === DATE_VALUE) {
         newValue = this.get('storedDateTimeValue')
       } else {
-        newValue = moment(value).format(this.get('dateTimeFormat'))
+        return
       }
-
-      this.onChange(this.get('bunsenId'), newValue)
 
       // If the value of the button did not change for an existing value we don't want to track it
-      if (value === firstButtonValue || value === DATE_VALUE) {
+      const radioValues = [firstButtonValue, DATE_VALUE]
+      if (radioValues.includes(value)) {
         this.set('selectedValue', value)
-
         // Disable the date-time-picker when it's radio button is not selected
-        this._setDisabled(value === firstButtonValue)
+        this._setDisabled(newValue === firstButtonValue)
       }
+
+      // protecting against initial render onChange
+      run.schedule('afterRender', () => {
+        this.onChange(this.get('bunsenId'), newValue)
+      })
     },
 
     /**

@@ -46,6 +46,7 @@ export function iterateMap (iterator, iteratee) {
 export default Component.extend(HookMixin, PropTypeMixin, {
   // == Component Properties ===================================================
 
+  classNameBindings: ['computedClassNames'],
   layout,
 
   // == State Properties =======================================================
@@ -57,6 +58,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     cellConfig: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
+    getRootProps: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -81,17 +83,15 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   didReceiveAttrs () {
     const valueChangeSet = this.get('valueChangeSet')
 
-    const oldCellConfig = this.get('_oldCellConfig.value')
+    const oldCellConfig = this.get('_oldCellConfig')
     const newCellConfig = this.get('cellConfig')
+    const oldValueChangeSet = this.get('_oldValueChangeSet')
 
     let isDirty = false
 
-    if (valueChangeSet) {
-      const id = this.get('bunsenId') || ''
+    if (valueChangeSet && oldValueChangeSet !== valueChangeSet) {
       iterateMap(valueChangeSet.keys(), (bunsenId) => {
-        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId) ||
-          id === bunsenId.slice(0, id.length)
-        ) {
+        if (isCommonAncestor(newCellConfig.__dependency__, bunsenId)) {
           isDirty = true
           return false
         }
@@ -105,14 +105,10 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       })
     }
 
-    const newClassNames = this.getClassNames()
-    const oldClassNames = this.get('classNames')
-
-    if (!_.isEqual(newClassNames, oldClassNames)) {
-      this.set('classNames', newClassNames)
-    }
-
-    this.set('_oldCellConfig', newCellConfig)
+    this.setProperties({
+      '_oldCellConfig': newCellConfig,
+      '_oldValueChangeSet': valueChangeSet
+    })
   },
   /* eslint-enable complexity */
 
@@ -301,6 +297,25 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     return getLabel(label, bunsenModel, nonIndexId)
   },
 
+  @readOnly
+  @computed()
+  computedClassNames () {
+    const viewDefinedClass = this.get('cellConfig.classNames.cell')
+    const classes = this.get('classNames').toString().split(' ')
+
+    classes.push('frost-bunsen-cell')
+
+    if (this.get('compact')) {
+      classes.push('frost-bunsen-compact')
+    }
+
+    if (viewDefinedClass) {
+      classes.push(viewDefinedClass)
+    }
+
+    return classes.join(' ').trim()
+  },
+
   // == Functions ==============================================================
 
   _clearChildren (cell) {
@@ -317,23 +332,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
         this._clearChildren(child)
       })
-  },
-
-  getClassNames () {
-    const viewDefinedClass = this.get('cellConfig.classNames.cell')
-    const classes = this.get('classNames').toString().split(' ')
-
-    classes.push('frost-bunsen-cell')
-
-    if (this.get('compact')) {
-      classes.push('frost-bunsen-compact')
-    }
-
-    if (viewDefinedClass) {
-      classes.push(viewDefinedClass)
-    }
-
-    return classes
   },
 
   // == Actions ================================================================

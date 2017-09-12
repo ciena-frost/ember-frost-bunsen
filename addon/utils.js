@@ -19,6 +19,7 @@ export const builtInRenderers = {
   'checkbox-array': 'frost-bunsen-input-checkbox-array',
   date: 'frost-bunsen-input-date',
   datetime: 'frost-bunsen-input-datetime',
+  form: 'frost-bunsen-input-form',
   geolocation: 'frost-bunsen-input-geolocation',
   hidden: 'frost-bunsen-input-hidden',
   image: 'frost-bunsen-input-image',
@@ -35,7 +36,8 @@ export const builtInRenderers = {
   table: 'frost-bunsen-input-table',
   textarea: 'frost-bunsen-input-textarea',
   url: 'frost-bunsen-input-url',
-  when: 'frost-bunsen-input-when'
+  when: 'frost-bunsen-input-when',
+  object: 'frost-bunsen-input-form'
 }
 
 /* eslint-disable complexity */
@@ -170,7 +172,7 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
     let childrenChanged = false
     const children = mergedConfig.children.map((childConfig) => {
       const mergedConfig = getMergedConfigRecursive(childConfig, cellDefinitions)
-      if (mergedConfig === childConfig) {
+      if (mergedConfig !== childConfig) {
         childrenChanged = true
       }
       return Object.assign({}, mergedConfig)
@@ -184,15 +186,15 @@ export function getMergedConfigRecursive (cellConfig, cellDefinitions) {
   // recursive array case
   if (mergedConfig.arrayOptions) {
     if (mergedConfig.arrayOptions.itemCell) {
-      let itemCell
+      let itemCell = mergedConfig.arrayOptions.itemCell
       let itemCellChanged = false
       if (Array.isArray(itemCell)) {
-        itemCell = mergedConfig.arrayOptions.itemCell.map((itemCell) => {
-          const mergedConfig = getMergedConfigRecursive(itemCell, cellDefinitions)
-          if (itemCell !== mergedConfig) {
+        itemCell = mergedConfig.arrayOptions.itemCell.map((_itemCell) => {
+          const mergedConfig = getMergedConfigRecursive(_itemCell, cellDefinitions)
+          if (_itemCell !== mergedConfig) {
             itemCellChanged = true
           }
-          return Object.mergedConfig
+          return mergedConfig
         })
       } else {
         itemCell = getMergedConfigRecursive(mergedConfig.arrayOptions.itemCell, cellDefinitions)

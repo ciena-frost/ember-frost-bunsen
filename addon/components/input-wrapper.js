@@ -21,6 +21,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     bunsenView: PropTypes.object.isRequired,
     cellConfig: PropTypes.object,
     formDisabled: PropTypes.bool,
+    getRootProps: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
@@ -110,6 +111,18 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     return this.getComponentName(type, renderers)
   },
   /* eslint-enable complexity */
+
+  @readOnly
+  @computed('hookPrefix', 'bunsenId')
+  inputHookName (hookPrefix, bunsenId) {
+    const getRootProps = this.get('getRootProps')
+
+    if (!getRootProps) return
+
+    const {hookInputDelimiter} = getRootProps()
+
+    return `${hookPrefix}${hookInputDelimiter}${bunsenId}`
+  },
 
   // == Functions ==============================================================
 

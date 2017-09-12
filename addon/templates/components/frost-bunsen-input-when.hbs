@@ -7,11 +7,9 @@
   </label>
 {{/if}}
 {{#frost-radio-group
-  options=(hash
-    id=groupId
-    hook=(concat hook '-radio-group')
-    selectedValue=selectedValue
-  )
+  id=groupId
+  hook=(concat hook '-radio-group')
+  selectedValue=selectedValue
   onChange=(action 'selectedButton')
   as |controls|
 }}

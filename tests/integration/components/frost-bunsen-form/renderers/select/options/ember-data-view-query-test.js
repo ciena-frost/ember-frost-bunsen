@@ -221,6 +221,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when label defined in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -295,6 +298,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when collapsible is set to true in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -369,6 +375,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when collapsible is set to false in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -443,6 +452,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when placeholder defined in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -548,6 +560,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when property explicitly enabled in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -588,6 +603,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
       describe('when property disabled in view', function () {
         beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
           this.set('bunsenView', {
             cells: [
               {
@@ -707,9 +725,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
             expect(
               props.onValidation.callCount,
-              'does not inform consumer of validation results'
+              'does inform consumer of validation results'
             )
-              .to.equal(0)
+              .to.equal(1)
           })
         })
 
@@ -741,9 +759,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
 
             expect(
               props.onValidation.callCount,
-              'does not inform consumer of validation results'
+              'does inform consumer of validation results'
             )
-              .to.equal(0)
+              .to.equal(1)
           })
         })
       })

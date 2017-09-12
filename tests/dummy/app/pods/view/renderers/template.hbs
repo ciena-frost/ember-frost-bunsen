@@ -6,7 +6,7 @@
       data=rendererOptions
       hook='rendererSelect'
       onChange=(action "onSelectedRendererChange")
-      selectedValue=selectedRendererValue
+      selectedValue=renderer
     }}
     <p>This is a list of the different view renderers built into ember-frost-bunsen</p>
   </div>
@@ -14,16 +14,19 @@
     <div class="demo-editor">
       <div class="ribbon">
         <div class="tabs bunsen-editor">
-          <div class="tab value {{valueClass}}" onclick={{action "selectTab" "value"}}>
+          <div class="tab value {{pluginClass}}" onclick={{action "selectTab" "plugin"}} role="button">
+            Plugin
+          </div>
+          <div class="tab value {{valueClass}}" onclick={{action "selectTab" "value"}} role="button">
             Value
           </div>
-          <div class="tab view {{viewClass}}" onclick={{action "selectTab" "view"}}>
+          <div class="tab view {{viewClass}}" onclick={{action "selectTab" "view"}} role="button">
             View
           </div>
-          <div class="tab model {{modelClass}}" onclick={{action "selectTab" "model"}}>
+          <div class="tab model {{modelClass}}" onclick={{action "selectTab" "model"}} role="button">
             Model
           </div>
-          <div class="tab doc {{docClass}}" onclick={{action "selectTab" "doc"}}>
+          <div class="tab doc {{docClass}}" onclick={{action "selectTab" "doc"}} role="button">
             Documentation
           </div>
         </div>
@@ -51,11 +54,13 @@
       {{/unless}}
     </div>
     <div class="demo-view">
-      <br/>
+      <br>
       {{frost-bunsen-form
         bunsenModel=bunsenModel
         bunsenView=bunsenView
         onChange=(action "onFormValueChange")
+        onValidation=(action "onFormValidation")
+        plugins=plugins
         value=value
       }}
     </div>
