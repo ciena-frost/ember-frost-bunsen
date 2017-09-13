@@ -12,7 +12,7 @@ const test = unit('frost-bunsen-detail')
 describe(test.label, function () {
   test.setup()
 
-  let sandbox, component, bunsenModel
+  let sandbox, component, bunsenModel, bunsenView
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
     bunsenModel = {
@@ -22,6 +22,11 @@ describe(test.label, function () {
           type: 'string'
         }
       }
+    }
+    bunsenView = {
+      cells: [{
+        model: 'foo'
+      }]
     }
   })
 
@@ -55,7 +60,61 @@ describe(test.label, function () {
   describe('when initialized', function () {
     beforeEach(function () {
       component = this.subject({
-        bunsenModel
+        bunsenModel,
+        bunsenView
+      })
+    })
+
+    describe('didReceiveAttrs()', function () {
+      let newModel, newView, reduxStore
+      beforeEach(function () {
+        newModel = {
+          type: 'object',
+          properties: {
+            bang: {
+              type: 'string'
+            }
+          }
+        }
+
+        newView = {
+          cells: [{
+            model: 'bang'
+          }]
+        }
+
+        reduxStore = {
+          dispatch: sandbox.stub()
+        }
+
+        component.setProperties({
+          reduxStore,
+          renderValue: {}
+        })
+      })
+
+      it('should dispatch when model is updated', function () {
+        component.set('bunsenModel', newModel)
+        component.didReceiveAttrs()
+        expect(reduxStore.dispatch).to.have.callCount(2)
+      })
+
+      it('should not dispatch when model is cleared', function () {
+        component.set('bunsenModel', undefined)
+        component.didReceiveAttrs()
+        expect(reduxStore.dispatch).to.have.callCount(0)
+      })
+
+      it('should dispatch when view is updated', function () {
+        component.set('bunsenView', newView)
+        component.didReceiveAttrs()
+        expect(reduxStore.dispatch).to.have.callCount(1)
+      })
+
+      it('should not dipatch when view is cleared', function () {
+        component.set('bunsenView', undefined)
+        component.didReceiveAttrs()
+        expect(reduxStore.dispatch).to.have.callCount(0)
       })
     })
 
@@ -120,7 +179,8 @@ describe(test.label, function () {
           },
           validationResult: {},
           value: {},
-          valueChangeSet: new Map()
+          valueChangeSet: new Map(),
+          view: bunsenView
         }
         const reduxStore = {
           getState () {
@@ -131,7 +191,8 @@ describe(test.label, function () {
           errors: reduxState.errors,
           reduxStore,
           renderModel: reduxState.model,
-          value: reduxState.value
+          value: reduxState.value,
+          view: bunsenView
         })
       })
 
@@ -164,6 +225,7 @@ describe(test.label, function () {
       it('should call applyStoreUpdate with new view', function () {
         const view = {
           cells: [{
+            label: 'foo',
             model: 'foo'
           }]
         }
