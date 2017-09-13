@@ -10,8 +10,8 @@ import {
   expectOnValidationState,
   openDatepickerBunsenDateRenderer
 } from 'dummy/tests/helpers/ember-frost-bunsen'
-
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {deps} from 'ember-frost-bunsen/components/inputs/date'
 
 /**
  * Click outside the date picker to close it
@@ -43,6 +43,63 @@ describe('Integration: Component / frost-bunsen-form / renderer / date', functio
       type: 'form',
       version: '2.0'
     }
+  })
+
+  describe('Default values', function () {
+    describe('when no value is given', function () {
+      beforeEach(function () {
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: true,
+              model: 'foo',
+              renderer: {
+                name: 'date'
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+
+        return wait()
+      })
+
+      it('defaults to an un-selected date', function () {
+        expect($hook('bunsenForm-foo-datePicker-input').val()).to.equal('')
+      })
+    })
+
+    describe('when defaultToCurrentDate is set to true in renderer options', function () {
+      let format, currentDate
+      beforeEach(function () {
+        currentDate = '2017-09-01'
+        format = ctx.sandbox.stub().returns(currentDate)
+        ctx.sandbox.stub(deps, 'moment').returns({format})
+
+        this.set('bunsenView', {
+          cells: [
+            {
+              collapsible: true,
+              model: 'foo',
+              renderer: {
+                defaultToCurrentDate: true,
+                name: 'date'
+              }
+            }
+          ],
+          type: 'form',
+          version: '2.0'
+        })
+        this.set('value', undefined)
+
+        return wait()
+      })
+
+      it('defaults to the current date', function () {
+        expect($hook('bunsenForm-foo-datePicker-input').val()).to.equal(currentDate)
+      })
+    })
   })
 
   it('renders as expected', function () {
