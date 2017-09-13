@@ -675,7 +675,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         ))
     }
 
-    if (hasViewChanged && newView || hasModelChanged && newBunsenModel) {
+    if ((hasViewChanged && newView) || (hasModelChanged && newBunsenModel)) {
       reduxStore.dispatch(change({
         model: hasModelChanged ? newBunsenModel : undefined,
         view: hasViewChanged ? newView : undefined
