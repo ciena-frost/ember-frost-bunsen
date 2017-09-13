@@ -661,7 +661,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     // If we have a new value to assign the store then let's get to it
-    const needsValidation = dispatchValue || hasModelChanged
+    const needsValidation = dispatchValue || (hasModelChanged && newBunsenModel)
     if (needsValidation) {
       reduxStore.dispatch(
         validate(
@@ -675,7 +675,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         ))
     }
 
-    if (hasViewChanged || hasModelChanged) {
+    if ((hasViewChanged && newView) || (hasModelChanged && newBunsenModel)) {
       reduxStore.dispatch(change({
         model: hasModelChanged ? newBunsenModel : undefined,
         view: hasViewChanged ? newView : undefined
