@@ -1,3 +1,8 @@
+# 14.34.1 (2017-09-13)
+
+* **Added** extra protection around setting of the model/views so that unsetting it after init wouldn't throw an exception.
+
+
 # 14.34.0 (2017-09-12)
 
 * **Added** object/form renderer for rendering forms dynamically. Custom views can now reference an object type field directly without needing to expand the view definition further.
