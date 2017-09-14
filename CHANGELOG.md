@@ -1,3 +1,7 @@
+# 14.34.2 (2017-09-14)
+
+* **Fixed** styling for the input form so that it takes 100% of the parent form's width. This would help with alignment issues.
+
 # 14.34.1 (2017-09-13)
 
 * **Added** extra protection around setting of the model/views so that unsetting it after init wouldn't throw an exception.
