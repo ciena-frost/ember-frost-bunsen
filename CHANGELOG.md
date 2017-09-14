@@ -1,3 +1,9 @@
+# 15.0.0 (2017-09-14)
+- Date widget no longer defaults to current date.  Specifying `defaultToCurrentDate: true` in the renderer options will re-enable this behavior.
+- Use ember-frost-date-picker@7.3.0
+- Add two different date renderers to demo
+
+
 # 14.34.2 (2017-09-14)
 
 * **Fixed** styling for the input form so that it takes 100% of the parent form's width. This would help with alignment issues.
