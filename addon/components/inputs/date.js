@@ -5,6 +5,10 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-d
 
 const DATE_FORMAT = 'YYYY-MM-DD'
 
+export const deps = {
+  moment
+}
+
 export default AbstractInput.extend({
   // == Component Properties ===================================================
 
@@ -23,7 +27,13 @@ export default AbstractInput.extend({
 
   init () {
     this._super(...arguments)
-    this.set('currentValue', this.get('transformedValue') || moment().format(DATE_FORMAT))
+
+    const cellConfig = this.get('cellConfig')
+    let defaultValue // default to undefined
+    if (cellConfig.renderer.defaultToCurrentDate) {
+      defaultValue = deps.moment().format(DATE_FORMAT)
+    }
+    this.set('currentValue', this.get('transformedValue') || defaultValue)
   },
 
   // == Actions ===============================================================

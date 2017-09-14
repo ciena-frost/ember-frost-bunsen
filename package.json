@@ -25,6 +25,7 @@
   "contributors": [
     "Andres Gonzalez (https://github.com/agonza40)",
     "Gosia Hyndman (https://github.com/vesper2000)",
+    "Gabriel Knoy (https://github.com/gknoy)",
     "Justin Lafleur (https://github.com/laflower)",
     "Niko Skrypnik (https://github.com/nskrypnik)",
     "Peter Banka (https://github.com/psbanka)",
@@ -59,7 +60,7 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-elsewhere": "~1.0.1",
     "ember-export-application-global": "^1.0.5",
-    "ember-frost-date-picker": "^7.1.0",
+    "ember-frost-date-picker": "^7.3.0",
     "ember-frost-demo-components": "3.1.2",
     "ember-frost-fields": "^4.0.0",
     "ember-frost-table": "^1.0.0",
