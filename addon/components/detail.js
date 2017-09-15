@@ -18,7 +18,7 @@ const {
 const {getSubModel} = utils
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, getOwner, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, getOwner, isEmpty, isPresent, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -495,8 +495,11 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       reduxStore,
       renderModel,
       baseModel,
-      view,
-      hookPrefix: hookPrefix || hook
+      view
+    }
+
+    if (!isPresent(hookPrefix)) {
+      props.hookPrefix = hook
     }
 
     this.setProperties(props)

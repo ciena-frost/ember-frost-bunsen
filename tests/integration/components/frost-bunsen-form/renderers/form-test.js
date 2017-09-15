@@ -29,6 +29,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / form', functio
         }
       },
       type: 'object'
+    },
+    bunsenView: {
+      type: 'form',
+      version: '2.0',
+      cells: [{
+        model: 'name'
+      }]
     }
   })
 
