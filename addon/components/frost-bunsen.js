@@ -14,6 +14,7 @@ const keys = [
   'focusedInput',
   'hook',
   'hookInputDelimiter',
+  'hookPrefix',
   'onChange',
   'onError',
   'onFocusOut',
