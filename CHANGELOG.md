@@ -1,3 +1,8 @@
+# 15.0.1 (2017-09-15)
+
+* **Fixes** the hooks for the new form renderer which needs to have consistent hook conventions as the rest of bunsen.
+
+
 # 15.0.0 (2017-09-14)
 - Date widget no longer defaults to current date.  Specifying `defaultToCurrentDate: true` in the renderer options will re-enable this behavior.
 - Use ember-frost-date-picker@7.3.0
