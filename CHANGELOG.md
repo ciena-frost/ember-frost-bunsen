@@ -1,3 +1,11 @@
+# 15.0.2 (2017-09-19)
+
+This fixes a lot of issues with arrays not working, especially around tuples. Since this feature was broken when the last major bump occurred, and the fix involved some internal changes that ultimately required a major bump of bunsen-core, I believe this fix can be a patch. The changes shouldn't affect the usage according to the "official documentation" but it does break some assumptions that were, in my opinion, naive as tuple support was barely working even before.
+
+Tuples (fixed-length) arrays are supported by setting the model `items` to an array. When `additionalItems` is set, the tuple becomes dynamic with an initial length of `items.length`. Overriding the view for tuples can be done with `arrayOptions.tupleCells`. Overriding the view for the `additionalItems` can be done with `arrayOptions.itemCell`.
+
+
+
 # 15.0.1 (2017-09-15)
 
 * **Fixes** the hooks for the new form renderer which needs to have consistent hook conventions as the rest of bunsen.
