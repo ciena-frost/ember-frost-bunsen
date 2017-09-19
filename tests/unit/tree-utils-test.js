@@ -31,14 +31,4 @@ describe('treeUtils', function () {
       expect(treeUtils.findCommonAncestor(['root.foo', 'root.bar'])).to.equal('root')
     })
   })
-
-  describe('convertBunsenId', function () {
-    it('converts paths with indexes', function () {
-      expect(treeUtils.convertBunsenId('foo.bar.0.baz')).to.equal('root.foo.bar.[].baz')
-    })
-
-    it('converts paths without indexes', function () {
-      expect(treeUtils.convertBunsenId('foo.bar.baz')).to.equal('root.foo.bar.baz')
-    })
-  })
 })
