@@ -386,8 +386,23 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     // recursive case for arrays
-    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
-      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`)
+    if (cellConfig.arrayOptions) {
+      const arrayModelTypes = ['itemCell', 'tupleCells']
+      arrayModelTypes.forEach((modelType) => {
+        const model = cellConfig.arrayOptions[modelType]
+
+        if (!model) {
+          return
+        }
+
+        if (Array.isArray(model)) {
+          model.forEach((item) => {
+            this.precomputeIds(item, bunsenId)
+          })
+        } else {
+          this.precomputeIds(model, `${bunsenId}.[]`)
+        }
+      })
     }
   },
 
@@ -420,12 +435,25 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       }
 
       // descendant array dependency references
-      if (config.arrayOptions && config.arrayOptions.itemCell) {
-        const itemCell = config.arrayOptions.itemCell
+      if (config.arrayOptions) {
+        const cellTypes = ['itemCell', 'tupleCells']
+        cellTypes.forEach((type) => {
+          const cell = config.arrayOptions[type]
 
-        if (itemCell.__dependency__) {
-          deps.push(itemCell.__dependency__)
-        }
+          if (!cell) return
+
+          if (Array.isArray(cell)) {
+            cell.forEach((item) => {
+              if (item.__dependency__) {
+                deps.push(item.__dependency__)
+              }
+            })
+          } else {
+            if (cell.__dependency__) {
+              deps.push(cell.__dependency__)
+            }
+          }
+        })
       }
 
       // determine the common dependency reference

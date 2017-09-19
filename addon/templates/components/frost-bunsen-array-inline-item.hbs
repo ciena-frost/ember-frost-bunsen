@@ -18,12 +18,12 @@
   }}
 {{/if}}
 <div class='frost-bunsen-item-input'>
-  {{#if (eq renderModel.type 'array')}}
+  {{#if (eq bunsenModel.type 'array')}}
     {{frost-bunsen-array-container
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errors=errors
       formDisabled=formDisabled
       getRootProps=getRootProps
@@ -43,18 +43,18 @@
       value=value
       valueChangeSet=valueChangeSet
     }}
-  {{else if (eq renderModel.type 'object')}}
+  {{else if (eq bunsenModel.type 'object')}}
     {{frost-bunsen-cell
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errors=errors
       formDisabled=formDisabled
       getRootProps=getRootProps
       hookPrefix=hookPrefix
       isRequired=(frost-bunsen-is-required
-        bunsenModel=renderModel.items
+        bunsenModel=bunsenModel
         cell=itemCell
         cellDefinitions=bunsenView.cellDefinitions
         value=value
@@ -75,11 +75,12 @@
       valueChangeSet=valueChangeSet
     }}
   {{else}}
+    {{log label}}
     {{frost-bunsen-input-wrapper
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errorMessage=errorMessage
       formDisabled=formDisabled
       getRootProps=getRootProps

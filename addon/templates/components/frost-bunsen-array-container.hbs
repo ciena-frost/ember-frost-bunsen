@@ -1,3 +1,4 @@
+{{log bunsenId}}
 {{#if cellConfig.renderer}}
   {{component customRenderer
     bunsenId=(concat bunsenId '.' index)
@@ -60,10 +61,10 @@
         {{#each items key='@index' as |item index|}}
           {{#sortable-item group=group handle='.frost-bunsen-handle' model=item}}
             {{frost-bunsen-array-inline-item
-              bunsenId=(concat bunsenId '.' index)
-              bunsenModel=item.model
+              bunsenId=(concat bunsenId '.' (add index startingIndex))
+              bunsenModel=itemsModel
               bunsenView=bunsenView
-              cellConfig=item.cellConfig
+              cellConfig=cellConfig
               compact=compact
               errors=errors
               formDisabled=formDisabled
@@ -80,6 +81,7 @@
               registerValidator=registerValidator
               renderers=renderers
               showAllErrors=showAllErrors
+              showRemoveButton=true
               sortable=true
               triggerValidation=triggerValidation
               unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -92,10 +94,10 @@
     {{else}}
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-inline-item
-          bunsenId=(concat bunsenId '.' index)
-          bunsenModel=item.model
+          bunsenId=(concat bunsenId '.' (add index startingIndex))
+          bunsenModel=itemsModel
           bunsenView=bunsenView
-          cellConfig=item.cellConfig
+          cellConfig=cellConfig
           compact=compact
           errors=errors
           formDisabled=formDisabled
@@ -112,6 +114,7 @@
           registerValidator=registerValidator
           renderers=renderers
           showAllErrors=showAllErrors
+          showRemoveButton=true
           sortable=false
           triggerValidation=triggerValidation
           unregisterForFormValueChanges=unregisterForFormValueChanges
@@ -129,9 +132,9 @@
     <ul class='frost-bunsen-nav frost-bunsen-nav-tabs'>
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-nav
-          bunsenModel=item.model
+          bunsenModel=itemsModel
           bunsenView=bunsenView
-          cellConfig=item.cellConfig
+          cellConfig=cellConfig
           formDisabled=formDisabled
           getRootProps=getRootProps
           index=index
@@ -159,9 +162,9 @@
       {{#each items key='@index' as |item index|}}
         {{frost-bunsen-array-tab-content
           bunsenId=(concat bunsenId '.' index)
-          bunsenModel=item.model
+          bunsenModel=itemsModel
           bunsenView=bunsenView
-          cellConfig=item.cellConfig
+          cellConfig=cellConfig
           errors=errors
           formDisabled=formDisabled
           getRootProps=getRootProps

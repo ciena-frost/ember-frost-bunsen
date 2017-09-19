@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
 const {getLabel} = utils
 import Ember from 'ember'
-const {A, Component, get, typeOf} = Ember
+const {Component, get, isPresent, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import {singularize} from 'ember-inflector'
@@ -107,24 +107,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed('cellConfig', 'bunsenView.cellDefinitions')
-  /**
-   * Get definition for current cell
-   * @param {Object} cellConfig - cell config
-   * @param {BunsenCell[]} cellDefinitions - list of cell definitions
-   * @returns {BunsenCell} current cell definition
-   */
-  currentCell (cellConfig, cellDefinitions) {
-    const cellId = get(cellConfig, 'arrayOptions.itemCell.extends')
-
-    if (!cellId) {
-      return this.get('cellConfig')
-    }
-
-    return cellDefinitions[cellId] || null
-  },
-
-  @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
     return formDisabled || get(cellConfig, 'disabled')
@@ -144,7 +126,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     if (maxItemsReached) {
       return false
     }
-    if (Array.isArray(bunsenModel.items) && !bunsenModel.additionalItems && bunsenModel.tuple) {
+    if (Array.isArray(bunsenModel.items) && !isPresent(bunsenModel.additionalItems)) {
       return false
     }
 
@@ -179,34 +161,22 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('bunsenModel')
   itemsModel (model) {
     const itemModels = model.items
-    if (Array.isArray(itemModels) && model.tuple) {
+    if (Array.isArray(itemModels)) {
       return model.additionalItems
     }
+
+    return itemModels
   },
+
   @readOnly
   @computed('bunsenId', 'readOnly', 'value', 'bunsenModel', 'cellConfig.arrayOptions.itemCell')
   /* eslint-disable complexity */
   items (bunsenId, readOnly, value, bunsenModel, cellConfig) {
-    const itemModels = bunsenModel.items
     if (typeOf(value) === 'object' && 'asMutable' in value) {
       value = value.asMutable({deep: true})
     }
 
     const items = get(value || {}, bunsenId) || []
-
-    let getModel, getCellConfig
-
-    if (Array.isArray(bunsenModel.items)) {
-      getModel = (item, index) => bunsenModel.items[index] || bunsenModel.additionalItems
-    } else {
-      getModel = () => bunsenModel.items
-    }
-
-    if (Array.isArray(cellConfig)) {
-      getCellConfig = (item, index) => cellConfig[index] || cellConfig[cellConfig.length - 1] || {}
-    } else {
-      getCellConfig = () => cellConfig || {}
-    }
 
     if (
       readOnly !== true &&
@@ -214,23 +184,21 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     ) {
       items.push(this._getEmptyItem())
     }
-    const makeItem = (item, index) => {
-      const model = getModel(item, index)
-      const cellConfig = getCellConfig(item, index)
-      return {model, cellConfig}
+
+    if (Array.isArray(bunsenModel.items)) {
+      return items.slice(bunsenModel.items.length)
     }
-    if (Array.isArray(itemModels) && bunsenModel.tuple) {
-      return A(_.map(items.slice(itemModels.length), makeItem))
-    }
-    return A(_.map(items, makeItem))
+
+    return items
   },
+
   /* eslint-enable complexity */
 
   @readOnly
   @computed('bunsenId', 'bunsenModel', 'value')
   startingIndex (bunsenId, bunsenModel, value) {
     const items = bunsenModel.items
-    if (Array.isArray(items) && bunsenModel.tuple) {
+    if (Array.isArray(items)) {
       return items.length
     }
     return 0
@@ -239,7 +207,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @readOnly
   @computed('bunsenModel')
   tupleItems (model) {
-    if (Array.isArray(model.items) && model.tuple) {
+    if (Array.isArray(model.items)) {
       return model.items
     }
   },
@@ -282,14 +250,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
   /* eslint-disable complexity */
   _handleObjectChange (bunsenId, value, autoAdd) {
-    const clearingValue = [undefined, null, ''].indexOf(value) !== -1
+    const clearingValue = [undefined, null, ''].includes(value)
 
     if (autoAdd && clearingValue) {
       const arrayPath = this.get('bunsenId')
       const itemPathBits = bunsenId.replace(`${arrayPath}.`, '').split('.')
       const itemIndex = parseInt(itemPathBits.splice(0, 1)[0], 10)
       const itemPath = `${arrayPath}.${itemIndex}`
-      const item = this.get(`formValue.${itemPath}`)
+      const item = this.get(`value.${itemPath}`)
       const itemCopy = _.cloneDeep(item)
 
       let key = itemPathBits.pop()
@@ -358,7 +326,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    */
   init () {
     this._super(...arguments)
-    this.registerForFormValueChanges(this)
   },
 
   /**

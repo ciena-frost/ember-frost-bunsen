@@ -14,7 +14,7 @@ export function isCommonAncestor (dependencyId, bunsenId) {
 
   // replace array indexes with []
   if (!bunsenId.startsWith('root')) {
-    bunsenId = convertBunsenId(bunsenId)
+    bunsenId = `root.${bunsenId}`
   }
 
   if (dependencyId === bunsenId) {
@@ -34,9 +34,17 @@ export function isCommonAncestor (dependencyId, bunsenId) {
     bPath = tmp
   }
 
+  const arrayIndexRe = /\d+/
   // if all of aPath matches bPath, then aPath is the common ancestor
   for (let i = 0; i < aPath.length; ++i) {
-    if (aPath[i] !== bPath[i]) {
+    let aValue = aPath[i]
+    let bValue = bPath[i]
+    if (aValue === '[]' || bValue === '[]') {
+      aValue = aValue.replace(arrayIndexRe, '[]')
+      bValue = bValue.replace(arrayIndexRe, '[]')
+    }
+
+    if (aValue !== bValue) {
       return false
     }
   }
@@ -86,15 +94,6 @@ export function findCommonAncestor (ids) {
 /* eslint-enable complexity */
 
 /**
- * Convert bunsenIds to usable ids against the precomputed values.
- * @param {String} bunsenId - bunsenId
- * @returns {String} the converted bunsenId
- */
-export function convertBunsenId (bunsenId) {
-  return `root.${bunsenId}`.replace(/\.\d+/g, '.[]')
-}
-
-/**
  * Used to traverse a cellConfig object depth-first
  * @param {Object} cell - cell config
  * @param {Function} iteratee - callback
@@ -115,9 +114,22 @@ export function traverseCell (cell, iteratee) {
     }
 
     // descendant array
-    if (node.arrayOptions && node.arrayOptions.itemCell) {
-      stack.push(node.arrayOptions.itemCell)
-    }
+    const cellTypes = ['itemCell', 'tupleCells']
+    cellTypes.forEach((type) => {
+      const cell = node.arrayOptions ? node.arrayOptions[type] : undefined
+
+      if (!cell) {
+        return
+      }
+
+      if (Array.isArray(cell)) {
+        cell.forEach((item) => {
+          stack.push(item)
+        })
+      } else {
+        stack.push(cell)
+      }
+    })
   }
 }
 
@@ -148,6 +160,23 @@ export function traverseCellBreadthFirst (object, iteratee) {
     if (obj.arrayOptions && obj.arrayOptions.itemCell) {
       queue.push(obj.arrayOptions.itemCell)
     }
+
+    const cellTypes = ['itemCell', 'tupleCells']
+    cellTypes.forEach((type) => {
+      const cell = obj.arrayOptions ? obj.arrayOptions[type] : undefined
+
+      if (!cell) {
+        return
+      }
+
+      if (Array.isArray(cell)) {
+        cell.forEach((item) => {
+          queue.push(item)
+        })
+      } else {
+        queue.push(cell)
+      }
+    })
   }
 
   // traverse visited cells in reverse

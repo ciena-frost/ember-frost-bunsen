@@ -131,6 +131,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       .map((child) => {
         let subModel = bunsenModel
         let subId = renderId
+
         if (child.model) {
           subModel = getSubModel(bunsenModel, child.model, child.dependsOn)
           subId = subId ? `${subId}.${child.model}` : child.model
