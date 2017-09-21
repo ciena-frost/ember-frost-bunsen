@@ -106,12 +106,6 @@ export default DetailComponent.extend({
    * After render select first input unless something else already has focus on page
    */
   didRender () {
-    const focusedElement = this.get('focusedElement')
-    if (this.get('rerendering') && focusedElement) {
-      this.$(`[data-bunsenid='${focusedElement.bunsenId}'] ${focusedElement.selector}`).focus()
-      this.set('rerendering', false)
-    }
-
     if (
       !isGlimmer1 || // autofocus won't let you leave focus from form in Glimmer 2
       !this.get('autofocus') || // autofocus feature is disabled
@@ -130,10 +124,12 @@ export default DetailComponent.extend({
 
   focusOut () {
     if (this.isDestroyed || this.isDestroying) return
-    if (!this.get('rerendering')) {
-      this.set('focusedElement', null)
+
+    if (this.get('onFocusOut')) {
+      this.get('onFocusOut')()
     }
   },
+
   // == Actions ================================================================
 
   actions: {
@@ -144,18 +140,32 @@ export default DetailComponent.extend({
      */
     handleChange (bunsenId, inputValue) {
       const reduxStore = this.get('reduxStore')
+
       reduxStore.dispatch(
         validate(bunsenId, inputValue, this.get('renderModel'), this.getAllValidators(), RSVP.all)
       )
-      if (this.isDestroyed || this.isDestroying) return
-      this.set('rerendering', true)
     },
-    onFocus (bunsenId, selector) {
+
+    handleFocusOut (bunsenId) {
       if (this.isDestroyed || this.isDestroying) return
-      this.set('focusedElement', {
-        bunsenId,
-        selector
-      })
+
+      if (bunsenId) {
+        this.set('lastFocusedInput', bunsenId)
+        if (this.get('onInputFocusOut')) {
+          this.get('onInputFocusOut')(bunsenId)
+        }
+      }
+    },
+
+    handleFocusIn (bunsenId) {
+      if (this.isDestroyed || this.isDestroying) return
+
+      if (bunsenId) {
+        this.set('lastFocusedInput', bunsenId)
+        if (this.get('onInputFocusIn')) {
+          this.get('onInputFocusIn')(bunsenId)
+        }
+      }
     }
   }
 })

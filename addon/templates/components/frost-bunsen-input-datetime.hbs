@@ -1,26 +1,26 @@
 {{#if (not cellConfig.hideLabel)}}
-	<label class={{labelWrapperClassName}}>
-		{{renderLabel}}
-		{{#if required}}
-			<div class='frost-bunsen-required'>Required</div>
-		{{/if}}
-	</label>
+  <label class={{labelWrapperClassName}}>
+    {{renderLabel}}
+    {{#if required}}
+      <div class='frost-bunsen-required'>Required</div>
+    {{/if}}
+  </label>
 {{/if}}
 {{#if disabled}}
   {{date}} {{time}}
 {{else}}
-	<div class={{inputWrapperClassName}}>
-		{{frost-date-time-picker
-			hook=(concat hook '-datetimePicker')
-			value=(readonly currentValue)
-			defaultDate=(readonly date)
-			defaultTime=(readonly time)
-			onFocusIn=(action 'hideErrorMessage')
-			onFocusOut=(action 'showErrorMessage')
-			onChange=(action 'handleChange')
-	    options=cellConfig.renderer.options
-		}}
-	</div>
+  <div class={{inputWrapperClassName}}>
+    {{frost-date-time-picker
+      hook=(concat hook '-datetimePicker')
+      value=(readonly currentValue)
+      defaultDate=(readonly date)
+      defaultTime=(readonly time)
+      onFocusIn=(action 'hideErrorMessage')
+      onFocusOut=(action 'showErrorMessage')
+      onChange=(action 'handleChange')
+      options=cellConfig.renderer.options
+    }}
+  </div>
 {{/if}}
 {{#if renderErrorMessage}}
   <div class="frost-bunsen-error">

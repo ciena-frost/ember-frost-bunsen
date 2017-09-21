@@ -5,7 +5,7 @@
   </div>
   {{#each model.types key='name' as |type index|}}
     {{#if (not-eq index 0)}}
-      <hr/>
+      <hr>
     {{/if}}
     <h2>{{type.name}}</h2>
     {{markdown-to-html markdown=type.description ghCodeBlocks=true}}
@@ -20,5 +20,5 @@
       value=(to-json type.example)
     }}
   {{/each}}
-  <br/> {{!-- this creates a little bit of padding below the last code block --}}
+  <br> {{!-- this creates a little bit of padding below the last code block --}}
 </div>

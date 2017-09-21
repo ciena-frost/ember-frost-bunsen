@@ -161,10 +161,10 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
         throw err
       }),
     valueRecord: actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
-        .catch((err) => {
-          Logger.log(`Error fetching ${modelType}`, err)
-          throw err
-        }) : RSVP.resolve(null)
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      }) : RSVP.resolve(null)
   })
     .then(({items, valueRecord}) => {
       if (actuallyFindCurrentValue &&

@@ -1,0 +1,22 @@
+{{#if isSchemaLoaded}}
+  {{frost-bunsen
+    focusedInput=internalFocusedInput
+    bunsenModel=internalBunsenModel
+    bunsenView=internalBunsenView
+    onChange=(action 'formChange')
+    hook=(concat hook '-form-input')
+    hookPrefix=hook
+    hookInputDelimiter='.'
+    onValidation=(action 'formValidation')
+    onInputFocusIn=(action 'handleFocusIn')
+    showAllErrors=showAllErrors
+    renderers=renderers
+    validators=internalValidators
+    value=internalBunsenValue
+  }}
+{{/if}}
+{{#if renderErrorMessage}}
+  <div class='frost-bunsen-error'>
+    {{renderErrorMessage}}
+  </div>
+{{/if}}

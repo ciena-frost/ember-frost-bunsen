@@ -2,8 +2,7 @@
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon')
 
 module.exports = function (defaults) {
-  var app = new EmberAddon(defaults, {
-
+  const app = new EmberAddon(defaults, {
     babel: {
       optional: ['es7.decorators']
     },
@@ -30,7 +29,7 @@ module.exports = function (defaults) {
   app.import('bower_components/sinonjs/sinon.js')
   // client-side template compilation for the abstract-input demo page
   app.import(app.project.addonPackages['ember-source']
-  ? 'vendor/ember/ember-template-compiler.js' : 'bower_components/ember/ember-template-compiler.js')
+    ? 'vendor/ember/ember-template-compiler.js' : 'bower_components/ember/ember-template-compiler.js')
 
   /*
     This build file specifes the options for the dummy test app of this

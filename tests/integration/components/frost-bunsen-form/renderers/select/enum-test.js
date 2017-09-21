@@ -202,6 +202,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when label defined in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -265,6 +268,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when collapsible is set to true in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -328,6 +334,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when collapsible is set to false in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -391,6 +400,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when placeholder defined in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -485,6 +497,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when property explicitly enabled in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -635,9 +650,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
           expect(
             props.onValidation.callCount,
-            'does not inform consumer of validation results'
+            'does inform consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
         })
       })
 
@@ -669,9 +684,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
           expect(
             props.onValidation.callCount,
-            'does not inform consumer of validation results'
+            'does inform consumer of validation results'
           )
-            .to.equal(0)
+            .to.equal(1)
         })
       })
     })
@@ -752,8 +767,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
     describe('when expanded/opened', function () {
       beforeEach(function () {
         render.call(this)
-        $hook('my-form-foo').find('.frost-select').click()
-        return wait()
+        return wait().then(() => {
+          $hook('my-form-foo').click()
+          return wait()
+        })
       })
 
       it('renders as expected', function () {
@@ -1250,6 +1267,9 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
     describe('when property disabled in view', function () {
       beforeEach(function () {
+        props.onChange.reset()
+        props.onValidation.reset()
+
         this.set('bunsenView', {
           cells: [
             {
@@ -1358,7 +1378,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
           expect(
             validationResult.warnings.length,
-            'informs consumer there are no warnings'
+            'does informs consumer there are no warnings'
           )
             .to.equal(0)
         })
@@ -1517,8 +1537,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
     describe('when expanded/opened', function () {
       beforeEach(function () {
         render.call(this)
-        $hook('my-form-foo').find('.frost-select').click()
-        return wait()
+        return wait().then(() => {
+          $hook('my-form-foo').find('.frost-select').click()
+          return wait()
+        })
       })
 
       it('renders as expected', function () {
@@ -2095,7 +2117,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select enum', 
 
           expect(
             props.onValidation.callCount,
-            'informs consumer of validation results'
+            'does inform consumers of validation results'
           )
             .to.equal(1)
 

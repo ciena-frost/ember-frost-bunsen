@@ -12,7 +12,7 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import selectors from 'dummy/tests/helpers/selectors'
-import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
+import {expectAsyncThrow, setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 // @quincyle 2017-07-31
 // Hack to fix test failing when using `throw`
@@ -64,7 +64,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
     })
 
     it('throws error when used on an array', function () {
-      expect(() => {
+      return expectAsyncThrow(() => {
         this.set('bunsenModel', {
           properties: {
             foo: {
@@ -76,11 +76,11 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           },
           type: 'object'
         })
-      }).to.throw('button-group renderer cannot be used with type array')
+      }, 'button-group renderer cannot be used with type array')
     })
 
     it('throws error when used on an object', function () {
-      expect(() => {
+      return expectAsyncThrow(() => {
         this.set('bunsenModel', {
           properties: {
             foo: {
@@ -89,7 +89,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
           },
           type: 'object'
         })
-      }).to.throw('button-group renderer cannot be used with type object')
+      }, 'button-group renderer cannot be used with type object')
     })
   })
 
@@ -622,7 +622,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
 
         if (fooModel.type !== 'boolean') { // boolean doesn't require enum
           it('throws error when enum is missing', function () {
-            expect(() => {
+            return expectAsyncThrow(() => {
               this.set('bunsenModel', {
                 properties: {
                   foo: {
@@ -631,7 +631,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / button-group',
                 },
                 type: 'object'
               })
-            }).to.throw(`In order to use a button-group renderer with type ${fooModel.type} enum must be present`)
+            }, `In order to use a button-group renderer with type ${fooModel.type} enum must be present`)
           })
         }
       })

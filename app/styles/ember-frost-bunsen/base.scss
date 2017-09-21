@@ -124,8 +124,10 @@ $frost-bunsen-left-input-width: 250px;
     margin-top: 20px;
   }
 
-  .frost-bunsen-item-wrapper + .frost-bunsen-item-wrapper {
-    border-top-width: 0;
+  .frost-bunsen-array-container {
+    .frost-bunsen-item-wrapper + .frost-bunsen-item-wrapper {
+      border-top-width: 0;
+    }
   }
 
   .frost-bunsen-required {
@@ -223,7 +225,12 @@ $frost-bunsen-left-input-width: 250px;
 
   .frost-bunsen-item-wrapper {
     flex-basis: 100%;
-    border: 1px solid $frost-color-lgrey-1;
+  }
+
+  .frost-bunsen-array-container {
+    > .frost-bunsen-item-wrapper {
+      border: 1px solid $frost-color-lgrey-1;
+    }
   }
 
   .frost-bunsen-remove-btn-container {
@@ -321,9 +328,17 @@ $frost-bunsen-left-input-width: 250px;
   }
 }
 
+// only apply section borders on sibling cells
+.frost-bunsen-cell ~ .frost-bunsen-cell > .frost-bunsen-section {
+  border-top: 1px solid $frost-color-lgrey-1;
+}
+
 .frost-bunsen-section {
   padding-top: 30px;
-  border-top: 1px solid $frost-color-lgrey-1;
+
+  .frost-bunsen-description {
+    margin-left: 28px;
+  }
 
   &.frost-bunsen-collapsed {
     .frost-icon {
@@ -355,6 +370,7 @@ $frost-bunsen-left-input-width: 250px;
 
   > .frost-button {
     margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   > .frost-bunsen-heading {
@@ -451,10 +467,6 @@ $frost-bunsen-left-input-width: 250px;
   margin-left: 0;
 }
 
-.frost-bunsen-description {
-  display: none;
-}
-
 // First section in form
 form > div > .frost-bunsen-section {
   padding-top: 0;
@@ -468,4 +480,14 @@ form > div > .frost-bunsen-section {
       align-items: center;
     }
   }
+}
+
+.frost-bunsen-input-form {
+  .error,
+  .frost-bunsen-error {
+    color: $frost-color-danger;
+    font-size: $frost-font-xs;
+  }
+
+  width: 100%;
 }

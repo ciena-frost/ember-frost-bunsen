@@ -28,6 +28,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       PropTypes.object // For Ember.String.htmlSafe()
     ]),
     formDisabled: PropTypes.bool,
+    getRootProps: PropTypes.func,
     label: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
@@ -53,8 +54,6 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       showErrorMessage: false
     }
   },
-
-  attributeBindings: ['bunsenId:data-bunsenId'],
 
   // == Computed Properties ====================================================
 
@@ -160,6 +159,19 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   // == Functions ==============================================================
 
   /**
+   * Determines if this component should receive focus
+   * @returns {Boolean} true if this should be focused
+   */
+  isFocused () {
+    const focusedInput = this.get('focusedInput')
+    if (focusedInput === this.get('bunsenId')) {
+      return true
+    }
+
+    return false
+  },
+
+  /**
    * Apply object transform to value
    * @param {Object} value - value to transform
    * @param {Transform} transform - transform to apply
@@ -256,12 +268,22 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
   // == Events =================================================================
 
-  didRender () {
-    this._super(...arguments)
-    Logger.debug('AbstractInput::didRender() called')
+  didInsertElement () {
+    const getRootProps = this.get('getRootProps')
 
-    if (this.get('focused')) {
-      this.$('input').focus()
+    if (!getRootProps) {
+      return
+    }
+
+    const {focusedInput, lastFocusedInput} = getRootProps()
+    const focusSelector = this.get('focusSelector')
+
+    this.setProperties({
+      focusedInput: focusedInput || lastFocusedInput
+    })
+
+    if (this.isFocused()) {
+      this.$(focusSelector).focus()
     }
   },
 
@@ -270,9 +292,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   focusIn (event) {
-    if (this.get('onFocus')) {
-      const inputSelector = this.focusSelector(event)
-      this.get('onFocus')(this.get('bunsenId'), inputSelector)
+    if (this.get('onFocusIn')) {
+      this.get('onFocusIn')(this.get('bunsenId'))
+    }
+  },
+
+  focusOut (event) {
+    if (this.get('onFocusOut')) {
+      this.get('onFocusOut')(this.get('bunsenId'))
     }
   },
 

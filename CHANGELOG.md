@@ -1,3 +1,47 @@
+# 15.0.3 (2017-09-19)
+
+* **Removed** extraneous logging
+
+
+# 15.0.2 (2017-09-19)
+
+This fixes a lot of issues with arrays not working, especially around tuples. Since this feature was broken when the last major bump occurred, and the fix involved some internal changes that ultimately required a major bump of bunsen-core, I believe this fix can be a patch. The changes shouldn't affect the usage according to the "official documentation" but it does break some assumptions that were, in my opinion, naive as tuple support was barely working even before.
+
+Tuples (fixed-length) arrays are supported by setting the model `items` to an array. When `additionalItems` is set, the tuple becomes dynamic with an initial length of `items.length`. Overriding the view for tuples can be done with `arrayOptions.tupleCells`. Overriding the view for the `additionalItems` can be done with `arrayOptions.itemCell`.
+
+
+
+# 15.0.1 (2017-09-15)
+
+* **Fixes** the hooks for the new form renderer which needs to have consistent hook conventions as the rest of bunsen.
+
+
+# 15.0.0 (2017-09-14)
+- Date widget no longer defaults to current date.  Specifying `defaultToCurrentDate: true` in the renderer options will re-enable this behavior.
+- Use ember-frost-date-picker@7.3.0
+- Add two different date renderers to demo
+
+
+# 14.34.2 (2017-09-14)
+
+* **Fixed** styling for the input form so that it takes 100% of the parent form's width. This would help with alignment issues.
+
+# 14.34.1 (2017-09-13)
+
+* **Added** extra protection around setting of the model/views so that unsetting it after init wouldn't throw an exception.
+
+
+# 14.34.0 (2017-09-12)
+
+* **Added** object/form renderer for rendering forms dynamically. Custom views can now reference an object type field directly without needing to expand the view definition further.
+* **Added** plugins property (utilized by the form renderer) which is responsible for generating bunsen meta data.
+* **Added** much needed test against the regressions found that degraded the performance.
+* **Updated** refocus logic to focus on init (if applicable) instead of on every change.
+* **Updated** the redux workflow to be more compatible with the run-loop. It should prevent issues with multiple synchronous updates causing redundant `onChange` actions being triggered which improves performance.
+* **Fixed** performance issue with `when` renderer causing multiple `onChange` events on `init`.
+* **Fixed** performance issue with value propagation due to a bug in the view precomputation and dependency diffing.
+* **Removed** useless internal hooks. This does not alter the hook names of public interfaces but removes the duplicates used through the intermediate DOM nodes used to render a form. There are still duplicate hooks applied to the form inputs but no change has been made to those to avoid a major release.
+
 # 14.33.1 (2017-08-02)
 * **Update** to `ember-cli@2.12.3`
 

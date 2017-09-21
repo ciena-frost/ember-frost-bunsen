@@ -1,10 +1,11 @@
 import Ember from 'ember'
-const {Controller, run} = Ember
+const {Controller, Logger, inject, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import rawFiles from 'ember-frost-demo-components/raw'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 import models from './models'
+import plugins from './plugins'
 import values from './values'
 import views from './views'
 
@@ -19,6 +20,10 @@ const rendererOptions = keys(models)
   })
 
 export default Controller.extend(PropTypeMixin, {
+  store: inject.service('store'),
+  queryParams: ['renderer'],
+  renderer: rendererOptions[0].value,
+
   propTypes: {
     selectedTab: PropTypes.string
   },
@@ -30,15 +35,25 @@ export default Controller.extend(PropTypeMixin, {
   },
 
   @readOnly
-  @computed('selectedRendererValue')
-  bunsenModel (selectedRendererValue) {
-    return models[selectedRendererValue]
+  @computed('renderer')
+  plugins (renderer) {
+    const plugin = plugins[renderer]
+    if (plugin) {
+      return plugin(this.get('store'))
+    }
+    return {}
   },
 
   @readOnly
-  @computed('selectedRendererValue')
-  bunsenView (selectedRendererValue) {
-    return views[selectedRendererValue]
+  @computed('renderer')
+  bunsenModel (renderer) {
+    return models[renderer]
+  },
+
+  @readOnly
+  @computed('renderer')
+  bunsenView (renderer) {
+    return views[renderer]
   },
 
   @readOnly
@@ -53,6 +68,9 @@ export default Controller.extend(PropTypeMixin, {
 
       case 'view':
         return JSON.stringify(this.get('bunsenView'), null, 2)
+
+      case 'plugin':
+        return this.get('pluginCode')
 
       default:
         return ''
@@ -83,22 +101,34 @@ export default Controller.extend(PropTypeMixin, {
     return selectedTab === 'value' ? 'active' : ''
   },
 
-  getDocumentation (rendererName) {
-    const key = `${rendererName}.md`
+  @readOnly
+  @computed('selectedTab')
+  pluginClass (selectedTab) {
+    return selectedTab === 'plugin' ? 'active' : ''
+  },
+
+  @readOnly
+  @computed('renderer')
+  documentation (renderer) {
+    const key = `${renderer}.md`
     return rawFiles.view.renderers.documentation[key] || 'No content found'
+  },
+
+  @readOnly
+  @computed('renderer')
+  pluginCode (renderer) {
+    const key = `${renderer}.js`
+    return rawFiles.view.renderers.plugins[key] || ' No plugin found'
   },
 
   init () {
     this._super(...arguments)
 
-    const selectedRendererValue = rendererOptions[0].value
-    const documentation = this.getDocumentation(selectedRendererValue)
+    const renderer = this.get('renderer')
 
     this.setProperties({
-      value: values[selectedRendererValue],
-      documentation,
-      rendererOptions,
-      selectedRendererValue
+      value: values[renderer],
+      rendererOptions
     })
   },
 
@@ -109,11 +139,14 @@ export default Controller.extend(PropTypeMixin, {
       })
     },
 
+    onFormValidation (result) {
+      Logger.log(result)
+    },
+
     onSelectedRendererChange (value) {
       this.setProperties({
-        documentation: this.getDocumentation(value),
         value: values[value],
-        selectedRendererValue: value
+        renderer: value
       })
     },
 

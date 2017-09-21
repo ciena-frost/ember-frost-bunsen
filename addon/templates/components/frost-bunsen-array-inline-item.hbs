@@ -2,7 +2,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
-      hook=(concat hook '-removeBtn')
+      hook=(concat hookPrefix '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'
@@ -13,23 +13,25 @@
 {{#if sortable}}
   {{frost-icon
     class='frost-bunsen-handle'
-    hook=(concat hook '-sortIcon')
+    hook=(concat hookPrefix '-sortIcon')
     icon='menu'
   }}
 {{/if}}
 <div class='frost-bunsen-item-input'>
-  {{#if (eq renderModel.type 'array')}}
+  {{#if (eq bunsenModel.type 'array')}}
     {{frost-bunsen-array-container
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errors=errors
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -41,24 +43,26 @@
       value=value
       valueChangeSet=valueChangeSet
     }}
-  {{else if (eq renderModel.type 'object')}}
+  {{else if (eq bunsenModel.type 'object')}}
     {{frost-bunsen-cell
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errors=errors
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       isRequired=(frost-bunsen-is-required
-        bunsenModel=renderModel.items
+        bunsenModel=bunsenModel
         cell=itemCell
         cellDefinitions=bunsenView.cellDefinitions
         value=value
       )
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -71,17 +75,20 @@
       valueChangeSet=valueChangeSet
     }}
   {{else}}
+    {{log label}}
     {{frost-bunsen-input-wrapper
-      bunsenId=renderId
-      bunsenModel=renderModel
+      bunsenId=bunsenId
+      bunsenModel=bunsenModel
       bunsenView=bunsenView
-      cellConfig=cellConfig
+      cellConfig=itemCell
       errorMessage=errorMessage
       formDisabled=formDisabled
-      hook=hook
+      getRootProps=getRootProps
+      hookPrefix=hookPrefix
       label=label
       onChange=onChange
-      onFocus=onFocus
+      onFocusIn=onFocusIn
+      onFocusOut=onFocusOut
       onError=onError
       readOnly=readOnly
       registerForFormValueChanges=registerForFormValueChanges
@@ -98,7 +105,7 @@
   <div class='frost-bunsen-remove-btn-container'>
     {{frost-button
       disabled=disabled
-      hook=(concat hook '-removeBtn')
+      hook=(concat hookPrefix '-removeBtn')
       onClick=(action 'remove')
       priority='tertiary'
       size='medium'

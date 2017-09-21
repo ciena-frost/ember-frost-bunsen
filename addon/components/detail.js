@@ -11,15 +11,14 @@ import {
 
 const {
   CHANGE_VALUE,
-  changeModel,
-  changeView,
+  change,
   validate
 } = actions
 
 const {getSubModel} = utils
 
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, getOwner, isEmpty, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, getOwner, isEmpty, isPresent, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -105,12 +104,23 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    focusedInput: PropTypes.string,
     hook: PropTypes.string,
+    hookInputDelimiter: PropTypes.string,
+    hookPrefix: PropTypes.string,
     mergeDefaults: PropTypes.bool,
+    onInputFocusIn: PropTypes.func,
+    onInputFocusOut: PropTypes.func,
+    onFocusIn: PropTypes.func,
+    onFocusOut: PropTypes.func,
     onChange: PropTypes.func,
     onError: PropTypes.func,
     onTabChange: PropTypes.func,
     onValidation: PropTypes.func,
+    plugins: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
     registeredComponents: PropTypes.array,
     renderers: PropTypes.oneOfType([
       PropTypes.EmberObject,
@@ -126,10 +136,13 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   getDefaultProps () {
     return {
+      batchedChanges: {},
       disabled: false,
       hook: 'bunsenDetail',
+      hookInputDelimiter: '-',
       inputValidators: [],
       mergeDefaults: false,
+      plugins: {},
       renderers: {},
       registeredComponents: [],
       showAllErrors: false,
@@ -233,77 +246,75 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @param {Object} newProps - new component property values to apply
    * @param {Object} validationResult - latest validation result
    * @param {Object} value - latest form value
+   * @param {Boolean} hasSchemaChanges - whether a schema change has occurred
    */
-  applyStoreUpdate ({lastAction, newProps, validationResult, value}) {
-    if (Object.keys(newProps).length !== 0) {
+  applyStoreUpdate ({lastAction, newProps, validationResult, value, hasSchemaChanges}) {
+    if (hasSchemaChanges) {
       const model = newProps.renderModel || this.get('renderModel')
       const baseModel = newProps.baseModel || this.get('baseModel')
       const view = newProps.view
         ? this.getRenderView(model, newProps.view)
         : this.getRenderView(model, this.get('view'))
-
       Object.assign(newProps, this.validateSchemas(baseModel, model, view))
+    }
 
+    // batch the property operations and prevent onChange loop for non-async changes
+    run.schedule('afterRender', () => {
       // Update component properties with newer state from redux store.
       this.setProperties(newProps)
-    }
 
-    // If the value changed inform consumer of the new form value. This occurs
-    // when defaults are applied within the redux store.
-    if ('renderValue' in newProps && this.onChange) {
-      const valueWithoutInternalState = removeInternalValues(value)
-      this.onChange(valueWithoutInternalState)
-    }
+      // If the value changed inform consumer of the new form value. This occurs
+      // when defaults are applied within the redux store.
+      if ('renderValue' in newProps) {
+        this.informRenderersOfFormValueChange(value)
 
-    // If the last action that occurred in the redux store was validation then
-    // inform consumer of latest validation results.
-    if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
-      this.onValidation(validationResult)
-    }
+        if (this.onChange) {
+          const valueWithoutInternalState = removeInternalValues(value)
+          this.onChange(valueWithoutInternalState)
+        }
+      }
+
+      // If the last action that occurred in the redux store was validation then
+      // inform consumer of latest validation results.
+      if (lastAction === 'VALIDATION_RESOLVED' && this.onValidation) {
+        this.onValidation(validationResult)
+      }
+
+      this.updateSelectedTab()
+    })
   },
   /* eslint-enable complexity */
 
   /**
-   * Batches the changes in a change-set so multiple updates to a change-set
-   * don't override each other in a a single run loop
-   * @param {Map} changeSet - the changeSet to merge with the batched version
-   * @returns {Map} the newly updated batched change-sets
+   * Batches the changes to properties in a single run loop so changes to these props can be compared against
+   * the preceeding sync changes. If valueChangeSet is included in the props, special care is taken to merge
+   * the changeset rather than overriding it.
+   * @param {Object} properties - the properties to merge with the batched version
+   * @returns {Object} the newly updated batched properties
    */
-  batchChanges (changeSet) {
-    let batchedChangeSet = this.get('batchedChangeSet')
+  batchChanges (properties) {
+    let batchedChanges = this.get('batchedChanges')
+    let changeSet = properties.valueChangeSet
+    delete properties.valueChangeSet
 
-    if (!batchedChangeSet) {
-      batchedChangeSet = new Map()
+    Object.assign(batchedChanges, properties)
 
-      this.set('batchedChangeSet', batchedChangeSet)
+    if (changeSet) {
+      if (!batchedChanges.valueChangeSet) {
+        batchedChanges.valueChangeSet = new Map()
+      }
+
+      changeSet.forEach((value, key) => {
+        batchedChanges.valueChangeSet.set(key, value)
+      })
     }
 
-    changeSet.forEach((value, key) => {
-      batchedChangeSet.set(key, value)
-    })
-
-    run.schedule('afterRender', () => {
+    run.schedule('destroy', () => {
       if (this.isDestroyed || this.isDestroying) return
-      this.set('batchedChangeSet', null)
+      this.set('batchedChanges', {})
     })
 
-    return batchedChangeSet
-  },
-
-  /**
-   * Pass new model into redux store
-   * @param {BunsenModel} model - new model
-   */
-  dispatchModel (model) {
-    this.get('reduxStore').dispatch(changeModel(model))
-  },
-
-  /**
-   * Pass new view into redux store
-   * @param {BunsenView} view - new view
-   */
-  dispatchView (view) {
-    this.get('reduxStore').dispatch(changeView(view))
+    return batchedChanges
   },
 
   /**
@@ -375,8 +386,23 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     // recursive case for arrays
-    if (cellConfig.arrayOptions && cellConfig.arrayOptions.itemCell) {
-      this.precomputeIds(cellConfig.arrayOptions.itemCell, `${bunsenId}.[]`)
+    if (cellConfig.arrayOptions) {
+      const arrayModelTypes = ['itemCell', 'tupleCells']
+      arrayModelTypes.forEach((modelType) => {
+        const model = cellConfig.arrayOptions[modelType]
+
+        if (!model) {
+          return
+        }
+
+        if (Array.isArray(model)) {
+          model.forEach((item) => {
+            this.precomputeIds(item, bunsenId)
+          })
+        } else {
+          this.precomputeIds(model, `${bunsenId}.[]`)
+        }
+      })
     }
   },
 
@@ -409,12 +435,25 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       }
 
       // descendant array dependency references
-      if (config.arrayOptions && config.arrayOptions.itemCell) {
-        const itemCell = config.arrayOptions.itemCell
+      if (config.arrayOptions) {
+        const cellTypes = ['itemCell', 'tupleCells']
+        cellTypes.forEach((type) => {
+          const cell = config.arrayOptions[type]
 
-        if (itemCell.__dependency__) {
-          deps.push(itemCell.__dependency__)
-        }
+          if (!cell) return
+
+          if (Array.isArray(cell)) {
+            cell.forEach((item) => {
+              if (item.__dependency__) {
+                deps.push(item.__dependency__)
+              }
+            })
+          } else {
+            if (cell.__dependency__) {
+              deps.push(cell.__dependency__)
+            }
+          }
+        })
       }
 
       // determine the common dependency reference
@@ -432,29 +471,37 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const {errors, lastAction, validationResult, value, valueChangeSet} = state
     const hasValueChanges = valueChangeSet ? valueChangeSet.size > 0 : false
     const newProps = {}
+    let batchedChanges = this.get('batchedChanges')
+    let hasSchemaChanges = false
 
-    if (!_.isEqual(errors, this.get('errors'))) {
+    if (!_.isEqual(errors, batchedChanges.errors || this.get('errors'))) {
       newProps.errors = errors
     }
 
-    if (!_.isEqual(this.get('renderModel'), state.model)) {
+    if (!_.isEqual(batchedChanges.renderModel || this.get('renderModel'), state.model)) {
       newProps.renderModel = state.model
       newProps.baseModel = state.baseModel
+      hasSchemaChanges = true
     }
 
-    if (!_.isEqual(this.get('view'), state.view)) {
+    if (!_.isEqual(batchedChanges.view || this.get('view'), state.view)) {
       newProps.view = state.view
+      hasSchemaChanges = true
     }
 
     // we only want CHANGE_VALUE to update the renderValue since VALIDATION_RESULT should
     // not be wired up to change renderValue
     if (hasValueChanges && lastAction === CHANGE_VALUE) {
       newProps.renderValue = value
-      newProps.valueChangeSet = this.batchChanges(valueChangeSet)
-      this.informRenderersOfFormValueChange(value)
+      newProps.valueChangeSet = valueChangeSet
     }
 
-    this.applyStoreUpdate({lastAction, newProps, validationResult, value})
+    batchedChanges = this.batchChanges(newProps)
+
+    if (batchedChanges.valueChangeSet) {
+      newProps.valueChangeSet = this.get('batchedChanges.valueChangeSet')
+    }
+    this.applyStoreUpdate({lastAction, newProps, validationResult, value, hasSchemaChanges})
   },
   /* eslint-enable complexity */
 
@@ -464,28 +511,26 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   init () {
     this._super(...arguments)
 
-    // Get initial value passed in by consumer
-    const value = this.get('value')
-
-    // Make sure value is a POJO (Converting Ember.Object's to POJO's)
-    const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
-
     // Create redux store and initialze with starting state
     const reduxStore = createStoreWithMiddleware(reducer, {
-      baseModel: this.get('bunsenModel'),
-      baseView: this.get('bunsenView'),
-      value: plainObjectValue
+      baseModel: {type: 'object'}
     })
 
-    const {baseModel, model: renderModel} = reduxStore.getState()
+    const {baseModel, model: renderModel, view} = reduxStore.getState()
+    const {hook, hookPrefix} = this.getProperties(['hook', 'hookPrefix'])
 
-    // Make sure we have a reference to the store as well as the processed model
-    // from the store.
-    this.setProperties({
+    const props = {
       reduxStore,
       renderModel,
-      baseModel
-    })
+      baseModel,
+      view
+    }
+
+    if (!isPresent(hookPrefix)) {
+      props.hookPrefix = hook
+    }
+
+    this.setProperties(props)
 
     // Subscribe for redux store updates (so we can react to changes)
     reduxStore.subscribe(this.storeUpdated.bind(this))
@@ -617,7 +662,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     const newAttrBunsenView = this.get('bunsenView') || this.get('options.bunsenView')
 
     const reduxStore = this.get('reduxStore')
-    const reduxStoreValue = reduxStore.getState().value
+    const reduxStoreValue = this.get('renderValue')
     const value = this.get('value')
     const plainObjectValue = isEmberObject(value) ? deemberify(value) : value
     const hasUserProvidedValue = [null, undefined].indexOf(plainObjectValue) === -1
@@ -647,27 +692,26 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     }
 
     // If we have a new value to assign the store then let's get to it
-    if (dispatchValue) {
+    const needsValidation = dispatchValue || (hasModelChanged && newBunsenModel)
+    if (needsValidation) {
       reduxStore.dispatch(
-        validate(null, dispatchValue, this.get('renderModel'), allValidators, RSVP.all,
-          undefined, mergeDefaults)
-      )
-    } else if (hasModelChanged) {
-      reduxStore.dispatch(
-        validate(null, value, newBunsenModel, allValidators, RSVP.all,
-          undefined, mergeDefaults)
-      )
+        validate(
+          null,
+          dispatchValue || value,
+          hasModelChanged ? newBunsenModel : this.get('renderModel'),
+          allValidators,
+          RSVP.all,
+          undefined,
+          mergeDefaults
+        ))
     }
 
-    if (hasViewChanged) {
-      this.dispatchView(newView)
+    if ((hasViewChanged && newView) || (hasModelChanged && newBunsenModel)) {
+      reduxStore.dispatch(change({
+        model: hasModelChanged ? newBunsenModel : undefined,
+        view: hasViewChanged ? newView : undefined
+      }))
     }
-
-    if (hasModelChanged || hasViewChanged) {
-      this.dispatchModel(newBunsenModel)
-    }
-
-    this.updateSelectedTab()
 
     this.set('_oldAttrBunsenModel', newAttrBunsenModel)
     this.set('_oldAttrBunsenView', newAttrBunsenView)
@@ -738,6 +782,39 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
       if (index !== -1) {
         registeredComponents.splice(index, 1)
+      }
+    },
+
+    /**
+     * Returns properties of the top-level form so inputs have easier access to them without requiring
+     * those properties be propagated
+     * @returns {Object} an object containing common form properties
+     */
+    getRootProps () {
+      const {
+        focusedInput,
+        hookInputDelimiter,
+        lastFocusedInput,
+        renderModel,
+        renderView
+      } = this.getProperties([
+        'focusedInput',
+        'hookInputDelimiter',
+        'lastFocusedInput',
+        'renderModel',
+        'renderView'
+      ])
+
+      const validators = this.getAllValidators()
+      const plugins = this.get('plugins')
+      return {
+        focusedInput,
+        lastFocusedInput,
+        hookInputDelimiter,
+        model: renderModel,
+        plugins,
+        validators,
+        view: renderView
       }
     }
   }

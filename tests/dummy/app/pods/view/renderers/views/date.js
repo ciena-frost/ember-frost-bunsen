@@ -1,10 +1,21 @@
 export default {
   cells: [
     {
-      model: 'foo',
-      renderer: {
-        name: 'date'
-      }
+      children: [
+        {
+          model: 'foo',
+          renderer: {
+            name: 'date'
+          }
+        },
+        {
+          model: 'bar',
+          renderer: {
+            defaultToCurrentDate: true,
+            name: 'date'
+          }
+        }
+      ]
     }
   ],
   type: 'form',

@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
-const {getLabel, getSubModel} = utils
+const {getLabel} = utils
 import Ember from 'ember'
-const {Component, get, isEmpty, typeOf} = Ember
+const {Component, get, isEmpty, isPresent, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import {singularize} from 'ember-inflector'
@@ -25,6 +25,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     compact: PropTypes.bool,
     errors: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
+    getRootProps: PropTypes.func,
     index: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
@@ -45,7 +46,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   getDefaultProps () {
     return {
       compact: false,
-      showRemoveButton: true
+      showRemoveButton: false
     }
   },
 
@@ -100,29 +101,18 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
   @readOnly
   @computed('cellConfig', 'index')
-  itemCell (cellConfig, index) {
-    return get(cellConfig, `arrayOptions.tupleCells.${index}`) ||
-      get(cellConfig, `arrayOptions.itemCell.${index}`) ||
-      get(cellConfig, 'arrayOptions.itemCell') || {}
-  },
+  itemCell (cellConfig, index, bunsenModel) {
+    const arrayOptions = get(cellConfig, 'arrayOptions')
 
-  @readOnly
-  @computed('cellConfig', 'bunsenModel')
-  renderModel (cellConfig, bunsenModel) {
-    if (typeof cellConfig.model === 'string') {
-      return getSubModel(bunsenModel, cellConfig.model)
+    if (!isPresent(arrayOptions)) {
+      return {}
     }
 
-    return bunsenModel
-  },
+    const cell = get(arrayOptions, `tupleCells.${index}`) ||
+        get(arrayOptions, `itemCells.${index}`) ||
+        arrayOptions.itemCell
 
-  @readOnly
-  @computed('bunsenId', 'cellConfig.model')
-  renderId (bunsenId, model) {
-    if (typeof model === 'string') {
-      return `${bunsenId}.${model}`
-    }
-    return bunsenId
+    return isPresent(cell) && !Array.isArray(cell) ? cell : {}
   },
 
   // == Actions ================================================================

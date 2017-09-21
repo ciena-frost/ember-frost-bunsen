@@ -117,9 +117,14 @@ pre.value-code-block {
 }
 
 .fullscreen .demo-showcase .demo-editor .ribbon .tabs.bunsen-editor {
-  transform: rotate(-90deg) translateX(-312px);
+  transform: rotate(-90deg) translateX(-380px);
 }
 
 .top-right-select {
   float: right;
+}
+
+.demo-view {
+  overflow-y: auto;
+  padding: 0 1em;
 }

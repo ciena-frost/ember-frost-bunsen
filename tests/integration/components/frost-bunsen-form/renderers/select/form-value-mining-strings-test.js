@@ -721,8 +721,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
     describe('when expanded/opened', function () {
       beforeEach(function () {
         render.call(this)
-        $hook('my-form-foo').find('.frost-select').click()
-        return wait()
+        return wait().then(() => {
+          $hook('my-form-foo').find('.frost-select').click()
+          return wait()
+        })
       })
 
       it('renders as expected', function () {
@@ -1450,8 +1452,10 @@ describe('Integration: Component / frost-bunsen-form / renderer / select form va
       describe('when expanded/opened', function () {
         beforeEach(function () {
           render.call(this)
-          $hook('my-form-foo').find('.frost-select').click()
-          return wait()
+          return wait().then(() => {
+            $hook('my-form-foo').find('.frost-select').click()
+            return wait()
+          })
         })
 
         it('renders as expected', function () {

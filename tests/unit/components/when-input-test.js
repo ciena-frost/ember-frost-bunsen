@@ -92,10 +92,6 @@ describe('Unit: frost-bunsen-input-when', function () {
     it('sets storedDateTimeValue', function () {
       expect(isEmpty(component.get('storedDateTimeValue'))).to.equal(false)
     })
-
-    it('calls onChange() with value of first button', function () {
-      run.later(() => expect(onChangeSpy).to.have.been.calledWith('foo', firstButtonValue))
-    })
   })
 
   describe('when selectDate() is called', function () {
@@ -133,8 +129,10 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     describe('when secenario for first button has been selected', function () {
       beforeEach(function () {
-        eventObject.target.value = firstButtonValue
-        component.send('selectedButton', eventObject)
+        run(() => {
+          eventObject.target.value = firstButtonValue
+          component.send('selectedButton', eventObject)
+        })
       })
 
       it('sets "selectedValue" to the value the first radio button', function () {
@@ -152,8 +150,10 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     describe('when secenario for second button has been selected', function () {
       beforeEach(function () {
-        eventObject.target.value = DATE_VALUE
-        component.send('selectedButton', eventObject)
+        run(() => {
+          eventObject.target.value = DATE_VALUE
+          component.send('selectedButton', eventObject)
+        })
       })
 
       it('sets "selectedValue" to the value the second radio button', function () {

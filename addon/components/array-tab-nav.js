@@ -21,6 +21,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     bunsenView: PropTypes.object.isRequired,
     cellConfig: PropTypes.object.isRequired,
     formDisabled: PropTypes.bool,
+    getRootProps: PropTypes.func,
     index: PropTypes.number.isRequired,
     onRemove: PropTypes.func.isRequired,
     renderers: PropTypes.oneOfType([

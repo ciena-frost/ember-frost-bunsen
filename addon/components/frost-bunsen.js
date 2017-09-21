@@ -11,9 +11,16 @@ const keys = [
   'disabled',
   'bunsenModel',
   'bunsenView',
+  'focusedInput',
   'hook',
+  'hookInputDelimiter',
+  'hookPrefix',
   'onChange',
   'onError',
+  'onFocusOut',
+  'onFocusIn',
+  'onInputFocusIn',
+  'onInputFocusOut',
   'onTabChange',
   'onValidation',
   'registeredComponents',
@@ -51,6 +58,9 @@ export default Component.extend(SpreadMixin, HookMixin, {
   @readOnly
   @computed('bunsenView')
   type (view) {
+    if (!view) {
+      return 'form'
+    }
     return get(view, 'type')
   }
 })

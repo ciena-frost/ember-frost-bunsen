@@ -24,7 +24,7 @@ function compare (expected, actual) {
     if (typeof (actual.length) !== 'number') {
       return false
     }
-    var aa = Array.prototype.slice.call(actual)
+    const aa = Array.prototype.slice.call(actual)
     return expected.every(function (exp) {
       return aa.some(function (act) {
         return compare(exp, act)
@@ -37,8 +37,8 @@ function compare (expected, actual) {
   }
 
   return keys(expected).every(function (key) {
-    var eo = expected[key]
-    var ao = actual[key]
+    const eo = expected[key]
+    const ao = actual[key]
     if (typeof (eo) === 'object' && eo !== null && ao !== null) {
       return compare(eo, ao)
     }
@@ -49,8 +49,8 @@ function compare (expected, actual) {
 
 // Taken from chai-subset
 chai.Assertion.addMethod('containSubset', function (expected) {
-  var actual = flag(this, 'object')
-  var showDiff = chai.config.showDiff
+  const actual = flag(this, 'object')
+  const showDiff = chai.config.showDiff
 
   this.assert(
     compare(expected, actual),
@@ -81,10 +81,10 @@ chai.Assertion.addMethod('class', function (className) {
 chai.Assertion.overwriteChainableMethod('contain',
   function (_super) {
     return function (text) {
-      var obj = flag(this, 'object')
+      const obj = flag(this, 'object')
       if ('jquery' in obj) {
         this.assert(
-            obj.is(':contains(\'' + text + '\')')
+          obj.is(':contains(\'' + text + '\')')
           , 'expected #{this} to contain #{exp}'
           , 'expected #{this} not to contain #{exp}'
           , text)
