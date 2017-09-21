@@ -1,3 +1,6 @@
+# 15.0.4 (2017-09-21)
+* the logic of toggling section content has been **changed** to hide content with style rather than removing node from rendering in template
+
 # 15.0.3 (2017-09-19)
 
 * **Removed** extraneous logging
