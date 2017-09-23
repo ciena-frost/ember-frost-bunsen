@@ -1,3 +1,10 @@
+# 15.0.5 (2017-09-23)
+
+* **Updated** demo editor to show red border when json is invalid. Helps when determining why the form doesn't render properly.
+* **Fixed** a bug where inputs lose focus when conditions are evaluated. Focusing logic was meant to handle this but I didn't catch that it wasn't doing the job. Tests were added to ensure this works now.
+* **Fixed** nested form case when using the form renderer (form renderer rendering a view that has a form renderer which returns another view)
+
+
 # 15.0.4 (2017-09-21)
 * the logic of toggling section content has been **changed** to hide content with style rather than removing node from rendering in template
 
