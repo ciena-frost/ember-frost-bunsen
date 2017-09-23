@@ -276,7 +276,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const {focusedInput, lastFocusedInput} = getRootProps()
-    const focusSelector = this.get('focusSelector')
+    const focusSelector = this.focusSelector()
 
     this.setProperties({
       focusedInput: focusedInput || lastFocusedInput

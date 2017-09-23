@@ -795,18 +795,20 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         focusedInput,
         hookInputDelimiter,
         lastFocusedInput,
+        plugins,
         renderModel,
-        renderView
+        renderView,
+        validators
       } = this.getProperties([
         'focusedInput',
         'hookInputDelimiter',
         'lastFocusedInput',
+        'plugins',
         'renderModel',
-        'renderView'
+        'renderView',
+        'validators'
       ])
 
-      const validators = this.getAllValidators()
-      const plugins = this.get('plugins')
       return {
         focusedInput,
         lastFocusedInput,

@@ -26,6 +26,7 @@ export default AbstractInput.extend(HookMixin, {
     internalBunsenModel: PropTypes.object,
     internalBunsenView: PropTypes.object,
     internalBunsenValue: PropTypes.object,
+    internalPlugins: PropTypes.object,
     internalValidators: PropTypes.array,
     propagateValidation: PropTypes.bool,
     validationResult: PropTypes.object
@@ -64,13 +65,14 @@ export default AbstractInput.extend(HookMixin, {
    */
   getSchemaTask: task(function * () {
     const model = this._getLocalModel()
-    const {validators} = this.get('getRootProps')()
+    const {plugins, validators} = this.get('getRootProps')()
     const plugin = get(this.get('cellConfig'), 'renderer.plugin')
 
     if (!plugin) {
       return RSVP.resolve({
         model,
         validators,
+        plugins,
         propagateValidation: false
       })
     }
@@ -195,6 +197,7 @@ export default AbstractInput.extend(HookMixin, {
       pluginInfo.validators = validators.concat(pluginInfo.validators || [])
       pluginInfo.propagateValidation = isPresent(pluginInfo.model)
       pluginInfo.model = pluginInfo.model || model
+      pluginInfo.plugins = plugins
       return pluginInfo
     })
   },
@@ -220,7 +223,7 @@ export default AbstractInput.extend(HookMixin, {
    */
   _updateInternalSchemas () {
     this.get('getSchemaTask').perform()
-      .then(({model, view, propagateValidation}) => {
+      .then(({model, view, plugins, validators, propagateValidation}) => {
         this.set('propagateValidation', propagateValidation)
 
         if (model && !_.isEqual(this.get('internalBunsenModel'), model)) {
@@ -230,6 +233,11 @@ export default AbstractInput.extend(HookMixin, {
         if (view && !_.isEqual(this.get('internalBunsenView'), view)) {
           this.set('internalBunsenView', view)
         }
+
+        this.setProperties({
+          internalValidators: validators,
+          internalPlugins: plugins
+        })
       })
       .catch((err) => {
         this.set('localError', err.message)

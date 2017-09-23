@@ -23,6 +23,7 @@ const keys = [
   'onInputFocusOut',
   'onTabChange',
   'onValidation',
+  'plugins',
   'registeredComponents',
   'renderers',
   'showAllErrors',

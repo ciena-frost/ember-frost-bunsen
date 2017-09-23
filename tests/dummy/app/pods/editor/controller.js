@@ -1,5 +1,6 @@
 import Ember from 'ember'
 const {Controller, Logger, run} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
 
 const bunsenModel = {
   properties: {
@@ -37,6 +38,30 @@ export default Controller.extend({
   bunsenValueString: JSON.stringify(bunsenValue, null, 2),
   bunsenView,
   bunsenViewString: JSON.stringify(bunsenView, null, 2),
+  modelErrored: false,
+  viewErrored: false,
+  valueErrored: false,
+
+  @readOnly
+  @computed('modelErrored')
+  modelClass (errored) {
+    const errorClass = errored ? 'error' : ''
+    return `text-editor ${errorClass}`
+  },
+
+  @readOnly
+  @computed('viewErrored')
+  viewClass (errored) {
+    const errorClass = errored ? 'error' : ''
+    return `text-editor ${errorClass}`
+  },
+
+  @readOnly
+  @computed('valueErrored')
+  valueClass (errored) {
+    const errorClass = errored ? 'error' : ''
+    return `text-editor ${errorClass}`
+  },
 
   actions: {
     formChange (bunsenValue) {
@@ -53,10 +78,15 @@ export default Controller.extend({
         const model = JSON.parse(newValue)
         this.setProperties({
           bunsenModel: model,
-          bunsenModelString: newValue
+          bunsenModelString: newValue,
+          modelErrored: false
         })
       } catch (err) {
         this.set('bunsenModelString', newValue)
+        this.setProperties({
+          bunsenModelString: newValue,
+          modelErrored: true
+        })
       }
     },
 
@@ -69,10 +99,14 @@ export default Controller.extend({
         const value = JSON.parse(newValue)
         this.setProperties({
           bunsenValue: value,
-          bunsenValueString: newValue
+          bunsenValueString: newValue,
+          valueErrored: false
         })
       } catch (err) {
-        this.set('bunsenValueString', newValue)
+        this.setProperties({
+          bunsenValueString: newValue,
+          valueErrored: true
+        })
       }
     },
 
@@ -81,10 +115,14 @@ export default Controller.extend({
         const view = JSON.parse(newValue)
         this.setProperties({
           bunsenView: view,
-          bunsenViewString: newValue
+          bunsenViewString: newValue,
+          viewErrored: false
         })
       } catch (err) {
-        this.set('bunsenViewString', newValue)
+        this.setProperties({
+          bunsenViewString: newValue,
+          viewErrored: true
+        })
       }
     }
   }
