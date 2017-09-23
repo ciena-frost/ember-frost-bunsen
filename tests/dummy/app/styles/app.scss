@@ -128,3 +128,11 @@ pre.value-code-block {
   overflow-y: auto;
   padding: 0 1em;
 }
+
+.text-editor {
+  &.error {
+    .CodeMirror-gutters {
+      border-left-color: red;
+    }
+  }
+}

@@ -390,6 +390,7 @@ describe(test.label, function () {
         expect(result).to.eql({
           model: 'foo-schema',
           validators,
+          plugins,
           propagateValidation: true
         })
       })

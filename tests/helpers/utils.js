@@ -50,6 +50,7 @@ export function renderDetailComponent () {
     bunsenModel=bunsenModel
     bunsenView=bunsenView
     hook=hook
+    plugins=plugins
     selectedTabLabel=selectedTabLabel
     value=value
   }}`)
@@ -68,8 +69,10 @@ export function renderFormComponent () {
     mergeDefaults=mergeDefaults
     onChange=onChange
     onValidation=onValidation
+    plugins=plugins
     selectedTabLabel=selectedTabLabel
     showAllErrors=showAllErrors
+    validators=validators
     value=value
   }}`)
 }
@@ -88,8 +91,10 @@ export function renderFormComponentWithSelectOutlet () {
       hook=hook
       onChange=onChange
       onValidation=onValidation
+      plugins=plugins
       selectedTabLabel=selectedTabLabel
       showAllErrors=showAllErrors
+      validators=validators
       value=value
     }}
   `)

@@ -6,39 +6,45 @@
   <div class="flex-grid">
     <div class="one-third">
       <h3 class=demo-heading">Model</h3>
-      {{ivy-codemirror
-        options=(hash
-          lineNumbers=true
-          mode="javascript"
-          theme="mdn-like"
-        )
-        value=bunsenModelString
-        valueUpdated=(action "modelUpdated")
-      }}
+      <div class={{modelClass}}>
+        {{ivy-codemirror
+          options=(hash
+            lineNumbers=true
+            mode="javascript"
+            theme="mdn-like"
+          )
+          value=bunsenModelString
+          valueUpdated=(action "modelUpdated")
+        }}
+      </div>
     </div>
     <div class="one-third">
       <h3 class=demo-heading">View</h3>
-      {{ivy-codemirror
-        options=(hash
-          lineNumbers=true
-          mode="javascript"
-          theme="mdn-like"
-        )
-        value=bunsenViewString
-        valueUpdated=(action "viewUpdated")
-      }}
+      <div class={{viewClass}}>
+        {{ivy-codemirror
+          options=(hash
+            lineNumbers=true
+            mode="javascript"
+            theme="mdn-like"
+          )
+          value=bunsenViewString
+          valueUpdated=(action "viewUpdated")
+        }}
+      </div>
     </div>
     <div class="one-third">
       <h3 class=demo-heading">Value</h3>
-      {{ivy-codemirror
-        options=(hash
-          lineNumbers=true
-          mode="javascript"
-          theme="mdn-like"
-        )
-        value=bunsenValueString
-        valueUpdated=(action "valueUpdated")
-      }}
+      <div class={{valueClass}}>
+        {{ivy-codemirror
+          options=(hash
+            lineNumbers=true
+            mode="javascript"
+            theme="mdn-like"
+          )
+          value=bunsenValueString
+          valueUpdated=(action "valueUpdated")
+        }}
+      </div>
     </div>
   </div>
   <h3 class=demo-heading">Demo</h3>
