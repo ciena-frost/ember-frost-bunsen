@@ -1,3 +1,11 @@
+# 15.0.4 (2017-09-21)
+* the logic of toggling section content has been **changed** to hide content with style rather than removing node from rendering in template
+
+# 15.0.3 (2017-09-19)
+
+* **Removed** extraneous logging
+
+
 # 15.0.2 (2017-09-19)
 
 This fixes a lot of issues with arrays not working, especially around tuples. Since this feature was broken when the last major bump occurred, and the fix involved some internal changes that ultimately required a major bump of bunsen-core, I believe this fix can be a patch. The changes shouldn't affect the usage according to the "official documentation" but it does break some assumptions that were, in my opinion, naive as tuple support was barely working even before.
