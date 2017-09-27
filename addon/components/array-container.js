@@ -137,7 +137,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   @computed('bunsenModel.maxItems', 'value', 'bunsenId')
   maxItemsReached (maxItems, value, bunsenId) {
     if (value && maxItems) {
-      return get(value, bunsenId).length >= maxItems
+      return get(value, bunsenId + '.length') >= maxItems
     }
     return false
   },
