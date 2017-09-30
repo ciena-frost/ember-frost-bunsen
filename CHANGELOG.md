@@ -1,3 +1,9 @@
+# 15.0.6 (2017-09-30)
+
+* **Fixes** race condition causing the `isSchemaLoaded` in the `form` renderer not to fire during init
+* **Fixes** validation state that was caused by stale validation data. Calling `triggerValidation` on the input form's validation handler and when component validators are removed was necessary to sync up the proper validation state.
+
+
 # 15.0.5 (2017-09-23)
 
 * **Updated** demo editor to show red border when json is invalid. Helps when determining why the form doesn't render properly.
