@@ -1,6 +1,6 @@
 import {findValue, getSubModel, populateQuery} from 'bunsen-core/utils'
 import Ember from 'ember'
-const {RSVP, get, getWithDefault, isPresent, run} = Ember
+const {RSVP, get, getWithDefault, isPresent} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task, timeout} from 'ember-concurrency'
 import {AbstractInput} from 'ember-frost-bunsen'
@@ -55,9 +55,9 @@ export default AbstractInput.extend(HookMixin, {
   },
 
   @readOnly
-  @computed('internalBunsenModel', 'internalBunsenView')
-  isSchemaLoaded (internalBunsenModel, internalBunsenView) {
-    return isPresent(internalBunsenModel) && this.get('getSchemaTask.isIdle')
+  @computed('internalBunsenModel', 'getSchemaTask.isIdle')
+  isSchemaLoaded (internalBunsenModel, isIdle) {
+    return isPresent(internalBunsenModel) && isIdle
   },
 
   /**
@@ -163,6 +163,7 @@ export default AbstractInput.extend(HookMixin, {
     const bunsenPath = this.get('bunsenId').split('.')
     // replace path with correct bunsen ids since our model scoped
     ;['errors', 'warnings'].forEach((type) => {
+      if (!(type in validationResult)) return
       validationResult[type].forEach((result) => {
         // remove #/
         const internalBunsenPath = result.path.split('/').slice(1)
@@ -171,6 +172,7 @@ export default AbstractInput.extend(HookMixin, {
         result.path = `#/${validatePath}`
       })
     })
+
     return RSVP.resolve({
       value: this.get('propagateValidation') ? validationResult : emptyResult
     })
@@ -224,7 +226,10 @@ export default AbstractInput.extend(HookMixin, {
   _updateInternalSchemas () {
     this.get('getSchemaTask').perform()
       .then(({model, view, plugins, validators, propagateValidation}) => {
-        this.set('propagateValidation', propagateValidation)
+        this.setProperties({
+          propagateValidation,
+          validationResult: {}
+        })
 
         if (model && !_.isEqual(this.get('internalBunsenModel'), model)) {
           this.set('internalBunsenModel', model)
@@ -305,6 +310,11 @@ export default AbstractInput.extend(HookMixin, {
   actions: {
     formChange (value) {
       this.set('internalBunsenValue', value.asMutable())
+
+      const bunsenId = this.get('bunsenId')
+      // update form value here to avoid duplicate work from formValueChanged
+      _.set(this.get('formValue'), bunsenId, value)
+      this.onChange(bunsenId, value)
     },
 
     /**
@@ -313,16 +323,12 @@ export default AbstractInput.extend(HookMixin, {
      * @param {Object} result - validation result
      */
     formValidation (result) {
-      const bunsenId = this.get('bunsenId')
-
-      this.set('validationResult', result)
-      let value = this.get('internalBunsenValue')
-
-      // update form value here to avoid duplicate work from formValueChanged
-      _.set(this.get('formValue'), bunsenId, value)
-      run.schedule('afterRender', () => {
-        this.onChange(bunsenId, value)
-      })
+      if (!_.isEqual(result, this.get('validationResult'))) {
+        this.set('validationResult', result)
+        if (this.get('triggerValidation')) {
+          this.get('triggerValidation')()
+        }
+      }
     },
 
     handleFocusIn (bunsenId) {
