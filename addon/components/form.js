@@ -66,18 +66,6 @@ export default DetailComponent.extend({
 
   // == Functions ==============================================================
 
-  triggerValidation () {
-    const model = this.get('renderModel')
-    const reduxStore = this.get('reduxStore')
-    const validators = this.getAllValidators()
-    const value = this.get('renderValue')
-    const mergeDefaults = this.get('mergeDefaults')
-
-    reduxStore.dispatch(
-      validate(null, value, model, validators, RSVP.all, true, mergeDefaults)
-    )
-  },
-
   _onVisiblityChange (e) {
     // Nothing to do when page/tab loses visiblity
     // or skip if disabled

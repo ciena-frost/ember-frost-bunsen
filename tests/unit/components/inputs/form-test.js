@@ -58,7 +58,8 @@ describe(test.label, function () {
       onChange () {},
       onError () {},
       registerForFormValueChanges () {},
-      state: Ember.Object.create({})
+      state: Ember.Object.create({}),
+      triggerValidation () {}
     })
   })
 
@@ -538,7 +539,7 @@ describe(test.label, function () {
 
   describe('actions: formValidation', function () {
     beforeEach(function () {
-      sandbox.stub(component, 'onChange')
+      sandbox.stub(component, 'triggerValidation')
       component.set('internalBunsenValue', {
         firstName: 'Paul',
         lastName: 'Ryan'
@@ -550,17 +551,8 @@ describe(test.label, function () {
       expect(component.get('validationResult')).to.equal('validationResult')
     })
 
-    it('should set formValue cache', function () {
-      expect(component.get('formValue')).to.eql({
-        name: {
-          firstName: 'Paul',
-          lastName: 'Ryan'
-        }
-      })
-    })
-
-    it('should call onChange', function () {
-      expect(component.onChange).to.have.callCount(1)
+    it('should call triggerValidation', function () {
+      expect(component.triggerValidation).to.have.callCount(1)
     })
   })
 })
