@@ -109,7 +109,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
 
     const cell = get(arrayOptions, `tupleCells.${index}`) ||
-        get(arrayOptions, `itemCells.${index}`) ||
+        get(arrayOptions, `itemCell.${index}`) ||
         arrayOptions.itemCell
 
     return isPresent(cell) && !Array.isArray(cell) ? cell : {}
