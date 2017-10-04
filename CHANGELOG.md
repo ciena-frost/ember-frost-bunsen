@@ -1,3 +1,8 @@
+# 15.0.7 (2017-10-04)
+
+* **Fixed** a major bug in arrays with conditionals which was caused by my array refactor
+
+
 # 15.0.6 (2017-09-30)
 
 * **Fixes** race condition causing the `isSchemaLoaded` in the `form` renderer not to fire during init
