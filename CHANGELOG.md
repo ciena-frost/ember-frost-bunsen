@@ -1,3 +1,8 @@
+# 15.0.8 (2017-10-04)
+
+* **Fixed** rendering support for child views of heterogenous arrays which wasn't properly precomputing the bunsen ID before.
+
+
 # 15.0.7 (2017-10-04)
 
 * **Fixed** a major bug in arrays with conditionals which was caused by my array refactor
