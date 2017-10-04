@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs>
+        <rect id="path-1" x="0" y="12" width="24" height="14" rx="1"/>
+    </defs><symbol id="more-tabs" viewBox="0 0 36 27">
+    
+    <g id="Extra-Tab+-actions" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="extra_tabs-copy-4" transform="translate(-1279.000000, -137.000000)">
+            <g id="Add_tab" transform="translate(1279.000000, 138.000000)">
+                <g id="Group-7" transform="translate(22.000000, 0.000000)" stroke="#979797" stroke-width="3" stroke-linecap="square">
+                    <path d="M0.224,7 L12.2199707,7" id="Line"/>
+                    <path d="M0.224,7 L12.992,7" id="Line" transform="translate(6.720000, 7.000000) rotate(-270.000000) translate(-6.720000, -7.000000) "/>
+                </g>
+                <g id="Rectangle-6">
+                    <use fill="#F5F6F7" fill-rule="evenodd" xlink:href="#path-1"/>
+                    <rect stroke="#BABCBE" stroke-width="1" x="0.5" y="12.5" width="23" height="13" rx="1"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</symbol></svg>
