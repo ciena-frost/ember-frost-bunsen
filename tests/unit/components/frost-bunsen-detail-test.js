@@ -342,4 +342,68 @@ describe(test.label, function () {
       })
     })
   })
+
+  describe('precomputeIds()', function () {
+    let cellConfig, component
+    beforeEach(function () {
+      component = this.subject({
+        bunsenModel: {
+          type: 'object',
+          properties: {}
+        }
+      })
+
+      cellConfig = {
+        children: [{
+          model: 'foo'
+        }, {
+          model: 'bar',
+          arrayOptions: {
+            itemCell: {
+              label: 'homo array'
+            }
+          }
+        }, {
+          model: 'baz',
+          arrayOptions: {
+            itemCell: [{
+              label: 'hetero array 1'
+            }, {
+              label: 'hetero array 2'
+            }]
+          }
+        }, {
+          model: 'qux',
+          arrayOptions: {
+            tupleCells: [{
+              model: '0',
+              label: 'tuple cell 2'
+            }, {
+              model: '1',
+              label: 'tuple cell 2'
+            }]
+          }
+        }]
+      }
+      component.precomputeIds(cellConfig)
+    })
+
+    it('should define __bunsenId__ property for cells', function () {
+      expect(cellConfig.children[0].__bunsenId__).to.equal('root.foo')
+    })
+
+    it('should define __bunsenId__ property for arrayOptions.itemCell', function () {
+      expect(cellConfig.children[1].arrayOptions.itemCell.__bunsenId__).to.equal('root.bar.[]')
+    })
+
+    it('should define __bunsenId__ property for arrayOptions.itemCell arrays', function () {
+      expect(cellConfig.children[2].arrayOptions.itemCell[0].__bunsenId__).to.equal('root.baz.[]')
+      expect(cellConfig.children[2].arrayOptions.itemCell[1].__bunsenId__).to.equal('root.baz.[]')
+    })
+
+    it('should define __bunsenId__ property for arrayOptions.tupleCells', function () {
+      expect(cellConfig.children[3].arrayOptions.tupleCells[0].__bunsenId__).to.equal('root.qux.0')
+      expect(cellConfig.children[3].arrayOptions.tupleCells[1].__bunsenId__).to.equal('root.qux.1')
+    })
+  })
 })

@@ -397,8 +397,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         }
 
         if (Array.isArray(model)) {
+          const useIndexPlaceholder = modelType === 'itemCell'
+          const path = useIndexPlaceholder ? `${bunsenId}.[]` : bunsenId
           model.forEach((item) => {
-            this.precomputeIds(item, bunsenId)
+            this.precomputeIds(item, path)
           })
         } else {
           this.precomputeIds(model, `${bunsenId}.[]`)
