@@ -1,10 +1,10 @@
 /**
  * These test helpers will be merged into your app's namespace
- * Documentation for each helper can be found inline in its respective file 
+ * Documentation for each helper can be found inline in its respective file
  * in the renderers folder adjacent to this file
  *
  * Usage:
- * import {helper1, helper2} from 'your-app/tests/helpers/ember-frost-core'
+ * import {helper1, helper2} from 'your-app/tests/helpers/ember-frost-bunsen'
  *
  * Happy testing!
  */
