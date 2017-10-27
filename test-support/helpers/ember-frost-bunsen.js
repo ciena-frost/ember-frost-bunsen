@@ -1,9 +1,13 @@
-// NOTE: While consumers have access to these helpers they are still considered
-// private API and subject to change without notice as the tests will continue
-// to be refactored until we are satisifed with the quality of the tests and
-// these helpers. When we are satisfied with these helpers we will document
-// them, making them public API, at which point consumers will be free to use
-// them without the worry of them changing on minor/patch upgrades.
+/**
+ * These test helpers will be merged into your app's namespace
+ * Documentation for each helper can be found inline in its respective file 
+ * in the renderers folder adjacent to this file
+ *
+ * Usage:
+ * import {helper1, helper2} from 'your-app/tests/helpers/ember-frost-core'
+ *
+ * Happy testing!
+ */
 
 import {expect} from 'chai'
 import Ember from 'ember'
