@@ -1,6 +1,6 @@
 /**
  * These test helpers will be merged into your app's namespace
- * Documentation for each helper can be found inline in its respective file 
+ * Documentation for each helper can be found inline in its respective file
  * in the renderers folder adjacent to this file
  *
  * Usage:
