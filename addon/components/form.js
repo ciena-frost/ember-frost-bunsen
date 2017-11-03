@@ -1,7 +1,7 @@
 import {actions} from 'bunsen-core'
 const {validate} = actions
 import Ember from 'ember'
-const {$, RSVP, VERSION} = Ember
+const {$, RSVP, VERSION, run} = Ember
 import {PropTypes} from 'ember-prop-types'
 
 import DetailComponent from './detail'
@@ -67,13 +67,15 @@ export default DetailComponent.extend({
   // == Functions ==============================================================
 
   _onVisiblityChange (e) {
+    run(() => {
     // Nothing to do when page/tab loses visiblity
     // or skip if disabled
-    if (e.target.hidden || !this.get('validateOnVisibilityChange')) {
-      return
-    }
+      if (e.target.hidden || !this.get('validateOnVisibilityChange')) {
+        return
+      }
 
-    this.triggerValidation()
+      this.triggerValidation()
+    })
   },
 
   // == Events =================================================================
