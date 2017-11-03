@@ -1,3 +1,7 @@
+# 15.0.9 (2017-11-03)
+* Wrap eventListener `visibilitychange` in run loop
+  * Fixes issue of changing tabs while testing, resulting in `autorun loop disabled` error
+
 # 15.0.8 (2017-10-04)
 
 * **Fixed** rendering support for child views of heterogenous arrays which wasn't properly precomputing the bunsen ID before.
