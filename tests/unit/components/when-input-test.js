@@ -101,7 +101,7 @@ describe('Unit: frost-bunsen-input-when', function () {
       onChangeSpy = sandbox.spy()
       component.setProperties({
         'cellConfig.renderer.value': firstButtonValue,
-        value: '2017-11-07T16:20:47-08:00',
+        value: '2017-11-07T16:20:47+00:00',
         onChange: onChangeSpy
       })
       component.init()
@@ -124,7 +124,8 @@ describe('Unit: frost-bunsen-input-when', function () {
     })
 
     it('sets storedDateTimeValue', function () {
-      expect(component.get('storedDateTimeValue')).to.equal('2017-11-07T16:20:47-08:00')
+      expect(moment(component.get('storedDateTimeValue')).valueOf())
+        .to.equal(moment('2017-11-07T16:20:47+00:00').valueOf())
     })
   })
 
