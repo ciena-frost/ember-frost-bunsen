@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {$, get, guidFor, run} = Ember
+const {$, get, guidFor, isPresent, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {PropTypes} from 'ember-prop-types'
 import moment from 'moment'
@@ -116,22 +116,33 @@ export default AbstractInput.extend({
   init () {
     this._super(...arguments)
 
-    const currentDateTime = moment()
+    const firstButtonValue = get(this, 'cellConfig.renderer.value')
+    const value = this.get('value')
+
+    let selectedValue = firstButtonValue
+    let currentDateTime = moment()
+
+    if (isPresent(value) && value !== firstButtonValue) {
+      selectedValue = DATE_VALUE
+      currentDateTime = value
+    }
+
     const date = moment(currentDateTime).format(this.get('dateFormat'))
     const time = moment(currentDateTime).format(this.get('timeFormat'))
-    const firstButtonValue = get(this, 'cellConfig.renderer.value')
 
     this.setProperties({
       date,
       firstButtonValue,
-      selectedValue: firstButtonValue,
+      selectedValue,
       storedDateTimeValue: moment(currentDateTime).format(this.get('dateTimeFormat')),
       time
     })
 
-    run.schedule('afterRender', () => {
-      this.onChange(this.get('bunsenId'), firstButtonValue)
-    })
+    if (!isPresent(value)) {
+      run.schedule('afterRender', () => {
+        this.onChange(this.get('bunsenId'), firstButtonValue)
+      })
+    }
   },
 
   /**
@@ -141,7 +152,7 @@ export default AbstractInput.extend({
   didInsertElement () {
     this._super(...arguments)
 
-    this._setDisabled(true)
+    this._setDisabled(this.get('selectedValue') === this.get('firstButtonValue'))
   },
 
   /**

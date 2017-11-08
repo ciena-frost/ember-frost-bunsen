@@ -61,7 +61,7 @@ describe('Unit: frost-bunsen-input-when', function () {
     expect(component.get('dateTimeFormat')).to.eql('YYYY-MM-DDTHH:mm:ssZ')
   })
 
-  describe('when init() is called', function () {
+  describe('when init() is called without value', function () {
     let firstButtonValue = 'RIGHT_NOW'
     let onChangeSpy
     beforeEach(function () {
@@ -91,6 +91,41 @@ describe('Unit: frost-bunsen-input-when', function () {
 
     it('sets storedDateTimeValue', function () {
       expect(isEmpty(component.get('storedDateTimeValue'))).to.equal(false)
+    })
+  })
+
+  describe('when init() is called with value', function () {
+    let firstButtonValue = 'RIGHT_NOW'
+    let onChangeSpy
+    beforeEach(function () {
+      onChangeSpy = sandbox.spy()
+      component.setProperties({
+        'cellConfig.renderer.value': firstButtonValue,
+        value: '2017-11-07T16:20:47+00:00',
+        onChange: onChangeSpy
+      })
+      component.init()
+    })
+
+    it('sets date', function () {
+      expect(isEmpty(component.get('date'))).to.equal(false)
+    })
+
+    it('sets time', function () {
+      expect(isEmpty(component.get('time'))).to.equal(false)
+    })
+
+    it('sets firstButtonValue', function () {
+      expect(component.get('firstButtonValue')).to.equal(firstButtonValue)
+    })
+
+    it('sets selectedValue to value of DATE_VALUE', function () {
+      expect(component.get('selectedValue')).to.equal(DATE_VALUE)
+    })
+
+    it('sets storedDateTimeValue', function () {
+      expect(moment(component.get('storedDateTimeValue')).valueOf())
+        .to.equal(moment('2017-11-07T16:20:47+00:00').valueOf())
     })
   })
 
