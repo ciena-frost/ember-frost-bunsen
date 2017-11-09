@@ -1,3 +1,7 @@
+# 16.0.0 (2017-11-09)
+* Use latest major for `ember-frost-core`
+
+
 # 15.0.10 (2017-11-08)
 
 * **Fixed** a bug during conditional re-renders that wiped out selection state for the when re-enderer
