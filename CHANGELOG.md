@@ -1,3 +1,10 @@
+# 16.0.1 (2017-11-14)
+* **Updated** version of `ember-frost-date-picker`
+* **Updated** `ember-frost-date-picker` to now be a dependency instead of a devDependency
+* **Removed** `ember-cli-moment-shim` since now provided as a dependency of `ember-frost-date-picker`
+* **Removed** `ember-pikaday-shim` since now provided as a dependency of `ember-frost-date-picker`
+* **Removed** `pikaday` since now provided as a dependency of `ember-frost-date-picker`
+
 # 16.0.0 (2017-11-09)
 * Use latest major for `ember-frost-core`
 
