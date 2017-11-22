@@ -1,3 +1,8 @@
+# 16.0.2 (2017-11-22)
+
+* **Fixed** local data filtering involving regex meta characters
+
+
 # 16.0.1 (2017-11-14)
 * **Updated** version of `ember-frost-date-picker`
 * **Updated** `ember-frost-date-picker` to now be a dependency instead of a devDependency
