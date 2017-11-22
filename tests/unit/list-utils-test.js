@@ -1313,6 +1313,10 @@ describe('Unit: list-utils', function () {
         {
           label: 'Custom2',
           value: 'Custom2'
+        },
+        {
+          label: '??Custom3',
+          value: 'Custom3'
         }
       ]
       modelDef = {
@@ -1359,6 +1363,31 @@ describe('Unit: list-utils', function () {
           {
             label: 'Custom2',
             value: 'Custom2'
+          }
+        ])
+      })
+    })
+
+    describe('when filter is provided and filter contains metacharacters', function () {
+      beforeEach(function (done) {
+        getOptions({
+          bunsenId: '',
+          data,
+          filter: '??',
+          options: modelDef,
+          store: {},
+          value: {}
+        }).then((data) => {
+          options = data
+          done()
+        })
+      })
+
+      it('resolves with the filtered data', function () {
+        expect(options).to.eql([
+          {
+            label: '??Custom3',
+            value: 'Custom3'
           }
         ])
       })
