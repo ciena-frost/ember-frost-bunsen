@@ -22,7 +22,9 @@ const {keys} = Object
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
 export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value, keepCurrentValue}) {
-  const filterRegex = new RegExp(filter, 'i')
+  // escape regexp metacharacters for local data filtering since filter is not a regular expression
+  const safeFilter = filter.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&')
+  const filterRegex = new RegExp(safeFilter, 'i')
   const filteredData = data.filter((item) => filterRegex.test(item.label))
 
   if (options.modelType) {
