@@ -109,7 +109,8 @@
     "ember-spread": "^1.1.1",
     "ember-symbol-observable": "0.1.2",
     "redux": "^3.0.0",
-    "redux-thunk": "^2.0.0"
+    "redux-thunk": "^2.0.0",
+    "symbol-observable": "1.0.4"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
