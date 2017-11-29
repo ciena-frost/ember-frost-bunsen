@@ -1,3 +1,6 @@
+# 16.0.3 (2017-11-29)
+* **Added** `symbol-observable` at version `1.0.4` to avoid changes being received due to the float: https://github.com/mike-north/ember-symbol-observable/blob/6c6bd65a161b20a9f0f308395ad0553086ca6968/package.json#L50
+
 # 16.0.2 (2017-11-22)
 
 * **Fixed** local data filtering involving regex meta characters
