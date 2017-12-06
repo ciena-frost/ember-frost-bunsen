@@ -31,6 +31,48 @@ function expectDisabledInput ($renderer, disabled) {
 }
 
 /**
+ * Check that property is rendering as a password with expected state for a static renderer
+ * @param {String} bunsenId - bunsen ID for property rendered as password
+ * @param {Object} state - expected state of password renderer
+ */
+export function expectStaticWithState (bunsenId, state) {
+  const hook = state.hook || 'bunsenDetail'
+  const hookName = `${hook}-${bunsenId}`
+  const $renderer = $hook(hookName).first()
+  const value = $renderer.find('.frost-bunsen-input-password-text').text().trim()
+  const $reveal = $hook(`${hookName}-revealBtn`)
+
+  const defaults = {
+    value: '',
+    revealable: true
+  }
+
+  state = merge(defaults, state)
+
+  if (state.label !== undefined) {
+    expectLabel($renderer, state.label)
+  }
+
+  expect(
+    value,
+    'static password renderer has expected value'
+  )
+    .to.equal(state.value)
+
+  if (state.error) {
+    expectBunsenInputToHaveError(bunsenId, state.error, hook)
+  } else {
+    expectBunsenInputNotToHaveError(bunsenId, hook)
+  }
+
+  if (state.revealable) {
+    expect($reveal.length, 'password revealable is set').to.equal(1)
+  } else {
+    expect($reveal.length, 'password revealable is not set').to.equal(0)
+  }
+}
+
+/**
  * Check that property is renderer as a password with expected state
  * @param {String} bunsenId - bunsen ID for property rendered as password
  * @param {Object} state - expected state of password renderer
@@ -40,11 +82,13 @@ export function expectWithState (bunsenId, state) {
   const hookName = `${hook}-${bunsenId}`
   const $renderer = $hook(hookName).first()
   const $input = $renderer.find('input')
+  const $reveal = $renderer.find('.frost-password-reveal')
 
   const defaults = {
     disabled: false,
     placeholder: '',
-    value: ''
+    value: '',
+    revealable: true
   }
 
   state = merge(defaults, state)
@@ -77,6 +121,12 @@ export function expectWithState (bunsenId, state) {
     expectBunsenInputToHaveError(bunsenId, state.error, hook)
   } else {
     expectBunsenInputNotToHaveError(bunsenId, hook)
+  }
+
+  if (state.revealable) {
+    expect($reveal.length, 'password revealable is set').to.equal(1)
+  } else {
+    expect($reveal.length, 'password revealable is not set').to.equal(0)
   }
 }
 

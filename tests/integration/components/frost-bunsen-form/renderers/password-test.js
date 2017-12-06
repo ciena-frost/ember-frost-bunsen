@@ -522,4 +522,54 @@ describe('Integration: Component / frost-bunsen-form / renderer / password', fun
       expect($hook('bunsenForm-foo-input').prop('tabindex')).to.equal(23)
     })
   })
+
+  describe('when revealable option is false', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'password',
+              options: {
+                revealable: false
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo', revealable: false})
+    })
+  })
+
+  describe('when revealable option is not provided', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'password',
+              options: {}
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      expectBunsenPasswordRendererWithState('foo', {label: 'Foo', revealable: true})
+    })
+  })
 })

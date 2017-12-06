@@ -1,8 +1,9 @@
 import {expect} from 'chai'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
-
-import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
+import {
+  expectBunsenPasswordStaticRendererWithState,
+  expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupDetailComponentTest} from 'dummy/tests/helpers/utils'
 
@@ -235,6 +236,64 @@ describe('Integration: Component / frost-bunsen-detail / renderer / password', f
           'renders expected label text'
         )
           .to.equal('Foo')
+      })
+    })
+  })
+
+  describe('when revealable option is false', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'password',
+              options: {
+                revealable: false
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      expectBunsenPasswordStaticRendererWithState('foo', {
+        label: 'Foo',
+        revealable: false,
+        value: '************'
+      })
+    })
+  })
+
+  describe('when revealable option is not provided', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'password',
+              options: {}
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      expectBunsenPasswordStaticRendererWithState('foo', {
+        label: 'Foo',
+        revealable: true,
+        value: '************'
       })
     })
   })
