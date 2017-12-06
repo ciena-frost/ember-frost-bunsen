@@ -1,7 +1,7 @@
 
 import AbstractInput from './abstract-input'
 import Ember from 'ember'
-import computed, {readOnly} from 'ember-computed-decorators'
+import computed, {alias, readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-password'
 
 const {get, merge} = Ember
@@ -36,10 +36,8 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('options')
-  revealable (options) {
-    return get(options, 'revealable')
-  },
+  @alias('options.revealable')
+  revealable: null,
 
   @readOnly
   @computed('revealed')
