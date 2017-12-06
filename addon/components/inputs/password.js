@@ -1,7 +1,10 @@
-import computed, {readOnly} from 'ember-computed-decorators'
 
 import AbstractInput from './abstract-input'
+import Ember from 'ember'
+import computed, {readOnly} from 'ember-computed-decorators'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-password'
+
+const {get, merge} = Ember
 
 export default AbstractInput.extend({
   // == Component Properties ===================================================
@@ -24,6 +27,19 @@ export default AbstractInput.extend({
   },
 
   // == Computed Properties ====================================================
+
+  @readOnly
+  @computed('cellConfig')
+  options (cellConfig) {
+    const options = get(cellConfig, 'renderer.options')
+    return merge({revealable: true}, options)
+  },
+
+  @readOnly
+  @computed('options')
+  revealable (options) {
+    return get(options, 'revealable')
+  },
 
   @readOnly
   @computed('revealed')

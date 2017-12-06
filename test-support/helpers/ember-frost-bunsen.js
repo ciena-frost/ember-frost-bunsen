@@ -57,6 +57,7 @@ export {
 
 export {
   fillIn as fillInBunsenPasswordRenderer,
+  expectStaticWithState as expectBunsenPasswordStaticRendererWithState,
   expectWithState as expectBunsenPasswordRendererWithState
 } from './ember-frost-bunsen/renderers/password'
 
