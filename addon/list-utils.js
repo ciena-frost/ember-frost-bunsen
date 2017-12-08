@@ -145,9 +145,12 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = get(value, bunsenId)
   let arrayValues
-  if (typeOf(valueAsId) === 'array' && queryForCurrentValue) {
-    arrayValues = valueAsId.asMutable()
-    arrayValues = RSVP.Promise.all(arrayValues.map((id) => store.findRecord(modelType, id)))
+  if (isArray(valueAsId) && queryForCurrentValue) {
+    arrayValues = RSVP.Promise.all(valueAsId.map((id) => store.findRecord(modelType, id)))
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      })
   }
   const actuallyFindCurrentValue = keepCurrentValue && queryForCurrentValue && valueAsId !== undefined && !arrayValues
 
