@@ -144,7 +144,16 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = get(value, bunsenId)
-  const actuallyFindCurrentValue = keepCurrentValue && queryForCurrentValue && valueAsId !== undefined
+  let arrayValues
+  if (isArray(valueAsId) && queryForCurrentValue) {
+    arrayValues = valueAsId.asMutable() // frost-multi-select does not support immutable values
+    arrayValues = RSVP.Promise.all(arrayValues.map((id) => store.findRecord(modelType, id)))
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      })
+  }
+  const actuallyFindCurrentValue = keepCurrentValue && queryForCurrentValue && valueAsId !== undefined && !arrayValues
 
   const query = getQuery({
     bunsenId,
@@ -166,12 +175,20 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
       .catch((err) => {
         Logger.log(`Error fetching ${modelType}`, err)
         throw err
-      }) : RSVP.resolve(null)
+      }) : RSVP.resolve(null),
+    arrayRecords: arrayValues || RSVP.resolve(null)
   })
-    .then(({items, valueRecord}) => {
+    .then(({arrayRecords, items, valueRecord}) => {
       if (actuallyFindCurrentValue &&
         shouldAddCurrentValue({items, valueRecord, labelAttribute, valueAttribute, filter})) {
         return normalizeItems({data: items, labelAttribute, records: [valueRecord], valueAttribute})
+      }
+
+      if (arrayRecords) {
+        const recordsToAdd = arrayRecords.filter(record => {
+          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter})
+        })
+        return normalizeItems({data: items, labelAttribute, records: recordsToAdd, valueAttribute})
       }
       return items
     })
