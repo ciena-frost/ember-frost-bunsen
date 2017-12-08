@@ -1,3 +1,8 @@
+# 16.0.5 (2017-12-08)
+
+* Fixed queryForCurrentValue with array values
+
+
 # 16.0.4 (2017-12-06)
 
 * Removed hardcoding of `revealable` for `password` input and use `renderer.options` as a pass through
