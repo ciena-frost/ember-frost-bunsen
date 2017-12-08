@@ -6,6 +6,7 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {A, Logger, RSVP} = Ember
 import {afterEach, beforeEach, describe, it} from 'mocha'
+import Immutable from 'seamless-immutable'
 import sinon from 'sinon'
 
 import {getEnumValues, getItemsFromAjaxCall, getItemsFromEmberData, getOptions} from 'ember-frost-bunsen/list-utils'
@@ -1312,7 +1313,7 @@ describe('Unit: list-utils', function () {
         filter = ''
         value = {
           heroes: [{
-            universe: 'DC', heroSecrets: [42, 43]
+            universe: 'DC', heroSecrets: Immutable([42, 43])
           }]
         }
         bunsenId = 'heroes.0.heroSecrets'
@@ -1412,14 +1413,12 @@ describe('Unit: list-utils', function () {
         })
 
         it('should return the proper options', function () {
-          // Note that we currently not filtering out array current values by design (@theotherdude 12/7/2017)
           expect(options).to.eql([
             {value: 1, label: 'Batman'},
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
             {value: 5, label: 'Green Arrow'},
-            {value: 42, label: 'Atom Smasher'},
             {value: 43, label: 'Quark Smasher'}
           ])
         })
@@ -1430,7 +1429,7 @@ describe('Unit: list-utils', function () {
 
         beforeEach(function (done) {
           modelDef.query.text = '$filter'
-          filter = 'ato'
+          filter = 'masher'
           getItemsFromEmberData({value, modelDef, data, bunsenId, store, filter})
             .then((items) => {
               options = items
@@ -1444,7 +1443,7 @@ describe('Unit: list-utils', function () {
         })
 
         it('should make the appropriate query', function () {
-          expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC', text: 'ato'}])
+          expect(store.query.lastCall.args).to.eql(['hero', {booleanFlag: true, universe: 'DC', text: filter}])
         })
 
         it('should make the appropriate find record call for the first item', function () {
