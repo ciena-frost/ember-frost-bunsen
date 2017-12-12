@@ -1,3 +1,6 @@
+# 16.0.6 (2017-12-12)
+* Change semver value of `ember-cli-htmlbars` to match other repos
+
 # 16.0.5 (2017-12-08)
 
 * Fixed queryForCurrentValue with array values
