@@ -478,6 +478,29 @@ describe('bunsen-utils', function () {
         }
       })
     })
+
+    it('returns an equal object when there are null values', function () {
+      const value = {
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          },
+          baz: null
+        }
+      }
+      const withoutInternals = removeInternalValues(value)
+      expect(withoutInternals).to.eql({
+        foo: {
+          bar: {
+            baz: {},
+            quux: {}
+          },
+          baz: null
+        }
+      })
+    })
+
     it('finds and removes internal values at the top level', function () {
       const value = {
         foo: {
@@ -503,6 +526,7 @@ describe('bunsen-utils', function () {
         }
       })
     })
+
     it('finds and removes internal values at the deeper levels', function () {
       const value = {
         foo: {

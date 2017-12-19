@@ -451,24 +451,16 @@ function maybeMerge (first, second) {
  * @returns {any} The value with any _internal properties removed
  */
 export function removeInternalValues (val) {
-  if (['boolean', 'number', 'string', 'undefined', 'null'].includes(typeof val)) {
+  const valueTypes = ['boolean', 'number', 'string']
+  const emptyTypes = [undefined, null]
+
+  if (emptyTypes.includes(val) || valueTypes.includes(typeof val)) {
     return val
   }
 
   if (!Array.isArray(val)) {
     let withoutInternal
-    let merge
-    let without
-    if (immutable.isImmutable(val)) {
-      merge = immutable.merge
-      without = immutable.without
-    } else if (val._internal !== undefined) {
-      merge = Object.assign
-      without = _.omit
-    } else {
-      merge = maybeMerge
-      without = _.identity
-    }
+    let {merge, without} = getMergeFuncs(val)
     withoutInternal = without(val, '_internal')
     const childrenWithoutInternals = removeChildInternals(withoutInternal)
     return merge(withoutInternal, childrenWithoutInternals)
@@ -477,4 +469,22 @@ export function removeInternalValues (val) {
       return removeInternalValues(item)
     })
   }
+}
+
+function getMergeFuncs (val) {
+  let merge
+  let without
+
+  if (immutable.isImmutable(val)) {
+    merge = immutable.merge
+    without = immutable.without
+  } else if (val._internal !== undefined) {
+    merge = Object.assign
+    without = _.omit
+  } else {
+    merge = maybeMerge
+    without = _.identity
+  }
+
+  return {merge, without}
 }
