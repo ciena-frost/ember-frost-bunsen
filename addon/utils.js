@@ -451,10 +451,7 @@ function maybeMerge (first, second) {
  * @returns {any} The value with any _internal properties removed
  */
 export function removeInternalValues (val) {
-  const valueTypes = ['boolean', 'number', 'string']
-  const emptyTypes = [undefined, null]
-
-  if (emptyTypes.includes(val) || valueTypes.includes(typeof val)) {
+  if (typeof val !== 'object' || val === null) {
     return val
   }
 
