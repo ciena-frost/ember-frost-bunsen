@@ -1,3 +1,7 @@
+# 16.0.7 (2017-12-19)
+* make date, datetime, when, and section show required label based on showRequiredLabel prop
+
+
 # 16.0.6 (2017-12-12)
 * Change semver value of `ember-cli-htmlbars` to match other repos
 
