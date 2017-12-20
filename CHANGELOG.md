@@ -1,3 +1,8 @@
+# 16.0.8 (2017-12-20)
+
+* Fixed an issue when parsing json with `null` that was caused by incorrectly type checking for `null`.
+
+
 # 16.0.7 (2017-12-19)
 * make date, datetime, when, and section show required label based on showRequiredLabel prop
 
