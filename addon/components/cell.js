@@ -272,6 +272,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
   @readOnly
   @computed('cellConfig', 'bunsenModel.type')
+  /* eslint-disable complexity */
   showSection (cellConfig, type) {
     const isArrayCell = type === 'array' && cellConfig.renderer === undefined
     return (
@@ -280,6 +281,7 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       (isArrayCell && !cellConfig.hideLabel)
     )
   },
+  /* eslint-enable complexity */
 
   @readOnly
   @computed('cellConfig.model', 'children')

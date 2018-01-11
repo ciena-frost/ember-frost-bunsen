@@ -31,7 +31,15 @@
           </div>
         </div>
       </div>
-      {{#unless (eq selectedTab "doc")}}
+      {{#if (eq selectedTab "doc")}}
+        <div class="demo-doc">
+          {{markdown-to-html
+            ghCodeBlocks=true
+            markdown=documentation
+            tables=true
+          }}
+        </div>
+      {{else}}
         <div class="demo-code">
           {{ivy-codemirror
             options=(hash
@@ -43,15 +51,7 @@
             value=code
           }}
         </div>
-      {{else}}
-        <div class="demo-doc">
-          {{markdown-to-html
-            ghCodeBlocks=true
-            markdown=documentation
-            tables=true
-          }}
-        </div>
-      {{/unless}}
+      {{/if}}
     </div>
     <div class="demo-view">
       <br>

@@ -133,6 +133,7 @@ export function traverseCell (cell, iteratee) {
   }
 }
 
+/* eslint-disable complexity */
 /**
  * Post-order breadth-first traversal
  * @param {Object} object - cellConfig
@@ -185,6 +186,7 @@ export function traverseCellBreadthFirst (object, iteratee) {
     iteratee(obj)
   }
 }
+/* eslint-enable complexity */
 
 /**
  * Traverses an object, ignoring arrays

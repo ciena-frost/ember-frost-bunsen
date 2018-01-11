@@ -318,6 +318,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
     return batchedChanges
   },
 
+  /* eslint-disable complexity */
   /**
    * Get the view to render (generate one if consumer doesn't supply a view)
    * @param {BunsenModel} model - the model schema to use to generate a view (if view is undefined)
@@ -339,6 +340,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
     return normalizeView(view)
   },
+  /* eslint-enable complexity */
 
   /**
    * Inform renderers that registered to be notified of form value changes of

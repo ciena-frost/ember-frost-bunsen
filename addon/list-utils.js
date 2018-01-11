@@ -129,6 +129,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
     })
 }
 
+/* eslint-disable complexity */
 /**
  * Fetch the list of network functions from the backend and set them
  * @param {Object} value the bunsen value for this form
@@ -186,13 +187,16 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
 
       if (arrayRecords) {
         const recordsToAdd = arrayRecords.filter(record => {
-          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter})
+          // Note: filtering current values out of multi-select data would clear those selections,
+          // so we ignore the filter in this case (@theotherdude 1/10/2018)
+          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter: ''})
         })
         return normalizeItems({data: items, labelAttribute, records: recordsToAdd, valueAttribute})
       }
       return items
     })
 }
+/* eslint-enable complexity */
 
 /**
  * Fetch the list of items from elsewhere in the form value

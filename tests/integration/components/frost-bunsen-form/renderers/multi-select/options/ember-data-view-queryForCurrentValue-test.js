@@ -15,7 +15,7 @@ import {
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
-import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
+import {expectSelectWithState, filterSelect} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 describe('Integration: Component / frost-bunsen-form / renderer / multi-select view queryForCurrentValue', function () {
@@ -874,6 +874,33 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
           })
         })
 
+        describe('when filter excludes initial value', function () {
+          beforeEach(function () {
+            filterSelect('b')
+            return wait().then(() => {
+              queryResolver.resolve([
+                Ember.Object.create({
+                  label: 'bar',
+                  value: 1
+                }),
+                Ember.Object.create({
+                  label: 'baz',
+                  value: 2
+                })
+              ])
+              findRecordResolver.resolve(Ember.Object.create({
+                label: 'foo',
+                value: 42
+              }))
+              return wait()
+            })
+          })
+
+          it('should still show selected value', function () {
+            expect($hook('my-form-foo').find('.frost-select-text').text().trim()).to.equal('foo')
+          })
+        })
+
         describe('when last option selected (initial value)', function () {
           beforeEach(function () {
             props.onChange.reset()
@@ -1523,6 +1550,33 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
             items: ['bar', 'baz', 'foo'],
             opened: true,
             text: 'foo'
+          })
+        })
+
+        describe('when filter excludes initial value', function () {
+          beforeEach(function () {
+            filterSelect('b')
+            return wait().then(() => {
+              queryResolver.resolve([
+                Ember.Object.create({
+                  label: 'bar',
+                  value: 1
+                }),
+                Ember.Object.create({
+                  label: 'baz',
+                  value: 2
+                })
+              ])
+              findRecordResolver.resolve(Ember.Object.create({
+                label: 'foo',
+                value: 42
+              }))
+              return wait()
+            })
+          })
+
+          it('should still show selected value', function () {
+            expect($hook('my-form-foo').find('.frost-select-text').text().trim()).to.equal('foo')
           })
         })
 

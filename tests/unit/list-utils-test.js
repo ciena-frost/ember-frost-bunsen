@@ -1412,13 +1412,15 @@ describe('Unit: list-utils', function () {
           expect(error).to.equal(undefined)
         })
 
-        it('should return the proper options', function () {
+        it('should return the proper options, including the current value', function () {
+          // Filtering out the current value would clear its selection in a multi-select (@theotherdude 1/10/2018)
           expect(options).to.eql([
             {value: 1, label: 'Batman'},
             {value: 2, label: 'Superman'},
             {value: 3, label: 'Green Lantern'},
             {value: 4, label: 'Flash'},
             {value: 5, label: 'Green Arrow'},
+            {value: 42, label: 'Atom Smasher'},
             {value: 43, label: 'Quark Smasher'}
           ])
         })
