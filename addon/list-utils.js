@@ -186,7 +186,9 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
 
       if (arrayRecords) {
         const recordsToAdd = arrayRecords.filter(record => {
-          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter})
+          // Note: filtering current values out of multi-select data would clear those selections,
+          // so we ignore the filter in this case (@theotherdude 1/10/2018)
+          return shouldAddCurrentValue({items, valueRecord: record, labelAttribute, valueAttribute, filter: ''})
         })
         return normalizeItems({data: items, labelAttribute, records: recordsToAdd, valueAttribute})
       }
