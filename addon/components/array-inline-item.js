@@ -50,6 +50,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     }
   },
 
+  getCell (arrayOptions, index) {
+    return get(arrayOptions, `tupleCells.${index}`) ||
+    get(arrayOptions, `itemCell.${index}`) ||
+    arrayOptions.itemCell
+  },
+
   @readOnly
   @computed('formDisabled', 'cellConfig')
   disabled (formDisabled, cellConfig) {
@@ -101,16 +107,14 @@ export default Component.extend(HookMixin, PropTypeMixin, {
 
   @readOnly
   @computed('cellConfig', 'index')
-  itemCell (cellConfig, index, bunsenModel) {
+  itemCell (cellConfig, index) {
     const arrayOptions = get(cellConfig, 'arrayOptions')
 
     if (!isPresent(arrayOptions)) {
       return {}
     }
 
-    const cell = get(arrayOptions, `tupleCells.${index}`) ||
-        get(arrayOptions, `itemCell.${index}`) ||
-        arrayOptions.itemCell
+    const cell = this.getCell(arrayOptions, index)
 
     return isPresent(cell) && !Array.isArray(cell) ? cell : {}
   },

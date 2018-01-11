@@ -363,6 +363,7 @@ export function validateRenderer (owner, rendererName) {
   return rendererName in builtInRenderers || owner.hasRegistration(`component:${rendererName}`)
 }
 
+/* eslint-disable complexity */
 /**
  * Get an error message from an error Object
  * @param {Object} error - may be an Error, an API response, or anything else (maybe?)
@@ -386,6 +387,7 @@ export function getErrorMessage (error) {
 
   return message
 }
+/* eslint-enable complexity */
 
 /**
  * Used to sanity check if the path to the model is valid

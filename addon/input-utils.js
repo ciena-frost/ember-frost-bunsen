@@ -19,6 +19,7 @@ export function getAttr (attrs, name) {
   return get(attrs, `${firstSegment}.value.${remainingPath}`)
 }
 
+/* eslint-disable complexity */
 export function getOption (attrs, optionName, formValue, fallback = '', useValue = true) {
   if (!attrs) {
     return undefined
@@ -36,3 +37,4 @@ export function getOption (attrs, optionName, formValue, fallback = '', useValue
 
   return parseVariables(mutableFormValue, configOption, bunsenId, true) || fallback
 }
+/* eslint-enable complexity */

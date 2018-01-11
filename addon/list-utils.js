@@ -129,6 +129,7 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
     })
 }
 
+/* eslint-disable complexity */
 /**
  * Fetch the list of network functions from the backend and set them
  * @param {Object} value the bunsen value for this form
@@ -195,6 +196,7 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
       return items
     })
 }
+/* eslint-enable complexity */
 
 /**
  * Fetch the list of items from elsewhere in the form value
