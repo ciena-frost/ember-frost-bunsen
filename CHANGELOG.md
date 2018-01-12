@@ -1,3 +1,9 @@
+# 16.0.9 (2018-01-12)
+
+* **Fixed** a bug where multi-select selections were cleared if the selected items were filtered out of the drop down when using queryForCurrentValue
+* **Upgraded** `ember-test-utils` NPM devDependency to `^8.1.0`
+* **Removed** `package-lock.json` until we officially support Node 8
+
 # 16.0.8 (2017-12-20)
 
 * Fixed an issue when parsing json with `null` that was caused by incorrectly type checking for `null`.
