@@ -1,1 +1,3 @@
 `ember-cli-moment-shim` is a depedency of this addon since it is used by the addon code and since we want to provide this package so that is can be used by a consumer.
+
+This addons dummy app runs `ember-frost-demo-components` which utilizes `ember-prism` and `ember-cli-showdown`. Each of the versions that we are currently required to use (due to the next releases including babel 6 which we do not want at this time) require that the bower `prism` and `showdown` packages be installed as bower packages in this addon.
