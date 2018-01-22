@@ -96,7 +96,6 @@
     "ember-frost-date-picker": "^8.0.1",
     "ember-frost-popover": "^6.1.1",
     "ember-frost-tabs": "^6.0.0",
-    "ember-getowner-polyfill": "^1.0.0",
     "ember-hook": "1.4.2",
     "ember-lodash-shim": "^2.0.7",
     "ember-prop-types": "^3.0.0",
