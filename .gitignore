@@ -13,6 +13,7 @@
 /connect.lock
 /coverage/*
 /libpeerconnection.log
+/typings/*
 coverage.json
 npm-debug.log*
 package-lock.json
