@@ -98,7 +98,7 @@
     "ember-frost-popover": "^6.1.1",
     "ember-frost-tabs": "^6.0.0",
     "ember-getowner-polyfill": "^1.0.0",
-    "ember-lodash-shim": "^2.0.0",
+    "ember-lodash-shim": "^2.0.7",
     "ember-prop-types": "^3.0.0",
     "ember-redux-shim": "^1.0.0",
     "ember-redux-thunk-shim": "^1.0.0",
