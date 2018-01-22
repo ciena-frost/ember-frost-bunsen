@@ -1,23 +1,16 @@
-const packagesToRemove = [
-  'ember-bunsen-core',
-  'ember-redux-thunk'
-]
-  .map((packageName) => {
-    return {name: packageName}
-  })
+const addBunsenStyleImport = function (project) {
+  const isAddon = project.isEmberCLIAddon()
+  const pathPrefix = isAddon ? 'tests/dummy/' : ''
+
+  return this.insertIntoFile(
+    `${pathPrefix}app/styles/app.scss`,
+    "@import 'ember-frost-bunsen';"
+  )
+}
 
 module.exports = {
-  afterInstall: function (options) {
-    return this.removePackagesFromProject(packagesToRemove)
-      .then(() => {
-        const isAddon = this.project.isEmberCLIAddon()
-        const pathPrefix = isAddon ? 'tests/dummy/' : ''
-
-        return this.insertIntoFile(
-          `${pathPrefix}app/styles/app.scss`,
-          "@import 'ember-frost-bunsen';"
-        )
-      })
+  afterInstall: function () {
+    return addBunsenStyleImport(this.project)
   },
 
   normalizeEntityName: function () {
@@ -25,4 +18,8 @@ module.exports = {
     // not specified (since that doesn't actually matter
     // to us
   }
+}
+
+export {
+  addBunsenStyleImport
 }
