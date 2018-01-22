@@ -101,7 +101,7 @@
     "ember-redux-shim": "^1.0.0",
     "ember-redux-thunk-shim": "^1.0.0",
     "ember-sortable": "^1.10.0",
-    "ember-spread": "^1.1.1",
+    "ember-spread": "^4.0.1",
     "ember-symbol-observable": "0.1.2",
     "redux": "^3.0.0",
     "redux-thunk": "^2.0.0",
