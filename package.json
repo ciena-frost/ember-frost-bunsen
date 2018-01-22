@@ -75,7 +75,7 @@
     "ember-test-utils": "^8.1.0",
     "ember-truth-helpers": "^1.2.0",
     "ember-try": "0.2.11",
-    "ivy-codemirror": "^2.0.3",
+    "ivy-codemirror": "^2.1.0",
     "loader.js": "^4.2.3",
     "sinon-chai": "^2.14.0"
   },
