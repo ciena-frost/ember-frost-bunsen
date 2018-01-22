@@ -100,7 +100,7 @@
     "ember-prop-types": "^3.0.0",
     "ember-redux-shim": "^1.0.0",
     "ember-redux-thunk-shim": "^1.0.0",
-    "ember-sortable": "^1.0.0",
+    "ember-sortable": "^1.10.0",
     "ember-spread": "^1.1.1",
     "ember-symbol-observable": "0.1.2",
     "redux": "^3.0.0",
