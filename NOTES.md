@@ -1,0 +1,1 @@
+`ember-cli-moment-shim` is a depedency of this addon since it is used by the addon code and since we want to provide this package so that is can be used by a consumer.
