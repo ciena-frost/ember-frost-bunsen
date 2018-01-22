@@ -91,7 +91,7 @@
   "dependencies": {
     "ember-ajax": "^2.0.0",
     "ember-bunsen-core": "^2.0.0",
-    "ember-cli-babel": "^5.1.8",
+    "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-frost-core": "^3.0.1",
     "ember-frost-date-picker": "^8.0.1",
