@@ -22,6 +22,9 @@ env:
     - secure: UAeyuAKSROuXqFhNeMMMKhSTwyO7J1o/dyT7p/nVVlxagujCD2A4ggzREg+HBCWDurDqdmN5tVYTC+crVVgjmX9lIpukDGAomXR5wln8niSlu4H0rxqBdbjuCKFbS8EPKy56c/n50TNMjMCkCejAU8sdZLbJT8OMHpLMdl+WkyCGEzBgNiTbxUFu5AkuVAhhS0xBChiBh6uCLXqOku9B2UDIs9U9qYV99B0HLOeksZS/errOtVpaJr+qQOP0tm+cbtUxeI+Ub+uEnnuoKjbEtJwnzaToZPA2i9X+Xe9WR0sIXFmS/vF1syVYdvZE2z/fCCydjwczM93Td/Oq9KluFikwX+y807MmgjFiv1rSeBRLob8wKQBlNoEc+NydDsRdQjsFjOQWG0yc/C78Xqi7PHipZw/Wf5GzOgxmxqjOvM2s16VBI9UJPcMme7FykDeHwoROi4xCGvjFLyxJ3UjsthwY+uRS1YVmGIlqMUJEdSUquAeVevRaEaPmH4n6qdXsTjMw+75UPfw4SgBZuO0DFnC8Tgr4UZY6IkL7NQxWenZZje1pkjTkBHLy7SitNjugEYqukVf5SGUyC2mtMbbBDOlZBQML9/s7jbmGFENbAc2+EtvVq2Hu+u+DciN9IRSwZtmI06p8d1ifCwoU1NU7RCdchu22n0D8/EG6aDuOwDI=
 matrix:
   fast_finish: true
+  allow_failures:
+    - node_js: 'stable'
+
 before_install:
   - npm config set spin false
   - npm install -g coveralls pr-bumper@^1.0.0
