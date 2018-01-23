@@ -1,16 +1,12 @@
-const addBunsenStyleImport = function (project) {
-  const isAddon = project.isEmberCLIAddon()
-  const pathPrefix = isAddon ? 'tests/dummy/' : ''
-
-  return this.insertIntoFile(
-    `${pathPrefix}app/styles/app.scss`,
-    "@import 'ember-frost-bunsen';"
-  )
-}
-
 module.exports = {
   afterInstall: function () {
-    return addBunsenStyleImport(this.project)
+    const isAddon = this.project.isEmberCLIAddon()
+    const pathPrefix = isAddon ? 'tests/dummy/' : ''
+
+    return this.insertIntoFile(
+      `${pathPrefix}app/styles/app.scss`,
+      "@import 'ember-frost-bunsen';"
+    )
   },
 
   normalizeEntityName: function () {
@@ -18,8 +14,4 @@ module.exports = {
     // not specified (since that doesn't actually matter
     // to us
   }
-}
-
-export {
-  addBunsenStyleImport
 }
