@@ -91,7 +91,7 @@
     "ember-frost-fields": "^7.0.0",
     "ember-frost-popover": "^8.0.0",
     "ember-frost-table": "^2.0.0",
-    "ember-frost-tabs": "^6.0.0",
+    "ember-frost-tabs": "^7.0.0",
     "ember-get-config": "0.2.2",
     "ember-hook": "1.4.2",
     "ember-lodash-shim": "^2.0.7",
