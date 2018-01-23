@@ -1,3 +1,59 @@
+# 17.0.0 (2018-01-23)
+* **Added** ignoring of `package-lock` until we are ready to move to node 8
+* **Added** ignoring of `typings/*` since this file is added by Visual Studio and does not need to be committed
+* **Added** ignore the linting of the `CHANGELOG.md` and `NOTES.md` files
+* **Added** the `NOTES.md` file describing why dependent packages are installed in this add-on
+* **Updated** the blueprints file to not installed packages that are now included via dependencies
+* **Removed** the `codemirror` bower dependency since it is now included via `ivy-codemirror`
+* **Removed** the `node-uuid` bower dependency since it not used
+* **Removed** the `sinonjs` bower dependency since it is now included via a npm package
+* **Removed** the `clockpicker-seconds` bower dependency since it is now included in the `ember-frost-date-picker` add-on
+* **Updated** the `Faker` bower package to be a devDependency
+* **Updated** the `pretender` bower package to be a devDependency
+* **Updated**  the `prism` bower package to be a devDependency
+* **Updated** the `showdown` bower package to be a devDependency
+* **Removed** useLintTree ember-cli-mocha configuration from `ember-cli-build.js`
+* **Added** `bower` @ `^1.8.2` since it is no longer included with Ember CLI
+* **Updated** `ember-browserify` to `^1.2.0`
+* **Updated** `ember-frost-test` to `^4.0.0`
+* **Updated** `chai-jquery` to `^2.0.0`
+* **Updated** `ember-cli-chai` to `0.4.3`
+* **Updated** `ember-cli-mocha` to `0.14.4`
+* **Updated** `ember-sinon` to `^0.7.0`
+* **Updated** `sinon-chai` to `^2.14.0`
+* **Updated** `ember-cli-frost-blueprints` to `^5.0.1`
+* **Updated** `ember-cli-showdown` to `^2.11.0`
+* **Updated** `ember-frost-demo-components` to `^4.0.0`
+* **Updated** `ivy-codemirror` to `^2.1.0`
+* **Updated** `ember-cli-sass` to `7.1.1` and moved to a dependency instead of a devDependency
+* **Updated** `ember-computed-decorators` to `0.3.0` and moved to a dependency instead of a devDependency
+* **Updated** `ember-concurrency` to `0.7.19` and moved to a dependency instead of a devDependency
+* **Removed** unused `ember-elsewhere` package
+* **Updated** `ember-frost-fields` to `^7.0.0` and moved to a dependency instead of a devDependency
+* **Updated** `ember-frost-table` to `^2.0.0` and moved to a dependency instead of a devDependency
+* **Updated** `ember-get-config` to `0.2.2` and moved to a dependency instead of a devDependency
+* **Updated** `ember-hook` to `1.4.2` and moved to a dependency instead of a devDependency
+* **Removed** `ember-moment` package in favor or `ember-cli-moment-shim`
+* **Added** `ember-cli-moment-shim` @ `3.3.3` as a dependency
+* **Removed** unused `ember-simple-uuid` package
+* **Updated** `ember-truth-helpers` to `^1.3.0` and moved to a dependency instead of a devDependency
+* **Removed** `ember-try` package that was needed for a CI build issue
+* **Removed** `eslint` package that is now provided by `ember-test-utils`
+* **Removed** `eslint-config-frost-standard` package that is now provided by `ember-test-utils`
+* **Removed** `sass-lint` package that is now provided by `ember-test-utils`
+* **Updated** `ember-ajax` to `^2.5.6`
+* **Updated** `ember-cli-babel` to `^5.1.7` which is what the Ember CLI 2.12.3 blueprint installs
+* **Updated** `ember-frost-core` to `^5.1.1`
+* **Updated** `ember-frost-date-picker` to `^9.0.0`
+* **Updated** `ember-frost-popover` to `^8.0.0`
+* **Updated** `ember-frost-tabs` to `^7.0.0`
+* **Updated** `ember-lodash-shim` to `^2.0.7`
+* **Updated** `ember-prop-types` to `^6.0.1`
+* **Updated** `ember-sortable` to `^1.10.0`
+* **Updated** `ember-spread` to `^4.0.1`
+* **Updated** move code coverage config file to tests/dummy/config/ and add `json-summary` reporter
+* **Removed** `typings/` that is used by Visual Studio and should not be committed
+
 # 16.0.9 (2018-01-12)
 
 * **Fixed** a bug where multi-select selections were cleared if the selected items were filtered out of the drop down when using queryForCurrentValue
