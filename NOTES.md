@@ -1,0 +1,1 @@
+This addons dummy app runs `ember-frost-demo-components` which utilizes `ember-prism` and `ember-cli-showdown`. Each of the versions that we are currently required to use (due to the next releases including babel 6 which we do not want at this time) require that the bower `prism` and `showdown` packages be installed as bower packages in this addon.

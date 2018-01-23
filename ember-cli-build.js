@@ -13,9 +13,6 @@ module.exports = function (defaults) {
     'ember-cli-babel': {
       includePolyfill: true
     },
-    'ember-cli-mocha': {
-      useLintTree: false
-    },
     'ember-prism': {
       components: ['javascript'],
       theme: 'coy'
@@ -26,7 +23,6 @@ module.exports = function (defaults) {
     }
   })
 
-  app.import('bower_components/sinonjs/sinon.js')
   // client-side template compilation for the abstract-input demo page
   app.import(app.project.addonPackages['ember-source']
     ? 'vendor/ember/ember-template-compiler.js' : 'bower_components/ember/ember-template-compiler.js')
