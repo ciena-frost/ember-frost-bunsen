@@ -296,7 +296,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
       return null
     }
 
-    const label = get(cellConfig, 'label')
+    let label = get(cellConfig, 'label')
+
+    if (label) {
+      label = label.charAt(0).toUpperCase() + label.slice(1)
+    }
+
     return getLabel(label, bunsenModel, nonIndexId)
   },
 

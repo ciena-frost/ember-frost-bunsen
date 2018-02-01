@@ -1,10 +1,11 @@
+import {expect} from 'chai'
 import {describe, it} from 'mocha'
 
 import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
-describe('Integration: Component / frost-bunsen-form / array add button text with no label', function () {
+describe('Integration: Component / frost-bunsen-form / array Title and "Add" button text with no label', function () {
   setupFormComponentTest({
     bunsenModel: {
       type: 'object',
@@ -116,6 +117,13 @@ describe('Integration: Component / frost-bunsen-form / array add button text wit
 
   it('renders as expected', function () {
     const $button = this.$(selectors.frost.button.input.enabled)
+    const $headings = this.$(selectors.bunsen.section.heading)
+
+    expect(
+      $headings.eq(0).text().trim(),
+      'renders expected section heading'
+    )
+      .to.equal('Addresses')
 
     expectButtonWithState($button, {
       icon: 'round-add',
