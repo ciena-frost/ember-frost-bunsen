@@ -26,6 +26,12 @@ export default [
     view: views.arrayCustom
   },
   {
+    id: 'array-explicit-label',
+    label: 'Array (Explicit Label)',
+    modelIds: ['array'],
+    view: views.arrayExplicitLabel
+  },
+  {
     id: 'array-indexed',
     label: 'Array (Indexed)',
     modelIds: ['array-2'],

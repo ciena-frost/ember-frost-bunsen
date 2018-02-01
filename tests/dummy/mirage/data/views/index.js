@@ -2,6 +2,7 @@ import array from './array'
 import array2WithConditionals from './array-2-with-conditionals'
 import arrayAutoAdd from './array-auto-add'
 import arrayCustom from './array-custom'
+import arrayExplicitLabel from './array-explicit-label'
 import arrayIndexed from './array-indexed'
 import arrayIndexed2 from './array-indexed-2'
 import arrayInline from './array-inline'
@@ -31,6 +32,7 @@ export default {
   array2WithConditionals,
   arrayAutoAdd,
   arrayCustom,
+  arrayExplicitLabel,
   arrayIndexed,
   arrayIndexed2,
   arrayInline,

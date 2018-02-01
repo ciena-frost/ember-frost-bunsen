@@ -101,9 +101,17 @@ export default Component.extend(HookMixin, PropTypeMixin, {
    * @returns {String} label
    */
   addLabel (bunsenId, cellConfig, bunsenModel) {
-    const label = get(cellConfig, 'label')
-    const renderLabel = getLabel(label, bunsenModel, bunsenId)
-    return `Add ${singularize(renderLabel).toLowerCase()}`
+    const prefix = 'Add '
+    let label = get(cellConfig, 'label')
+
+    if (label) {
+      label = `${singularize(label)}`
+    } else {
+      const renderLabel = getLabel(label, bunsenModel, bunsenId)
+      label = `${singularize(renderLabel).toLowerCase()}`
+    }
+
+    return `${prefix}${label}`
   },
 
   @readOnly
