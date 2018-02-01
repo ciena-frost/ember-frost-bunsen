@@ -1,16 +1,14 @@
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
-import {afterEach, beforeEach, describe, it} from 'mocha'
-import sinon from 'sinon'
+import {beforeEach, describe, it} from 'mocha'
 
 describe('Unit: frost-bunsen-array-container', function () {
   setupComponentTest('frost-bunsen-array-container', {
     unit: true
   })
 
-  let component, sandbox
+  let component
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
     component = this.subject({
       bunsenId: '',
       bunsenModel: {},
@@ -20,10 +18,6 @@ describe('Unit: frost-bunsen-array-container', function () {
       onChange: function () {},
       onError: function () {}
     })
-  })
-
-  afterEach(function () {
-    sandbox.restore()
   })
 
   describe('when addLabel() is not provided a label', function () {
