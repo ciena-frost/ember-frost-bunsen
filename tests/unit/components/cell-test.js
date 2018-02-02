@@ -49,6 +49,100 @@ describe('Unit: frost-bunsen-cell', function () {
     })
   })
 
+  describe('renderLabel()', function () {
+    describe('no cellConfig or label value', function () {
+      it('should return expected value', function () {
+        expect(component.get('renderLabel')).to.equal('')
+      })
+    })
+
+    describe('cellConfig.hideLable = true', function () {
+      beforeEach(function () {
+        component.setProperties({
+          cellConfig: {
+            hideLabel: true
+          }
+        })
+      })
+
+      it('should return expected value', function () {
+        expect(component.get('renderLabel')).to.equal(null)
+      })
+    })
+
+    describe('label has only first character capitalized', function () {
+      describe('all uppercase', function () {
+        beforeEach(function () {
+          component.setProperties({
+            cellConfig: {
+              label: 'ALL CAPS'
+            }
+          })
+        })
+
+        it('should return expected value', function () {
+          expect(component.get('renderLabel')).to.equal('ALL CAPS')
+        })
+      })
+
+      describe('all lowercase', function () {
+        beforeEach(function () {
+          component.setProperties({
+            cellConfig: {
+              label: 'all lowercase'
+            }
+          })
+        })
+
+        it('should return expected value', function () {
+          expect(component.get('renderLabel')).to.equal('All lowercase')
+        })
+      })
+
+      describe('mixed case', function () {
+        beforeEach(function () {
+          component.setProperties({
+            cellConfig: {
+              label: 'aLL cAps'
+            }
+          })
+        })
+
+        it('should return expected value', function () {
+          expect(component.get('renderLabel')).to.equal('ALL cAps')
+        })
+      })
+
+      describe('first character of each word capitalized', function () {
+        beforeEach(function () {
+          component.setProperties({
+            cellConfig: {
+              label: 'First Character'
+            }
+          })
+        })
+
+        it('should return expected value', function () {
+          expect(component.get('renderLabel')).to.equal('First Character')
+        })
+      })
+
+      describe('acronym', function () {
+        beforeEach(function () {
+          component.setProperties({
+            cellConfig: {
+              label: 'IP Addresses'
+            }
+          })
+        })
+
+        it('should return expected value', function () {
+          expect(component.get('renderLabel')).to.equal('IP Addresses')
+        })
+      })
+    })
+  })
+
   describe('didRecieveAttrs', function () {
     let value
     beforeEach(function () {
