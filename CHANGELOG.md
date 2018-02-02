@@ -1,3 +1,7 @@
+# 17.1.0 (2018-02-02)
+* Section heading text now respects the `label` property.  When set it will return the value of the property with the first character capitalized, whereas before it would use the exact value provided.
+* "Add" button in the array container now respects the `label` property.  When set it will return a singularized version of the text without affecting the case, whereas before it would lowercase the text.
+
 # 17.0.0 (2018-01-23)
 * **Added** ignoring of `package-lock` until we are ready to move to node 8
 * **Added** ignoring of `typings/*` since this file is added by Visual Studio and does not need to be committed
