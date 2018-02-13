@@ -1,9 +1,9 @@
 import {expect} from 'chai'
+import {expectWithState as expectSelectWithState} from 'ember-frost-core/test-support/frost-select'
 import {$hook} from 'ember-hook'
 import wait from 'ember-test-helpers/wait'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 
-import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTestWithSelectOutlet} from 'dummy/tests/helpers/utils'
 

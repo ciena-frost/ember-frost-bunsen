@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectWithState as expectButtonWithState} from 'ember-frost-core/test-support/frost-button'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -7,7 +8,6 @@ import {
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
-import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 

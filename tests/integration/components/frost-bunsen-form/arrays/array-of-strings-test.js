@@ -1,4 +1,7 @@
 import {expect} from 'chai'
+import {expectWithState as expectButtonWithState} from 'ember-frost-core/test-support/frost-button'
+import {find as findTextInputs} from 'ember-frost-core/test-support/frost-text'
+import {fillIn} from 'ember-frost-core/test-support/utils'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -6,12 +9,6 @@ import {
   expectCollapsibleHandles,
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
-
-import {
-  expectButtonWithState,
-  fillIn,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'

@@ -1,10 +1,7 @@
 import {expect} from 'chai'
+import {find as findTextInputs} from 'ember-frost-core/test-support/frost-text'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
-
-import {
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
 
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 

@@ -3,6 +3,11 @@
  * NOTE: These specs have lots of expect() calls in a single it() for performance reasons
  */
 import {expect} from 'chai'
+import {
+  expectWithState as expectTextInputWithState,
+  find as findTextInputs
+} from 'ember-frost-core/test-support/frost-text'
+import {fillIn, focusout} from 'ember-frost-core/test-support/utils'
 import wait from 'ember-test-helpers/wait'
 import {afterEach, before, beforeEach, describe, it} from 'mocha'
 
@@ -10,13 +15,6 @@ import {
   expectBunsenInputNotToHaveError,
   expectBunsenInputToHaveError
 } from 'dummy/tests/helpers/ember-frost-bunsen'
-
-import {
-  expectTextInputWithState,
-  fillIn,
-  findTextInputs,
-  focusout
-} from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'

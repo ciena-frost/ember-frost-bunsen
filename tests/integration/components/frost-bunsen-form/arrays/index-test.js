@@ -1,12 +1,11 @@
 import {expect} from 'chai'
+import {
+  expectWithState as expectTextInputWithState,
+  find as findTextInputs
+} from 'ember-frost-core/test-support/frost-text'
 import {describe, it} from 'mocha'
 
 import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
-
-import {
-  expectTextInputWithState,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'

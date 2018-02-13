@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP, Service, run} = Ember
+import {expectWithState as expectSelectWithState} from 'ember-frost-core/test-support/frost-select'
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
@@ -15,7 +16,6 @@ import {
   expectOnValidationState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
-import {expectSelectWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 
 const desc = 'Integration: Component / frost-bunsen-form / renderer / select endpoint view query (not options)'

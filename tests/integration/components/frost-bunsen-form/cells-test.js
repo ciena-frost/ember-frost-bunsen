@@ -3,9 +3,9 @@ import {expect} from 'chai'
 import {expectOnValidationState} from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import {
-  expectTextInputWithState,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
+  expectWithState as expectTextInputWithState,
+  find as findTextInputs
+} from 'ember-frost-core/test-support/frost-text'
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
