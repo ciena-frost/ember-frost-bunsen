@@ -79,7 +79,7 @@
   ],
   "dependencies": {
     "ember-ajax": "^2.5.6",
-    "ember-bunsen-core": "^2.0.0",
+    "ember-bunsen-core": "^4.0.0",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-moment-shim": "3.3.3",
