@@ -1,7 +1,7 @@
 import {expect} from 'chai'
+import {expectWithState as expectButtonWithState} from 'ember-frost-core/test-support/frost-button'
 import {describe, it} from 'mocha'
 
-import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import selectors from 'dummy/tests/helpers/selectors'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 

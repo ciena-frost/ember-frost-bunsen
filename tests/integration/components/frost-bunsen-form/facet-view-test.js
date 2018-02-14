@@ -1,6 +1,12 @@
 import {expect} from 'chai'
 import Ember from 'ember'
 const {$} = Ember
+import {expectWithState as expectSelectWithState} from 'ember-frost-core/test-support/frost-select'
+import {
+  expectWithState as expectTextInputWithState,
+  find as findTextInputs
+} from 'ember-frost-core/test-support/frost-text'
+import {fillIn} from 'ember-frost-core/test-support/utils'
 import {$hook, initialize} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
@@ -9,13 +15,6 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 import {expectCollapsibleHandles} from 'dummy/tests/helpers/ember-frost-bunsen'
-
-import {
-  expectSelectWithState,
-  expectTextInputWithState,
-  fillIn,
-  findTextInputs
-} from 'dummy/tests/helpers/ember-frost-core'
 
 import selectors from 'dummy/tests/helpers/selectors'
 import {generateFacetView} from 'ember-frost-bunsen/utils'

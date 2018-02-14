@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {expectWithState as expectButtonWithState} from 'ember-frost-core/test-support/frost-button'
 import {$hook} from 'ember-hook'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
@@ -11,7 +12,6 @@ import {
   expectOnChangeState
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
-import {expectButtonWithState} from 'dummy/tests/helpers/ember-frost-core'
 import {setupFormComponentTest} from 'dummy/tests/helpers/utils'
 
 describe('Integration: Component / frost-bunsen-form / array tuples with additionalProperties', function () {
