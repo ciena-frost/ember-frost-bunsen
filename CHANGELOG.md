@@ -1,3 +1,10 @@
+# 18.0.0 (2018-02-14)
+* **Updated** `ember-bunsen-core` to `^4.0.0`
+* **Updated** entry in `package.json` to remove typo of extra space inside version number for `ember-truth-helpers`
+* **Updated** `ember-frost-core` to `^6.0.0`
+* **Updated** tests to use the path new path to the test helpers provided by the updated `ember-frost-core`
+
+
 # 17.1.0 (2018-02-02)
 * Section heading text now respects the `label` property.  When set it will return the value of the property with the first character capitalized, whereas before it would use the exact value provided.
 * "Add" button in the array container now respects the `label` property.  When set it will return a singularized version of the text without affecting the case, whereas before it would lowercase the text.
