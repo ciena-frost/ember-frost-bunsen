@@ -2,8 +2,9 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {merge} = Ember
 import wait from 'ember-test-helpers/wait'
-import {after, before, beforeEach, describe, it} from 'mocha'
+import {after, afterEach, before, beforeEach, describe, it} from 'mocha'
 import Pretender from 'pretender'
+import sinon from 'sinon'
 
 import {
   expectBunsenGeolocationRendererWithState,
@@ -28,20 +29,25 @@ function json (code, payload) {
   ]
 }
 
-function stubGetCurrentPosition (sandbox, stub) {
-  sandbox.stub(window.navigator.geolocation, 'getCurrentPosition', stub)
-}
-
 describe('Integration: Component / frost-bunsen-form / renderer / geolocation', function () {
-  let server
+  let sandbox, server
 
   before(function () {
     server = new Pretender()
   })
 
+  beforeEach(function () {
+    sandbox = sinon.sandbox.create()
+  })
+
   after(function () {
     server.shutdown()
     server = null
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+    sandbox = null
   })
 
   const ctx = setupFormComponentTest({
@@ -101,7 +107,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
   describe('press use current location button', function () {
     describe('when user has blocked geolocation', function () {
       beforeEach(function () {
-        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
+        sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
@@ -124,7 +130,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('when geolocation lookup fails', function () {
       beforeEach(function () {
-        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
+        sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
@@ -147,7 +153,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('when geolocation lookup times out', function () {
       beforeEach(function () {
-        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
+        sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
               code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
@@ -170,7 +176,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('when geolocation lookup succeeds', function () {
       beforeEach(function () {
-        stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
+        sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           successCallback({
             coords: {
               latitude: '37.4274795',
@@ -497,13 +503,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -520,13 +527,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup fails', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -543,13 +551,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup times out', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -566,14 +575,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup succeeds', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            successCallback({
-              coords: {
-                latitude: '37.4274795',
-                longitude: '-122.152378'
-              }
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              successCallback({
+                coords: {
+                  latitude: '37.4274795',
+                  longitude: '-122.152378'
+                }
+              })
             })
-          })
         })
 
         describe('when reverse lookup fails', function () {
@@ -921,13 +931,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.PERMISSION_DENIED
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -944,13 +955,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup fails', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.POSITION_UNAVAILABLE
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -967,13 +979,14 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup times out', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            errorCallback(
-              merge(GEOLOCATION_RESPONSE_CODES, {
-                code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
-              })
-            )
-          })
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              errorCallback(
+                merge(GEOLOCATION_RESPONSE_CODES, {
+                  code: GEOLOCATION_RESPONSE_CODES.TIMEOUT
+                })
+              )
+            })
 
           this.$('.frost-bunsen-input-geolocation > .frost-button').click()
           return wait()
@@ -990,14 +1003,15 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
       describe('when geolocation lookup succeeds', function () {
         beforeEach(function () {
-          stubGetCurrentPosition(ctx.sandbox, (successCallback, errorCallback) => {
-            successCallback({
-              coords: {
-                latitude: '37.4274795',
-                longitude: '-122.152378'
-              }
+          sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
+            .callsFake((successCallback, errorCallback) => {
+              successCallback({
+                coords: {
+                  latitude: '37.4274795',
+                  longitude: '-122.152378'
+                }
+              })
             })
-          })
         })
 
         describe('when reverse lookup fails', function () {
