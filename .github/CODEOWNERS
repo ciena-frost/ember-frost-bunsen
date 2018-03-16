@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/about-codeowners/ for valid syntax for entries.
+
+# See https://confluence.ciena.com/pages/viewpage.action?pageId=286898209 for more information about the decisions behind the entries in this file
+
+# Default owners for everything in the repo, unless a later match takes precedence
+* @ciena-frost/reviewers
+
+# These files are owned by the repository architecture owners
+/.github/               @ciena-frost/owners-architecture
+/.travis/               @ciena-frost/owners-architecture
+.ember-cli              @ciena-frost/owners-architecture
+.eslintignore           @ciena-frost/owners-architecture
+.eslintrc.js            @ciena-frost/owners-architecture
+.gitignore              @ciena-frost/owners-architecture
+.npmignore              @ciena-frost/owners-architecture
+.pr-bumper.json         @ciena-frost/owners-architecture
+.remarkignore           @ciena-frost/owners-architecture
+.sass-lint.yml          @ciena-frost/owners-architecture
+.template-lintrc.js     @ciena-frost/owners-architecture
+.travis.yml             @ciena-frost/owners-architecture
+.watchmanconfig         @ciena-frost/owners-architecture
+CHANGELOG.md            @ciena-frost/owners-architecture
+LICENSE.md              @ciena-frost/owners-architecture
+NOTES.md                @ciena-frost/owners-architecture
+README.md               @ciena-frost/owners-architecture
+bower.json              @ciena-frost/owners-architecture
+/config/ember-try.js    @ciena-frost/owners-architecture
+/config/environment.js  @ciena-frost/owners-architecture
+/docs/                  @ciena-frost/owners-architecture
+ember-cli-build.js      @ciena-frost/owners-architecture
+index.js                @ciena-frost/owners-architecture
+jsconfig.json           @ciena-frost/owners-architecture
+package.json            @ciena-frost/owners-architecture
+package-lock.json       @ciena-frost/owners-architecture
+testem.js               @ciena-frost/owners-architecture
+testem_firefox_user.js  @ciena-frost/owners-architecture
