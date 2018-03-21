@@ -16,7 +16,6 @@
 /typings/*
 coverage.json
 npm-debug.log*
-package-lock.json
 testem.log
 .idea
 ge.json

@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '6.9.1'
+  - '8.1.2'
   - 'stable'
 addons:
   apt:
@@ -27,10 +27,11 @@ matrix:
 
 before_install:
   - npm config set spin false
-  - npm install -g coveralls pr-bumper@^1.0.0
+  - npm install -g coveralls pr-bumper@^3.7.0 ciena-devops@^1.0.0
   - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
   - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
+  - bower install
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -50,8 +51,10 @@ deploy:
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'ember-default'"
-    node: '6.9.1'
+    node: '8.1.2'
     tags: true
+after_deploy:
+  - $(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh
 notifications:
   slack:
     secure: GzRGMb3myLs+tzUB4L0ZfOoR9IX6u/Ulr6aqeNImlOKeMAPU/fJ9H4Pb1ReQ2wnIZBTtY0N7C/egbEEhBaLA+6DQR2cJ204kHyotrd4GiI2Jb0JIWtZ71RxyM6kFhW6X+jy8kdsAb8gs+q277CiopBRm1bXSHT5SAhpm83ArgJFJFFagWmxKW7YBl28d2/efpm5BSqQ4jMKHeLwarrpv666bvWnPI7bJSY7q6c6JK4Pv/89tmp5CsZFCXRnAWITER/kgCd/2bj02lKaMNaugiZAzL+j92YobpAfAp8jP6JbFwwRHSZiPo5HZH4IitlE1Ccvb/xrNzy5vtOiu0JdZVc4NfkHwaJezOQP8gPHmalTORTWddeZAATGCvmz9xmYRNDbqtAHo0WjKbzPkBnYMn+IYrWNz8gb0pS1zRZXPFHSKusr5+i/3xQv+q/thSoKkuEnibvb3+tlydO++GaI1YaoUhfY70OeuLF9CIBovLwmj/5QRhXKjFArqIzjaV1DQrSVxpOa8nnvc1w5cw+JQaabSvIP8ln0P3D68JEtJ67Mx2itapWhn1VfSgkT/Bwx3AONvsZ+/R/rGFMDe8t5nqUMKYcCwdboOzG/eqMKpPQ3j2QeNGD/Dp9zWNwdMZVIIhcRpj2E547KewOpZmF+VbbAfHxRQChn9kcvRDP+Wuoc=
