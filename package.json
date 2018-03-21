@@ -94,7 +94,7 @@
     "ember-frost-tabs": "^7.0.0",
     "ember-get-config": "0.2.2",
     "ember-hook": "1.4.2",
-    "ember-lodash-shim": "^2.0.7",
+    "ember-lodash-shim": "^3.0.1",
     "ember-prop-types": "^6.0.1",
     "ember-redux-shim": "^1.0.0",
     "ember-redux-thunk-shim": "^1.0.0",
