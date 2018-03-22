@@ -27,6 +27,7 @@ matrix:
 
 before_install:
   - npm config set spin false
+  - npm install -g bower
   - npm install -g coveralls pr-bumper@^3.7.0 ciena-devops@^1.0.0
   - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
