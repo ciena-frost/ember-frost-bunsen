@@ -1,3 +1,7 @@
+# 19.0.1 (2018-03-22)
+* **Updated** `npm install -g bower` in `travis.yml`
+
+
 # 19.0.0 (2018-03-21)
 * **Updated** pull request template
 * **Added** issue template
