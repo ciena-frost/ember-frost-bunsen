@@ -31,7 +31,6 @@ before_install:
   - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
   - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
-  - bower install
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
