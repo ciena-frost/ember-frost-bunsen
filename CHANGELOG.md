@@ -1,3 +1,6 @@
+# 19.0.2 (2018-03-26)
+* Update _package-lock.json_ to reflect desired dependencies - it was out-of-date
+
 # 19.0.1 (2018-03-22)
 * **Updated** `npm install -g bower` in `travis.yml`
 
