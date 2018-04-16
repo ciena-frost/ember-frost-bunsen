@@ -1,3 +1,15 @@
+# 20.0.0 (2018-04-16)
+
+* Upgraded `ember-frost-demo-components` to `^6.0.0`
+* Upgraded `ember-frost-core` to `^8.0.0`
+* Upgraded `ember-frost-date-picker` to ^11.0.0`
+* Upgraded `ember-frost-fields": `^8.0.0` to `^9.0.0`
+* Upgraded `ember-frost-popover": `^9.0.0` to `^10.0.0`
+* Upgraded `ember-frost-table": `^4.0.0` to `^5.0.0`
+* Upgraded `ember-frost-tabs": `^8.0.0` to `^9.0.0`
+* Installed `ember-cli-svgstore`
+* Updated `frost-icon` functionality to work with new version of `ember-frost-core`
+
 # 19.0.2 (2018-03-26)
 * Update _package-lock.json_ to reflect desired dependencies - it was out-of-date
 
