@@ -56,7 +56,7 @@
     "ember-data": "~2.11.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-frost-demo-components": "^5.0.0",
+    "ember-frost-demo-components": "^6.0.0",
     "ember-frost-test": "^4.0.1",
     "ember-load-initializers": "^0.6.0",
     "ember-prism": "0.0.8",
@@ -84,14 +84,15 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-moment-shim": "3.3.3",
     "ember-cli-sass": "7.1.1",
+    "ember-cli-svgstore": "github:ciena-blueplanet/ember-cli-svgstore#977df1cf58ae43b1d98a591573c3e06947744321",
     "ember-computed-decorators": "0.3.0",
     "ember-concurrency": "0.7.19",
-    "ember-frost-core": "^7.0.0",
-    "ember-frost-date-picker": "^10.0.0",
-    "ember-frost-fields": "^8.0.0",
-    "ember-frost-popover": "^9.0.0",
-    "ember-frost-table": "^4.0.0",
-    "ember-frost-tabs": "^8.0.0",
+    "ember-frost-core": "^8.0.0",
+    "ember-frost-date-picker": "^11.0.0",
+    "ember-frost-fields": "^9.0.0",
+    "ember-frost-popover": "^10.0.0",
+    "ember-frost-table": "^5.0.0",
+    "ember-frost-tabs": "^9.0.0",
     "ember-get-config": "0.2.2",
     "ember-hook": "1.4.2",
     "ember-lodash-shim": "^3.0.1",
@@ -108,8 +109,5 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
-  },
-  "ember-frost-icon-pack": {
-    "name": "frost-bunsen"
   }
 }

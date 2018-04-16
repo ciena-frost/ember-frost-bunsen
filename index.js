@@ -4,6 +4,15 @@
 module.exports = {
   name: 'ember-frost-bunsen',
 
+  included: function () {
+    this.app = this._findHost.call(this) // eslint-disable-line no-useless-call
+
+    // Set ember-cli-svgstore options so that consuming applications don't have to
+    setSvgConfiguration.call(this, 'frost-bunsen')
+
+    this._super.included.apply(this, arguments)
+  },
+
   /* eslint-disable complexity */
   init: function (app) {
     this.options = this.options || {}
