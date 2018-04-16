@@ -1,6 +1,8 @@
 /* eslint-env node */
 'use strict'
 
+const {setSvgConfiguration} = require('ember-frost-core/utils/frost-icon-svg')
+
 module.exports = {
   name: 'ember-frost-bunsen',
 
