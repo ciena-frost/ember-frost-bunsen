@@ -1,6 +1,7 @@
 import array from './array'
 import array2 from './array-2'
 import arrayWithDefaults from './array-with-defaults'
+import autocomplete from './autocomplete'
 import complex from './complex'
 import complexConditionalProperties from './complex-conditional-properties'
 import conditionalProperties from './conditional-properties'
@@ -20,6 +21,7 @@ export default {
   array,
   array2,
   arrayWithDefaults,
+  autocomplete,
   complex,
   complexConditionalProperties,
   conditionalProperties,

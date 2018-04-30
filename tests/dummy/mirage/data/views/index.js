@@ -8,6 +8,7 @@ import arrayIndexed2 from './array-indexed-2'
 import arrayInline from './array-inline'
 import arraySortable from './array-sortable'
 import arrayTabs from './array-tabs'
+import autocomplete from './autocomplete'
 import complex from './complex'
 import complexConditionalPropSelectForm from './complex-conditional-prop-select-form'
 import conditionalPropSelectForm from './conditional-prop-select-form'
@@ -38,6 +39,7 @@ export default {
   arrayInline,
   arraySortable,
   arrayTabs,
+  autocomplete,
   complex,
   complexConditionalPropSelectForm,
   conditionalPropSelectForm,

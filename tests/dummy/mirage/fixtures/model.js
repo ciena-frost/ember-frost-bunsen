@@ -17,6 +17,11 @@ export default [
     model: models.arrayWithDefaults
   },
   {
+    id: 'autocomplete',
+    label: 'Autocomplete',
+    model: models.autocomplete
+  },
+  {
     id: 'complex',
     label: 'Complex',
     model: models.complex

@@ -27,6 +27,7 @@ import {default as Error} from 'ember-frost-bunsen/components/error'
 import {default as Form} from 'ember-frost-bunsen/components/form'
 import {default as InputWrapper} from 'ember-frost-bunsen/components/input-wrapper'
 import {default as AbstractInput} from 'ember-frost-bunsen/components/inputs/abstract-input'
+import {default as AutocompleteInput} from 'ember-frost-bunsen/components/inputs/autocomplete'
 import {default as BooleanInput} from 'ember-frost-bunsen/components/inputs/boolean'
 import {default as ButtonGroupInput} from 'ember-frost-bunsen/components/inputs/button-group'
 import {default as CheckboxArrayInput} from 'ember-frost-bunsen/components/inputs/checkbox-array'
@@ -137,6 +138,10 @@ describe('Unit: ember-frost-bunsen', function () {
 
   it('exports SelectInput', function () {
     expect(SelectInput).to.equal(Inputs.Select)
+  })
+
+  it('exports AutocompleteInput', function () {
+    expect(AutocompleteInput).to.equals(Inputs.Autocomplete)
   })
 
   it('exports StaticInput', function () {

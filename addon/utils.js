@@ -14,6 +14,7 @@ const {keys} = Object
  */
 
 export const builtInRenderers = {
+  autocomplete: 'frost-bunsen-input-autocomplete',
   boolean: 'frost-bunsen-input-boolean',
   'button-group': 'frost-bunsen-input-button-group',
   'checkbox-array': 'frost-bunsen-input-checkbox-array',

@@ -1,3 +1,4 @@
+import autocomplete from './autocomplete'
 import boolean from './boolean'
 import buttonGroup from './button-group'
 import checkboxArray from './checkbox-array'
@@ -21,6 +22,7 @@ import when from './when'
 
 export default {
   boolean,
+  autocomplete,
   'button-group': buttonGroup,
   'checkbox-array': checkboxArray,
   date,

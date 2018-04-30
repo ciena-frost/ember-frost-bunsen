@@ -62,6 +62,12 @@ export default [
     view: views.arrayTabs
   },
   {
+    id: 'autocomplete',
+    label: 'Autocomplete',
+    modelIds: ['autocomplete'],
+    view: views.autocomplete
+  },
+  {
     id: 'complex',
     label: 'Complex',
     modelIds: ['complex'],
