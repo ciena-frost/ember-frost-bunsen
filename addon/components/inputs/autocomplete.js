@@ -1,6 +1,5 @@
 import Ember from 'ember'
 const {run} = Ember
-import _ from 'lodash'
 
 import DropdownInput from './dropdown-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
