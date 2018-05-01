@@ -1,13 +1,13 @@
 export default {
   properties: {
-    cookies: {
-      enum: [
-        'Chocolate',
-        'Peanut Butter',
-        'Oatmeal',
-        'Oreo'
-      ],
-      type: 'string'
+    queryWithCountries: {
+      type: 'string',
+      modelType: 'country',
+      valueAttribute: 'id',
+      labelAttribute: 'name',
+      query: {
+        p: 'name:$filter'
+      }
     }
   },
   type: 'object'

@@ -13,7 +13,10 @@ export default {
           label: 'Autocomplete with countries',
           model: 'queryExampleWithCountries',
           renderer: {
-            name: 'autocomplete'
+            name: 'autocomplete',
+            options: {
+              debounceInterval: 300
+            }
           }
         }
       ]

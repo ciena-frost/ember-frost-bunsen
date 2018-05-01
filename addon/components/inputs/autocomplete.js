@@ -1,12 +1,7 @@
-import Ember from 'ember'
-const {run} = Ember
-
-import DropdownInput from './dropdown-input'
+import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 
-const DEBOUNCE_INTERVAL = 300
-
-export default DropdownInput.extend({
+export default SelectInput.extend({
   // == Component Properties ===================================================
   classNames: [
     'frost-bunsen-input-autocomplete',
@@ -22,22 +17,5 @@ export default DropdownInput.extend({
    */
   parseValue (data) {
     return data
-  },
-
-  runUpdateItems (options) {
-    this.get('updateItems').perform(options)
-  },
-
-  // == Actions ================================================================
-
-  actions: {
-    /**
-     * perform a filter on the widget
-     * @param  {String} filter the filter text
-     */
-    filterOptions (filter) {
-      const value = this.get('formValue')
-      run.debounce(this, this.runUpdateItems, {value, filter, keepCurrentValue: false}, DEBOUNCE_INTERVAL)
-    }
   }
 })

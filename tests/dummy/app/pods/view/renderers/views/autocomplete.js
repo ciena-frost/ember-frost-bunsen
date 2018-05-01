@@ -3,12 +3,15 @@ export default {
     {
       children: [
         {
-          label: 'Cookie',
-          model: 'cookies',
+          label: 'Country',
+          model: 'queryWithCountries',
           renderer: {
-            name: 'autocomplete'
+            name: 'autocomplete',
+            options: {
+              debounceInterval: 300
+            }
           },
-          placeholder: 'Type o'
+          placeholder: 'Type a country name'
         }
       ]
     }
