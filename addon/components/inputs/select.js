@@ -551,7 +551,6 @@ export default AbstractInput.extend({
      */
     filterOptions (filter) {
       const value = this.get('formValue')
-      console.log('filtering for ' + filter)
       this.get('updateItems').perform({value, filter, keepCurrentValue: false})
     }
   }
