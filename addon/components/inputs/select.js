@@ -61,6 +61,7 @@ export default AbstractInput.extend({
     return {
       options: A([]),
       itemsInitialized: false,
+      ignoreEmptyFilterSearch: false,
       waitingOnReferences: false
     }
   },
@@ -252,7 +253,6 @@ export default AbstractInput.extend({
       // Make sure we flag that we've begun fetching items so we don't queue up
       // a bunch of API requests back to back
       this.set('itemsInitialized', true)
-
       this.get('updateItems').perform({value: newValue, keepCurrentValue: needsInitialItems})
     }
   },
@@ -479,6 +479,12 @@ export default AbstractInput.extend({
     return data[0]
   },
 
+  handleEmptyFilter () {
+    if (!isEmpty(this.get('options'))) {
+      this.set('options', [])
+    }
+  },
+
   /**
    * Restartable ember-concurrency task that updates select dropdown items
    * @param {Object} value - current form value
@@ -486,6 +492,11 @@ export default AbstractInput.extend({
    * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
    */
   updateItems: task(function * ({value, filter = '', keepCurrentValue}) {
+    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+      this.handleEmptyFilter()
+      return
+    }
+
     const {
       ajax,
       bunsenId,

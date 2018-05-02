@@ -1,3 +1,5 @@
+import Ember from 'ember'
+const {isEmpty} = Ember
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 
@@ -9,6 +11,12 @@ export default SelectInput.extend({
   ],
 
   layout,
+
+  getDefaultProps () {
+    return {
+      ignoreEmptyFilterSearch: true
+    }
+  },
 
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
