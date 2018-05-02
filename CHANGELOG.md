@@ -1,3 +1,8 @@
+# 20.1.0 (2018-05-02)
+
+* **Added** autocomplete renderer to bunsen (interchangeable with select)
+
+
 # 20.0.0 (2018-04-16)
 
 * Upgraded `ember-frost-demo-components` to `^6.0.0`
