@@ -1,5 +1,3 @@
-import Ember from 'ember'
-const {isEmpty} = Ember
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 
