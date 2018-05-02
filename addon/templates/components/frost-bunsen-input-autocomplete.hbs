@@ -1,0 +1,53 @@
+{{#if readOnly}}
+  {{frost-bunsen-input-static
+    bunsenId=bunsenId
+    bunsenModel=bunsenModel
+    bunsenView=bunsenView
+    cellConfig=cellConfig
+    errorMessage=errorMessage
+    formDisabled=formDisabled
+    getRootProps=getRootProps
+    hook=hook
+    onChange=onChange
+    onError=onError
+    readOnly=readOnly
+    registerForFormValueChanges=registerForFormValueChanges
+    renderers=renderers
+    required=required
+    showAllErrors=showAllErrors
+    unregisterForFormValueChanges=unregisterForFormValueChanges
+    value=selectedItemLabel
+  }}
+{{else}}
+  {{#if (not cellConfig.hideLabel)}}
+    <label class={{labelWrapperClassName}}>
+      {{renderLabel}}
+      {{#if showRequiredLabel}}
+        <div class='frost-bunsen-required'>Required</div>
+      {{/if}}
+    </label>
+  {{/if}}
+  <div class={{inputWrapperClassName}}>
+    {{frost-autocomplete
+      class=valueClassName
+      data=options
+      disabled=disabled
+      error=(if renderErrorMessage true false)
+      hook=hook
+      onChange=(action 'handleChange')
+      onBlur=(action 'showErrorMessage')
+      options=selectSpreadProperties
+      placeholder=placeholder
+      width=width
+      selectedValue=value
+    }}
+    {{frost-bunsen-description-bubble
+      description=cellConfig.description
+    }}
+  </div>
+  {{#if renderErrorMessage}}
+    <div class='frost-bunsen-error'>
+      {{renderErrorMessage}}
+    </div>
+  {{/if}}
+{{/if}}
