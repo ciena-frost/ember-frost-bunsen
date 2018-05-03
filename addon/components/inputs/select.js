@@ -479,12 +479,6 @@ export default AbstractInput.extend({
     return data[0]
   },
 
-  handleEmptyFilter () {
-    if (!isEmpty(this.get('options'))) {
-      this.set('options', [])
-    }
-  },
-
   /**
    * Restartable ember-concurrency task that updates select dropdown items
    * @param {Object} value - current form value
@@ -492,11 +486,6 @@ export default AbstractInput.extend({
    * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
    */
   updateItems: task(function * ({value, filter = '', keepCurrentValue}) {
-    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
-      this.handleEmptyFilter()
-      return
-    }
-
     const {
       ajax,
       bunsenId,
@@ -512,6 +501,12 @@ export default AbstractInput.extend({
       'listData',
       'store'
     )
+
+    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+      // sets options back to it's original data. This should usually be empty unless using static data.
+      this.set('options', data)
+      return
+    }
 
     const options = getMergedOptions(bunsenModel, cellConfig)
 
