@@ -598,12 +598,4 @@ describe('Unit: frost-bunsen-input-select', function () {
       })
     })
   })
-
-  describe('handleEmptyFilter', function () {
-    it('should handle empty filter', function () {
-      component.set('options', [{label: 'something', value: 'some other thing'}])
-      component.handleEmptyFilter()
-      expect(component.get('options').length, 'options should be empty').to.equal(0)
-    })
-  })
 })
