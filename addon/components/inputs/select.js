@@ -61,6 +61,7 @@ export default AbstractInput.extend({
     return {
       options: A([]),
       itemsInitialized: false,
+      ignoreEmptyFilterSearch: false,
       waitingOnReferences: false
     }
   },
@@ -252,7 +253,6 @@ export default AbstractInput.extend({
       // Make sure we flag that we've begun fetching items so we don't queue up
       // a bunch of API requests back to back
       this.set('itemsInitialized', true)
-
       this.get('updateItems').perform({value: newValue, keepCurrentValue: needsInitialItems})
     }
   },
@@ -501,6 +501,12 @@ export default AbstractInput.extend({
       'listData',
       'store'
     )
+
+    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+      // sets options back to it's original data. This should usually be empty unless using static data.
+      this.set('options', data)
+      return
+    }
 
     const options = getMergedOptions(bunsenModel, cellConfig)
 

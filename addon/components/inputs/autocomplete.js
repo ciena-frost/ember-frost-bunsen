@@ -10,6 +10,12 @@ export default SelectInput.extend({
 
   layout,
 
+  getDefaultProps () {
+    return {
+      ignoreEmptyFilterSearch: true
+    }
+  },
+
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
    * @param {String} data - value to parse
