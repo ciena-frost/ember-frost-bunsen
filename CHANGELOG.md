@@ -1,3 +1,7 @@
+# 20.1.1 (2018-05-04)
+* **Changed** added logic to not search on empty filters for select/autocomplete (autocomplete will do this by default)
+
+
 # 20.1.0 (2018-05-02)
 
 * **Added** autocomplete renderer to bunsen (interchangeable with select)
