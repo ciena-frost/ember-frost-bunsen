@@ -1,3 +1,8 @@
+# 21.0.0 (2018-05-14)
+
+* Update `ember-frost-popover` dependency to `^11.0.0`
+* Update `ember-frost-demo-components` devDependency to `^7.0.0`
+
 # 20.1.1 (2018-05-04)
 * **Changed** added logic to not search on empty filters for select/autocomplete (autocomplete will do this by default)
 
