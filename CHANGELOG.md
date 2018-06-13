@@ -1,3 +1,7 @@
+# 22.0.0 (2018-06-13)
+* **Updated** `ember-frost-tabs` to version `^10.0.0`
+
+
 # 21.0.0 (2018-05-14)
 
 * Update `ember-frost-popover` dependency to `^11.0.0`
