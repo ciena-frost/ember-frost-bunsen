@@ -38,6 +38,7 @@ ember install ember-frost-bunsen
 | ------------- | -------------------------- | -------- | ---------------------------------------- |
 | `bunsenModel` | `Ember.Object` or `object` | Yes      | Value definition                         |
 | `bunsenView`  | `Ember.Object` or `object` | No       | View definition                          |
+| `disableSchemaValidation`  | `boolean`     | No       | Disables validation of model and view schema
 | `onError`     | `Function`                 | No       | Callback for when an error occurs in a sub-component |
 | `renderers`   | `Ember.Object` or `object` | No       | Custom renderer template helper mappings |
 | `value`       | `Ember.Object` or `object` | No       | Data to render                           |

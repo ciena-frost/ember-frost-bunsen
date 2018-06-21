@@ -9,6 +9,7 @@ import layout from 'ember-frost-bunsen/templates/components/frost-bunsen'
 const keys = [
   'autofocus',
   'disabled',
+  'disableSchemaValidation',
   'bunsenModel',
   'bunsenView',
   'focusedInput',
