@@ -105,6 +105,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       PropTypes.EmberObject,
       PropTypes.object
     ]),
+    disableSchemaValidation: PropTypes.bool,
     focusedInput: PropTypes.string,
     hook: PropTypes.string,
     hookInputDelimiter: PropTypes.string,
@@ -138,6 +139,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   getDefaultProps () {
     return {
       batchedChanges: {},
+      disableSchemaValidation: false,
       disabled: false,
       hook: 'bunsenDetail',
       hookInputDelimiter: '-',
@@ -183,7 +185,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   precomputedCells (bunsenModel, view) {
     const {cellDefinitions, cells} = this.getRenderView(bunsenModel, view)
     return cells.map((cell) => {
-      const cellConfig = getMergedConfigRecursive(cell, cellDefinitions)
+      const cellConfig = _.cloneDeep(getMergedConfigRecursive(cell, cellDefinitions))
 
       this.precomputeIds(cellConfig)
       this.precomputeDependencies(cellConfig)
@@ -334,8 +336,6 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       view = v2View(view)
     } else if (typeOf(view.get) === 'function' && view.get('version') === '1.0') {
       view = v2View(deemberify(view))
-    } else {
-      view = _.cloneDeep(view)
     }
 
     return normalizeView(view)
@@ -549,6 +549,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    * @returns {Object} validation results
    */
   validateSchemas (baseModel, model, view) {
+    if (this.get('disableSchemaValidation')) {
+      return {}
+    }
+
     const props = {
       invalidSchemaType: 'model',
       propValidationResult: validateModel(model, isRegisteredEmberDataModel)

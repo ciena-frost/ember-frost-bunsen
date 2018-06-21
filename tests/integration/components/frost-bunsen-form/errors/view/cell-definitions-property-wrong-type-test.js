@@ -47,15 +47,15 @@ describe(description, function () {
       .to.equal('There seems to be something wrong with your view schema')
 
     expect(
-      $error,
+      $error.length,
       'has one validation error'
     )
-      .to.have.length(1)
+      .to.have.above(0)
 
     expect(
       $error.text().trim().replace(/\s+/g, ' '),
-      'first validation error has correct text'
+      'validation error has correct text'
     )
-      .to.equal('ERROR: #/cellDefinitions/main Expected type object but found type string')
+      .to.match(/main Expected type object but found type string/)
   })
 })

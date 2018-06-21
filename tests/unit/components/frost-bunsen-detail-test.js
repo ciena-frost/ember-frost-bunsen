@@ -406,4 +406,33 @@ describe(test.label, function () {
       expect(cellConfig.children[3].arrayOptions.tupleCells[1].__bunsenId__).to.equal('root.qux.1')
     })
   })
+
+  describe('validateSchemas', function () {
+    let component, model, view
+    beforeEach(function () {
+      model = {
+        type: 'object',
+        properties: {}
+      }
+
+      view = {
+        type: 'form'
+        // left out version to make invalid schema
+      }
+
+      component = this.subject({
+        bunsenModel: model,
+        bunsenView: view
+      })
+    })
+
+    it('should return empty when disableSchemaValidation is true', function () {
+      component.set('disableSchemaValidation', true)
+      expect(component.validateSchemas(model, model, view)).to.eql({})
+    })
+
+    it('should return error when view schema is invalid', function () {
+      expect(component.validateSchemas(model, model, view).propValidationResult.errors).to.have.length(2)
+    })
+  })
 })
