@@ -1,3 +1,9 @@
+# 22.1.0 (2018-06-21)
+
+* Added `disableSchemaValidation` as an option to `frost-bunsen`, `frost-bunsen-detail`, `frost-bunsen-form` which disables schema validation being run on any schema changes
+
+
+
 # 22.0.0 (2018-06-13)
 * **Updated** `ember-frost-tabs` to version `^10.0.0`
 
