@@ -35,7 +35,8 @@
       error=(if renderErrorMessage true false)
       hook=hook
       onChange=(action 'handleChange')
-      onFocusOut=(action 'showErrorMessage')
+      onBlur=(action 'showErrorMessage')
+      onFocus=(action 'hideErrorMessage')
       options=selectSpreadProperties
       placeholder=placeholder
       width=width
