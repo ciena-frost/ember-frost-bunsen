@@ -170,7 +170,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select model q
           .to.equal(0)
       })
 
-      describe.only('when expanded/opened', function () {
+      describe('when expanded/opened', function () {
         beforeEach(function () {
           $hook('my-form-foo').find('.frost-select').click()
           return wait()
