@@ -1,3 +1,8 @@
+# 22.1.1 (2018-07-10)
+
+* Fixed Issue #537 Select renderer does not show validation errors
+
+
 # 22.1.0 (2018-06-21)
 
 * Added `disableSchemaValidation` as an option to `frost-bunsen`, `frost-bunsen-detail`, `frost-bunsen-form` which disables schema validation being run on any schema changes
