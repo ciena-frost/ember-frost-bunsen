@@ -1,3 +1,5 @@
+/* global mocha */
+
 import {expect} from 'chai'
 import Ember from 'ember'
 const {RSVP, Service, run} = Ember
@@ -17,6 +19,10 @@ import {
 } from 'dummy/tests/helpers/ember-frost-bunsen'
 
 import selectors from 'dummy/tests/helpers/selectors'
+
+mocha.setup({
+  timeout: 10000
+})
 
 describe('Integration: Component / frost-bunsen-form / renderer / select model queryForCurrentValue', function () {
   setupComponentTest('frost-bunsen-form', {
