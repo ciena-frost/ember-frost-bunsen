@@ -1,8 +1,8 @@
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 import Ember from 'ember'
-const {isEmpty} = Ember
-import computed, {or, readOnly} from 'ember-computed-decorators'
+const {isEmpty, isPresent} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
 
 export default SelectInput.extend({
   // == Component Properties ===================================================
@@ -21,7 +21,10 @@ export default SelectInput.extend({
     }
   },
   @readOnly
-  @or('bunsenModel.modelType', 'bunsenModel.endpoint') isAsyncGet, // eslint-disable-line no-undef
+  @computed('bunsenModel.{modelType,endpoint}')
+  isAsyncGet (modelType, endpoint) {
+    return isPresent(modelType) || isPresent(endpoint)
+  },
 
   @readOnly
   @computed('isAsyncGet', 'updateItems.isRunning', '_emptyFilter')
