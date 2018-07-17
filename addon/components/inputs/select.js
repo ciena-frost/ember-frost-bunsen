@@ -5,7 +5,7 @@ import {utils} from 'bunsen-core'
 const {ValueWrapper} = utils.path
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, merge, run, set, typeOf} = Ember
+const {A, get, inject, isEmpty, isPresent, merge, run, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task} from 'ember-concurrency'
 import _ from 'lodash'
@@ -69,6 +69,17 @@ export default AbstractInput.extend({
   selectedOptions: [],
 
   // == Computed Properties ====================================================
+  @readOnly
+  @computed('bunsenModel', 'cellConfig')
+  mergedOptions (bunsenModel, cellConfig) {
+    return getMergedOptions(bunsenModel, cellConfig)
+  },
+
+  @readOnly
+  @computed('mergedOptions.{modelType,endpoint}')
+  isAsyncGet (modelType, endpoint) {
+    return isPresent(modelType) || isPresent(endpoint)
+  },
 
   @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'waitingOnReferences')
@@ -82,10 +93,9 @@ export default AbstractInput.extend({
 
   /* eslint-disable complexity */
   @readOnly
-  @computed('bunsenModel', 'cellConfig')
-  listData (bunsenModel, cellConfig) {
+  @computed('bunsenModel', 'mergedOptions')
+  listData (bunsenModel, renderOptions) {
     const enumDef = bunsenModel.items ? bunsenModel.items.enum : bunsenModel.enum
-    const renderOptions = getMergedOptions(bunsenModel, cellConfig)
     const optionsData = get(renderOptions, 'data') || {}
     const hasOverrides = keys(optionsData).length !== 0
     const hasNoneOption = get(renderOptions, 'none.present')
@@ -110,17 +120,16 @@ export default AbstractInput.extend({
   /* eslint-enable complexity */
 
   @readOnly
-  @computed('cellConfig')
+  @computed('cellConfig', 'isAsyncGet')
   /**
    * Determine whether or not filtering should be done within frost-select.
    * NOTE: If select is enum driven frost-select will do the filtering unless
    * otherwise specified.
    * @param {Object} cellConfig - cell configuration
+   * @param {boolean} dataFromAPI - flag to determine if get from api
    * @returns {Boolean} whether or not filtering is to be done within frost-select
    */
-  isFilteringLocally (cellConfig) {
-    const {endpoint, modelType} = getMergedOptions(this.get('bunsenModel'), cellConfig)
-    const dataFromAPI = endpoint || modelType
+  isFilteringLocally (cellConfig, dataFromAPI) {
     return (
       get(cellConfig, 'renderer.localFiltering') ||
       get(cellConfig, 'renderer.options.localFiltering') ||
@@ -182,11 +191,11 @@ export default AbstractInput.extend({
    * @returns {Boolean} whether or not query is waiting on missing references
    */
   isWaitingOnReferences (formValue) {
-    const {bunsenId, bunsenModel, cellConfig} = this.getProperties(
-      'bunsenId', 'bunsenModel', 'cellConfig'
+    const {bunsenId, mergedOptions} = this.getProperties(
+      'bunsenId', 'mergedOptions'
     )
 
-    const {endpoint, query} = getMergedOptions(bunsenModel, cellConfig)
+    const {endpoint, query} = mergedOptions
 
     const isWaitingOnQueryReference = (
       typeOf(query) === 'object' &&
@@ -212,12 +221,9 @@ export default AbstractInput.extend({
   /* eslint-disable complexity */
   formValueChanged (newValue) {
     const {
-      bunsenModel,
-      cellConfig,
-      formValue: oldValue
-    } = this.getProperties('bunsenModel', 'cellConfig', 'formValue')
-
-    const options = getMergedOptions(bunsenModel, cellConfig)
+      formValue: oldValue,
+      mergedOptions: options
+    } = this.getProperties('formValue', 'mergedOptions')
 
     this.set('formValue', newValue)
 
@@ -298,11 +304,9 @@ export default AbstractInput.extend({
   },
 
   needsInitialItems (formValue) {
-    const {bunsenModel, cellConfig, itemsInitialized} = this.getProperties(
-      'bunsenModel', 'cellConfig', 'itemsInitialized'
-    )
+    const {itemsInitialized, mergedOptions} = this.getProperties('itemsInitialized', 'mergedOptions')
 
-    const {endpoint, query} = getMergedOptions(bunsenModel, cellConfig)
+    const {endpoint, query} = mergedOptions
 
     // If items have already been initialized then we are done here
     if (itemsInitialized) return false
@@ -489,15 +493,13 @@ export default AbstractInput.extend({
     const {
       ajax,
       bunsenId,
-      bunsenModel,
-      cellConfig,
       listData: data,
+      mergedOptions: options,
       store
     } = this.getProperties(
       'ajax',
       'bunsenId',
-      'bunsenModel',
-      'cellConfig',
+      'mergedOptions',
       'listData',
       'store'
     )
@@ -507,8 +509,6 @@ export default AbstractInput.extend({
       this.set('options', data)
       return
     }
-
-    const options = getMergedOptions(bunsenModel, cellConfig)
 
     if (options.endpoint) {
       const endpoint = parseVariables(
