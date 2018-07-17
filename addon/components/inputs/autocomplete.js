@@ -29,6 +29,20 @@ export default SelectInput.extend({
     }
     return false
   },
+  @readOnly
+  @computed('filter')
+  _emptyFilter (filter) {
+    return isEmpty(filter)
+  },
+  @readOnly
+  @computed('value', 'options.[]')
+  selectedItemWithLabel (value, options) {
+    if (typeof value === 'string' && options) {
+      return options.findBy('value', value) || value
+    }
+
+    return value
+  },
   /**
    * This should be overriden by inherited inputs to convert the value to the appropriate format
    * @param {String} data - value to parse
@@ -39,8 +53,12 @@ export default SelectInput.extend({
   },
   actions: {
     checkIfEmptyfilter (filterValue) {
-      this.set('_emptyFilter', isEmpty(filterValue))
+      this.set('filter', filterValue)
       this.send('filterOptions', filterValue)
+    },
+    onSelectedItem (selectedItem) {
+      this.set('filter', '')
+      this.send('handleChange', selectedItem)
     }
   }
 })

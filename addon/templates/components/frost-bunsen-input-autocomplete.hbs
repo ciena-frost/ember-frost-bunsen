@@ -34,14 +34,15 @@
       disabled=disabled
       error=(if renderErrorMessage true false)
       hook=hook
-      onChange=(action 'handleChange')
+      onChange=(action 'onSelectedItem')
       onInput=(action 'checkIfEmptyfilter')
       onBlur=(action 'showErrorMessage')
       onFocus=(action 'hideErrorMessage')
       options=selectSpreadProperties
       placeholder=placeholder
       width=width
-      selectedValue=value
+      filter=(if _emptyFilter selectedItemWithLabel.label filter)
+      selectedValue=selectedItemWithLabel
       isLoading=asyncLoading
       localFiltering=(not isAsyncGet)
     }}

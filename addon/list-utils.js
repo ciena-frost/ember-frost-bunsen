@@ -21,7 +21,8 @@ const {keys} = Object
  * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
  * @returns {RSVP.Promise} a promise that resolves to a list of items
  */
-export function getOptions ({ajax, bunsenId, data, filter = '', options, store, value, keepCurrentValue}) {
+export function getOptions ({ajax, bunsenId, data, filter = '', options,
+  store, value, keepCurrentValue, onlyQueryForCurrentValue}) {
   // escape regexp metacharacters for local data filtering since filter is not a regular expression
   const safeFilter = filter.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&')
   const filterRegex = new RegExp(safeFilter, 'i')
@@ -29,7 +30,16 @@ export function getOptions ({ajax, bunsenId, data, filter = '', options, store, 
 
   if (options.modelType) {
     return getItemsFromEmberData(
-      {value, modelDef: options, data: filteredData, bunsenId, store, filter, keepCurrentValue})
+      {
+        value,
+        modelDef: options,
+        data: filteredData,
+        bunsenId,
+        store,
+        filter,
+        keepCurrentValue,
+        onlyQueryForCurrentValue
+      })
   } else if (options.endpoint) {
     return getItemsFromAjaxCall({ajax, bunsenId, data: filteredData, filter, options, value})
   } else if (options.recordsPath) {
@@ -141,7 +151,8 @@ export function getItemsFromAjaxCall ({ajax, bunsenId, data, filter, options, va
  * @param {Boolean} keepCurrentValue determines whether we need to refetch for the current value
  * @returns {RSVP.Promise} a promise that resolves to the list of items
  */
-export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, filter, keepCurrentValue = true}) {
+export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store,
+  filter, keepCurrentValue = true, onlyQueryForCurrentValue = false}) {
   const modelType = modelDef.modelType || 'resources'
   const {labelAttribute, queryForCurrentValue, valueAttribute} = modelDef
   const valueAsId = get(value, bunsenId)
@@ -155,6 +166,7 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
       })
   }
   const actuallyFindCurrentValue = keepCurrentValue && queryForCurrentValue && valueAsId !== undefined && !arrayValues
+  const actuallyOnlyQueryForCurrentValue = actuallyFindCurrentValue && onlyQueryForCurrentValue
 
   const query = getQuery({
     bunsenId,
@@ -163,8 +175,14 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
     value
   })
 
+  const valueRecord = actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
+    .catch((err) => {
+      Logger.log(`Error fetching ${modelType}`, err)
+      throw err
+    }) : RSVP.resolve(null)
+
   return RSVP.hash({
-    items: store.query(modelType, query)
+    items: actuallyOnlyQueryForCurrentValue ? [] : store.query(modelType, query)
       .then((records) => {
         return normalizeItems({data, labelAttribute, records, valueAttribute})
       })
@@ -172,11 +190,7 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store, 
         Logger.log(`Error fetching ${modelType}`, err)
         throw err
       }),
-    valueRecord: actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
-      .catch((err) => {
-        Logger.log(`Error fetching ${modelType}`, err)
-        throw err
-      }) : RSVP.resolve(null),
+    valueRecord,
     arrayRecords: arrayValues || RSVP.resolve(null)
   })
     .then(({arrayRecords, items, valueRecord}) => {
