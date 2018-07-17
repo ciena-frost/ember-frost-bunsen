@@ -47,7 +47,7 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
     beforeEach(function () {
       setProperties(component, {bunsenModel: {modelType: 'country'},
         'updateItems.isRunning': true,
-        _emptyFilter: false
+        filter: 'foo'
       })
     })
 
@@ -67,7 +67,7 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
     beforeEach(function () {
       setProperties(component, {bunsenModel: {endpoint: '/foo'},
         'updateItems.isRunning': true,
-        _emptyFilter: false
+        filter: 'foo'
       })
     })
 

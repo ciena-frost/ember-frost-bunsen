@@ -1,7 +1,7 @@
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 import Ember from 'ember'
-const {isEmpty} = Ember
+const {A, isEmpty} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default SelectInput.extend({
@@ -16,7 +16,6 @@ export default SelectInput.extend({
   getDefaultProps () {
     return {
       ignoreEmptyFilterSearch: true,
-      _emptyFilter: true,
       filter: ''
     }
   },
@@ -38,7 +37,7 @@ export default SelectInput.extend({
   @computed('value', 'options.[]')
   selectedItemWithLabel (value, options) {
     if (typeof value === 'string' && options) {
-      return options.findBy('value', value) || value
+      return A(options).findBy('value', value) || value
     }
 
     return value
