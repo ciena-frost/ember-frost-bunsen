@@ -175,12 +175,6 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store,
     value
   })
 
-  const valueRecord = actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
-    .catch((err) => {
-      Logger.log(`Error fetching ${modelType}`, err)
-      throw err
-    }) : RSVP.resolve(null)
-
   return RSVP.hash({
     items: actuallyOnlyQueryForCurrentValue ? [] : store.query(modelType, query)
       .then((records) => {
@@ -190,7 +184,11 @@ export function getItemsFromEmberData ({value, modelDef, data, bunsenId, store,
         Logger.log(`Error fetching ${modelType}`, err)
         throw err
       }),
-    valueRecord,
+    valueRecord: actuallyFindCurrentValue ? store.findRecord(modelType, valueAsId)
+      .catch((err) => {
+        Logger.log(`Error fetching ${modelType}`, err)
+        throw err
+      }) : RSVP.resolve(null),
     arrayRecords: arrayValues || RSVP.resolve(null)
   })
     .then(({arrayRecords, items, valueRecord}) => {
