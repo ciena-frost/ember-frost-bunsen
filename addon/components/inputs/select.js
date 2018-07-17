@@ -482,11 +482,11 @@ export default AbstractInput.extend({
   parseValue (data) {
     return data[0]
   },
-
+  /* eslint-disable complexity */
   /**
-   * Restartable ember-concurrency task that updates select dropdown items
-   * @param {Object} value - current form value
-   * @param {String} [filter=''] - string to filter items by
+ * Restartable ember-concurrency task that updates select dropdown items
+ * @param {Object} value - current form value
+ * @param {String} [filter=''] - string to filter items by
    * @param {Boolean} keepCurrentValue - determines whether we need to refetch for the current value
    */
   updateItems: task(function * ({value, filter = '', keepCurrentValue}) {
@@ -495,19 +495,27 @@ export default AbstractInput.extend({
       bunsenId,
       listData: data,
       mergedOptions: options,
-      store
+      store,
+      value: currentValue
     } = this.getProperties(
       'ajax',
       'bunsenId',
       'mergedOptions',
       'listData',
-      'store'
+      'store',
+      'value'
     )
+    let onlyQueryForCurrentValue = false
 
     if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
-      // sets options back to it's original data. This should usually be empty unless using static data.
-      this.set('options', data)
-      return
+      if (isEmpty(currentValue)) {
+        // sets options back to it's original data. This should usually be empty unless using static data.
+        this.set('options', data)
+        return
+      } else {
+        // Autocomplete has empty filter, and current value. So should only query for current value
+        onlyQueryForCurrentValue = true
+      }
     }
 
     if (options.endpoint) {
@@ -529,7 +537,8 @@ export default AbstractInput.extend({
         options,
         store,
         value,
-        keepCurrentValue
+        keepCurrentValue,
+        onlyQueryForCurrentValue
       })
       this.set('options', items)
     } catch (err) {
@@ -540,6 +549,7 @@ export default AbstractInput.extend({
       this.onError(bunsenId, [error])
     }
   }).restartable(),
+  /* eslint-enable complexity */
 
   // == Events ================================================================
 
