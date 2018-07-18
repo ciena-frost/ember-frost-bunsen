@@ -82,4 +82,46 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
       expect(component.get('asyncLoading'), 'asyncLoading to be false').to.equal(false)
     })
   })
+
+  describe('observeSelectedItemLabelChange', function () {
+    it('should set filter when not typing, item has label, and filter is empty', function () {
+      component.setProperties({
+        filter: '',
+        options: [{label: 'Spiderman', value: 'Peter Parker'}],
+        value: 'Peter Parker',
+        _isTyping: false
+      })
+      expect(component.get('filter')).to.equal('Spiderman')
+    })
+
+    it('should not set filter when not typing, item has label, and filter is not empty', function () {
+      component.setProperties({
+        filter: 'foo',
+        options: [{label: 'Spiderman', value: 'Peter Parker'}],
+        value: 'Peter Parker',
+        _isTyping: false
+      })
+      expect(component.get('filter')).to.equal('foo')
+    })
+
+    it('should not set filter when not typing, item has no label, and filter is empty', function () {
+      component.setProperties({
+        filter: '',
+        options: [{value: 'Peter Parker'}],
+        value: 'Peter Parker',
+        _isTyping: false
+      })
+      expect(component.get('filter')).to.equal('')
+    })
+
+    it('should not set filter when typing, item has label, and filter is empty', function () {
+      component.setProperties({
+        filter: '',
+        options: [{label: 'Spiderman', value: 'Peter Parker'}],
+        value: 'Peter Parker',
+        _isTyping: true
+      })
+      expect(component.get('filter')).to.equal('')
+    })
+  })
 })
