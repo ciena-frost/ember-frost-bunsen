@@ -508,16 +508,6 @@ export default AbstractInput.extend({
       'store',
       'value'
     )
-    // let onlyQueryForCurrentValue = false
-    // if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
-    //   if (isEmpty(currentValue)) {
-    //     // sets options back to it's original data. This should usually be empty unless using static data.
-    //     return this.set('options', data)
-    //   } else {
-    //   // Autocomplete has empty filter, and current value. So should only query for current value
-    //     onlyQueryForCurrentValue = true
-    //   }
-    // }
 
     const options = getMergedOptions(bunsenModel, cellConfig)
 
