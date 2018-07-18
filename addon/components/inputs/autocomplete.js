@@ -1,7 +1,7 @@
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 import Ember from 'ember'
-const {A, get, getWithDefault, isEmpty, observer} = Ember
+const {A, Logger, get, getWithDefault, isEmpty, observer} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default SelectInput.extend({
@@ -21,6 +21,24 @@ export default SelectInput.extend({
       _isTyping: false
     }
   },
+
+  // == Observers ====================================================
+
+  observeSelectedItemLavelChange: observer('value', 'options.[]', '_isTyping', 'filter', function () {
+    const selectedItem = this._findSelectedItemGivenValue(this.get('value'), this.get('options'))
+    const filter = this.get('filter')
+    const isTyping = this.get('_isTyping')
+    if (!isEmpty(selectedItem)) {
+      const label = get(selectedItem, 'label')
+      if (!isEmpty(label) && isEmpty(filter) && !isTyping) {
+        Logger.log('Observer setting filter to ', filter)
+
+        this.set('filter', label)
+      }
+    }
+  }),
+
+  // == Computed Properties ====================================================
   @readOnly
   @computed('isAsyncGet', 'updateItems.isRunning', '_emptyFilter')
   asyncLoading (isAsyncGet, isUpdateItemsRunning, emptyFilter) {
@@ -34,16 +52,8 @@ export default SelectInput.extend({
   _emptyFilter (filter) {
     return isEmpty(filter)
   },
-  @readOnly
-  @computed('value', 'options.[]')
-  selectedItemWithLabel (value, options) {
-    if (typeof value === 'string' && options) {
-      return this._findSelectedItemGivenValue(value, options) || value
-    }
 
-    return value
-  },
-
+  // == Functions ==============================================================
   /**
    * Return selectedItem given value chosen
    * @param {String} value - value of selected item
@@ -52,7 +62,7 @@ export default SelectInput.extend({
    */
   _findSelectedItemGivenValue (value, data) {
     if (typeof value === 'string' && data) {
-      return A(data).findBy('value', value) || value
+      return A(data).findBy('value', value)
     }
 
     return value
@@ -65,8 +75,8 @@ export default SelectInput.extend({
    */
   _findSelectedItemLabelGivenValue (value, data) {
     let label = getWithDefault(value, 'label', '')
-    if (typeof selectedItem === 'string') {
-      const foundItem = this._findSelectedItemGivenValue(value, this.get('options'))
+    if (typeof value === 'string') {
+      const foundItem = this._findSelectedItemGivenValue(value, data)
       label = get(foundItem, 'label')
     }
     return label
@@ -79,15 +89,8 @@ export default SelectInput.extend({
   parseValue (data) {
     return data
   },
-  observeSelectedItemLavelChange: observer('value', 'options.[]', '_isTyping', 'filter', function () {
-    const selectedItem = this.get('selectedItemWithLabel')
-    const filter = this.get('filter')
-    const isTyping = this.get('_isTyping')
-    if (!isEmpty(selectedItem)) {
-      const label = get(selectedItem, 'label')
-      if (!isEmpty(label) && isEmpty(filter) && !isTyping) this.set('filter', label)
-    }
-  }),
+
+  // == Actions ===============================================================
   actions: {
     onInput (filterValue) {
       const focused = this.get('_focused')
@@ -100,6 +103,7 @@ export default SelectInput.extend({
     },
     onSelectedItem (selectedItem) {
       const filter = this._findSelectedItemLabelGivenValue(selectedItem, this.get('options'))
+      Logger.log('Select setting filter to ', filter, 'given ', selectedItem, this.get('options'))
       this.setProperties({
         filter: filter,
         _isTyping: false
