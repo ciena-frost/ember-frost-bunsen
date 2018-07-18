@@ -24,7 +24,7 @@ export default SelectInput.extend({
 
   // == Observers ====================================================
 
-  observeSelectedItemLavelChange: observer('value', 'options.[]', '_isTyping', 'filter', function () {
+  observeSelectedItemLabelChange: observer('value', 'options.[]', '_isTyping', 'filter', function () {
     const {
       _isTyping: isTyping,
       filter,
