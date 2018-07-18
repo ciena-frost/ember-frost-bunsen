@@ -508,18 +508,29 @@ export default AbstractInput.extend({
       'store',
       'value'
     )
-    let onlyQueryForCurrentValue = false
-    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
-      if (isEmpty(currentValue)) {
-        // sets options back to it's original data. This should usually be empty unless using static data.
-        return this.set('options', data)
-      } else {
-      // Autocomplete has empty filter, and current value. So should only query for current value
-        onlyQueryForCurrentValue = true
-      }
-    }
+    // let onlyQueryForCurrentValue = false
+    // if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+    //   if (isEmpty(currentValue)) {
+    //     // sets options back to it's original data. This should usually be empty unless using static data.
+    //     return this.set('options', data)
+    //   } else {
+    //   // Autocomplete has empty filter, and current value. So should only query for current value
+    //     onlyQueryForCurrentValue = true
+    //   }
+    // }
 
     const options = getMergedOptions(bunsenModel, cellConfig)
+
+    let onlyQueryForCurrentValue = false
+    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+      if (isPresent(currentValue) && options.queryForCurrentValue) {
+        // Autocomplete has empty filter, and current value. So should only query for current value (if need to)
+        onlyQueryForCurrentValue = true
+      } else {
+        // sets options back to it's original data. This should usually be empty unless using static data.
+        return this.set('options', data)
+      }
+    }
 
     if (options.endpoint) {
       const endpoint = parseVariables(
