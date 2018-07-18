@@ -1,3 +1,9 @@
+# 22.2.0 (2018-07-18)
+
+* **Fix** frost-autocomplete `queryForCurrentValue` not populating the filter
+* **Feature** `frost-autocomplete` shows `isLoading` icon when doing an async search
+
+
 # 22.1.1 (2018-07-10)
 
 * Fixed Issue #537 Select renderer does not show validation errors
