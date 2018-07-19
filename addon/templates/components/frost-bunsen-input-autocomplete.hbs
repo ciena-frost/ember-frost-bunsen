@@ -35,13 +35,13 @@
       error=(if renderErrorMessage true false)
       hook=hook
       onChange=(action 'onSelectedItem')
-      onInput=(action 'checkIfEmptyfilter')
-      onBlur=(action 'showErrorMessage')
-      onFocus=(action 'hideErrorMessage')
+      onInput=(action 'onInput')
+      onBlur=(action 'onBlur')
+      onFocus=(action 'onFocus')
       options=selectSpreadProperties
       placeholder=placeholder
       width=width
-      filter=(if _emptyFilter selectedItemWithLabel.label filter)
+      filter=(if (and _emptyFilter (not _isTyping)) selectedItemWithLabel.label filter)
       selectedValue=value
       isLoading=asyncLoading
       localFiltering=(not isAsyncGet)

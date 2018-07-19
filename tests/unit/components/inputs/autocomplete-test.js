@@ -82,4 +82,38 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
       expect(component.get('asyncLoading'), 'asyncLoading to be false').to.equal(false)
     })
   })
+
+  describe('_findSelectedItemLabelGivenValue', function () {
+    const realSpiderman = 'Miles Morales'
+    const fakeSpiderman = 'Peter Parker'
+
+    it('should give label back when value matches option', function () {
+      const result =
+       component._findSelectedItemLabelGivenValue(realSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.equal('Spiderman')
+    })
+
+    it('should give back empty string when value does not match option', function () {
+      const result =
+       component._findSelectedItemLabelGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.equal('')
+    })
+  })
+
+  describe('_findSelectedItemGivenValue', function () {
+    const realSpiderman = 'Miles Morales'
+    const fakeSpiderman = 'Peter Parker'
+
+    it('should give object back when value matches option', function () {
+      const result =
+       component._findSelectedItemGivenValue(realSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.deep.equal({label: 'Spiderman', value: realSpiderman})
+    })
+
+    it('should give back undefined when value does not match option', function () {
+      const result =
+       component._findSelectedItemGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.equal(undefined)
+    })
+  })
 })
