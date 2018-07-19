@@ -18,6 +18,11 @@ export default SelectInput.extend({
       ignoreEmptyFilterSearch: true,
       filter: '',
       _focused: false,
+      /** Keep track of isTyping state to know when to show selectedItem's label.
+       * Ie shouldn't show label when filter is empty and not typing.
+       * Used for case where user backspaces all the way (while they have a selected item),
+       *  with the intention of starting with a new letter
+       */
       _isTyping: false
     }
   },
@@ -85,6 +90,7 @@ export default SelectInput.extend({
 
       this.setProperties({
         filter: filterValue,
+        // If you're focused and onInput fires, you're typing
         _isTyping: focused
       })
       this.send('filterOptions', filterValue)
@@ -93,6 +99,7 @@ export default SelectInput.extend({
       const filter = this._findSelectedItemLabelGivenValue(selectedItem, this.get('options'))
       this.setProperties({
         filter: filter,
+        // Just selected an item, you're no longer typing
         _isTyping: false
       })
       this.send('handleChange', selectedItem)
@@ -104,6 +111,7 @@ export default SelectInput.extend({
     onBlur () {
       this.setProperties({
         _focused: false,
+        // Exited focus of text field, no longer typing
         _isTyping: false
       })
       this.send('showErrorMessage')
