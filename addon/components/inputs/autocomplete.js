@@ -76,8 +76,8 @@ export default SelectInput.extend({
   _findSelectedItemLabelGivenValue (value, data) {
     let label = getWithDefault(value, 'label', '')
     if (typeof value === 'string') {
-      const foundItem = this._findSelectedItemGivenValue(value, data)
-      label = get(foundItem, 'label')
+      const foundItem = this._findSelectedItemGivenValue(value, data) || {}
+      label = getWithDefault(foundItem, 'label', '')
     }
     return label
   },
