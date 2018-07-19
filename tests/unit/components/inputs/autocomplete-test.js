@@ -130,12 +130,12 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
     const fakeSpiderman = 'Peter Parker'
 
     it('should give label back when value matches option', function () {
-      const result = this.__findSelectedItemLabelGivenValue(realSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      const result = this._findSelectedItemLabelGivenValue(realSpiderman, [{label: 'Spiderman', value: realSpiderman}])
       expect(result).to.equal('Spiderman')
     })
 
     it('should not give back empty string when value does not matche option', function () {
-      const result = this.__findSelectedItemLabelGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      const result = this._findSelectedItemLabelGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
       expect(result).to.equal('Spiderman')
     })
   })
