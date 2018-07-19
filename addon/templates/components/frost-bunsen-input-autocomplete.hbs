@@ -28,6 +28,7 @@
     </label>
   {{/if}}
   <div class={{inputWrapperClassName}}>
+    {{log filter _isTyping _emptyFilter}}
     {{frost-autocomplete
       class=valueClassName
       data=options
@@ -41,7 +42,7 @@
       options=selectSpreadProperties
       placeholder=placeholder
       width=width
-      filter=filter
+      filter=(if (and _emptyFilter (not _isTyping)) selectedItemWithLabel.label filter)
       selectedValue=value
       isLoading=asyncLoading
       localFiltering=(not isAsyncGet)

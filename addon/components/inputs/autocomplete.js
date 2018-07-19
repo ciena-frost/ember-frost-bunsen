@@ -1,7 +1,7 @@
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 import Ember from 'ember'
-const {A, get, getWithDefault, isEmpty, observer} = Ember
+const {A, getWithDefault, isEmpty} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default SelectInput.extend({
@@ -22,23 +22,6 @@ export default SelectInput.extend({
     }
   },
 
-  // == Observers ====================================================
-
-  observeSelectedItemLabelChange: observer('value', 'options.[]', '_isTyping', 'filter', function () {
-    const {
-      _isTyping: isTyping,
-      filter,
-      options,
-      value
-    } = this.getProperties('value', 'options', '_isTyping', 'filter')
-    const selectedItem = this._findSelectedItemGivenValue(value, options)
-    if (!isEmpty(selectedItem)) {
-      const label = get(selectedItem, 'label')
-      if (!isEmpty(label) && isEmpty(filter) && !isTyping) this.set('filter', label)
-    }
-  }),
-
-  // == Computed Properties ====================================================
   @readOnly
   @computed('isAsyncGet', 'updateItems.isRunning', '_emptyFilter')
   asyncLoading (isAsyncGet, isUpdateItemsRunning, emptyFilter) {
@@ -51,6 +34,11 @@ export default SelectInput.extend({
   @computed('filter')
   _emptyFilter (filter) {
     return isEmpty(filter)
+  },
+  @readOnly
+  @computed('value', 'options.[]')
+  selectedItemWithLabel (value, options) {
+    return this._findSelectedItemGivenValue(value, options)
   },
 
   // == Functions ==============================================================
@@ -89,7 +77,6 @@ export default SelectInput.extend({
   parseValue (data) {
     return data
   },
-
   // == Actions ===============================================================
   actions: {
     onInput (filterValue) {
