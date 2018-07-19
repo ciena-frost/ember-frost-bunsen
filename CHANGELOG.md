@@ -1,3 +1,6 @@
+# 22.2.1 (2018-07-19)
+* **Fix**  autocomplete not being able to backspace to blank filter when have already selected
+
 # 22.2.0 (2018-07-18)
 
 * **Fix** frost-autocomplete `queryForCurrentValue` not populating the filter
