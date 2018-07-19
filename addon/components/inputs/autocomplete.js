@@ -22,6 +22,7 @@ export default SelectInput.extend({
     }
   },
 
+  // == Computed Properties ====================================================
   @readOnly
   @computed('isAsyncGet', 'updateItems.isRunning', '_emptyFilter')
   asyncLoading (isAsyncGet, isUpdateItemsRunning, emptyFilter) {

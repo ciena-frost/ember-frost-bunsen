@@ -83,48 +83,6 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
     })
   })
 
-  describe('observeSelectedItemLabelChange', function () {
-    it('should set filter when not typing, item has label, and filter is empty', function () {
-      component.setProperties({
-        filter: '',
-        options: [{label: 'Spiderman', value: 'Peter Parker'}],
-        value: 'Peter Parker',
-        _isTyping: false
-      })
-      expect(component.get('filter')).to.equal('Spiderman')
-    })
-
-    it('should not set filter when not typing, item has label, and filter is not empty', function () {
-      component.setProperties({
-        filter: 'foo',
-        options: [{label: 'Spiderman', value: 'Peter Parker'}],
-        value: 'Peter Parker',
-        _isTyping: false
-      })
-      expect(component.get('filter')).to.equal('foo')
-    })
-
-    it('should not set filter when not typing, item has no label, and filter is empty', function () {
-      component.setProperties({
-        filter: '',
-        options: [{value: 'Peter Parker'}],
-        value: 'Peter Parker',
-        _isTyping: false
-      })
-      expect(component.get('filter')).to.equal('')
-    })
-
-    it('should not set filter when typing, item has label, and filter is empty', function () {
-      component.setProperties({
-        filter: '',
-        options: [{label: 'Spiderman', value: 'Peter Parker'}],
-        value: 'Peter Parker',
-        _isTyping: true
-      })
-      expect(component.get('filter')).to.equal('')
-    })
-  })
-
   describe('_findSelectedItemLabelGivenValue', function () {
     const realSpiderman = 'Miles Morales'
     const fakeSpiderman = 'Peter Parker'
@@ -139,6 +97,23 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
       const result =
        component._findSelectedItemLabelGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
       expect(result).to.equal('')
+    })
+  })
+
+  describe('_findSelectedItemGivenValue', function () {
+    const realSpiderman = 'Miles Morales'
+    const fakeSpiderman = 'Peter Parker'
+
+    it('should give object back when value matches option', function () {
+      const result =
+       component._findSelectedItemGivenValue(realSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.deep.equal({label: 'Spiderman', value: realSpiderman})
+    })
+
+    it('should give back undefined when value does not match option', function () {
+      const result =
+       component._findSelectedItemGivenValue(fakeSpiderman, [{label: 'Spiderman', value: realSpiderman}])
+      expect(result).to.equal(undefined)
     })
   })
 })
