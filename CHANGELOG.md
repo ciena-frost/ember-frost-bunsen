@@ -1,3 +1,8 @@
+# 22.2.2 (2018-07-20)
+
+* **Fixed** Travis API key.
+
+
 # 22.2.1 (2018-07-19)
 * **Fix**  autocomplete not being able to backspace to blank filter when have already selected
 
