@@ -23,6 +23,18 @@ export default AbstractInput.extend({
   // == Computed Properties ====================================================
 
   @readOnly
+  @computed('cellConfig.renderer.options.allowBlank')
+  allowBlank (allowBlank) {
+    return Boolean(allowBlank)
+  },
+
+  @readOnly
+  @computed('cellConfig.renderer.options.defaultToCurrentDateTime')
+  defaultToCurrentDateTime (defaultToCurrentDateTime) {
+    return Boolean(defaultToCurrentDateTime)
+  },
+
+  @readOnly
   @computed('value')
   date (value) {
     const date = moment(value).format(DATE_FORMAT)
@@ -37,12 +49,12 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('value')
-  currentValue (value) {
-    if (!value) {
-      return moment().format(DATE_TIME_FORMAT)
+  @computed('allowBlank', 'defaultToCurrentDateTime', 'value')
+  currentValue (allowBlank, defaultToCurrentDateTime, value) {
+    if ((allowBlank && !defaultToCurrentDateTime) || value) {
+      return value
     }
-    return value
+    return moment().format(DATE_TIME_FORMAT)
   },
 
   // == Functions ==============================================================
