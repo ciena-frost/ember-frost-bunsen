@@ -1,3 +1,8 @@
+# 22.3.0 (2018-07-25)
+
+* Allow developer to configure a datetime renderer to display a blank value
+
+
 # 22.2.2 (2018-07-20)
 
 * **Fixed** Travis API key.
