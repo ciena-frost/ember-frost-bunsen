@@ -1,11 +1,8 @@
-import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import moment from 'moment'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
-
-const {isEmpty} = Ember
 
 const DATE_FORMAT = 'YYYY-MM-DD'
 const TIME_FORMAT = 'HH:mm:ss'
@@ -27,10 +24,7 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('cellConfig.renderer.options.defaultToCurrentDateTime')
-  defaultToCurrentDateTime (defaultToCurrentDateTime) {
-    if (isEmpty(defaultToCurrentDateTime)) {
-      return true
-    }
+  defaultToCurrentDateTime (defaultToCurrentDateTime = true) {
     return Boolean(defaultToCurrentDateTime)
   },
 
