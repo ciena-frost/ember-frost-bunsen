@@ -430,7 +430,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     })
   })
 
-  describe('when allowBlank is set', function () {
+  describe('when defaultToCurrentDateTime is set to false', function () {
     beforeEach(function () {
       this.set('bunsenView', {
         cells: [
@@ -439,7 +439,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
             renderer: {
               name: 'datetime',
               options: {
-                allowBlank: true
+                defaultToCurrentDateTime: false
               }
             }
           }
@@ -454,34 +454,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
     it('renders as expected', function () {
       expect($hook('bunsenForm-foo-datetimePicker-date-picker-input')).to.have.value('')
       expect($hook('bunsenForm-foo-datetimePicker-time-picker-input')).to.have.value('')
-    })
-  })
-
-  describe('when allowBlank is set and defaultToCurrentDateTime is set', function () {
-    beforeEach(function () {
-      this.set('bunsenView', {
-        cells: [
-          {
-            model: 'foo',
-            renderer: {
-              name: 'datetime',
-              options: {
-                allowBlank: true,
-                defaultToCurrentDateTime: true
-              }
-            }
-          }
-        ],
-        type: 'form',
-        version: '2.0'
-      })
-
-      return wait()
-    })
-
-    it('renders as expected', function () {
-      expect($hook('bunsenForm-foo-datetimePicker-date-picker-input').val()).to.match(/^\d{4}-\d{2}-\d{2}$/)
-      expect($hook('bunsenForm-foo-datetimePicker-time-picker-input').val()).to.match(/^\d{2}:\d{2}:\d{2}$/)
     })
   })
 })
