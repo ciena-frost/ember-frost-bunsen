@@ -6,7 +6,7 @@ import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
 import {DEFAULT_TIMEZONE, getFormattedTime, getMomentTimezone} from 'ember-frost-bunsen/timezone-utils'
 
-const {getWithDefault, isPresent, run} = Ember
+const {getWithDefault} = Ember
 const DATE_FORMAT = 'YYYY-MM-DD'
 const TIME_FORMAT = 'HH:mm:ss'
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
@@ -88,12 +88,6 @@ export default AbstractInput.extend({
       storedDateTimeValue: currentDateTime,
       localTimezone: moment().format('Z')
     })
-
-    if (!isPresent(value)) {
-      run.schedule('afterRender', () => {
-        this.onChange(this.get('bunsenId'), currentDateTime)
-      })
-    }
   },
 
   // == Actions ===============================================================
