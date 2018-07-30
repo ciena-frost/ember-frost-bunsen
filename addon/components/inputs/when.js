@@ -1,11 +1,12 @@
 import Ember from 'ember'
-const {$, get, guidFor, isPresent, run} = Ember
+const {$, get, getWithDefault, guidFor, isPresent, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {PropTypes} from 'ember-prop-types'
 import moment from 'moment'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-when'
+import {DEFAULT_TIMEZONE, getFormattedTime, getMomentTimezone} from 'ember-frost-bunsen/timezone-utils'
 
 export const DATE_VALUE = 'DATE'
 
@@ -20,6 +21,7 @@ export default AbstractInput.extend({
   ],
 
   layout,
+  DEFAULT_TIMEZONE,
 
   propTypes: {
     // private
@@ -106,6 +108,19 @@ export default AbstractInput.extend({
     return get(cellConfig, 'renderer.size') || 'small'
   },
 
+  @readOnly
+  @computed('cellConfig')
+  timezone (cellConfig) {
+    return getWithDefault(cellConfig, 'renderer.timezone', '')
+  },
+
+  @readOnly
+  @computed('storedDateTimeValue', 'timezone')
+  displayStoredDateTimeValue (storedDateTimeValue, timezone) {
+    // need to get rid of timezone offset so the time picker component doesn't alter the time
+    return getMomentTimezone(storedDateTimeValue, timezone).format('YYYY-MM-DDTHH:mm:ss')
+  },
+
   // == Functions ==============================================================
 
   /**
@@ -118,24 +133,26 @@ export default AbstractInput.extend({
 
     const firstButtonValue = get(this, 'cellConfig.renderer.value')
     const value = this.get('value')
+    const timezone = this.get('timezone')
 
     let selectedValue = firstButtonValue
-    let currentDateTime = moment()
+    let currentDateTime = getMomentTimezone(undefined, timezone)
 
     if (isPresent(value) && value !== firstButtonValue) {
       selectedValue = DATE_VALUE
-      currentDateTime = value
+      currentDateTime = getMomentTimezone(value, timezone)
     }
 
-    const date = moment(currentDateTime).format(this.get('dateFormat'))
-    const time = moment(currentDateTime).format(this.get('timeFormat'))
+    const date = currentDateTime.format(this.get('dateFormat'))
+    const time = currentDateTime.format(this.get('timeFormat'))
 
     this.setProperties({
       date,
       firstButtonValue,
       selectedValue,
-      storedDateTimeValue: moment(currentDateTime).format(this.get('dateTimeFormat')),
-      time
+      storedDateTimeValue: getFormattedTime(currentDateTime, this.get('dateTimeFormat'), timezone),
+      time,
+      localTimezone: moment().format('Z')
     })
 
     if (!isPresent(value)) {
@@ -212,10 +229,12 @@ export default AbstractInput.extend({
      * @returns {undefined}
      */
     selectDate (value) {
-      const datetime = moment(value).format(this.get('dateTimeFormat'))
+      const timezone = this.get('timezone')
+      const datetime = getMomentTimezone(value, timezone, true)
+      const formattedTime = getFormattedTime(datetime, this.get('dateTimeFormat'), timezone)
 
-      this.set('storedDateTimeValue', datetime)
-      this.onChange(this.get('bunsenId'), datetime)
+      this.set('storedDateTimeValue', formattedTime)
+      this.onChange(this.get('bunsenId'), formattedTime)
     }
   }
 })

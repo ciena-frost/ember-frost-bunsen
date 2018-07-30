@@ -1,7 +1,7 @@
 {{#if (not cellConfig.hideLabel)}}
   <label class={{labelWrapperClassName}}>
     {{renderLabel}}
-    {{#if showRequiredLabel}}
+    {{#if (or showRequiredLabel alwaysShowRequiredLabel)}}
       <div class='frost-bunsen-required'>Required</div>
     {{/if}}
   </label>
@@ -12,14 +12,22 @@
   <div class={{inputWrapperClassName}}>
     {{frost-date-time-picker
       hook=(concat hook '-datetimePicker')
-      value=(readonly currentValue)
+      value=(readonly displayStoredDateTimeValue)
       defaultDate=(readonly date)
       defaultTime=(readonly time)
       onFocusIn=(action 'hideErrorMessage')
       onFocusOut=(action 'showErrorMessage')
-      onChange=(action 'handleChange')
+      onChange=(action 'selectDate')
       options=cellConfig.renderer.options
     }}
+  </div>
+{{/if}}
+{{#if timezone}}
+  <div class="frost-bunsen-cell timezone-container">
+    <div class="frost-bunsen-left-label timezone-label">Timezone</div> 
+    <div class='timezone-value'>
+      {{if (eq timezone DEFAULT_TIMEZONE) localTimezone timezone}}
+    </div>
   </div>
 {{/if}}
 {{#if renderErrorMessage}}

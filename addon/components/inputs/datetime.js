@@ -1,9 +1,12 @@
+import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import moment from 'moment'
 
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
+import {DEFAULT_TIMEZONE, getFormattedTime, getMomentTimezone} from 'ember-frost-bunsen/timezone-utils'
 
+const {getWithDefault, isPresent, run} = Ember
 const DATE_FORMAT = 'YYYY-MM-DD'
 const TIME_FORMAT = 'HH:mm:ss'
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
@@ -19,8 +22,15 @@ export default AbstractInput.extend({
   ],
 
   layout,
+  DEFAULT_TIMEZONE,
 
   // == Computed Properties ====================================================
+
+  @readOnly
+  @computed('cellConfig')
+  timezone (cellConfig) {
+    return getWithDefault(cellConfig, 'renderer.options.timezone', '')
+  },
 
   @readOnly
   @computed('cellConfig.renderer.options.defaultToCurrentDateTime')
@@ -43,12 +53,14 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('defaultToCurrentDateTime', 'value')
-  currentValue (defaultToCurrentDateTime, value) {
-    if (!defaultToCurrentDateTime || value) {
-      return value
+  @computed('defaultToCurrentDateTime', 'timezone', 'storedDateTimeValue')
+  displayStoredDateTimeValue (defaultToCurrentDateTime, timezone, storedDateTimeValue) {
+    if (!defaultToCurrentDateTime) {
+      return storedDateTimeValue
     }
-    return moment().format(DATE_TIME_FORMAT)
+
+    // need to get rid of timezone offset so the time picker component doesn't alter the time
+    return getMomentTimezone(storedDateTimeValue, timezone).format('YYYY-MM-DDTHH:mm:ss')
   },
 
   // == Functions ==============================================================
@@ -57,8 +69,49 @@ export default AbstractInput.extend({
     return moment(value).format(DATE_TIME_FORMAT)
   },
 
+  // == Lifecycle Hooks =======================================================
+
+  init () {
+    this._super(...arguments)
+
+    const value = this.get('value')
+    const timezone = this.get('timezone')
+    let currentDateTime = getMomentTimezone(value, timezone)
+
+    if (!this.get('defaultToCurrentDateTime')) {
+      currentDateTime = value
+    } else {
+      currentDateTime = getFormattedTime(currentDateTime, this.get('dateTimeFormat'), timezone)
+    }
+
+    this.setProperties({
+      storedDateTimeValue: currentDateTime,
+      localTimezone: moment().format('Z')
+    })
+
+    if (!isPresent(value)) {
+      run.schedule('afterRender', () => {
+        this.onChange(this.get('bunsenId'), currentDateTime)
+      })
+    }
+  },
+
   // == Actions ===============================================================
 
   actions: {
+    /**
+     * Sets the user's selected date and time to the bunsen model and stores it in the
+     * case that the user selects away from the date-time picker radio button but then returns
+     * @param {Object} value - the users selected date/time moment() object
+     * @returns {undefined}
+     */
+    selectDate (value) {
+      const timezone = this.get('timezone')
+      const datetime = getMomentTimezone(value, timezone, true)
+      const formattedTime = getFormattedTime(datetime, this.get('dateTimeFormat'), timezone)
+
+      this.set('storedDateTimeValue', formattedTime)
+      this.onChange(this.get('bunsenId'), formattedTime)
+    }
   }
 })

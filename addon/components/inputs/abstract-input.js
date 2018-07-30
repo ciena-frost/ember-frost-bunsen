@@ -1,7 +1,7 @@
 import {getCellDefaults, utils} from 'bunsen-core'
 const {getLabel, parseVariables} = utils
 import Ember from 'ember'
-const {Component, Logger, get, merge, typeOf} = Ember
+const {Component, Logger, get, getWithDefault, merge, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {HookMixin} from 'ember-hook'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
@@ -154,6 +154,12 @@ export default Component.extend(HookMixin, PropTypeMixin, {
     )
 
     return required && valueEmpty
+  },
+
+  @readOnly
+  @computed('cellConfig')
+  alwaysShowRequiredLabel (cellConfig) {
+    return getWithDefault(cellConfig, 'renderer.alwaysShowRequiredLabel', false)
   },
 
   // == Functions ==============================================================
