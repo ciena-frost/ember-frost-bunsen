@@ -5,7 +5,7 @@ import {utils} from 'bunsen-core'
 const {ValueWrapper} = utils.path
 const {findValue, hasValidQueryValues, parseVariables, populateQuery} = utils
 import Ember from 'ember'
-const {A, get, inject, isEmpty, merge, run, set, typeOf} = Ember
+const {A, get, inject, isEmpty, isPresent, merge, run, set, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task} from 'ember-concurrency'
 import _ from 'lodash'
@@ -79,7 +79,12 @@ export default AbstractInput.extend({
 
     return false
   },
-
+  @readOnly
+  @computed('bunsenModel', 'cellConfig')
+  isAsyncGet (bunsenModel, cellConfig) {
+    const {endpoint, modelType} = getMergedOptions(bunsenModel, cellConfig)
+    return isPresent(modelType) || isPresent(endpoint)
+  },
   /* eslint-disable complexity */
   @readOnly
   @computed('bunsenModel', 'cellConfig')
@@ -478,7 +483,7 @@ export default AbstractInput.extend({
   parseValue (data) {
     return data[0]
   },
-
+  /* eslint-disable complexity */
   /**
    * Restartable ember-concurrency task that updates select dropdown items
    * @param {Object} value - current form value
@@ -492,23 +497,30 @@ export default AbstractInput.extend({
       bunsenModel,
       cellConfig,
       listData: data,
-      store
+      store,
+      value: currentValue
     } = this.getProperties(
       'ajax',
       'bunsenId',
       'bunsenModel',
       'cellConfig',
       'listData',
-      'store'
+      'store',
+      'value'
     )
 
-    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
-      // sets options back to it's original data. This should usually be empty unless using static data.
-      this.set('options', data)
-      return
-    }
-
     const options = getMergedOptions(bunsenModel, cellConfig)
+
+    let onlyQueryForCurrentValue = false
+    if (this.ignoreEmptyFilterSearch && isEmpty(filter)) {
+      if (isPresent(currentValue) && options.queryForCurrentValue) {
+        // Autocomplete has empty filter, and current value. So should only query for current value (if need to)
+        onlyQueryForCurrentValue = true
+      } else {
+        // sets options back to it's original data. This should usually be empty unless using static data.
+        return this.set('options', data)
+      }
+    }
 
     if (options.endpoint) {
       const endpoint = parseVariables(
@@ -529,7 +541,8 @@ export default AbstractInput.extend({
         options,
         store,
         value,
-        keepCurrentValue
+        keepCurrentValue,
+        onlyQueryForCurrentValue
       })
       this.set('options', items)
     } catch (err) {
@@ -540,6 +553,7 @@ export default AbstractInput.extend({
       this.onError(bunsenId, [error])
     }
   }).restartable(),
+  /* eslint-enable complexity */
 
   // == Events ================================================================
 

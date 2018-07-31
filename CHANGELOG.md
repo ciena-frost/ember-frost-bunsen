@@ -1,3 +1,26 @@
+# 22.3.0 (2018-07-25)
+
+* Allow developer to configure a datetime renderer to display a blank value
+
+
+# 22.2.2 (2018-07-20)
+
+* **Fixed** Travis API key.
+
+
+# 22.2.1 (2018-07-19)
+* **Fix**  autocomplete not being able to backspace to blank filter when have already selected
+
+# 22.2.0 (2018-07-18)
+
+* **Fix** frost-autocomplete `queryForCurrentValue` not populating the filter
+* **Feature** `frost-autocomplete` shows `isLoading` icon when doing an async search
+
+# 22.1.1 (2018-07-10)
+
+* Fixed Issue #537 Select renderer does not show validation errors
+
+
 # 22.1.0 (2018-06-21)
 
 * Added `disableSchemaValidation` as an option to `frost-bunsen`, `frost-bunsen-detail`, `frost-bunsen-form` which disables schema validation being run on any schema changes

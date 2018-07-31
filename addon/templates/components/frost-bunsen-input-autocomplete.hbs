@@ -34,13 +34,17 @@
       disabled=disabled
       error=(if renderErrorMessage true false)
       hook=hook
-      onChange=(action 'handleChange')
-      onBlur=(action 'showErrorMessage')
-      onFocus=(action 'hideErrorMessage')
+      onChange=(action 'onSelectedItem')
+      onInput=(action 'onInput')
+      onBlur=(action 'onBlur')
+      onFocus=(action 'onFocus')
       options=selectSpreadProperties
       placeholder=placeholder
       width=width
+      filter=(if (and _emptyFilter (not _isTyping)) selectedItemWithLabel.label filter)
       selectedValue=value
+      isLoading=asyncLoading
+      localFiltering=(not isAsyncGet)
     }}
     {{frost-bunsen-description-bubble
       description=cellConfig.description

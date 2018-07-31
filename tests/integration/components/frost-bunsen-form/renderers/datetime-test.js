@@ -429,4 +429,31 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
       expectBunsenDatetimeRendererWithState('foo', {label: 'Foo'})
     })
   })
+
+  describe('when defaultToCurrentDateTime is set to false', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'datetime',
+              options: {
+                defaultToCurrentDateTime: false
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      expect($hook('bunsenForm-foo-datetimePicker-date-picker-input')).to.have.value('')
+      expect($hook('bunsenForm-foo-datetimePicker-time-picker-input')).to.have.value('')
+    })
+  })
 })
