@@ -1094,7 +1094,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: '0.5'
             })
 
             expect(
@@ -1122,7 +1122,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                 .to.have.length(1)
 
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: ''
+                text: '0.5'
               })
 
               expect(
@@ -1151,7 +1151,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / select endpoin
                 .to.have.length(1)
 
               expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-                text: ''
+                text: '0.5'
               })
 
               expectOnValidationState({props}, {count: 0})

@@ -92,7 +92,7 @@
         }}
       {{/if}}
     {{/if}}
-    {{#each children as |child|}}
+    {{#each children key='cellKey' as |child|}}
       {{frost-bunsen-cell
         bunsenId=child.bunsenId
         bunsenModel=child.bunsenModel
@@ -210,7 +210,7 @@
       }}
     {{/if}}
   {{/if}}
-  {{#each children as |child|}}
+  {{#each children key='cellKey' as |child|}}
     {{frost-bunsen-cell
       bunsenId=child.bunsenId
       bunsenModel=child.bunsenModel

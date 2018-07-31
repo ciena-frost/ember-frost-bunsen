@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {get} = Ember
+const {get, isEmpty} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-table'
@@ -36,6 +36,10 @@ export default AbstractInput.extend({
    * @returns {Object[]} ember-frost-table "columns" property
    */
   _getColumnsFromValue (value) {
+    if (isEmpty(value)) {
+      return []
+    }
+
     const exampleValue = value[0]
     const columnNames = Object.keys(exampleValue)
     return columnNames.map((name) => {
@@ -61,7 +65,7 @@ export default AbstractInput.extend({
 
   @readOnly
   @computed('value')
-  items (value) {
+  items (value = []) {
     return value
   }
 })

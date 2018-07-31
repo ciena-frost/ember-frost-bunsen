@@ -1263,7 +1263,7 @@ describe(desc, function () {
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'bar'
           })
 
           expect(
@@ -1291,7 +1291,7 @@ describe(desc, function () {
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'bar'
             })
 
             expect(
@@ -1320,7 +1320,7 @@ describe(desc, function () {
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'bar'
             })
 
             expectOnValidationState({props}, {count: 0})

@@ -247,7 +247,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 label: 'FooBar Baz',
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -325,7 +325,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -403,7 +403,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -481,7 +481,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 model: 'foo',
                 placeholder: 'Foo bar',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -590,7 +590,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -634,7 +634,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -953,7 +953,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 label: 'FooBar Baz',
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1028,7 +1028,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1103,7 +1103,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1178,7 +1178,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 model: 'foo',
                 placeholder: 'Foo bar',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1284,7 +1284,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1325,7 +1325,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1386,7 +1386,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'foo'
           })
 
           expect(
@@ -1418,7 +1418,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -1456,7 +1456,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               error: false,
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -1632,7 +1632,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 label: 'FooBar Baz',
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1707,7 +1707,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1782,7 +1782,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 collapsible: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1857,7 +1857,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 model: 'foo',
                 placeholder: 'Foo bar',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -1963,7 +1963,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: false,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -2004,7 +2004,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
                 disabled: true,
                 model: 'foo',
                 renderer: {
-                  name: 'select',
+                  name: 'multi-select',
                   options: {
                     labelAttribute: 'label',
                     modelType: 'node',
@@ -2065,7 +2065,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'foo'
           })
 
           expect(
@@ -2097,7 +2097,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -2135,7 +2135,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select v
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               error: false,
-              text: ''
+              text: 'foo'
             })
 
             expect(
