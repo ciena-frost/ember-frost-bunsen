@@ -1,7 +1,7 @@
 import {utils} from 'bunsen-core'
 const {parseVariables} = utils
 import Ember from 'ember'
-const {get, observer} = Ember
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 import AbstractInput from './abstract-input'

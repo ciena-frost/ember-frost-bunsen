@@ -26,7 +26,7 @@ import {applyMiddleware, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 const {getSubModel} = utils
-const {A, Component, Logger, RSVP, get, getOwner, getWithDefault, isEmpty, isPresent, run, typeOf} = Ember
+const {A, Component, Logger, RSVP, getOwner, isEmpty, isPresent, run, typeOf} = Ember
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
@@ -363,10 +363,12 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /**
    * Precompute all model references from the view schema using the references `model` and `dependsOn`
    * @param {Object} cellConfig - the cellConfig to precompute
-   * @param {String} [baseBunsenId] - the parent model path
+   * @param {String} baseBunsenId - the parent model path
    * Note: Only object types can be precomputed. The array items are more dynamic and we'll denote
    * them with [] in the bunsenIds. That means all array items under the path `model.path.[]` share
    * the same bunsenId.
+   * @param {Number} index - index relative to it's parent cell
+   * @param {Object} bunsenModel - the parent bunsen model
    */
   precomputeIds (cellConfig, baseBunsenId = 'root', index, bunsenModel) {
     let bunsenId = baseBunsenId
