@@ -1203,7 +1203,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select E
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'bar'
           })
 
           expect(
@@ -1231,7 +1231,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select E
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'bar'
             })
 
             expect(
@@ -1260,7 +1260,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select E
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'bar'
             })
 
             expectOnValidationState({props}, {count: 0})

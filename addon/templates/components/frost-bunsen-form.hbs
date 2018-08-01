@@ -1,83 +1,85 @@
-{{#if isInvalid}}
-  {{frost-bunsen-validation-result
-    model=propValidationResult
-    type=invalidSchemaType
-  }}
-{{else}}
-  <form onsubmit='return false'>
-    {{#if cellTabs.length}}
-      {{#frost-tabs
-        hook=hookPrefix
-        onChange=(action 'handleTabChange')
-        selectedTab=tabSelection
-        tabs=(array)
-        as |controls|
-      }}
-        {{#each cellTabs key='@index' as |tab|}}
-          {{controls.tab
-            contentClass=tab.classNames
-            content=(component 'frost-bunsen-cell'
-              bunsenModel=tab.bunsenModel
-              bunsenView=renderView
-              cellConfig=tab.cell
-              errors=renderErrors
-              formDisabled=disabled
-              getRootProps=(action 'getRootProps')
-              hookPrefix=hookPrefix
-              isRequired=(frost-bunsen-is-required
-                bunsenModel=renderModel
-                cell=tab.cell
-                cellDefinitions=renderView.cellDefinitions
+{{#if isSchemaReady}}
+  {{#if isInvalid}}
+    {{frost-bunsen-validation-result
+      model=propValidationResult
+      type=invalidSchemaType
+    }}
+  {{else}}
+    <form onsubmit='return false'>
+      {{#if cellTabs.length}}
+        {{#frost-tabs
+          hook=hookPrefix
+          onChange=(action 'handleTabChange')
+          selectedTab=tabSelection
+          tabs=(array)
+          as |controls|
+        }}
+          {{#each cellTabs key='@index' as |tab|}}
+            {{controls.tab
+              contentClass=tab.classNames
+              content=(component 'frost-bunsen-cell'
+                bunsenModel=tab.bunsenModel
+                bunsenView=renderView
+                cellConfig=tab.cell
+                errors=renderErrors
+                formDisabled=disabled
+                getRootProps=(action 'getRootProps')
+                hookPrefix=hookPrefix
+                isRequired=(frost-bunsen-is-required
+                  bunsenModel=renderModel
+                  cell=tab.cell
+                  cellDefinitions=renderView.cellDefinitions
+                  value=renderValue
+                )
+                onChange=(action 'handleChange')
+                onFocusIn=(action 'handleFocusIn')
+                onFocusOut=(action 'handleFocusOut')
+                onError=(action 'handleError')
+                registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+                registerValidator=(action registerValidator)
+                renderers=renderers
+                showAllErrors=showAllErrors
+                triggerValidation=(action triggerValidation)
+                unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
                 value=renderValue
+                valueChangeSet=valueChangeSet
               )
-              onChange=(action 'handleChange')
-              onFocusIn=(action 'handleFocusIn')
-              onFocusOut=(action 'handleFocusOut')
-              onError=(action 'handleError')
-              registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
-              registerValidator=(action registerValidator)
-              renderers=renderers
-              showAllErrors=showAllErrors
-              triggerValidation=(action triggerValidation)
-              unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
+              id=tab.id
+              text=tab.alias
+            }}
+          {{/each}}
+        {{/frost-tabs}}
+      {{else}}
+        {{#each precomputedCells key='cellKey' as |cell|}}
+          {{frost-bunsen-cell
+            bunsenModel=cell.bunsenModel
+            bunsenView=renderView
+            cellConfig=cell.cellConfig
+            errors=renderErrors
+            formDisabled=disabled
+            getRootProps=(action 'getRootProps')
+            hookPrefix=hookPrefix
+            isRequired=(frost-bunsen-is-required
+              bunsenModel=renderModel
+              cell=cell.cellConfig
+              cellDefinitions=renderView.cellDefinitions
               value=renderValue
-              valueChangeSet=valueChangeSet
             )
-            id=tab.id
-            text=tab.alias
+            onChange=(action 'handleChange')
+            onFocusIn=(action 'handleFocusIn')
+            onFocusOut=(action 'handleFocusOut')
+            onError=(action 'handleError')
+            registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
+            registerValidator=(action registerValidator)
+            renderers=renderers
+            showAllErrors=showAllErrors
+            triggerValidation=(action triggerValidation)
+            unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
+            value=renderValue
+            valueChangeSet=valueChangeSet
           }}
         {{/each}}
-      {{/frost-tabs}}
-    {{else}}
-      {{#each precomputedCells as |cell|}}
-        {{frost-bunsen-cell
-          bunsenModel=cell.bunsenModel
-          bunsenView=renderView
-          cellConfig=cell.cellConfig
-          errors=renderErrors
-          formDisabled=disabled
-          getRootProps=(action 'getRootProps')
-          hookPrefix=hookPrefix
-          isRequired=(frost-bunsen-is-required
-            bunsenModel=renderModel
-            cell=cell.cellConfig
-            cellDefinitions=renderView.cellDefinitions
-            value=renderValue
-          )
-          onChange=(action 'handleChange')
-          onFocusIn=(action 'handleFocusIn')
-          onFocusOut=(action 'handleFocusOut')
-          onError=(action 'handleError')
-          registerForFormValueChanges=(action 'registerComponentForFormValueChanges')
-          registerValidator=(action registerValidator)
-          renderers=renderers
-          showAllErrors=showAllErrors
-          triggerValidation=(action triggerValidation)
-          unregisterForFormValueChanges=(action 'unregisterComponentForFormValueChanges')
-          value=renderValue
-          valueChangeSet=valueChangeSet
-        }}
-      {{/each}}
-    {{/if}}
-  </form>
+      {{/if}}
+    </form>
+  {{/if}}
 {{/if}}

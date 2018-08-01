@@ -139,7 +139,8 @@ export default Component.extend(HookMixin, PropTypeMixin, {
         return {
           cellConfig: child,
           bunsenModel: subModel,
-          bunsenId: subId
+          bunsenId: subId,
+          cellKey: child.__cellKey__
         }
       })
       .filter((child) => child.bunsenModel !== undefined)
@@ -306,9 +307,9 @@ export default Component.extend(HookMixin, PropTypeMixin, {
   },
 
   @readOnly
-  @computed()
-  computedClassNames () {
-    const viewDefinedClass = this.get('cellConfig.classNames.cell')
+  @computed('cellConfig')
+  computedClassNames (cellConfig) {
+    const viewDefinedClass = get(cellConfig, 'classNames.cell')
     const classes = this.get('classNames').toString().split(' ')
 
     classes.push('frost-bunsen-cell')

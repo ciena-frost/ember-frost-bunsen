@@ -15,10 +15,7 @@ const {
   validate
 } = actions
 
-const {getSubModel} = utils
-
 import Ember from 'ember'
-const {A, Component, Logger, RSVP, getOwner, isEmpty, isPresent, run, typeOf} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {task, timeout} from 'ember-concurrency'
 import {HookMixin} from 'ember-hook'
@@ -27,6 +24,9 @@ import SpreadMixin from 'ember-spread'
 import _ from 'lodash'
 import {applyMiddleware, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
+
+const {getSubModel} = utils
+const {A, Component, Logger, RSVP, getOwner, isEmpty, isPresent, run, typeOf} = Ember
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 import {
@@ -138,6 +138,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
 
   getDefaultProps () {
     return {
+      isSchemaReady: false,
       batchedChanges: {},
       disableSchemaValidation: false,
       disabled: false,
@@ -184,18 +185,20 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   @computed('renderModel', 'view')
   precomputedCells (bunsenModel, view) {
     const {cellDefinitions, cells} = this.getRenderView(bunsenModel, view)
-    return cells.map((cell) => {
+    return cells.map((cell, index) => {
       const cellConfig = _.cloneDeep(getMergedConfigRecursive(cell, cellDefinitions))
 
-      this.precomputeIds(cellConfig)
+      this.precomputeIds(cellConfig, undefined, index, bunsenModel)
       this.precomputeDependencies(cellConfig)
 
       let subModel = bunsenModel
-      if (cell.model) subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn)
-
+      if (cell.model) {
+        subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn)
+      }
       return {
         bunsenModel: subModel,
-        cellConfig
+        cellConfig,
+        cellKey: cellConfig.__cellKey__
       }
     })
   },
@@ -259,6 +262,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         ? this.getRenderView(model, newProps.view)
         : this.getRenderView(model, this.get('view'))
       Object.assign(newProps, this.validateSchemas(baseModel, model, view))
+      newProps.isSchemaReady = true
     }
 
     // batch the property operations and prevent onChange loop for non-async changes
@@ -359,13 +363,16 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
   /**
    * Precompute all model references from the view schema using the references `model` and `dependsOn`
    * @param {Object} cellConfig - the cellConfig to precompute
-   * @param {String} [baseBunsenId] - the parent model path
+   * @param {String} baseBunsenId - the parent model path
    * Note: Only object types can be precomputed. The array items are more dynamic and we'll denote
    * them with [] in the bunsenIds. That means all array items under the path `model.path.[]` share
    * the same bunsenId.
+   * @param {Number} index - index relative to it's parent cell
+   * @param {Object} bunsenModel - the parent bunsen model
    */
-  precomputeIds (cellConfig, baseBunsenId = 'root') {
+  precomputeIds (cellConfig, baseBunsenId = 'root', index, bunsenModel) {
     let bunsenId = baseBunsenId
+    let subModel = bunsenModel || {}
 
     // support relative model references
     if (cellConfig.model) {
@@ -376,18 +383,23 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         const nonIndexDep = cellConfig.dependsOn.replace(/\.\d+/g, '.[]')
         addMetaProperty(cellConfig, '__dependsOn__', bunsenId.replace(nonIndexModel, nonIndexDep))
       }
+
+      subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn) || {}
     }
 
+    let cellKey = index
     if (!cellConfig.children || cellConfig.children.length === 0) {
       // only add bunsenIds to leaf nodes
       addMetaProperty(cellConfig, '__bunsenId__', bunsenId)
+      cellKey = JSON.stringify(cellConfig) + JSON.stringify(subModel)
     } else if (cellConfig.children) {
       // recursive case for objects
-      cellConfig.children.forEach((child) => {
-        this.precomputeIds(child, bunsenId)
+      cellConfig.children.forEach((child, index) => {
+        this.precomputeIds(child, bunsenId, index, subModel)
       })
     }
 
+    addMetaProperty(cellConfig, '__cellKey__', cellKey)
     // recursive case for arrays
     if (cellConfig.arrayOptions) {
       const arrayModelTypes = ['itemCell', 'tupleCells']
@@ -401,11 +413,12 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         if (Array.isArray(model)) {
           const useIndexPlaceholder = modelType === 'itemCell'
           const path = useIndexPlaceholder ? `${bunsenId}.[]` : bunsenId
-          model.forEach((item) => {
-            this.precomputeIds(item, path)
+          const items = subModel.items
+          model.forEach((item, index) => {
+            this.precomputeIds(item, path, index, items ? items[index] : {})
           })
         } else {
-          this.precomputeIds(model, `${bunsenId}.[]`)
+          this.precomputeIds(model, `${bunsenId}.[]`, index, subModel.items)
         }
       })
     }
@@ -521,14 +534,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       baseModel: {type: 'object'}
     })
 
-    const {baseModel, model: renderModel, view} = reduxStore.getState()
     const {hook, hookPrefix} = this.getProperties(['hook', 'hookPrefix'])
 
     const props = {
-      reduxStore,
-      renderModel,
-      baseModel,
-      view
+      reduxStore
     }
 
     if (!isPresent(hookPrefix)) {
@@ -825,6 +834,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         lastFocusedInput,
         plugins,
         renderModel,
+        renderValue,
         renderView,
         validators
       } = this.getProperties([
@@ -833,8 +843,10 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         'lastFocusedInput',
         'plugins',
         'renderModel',
+        'renderValue',
         'renderView',
-        'validators'
+        'validators',
+        'value'
       ])
 
       return {
@@ -844,6 +856,7 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
         model: renderModel,
         plugins,
         validators,
+        value: renderValue,
         view: renderView
       }
     }
