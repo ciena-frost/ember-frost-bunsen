@@ -12,7 +12,7 @@
   <div class={{inputWrapperClassName}}>
     {{frost-date-time-picker
       hook=(concat hook '-datetimePicker')
-      value=(readonly displayStoredDateTimeValue)
+      value=(readonly currentValue)
       defaultDate=(readonly date)
       defaultTime=(readonly time)
       onFocusIn=(action 'hideErrorMessage')

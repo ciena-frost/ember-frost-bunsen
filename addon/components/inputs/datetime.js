@@ -6,7 +6,7 @@ import AbstractInput from './abstract-input'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-datetime'
 import {DEFAULT_TIMEZONE, getFormattedTime, getMomentTimezone} from 'ember-frost-bunsen/timezone-utils'
 
-const {getWithDefault} = Ember
+const {getWithDefault, isNone, run} = Ember
 const DATE_FORMAT = 'YYYY-MM-DD'
 const TIME_FORMAT = 'HH:mm:ss'
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
@@ -53,14 +53,14 @@ export default AbstractInput.extend({
   },
 
   @readOnly
-  @computed('defaultToCurrentDateTime', 'timezone', 'storedDateTimeValue')
-  displayStoredDateTimeValue (defaultToCurrentDateTime, timezone, storedDateTimeValue) {
+  @computed('defaultToCurrentDateTime', 'timezone', 'value')
+  currentValue (defaultToCurrentDateTime, timezone, value) {
     if (!defaultToCurrentDateTime) {
-      return storedDateTimeValue
+      return value
     }
 
     // need to get rid of timezone offset so the time picker component doesn't alter the time
-    return getMomentTimezone(storedDateTimeValue, timezone).format('YYYY-MM-DDTHH:mm:ss')
+    return getMomentTimezone(value, timezone).format('YYYY-MM-DDTHH:mm:ss')
   },
 
   // == Functions ==============================================================
@@ -85,9 +85,14 @@ export default AbstractInput.extend({
     }
 
     this.setProperties({
-      storedDateTimeValue: currentDateTime,
       localTimezone: moment().format('Z')
     })
+
+    if (!isNone(value)) {
+      run.schedule('afterRender', () => {
+        this.onChange(this.get('bunsenId'), currentDateTime)
+      })
+    }
   },
 
   // == Actions ===============================================================
@@ -104,7 +109,6 @@ export default AbstractInput.extend({
       const datetime = getMomentTimezone(value, timezone, true)
       const formattedTime = getFormattedTime(datetime, this.get('dateTimeFormat'), timezone)
 
-      this.set('storedDateTimeValue', formattedTime)
       this.onChange(this.get('bunsenId'), formattedTime)
     }
   }
