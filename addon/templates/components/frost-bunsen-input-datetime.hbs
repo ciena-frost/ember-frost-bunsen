@@ -1,7 +1,7 @@
 {{#if (not cellConfig.hideLabel)}}
   <label class={{labelWrapperClassName}}>
     {{renderLabel}}
-    {{#if (or showRequiredLabel alwaysShowRequiredLabel)}}
+    {{#if showRequiredLabel}}
       <div class='frost-bunsen-required'>Required</div>
     {{/if}}
   </label>
