@@ -22,19 +22,29 @@
     size=size
     value=dateValue
   }}
-    {{frost-date-time-picker
-      id=dateId
-      hook=(concat hook '-radio-button')
-      dateFormat=dateFormat
-      timeFormat=timeFormat
-      defaultDate=(readonly date)
-      defaultTime=(readonly time)
-      onFocusIn=(action 'hideErrorMessage')
-      onFocusOut=(action 'showErrorMessage')
-      onChange=(action 'selectDate')
-      value=storedDateTimeValue
-    }}
+    <div class='date-time-label'>
+      {{frost-date-time-picker
+        id=dateId
+        hook=(concat hook '-radio-button')
+        dateFormat=dateFormat
+        timeFormat=timeFormat
+        defaultDate=(readonly date)
+        defaultTime=(readonly time)
+        onFocusIn=(action 'hideErrorMessage')
+        onFocusOut=(action 'showErrorMessage')
+        onChange=(action 'selectDate')
+        value=displayStoredDateTimeValue
+      }}
+    </div>
   {{/controls.button}}
+  {{#if timezone}}
+    <div class="frost-bunsen-cell timezone-container">
+      <div class="frost-bunsen-left-label timezone-label">Timezone</div> 
+      <div class='timezone-value'>
+        {{if (eq timezone DEFAULT_TIMEZONE) localTimezone timezone}}
+      </div>
+    </div>
+  {{/if}}
 {{/frost-radio-group}}
 {{#if renderErrorMessage}}
   <div class="frost-bunsen-error">

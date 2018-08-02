@@ -456,4 +456,33 @@ describe('Integration: Component / frost-bunsen-form / renderer / datetime', fun
       expect($hook('bunsenForm-foo-datetimePicker-time-picker-input')).to.have.value('')
     })
   })
+
+  describe('when timezone property is set', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'datetime',
+              options: {
+                timezone: '+08:00'
+              }
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      const timezoneValue = $hook('bunsenForm-foo').find('.timezone-value')
+
+      expect(timezoneValue).to.have.length(1)
+      expect(timezoneValue.text().trim()).to.eql('+08:00')
+    })
+  })
 })

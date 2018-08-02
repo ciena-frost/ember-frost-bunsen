@@ -482,6 +482,15 @@ form > div > .frost-bunsen-section {
   }
 }
 
+.frost-bunsen-input-when,
+.frost-bunsen-input-datetime {
+  .timezone-container {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 200;
+  }
+}
+
 .frost-bunsen-input-form {
   .error,
   .frost-bunsen-error {
