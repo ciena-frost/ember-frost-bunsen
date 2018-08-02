@@ -1,3 +1,8 @@
+# 22.4.0 (2018-08-02)
+
+* Add timezone options to `datetime` and `when` renderers
+
+
 # 22.3.1 (2018-08-01)
 
 * Used keys for `each` to prevent re-rendering when the cell or model hasn't changed
