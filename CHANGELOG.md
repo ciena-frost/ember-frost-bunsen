@@ -1,3 +1,9 @@
+# 22.3.1 (2018-08-01)
+
+* Used keys for `each` to prevent re-rendering when the cell or model hasn't changed
+* Don't load temporary bunsen form on init, but rather wait until schema has been processed so Ember doesn't try and render the form twice
+* Fixed tests associated with select and required as required changes no longer causes re-render
+
 # 22.3.0 (2018-07-25)
 
 * Allow developer to configure a datetime renderer to display a blank value

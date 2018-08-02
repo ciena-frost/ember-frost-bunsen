@@ -35,17 +35,6 @@ describe(test.label, function () {
   })
 
   describe('init()', function () {
-    it('should initialize the renderModel to an empty model', function () {
-      component = this.subject({
-        bunsenModel,
-        didReceiveAttrs () {}
-      })
-
-      expect(component.get('renderModel')).to.eql({
-        type: 'object'
-      })
-    })
-
     it('should initialize hookPrefix to hook if hookPrefix is not defined', function () {
       component = this.subject({
         bunsenModel,
@@ -344,14 +333,40 @@ describe(test.label, function () {
   })
 
   describe('precomputeIds()', function () {
-    let cellConfig, component
+    let cellConfig, component, bunsenModel
     beforeEach(function () {
-      component = this.subject({
-        bunsenModel: {
-          type: 'object',
-          properties: {}
+      bunsenModel = {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'string'
+          },
+          bar: {
+            type: 'array',
+            items: {
+              type: 'string'
+            }
+          },
+          baz: {
+            type: 'array',
+            items: [{
+              type: 'string'
+            }, {
+              type: 'number'
+            }]
+          },
+          qux: {
+            type: 'array',
+            items: [{
+              type: 'string'
+            }, {
+              type: 'number'
+            }]
+          }
         }
-      })
+      }
+
+      component = this.subject({bunsenModel})
 
       cellConfig = {
         children: [{
@@ -385,7 +400,7 @@ describe(test.label, function () {
           }
         }]
       }
-      component.precomputeIds(cellConfig)
+      component.precomputeIds(cellConfig, undefined, 0, bunsenModel)
     })
 
     it('should define __bunsenId__ property for cells', function () {

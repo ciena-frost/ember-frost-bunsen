@@ -1327,7 +1327,7 @@ describe(desc, function () {
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'foo'
           })
 
           expect(
@@ -1359,7 +1359,7 @@ describe(desc, function () {
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -1397,7 +1397,7 @@ describe(desc, function () {
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               error: false,
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -1968,7 +1968,7 @@ describe(desc, function () {
             .to.have.length(1)
 
           expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: ''
+            text: 'foo'
           })
 
           expect(
@@ -2000,7 +2000,7 @@ describe(desc, function () {
               .to.have.length(1)
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-              text: ''
+              text: 'foo'
             })
 
             expect(
@@ -2038,7 +2038,7 @@ describe(desc, function () {
 
             expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
               error: false,
-              text: ''
+              text: 'foo'
             })
 
             expect(
