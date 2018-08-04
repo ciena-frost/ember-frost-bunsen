@@ -17,9 +17,17 @@
       defaultTime=(readonly time)
       onFocusIn=(action 'hideErrorMessage')
       onFocusOut=(action 'showErrorMessage')
-      onChange=(action 'handleChange')
+      onChange=(action 'selectDate')
       options=cellConfig.renderer.options
     }}
+  </div>
+{{/if}}
+{{#if timezone}}
+  <div class="frost-bunsen-cell timezone-container">
+    <div class="frost-bunsen-left-label timezone-label">Timezone</div> 
+    <div class='timezone-value'>
+      {{if (eq timezone DEFAULT_TIMEZONE) localTimezone timezone}}
+    </div>
   </div>
 {{/if}}
 {{#if renderErrorMessage}}

@@ -99,3 +99,20 @@ The value for the first radio button
   }
 }
 ```
+
+#### renderer.timezone
+
+The `timezone` option can be used to add a timezone to the date.
+By default, if no value is given to the renderer, it will use a local timezone. If the
+`timezone` option is given, the timezone will be shown in the renderer and the value will use
+that timezone.
+
+```json
+{
+  "model": "foo",
+  "renderer": {
+    "name": "when",
+    "timezone": "+08:00"
+  }
+}
+```

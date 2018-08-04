@@ -483,4 +483,32 @@ describe('Integration: Component / frost-bunsen-form / renderer / when', functio
       ).to.equal('RIGHT_NOW')
     })
   })
+
+  describe('when timezone property is set', function () {
+    beforeEach(function () {
+      this.set('bunsenView', {
+        cells: [
+          {
+            model: 'foo',
+            renderer: {
+              name: 'when',
+              value: 'RIGHT_NOW',
+              timezone: '+08:00'
+            }
+          }
+        ],
+        type: 'form',
+        version: '2.0'
+      })
+
+      return wait()
+    })
+
+    it('renders as expected', function () {
+      const timezoneValue = $hook('bunsenForm-foo').find('.timezone-value')
+
+      expect(timezoneValue).to.have.length(1)
+      expect(timezoneValue.text().trim()).to.eql('+08:00')
+    })
+  })
 })
