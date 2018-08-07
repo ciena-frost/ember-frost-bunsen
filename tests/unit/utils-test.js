@@ -6,6 +6,7 @@ import {
   generateFacetView,
   generateLabelFromModel,
   getMergedConfigRecursive,
+  getSubModel,
   isModelPathValid,
   isRegisteredEmberDataModel,
   isRequired,
@@ -426,6 +427,75 @@ describe('bunsen-utils', function () {
     })
   })
 
+  describe('getSubModel', function () {
+    let bunsenModel
+
+    describe('object', function () {
+      beforeEach(function () {
+        bunsenModel = {
+          properties: {
+            foo: {type: 'string'}
+          },
+          type: 'object'
+        }
+      })
+
+      it('should return valid model with valid path', function () {
+        expect(getSubModel('foo', bunsenModel)).to.eql({type: 'string'})
+      })
+
+      it('should return undefined with invalid path', function () {
+        expect(getSubModel('bar', bunsenModel)).to.eql(undefined)
+      })
+    })
+
+    describe('arrays', function () {
+      beforeEach(function () {
+        bunsenModel = {
+          items: {
+            type: 'string'
+          },
+          type: 'array'
+        }
+      })
+
+      it('should return valid model with valid path', function () {
+        expect(getSubModel('0', bunsenModel)).to.eql({type: 'string'})
+      })
+
+      it('should return undefined with invalid path', function () {
+        expect(getSubModel('bar', bunsenModel)).to.eql(undefined)
+      })
+    })
+
+    describe('heterogenous arrays', function () {
+      beforeEach(function () {
+        bunsenModel = {
+          items: [{
+            type: 'object',
+            properties: {
+              foo: {type: 'string'}
+            }
+          }],
+          type: 'array'
+        }
+      })
+
+      it('should return valid model with valid path', function () {
+        expect(getSubModel('0', bunsenModel)).to.eql({
+          type: 'object',
+          properties: {
+            foo: {type: 'string'}
+          }
+        })
+      })
+
+      it('should return undefined with invalid path', function () {
+        expect(getSubModel('bar', bunsenModel)).to.eql(undefined)
+      })
+    })
+  })
+
   describe('isModelPathValid', function () {
     let bunsenModel
 
@@ -441,10 +511,6 @@ describe('bunsen-utils', function () {
         },
         type: 'object'
       }
-    })
-
-    afterEach(function () {
-      bunsenModel = null
     })
 
     it('returns false when the path is invalid', function () {

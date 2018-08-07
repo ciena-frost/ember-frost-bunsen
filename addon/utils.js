@@ -288,11 +288,7 @@ export function isChildRequiredToSubmitForm (path, bunsenModel, value, parentReq
         bunsenModel.required.indexOf(segment) !== -1
       )
 
-      if (/^\d+$/.test(segment)) {
-        bunsenModel = bunsenModel.items
-      } else {
-        bunsenModel = bunsenModel.properties[segment]
-      }
+      bunsenModel = getSubModel(segment, bunsenModel)
     }
   }
 
@@ -344,11 +340,7 @@ export function isRequired (cell, cellDefinitions, bunsenModel, value, parentReq
         bunsenModel.required.indexOf(segment) !== -1
       )
 
-      if (/^\d+$/.test(segment)) {
-        bunsenModel = bunsenModel.items
-      } else {
-        bunsenModel = bunsenModel.properties[segment]
-      }
+      bunsenModel = getSubModel(segment, bunsenModel)
     }
 
     value = get(value || {}, cell.model)
@@ -391,6 +383,28 @@ export function getErrorMessage (error) {
 /* eslint-enable complexity */
 
 /**
+ * Gets the sub model associated with the path segment
+ * @param {String} pathSegment - path of the segment (must be direct descendant)
+ * @param {Object} bunsenModel - starting bunsen model
+ * @returns {Object|undefined} the submodel or undefined if it doesn't exist
+ */
+export function getSubModel (pathSegment, bunsenModel) {
+  if (/^\d+$/.test(pathSegment)) {
+    bunsenModel = bunsenModel.items
+
+    if (Array.isArray(bunsenModel)) {
+      bunsenModel = bunsenModel[parseInt(pathSegment)]
+    }
+  } else if ('properties' in bunsenModel) {
+    bunsenModel = bunsenModel.properties[pathSegment]
+  } else {
+    return undefined
+  }
+
+  return bunsenModel
+}
+
+/**
  * Used to sanity check if the path to the model is valid
  * @param {String} path - bunsen model path reference
  * @param {Object} bunsenModel - the bunsen model
@@ -402,11 +416,7 @@ export function isModelPathValid (path, bunsenModel) {
   while (segments.length !== 0 && bunsenModel) {
     const segment = segments.shift()
 
-    if (/^\d+$/.test(segment)) {
-      bunsenModel = bunsenModel.items
-    } else {
-      bunsenModel = bunsenModel.properties[segment]
-    }
+    bunsenModel = getSubModel(segment, bunsenModel)
   }
 
   return Boolean(bunsenModel)
