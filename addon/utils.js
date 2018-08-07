@@ -386,7 +386,7 @@ export function getErrorMessage (error) {
  * Gets the sub model associated with the path segment
  * @param {String} pathSegment - path of the segment (must be direct descendant)
  * @param {Object} bunsenModel - starting bunsen model
- * @returns {Object} the submodel or undefined if it doesn't exist
+ * @returns {Object|undefined} the submodel or undefined if it doesn't exist
  */
 export function getSubModel (pathSegment, bunsenModel) {
   if (/^\d+$/.test(pathSegment)) {
