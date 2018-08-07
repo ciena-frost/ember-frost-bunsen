@@ -1,3 +1,7 @@
+# 22.4.1 (2018-08-07)
+
+* Fixed conditions inside arrays with `required` fields
+
 # 22.4.0 (2018-08-02)
 
 * Add timezone options to `datetime` and `when` renderers
