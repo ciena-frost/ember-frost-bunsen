@@ -1,7 +1,7 @@
 import SelectInput from './select'
 import layout from 'ember-frost-bunsen/templates/components/frost-bunsen-input-autocomplete'
 import Ember from 'ember'
-const {A, getWithDefault, isEmpty} = Ember
+const {A, getWithDefault, isEmpty, isPresent} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 
 export default SelectInput.extend({
@@ -82,6 +82,11 @@ export default SelectInput.extend({
    */
   parseValue (data) {
     return data
+  },
+  didUpdateAttrs () {
+    const {_focused, _isTyping, filter, value} = this.getProperties('_isTyping', '_focused', 'filter', 'value')
+    // Clear filter when value is cleared
+    if (isEmpty(value) && isPresent(filter) && !_isTyping && !_focused) this.set('filter', '')
   },
   // == Actions ===============================================================
   actions: {
