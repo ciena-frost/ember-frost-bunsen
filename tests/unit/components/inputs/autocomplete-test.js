@@ -116,4 +116,54 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
       expect(result).to.equal(undefined)
     })
   })
+
+  describe('clear filter when value cleared', function () {
+    beforeEach(function () {
+      component.setProperties({
+        filter: 'foo',
+        value: 'boop',
+        _isTyping: false,
+        _focused: false
+      })
+      sinon.spy(component, 'set')
+    })
+    afterEach(function () {
+      component.set.restore()
+    })
+    it('should clear filter', function () {
+      component.setProperties({value: undefined})
+      component.didUpdateAttrs()
+      expect(component.set.calledOnce).to.equal(true)
+      expect(component.set.calledWith('filter', '')).to.equal(true)
+    })
+
+    it('should not clear filter if value present', function () {
+      component.didUpdateAttrs()
+      expect(component.set.called).to.equal(false)
+    })
+
+    it('should not clear filter when typing', function () {
+      component.setProperties({value: undefined, _isTyping: true})
+      component.didUpdateAttrs()
+      expect(component.set.called).to.equal(false)
+    })
+
+    it('should not clear filter when focused', function () {
+      component.setProperties({value: undefined, _focused: true})
+      component.didUpdateAttrs()
+      expect(component.set.called).to.equal(false)
+    })
+
+    it('should not clear filter when no value or filter', function () {
+      component.setProperties({value: undefined, filter: ''})
+      component.didUpdateAttrs()
+      expect(component.set.called).to.equal(false)
+    })
+
+    it('should not clear filter when value and filter updated', function () {
+      component.setProperties({value: 'test', filter: 'test'})
+      component.didUpdateAttrs()
+      expect(component.set.called).to.equal(false)
+    })
+  })
 })
