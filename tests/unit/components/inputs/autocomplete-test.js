@@ -127,9 +127,6 @@ describe('Unit: frost-bunsen-input-autocomplete', function () {
       })
       sinon.spy(component, 'set')
     })
-    afterEach(function () {
-      component.set.restore()
-    })
     it('should clear filter', function () {
       component.setProperties({value: undefined})
       component.didUpdateAttrs()
