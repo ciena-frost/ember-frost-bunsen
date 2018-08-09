@@ -1,3 +1,7 @@
+# 22.4.2 (2018-08-09)
+
+* **Fix** When hitting clear (on the clearable section) the filter of `autocomplete` is also cleared
+
 # 22.4.1 (2018-08-07)
 
 * Fixed conditions inside arrays with `required` fields
