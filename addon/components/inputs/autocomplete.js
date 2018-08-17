@@ -67,7 +67,7 @@ export default SelectInput.extend({
    * @param {Array} data - array of items displayed in autocomplete
    * @returns {String} selected item label
    */
-  _findSelectedItemLabelGivenValue (value, data) {
+  _findSelectedItemLabelGivenValue (value = {}, data) {
     let label = getWithDefault(value, 'label', '')
     if (typeof value === 'string') {
       const foundItem = this._findSelectedItemGivenValue(value, data) || {}
