@@ -1,3 +1,7 @@
+# 22.4.3 (2018-08-17)
+
+* **Fix** add for autocomplete guard when `value` is undefined
+
 # 22.4.2 (2018-08-09)
 
 * **Fix** When hitting clear (on the clearable section) the filter of `autocomplete` is also cleared
