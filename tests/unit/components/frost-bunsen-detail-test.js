@@ -251,10 +251,19 @@ describe(test.label, function () {
     })
 
     describe('applyStoreUpdate()', function () {
+      let reduxState
       beforeEach(function () {
+        reduxState = {
+          model: bunsenModel,
+          baseModel: bunsenModel,
+          view: bunsenView
+        }
         sandbox.stub(component, 'validateSchemas').returns({
           validateSchemaProps: 'blah'
         })
+        component.reduxStore = {
+          getState: sandbox.stub().returns(reduxState)
+        }
         component.onChange = sandbox.stub()
         component.onValidation = sandbox.stub()
       })
@@ -264,6 +273,9 @@ describe(test.label, function () {
           type: 'object'
         }
 
+        reduxState.model = renderModel
+        reduxState.baseModel = renderModel
+
         run(() => {
           component.applyStoreUpdate({
             hasSchemaChanges: true,
@@ -272,7 +284,8 @@ describe(test.label, function () {
               baseModel: renderModel
             }
           })
-          expect(component.validateSchemas, 'should validate the schema').to.be.calledWith(renderModel, renderModel)
+          expect(component.validateSchemas, 'should validate the schema')
+            .to.be.calledWith(renderModel, renderModel, bunsenView)
           expect(component.get('validateSchemaProps'), 'should not props immediately').to.equal(undefined)
         })
 
