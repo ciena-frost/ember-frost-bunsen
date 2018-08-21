@@ -1,3 +1,7 @@
+# 22.4.4 (2018-08-20)
+
+* Fix an issue that `bunsen-core@2.1.1` introduced which forced validation with the latest model from the store. 
+
 # 22.4.3 (2018-08-17)
 
 * **Fix** add for autocomplete guard when `value` is undefined
