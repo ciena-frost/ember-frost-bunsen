@@ -256,12 +256,9 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
    */
   applyStoreUpdate ({lastAction, newProps, validationResult, value, hasSchemaChanges}) {
     if (hasSchemaChanges) {
-      const model = newProps.renderModel || this.get('renderModel')
-      const baseModel = newProps.baseModel || this.get('baseModel')
-      const view = newProps.view
-        ? this.getRenderView(model, newProps.view)
-        : this.getRenderView(model, this.get('view'))
-      Object.assign(newProps, this.validateSchemas(baseModel, model, view))
+      const state = this.get('reduxStore').getState()
+      const view = this.getRenderView(state.model, state.view)
+      Object.assign(newProps, this.validateSchemas(state.baseModel, state.model, view))
       newProps.isSchemaReady = true
     }
 
@@ -728,26 +725,30 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       }
     }
 
+    const needsModelUpdate = hasModelChanged && newBunsenModel
+    const needsViewUpdate = hasViewChanged && newView
+
+    if (needsViewUpdate || needsModelUpdate) {
+      reduxStore.dispatch(change({
+        model: hasModelChanged ? newBunsenModel : undefined,
+        view: hasViewChanged ? newView : undefined
+      }))
+    }
+
     // If we have a new value to assign the store then let's get to it
-    const needsValidation = dispatchValue || (hasModelChanged && newBunsenModel)
+    const needsValidation = dispatchValue || needsModelUpdate
     if (needsValidation) {
       reduxStore.dispatch(
         validate(
           null,
           dispatchValue || value,
+          // TODO: remove this parameter when bunsen-core retrieves this from the store
           hasModelChanged ? newBunsenModel : this.get('renderModel'),
           allValidators,
           RSVP.all,
           undefined,
           mergeDefaults
         ))
-    }
-
-    if ((hasViewChanged && newView) || (hasModelChanged && newBunsenModel)) {
-      reduxStore.dispatch(change({
-        model: hasModelChanged ? newBunsenModel : undefined,
-        view: hasViewChanged ? newView : undefined
-      }))
     }
 
     this.set('_oldAttrBunsenModel', newAttrBunsenModel)
