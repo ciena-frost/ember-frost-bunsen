@@ -384,8 +384,8 @@ export default Component.extend(SpreadMixin, HookMixin, PropTypeMixin, {
       subModel = getSubModel(bunsenModel, cellConfig.model, cellConfig.dependsOn) || {}
     }
 
-    let cellKey = index
-    if (!cellConfig.children || cellConfig.children.length === 0) {
+    let cellKey = index.toString()
+    if (!cellConfig.children) {
       // only add bunsenIds to leaf nodes
       addMetaProperty(cellConfig, '__bunsenId__', bunsenId)
       cellKey = JSON.stringify(cellConfig) + JSON.stringify(subModel)
