@@ -1,3 +1,8 @@
+# 22.4.5 (2018-08-22)
+
+* Fix `package-lock`
+
+
 # 22.4.4 (2018-08-20)
 
 * Fix an issue that `bunsen-core@2.1.1` introduced which forced validation with the latest model from the store. 
