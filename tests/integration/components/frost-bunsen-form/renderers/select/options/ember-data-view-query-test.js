@@ -450,75 +450,6 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
         })
       })
 
-      describe('when placeholder defined in view', function () {
-        beforeEach(function () {
-          props.onChange.reset()
-          props.onValidation.reset()
-
-          this.set('bunsenView', {
-            cells: [
-              {
-                model: 'foo',
-                renderer: {
-                  name: 'select',
-                  options: {
-                    labelAttribute: 'label',
-                    modelType: 'node',
-                    placeholder: 'Foo bar',
-                    query: {
-                      baz: 'alpha'
-                    },
-                    valueAttribute: 'value'
-                  }
-                }
-              }
-            ],
-            type: 'form',
-            version: '2.0'
-          })
-
-          return wait()
-        })
-
-        it('renders as expected', function () {
-          expect(
-            this.$(selectors.bunsen.renderer.select.input),
-            'renders a bunsen select input'
-          )
-            .to.have.length(1)
-
-          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
-            text: 'Foo bar'
-          })
-
-          expect(
-            this.$(selectors.error),
-            'does not have any validation errors'
-          )
-            .to.have.length(0)
-
-          expect(
-            props.onValidation.callCount,
-            'informs consumer of validation results'
-          )
-            .to.equal(1)
-
-          const validationResult = props.onValidation.lastCall.args[0]
-
-          expect(
-            validationResult.errors.length,
-            'informs consumer there are no errors'
-          )
-            .to.equal(0)
-
-          expect(
-            validationResult.warnings.length,
-            'informs consumer there are no warnings'
-          )
-            .to.equal(0)
-        })
-      })
-
       describe('when form explicitly enabled', function () {
         beforeEach(function () {
           this.set('disabled', false)
@@ -1039,6 +970,57 @@ describe('Integration: Component / frost-bunsen-form / renderer / select Ember D
             'renders expected label text'
           )
             .to.equal('Foo')
+
+          expect(
+            this.$(selectors.error),
+            'does not have any validation errors'
+          )
+            .to.have.length(0)
+
+          expectOnValidationState({props}, {count: 0})
+        })
+      })
+
+      describe('when placeholder defined in view', function () {
+        beforeEach(function () {
+          props.onChange.reset()
+          props.onValidation.reset()
+
+          this.set('bunsenView', {
+            cells: [
+              {
+                model: 'foo',
+                renderer: {
+                  name: 'select',
+                  options: {
+                    labelAttribute: 'label',
+                    modelType: 'node',
+                    query: {
+                      baz: 'alpha'
+                    },
+                    valueAttribute: 'value'
+                  }
+                },
+                placeholder: 'Foo bar'
+              }
+            ],
+            type: 'form',
+            version: '2.0'
+          })
+
+          return wait()
+        })
+
+        it('renders as expected', function () {
+          expect(
+            this.$(selectors.bunsen.renderer.select.input),
+            'renders a bunsen select input'
+          )
+            .to.have.length(1)
+
+          expectSelectWithState($hook('my-form-foo').find('.frost-select'), {
+            text: 'Foo bar'
+          })
 
           expect(
             this.$(selectors.error),
