@@ -1,3 +1,7 @@
+# 22.5.0 (2018-08-23)
+
+* **Feature**, add loading indicator for frost-select when doing async filter
+
 # 22.4.6 (2018-08-23)
 
 * Fixed condition re-ordering issue with Ember each in Ember 2.12 behaving weirdly with each when the comparison for keys involve type mismatches.
