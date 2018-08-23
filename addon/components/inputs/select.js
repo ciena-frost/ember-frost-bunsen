@@ -69,6 +69,14 @@ export default AbstractInput.extend({
   selectedOptions: [],
 
   // == Computed Properties ====================================================
+  @readOnly
+  @computed('isAsyncGet', 'updateItems.isRunning')
+  asyncLoading (isAsyncGet, isUpdateItemsRunning) {
+    if (isAsyncGet) {
+      return isUpdateItemsRunning
+    }
+    return false
+  },
 
   @readOnly
   @computed('bunsenId', 'cellConfig', 'bunsenModel', 'formDisabled', 'waitingOnReferences')

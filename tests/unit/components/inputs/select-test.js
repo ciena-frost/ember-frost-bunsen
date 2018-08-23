@@ -597,5 +597,45 @@ describe('Unit: frost-bunsen-input-select', function () {
         })
       })
     })
+
+    describe('asyncLoading', function () {
+      it('should always be false when not doing an async get and `updateItems.isRunning` is true', function () {
+        component.setProperties({
+          cellConfig: {},
+          'updateItems.isRunning': true
+        })
+        expect(component.get('isAsyncGet'), 'isAsyncGet should be false').to.equal(false)
+        expect(component.get('asyncLoading')).to.equal(false)
+      })
+
+      it('should always be false when not doing an async get and `updateItems.isRunning` is false', function () {
+        component.setProperties({
+          cellConfig: {},
+          'updateItems.isRunning': false
+        })
+        expect(component.get('isAsyncGet'), 'isAsyncGet should be false').to.equal(false)
+
+        expect(component.get('asyncLoading')).to.equal(false)
+      })
+
+      it('should be true when doing an async get and `updateItems.isRunning` is true', function () {
+        component.setProperties({
+          cellConfig: {renderer: {modelType: 'foo'}},
+          'updateItems.isRunning': true
+        })
+        expect(component.get('isAsyncGet'), 'isAsyncGet should be true').to.equal(true)
+        expect(component.get('asyncLoading')).to.equal(true)
+      })
+
+      it('should be false when doing an async get and `updateItems.isRunning` is true', function () {
+        component.setProperties({
+          cellConfig: {renderer: {modelType: 'foo'}},
+          'updateItems.isRunning': false
+        })
+        expect(component.get('isAsyncGet'), 'isAsyncGet should be true').to.equal(true)
+
+        expect(component.get('asyncLoading')).to.equal(false)
+      })
+    })
   })
 })
