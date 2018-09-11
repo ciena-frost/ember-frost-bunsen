@@ -1,3 +1,7 @@
+# 22.6.0 (2018-09-11)
+
+* **Feature**, add loading indicator for frost-select when doing async filter
+
 # 22.5.0 (2018-08-23)
 
 * **Feature**, add loading indicator for frost-select when doing async filter
