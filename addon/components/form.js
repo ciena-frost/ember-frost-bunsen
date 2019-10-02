@@ -105,7 +105,7 @@ export default DetailComponent.extend({
     }
 
     // Focus on first input in busen form
-    this.$(':input:enabled:visible:first').focus()
+    this.element.querySelectorAll(':input:enabled:visible:first').forEach(el => el.addEventListener())
   },
 
   willDestroyElement () {

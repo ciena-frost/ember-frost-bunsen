@@ -1,3 +1,4 @@
+import { find } from '@ember/test-helpers';
 import {expect} from 'chai'
 import wait from 'ember-test-helpers/wait'
 import {beforeEach, describe, it} from 'mocha'
@@ -43,7 +44,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
   })
 
   it('renders second tab', function () {
-    expect(this.$('.frost-tab.active').text().trim()).to.equal('Two')
+    expect(find('.frost-tab.active').textContent.trim()).to.equal('Two')
   })
 
   describe('when selectedTab property updated to be first tab', function () {
@@ -53,7 +54,7 @@ describe('Integration: Component / frost-bunsen-detail / selectedTabLabel presen
     })
 
     it('renders first tab', function () {
-      expect(this.$('.frost-tab.active').text().trim()).to.equal('One')
+      expect(find('.frost-tab.active').textContent.trim()).to.equal('One')
     })
   })
 })

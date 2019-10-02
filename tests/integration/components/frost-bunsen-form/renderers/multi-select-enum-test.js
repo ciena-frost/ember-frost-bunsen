@@ -1,3 +1,4 @@
+import { find } from '@ember/test-helpers';
 import {expect} from 'chai'
 import {expectWithState as expectSelectWithState} from 'ember-frost-core/test-support/frost-select'
 import {$hook} from 'ember-hook'
@@ -462,7 +463,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
     })
 
     it('should display those values', function () {
-      expect(this.$('.frost-select-text').text().trim()).to.equal('bar, baz')
+      expect(find('.frost-select-text').textContent.trim()).to.equal('bar, baz')
     })
 
     // Note: this breaks if the value passed to frost-multi-select is immutable
@@ -473,7 +474,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / multi-select e
       })
 
       it('should still display the old values', function () {
-        expect(this.$('.frost-select-text').text().trim()).to.equal('bar, baz')
+        expect(find('.frost-select-text').textContent.trim()).to.equal('bar, baz')
       })
     })
   })

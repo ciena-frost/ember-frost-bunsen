@@ -1,3 +1,4 @@
+import { findAll } from '@ember/test-helpers';
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 
@@ -38,11 +39,11 @@ describe('Integration: frost-bunsen-detail / multiple root containers', function
 
   describe('multiple root cells', function () {
     it('renders frost-tabs', function () {
-      expect(this.$('.frost-tabs').length).to.equal(1)
+      expect(findAll('.frost-tabs').length).to.equal(1)
     })
 
     it('renders tab for each root cell', function () {
-      expect(this.$('.frost-tabs .frost-button').length).to.equal(2)
+      expect(findAll('.frost-tabs .frost-button').length).to.equal(2)
     })
   })
 })

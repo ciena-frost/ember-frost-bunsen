@@ -1,3 +1,4 @@
+import { findAll } from '@ember/test-helpers';
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 
@@ -31,7 +32,7 @@ describe('Integration: frost-bunsen-detail / single root container', function ()
 
   describe('one root cell', function () {
     it('does not render frost-tabs', function () {
-      expect(this.$('.frost-tabs').length).to.equal(0)
+      expect(findAll('.frost-tabs').length).to.equal(0)
     })
   })
 })

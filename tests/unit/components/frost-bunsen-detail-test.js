@@ -1,9 +1,9 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-import wait from 'ember-test-helpers/wait'
 import {unit} from 'ember-test-utils/test-support/setup-component-test'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
+import { settled } from '@ember/test-helpers';
 
 const {run} = Ember
 
@@ -289,9 +289,9 @@ describe(test.label, function () {
           expect(component.get('validateSchemaProps'), 'should not props immediately').to.equal(undefined)
         })
 
-        return wait(() => {
+        return settled(() => {
           expect(component.get('validateSchemaProps'), 'should update props after render').to.eql('blah')
-        })
+        });
       })
 
       it('should update validate schemas when there are no schema changes', function () {
@@ -317,9 +317,9 @@ describe(test.label, function () {
             expect(component.onChange).to.have.callCount(0)
           })
 
-          return wait(() => {
+          return settled(() => {
             expect(component.onChange).to.have.callCount(1)
-          })
+          });
         })
       })
 
@@ -337,9 +337,9 @@ describe(test.label, function () {
             expect(component.onValidation).to.have.callCount(0)
           })
 
-          return wait(() => {
+          return settled(() => {
             expect(component.onValidation).to.have.callCount(1)
-          })
+          });
         })
       })
     })

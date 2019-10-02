@@ -1,3 +1,4 @@
+import { find } from '@ember/test-helpers';
 import {expect} from 'chai'
 import {setupComponentTest} from 'ember-mocha'
 import wait from 'ember-test-helpers/wait'
@@ -102,7 +103,7 @@ describe('Integration: frost-bunsen-detail', function () {
     })
 
     it('displays an error message', function () {
-      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+      const errorMessage = find('.frost-bunsen-detail .frost-bunsen-validation-result h4').textContent.trim()
       expect(errorMessage).to.equal('There seems to be something wrong with your model schema')
     })
   })
@@ -126,7 +127,7 @@ describe('Integration: frost-bunsen-detail', function () {
     })
 
     it('displays an error message', function () {
-      const errorMessage = this.$('.frost-bunsen-detail .frost-bunsen-validation-result h4').text().trim()
+      const errorMessage = find('.frost-bunsen-detail .frost-bunsen-validation-result h4').textContent.trim()
       expect(errorMessage).to.equal('There seems to be something wrong with your view schema')
     })
   })

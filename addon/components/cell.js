@@ -25,7 +25,7 @@ const {isArray} = Array
 export function removeIndex (path) {
   const parts = (path || '').split('.')
   const last = parts.length !== 0 ? parts.pop() : ''
-  return /^\d+$/.test(last) ? parts.join('.') : path || ''
+  return /^\d+$/.test(last) ? parts.join('.') : path || '';
 }
 
 /**

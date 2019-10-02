@@ -1,3 +1,4 @@
+import { click } from '@ember/test-helpers';
 import {expect} from 'chai'
 import wait from 'ember-test-helpers/wait'
 import {describe, it} from 'mocha'
@@ -101,13 +102,13 @@ describe('Integration: Component / frost-bunsen-form / array in tab', function (
       return wait().then(() => {
         this.$('.frost-tab button').last().click()
         return wait()
-      }).then(() => {
-        this.$('.frost-bunsen-array-container button').click()
+      }).then(async () => {
+        await click('.frost-bunsen-array-container button')
         return wait()
       }).then(() => {
         this.$('.frost-bunsen-array-container button')
         expect(this.$('.frost-bunsen-array-container')).to.have.length(1)
-      })
+      });
     })
   })
 })

@@ -1,3 +1,4 @@
+import { click } from '@ember/test-helpers';
 import {expect} from 'chai'
 import Ember from 'ember'
 const {merge} = Ember
@@ -106,7 +107,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
   describe('press use current location button', function () {
     describe('when user has blocked geolocation', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
@@ -115,7 +116,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           )
         })
 
-        this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        await click('.frost-bunsen-input-geolocation > .frost-button')
         return wait()
       })
 
@@ -129,7 +130,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when geolocation lookup fails', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
@@ -138,7 +139,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           )
         })
 
-        this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        await click('.frost-bunsen-input-geolocation > .frost-button')
         return wait()
       })
 
@@ -152,7 +153,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when geolocation lookup times out', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         sandbox.stub(window.navigator.geolocation, 'getCurrentPosition').callsFake((successCallback, errorCallback) => {
           errorCallback(
             merge(GEOLOCATION_RESPONSE_CODES, {
@@ -161,7 +162,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           )
         })
 
-        this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+        await click('.frost-bunsen-input-geolocation > .frost-button')
         return wait()
       })
 
@@ -187,13 +188,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           server.get(
             'http://www.mapquestapi.com/geocoding/v1/reverse',
             json(400, {}, 10)
           )
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
 
           return wait()
         })
@@ -214,7 +215,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup succeeds', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           const payload = {
             results: [
               {
@@ -239,7 +240,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             json(200, payload, 10)
           )
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
 
           return wait()
         })
@@ -285,15 +286,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when lookup fails', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         server.get(
           'http://www.mapquestapi.com/geocoding/v1/address',
           json(400, {}, 10)
         )
 
-        this.$(
-          '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-        ).click()
+        await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
         return wait()
       })
@@ -320,7 +319,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when lookup succeeds', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         const payload = {
           results: [
             {
@@ -341,9 +340,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           json(200, payload, 10)
         )
 
-        this.$(
-          '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-        ).click()
+        await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
         return wait()
       })
@@ -385,15 +382,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when reverse lookup fails', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         server.get(
           'http://www.mapquestapi.com/geocoding/v1/reverse',
           json(400, {}, 10)
         )
 
-        this.$(
-          '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-        ).click()
+        await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
         return wait()
       })
@@ -414,7 +409,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
     })
 
     describe('when reverse lookup succeeds', function () {
-      beforeEach(function () {
+      beforeEach(async function() {
         const payload = {
           results: [
             {
@@ -439,9 +434,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
           json(200, payload, 10)
         )
 
-        this.$(
-          '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-        ).click()
+        await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
         return wait()
       })
@@ -502,7 +495,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -512,7 +505,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -526,7 +519,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -536,7 +529,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -550,7 +543,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup times out', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -560,7 +553,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -587,13 +580,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         })
 
         describe('when reverse lookup fails', function () {
-          beforeEach(function () {
+          beforeEach(async function() {
             server.get(
               'http://www.mapquestapi.com/geocoding/v1/reverse',
               json(400, {}, 10)
             )
 
-            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+            await click('.frost-bunsen-input-geolocation > .frost-button')
 
             return wait()
           })
@@ -614,7 +607,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         })
 
         describe('when reverse lookup succeeds', function () {
-          beforeEach(function () {
+          beforeEach(async function() {
             const payload = {
               results: [
                 {
@@ -639,7 +632,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               json(200, payload, 10)
             )
 
-            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+            await click('.frost-bunsen-input-geolocation > .frost-button')
 
             return wait()
           })
@@ -685,15 +678,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           server.get(
             'http://www.mapquestapi.com/geocoding/v1/address',
             json(400, {}, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
           return wait()
         })
@@ -720,7 +711,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when lookup succeeds', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           const payload = {
             results: [
               {
@@ -741,9 +732,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             json(200, payload, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
           return wait()
         })
@@ -785,15 +774,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           server.get(
             'http://www.mapquestapi.com/geocoding/v1/reverse',
             json(400, {}, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
           return wait()
         })
@@ -814,7 +801,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup succeeds', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           const payload = {
             results: [
               {
@@ -839,9 +826,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             json(200, payload, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
           return wait()
         })
@@ -930,7 +915,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
 
     describe('press use current location button', function () {
       describe('when user has blocked geolocation', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -940,7 +925,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -954,7 +939,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -964,7 +949,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -978,7 +963,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when geolocation lookup times out', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           sandbox.stub(window.navigator.geolocation, 'getCurrentPosition')
             .callsFake((successCallback, errorCallback) => {
               errorCallback(
@@ -988,7 +973,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               )
             })
 
-          this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+          await click('.frost-bunsen-input-geolocation > .frost-button')
           return wait()
         })
 
@@ -1015,13 +1000,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         })
 
         describe('when reverse lookup fails', function () {
-          beforeEach(function () {
+          beforeEach(async function() {
             server.get(
               'http://www.mapquestapi.com/geocoding/v1/reverse',
               json(400, {}, 10)
             )
 
-            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+            await click('.frost-bunsen-input-geolocation > .frost-button')
 
             return wait()
           })
@@ -1042,7 +1027,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
         })
 
         describe('when reverse lookup succeeds', function () {
-          beforeEach(function () {
+          beforeEach(async function() {
             const payload = {
               results: [
                 {
@@ -1067,7 +1052,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
               json(200, payload, 10)
             )
 
-            this.$('.frost-bunsen-input-geolocation > .frost-button').click()
+            await click('.frost-bunsen-input-geolocation > .frost-button')
 
             return wait()
           })
@@ -1113,15 +1098,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           server.get(
             'http://www.mapquestapi.com/geocoding/v1/address',
             json(400, {}, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
           return wait()
         })
@@ -1148,7 +1131,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when lookup succeeds', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           const payload = {
             results: [
               {
@@ -1169,9 +1152,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             json(200, payload, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:first-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:first-child')
 
           return wait()
         })
@@ -1213,15 +1194,13 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup fails', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           server.get(
             'http://www.mapquestapi.com/geocoding/v1/reverse',
             json(400, {}, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
           return wait()
         })
@@ -1242,7 +1221,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
       })
 
       describe('when reverse lookup succeeds', function () {
-        beforeEach(function () {
+        beforeEach(async function() {
           const payload = {
             results: [
               {
@@ -1267,9 +1246,7 @@ describe('Integration: Component / frost-bunsen-form / renderer / geolocation', 
             json(200, payload, 10)
           )
 
-          this.$(
-            '.frost-bunsen-input-geolocation-action-bar .frost-button:last-child'
-          ).click()
+          await click('.frost-bunsen-input-geolocation-action-bar .frost-button:last-child')
 
           return wait()
         })

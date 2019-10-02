@@ -1,3 +1,4 @@
+import { find } from '@ember/test-helpers';
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 
@@ -35,7 +36,7 @@ describe('Integration: frost-bunsen-form', function () {
     })
 
     it('renders an input for bar with the user provided value', function () {
-      expect(this.$('.frost-bunsen-input-number input').val()).to.eql('42')
+      expect(find('.frost-bunsen-input-number input').value).to.eql('42')
     })
 
     it('renders a checkbox for baz with the user provided value', function () {
@@ -43,7 +44,7 @@ describe('Integration: frost-bunsen-form', function () {
     })
 
     it('renders an input for foo with the user provided value', function () {
-      expect(this.$('.frost-bunsen-input-text input').val()).to.eql('bar')
+      expect(find('.frost-bunsen-input-text input').value).to.eql('bar')
     })
   })
 })
